@@ -17,22 +17,21 @@ namespace SpiritMod.Items.Accessory
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 28;
-			item.rare = ItemRarityID.LightRed;
-			item.value = 100000;
-			item.defense = 4;
-			item.accessory = true;
+			Item.width = 30;
+			Item.height = 28;
+			Item.rare = ItemRarityID.LightRed;
+			Item.value = 100000;
+			Item.defense = 4;
+			Item.accessory = true;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<GoldenApple>(), 1);
             recipe.AddIngredient(ModContent.ItemType<Leather.LeatherShield>(), 1);
             recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
 		public override void SafeUpdateAccessory(Player player, bool hideVisual)

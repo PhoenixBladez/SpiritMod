@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,79 +13,79 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Unbound Soul");
-			Main.projFrames[projectile.type] = 1;
-			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-			ProjectileID.Sets.Homing[projectile.type] = true;
-			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			Main.projFrames[Projectile.type] = 1;
+			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 24;
-			projectile.height = 32;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.minionSlots = 0f;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 18000;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.netImportant = true;
+			Projectile.width = 24;
+			Projectile.height = 32;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.minionSlots = 0f;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 18000;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.netImportant = true;
 
-			projectile.usesLocalNPCImmunity = true;
+			Projectile.usesLocalNPCImmunity = true;
 			//5a: projectile.localNPCHitCooldown = -1; // 1 hit per npc max
-			projectile.localNPCHitCooldown = 20; // o
+			Projectile.localNPCHitCooldown = 20; // o
 		}
 
 		public override void CheckActive()
 		{
-			MyPlayer mp = Main.player[projectile.owner].GetModPlayer<MyPlayer>();
-			if (mp.player.dead || !mp.rogueCrest)
-				projectile.active = false;
+			MyPlayer mp = Main.player[Projectile.owner].GetModPlayer<MyPlayer>();
+			if (mp.Player.dead || !mp.rogueCrest)
+				Projectile.active = false;
 
 			if (mp.rogueCrest)
-				projectile.timeLeft = 2;
+				Projectile.timeLeft = 2;
 		}
 
 		bool trailing = false;
 		public override void Behavior()
 		{
-			projectile.minionSlots = 0f;
-			projectile.rotation = projectile.velocity.X * 0.25f;
+			Projectile.minionSlots = 0f;
+			Projectile.rotation = Projectile.velocity.X * 0.25f;
 			trailing = false;
-			projectile.tileCollide = false;
-			Player player = Main.player[projectile.owner];
-			float num = projectile.width * 1.1f;
+			Projectile.tileCollide = false;
+			Player player = Main.player[Projectile.owner];
+			float num = Projectile.width * 1.1f;
 			for (int i = 0; i < 1000; i++)
 			{
 				Projectile current = Main.projectile[i];
-				if (i != projectile.whoAmI && current.active && projectile.owner == current.owner && projectile.type == current.type && Math.Abs(projectile.position.X - current.position.X) + Math.Abs(projectile.position.Y - current.position.Y) < num)
+				if (i != Projectile.whoAmI && current.active && Projectile.owner == current.owner && Projectile.type == current.type && Math.Abs(Projectile.position.X - current.position.X) + Math.Abs(Projectile.position.Y - current.position.Y) < num)
 				{
-					if (projectile.position.X < Main.projectile[i].position.X)
-						projectile.velocity.X -= 0.08f;
+					if (Projectile.position.X < Main.projectile[i].position.X)
+						Projectile.velocity.X -= 0.08f;
 					else
-						projectile.velocity.X += 0.08f;
+						Projectile.velocity.X += 0.08f;
 
-					if (projectile.position.Y < Main.projectile[i].position.Y)
-						projectile.velocity.Y -= 0.08f;
+					if (Projectile.position.Y < Main.projectile[i].position.Y)
+						Projectile.velocity.Y -= 0.08f;
 					else
-						projectile.velocity.Y += 0.08f;
+						Projectile.velocity.Y += 0.08f;
 				}
 			}
 
-			Vector2 value = projectile.position;
+			Vector2 value = Projectile.position;
 			float num21 = 500f;
 			bool flag = false;
-			projectile.tileCollide = false;
+			Projectile.tileCollide = false;
 			for (int j = 0; j < 200; j++)
 			{
 				NPC nPC = Main.npc[j];
 				if (nPC.CanBeChasedBy(this, false))
 				{
-					float num3 = Vector2.Distance(nPC.Center, projectile.Center);
-					if ((num3 < num21 || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, nPC.position, nPC.width, nPC.height))
+					float num3 = Vector2.Distance(nPC.Center, Projectile.Center);
+					if ((num3 < num21 || !flag) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, nPC.position, nPC.width, nPC.height))
 					{
 						num21 = num3;
 						value = nPC.Center;
@@ -93,38 +94,38 @@ namespace SpiritMod.Projectiles.Summon
 				}
 			}
 
-			if (Vector2.Distance(player.Center, projectile.Center) > (flag ? 1000f : 500f))
+			if (Vector2.Distance(player.Center, Projectile.Center) > (flag ? 1000f : 500f))
 			{
-				projectile.ai[0] = 1f;
-				projectile.netUpdate = true;
+				Projectile.ai[0] = 1f;
+				Projectile.netUpdate = true;
 			}
 
-			if (projectile.ai[0] == 1f)
-				projectile.tileCollide = false;
+			if (Projectile.ai[0] == 1f)
+				Projectile.tileCollide = false;
 
-			if (flag && projectile.ai[0] == 0f)
+			if (flag && Projectile.ai[0] == 0f)
 			{
-				Vector2 value2 = value - projectile.Center;
+				Vector2 value2 = value - Projectile.Center;
 				if (value2.Length() > 200f)
 				{
 					value2.Normalize();
-					projectile.velocity = (projectile.velocity * 20f + value2 * 6f) / 21f;
+					Projectile.velocity = (Projectile.velocity * 20f + value2 * 6f) / 21f;
 				}
 				else
-					projectile.velocity *= (float)Math.Pow(0.97, 2.0);
+					Projectile.velocity *= (float)Math.Pow(0.97, 2.0);
 
 				trailing = true;
-				projectile.tileCollide = false;
-				projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+				Projectile.tileCollide = false;
+				Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + 1.57f;
 				bool flag25 = false;
 				int jim = 1;
 				for (int index1 = 0; index1 < 200; index1++)
 				{
-					if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1))
+					if (Main.npc[index1].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1))
 					{
 						float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 						float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
-						float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
+						float num25 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num23) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num24);
 						if (num25 < 500f)
 						{
 							flag25 = true;
@@ -135,11 +136,11 @@ namespace SpiritMod.Projectiles.Summon
 				if (flag25)
 				{
 					float num1 = 68.5f;
-					float num2 = Main.npc[jim].Center.X - projectile.Center.X;
-					float num3 = Main.npc[jim].Center.Y - projectile.Center.Y;
-					Vector2 direction5 = Main.npc[jim].Center - projectile.Center;
+					float num2 = Main.npc[jim].Center.X - Projectile.Center.X;
+					float num3 = Main.npc[jim].Center.Y - Projectile.Center.Y;
+					Vector2 direction5 = Main.npc[jim].Center - Projectile.Center;
 					direction5.Normalize();
-					projectile.rotation = projectile.DirectionTo(Main.npc[jim].Center).ToRotation() + 1.57f;
+					Projectile.rotation = Projectile.DirectionTo(Main.npc[jim].Center).ToRotation() + 1.57f;
 					float num4 = (float)Math.Sqrt(num2 * num2 + num3 * num3);
 					float num5 = num1 / num4;
 					float num6 = num2 * num5;
@@ -147,29 +148,29 @@ namespace SpiritMod.Projectiles.Summon
 					int num8 = 10;
 					if (Main.rand.Next(20) == 0)
 					{
-						projectile.velocity.X = (projectile.velocity.X * (num8 - 1) + num6) / num8;
-						projectile.velocity.Y = (projectile.velocity.Y * (num8 - 1) + num7) / num8;
-						projectile.netUpdate = true;
+						Projectile.velocity.X = (Projectile.velocity.X * (num8 - 1) + num6) / num8;
+						Projectile.velocity.Y = (Projectile.velocity.Y * (num8 - 1) + num7) / num8;
+						Projectile.netUpdate = true;
 					}
 				}
 			}
 			else
 			{
-				if (!Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1))
-					projectile.ai[0] = 1f;
+				if (!Collision.CanHitLine(Projectile.Center, 1, 1, player.Center, 1, 1))
+					Projectile.ai[0] = 1f;
 
 				float num4 = 6f;
-				if (projectile.ai[0] == 1f)
+				if (Projectile.ai[0] == 1f)
 					num4 = 15f;
 
-				Vector2 center = projectile.Center;
+				Vector2 center = Projectile.Center;
 				Vector2 vector = player.Center - center;
-				projectile.ai[1] = 3600f;
-				projectile.netUpdate = true;
+				Projectile.ai[1] = 3600f;
+				Projectile.netUpdate = true;
 				int num5 = 1;
-				for (int k = 0; k < projectile.whoAmI; k++)
+				for (int k = 0; k < Projectile.whoAmI; k++)
 				{
-					if (Main.projectile[k].active && Main.projectile[k].owner == projectile.owner && Main.projectile[k].type == projectile.type)
+					if (Main.projectile[k].active && Main.projectile[k].owner == Projectile.owner && Main.projectile[k].type == Projectile.type)
 						num5++;
 				}
 				vector.X -= (10 + num5 * 40) * player.direction;
@@ -178,54 +179,54 @@ namespace SpiritMod.Projectiles.Summon
 				if (num6 > 200f && num4 < 9f)
 					num4 = 9f;
 
-				if (num6 < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+				if (num6 < 100f && Projectile.ai[0] == 1f && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
 				{
-					projectile.ai[0] = 0f;
-					projectile.netUpdate = true;
+					Projectile.ai[0] = 0f;
+					Projectile.netUpdate = true;
 				}
 				if (num6 > 2000f)
-					projectile.Center = player.Center;
+					Projectile.Center = player.Center;
 
 				if (num6 > 48f)
 				{
 					vector.Normalize();
 					vector *= num4;
 					float num7 = 10f;
-					projectile.velocity = (projectile.velocity * num7 + vector) / (num7 + 1f);
+					Projectile.velocity = (Projectile.velocity * num7 + vector) / (num7 + 1f);
 				}
 				else
 				{
-					projectile.direction = Main.player[projectile.owner].direction;
-					projectile.velocity *= (float)Math.Pow(0.9, 2.0);
+					Projectile.direction = Main.player[Projectile.owner].direction;
+					Projectile.velocity *= (float)Math.Pow(0.9, 2.0);
 				}
 			}
-			if (projectile.velocity.X > 0f)
-				projectile.spriteDirection = (projectile.direction = -1);
-			else if (projectile.velocity.X < 0f)
-				projectile.spriteDirection = (projectile.direction = 1);
+			if (Projectile.velocity.X > 0f)
+				Projectile.spriteDirection = (Projectile.direction = -1);
+			else if (Projectile.velocity.X < 0f)
+				Projectile.spriteDirection = (Projectile.direction = 1);
 
-			if (projectile.ai[1] > 0f)
-				projectile.ai[1] += 1f;
+			if (Projectile.ai[1] > 0f)
+				Projectile.ai[1] += 1f;
 
-			if (projectile.ai[1] > 140f)
+			if (Projectile.ai[1] > 140f)
 			{
-				projectile.ai[1] = 0f;
-				projectile.netUpdate = true;
+				Projectile.ai[1] = 0f;
+				Projectile.netUpdate = true;
 			}
 		}
 
 		public override void SelectFrame() { }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			if (trailing)
 			{
-				Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-				for (int k = 0; k < projectile.oldPos.Length; k++)
+				Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+				for (int k = 0; k < Projectile.oldPos.Length; k++)
 				{
-					Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-					Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-					spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color * .6f, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f); ;
+					Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+					Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+					spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color * .6f, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f); ;
 				}
 			}
 

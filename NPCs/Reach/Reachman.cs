@@ -3,11 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using SpiritMod.Items.Sets.BriarDrops;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
 using Terraria.Audio;
 using System.IO;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -19,31 +21,31 @@ namespace SpiritMod.NPCs.Reach
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Feral Shambler");
-			Main.npcFrameCount[npc.type] = 16;
+			Main.npcFrameCount[NPC.type] = 16;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 36;
-			npc.height = 52;
-			npc.damage = 22;
-			npc.defense = 8;
-			npc.lifeMax = 59;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.DeathSound = SoundID.NPCDeath2;
-			npc.value = 70f;
-			npc.knockBackResist = .34f;
-			npc.aiStyle = 3;
-			aiType = NPCID.SnowFlinx;
-			npc.HitSound = new LegacySoundStyle(SoundID.NPCHit, 2).WithPitchVariance(0.2f);
-			banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.ReachmanBanner>();
+			NPC.width = 36;
+			NPC.height = 52;
+			NPC.damage = 22;
+			NPC.defense = 8;
+			NPC.lifeMax = 59;
+			NPC.buffImmune[BuffID.Poisoned] = true;
+			NPC.DeathSound = SoundID.NPCDeath2;
+			NPC.value = 70f;
+			NPC.knockBackResist = .34f;
+			NPC.aiStyle = 3;
+			AIType = NPCID.SnowFlinx;
+			NPC.HitSound = new LegacySoundStyle(SoundID.NPCHit, 2).WithPitchVariance(0.2f);
+			Banner = NPC.type;
+            BannerItem = ModContent.ItemType<Items.Banners.ReachmanBanner>();
         }
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			Player player = spawnInfo.player;
+			Player player = spawnInfo.Player;
 			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && !Main.pumpkinMoon && !Main.snowMoon && !Main.eclipse  && (SpawnCondition.GoblinArmy.Chance == 0))
-				return spawnInfo.player.GetSpiritPlayer().ZoneReach ? 1.7f : 0f;
+				return spawnInfo.Player.GetSpiritPlayer().ZoneReach ? 1.7f : 0f;
 			return 0f;
 		}
 		public override void SendExtraAI(BinaryWriter writer)
@@ -61,25 +63,25 @@ namespace SpiritMod.NPCs.Reach
 		}
 		public override void AI()
 		{
-			Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0.23f, 0.16f, .05f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.23f, 0.16f, .05f);
 
 			aiTimer++;
 			frametimer++;
 
-			if (npc.life <= npc.lifeMax - 20)
+			if (NPC.life <= NPC.lifeMax - 20)
 			{
 				if (aiTimer == 180)
 				{
-					Main.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, npc.Center);
+					SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, NPC.Center);
 				}
 				if (aiTimer > 180 && aiTimer < 360)
 				{
-					DoDustEffect(npc.Center, 46f, 1.08f, 2.08f, npc);
-					npc.velocity = Vector2.Zero;
-					if (npc.velocity == Vector2.Zero)
+					DoDustEffect(NPC.Center, 46f, 1.08f, 2.08f, NPC);
+					NPC.velocity = Vector2.Zero;
+					if (NPC.velocity == Vector2.Zero)
 					{
-						npc.velocity.X = .008f * npc.direction;
-						npc.velocity.Y = 12f;
+						NPC.velocity.X = .008f * NPC.direction;
+						NPC.velocity.Y = 12f;
 					}
 					HealingFrames();
 				}
@@ -90,9 +92,9 @@ namespace SpiritMod.NPCs.Reach
 				if (aiTimer == 360)
 				{
 					if (Main.netMode != NetmodeID.Server)
-						Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnemyHeal"));
-					npc.life += 10;
-					npc.HealEffect(10, true);
+						SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnemyHeal"));
+					NPC.life += 10;
+					NPC.HealEffect(10, true);
 				}
 			}
 			else
@@ -106,7 +108,7 @@ namespace SpiritMod.NPCs.Reach
 		}
 		public void WalkingFrames()
 		{
-			if (!npc.collideY && npc.velocity.Y > 0)
+			if (!NPC.collideY && NPC.velocity.Y > 0)
 			{
 				frame = 0;
 			}
@@ -131,7 +133,7 @@ namespace SpiritMod.NPCs.Reach
 			if (frame >= 16 || frame < 10)
 				frame = 10;
 		}
-		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 
 		private void DoDustEffect(Vector2 position, float distance, float minSpeed = 2f, float maxSpeed = 3f, object follow = null)
 		{
@@ -145,14 +147,14 @@ namespace SpiritMod.NPCs.Reach
 			Main.dust[dust].velocity = vel;
 			Main.dust[dust].customData = follow;
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(20) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SanctifiedStabber>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SanctifiedStabber>());
             if (Main.rand.NextBool(33))
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CaesarSalad>());
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<CaesarSalad>());
             if (!Main.dayTime)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnchantedLeaf>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<EnchantedLeaf>());
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -161,25 +163,25 @@ namespace SpiritMod.NPCs.Reach
 				target.AddBuff(148, 2000);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Reach/Reachman_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Reach/Reachman_Glow"));
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 30; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.GrassBlades, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 7, 2.5f * hitDirection, -2.5f, 0, default, .34f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GrassBlades, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, 7, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Reach1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Reach2"), 1f);
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Reach1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Reach2").Type, 1f);
 			}
 		}
 	}

@@ -21,7 +21,7 @@ namespace SpiritMod.Mechanics.Coverings
         public virtual void StaticLoad() { }
         public virtual bool IsValidAt(int x, int y) 
         {
-            return Framing.GetTileSafely(x, y).active();
+            return Framing.GetTileSafely(x, y).HasTile;
         }
         public virtual void Update(GameTime gameTime, int x, int y, int variation, int orientation) { }
         public virtual void Draw(SpriteBatch spriteBatch, int x, int y, int variation, int orientation) { }

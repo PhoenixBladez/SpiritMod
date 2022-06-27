@@ -12,44 +12,44 @@ namespace SpiritMod.NPCs.Tides
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crocosaur");
-			Main.npcFrameCount[npc.type] = 11;
+			Main.npcFrameCount[NPC.type] = 11;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 60;
-			npc.height = 70;
-			npc.damage = 32;
-			npc.defense = 14;
-			npc.lifeMax = 250;
-			npc.HitSound = SoundID.NPCHit6;
-			npc.DeathSound = SoundID.NPCDeath5;
-			npc.value = 500f;
-			npc.knockBackResist = .1f;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.CrocosaurBanner>();
+			NPC.width = 60;
+			NPC.height = 70;
+			NPC.damage = 32;
+			NPC.defense = 14;
+			NPC.lifeMax = 250;
+			NPC.HitSound = SoundID.NPCHit6;
+			NPC.DeathSound = SoundID.NPCDeath5;
+			NPC.value = 500f;
+			NPC.knockBackResist = .1f;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.CrocosaurBanner>();
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 30; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.Green, 0.87f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.Green, .54f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.Green, 0.87f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.Green, .54f);
 			}
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crocomount/CrocomountGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crocomount/CrocomountGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crocomount/CrocomountGore3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crocomount/CrocomountGore4"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crocomount/CrocomountGore1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crocomount/CrocomountGore2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crocomount/CrocomountGore3").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crocomount/CrocomountGore4").Type, 1f);
 			}
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.NextBool(78))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CrocodrilloMountItem>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<CrocodrilloMountItem>());
 		}
 
 		int frame = 0;
@@ -57,19 +57,19 @@ namespace SpiritMod.NPCs.Tides
 
 		public override void AI()
 		{
-			if (npc.wet)
+			if (NPC.wet)
 			{
-				npc.noGravity = true;
-				if (npc.velocity.Y > -7)
-					npc.velocity.Y -= .085f;
+				NPC.noGravity = true;
+				if (NPC.velocity.Y > -7)
+					NPC.velocity.Y -= .085f;
 				return;
 			}
 			else
-				npc.noGravity = false;
+				NPC.noGravity = false;
 
-			npc.spriteDirection = npc.direction;
-			Player target = Main.player[npc.target];
-			float distance = npc.DistanceSQ(target.Center);
+			NPC.spriteDirection = NPC.direction;
+			Player target = Main.player[NPC.target];
+			float distance = NPC.DistanceSQ(target.Center);
 
 			if (distance < 50 * 50)
 				attack = true;
@@ -79,7 +79,7 @@ namespace SpiritMod.NPCs.Tides
 
 			if (attack)
 			{
-				npc.velocity.X = .008f * npc.direction;
+				NPC.velocity.X = .008f * NPC.direction;
 				timer++;
 				if (timer >= 5)
 				{
@@ -93,15 +93,15 @@ namespace SpiritMod.NPCs.Tides
 				if (frame < 7)
 					frame = 7;
 
-				if (target.position.X > npc.position.X)
-					npc.direction = 1;
+				if (target.position.X > NPC.position.X)
+					NPC.direction = 1;
 				else
-					npc.direction = -1;
+					NPC.direction = -1;
 			}
 			else
 			{
-				npc.aiStyle = 26;
-				aiType = NPCID.Unicorn;
+				NPC.aiStyle = 26;
+				AIType = NPCID.Unicorn;
 
 				timer++;
 
@@ -122,6 +122,6 @@ namespace SpiritMod.NPCs.Tides
 				target.AddBuff(BuffID.Bleeding, 600);
 		}
 
-		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 	}
 }

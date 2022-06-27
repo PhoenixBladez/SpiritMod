@@ -3,6 +3,7 @@ using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Bullet;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
@@ -20,32 +21,32 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 		int charger;
 		public override void SetDefaults()
 		{
-			item.damage = 41;
-			item.ranged = true;
-			item.width = 58;
-			item.height = 32;
-			item.useTime = 9;
-			item.useAnimation = 9;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 0.2f;
-			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
-			item.rare = ItemRarityID.Yellow;
-			item.UseSound = SoundID.Item11;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<WitherBlast>();
-			item.shootSpeed = 13f;
-			item.useAmmo = AmmoID.Bullet;
-			item.crit = 6;
+			Item.damage = 41;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 58;
+			Item.height = 32;
+			Item.useTime = 9;
+			Item.useAnimation = 9;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 0.2f;
+			Item.useTurn = false;
+			Item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
+			Item.rare = ItemRarityID.Yellow;
+			Item.UseSound = SoundID.Item11;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<WitherBlast>();
+			Item.shootSpeed = 13f;
+			Item.useAmmo = AmmoID.Bullet;
+			Item.crit = 6;
 		}
 
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			charger++;
 			if (charger >= 3) {
 				for (int I = 0; I < 1; I++) {
-					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) * 0.004f), speedY + ((float)Main.rand.Next(-230, 230) * 0.004f), ModContent.ProjectileType<GiantBlood>(), damage, knockBack, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) * 0.004f), speedY + ((float)Main.rand.Next(-230, 230) * 0.004f), ModContent.ProjectileType<GiantBlood>(), damage, knockback, player.whoAmI, 0f, 0f);
 				}
 				charger = 0;
 			}
@@ -63,12 +64,11 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<Crimbine>(), 1);
             recipe.AddIngredient(ItemID.BrokenHeroSword, 1);
             recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
 		public override Vector2? HoldoutOffset()

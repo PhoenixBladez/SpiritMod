@@ -12,7 +12,7 @@ namespace SpiritMod.Mechanics.BoonSystem
 	public abstract class Boon
 	{
 		public NPC npc;
-		public Texture2D Texture => ModContent.GetTexture(TexturePath);
+		public Texture2D Texture => ModContent.Request<Texture2D>(TexturePath);
 
 		public virtual bool CanApply => false;
 
@@ -59,7 +59,7 @@ namespace SpiritMod.Mechanics.BoonSystem
 
 			Effect effect = SpiritMod.Instance.GetEffect("Effects/EmpowermentBeam");
 			effect.Parameters["uTexture"].SetValue(SpiritMod.Instance.GetTexture("Textures/Trails/Trail_2"));
-			effect.Parameters["progress"].SetValue(Main.GlobalTime / 3);
+			effect.Parameters["progress"].SetValue(Main.GlobalTimeWrappedHourly / 3);
 			effect.Parameters["uColor"].SetValue(darkColor.ToVector4());
 			effect.Parameters["uSecondaryColor"].SetValue(lightColor.ToVector4());
 

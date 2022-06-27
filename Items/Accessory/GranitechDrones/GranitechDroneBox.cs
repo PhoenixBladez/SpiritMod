@@ -16,14 +16,14 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
 
 		public override void SetDefaults()
 		{
-			item.damage = 72;
-			item.summon = true;
-			item.knockBack = 1.5f;
-			item.width = 24;
-			item.height = 24;
-			item.value = Item.buyPrice(0, 3, 0, 0);
-			item.rare = ItemRarityID.Orange;
-			item.accessory = true;
+			Item.damage = 72;
+			Item.DamageType = DamageClass.Summon;
+			Item.knockBack = 1.5f;
+			Item.width = 24;
+			Item.height = 24;
+			Item.value = Item.buyPrice(0, 3, 0, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.accessory = true;
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Items.Material;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Projectiles;
@@ -19,26 +20,26 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 
 		public override void SetDefaults()
 		{
-			item.damage = 43;
-			item.ranged = true;
-			item.width = 65;
-			item.height = 28;
-			item.useTime = 16;
-			item.useAnimation = 16;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 8;
-			item.useTurn = false;
-			item.value = Item.sellPrice(gold: 5);
-			item.rare = ItemRarityID.Yellow;
-			item.UseSound = SoundID.Item36;
-			item.autoReuse = true;
-			item.shoot = ProjectileID.PurificationPowder;
-			item.shootSpeed = 11f;
-			item.useAmmo = AmmoID.Bullet;
+			Item.damage = 43;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 65;
+			Item.height = 28;
+			Item.useTime = 16;
+			Item.useAnimation = 16;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 8;
+			Item.useTurn = false;
+			Item.value = Item.sellPrice(gold: 5);
+			Item.rare = ItemRarityID.Yellow;
+			Item.UseSound = SoundID.Item36;
+			Item.autoReuse = true;
+			Item.shoot = ProjectileID.PurificationPowder;
+			Item.shootSpeed = 11f;
+			Item.useAmmo = AmmoID.Bullet;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if(type == ProjectileID.Bullet) type = ModContent.ProjectileType<NightBullet>();
 			return true;
@@ -48,12 +49,11 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<ShadowShot>(), 1);
             recipe.AddIngredient(ItemID.BrokenHeroSword, 1);
             recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
 		public class NightBullet : ModProjectile
@@ -63,28 +63,28 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 			public override void SetStaticDefaults()
 			{
 				DisplayName.SetDefault("Night Bullet");
-				ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-				ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+				ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+				ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 			}
 
 			public override void SetDefaults()
 			{
-				projectile.CloneDefaults(ProjectileID.Bullet);
-				projectile.light = 0f;
-                projectile.hide = true;
-				aiType = ProjectileID.Bullet;
+				Projectile.CloneDefaults(ProjectileID.Bullet);
+				Projectile.light = 0f;
+                Projectile.hide = true;
+				AIType = ProjectileID.Bullet;
 			}
 
 			public override void AI()
 			{
 				float brightness = 0.5f;
-				Lighting.AddLight(projectile.Center, new Vector3(0.6f, 0.2f, 1f) * brightness);
+				Lighting.AddLight(Projectile.Center, new Vector3(0.6f, 0.2f, 1f) * brightness);
                 for (int i = 0; i < 10; i++)
                 {
-                    float x = projectile.Center.X - projectile.velocity.X / 10f * i;
-                    float y = projectile.Center.Y - projectile.velocity.Y / 10f * i;
+                    float x = Projectile.Center.X - Projectile.velocity.X / 10f * i;
+                    float y = Projectile.Center.Y - Projectile.velocity.Y / 10f * i;
                     int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.ShadowbeamStaff);
-                    Main.dust[num].alpha = projectile.alpha;
+                    Main.dust[num].alpha = Projectile.alpha;
                     Main.dust[num].velocity = Vector2.Zero;
                     Main.dust[num].noGravity = true;
                 }
@@ -92,20 +92,20 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 
 			public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 			{
-				var player = Main.player[projectile.owner];
+				var player = Main.player[Projectile.owner];
 				Vector2 offset = new Vector2(Main.rand.Next(-100, 100), Main.rand.Next(-100, 0));
 				offset.Normalize();
 				offset *= 66;
 				Vector2 direction9 = target.Center - (player.Center + offset);
 				direction9.Normalize();
 				direction9 *= 10;
-				Projectile.NewProjectile(player.Center + offset, direction9, ModContent.ProjectileType<BaneBullet>(), projectile.damage, 0, projectile.owner);
+				Projectile.NewProjectile(player.Center + offset, direction9, ModContent.ProjectileType<BaneBullet>(), Projectile.damage, 0, Projectile.owner);
 			}
 
 			public override void Kill(int timeLeft)
 			{
-				Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-				Main.PlaySound(SoundID.Item10, projectile.position);
+				Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+				SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
 			}
 		}
 	}

@@ -13,12 +13,12 @@ namespace SpiritMod.Items.Armor.ClatterboneArmor
 		}
 		public override void SetDefaults()
 		{
-			item.width = 34;
-			item.height = 30;
-			item.value = 5000;
-			item.rare = ItemRarityID.Green;
+			Item.width = 34;
+			Item.height = 30;
+			Item.value = 5000;
+			Item.rare = ItemRarityID.Green;
 
-			item.defense = 4;
+			Item.defense = 4;
 		}
 	}
 }

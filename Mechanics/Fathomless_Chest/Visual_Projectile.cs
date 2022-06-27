@@ -14,34 +14,34 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 4;
-			projectile.height = 4;
-			projectile.hide = true;
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.Bullet;
-			projectile.timeLeft = 180;
-			projectile.tileCollide = false;
+			Projectile.width = 4;
+			Projectile.height = 4;
+			Projectile.hide = true;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.Bullet;
+			Projectile.timeLeft = 180;
+			Projectile.tileCollide = false;
 		}
 		public override void AI()
 		{
 			if (Main.rand.Next(1) == 0)
 			{
-				int index2 = Dust.NewDust(projectile.Center, 8, 8, DustID.DungeonSpirit, 0.0f, 0.0f, 0, new Color(), 1f);
-				Main.dust[index2].position = projectile.Center;
-				Main.dust[index2].velocity = projectile.velocity;
+				int index2 = Dust.NewDust(Projectile.Center, 8, 8, DustID.DungeonSpirit, 0.0f, 0.0f, 0, new Color(), 1f);
+				Main.dust[index2].position = Projectile.Center;
+				Main.dust[index2].velocity = Projectile.velocity;
 				Main.dust[index2].noGravity = true;
-				Main.dust[index2].scale = projectile.scale;
+				Main.dust[index2].scale = Projectile.scale;
 			}
 			Player player = Main.LocalPlayer;
 			float x = 0.15f;
 			float y = 0.15f;
 
-			Vector2 vector2_1 = projectile.velocity + new Vector2((float)Math.Sign(player.Center.X - projectile.Center.X), (float)Math.Sign(player.Center.Y - projectile.Center.Y)) * new Vector2(x, y);
-			projectile.velocity = vector2_1;
-			if ((double)projectile.velocity.Length() > 4.0)
+			Vector2 vector2_1 = Projectile.velocity + new Vector2((float)Math.Sign(player.Center.X - Projectile.Center.X), (float)Math.Sign(player.Center.Y - Projectile.Center.Y)) * new Vector2(x, y);
+			Projectile.velocity = vector2_1;
+			if ((double)Projectile.velocity.Length() > 4.0)
 			{
-				Vector2 vector2_2 = projectile.velocity * (4f / projectile.velocity.Length());
-				projectile.velocity = vector2_2;
+				Vector2 vector2_2 = Projectile.velocity * (4f / Projectile.velocity.Length());
+				Projectile.velocity = vector2_2;
 			}
 		}
 	}

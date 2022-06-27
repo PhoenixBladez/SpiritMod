@@ -17,30 +17,30 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.StaffoftheFrostHydra);
-			item.damage = 14;
-			item.width = 28;
-			item.height = 14;
-			item.useTime = item.useAnimation = 30;
-			item.knockBack = 2f;
-			item.shootSpeed = 0f;
-			item.noMelee = true;
-			item.autoReuse = true;
-			item.sentry = true;
-			item.rare = ItemRarityID.Blue;
-			item.value = Item.sellPrice(gold: 2);
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.UseSound = SoundID.Item77;
-			item.shoot = ModContent.ProjectileType<SkullSentrySentry>();
+			Item.CloneDefaults(ItemID.StaffoftheFrostHydra);
+			Item.damage = 14;
+			Item.width = 28;
+			Item.height = 14;
+			Item.useTime = Item.useAnimation = 30;
+			Item.knockBack = 2f;
+			Item.shootSpeed = 0f;
+			Item.noMelee = true;
+			Item.autoReuse = true;
+			Item.sentry = true;
+			Item.rare = ItemRarityID.Blue;
+			Item.value = Item.sellPrice(gold: 2);
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.UseSound = SoundID.Item77;
+			Item.shoot = ModContent.ProjectileType<SkullSentrySentry>();
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			position = Main.MouseWorld;
 			if (MouseTooFar(player))
 				position = player.DirectionTo(position) * MAX_DISTANCE;
 
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+			Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 			player.UpdateMaxTurrets();
 			return false;
 		}
@@ -51,7 +51,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 				return false;
 
 			Projectile dummy = new Projectile();
-			dummy.SetDefaults(item.shoot);
+			dummy.SetDefaults(Item.shoot);
 
 			Point topLeft = (Main.MouseWorld - dummy.Size / 2).ToTileCoordinates();
 			Point bottomRight = (Main.MouseWorld + dummy.Size / 2).ToTileCoordinates();
@@ -61,13 +61,12 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<IridescentScale>(), 12);
 			recipe.AddIngredient(ItemID.Lens, 3);
 			recipe.AddIngredient(ItemID.Worm);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
 		private bool MouseTooFar(Player player) => player.Distance(Main.MouseWorld) >= MAX_DISTANCE;

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,28 +15,28 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 12;
-			projectile.height = 14;
-			projectile.friendly = true;
-			projectile.damage = 10;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 12;
+			Projectile.height = 14;
+			Projectile.friendly = true;
+			Projectile.damage = 10;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.LifeDrain);
-			Main.PlaySound(SoundID.Grass, (int)projectile.position.X, (int)projectile.position.Y);
+			Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.LifeDrain);
+			SoundEngine.PlaySound(SoundID.Grass, (int)Projectile.position.X, (int)Projectile.position.Y);
 		}
 
 		public override void AI()
 		{
-			Lighting.AddLight(projectile.position, 0.4f / 2, .12f / 2, .036f / 2);
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+			Lighting.AddLight(Projectile.position, 0.4f / 2, .12f / 2, .036f / 2);
+			Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 			int num1222 = 5;
 			for (int k = 0; k < 2; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.LifeDrain, 0.0f, 0.0f, 0, new Color(), 1f);
-				Main.dust[index2].position = projectile.Center - projectile.velocity / num1222 * (float)k;
+				int index2 = Dust.NewDust(Projectile.position, 1, 1, DustID.LifeDrain, 0.0f, 0.0f, 0, new Color(), 1f);
+				Main.dust[index2].position = Projectile.Center - Projectile.velocity / num1222 * (float)k;
 				Main.dust[index2].scale = .95f;
 				Main.dust[index2].velocity *= 0f;
 				Main.dust[index2].noGravity = true;

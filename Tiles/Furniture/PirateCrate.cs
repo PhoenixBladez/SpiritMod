@@ -7,7 +7,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class PirateCrate : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileTable[Type] = true;
 			Main.tileSolidTop[Type] = true;

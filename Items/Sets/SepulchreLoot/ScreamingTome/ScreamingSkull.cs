@@ -4,6 +4,8 @@ using SpiritMod.Prim;
 using SpiritMod.Dusts;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,23 +16,23 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Screaming Skull");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 30;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			Main.projFrames[projectile.type] = 6;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 30;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+			Main.projFrames[Projectile.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 32;
-			projectile.height = 42;
-			projectile.aiStyle = 0;
-			projectile.scale = 1f;
-			projectile.tileCollide = false;
-			projectile.hide = false;
-			projectile.extraUpdates = 1;
-			projectile.penetrate = 1;
-			projectile.friendly = true;
-			projectile.magic = true;
+			Projectile.width = 32;
+			Projectile.height = 42;
+			Projectile.aiStyle = 0;
+			Projectile.scale = 1f;
+			Projectile.tileCollide = false;
+			Projectile.hide = false;
+			Projectile.extraUpdates = 1;
+			Projectile.penetrate = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
 		}
 
 		public override Color? GetAlpha(Color lightColor) => Color.White;
@@ -39,78 +41,78 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 		private Vector2? mousePos = null;
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
-			projectile.frameCounter++;
+			Player player = Main.player[Projectile.owner];
+			Projectile.frameCounter++;
 
 			/*if (Main.rand.Next(10) == 1)
 				Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(24,24), ModContent.DustType<ScreamingDust>(), Vector2.Zero);*/
 
 			if (mousePos == null) {
-				if (projectile.frameCounter % 16 == 0) {
-					if ((Main.MouseWorld.X > projectile.Center.X && projectile.spriteDirection == 1) || (Main.MouseWorld.X <= projectile.Center.X && projectile.spriteDirection == -1)) {
-						projectile.frame++;
+				if (Projectile.frameCounter % 16 == 0) {
+					if ((Main.MouseWorld.X > Projectile.Center.X && Projectile.spriteDirection == 1) || (Main.MouseWorld.X <= Projectile.Center.X && Projectile.spriteDirection == -1)) {
+						Projectile.frame++;
 					}
 				}
-				if (projectile.frame >= 4) {
-					projectile.spriteDirection = 0 - Math.Sign(projectile.spriteDirection);
-					projectile.frame = 0;
+				if (Projectile.frame >= 4) {
+					Projectile.spriteDirection = 0 - Math.Sign(Projectile.spriteDirection);
+					Projectile.frame = 0;
 				}
 				float x = 0.05f;
 				float y = 0.05f;
 
-				projectile.velocity += new Vector2((float)Math.Sign(Main.player[(int)projectile.ai[0]].Center.X - projectile.Center.X), (float)Math.Sign(Main.player[(int)projectile.ai[0]].Center.Y - 50 - projectile.Center.Y)) * new Vector2(x, y);
-				if (projectile.velocity.Length() > 4) {
-					projectile.velocity *= (2f / projectile.velocity.Length());
+				Projectile.velocity += new Vector2((float)Math.Sign(Main.player[(int)Projectile.ai[0]].Center.X - Projectile.Center.X), (float)Math.Sign(Main.player[(int)Projectile.ai[0]].Center.Y - 50 - Projectile.Center.Y)) * new Vector2(x, y);
+				if (Projectile.velocity.Length() > 4) {
+					Projectile.velocity *= (2f / Projectile.velocity.Length());
 				}
 			}
 			else {
-				if (projectile.frameCounter % 8 == 0 && projectile.frame < 5) {
-					projectile.frame++;
+				if (Projectile.frameCounter % 8 == 0 && Projectile.frame < 5) {
+					Projectile.frame++;
 				}
-				if (projectile.frame > 3) {
-					projectile.spriteDirection = Math.Sign(0 - projectile.velocity.X);
+				if (Projectile.frame > 3) {
+					Projectile.spriteDirection = Math.Sign(0 - Projectile.velocity.X);
 				}
 			}
 			if (!primsCreated) {
-				AdjustMagnitude(ref projectile.velocity);
+				AdjustMagnitude(ref Projectile.velocity);
 				primsCreated = true;
-				SpiritMod.primitives.CreateTrail(new SkullPrimTrail(projectile, Color.DarkGreen, 30));
+				SpiritMod.primitives.CreateTrail(new SkullPrimTrail(Projectile, Color.DarkGreen, 30));
 			}
 			float distance = 800f;
 
 			if (distance > 800f) 
-				projectile.active = false;
+				Projectile.active = false;
 			else 
-				projectile.active = true;
+				Projectile.active = true;
 
 			if (!player.channel && mousePos == null) {
-				projectile.tileCollide = true;
+				Projectile.tileCollide = true;
 				mousePos = Main.MouseWorld;
-				projectile.timeLeft = 75;
-				Vector2 direction = Main.MouseWorld - projectile.Center;
+				Projectile.timeLeft = 75;
+				Vector2 direction = Main.MouseWorld - Projectile.Center;
 				direction.Normalize();
 				direction *= 20f;
-				projectile.extraUpdates = 0;
-				projectile.velocity = direction;
-				projectile.frame = 4;
-				projectile.frameCounter = 1;
-				projectile.ai[1] = 1;
+				Projectile.extraUpdates = 0;
+				Projectile.velocity = direction;
+				Projectile.frame = 4;
+				Projectile.frameCounter = 1;
+				Projectile.ai[1] = 1;
 
 				if (Main.netMode != NetmodeID.Server)
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f).WithVolume(0.33f), projectile.Center);
+					SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f).WithVolume(0.33f), Projectile.Center);
 			}
 			else
 				Lighting.AddLight(player.position, 0f, 0.5f, 0f);
 
-			if (Main.player[(int)projectile.ai[0]].active && !Main.player[(int)projectile.ai[0]].dead)
+			if (Main.player[(int)Projectile.ai[0]].active && !Main.player[(int)Projectile.ai[0]].dead)
 				return;
 
-			projectile.Kill();
+			Projectile.Kill();
 		}
 
-		public override bool CanDamage() => mousePos != null;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => mousePos != null;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			/* Main.spriteBatch.End();
 			 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
@@ -123,15 +125,15 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 			 Starjinx.YuyutsuShader.CurrentTechnique.Passes[0].Apply();*/
 			Color bloomColor = Color.DarkGreen;
 			bloomColor.A = 0;
-			Main.spriteBatch.Draw(ModContent.GetTexture("SpiritMod/Effects/Masks/Extra_49"), projectile.Center - Main.screenPosition, null, bloomColor, 0f, new Vector2(50,50), 0.35f, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/Extra_49"), Projectile.Center - Main.screenPosition, null, bloomColor, 0f, new Vector2(50,50), 0.35f, SpriteEffects.None, 0f);
 
-			Vector2 center = new Vector2((float)(Main.projectileTexture[projectile.type].Width / 2), (float)(Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type] / 2));
-			SpriteEffects spriteEffects3 = (projectile.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-			Texture2D texture = Main.projectileTexture[projectile.type];
-			int frameHeight = texture.Height / Main.projFrames[projectile.type];
-			Rectangle frameRect = new Rectangle(0, projectile.frame * frameHeight, texture.Width, frameHeight);
-			Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frameRect, drawColor, 0f, center, 1, spriteEffects3, 0f);
-			Main.spriteBatch.Draw(ModContent.GetTexture(Texture + "_glow"), projectile.Center - Main.screenPosition, frameRect, Color.White, 0f, center, 1, spriteEffects3, 0f);
+			Vector2 center = new Vector2((float)(TextureAssets.Projectile[Projectile.type].Value.Width / 2), (float)(TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type] / 2));
+			SpriteEffects spriteEffects3 = (Projectile.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
+			int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+			Rectangle frameRect = new Rectangle(0, Projectile.frame * frameHeight, texture.Width, frameHeight);
+			Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frameRect, drawColor, 0f, center, 1, spriteEffects3, 0f);
+			Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glow"), Projectile.Center - Main.screenPosition, frameRect, Color.White, 0f, center, 1, spriteEffects3, 0f);
 
 			//Main.spriteBatch.End();
 			//Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -148,13 +150,13 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 3, 1f, 0f); 
+			SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 3, 1f, 0f); 
 
 			for (int i = 0; i <= 3; i++) {
-				Gore gore = Gore.NewGoreDirect(projectile.position + new Vector2(Main.rand.Next(projectile.width), Main.rand.Next(projectile.height)),
+				Gore gore = Gore.NewGoreDirect(Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)),
 					Main.rand.NextVector2Circular(-1, 1),
-					mod.GetGoreSlot("Gores/Skelet/bonger" + Main.rand.Next(1, 5)),
-					projectile.scale);
+					Mod.Find<ModGore>("Gores/Skelet/bonger" + Main.rand.Next(1, 5)).Type,
+					Projectile.scale);
 				gore.timeLeft = 20;
 			}
 		}

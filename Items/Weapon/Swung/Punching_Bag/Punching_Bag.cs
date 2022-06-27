@@ -15,29 +15,29 @@ namespace SpiritMod.Items.Weapon.Swung.Punching_Bag
 
 		public override void SetDefaults()
 		{
-			item.shootSpeed = 10f;
-			item.damage = 15;
-			item.knockBack = 6f;
-			item.magic = true;
-			item.mana = 10;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.UseSound = SoundID.Item1;
-			item.useAnimation = 30;
-			item.useTime = 30;
-			item.width = 26;
-			item.height = 26;
-			item.noUseGraphic = true;
-			item.noMelee = true;
-			item.autoReuse = true;
-			item.value = Item.buyPrice(gold: 1);
-			item.rare = ItemRarityID.Blue;
-			item.shoot = ModContent.ProjectileType<Punching_Bag_Projectile>();
+			Item.shootSpeed = 10f;
+			Item.damage = 15;
+			Item.knockBack = 6f;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 10;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.UseSound = SoundID.Item1;
+			Item.useAnimation = 30;
+			Item.useTime = 30;
+			Item.width = 26;
+			Item.height = 26;
+			Item.noUseGraphic = true;
+			Item.noMelee = true;
+			Item.autoReuse = true;
+			Item.value = Item.buyPrice(gold: 1);
+			Item.rare = ItemRarityID.Blue;
+			Item.shoot = ModContent.ProjectileType<Punching_Bag_Projectile>();
 		}
 		
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(6));
-			Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI);
+			Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockback, player.whoAmI);
 			return false;
 		}
 	}

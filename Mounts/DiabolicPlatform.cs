@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Mounts
 {
-	public class DiabolicPlatform : ModMountData
+	public class DiabolicPlatform : ModMount
 	{
 		public const float groundSlowdown = 0.3f;
 
@@ -16,61 +16,61 @@ namespace SpiritMod.Mounts
 		public const float verticalSpeed = 0.34f;
 		private const float maxTilt = (float)Math.PI * 0.08f;
 
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
-			mountData.spawnDust = 6;
-			mountData.spawnDustNoGravity = true;
-			mountData.buff = ModContent.BuffType<DiabolicPlatformBuff>();
-			mountData.heightBoost = 2;
-			mountData.flightTimeMax = 60;
-			mountData.fatigueMax = 120;
-			mountData.fallDamage = 0f;
-			mountData.runSpeed = 6;
-			mountData.dashSpeed = 2f;
-			mountData.acceleration = 0.2F;
-			mountData.blockExtraJumps = true;
-			mountData.totalFrames = 12;
-			mountData.usesHover = true;
+			MountData.spawnDust = 6;
+			MountData.spawnDustNoGravity = true;
+			MountData.buff = ModContent.BuffType<DiabolicPlatformBuff>();
+			MountData.heightBoost = 2;
+			MountData.flightTimeMax = 60;
+			MountData.fatigueMax = 120;
+			MountData.fallDamage = 0f;
+			MountData.runSpeed = 6;
+			MountData.dashSpeed = 2f;
+			MountData.acceleration = 0.2F;
+			MountData.blockExtraJumps = true;
+			MountData.totalFrames = 12;
+			MountData.usesHover = true;
 
 			this.fatigue = maxFatigue;
 
-			int[] offsets = new int[mountData.totalFrames];
+			int[] offsets = new int[MountData.totalFrames];
 			for (int i = 0; i < offsets.Length; i++) {
 				offsets[i] = 0;
 			}
-			mountData.playerYOffsets = offsets;
+			MountData.playerYOffsets = offsets;
 
-			mountData.xOffset = 1;
-			mountData.yOffset = +32;
+			MountData.xOffset = 1;
+			MountData.yOffset = +32;
 
-			mountData.idleFrameLoop = true;
-			mountData.standingFrameCount = 1;
-			mountData.standingFrameDelay = 12;
-			mountData.standingFrameStart = 0;
+			MountData.idleFrameLoop = true;
+			MountData.standingFrameCount = 1;
+			MountData.standingFrameDelay = 12;
+			MountData.standingFrameStart = 0;
 
-			mountData.runningFrameCount = 4;
-			mountData.runningFrameDelay = 12;
-			mountData.runningFrameStart = 0;
+			MountData.runningFrameCount = 4;
+			MountData.runningFrameDelay = 12;
+			MountData.runningFrameStart = 0;
 
-			mountData.flyingFrameCount = 4;
-			mountData.flyingFrameDelay = 12;
-			mountData.flyingFrameStart = 4;
+			MountData.flyingFrameCount = 4;
+			MountData.flyingFrameDelay = 12;
+			MountData.flyingFrameStart = 4;
 
-			mountData.inAirFrameCount = 4;
-			mountData.inAirFrameDelay = 12;
-			mountData.inAirFrameStart = 4;
+			MountData.inAirFrameCount = 4;
+			MountData.inAirFrameDelay = 12;
+			MountData.inAirFrameStart = 4;
 
-			mountData.idleFrameCount = 4;
-			mountData.idleFrameDelay = 12;
-			mountData.idleFrameStart = 8;
+			MountData.idleFrameCount = 4;
+			MountData.idleFrameDelay = 12;
+			MountData.idleFrameStart = 8;
 
-			mountData.swimFrameCount = 0;
-			mountData.swimFrameDelay = 12;
-			mountData.swimFrameStart = 0;
+			MountData.swimFrameCount = 0;
+			MountData.swimFrameDelay = 12;
+			MountData.swimFrameStart = 0;
 
 			if (Main.netMode != NetmodeID.Server) {
-				mountData.textureWidth = mountData.backTexture.Width;
-				mountData.textureHeight = mountData.backTexture.Height;
+				MountData.textureWidth = MountData.backTexture.Width;
+				MountData.textureHeight = MountData.backTexture.Height;
 			}
 		}
 
@@ -81,11 +81,11 @@ namespace SpiritMod.Mounts
 				if (player.direction == -1) {
 					vector2.X -= 0f;
 				}
-				int d = Dust.NewDust(vector2, 0, 20, DustID.Fire, 0f, 0f, 0, default, 1f);
+				int d = Dust.NewDust(vector2, 0, 20, DustID.Torch, 0f, 0f, 0, default, 1f);
 				Main.dust[d].scale *= 1.2f;
-				int d1 = Dust.NewDust(vector2, 0, 20, DustID.Fire, 0f, 0f, 0, default, 1f);
+				int d1 = Dust.NewDust(vector2, 0, 20, DustID.Torch, 0f, 0f, 0, default, 1f);
 				Main.dust[d1].scale *= 1.2f;
-				int d2 = Dust.NewDust(vector2, 0, 20, DustID.Fire, 0f, 0f, 0, default, 1f);
+				int d2 = Dust.NewDust(vector2, 0, 20, DustID.Torch, 0f, 0f, 0, default, 1f);
 				Main.dust[d2].scale *= 1.2f;
 			}
 			MyPlayer modPlayer = player.GetSpiritPlayer();
@@ -116,7 +116,7 @@ namespace SpiritMod.Mounts
 			// If the player is on the ground, regain fatigue.
 			if (modPlayer.onGround) {
 				if (player.controlUp || player.controlJump) {
-					player.position.Y -= mountData.acceleration;
+					player.position.Y -= MountData.acceleration;
 				}
 
 				this.fatigue += 6;

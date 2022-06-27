@@ -18,11 +18,11 @@ namespace SpiritMod.Items.Accessory
 
 		public override void SetDefaults()
 		{
-			item.width = 47;
-			item.height = 37;
-			item.value = 60000;
-			item.accessory = true;
-			item.rare = ItemRarityID.Yellow;
+			Item.width = 47;
+			Item.height = 37;
+			Item.value = 60000;
+			Item.accessory = true;
+			Item.rare = ItemRarityID.Yellow;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -55,21 +55,19 @@ namespace SpiritMod.Items.Accessory
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe(1);
 			modRecipe.AddIngredient(ItemID.AdamantiteBar, 5);
 			modRecipe.AddIngredient(ItemID.Ectoplasm, 5);
 			modRecipe.AddIngredient(ItemID.SoulofFlight, 20);
 			modRecipe.AddTile(TileID.MythrilAnvil);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 
-			ModRecipe modRecipe1 = new ModRecipe(mod);
+			Recipe modRecipe1 = CreateRecipe(1);
 			modRecipe1.AddIngredient(ItemID.TitaniumBar, 5);
 			modRecipe1.AddIngredient(ItemID.Ectoplasm, 5);
 			modRecipe1.AddIngredient(ItemID.SoulofFlight, 20);
 			modRecipe1.AddTile(TileID.MythrilAnvil);
-			modRecipe1.SetResult(this, 1);
-			modRecipe1.AddRecipe();
+			modRecipe1.Register();
 		}
 	}
 }

@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Candy
 {
 	public class HealthBuffC : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Healing Candy");
 			Description.SetDefault("+25 health.");

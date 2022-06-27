@@ -127,15 +127,15 @@ namespace SpiritMod.Skies.Starjinx
 				void DrawPlanet(Vector2 position, float distFromScreen, float timerOffset, float rotation, SpriteEffects effects)
 				{
 					float Scale = 4f * distFromScreen;
-					rotation += (float)Math.Sin(Main.GlobalTime/2 + timerOffset) * 0.03f;
-					Vector2 verticalOffset = Vector2.UnitY * (float)Math.Sin((Main.GlobalTime / 2) + timerOffset) * 40 * distFromScreen;
+					rotation += (float)Math.Sin(Main.GlobalTimeWrappedHourly/2 + timerOffset) * 0.03f;
+					Vector2 verticalOffset = Vector2.UnitY * (float)Math.Sin((Main.GlobalTimeWrappedHourly / 2) + timerOffset) * 40 * distFromScreen;
 					Color PlanetColor = Color.Lerp(Color.White, Color.Black, MathHelper.Clamp(1.25f * TimeLerp + (1 - distFromScreen) * 0.6f, 0, 1));
 					Color GlowColor = Color.Lerp(PlanetColor, Color.White, 0.5f);
 					spriteBatch.Draw(_planetBloom, position + verticalOffset + Parallax * distFromScreen, null, GlowColor.MultiplyRGB(Color.HotPink) * 2 * _fadeOpacity, rotation, _planetBloom.Size() / 2, Scale * 10f, SpriteEffects.None, 0);
 					spriteBatch.Draw(_planet, position + verticalOffset + Parallax * distFromScreen, null, PlanetColor * _fadeOpacity, rotation, _planet.Size() / 2, Scale, effects, 0);
 					for (int i = 0; i < 6; i++)
 					{
-						float timer = (float)Math.Sin(timerOffset + Main.GlobalTime * 2) / 2 + 0.5f;
+						float timer = (float)Math.Sin(timerOffset + Main.GlobalTimeWrappedHourly * 2) / 2 + 0.5f;
 						Vector2 offset = Vector2.UnitX.RotatedBy(rotation + MathHelper.TwoPi * i / 6f) * 20 * distFromScreen * timer;
 						spriteBatch.Draw(_planetGlow, position + verticalOffset + offset + Parallax * distFromScreen, null, GlowColor * _fadeOpacity * (1 - timer), rotation, _planet.Size() / 2, Scale, effects, 0);
 					}

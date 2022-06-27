@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -21,25 +23,25 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 16;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = item.useAnimation = 28;
-			item.shootSpeed = 1f;
-			item.knockBack = 4f;
-			item.UseSound = SoundID.Item116;
-			item.shoot = ModContent.ProjectileType<BetrayersChainsProj>();
-			item.value = Item.sellPrice(gold: 2);
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.autoReuse = true;
-			item.melee = true;
-			item.damage = 45;
-			item.rare = ItemRarityID.LightRed;
+			Item.width = 16;
+			Item.height = 16;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useTime = Item.useAnimation = 28;
+			Item.shootSpeed = 1f;
+			Item.knockBack = 4f;
+			Item.UseSound = SoundID.Item116;
+			Item.shoot = ModContent.ProjectileType<BetrayersChainsProj>();
+			Item.value = Item.sellPrice(gold: 2);
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.autoReuse = true;
+			Item.DamageType = DamageClass.Melee;
+			Item.damage = 45;
+			Item.rare = ItemRarityID.LightRed;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			combo++;
 
@@ -49,10 +51,10 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 			bool slam = combo % 3 == 2;
 
 			Vector2 direction = new Vector2(speedX, speedY).RotatedBy(Main.rand.NextFloat(-0.2f, 0.2f));
-			Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
-			if (proj.modProjectile is BetrayersChainsProj modProj)
+			Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockback, player.whoAmI);
+			if (proj.ModProjectile is BetrayersChainsProj modProj)
 			{
-				modProj.SwingTime = (int)(item.useTime * UseTimeMultiplier(player) * (slam ? 1.8f : 1));
+				modProj.SwingTime = (int)(Item.useTime * UseTimeMultiplier(player) * (slam ? 1.8f : 1));
 				modProj.SwingDistance = player.Distance(Main.MouseWorld) * distanceMult;
 				modProj.Curvature = 0.33f * curvatureMult;
 				modProj.Flip = combo % 2 == 1;
@@ -62,10 +64,10 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 
 			if (slam)
 			{
-				Projectile proj2 = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
-				if (proj2.modProjectile is BetrayersChainsProj modProj2)
+				Projectile proj2 = Projectile.NewProjectileDirect(position, direction, type, damage, knockback, player.whoAmI);
+				if (proj2.ModProjectile is BetrayersChainsProj modProj2)
 				{
-					modProj2.SwingTime = (int)(item.useTime * UseTimeMultiplier(player) * 1.8f);
+					modProj2.SwingTime = (int)(Item.useTime * UseTimeMultiplier(player) * 1.8f);
 					modProj2.SwingDistance = player.Distance(Main.MouseWorld) * distanceMult;
 					modProj2.Curvature = 0.33f * curvatureMult;
 					modProj2.Flip = combo % 2 == 0;
@@ -87,29 +89,29 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 		{
 			DisplayName.SetDefault("Blades of Chaos");
 
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.Size = new Vector2(85, 85);
-			projectile.tileCollide = false;
-			projectile.ownerHitCheck = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
+			Projectile.friendly = true;
+			Projectile.Size = new Vector2(85, 85);
+			Projectile.tileCollide = false;
+			Projectile.ownerHitCheck = true;
+			Projectile.ignoreWater = true;
+			Projectile.penetrate = -1;
+			Projectile.usesLocalNPCImmunity = true;
 		}
 
-		private Player Owner => Main.player[projectile.owner];
+		private Player Owner => Main.player[Projectile.owner];
 
 		public int SwingTime;
 		public float SwingDistance;
 		public float Curvature;
 
-		public ref float Timer => ref projectile.ai[0];
-		public ref float AiState => ref projectile.ai[1];
+		public ref float Timer => ref Projectile.ai[0];
+		public ref float AiState => ref Projectile.ai[1];
 
 		private Vector2 returnPosOffset; //The position of the projectile when it starts returning to the player from being hooked
 		private Vector2 npcHookOffset = Vector2.Zero; //Used to determine the offset from the hooked npc's center
@@ -138,21 +140,21 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 
 		public override void AI()
 		{
-			if (projectile.timeLeft > 2) //Initialize chain control points on first tick, in case of projectile hooking in on first tick
+			if (Projectile.timeLeft > 2) //Initialize chain control points on first tick, in case of projectile hooking in on first tick
 			{
-				_chainMidA = projectile.Center;
-				_chainMidB = projectile.Center;
+				_chainMidA = Projectile.Center;
+				_chainMidB = Projectile.Center;
 				CurrentBase = Owner.Center;
 
 				if (Slam)
 				{
-					trail = new FireChainPrimTrail(projectile);
+					trail = new FireChainPrimTrail(Projectile);
 					SpiritMod.primitives.CreateTrail(trail);
 
 					//not using itrail interface for reasons that make sense but i dont feel like explaining
 
 					phantomProj = new Projectile();
-					phantomProj.Size = projectile.Size;
+					phantomProj.Size = Projectile.Size;
 					phantomProj.active = true;
 					phantomProj.Center = CurrentBase;
 					SpiritMod.TrailManager?.CreateTrail(phantomProj, new GradientTrail(new Color(252, 73, 3) * 0.6f, new Color(255, 160, 40) * 0.3f), new RoundCap(), new DefaultTrailPosition(), 40f, 400f, default);
@@ -164,7 +166,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 				trail?.AddPoints();
 			}
 			Lighting.AddLight(CurrentBase, Color.Orange.ToVector3());
-			projectile.timeLeft = 2;
+			Projectile.timeLeft = 2;
 
 			if (Slam)
 				Owner.itemTime = Owner.itemAnimation = 40;
@@ -174,7 +176,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 			ThrowOutAI();
 
 			if (!Slam)
-				Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(projectile.Center) - (Owner.direction < 0 ? MathHelper.Pi : 0));
+				Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(Projectile.Center) - (Owner.direction < 0 ? MathHelper.Pi : 0));
 			else
 				Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(Main.MouseWorld) - (Owner.direction < 0 ? MathHelper.Pi : 0));
 			_flashTime = Math.Max(_flashTime - 1, 0);
@@ -188,12 +190,12 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 
 			float angleMaxDeviation = MathHelper.Pi / 1.2f;
 			float angleOffset = Owner.direction * (Flip ? -1 : 1) * MathHelper.Lerp(-angleMaxDeviation, angleMaxDeviation, progress); //Moves clockwise if player is facing right, counterclockwise if facing left
-			return projectile.velocity.RotatedBy(angleOffset) * distance;
+			return Projectile.velocity.RotatedBy(angleOffset) * distance;
 		}
 
 		private void ThrowOutAI()
 		{
-			projectile.rotation = projectile.AngleFrom(Owner.Center);
+			Projectile.rotation = Projectile.AngleFrom(Owner.Center);
 			Vector2 position = Owner.MountedCenter;
 			float progress = ++Timer / SwingTime; //How far the projectile is through its swing
 			if (Slam)
@@ -201,28 +203,28 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 				slamTimer++;
 				progress = EaseFunction.EaseCubicInOut.Ease(progress);
 				if (progress > 0.15f && progress < 0.85f)
-					Dust.NewDustPerfect(projectile.Center + projectile.velocity + Main.rand.NextVector2Circular(15, 15), 6, Main.rand.NextVector2Circular(2, 2), 0, default, 1.15f).noGravity = true;
+					Dust.NewDustPerfect(Projectile.Center + Projectile.velocity + Main.rand.NextVector2Circular(15, 15), 6, Main.rand.NextVector2Circular(2, 2), 0, default, 1.15f).noGravity = true;
 			}
 
 			if (slamTimer == 5)
-				Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
+				SoundEngine.PlaySound(SoundID.NPCDeath7, Projectile.Center);
 
-			projectile.Center = position + GetSwingPosition(progress);
-			projectile.direction = projectile.spriteDirection = -Owner.direction * (Flip ? -1 : 1);
+			Projectile.Center = position + GetSwingPosition(progress);
+			Projectile.direction = Projectile.spriteDirection = -Owner.direction * (Flip ? -1 : 1);
 
 			if (Timer >= SwingTime + 1)
-				projectile.Kill();
+				Projectile.Kill();
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			if (projectile.timeLeft > 2)
+			if (Projectile.timeLeft > 2)
 				return false;
 
-			Texture2D projTexture = Main.projectileTexture[projectile.type];
+			Texture2D projTexture = TextureAssets.Projectile[Projectile.type].Value;
 
 			//End control point for the chain
-			Vector2 projBottom = projectile.Center + new Vector2(0, projTexture.Height / 2).RotatedBy(projectile.rotation) * 0.75f;
+			Vector2 projBottom = Projectile.Center + new Vector2(0, projTexture.Height / 2).RotatedBy(Projectile.rotation) * 0.75f;
 			DrawChainCurve(spriteBatch, projBottom, out Vector2[] chainPositions);
 
 			//Adjust rotation to face from the last point in the bezier curve
@@ -230,11 +232,11 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 
 			//Draw from bottom center of texture
 			Vector2 origin = new Vector2(projTexture.Width / 2, projTexture.Height);
-			SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			SpriteEffects flip = (Projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-			lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
+			lightColor = Lighting.GetColor((int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f));
 
-			spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, projectile.scale, flip, 0);
+			spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, Projectile.scale, flip, 0);
 
 
 			CurrentBase = projBottom + (newRotation - 1.57f).ToRotationVector2() * (projTexture.Height / 2);
@@ -247,13 +249,13 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 			if (!Slam)
 				return false;
 
-			Texture2D whiteTexture = ModContent.GetTexture(Texture + "_White");
+			Texture2D whiteTexture = ModContent.Request<Texture2D>(Texture + "_White");
 			if (slamTimer < 20 && slamTimer > 5)
 			{
 				float progress = (slamTimer - 5) / 15f;
 				float transparency = (float)Math.Pow(1 - progress, 2);
 				float scale = 1 + progress;
-				spriteBatch.Draw(whiteTexture, projBottom - Main.screenPosition, null, Color.White * transparency, newRotation, origin, projectile.scale * scale, flip, 0);
+				spriteBatch.Draw(whiteTexture, projBottom - Main.screenPosition, null, Color.White * transparency, newRotation, origin, Projectile.scale * scale, flip, 0);
 			}
 			return false;
 		}
@@ -263,7 +265,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 		private Vector2 _chainMidB;
 		private void DrawChainCurve(SpriteBatch spriteBatch, Vector2 projBottom, out Vector2[] chainPositions)
 		{
-			Texture2D chainTex = ModContent.GetTexture(Texture + "_Chain");
+			Texture2D chainTex = ModContent.Request<Texture2D>(Texture + "_Chain");
 
 			float progress = Timer / SwingTime;
 
@@ -298,7 +300,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
-			BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, _chainMidA, _chainMidB, projectile.Center });
+			BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, _chainMidA, _chainMidB, Projectile.Center });
 
 			int numPoints = 32;
 			Vector2[] chainPositions = curve.GetPoints(numPoints).ToArray();
@@ -320,7 +322,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.BetrayersChains
 				crit = true;
 				target.AddBuff(BuffID.OnFire, 180);
 			}
-			if (Collision.CheckAABBvAABBCollision(target.position, target.Size, projectile.position, projectile.Size))
+			if (Collision.CheckAABBvAABBCollision(target.position, target.Size, Projectile.position, Projectile.Size))
 			{
 				damage = (int)(damage * 1.3f);
 				for (int i = 0; i < 8; i++)

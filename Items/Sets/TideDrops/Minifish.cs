@@ -14,34 +14,33 @@ namespace SpiritMod.Items.Sets.TideDrops
         }
 		public override void SetDefaults()
 		{
-			item.damage = 12;
-			item.ranged = true;
-			item.width = 24;
-			item.height = 24;
-			item.useTime = item.useAnimation = 18;
-			item.reuseDelay = 4;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 1;
-			item.useTurn = false;
-			item.useAmmo = AmmoID.Bullet;
-			item.UseSound = SoundID.Item11;
-			item.value = Item.sellPrice(0, 9, 50, 0);
-			item.rare = ItemRarityID.Orange;
-			item.autoReuse = true;
-			item.shoot = ProjectileID.Bullet;
-			item.shootSpeed = 10f;
+			Item.damage = 12;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 24;
+			Item.height = 24;
+			Item.useTime = Item.useAnimation = 18;
+			Item.reuseDelay = 4;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 1;
+			Item.useTurn = false;
+			Item.useAmmo = AmmoID.Bullet;
+			Item.UseSound = SoundID.Item11;
+			Item.value = Item.sellPrice(0, 9, 50, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.autoReuse = true;
+			Item.shoot = ProjectileID.Bullet;
+			Item.shootSpeed = 10f;
 		}
 		public override Vector2? HoldoutOffset() => new Vector2(-4, 0);
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<TribalScale>(), 5);
 			recipe.AddIngredient(ItemID.Minishark);
 			recipe.AddIngredient(ItemID.IllegalGunParts);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

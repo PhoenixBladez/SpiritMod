@@ -52,7 +52,7 @@ namespace SpiritMod.Mechanics.PortraitSystem
 
 			//args[2] should the portrait NPC's internal name
 			string name = args[2].ToString();
-			int id = callerMod.NPCType(name);
+			int id = callerMod.Find<ModNPC>(name).Type;
 
 			//args[3] should be the portrait's texture
 			if (!(args[3] is Texture2D))
@@ -102,11 +102,11 @@ namespace SpiritMod.Mechanics.PortraitSystem
 			// args[5] should be the portrait's BaseSize, if any defaults to (108, 108)
 
 			// So calling this would be
-			// spiritMod.Call("Portrait", myMod, "MyTownNPC", ModContent.GetTexture("SomeTexture")); for a default, single frame portrait.
+			// spiritMod.Call("Portrait", myMod, "MyTownNPC", ModContent.Request<Texture2D>("SomeTexture")); for a default, single frame portrait.
 			//
 			// Or, 
 			//
-			// spiritMod.Call("Portrait", myMod, "MyTownNPC", ModContent.GetTexture("SomeTexture"),
+			// spiritMod.Call("Portrait", myMod, "MyTownNPC", ModContent.Request<Texture2D>("SomeTexture"),
 			//		(string text, NPC talkNPC) =>
 			//		{
 			//			if (text.ToUpper() == "USE THAT ONE COOL FRAME PLEASE")

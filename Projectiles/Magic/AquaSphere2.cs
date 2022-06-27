@@ -14,35 +14,35 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.width = 12;
-			projectile.height = 12;
-			projectile.hide = true;
-			projectile.friendly = true;
-            projectile.magic = true;
-			projectile.penetrate = 2;
-			projectile.timeLeft = 90;
-			projectile.tileCollide = false;
+			Projectile.width = 12;
+			Projectile.height = 12;
+			Projectile.hide = true;
+			Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = 2;
+			Projectile.timeLeft = 90;
+			Projectile.tileCollide = false;
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 2; i++) {
-				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Flare_Blue);
+				int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Flare_Blue);
 				Main.dust[d].noGravity = true;
 			}
 		}
 
 		public override void AI()
 		{
-			projectile.velocity *= 0.93f;
+			Projectile.velocity *= 0.93f;
 
 			for (int i = 1; i <= 3; i++) {
-				int num1 = Dust.NewDust(projectile.position, projectile.width, projectile.height,
-					DustID.Flare_Blue, projectile.velocity.X, projectile.velocity.Y, 0, default, 1f);
+				int num1 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height,
+					DustID.Flare_Blue, Projectile.velocity.X, Projectile.velocity.Y, 0, default, 1f);
 				Main.dust[num1].noGravity = true;
 				Main.dust[num1].velocity *= 0.1f;
 			}
-			Lighting.AddLight(projectile.position, 0.1f, 0.2f, 0.3f);
+			Lighting.AddLight(Projectile.position, 0.1f, 0.2f, 0.3f);
 		}
 
 	}

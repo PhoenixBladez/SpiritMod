@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Armor
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = 3000;
-			item.rare = ItemRarityID.Blue;
-			item.defense = 3;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = 3000;
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 3;
 		}
 
 		public override void UpdateEquip(Player player)

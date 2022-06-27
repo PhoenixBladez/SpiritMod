@@ -17,37 +17,37 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = true;
-			projectile.height = 30;
-			projectile.width = 34;
-			projectile.friendly = false;
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.Bullet;
-			projectile.timeLeft = 500;
-			projectile.tileCollide = false;
+			Projectile.hostile = true;
+			Projectile.height = 30;
+			Projectile.width = 34;
+			Projectile.friendly = false;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.Bullet;
+			Projectile.timeLeft = 500;
+			Projectile.tileCollide = false;
 		}
 
 		public override void AI()
 		{
-			projectile.velocity *= 0.97f;
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 7200f) {
-				projectile.alpha += 5;
-				if (projectile.alpha > 255) {
-					projectile.alpha = 255;
-					projectile.Kill();
+			Projectile.velocity *= 0.97f;
+			Projectile.ai[1] += 1f;
+			if (Projectile.ai[1] >= 7200f) {
+				Projectile.alpha += 5;
+				if (Projectile.alpha > 255) {
+					Projectile.alpha = 255;
+					Projectile.Kill();
 				}
 			}
 
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] >= 10f) {
-				projectile.localAI[0] = 0f;
+			Projectile.localAI[0] += 1f;
+			if (Projectile.localAI[0] >= 10f) {
+				Projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
-				int num419 = projectile.type;
+				int num419 = Projectile.type;
 				for (int num420 = 0; num420 < 1000; num420++) {
-					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
+					if (Main.projectile[num420].active && Main.projectile[num420].owner == Projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
 						num416++;
 						if (Main.projectile[num420].ai[1] > num418) {
 							num417 = num420;
@@ -65,7 +65,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(new LegacySoundStyle(3, 3).WithPitchVariance(0.4f), projectile.Center);
+			SoundEngine.PlaySound(new LegacySoundStyle(3, 3).WithPitchVariance(0.4f), Projectile.Center);
 			Vector2 spinningpoint1 = ((float)Main.rand.NextDouble() * 6.283185f).ToRotationVector2();
 			Vector2 spinningpoint2 = spinningpoint1;
 			float dagada = (float)(Main.rand.Next(3, 6) * 2);
@@ -86,7 +86,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					spinningpoint1 = spinningpoint1.RotatedBy((double)num4 * (double)num3 * 3.0, new Vector2());
 				}
 				float adada = MathHelper.Lerp(1f, 4f, (float)(index1 % num2) / (float)num2);
-				int index2 = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), 6, 6, DustID.PoisonStaff, 0.0f, 0.0f, 100, new Color(), 1.4f);
+				int index2 = Dust.NewDust(new Vector2(Projectile.Center.X, Projectile.Center.Y), 6, 6, DustID.PoisonStaff, 0.0f, 0.0f, 100, new Color(), 1.4f);
 				Main.dust[index2].velocity *= 0.1f;
 				Main.dust[index2].velocity += spinningpoint1 * adada;
 				if (flag)	

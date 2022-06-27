@@ -10,10 +10,10 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch
     {
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 34;
-            item.rare = ItemRarityID.Blue;
-            item.vanity = true;
+            Item.width = 26;
+            Item.height = 34;
+            Item.rare = ItemRarityID.Blue;
+            Item.vanity = true;
         }
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Vulture Matriarch Mask");

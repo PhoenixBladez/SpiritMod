@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,62 +11,62 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Coconut");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		private bool cracky = false;
 		public override void SetDefaults()
 		{
-			projectile.width = 24;
-			projectile.height = 24;
+			Projectile.width = 24;
+			Projectile.height = 24;
 			//projectile.aiStyle = 8;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.extraUpdates = 1;
-			projectile.light = 0;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.extraUpdates = 1;
+			Projectile.light = 0;
 			//		aiType = ProjectileID.ThrowingKnife;
 		}
 		public override void AI()
 		{
-			projectile.rotation += .2f;
-			projectile.velocity.X *= .98f;
-			if (projectile.velocity.Y < 0) {
-				projectile.velocity.Y *= 0.95f;
+			Projectile.rotation += .2f;
+			Projectile.velocity.X *= .98f;
+			if (Projectile.velocity.Y < 0) {
+				Projectile.velocity.Y *= 0.95f;
 			}
 			if (!cracky)
-				projectile.velocity.Y += 0.2f;
-			if (projectile.velocity.Y > 7f && !cracky) {
-				projectile.damage = (int)(projectile.damage * 2.85f);
+				Projectile.velocity.Y += 0.2f;
+			if (Projectile.velocity.Y > 7f && !cracky) {
+				Projectile.damage = (int)(Projectile.damage * 2.85f);
 				cracky = true;
 			}
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 7);
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 2);
-			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 2);
+			SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 7);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 2);
+			SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 2);
 			if (cracky) {
-				Vector2 GoreVel = projectile.velocity;
+				Vector2 GoreVel = Projectile.velocity;
 				GoreVel.X = 2f;
 				GoreVel.Y *= -0.2f;
-				Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 1);
-				Gore.NewGore(projectile.position, GoreVel, mod.GetGoreSlot("Gores/Coconut/CoconutGore1"), 1f);
+				SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 1);
+				Gore.NewGore(Projectile.position, GoreVel, Mod.Find<ModGore>("Gores/Coconut/CoconutGore1").Type, 1f);
 				GoreVel.X = -2f;
-				Gore.NewGore(projectile.position, GoreVel, mod.GetGoreSlot("Gores/Coconut/CoconutGore2"), 1f);
+				Gore.NewGore(Projectile.position, GoreVel, Mod.Find<ModGore>("Gores/Coconut/CoconutGore2").Type, 1f);
 			}
 			else {
-				Vector2 GoreVel = projectile.velocity;
-				if (projectile.velocity.X > 0) {
+				Vector2 GoreVel = Projectile.velocity;
+				if (Projectile.velocity.X > 0) {
 					GoreVel.X = 2f;
 				}
 				else {
 					GoreVel.X = 0f;
 				}
 				GoreVel.Y *= -0.2f;
-				int g = Gore.NewGore(projectile.position, GoreVel, mod.GetGoreSlot("Gores/Coconut/CoconutGore"), 1f);
+				int g = Gore.NewGore(Projectile.position, GoreVel, Mod.Find<ModGore>("Gores/Coconut/CoconutGore").Type, 1f);
 				Main.gore[g].timeLeft = 40;
 			}
 		}
@@ -73,9 +74,9 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (cracky) {
-				projectile.position.Y -= 20;
+				Projectile.position.Y -= 20;
 				crit = true;
-				projectile.damage *= 3;
+				Projectile.damage *= 3;
 				target.AddBuff(BuffID.Confused, 200);
 			}
 		}

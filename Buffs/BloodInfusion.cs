@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs
 {
 	public class BloodInfusion : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blood Infusion");
 			Description.SetDefault("'Extremely contagious'");

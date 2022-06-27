@@ -17,12 +17,12 @@ namespace SpiritMod.Items.Sets.FloatingItems
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 24;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = Item.sellPrice(0, 20, 0, 0);
-			item.rare = ItemRarityID.Orange;
-			item.maxStack = 999;
+			Item.width = 30;
+			Item.height = 24;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.value = Item.sellPrice(0, 20, 0, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.maxStack = 999;
 		}
 	}
 }

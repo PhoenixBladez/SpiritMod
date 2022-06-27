@@ -35,19 +35,18 @@ namespace SpiritMod.Items.Sets.CoilSet
 				this.value = 20000;
 			*/
 			// Instead of copying these values, we can clone and modify the ones we want to copy
-			item.CloneDefaults(ItemID.AmethystHook);
-            item.rare = ItemRarityID.Green;
-			item.shootSpeed = 18f; // how quickly the hook is shot.
-			item.shoot = ProjectileType<CoilHookProj>();
+			Item.CloneDefaults(ItemID.AmethystHook);
+            Item.rare = ItemRarityID.Green;
+			Item.shootSpeed = 18f; // how quickly the hook is shot.
+			Item.shoot = ProjectileType<CoilHookProj>();
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<TechDrive>(), 5);
 			recipe.AddIngredient(ItemID.Hook, 1);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 
@@ -70,7 +69,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 				this.tileCollide = false;
 				this.timeLeft *= 10;
 			*/
-			projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
+			Projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
 		}
 
 		// Use this hook for hooks that can have multiple hooks mid-flight: Dual Hook, Web Slinger, Fish Hook, Static Hook, Lunar Hook
@@ -78,7 +77,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 		{
 			int hooksOut = 0;
 			for (int l = 0; l < 1000; l++) {
-				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type) {
+				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == Projectile.type) {
 					hooksOut++;
 				}
 			}
@@ -142,11 +141,11 @@ namespace SpiritMod.Items.Sets.CoilSet
 			speed = 15;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(Color lightColor)
 		{
-			Texture2D texture = ModContent.GetTexture("SpiritMod/Items/Sets/CoilSet/CoilHook_Chain");
-			Vector2 vector = projectile.Center;
-			Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
+			Texture2D texture = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/CoilSet/CoilHook_Chain");
+			Vector2 vector = Projectile.Center;
+			Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
 			Rectangle? sourceRectangle = null;
 			Vector2 origin = new Vector2((float)texture.Width * 0.5f, (float)texture.Height * 0.5f);
 			float num = (float)texture.Height;
@@ -169,7 +168,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 					vector += value * num;
 					vector2 = mountedCenter - vector;
 					Color color = Lighting.GetColor((int)vector.X / 16, (int)((double)vector.Y / 16.0));
-					color = projectile.GetAlpha(color);
+					color = Projectile.GetAlpha(color);
 					Main.spriteBatch.Draw(texture, vector - Main.screenPosition, sourceRectangle, color, rotation, origin, 1f, SpriteEffects.None, 0f);
 				}
 			}
@@ -178,8 +177,8 @@ namespace SpiritMod.Items.Sets.CoilSet
 		{
 			int num = 5;
 			for (int k = 0; k < 3; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Electric, 0.0f, 0.0f, 0, new Color(), 1f);
-				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+				int index2 = Dust.NewDust(Projectile.position, 1, 1, DustID.Electric, 0.0f, 0.0f, 0, new Color(), 1f);
+				Main.dust[index2].position = Projectile.Center - Projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;
 				Main.dust[index2].noGravity = true;

@@ -12,98 +12,98 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Antumbral Skull");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[NPC.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = npc.height = 30;
-			npc.lifeMax = 70;
-			npc.damage = 45;
-			npc.knockBackResist = 0;
-			npc.DeathSound = SoundID.NPCDeath6;
+			NPC.width = NPC.height = 30;
+			NPC.lifeMax = 70;
+			NPC.damage = 45;
+			NPC.knockBackResist = 0;
+			NPC.DeathSound = SoundID.NPCDeath6;
 
-			npc.buffImmune[BuffID.Confused] = true;
-			npc.buffImmune[BuffID.ShadowFlame] = true;
+			NPC.buffImmune[BuffID.Confused] = true;
+			NPC.buffImmune[BuffID.ShadowFlame] = true;
 
-			npc.friendly = false;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
+			NPC.friendly = false;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
 		}
 
 		public override bool PreAI()
 		{
-			npc.TargetClosest(true);
+			NPC.TargetClosest(true);
 			float speed = 8f;
 			float acceleration = 0.13f;
-			Vector2 vector2 = new Vector2(npc.position.X + npc.width * 0.5F, npc.position.Y + npc.height * 0.5F);
-			float xDir = Main.player[npc.target].position.X + (Main.player[npc.target].width * 0.5F) - vector2.X;
-			float yDir = Main.player[npc.target].position.Y + (Main.player[npc.target].height * 0.5F) - vector2.Y;
+			Vector2 vector2 = new Vector2(NPC.position.X + NPC.width * 0.5F, NPC.position.Y + NPC.height * 0.5F);
+			float xDir = Main.player[NPC.target].position.X + (Main.player[NPC.target].width * 0.5F) - vector2.X;
+			float yDir = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height * 0.5F) - vector2.Y;
 			float length = (float)Math.Sqrt(xDir * xDir + yDir * yDir);
 
 			float num10 = speed / length;
 			xDir *= num10;
 			yDir *= num10;
-			if (npc.velocity.X < xDir) {
-				npc.velocity.X = npc.velocity.X + acceleration;
-				if (npc.velocity.X < 0 && xDir > 0)
-					npc.velocity.X = npc.velocity.X + acceleration;
+			if (NPC.velocity.X < xDir) {
+				NPC.velocity.X = NPC.velocity.X + acceleration;
+				if (NPC.velocity.X < 0 && xDir > 0)
+					NPC.velocity.X = NPC.velocity.X + acceleration;
 			}
-			else if (npc.velocity.X > xDir) {
-				npc.velocity.X = npc.velocity.X - acceleration;
-				if (npc.velocity.X > 0 && xDir < 0)
-					npc.velocity.X = npc.velocity.X - acceleration;
+			else if (NPC.velocity.X > xDir) {
+				NPC.velocity.X = NPC.velocity.X - acceleration;
+				if (NPC.velocity.X > 0 && xDir < 0)
+					NPC.velocity.X = NPC.velocity.X - acceleration;
 			}
 
-			if (npc.velocity.Y < yDir) {
-				npc.velocity.Y = npc.velocity.Y + acceleration;
-				if (npc.velocity.Y < 0 && yDir > 0)
-					npc.velocity.Y = npc.velocity.Y + acceleration;
+			if (NPC.velocity.Y < yDir) {
+				NPC.velocity.Y = NPC.velocity.Y + acceleration;
+				if (NPC.velocity.Y < 0 && yDir > 0)
+					NPC.velocity.Y = NPC.velocity.Y + acceleration;
 			}
-			else if (npc.velocity.Y > yDir) {
-				npc.velocity.Y = npc.velocity.Y - acceleration;
-				if (npc.velocity.Y > 0 && yDir < 0)
-					npc.velocity.Y = npc.velocity.Y - acceleration;
+			else if (NPC.velocity.Y > yDir) {
+				NPC.velocity.Y = NPC.velocity.Y - acceleration;
+				if (NPC.velocity.Y > 0 && yDir < 0)
+					NPC.velocity.Y = NPC.velocity.Y - acceleration;
 			}
-			Player player = Main.player[npc.target];
-			Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff);
-			float num5 = npc.position.X + (npc.width / 2) - player.position.X - (player.width / 2);
-			float num6 = npc.position.Y + npc.height - 59f - player.position.Y - (player.height / 2);
+			Player player = Main.player[NPC.target];
+			Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ShadowbeamStaff);
+			float num5 = NPC.position.X + (NPC.width / 2) - player.position.X - (player.width / 2);
+			float num6 = NPC.position.Y + NPC.height - 59f - player.position.Y - (player.height / 2);
 			float num7 = (float)Math.Atan2(num6, num5) + 1.57f;
 			if (num7 < 0f)
 				num7 += 6.283f;
 			else if ((double)num7 > 6.283)
 				num7 -= 6.283f;
 			float num8 = 0.1f;
-			if (npc.rotation < num7) {
-				if ((double)(num7 - npc.rotation) > 3.1415) {
-					npc.rotation -= num8;
+			if (NPC.rotation < num7) {
+				if ((double)(num7 - NPC.rotation) > 3.1415) {
+					NPC.rotation -= num8;
 				}
 				else {
-					npc.rotation += num8;
+					NPC.rotation += num8;
 				}
 			}
-			else if (npc.rotation > num7) {
-				if ((npc.rotation - num7) > 3.1415) {
-					npc.rotation += num8;
+			else if (NPC.rotation > num7) {
+				if ((NPC.rotation - num7) > 3.1415) {
+					NPC.rotation += num8;
 				}
 				else {
-					npc.rotation -= num8;
+					NPC.rotation -= num8;
 				}
 			}
-			if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8) {
-				npc.rotation = num7;
+			if (NPC.rotation > num7 - num8 && NPC.rotation < num7 + num8) {
+				NPC.rotation = num7;
 			}
-			if (npc.rotation < 0f) {
-				npc.rotation += 6.283f;
+			if (NPC.rotation < 0f) {
+				NPC.rotation += 6.283f;
 			}
-			else if (npc.rotation > 6.283) {
-				npc.rotation -= 6.283f;
+			else if (NPC.rotation > 6.283) {
+				NPC.rotation -= 6.283f;
 			}
-			if (npc.rotation > num7 - num8 && npc.rotation < num7 + num8) {
-				npc.rotation = num7;
+			if (NPC.rotation > num7 - num8 && NPC.rotation < num7 + num8) {
+				NPC.rotation = num7;
 			}
-			npc.spriteDirection = npc.direction;
+			NPC.spriteDirection = NPC.direction;
 			return false;
 		}
 
@@ -114,10 +114,10 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter++;
-			if (npc.frameCounter >= 4) {
-				npc.frame.Y = (npc.frame.Y + frameHeight) % (Main.npcFrameCount[npc.type] * frameHeight);
-				npc.frameCounter = 0;
+			NPC.frameCounter++;
+			if (NPC.frameCounter >= 4) {
+				NPC.frame.Y = (NPC.frame.Y + frameHeight) % (Main.npcFrameCount[NPC.type] * frameHeight);
+				NPC.frameCounter = 0;
 			}
 		}
 		public override Color? GetAlpha(Color lightColor)

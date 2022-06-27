@@ -18,47 +18,46 @@ namespace SpiritMod.Items.Sets.SummonsMisc.TwoFaceMask
 
 		public override void SetDefaults()
 		{
-			item.damage = 17;
-			item.summon = true;
-			item.mana = 10;
-			item.width = 44;
-			item.height = 48;
-			item.useTime = 35;
-			item.useAnimation = 35;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 5;
-			item.value = 20000;
-			item.rare = ItemRarityID.Orange;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<HappySoul>();
-			item.shootSpeed = 0f;
+			Item.damage = 17;
+			Item.DamageType = DamageClass.Summon;
+			Item.mana = 10;
+			Item.width = 44;
+			Item.height = 48;
+			Item.useTime = 35;
+			Item.useAnimation = 35;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 5;
+			Item.value = 20000;
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<HappySoul>();
+			Item.shootSpeed = 0f;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (player.altFunctionUse == 2)
 				type = ModContent.ProjectileType<SadSoul>();
 			else
 				type = ModContent.ProjectileType<HappySoul>();
 			position = Main.MouseWorld;
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+			Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 			player.UpdateMaxTurrets();
 			return false;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe(1);
 			modRecipe.AddIngredient(ModContent.ItemType<MimeMask>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<DreamstrideEssence>(), 8);
 			modRecipe.AddTile(TileID.Anvils);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

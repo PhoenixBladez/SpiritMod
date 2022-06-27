@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Sets.TideDrops;
@@ -11,128 +12,128 @@ namespace SpiritMod.NPCs.Tides
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Kakamora Windglider");
-			Main.npcFrameCount[npc.type] = 3;
+			Main.npcFrameCount[NPC.type] = 3;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 46;
-			npc.height = 60;
-			npc.damage = 18;
-			npc.defense = 6;
-			npc.lifeMax = 160;
-			npc.noGravity = true;
-			npc.knockBackResist = .9f;
-			npc.value = 200f;
-			npc.noTileCollide = false;
-			npc.HitSound = SoundID.NPCHit2;
-			npc.DeathSound = SoundID.NPCDeath1;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.KakamoraGliderBanner>();
+			NPC.width = 46;
+			NPC.height = 60;
+			NPC.damage = 18;
+			NPC.defense = 6;
+			NPC.lifeMax = 160;
+			NPC.noGravity = true;
+			NPC.knockBackResist = .9f;
+			NPC.value = 200f;
+			NPC.noTileCollide = false;
+			NPC.HitSound = SoundID.NPCHit2;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.KakamoraGliderBanner>();
 		}
 
 		public override void AI()
 		{
-			if (npc.ai[3] == 1 && npc.velocity.Y == 0)
+			if (NPC.ai[3] == 1 && NPC.velocity.Y == 0)
 			{
-				Projectile.NewProjectile(npc.Center, new Vector2(npc.direction * -4, -0.5f), ModContent.ProjectileType<StrayGlider>(), 0, 0);
+				Projectile.NewProjectile(NPC.Center, new Vector2(NPC.direction * -4, -0.5f), ModContent.ProjectileType<StrayGlider>(), 0, 0);
 				switch (Main.rand.Next(4))
 				{
 					case 0:
-						npc.Transform(ModContent.NPCType<KakamoraRunner>());
+						NPC.Transform(ModContent.NPCType<KakamoraRunner>());
 						break;
 					case 1:
-						npc.Transform(ModContent.NPCType<SpearKakamora>());
+						NPC.Transform(ModContent.NPCType<SpearKakamora>());
 						break;
 					case 2:
-						npc.Transform(ModContent.NPCType<SwordKakamora>());
+						NPC.Transform(ModContent.NPCType<SwordKakamora>());
 						break;
 					case 3:
-						npc.Transform(ModContent.NPCType<KakamoraShielder>());
+						NPC.Transform(ModContent.NPCType<KakamoraShielder>());
 						break;
 				}
-				npc.netUpdate = true;
+				NPC.netUpdate = true;
 			}
-			if (npc.ai[3] == 0)
+			if (NPC.ai[3] == 0)
 			{
-				npc.ai[3] = 1;
-				npc.position.Y -= Main.rand.Next(1300, 1700);
-				npc.netUpdate = true;
+				NPC.ai[3] = 1;
+				NPC.position.Y -= Main.rand.Next(1300, 1700);
+				NPC.netUpdate = true;
 			}
-			if (npc.wet)
+			if (NPC.wet)
 			{
-				npc.noGravity = true;
-				npc.velocity.Y -= .0965f;
+				NPC.noGravity = true;
+				NPC.velocity.Y -= .0965f;
 			}
 			else
-				npc.noGravity = false;
+				NPC.noGravity = false;
 
-			npc.spriteDirection = npc.direction;
-			Player player = Main.player[npc.target];
+			NPC.spriteDirection = NPC.direction;
+			Player player = Main.player[NPC.target];
 
-			if (player.position.X > npc.position.X)
-				npc.velocity.X = MathHelper.Clamp(npc.velocity.X + 0.2f, -4, 4);
+			if (player.position.X > NPC.position.X)
+				NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X + 0.2f, -4, 4);
 			else
-				npc.velocity.X = MathHelper.Clamp(npc.velocity.X - 0.2f, -4, 4);
+				NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X - 0.2f, -4, 4);
 
-			npc.velocity.Y = 1;
+			NPC.velocity.Y = 1;
 
-			if (npc.collideY)
+			if (NPC.collideY)
 			{
-				Projectile.NewProjectile(npc.Center, new Vector2(npc.direction * -4, -0.5f), ModContent.ProjectileType<StrayGlider>(), 0, 0);
+				Projectile.NewProjectile(NPC.Center, new Vector2(NPC.direction * -4, -0.5f), ModContent.ProjectileType<StrayGlider>(), 0, 0);
 				switch (Main.rand.Next(4))
 				{
 					case 0:
-						npc.Transform(ModContent.NPCType<KakamoraRunner>());
-						npc.life = npc.life;
+						NPC.Transform(ModContent.NPCType<KakamoraRunner>());
+						NPC.life = NPC.life;
 						break;
 					case 1:
-						npc.Transform(ModContent.NPCType<SpearKakamora>());
-						npc.life = npc.life;
+						NPC.Transform(ModContent.NPCType<SpearKakamora>());
+						NPC.life = NPC.life;
 						break;
 					case 2:
-						npc.Transform(ModContent.NPCType<SwordKakamora>());
-						npc.life = npc.life;
+						NPC.Transform(ModContent.NPCType<SwordKakamora>());
+						NPC.life = NPC.life;
 						break;
 					case 3:
-						npc.Transform(ModContent.NPCType<KakamoraShielder>());
-						npc.life = npc.life;
+						NPC.Transform(ModContent.NPCType<KakamoraShielder>());
+						NPC.life = NPC.life;
 						break;
 				}
-				npc.netUpdate = true;
+				NPC.netUpdate = true;
 			}
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.NextBool(50))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CoconutGun>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<CoconutGun>());
 
 			if (Main.rand.NextBool(50))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TikiJavelin>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<TikiJavelin>());
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.25f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.25f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 10; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.DynastyWood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.DynastyWood, 2.5f * hitDirection, -2.5f, 0, default, .34f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.DynastyWood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.DynastyWood, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_GoreGlider"), 1f);
+				SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_GoreGlider").Type, 1f);
 			}
 		}
 	}

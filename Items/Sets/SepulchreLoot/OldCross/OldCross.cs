@@ -9,15 +9,15 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 	{
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.StaffoftheFrostHydra);
-			item.damage = 16;
-			item.Size = new Vector2(36, 52);
-			item.shoot = ModContent.ProjectileType<CrossCoffin>();
-			item.value = Item.sellPrice(gold: 1);
-			item.rare = ItemRarityID.Green;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item77;
-			item.scale = 0.8f;
+			Item.CloneDefaults(ItemID.StaffoftheFrostHydra);
+			Item.damage = 16;
+			Item.Size = new Vector2(36, 52);
+			Item.shoot = ModContent.ProjectileType<CrossCoffin>();
+			Item.value = Item.sellPrice(gold: 1);
+			Item.rare = ItemRarityID.Green;
+			Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item77;
+			Item.scale = 0.8f;
 		}
 
 		public override void SetStaticDefaults()
@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 
 		public override bool AltFunctionUse(Player player) => true;
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
         {
 			player.itemRotation = 0; //force rotation to 0, reason magic mirror holdstyle isnt used is because holdout offset is only called for usestyle 5
             if (player.altFunctionUse != 2)
@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 					y++;
 
 				y--;
-				Projectile proj = Projectile.NewProjectileDirect(new Vector2(Main.mouseX + Main.screenPosition.X, y * 16 - 24), Vector2.Zero, type, damage, knockBack, player.whoAmI, -1);
+				Projectile proj = Projectile.NewProjectileDirect(new Vector2(Main.mouseX + Main.screenPosition.X, y * 16 - 24), Vector2.Zero, type, damage, knockback, player.whoAmI, -1);
 				proj.spriteDirection = player.direction;
 				player.UpdateMaxTurrets();
             }

@@ -13,16 +13,16 @@ namespace SpiritMod.Items.Sets.SeraphSet.SeraphArmor
 		{
 			DisplayName.SetDefault("Seraph's Breastplate");
 			Tooltip.SetDefault("10% increased magic damage");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/SeraphSet/SeraphArmor/SeraphBody_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/SeraphSet/SeraphArmor/SeraphBody_Glow");
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 34;
-			item.height = 24;
-			item.value = Item.buyPrice(gold: 6);
-			item.rare = ItemRarityID.LightRed;
-			item.defense = 18;
+			Item.width = 34;
+			Item.height = 24;
+			Item.value = Item.buyPrice(gold: 6);
+			Item.rare = ItemRarityID.LightRed;
+			Item.defense = 18;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -35,11 +35,10 @@ namespace SpiritMod.Items.Sets.SeraphSet.SeraphArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<MoonStone>(), 13);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

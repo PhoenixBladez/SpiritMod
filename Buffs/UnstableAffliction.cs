@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class UnstableAffliction : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Unstable Affliction");
 			Description.SetDefault("Reduces movement speed by 10%");

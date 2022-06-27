@@ -10,33 +10,33 @@ namespace SpiritMod.Projectiles.BaseProj
 	/// </summary>
 	public abstract class BaseHeldProj : ModProjectile
 	{
-		public Player Owner => Main.player[projectile.owner];
+		public Player Owner => Main.player[Projectile.owner];
 
 		public override void AI()
 		{
-			projectile.Center = Owner.MountedCenter; //attatch the projectile to the player's mounted center
+			Projectile.Center = Owner.MountedCenter; //attatch the projectile to the player's mounted center
 			if (AutoAimCursor() && Main.LocalPlayer == Owner) //only run if the owner is the current client, as to avoid the projectile moving in the direction of the cursors of other players
 			{
-				projectile.velocity = Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(Main.MouseWorld), CursorLerpSpeed())); //adjust projectile velocity, which is used to store its direction, towards the owner's cursor
-				projectile.netUpdate = true;
+				Projectile.velocity = Vector2.Normalize(Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(Main.MouseWorld), CursorLerpSpeed())); //adjust projectile velocity, which is used to store its direction, towards the owner's cursor
+				Projectile.netUpdate = true;
 
 				int ownerDir = Owner.direction;
-				Owner.ChangeDir(projectile.velocity.X > 0 ? 1 : -1); //change the owner's direction based on the projectile's velocity
+				Owner.ChangeDir(Projectile.velocity.X > 0 ? 1 : -1); //change the owner's direction based on the projectile's velocity
 				if(ownerDir != Owner.direction && Main.netMode != NetmodeID.SinglePlayer) //if in multiplayer and the owner's last direction is not equal to the owner's current, sync the owner
 					NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, Owner.whoAmI);
 			}
 
-			projectile.Center += HoldoutOffset(); //add in the holdout offset after calculating the direction
-			projectile.direction = projectile.spriteDirection = Owner.direction;
-			projectile.rotation = MathHelper.WrapAngle(projectile.velocity.ToRotation() + (projectile.direction < 0 ? MathHelper.Pi : 0));
-			Owner.itemRotation = projectile.rotation;
+			Projectile.Center += HoldoutOffset(); //add in the holdout offset after calculating the direction
+			Projectile.direction = Projectile.spriteDirection = Owner.direction;
+			Projectile.rotation = MathHelper.WrapAngle(Projectile.velocity.ToRotation() + (Projectile.direction < 0 ? MathHelper.Pi : 0));
+			Owner.itemRotation = Projectile.rotation;
 			Owner.itemAnimation = 2;
 			Owner.itemTime = 2;
-			Owner.heldProj = projectile.whoAmI;
-			projectile.timeLeft = 2;
+			Owner.heldProj = Projectile.whoAmI;
+			Projectile.timeLeft = 2;
 			AbstractAI();
 
-			projectile.Center = Owner.MountedCenter + HoldoutOffset();
+			Projectile.Center = Owner.MountedCenter + HoldoutOffset();
 		}
 
 		/// <summary>
@@ -65,7 +65,7 @@ namespace SpiritMod.Projectiles.BaseProj
 		{
 			if (!Owner.channel)
 			{
-				projectile.Kill();
+				Projectile.Kill();
 				return true;
 			}
 			return false;

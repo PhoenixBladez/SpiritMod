@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,44 +14,43 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 
 		public override void SetDefaults()
 		{
-			item.magic = true;
-			item.damage = 90;
-			item.Size = new Vector2(76, 80);
-			item.useTime = item.useAnimation = 40;
-			item.reuseDelay = 20;
-			item.knockBack = 9f;
-			item.shootSpeed = 9;
-			item.noUseGraphic = true;
-			item.noMelee = true;
-			item.autoReuse = true;
-			item.channel = true;
-			item.rare = ItemRarityID.LightRed;
-			item.value = Item.sellPrice(gold: 2);
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ProjectileID.PurificationPowder;
-			item.mana = 60;
+			Item.DamageType = DamageClass.Magic;
+			Item.damage = 90;
+			Item.Size = new Vector2(76, 80);
+			Item.useTime = Item.useAnimation = 40;
+			Item.reuseDelay = 20;
+			Item.knockBack = 9f;
+			Item.shootSpeed = 9;
+			Item.noUseGraphic = true;
+			Item.noMelee = true;
+			Item.autoReuse = true;
+			Item.channel = true;
+			Item.rare = ItemRarityID.LightRed;
+			Item.value = Item.sellPrice(gold: 2);
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ProjectileID.PurificationPowder;
+			Item.mana = 60;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-6, 0);
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			type = ModContent.ProjectileType<GranitechStaffProjectile>();
-			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/FocusCharge").WithPitchVariance(0.2f), player.Center);
+			SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/FocusCharge").WithPitchVariance(0.2f), player.Center);
 
-			Projectile.NewProjectileDirect(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+			Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
 			return false;
 		}
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, ModContent.GetTexture(Texture + "_glow"), rotation, scale);
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, rotation, scale);
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<GranitechMaterial>(), 16);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

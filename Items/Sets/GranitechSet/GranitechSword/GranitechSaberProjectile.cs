@@ -4,6 +4,7 @@ using SpiritMod;
 using SpiritMod.Projectiles.BaseProj;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using SpiritMod.Prim;
 using Terraria.ModLoader;
@@ -20,8 +21,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Technobrand");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 12;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 12;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 		public override string Texture => "SpiritMod/Items/Sets/GranitechSet/GranitechSword/GranitechSaberItem";
@@ -30,20 +31,20 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 		private Vector2 initialVelocity = Vector2.Zero; //Starting velocity, used for determining swing arc direction
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(88, 92);
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 20;
-			projectile.netUpdate = true;
-			projectile.ownerHitCheck = true;
+			Projectile.Size = new Vector2(88, 92);
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = -1;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 20;
+			Projectile.netUpdate = true;
+			Projectile.ownerHitCheck = true;
 		}
 
-		private ref float SwingDirection => ref projectile.ai[0];
-		private ref float Timer => ref projectile.ai[1];
+		private ref float SwingDirection => ref Projectile.ai[0];
+		private ref float Timer => ref Projectile.ai[1];
 
 		private int _hitTimer = 0;
 		private const int MAX_HITTIMER = 10;
@@ -55,19 +56,19 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 		{
 			Timer++;
 			_hitTimer = Math.Max(_hitTimer - 1, 0);
-			bool firstTick = projectile.timeLeft > 2; //Set to 2 on first tick of normal ai
+			bool firstTick = Projectile.timeLeft > 2; //Set to 2 on first tick of normal ai
 			if (firstTick) //Initialize total swing time and initial direction
 			{
-				initialVelocity = projectile.velocity;
+				initialVelocity = Projectile.velocity;
 				swingTime = Owner.HeldItem.useTime;
-				projectile.netUpdate = true;
+				Projectile.netUpdate = true;
 			}
 
 			//Manually change direction if needed, due to no auto aiming
-			if (Math.Abs(projectile.velocity.X) > 0.15f) //Skip if absolute value is too low
+			if (Math.Abs(Projectile.velocity.X) > 0.15f) //Skip if absolute value is too low
 			{
 				int ownerDir = Owner.direction;
-				Owner.ChangeDir(projectile.velocity.X > 0 ? 1 : -1);
+				Owner.ChangeDir(Projectile.velocity.X > 0 ? 1 : -1);
 				if (ownerDir != Owner.direction && Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, Owner.whoAmI);
 			}
@@ -77,27 +78,27 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			float progress = Timer / swingTime;
 			progress = EaseFunction.EaseCircularInOut.Ease(progress);
 
-			projectile.velocity = initialVelocity.RotatedBy(MathHelper.Lerp(SwingRadians / 2 * SwingDirection, -SwingRadians/2 * SwingDirection, progress));
+			Projectile.velocity = initialVelocity.RotatedBy(MathHelper.Lerp(SwingRadians / 2 * SwingDirection, -SwingRadians/2 * SwingDirection, progress));
 			return true;
 		}
 
 		public override void AbstractAI()
 		{
-			projectile.rotation += MathHelper.PiOver4 * Owner.direction;
+			Projectile.rotation += MathHelper.PiOver4 * Owner.direction;
 			if(SwingDirection == Owner.direction)
 			{
-				projectile.rotation += MathHelper.PiOver2 * Owner.direction;
-				projectile.direction = projectile.spriteDirection *= -1;
+				Projectile.rotation += MathHelper.PiOver2 * Owner.direction;
+				Projectile.direction = Projectile.spriteDirection *= -1;
 			}
 
 			//Spawn particles
-			if(!Main.dedServ && projectile.oldPos[0] != Vector2.Zero)
+			if(!Main.dedServ && Projectile.oldPos[0] != Vector2.Zero)
 			{
 				int numParticles = Main.rand.Next(0, 3); //0-2
 				for(int i = 0; i < numParticles; i++)
 				{
-					Vector2 position = Owner.MountedCenter + projectile.velocity * projectile.Size.Length() * Main.rand.NextFloat(0.33f, 1f);
-					Vector2 velocity = Vector2.Normalize(projectile.oldPos[0] - projectile.position) * Main.rand.NextFloat(1.25f);
+					Vector2 position = Owner.MountedCenter + Projectile.velocity * Projectile.Size.Length() * Main.rand.NextFloat(0.33f, 1f);
+					Vector2 velocity = Vector2.Normalize(Projectile.oldPos[0] - Projectile.position) * Main.rand.NextFloat(1.25f);
 					ParticleHandler.SpawnParticle(new GranitechParticle(position, velocity, Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), Main.rand.NextFloat(1.5f, 2f), 25));
 				}
 			}
@@ -113,10 +114,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 				Vector2 position = Owner.MountedCenter + initialVelocity.RotatedBy(swingRadians / 2 * direction) * distance;
 				Projectile proj = Projectile.NewProjectileDirect(position, initialVelocity.RotatedBy(swingRadians / 2 * direction), 
-					ModContent.ProjectileType<GranitechSaber_Hologram>(), projectile.damage, projectile.knockBack, projectile.owner, direction, 0);
+					ModContent.ProjectileType<GranitechSaber_Hologram>(), Projectile.damage, Projectile.knockBack, Projectile.owner, direction, 0);
 				
 				//Initialize variables for the projectile
-				if(proj.modProjectile is GranitechSaber_Hologram holoSword)
+				if(proj.ModProjectile is GranitechSaber_Hologram holoSword)
 				{
 					holoSword.InitialVelocity = initialVelocity;
 					holoSword.BasePosition = Owner.MountedCenter;
@@ -133,12 +134,12 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			Owner.reuseDelay = Owner.HeldItem.reuseDelay;
 
 			if (Timer > swingTime)
-				projectile.Kill();
+				Projectile.Kill();
 		}
 
-		public override Vector2 HoldoutOffset() => projectile.velocity * projectile.Size.Length() / 2;
+		public override Vector2 HoldoutOffset() => Projectile.velocity * Projectile.Size.Length() / 2;
 
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter, Owner.MountedCenter + projectile.velocity * projectile.Size.Length());
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter, Owner.MountedCenter + Projectile.velocity * Projectile.Size.Length());
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => HitEffect(target.Center);
 
@@ -149,11 +150,11 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			if (Main.dedServ)
 				return;
 
-			Vector2 newPos = Vector2.Lerp(projectile.Center, position, 0.5f);
+			Vector2 newPos = Vector2.Lerp(Projectile.Center, position, 0.5f);
 			Vector2 direction = Owner.DirectionTo(newPos);
 			if(_hitTimer == 0)
 			{
-				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.4f), projectile.Center);
+				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.4f), Projectile.Center);
 
 				_hitTimer = MAX_HITTIMER;
 				ParticleHandler.SpawnParticle(new GranitechSaber_Hit(position, Main.rand.NextFloat(0.9f, 1.1f), direction.ToRotation()));
@@ -179,22 +180,22 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			initialVelocity = reader.ReadVector2();
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
 			float opacity = (float)Math.Pow(Math.Sin(Timer * MathHelper.Pi / swingTime), 1.5f) * 0.75f;
-			Effect effect = mod.GetEffect("Effects/GSaber");
-			effect.Parameters["baseTexture"].SetValue(mod.GetTexture("Textures/GeometricTexture_2"));
+			Effect effect = Mod.GetEffect("Effects/GSaber");
+			effect.Parameters["baseTexture"].SetValue(Mod.GetTexture("Textures/GeometricTexture_2"));
 			effect.Parameters["baseColor"].SetValue(new Color(25, 132, 247).ToVector4());
-			effect.Parameters["overlayTexture"].SetValue(mod.GetTexture("Textures/GeometricTexture_1"));
+			effect.Parameters["overlayTexture"].SetValue(Mod.GetTexture("Textures/GeometricTexture_1"));
 			effect.Parameters["overlayColor"].SetValue(new Color(99, 255, 229).ToVector4());
 
 			effect.Parameters["xMod"].SetValue(1.5f);
 			effect.Parameters["yMod"].SetValue(2.5f);
 			 
 			float slashProgress = EaseFunction.EaseCircularInOut.Ease(Timer / swingTime);
-			effect.Parameters["timer"].SetValue(-Main.GlobalTime * 6);
+			effect.Parameters["timer"].SetValue(-Main.GlobalTimeWrappedHourly * 6);
 			effect.Parameters["progress"].SetValue(slashProgress);
 
 			Vector2 pos = Owner.MountedCenter - Main.screenPosition;
@@ -204,8 +205,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 				PrimitiveSlashArc slash = new PrimitiveSlashArc
 				{
 					BasePosition = pos,
-					StartDistance = offset.X + projectile.Size.Length() * 0.33f,
-					EndDistance = offset.X + projectile.Size.Length(),
+					StartDistance = offset.X + Projectile.Size.Length() * 0.33f,
+					EndDistance = offset.X + Projectile.Size.Length(),
 					AngleRange = new Vector2(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection),
 					DirectionUnit = initialVelocity,
 					Color = colorMod * opacity,
@@ -219,17 +220,17 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 			return base.PreDraw(spriteBatch, lightColor);
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(Color lightColor)
 		{
-			projectile.QuickDrawGlow(spriteBatch);
+			Projectile.QuickDrawGlow(spriteBatch);
 			float opacity = (float)Math.Pow(Math.Sin(Timer * MathHelper.Pi / swingTime), 0.75f);
 
-			Texture2D tex = ModContent.GetTexture(Texture + "_glow");
-			SpriteEffects spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			Texture2D tex = ModContent.Request<Texture2D>(Texture + "_glow");
+			SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-			DrawAberration.DrawChromaticAberration(projectile.velocity, 2f, delegate (Vector2 offset, Color colorMod)
+			DrawAberration.DrawChromaticAberration(Projectile.velocity, 2f, delegate (Vector2 offset, Color colorMod)
 			{
-				spriteBatch.Draw(tex, projectile.Center + offset - Main.screenPosition, null, colorMod * opacity, projectile.rotation, tex.Size() / 2, projectile.scale, spriteEffects, 0);
+				spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, colorMod * opacity, Projectile.rotation, tex.Size() / 2, Projectile.scale, spriteEffects, 0);
 			});
 		}
 	}

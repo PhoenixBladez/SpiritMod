@@ -2,13 +2,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.StarplateDrops
 {
 	public class Glowstone : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -18,16 +19,16 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			Main.tileLighted[Type] = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Cosmilite");
-			drop = ModContent.ItemType<CosmiliteShard>();
+			ItemDrop = ModContent.ItemType<CosmiliteShard>();
 			soundType = SoundID.Tink;
-			dustType = DustID.Electric;
+			DustType = DustID.Electric;
 		}
 		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
 			Player player = Main.LocalPlayer;
 			int distance = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
 			if (distance < 54) {
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
 			}
 		}
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -43,8 +44,8 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(mod.GetTexture("Items/Sets/StarplateDrops/Glowstone_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), new Color(100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			Main.spriteBatch.Draw(Mod.GetTexture("Items/Sets/StarplateDrops/Glowstone_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
 		{

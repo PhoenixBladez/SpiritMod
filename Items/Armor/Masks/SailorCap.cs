@@ -14,12 +14,12 @@ namespace SpiritMod.Items.Armor.Masks
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 22;
+			Item.width = 22;
+			Item.height = 22;
 
-			item.value = 500;
-			item.rare = ItemRarityID.Blue;
-			item.vanity = true;
+			Item.value = 500;
+			Item.rare = ItemRarityID.Blue;
+			Item.vanity = true;
 		}
 	}
 }

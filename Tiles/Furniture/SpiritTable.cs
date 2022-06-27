@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class SpiritTable : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -22,7 +22,7 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Spirit Table");
 			AddMapEntry(new Color(30, 144, 255), name);
-			disableSmartCursor = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

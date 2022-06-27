@@ -17,13 +17,13 @@ namespace SpiritMod.Items.Accessory.Leather
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 28;
-			item.rare = ItemRarityID.Green;
-			item.defense = 2;
-			item.melee = true;
-            item.value = Terraria.Item.sellPrice(0, 0, 60, 0);
-            item.accessory = true;
+			Item.width = 24;
+			Item.height = 28;
+			Item.rare = ItemRarityID.Green;
+			Item.defense = 2;
+			Item.DamageType = DamageClass.Melee;
+            Item.value = Terraria.Item.sellPrice(0, 0, 60, 0);
+            Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -32,12 +32,11 @@ namespace SpiritMod.Items.Accessory.Leather
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<LeatherShield>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 6);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

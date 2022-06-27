@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class Tracked : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tracked");
 			Main.buffNoTimeDisplay[Type] = false;

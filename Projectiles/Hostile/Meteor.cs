@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,36 +16,36 @@ namespace SpiritMod.Projectiles.Hostile
 
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 6000;
-			projectile.height = 40;
-			projectile.hostile = true;
-			projectile.friendly = false;
+			Projectile.width = 16;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 6000;
+			Projectile.height = 40;
+			Projectile.hostile = true;
+			Projectile.friendly = false;
 		}
 		int dust1 = 0;
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+			Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 			if (dust1 == 0)
 				dust1 = Main.rand.Next(new int[] { 172, 68 });
-			Vector2 position = projectile.Center + Vector2.Normalize(projectile.velocity) * 10;
+			Vector2 position = Projectile.Center + Vector2.Normalize(Projectile.velocity) * 10;
 
-			Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dust1, 0f, 0f, 0, default, 1f)];
+			Dust newDust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dust1, 0f, 0f, 0, default, 1f)];
 			newDust.position = position;
-			newDust.velocity = projectile.velocity.RotatedBy(Math.PI / 2, default) * 0.33F + projectile.velocity / 4;
-			newDust.position += projectile.velocity.RotatedBy(Math.PI / 2, default);
+			newDust.velocity = Projectile.velocity.RotatedBy(Math.PI / 2, default) * 0.33F + Projectile.velocity / 4;
+			newDust.position += Projectile.velocity.RotatedBy(Math.PI / 2, default);
 			newDust.fadeIn = 0.5f;
 			newDust.noGravity = true;
-			newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dust1, 0f, 0f, 0, default, 1)];
+			newDust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dust1, 0f, 0f, 0, default, 1)];
 			newDust.position = position;
-			newDust.velocity = projectile.velocity.RotatedBy(-Math.PI / 2, default) * 0.33F + projectile.velocity / 4;
-			newDust.position += projectile.velocity.RotatedBy(-Math.PI / 2, default);
+			newDust.velocity = Projectile.velocity.RotatedBy(-Math.PI / 2, default) * 0.33F + Projectile.velocity / 4;
+			newDust.position += Projectile.velocity.RotatedBy(-Math.PI / 2, default);
 			newDust.fadeIn = 0.5F;
 			newDust.noGravity = true;
 
 			for (int i = 0; i < 1; i++) {
-				newDust = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dust1, 0f, 0f, 0, default, 1f)];
+				newDust = Main.dust[Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dust1, 0f, 0f, 0, default, 1f)];
 				newDust.velocity *= 0.5F;
 				newDust.scale *= .5F;
 				newDust.fadeIn = 1F;
@@ -53,10 +54,10 @@ namespace SpiritMod.Projectiles.Hostile
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 
 			if (Main.rand.Next(0, 4) == 0)
-				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, 116, 1, false, 0, false, false);
+				Item.NewItem(Projectile.GetSource_Death(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, 116, 1, false, 0, false, false);
 
 			for (int num625 = 0; num625 < 2; num625++) {
 				float scaleFactor10 = 0.33f;
@@ -67,38 +68,23 @@ namespace SpiritMod.Projectiles.Hostile
 					scaleFactor10 = 1f;
 				}
 
-				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-				Main.gore[num626].velocity *= scaleFactor10;
-				Gore expr_13AB6_cp_0 = Main.gore[num626];
-				expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
-				Gore expr_13AD6_cp_0 = Main.gore[num626];
-				expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-				Main.gore[num626].velocity *= scaleFactor10;
-				Gore expr_13B79_cp_0 = Main.gore[num626];
-				expr_13B79_cp_0.velocity.X = expr_13B79_cp_0.velocity.X - 1f;
-				Gore expr_13B99_cp_0 = Main.gore[num626];
-				expr_13B99_cp_0.velocity.Y = expr_13B99_cp_0.velocity.Y + 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-				Main.gore[num626].velocity *= scaleFactor10;
-				Gore expr_13C3C_cp_0 = Main.gore[num626];
-				expr_13C3C_cp_0.velocity.X = expr_13C3C_cp_0.velocity.X + 1f;
-				Gore expr_13C5C_cp_0 = Main.gore[num626];
-				expr_13C5C_cp_0.velocity.Y = expr_13C5C_cp_0.velocity.Y - 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-				Main.gore[num626].velocity *= scaleFactor10;
-				Gore expr_13CFF_cp_0 = Main.gore[num626];
-				expr_13CFF_cp_0.velocity.X = expr_13CFF_cp_0.velocity.X - 1f;
-				Gore expr_13D1F_cp_0 = Main.gore[num626];
-				expr_13D1F_cp_0.velocity.Y = expr_13D1F_cp_0.velocity.Y - 1f;
+				for (int i = 0; i < 4; ++i)
+				{
+					int num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+					Main.gore[num626].velocity *= scaleFactor10;
+					Gore expr_13AB6_cp_0 = Main.gore[num626];
+					expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
+					Gore expr_13AD6_cp_0 = Main.gore[num626];
+					expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
+				}
 			}
 
-			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+			Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+			Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
 		}
 	}
 }

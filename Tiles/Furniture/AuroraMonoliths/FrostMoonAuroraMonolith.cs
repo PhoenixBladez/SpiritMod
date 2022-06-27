@@ -1,4 +1,5 @@
 using SpiritMod.Skies.Overlays;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,14 +18,13 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
 
         public override void SafeAddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.FrostCore, 1);
 			recipe.AddIngredient(ItemID.Ectoplasm, 2);
 			recipe.AddIngredient(ItemID.Silk, 10);
 			recipe.AddIngredient(ItemID.SoulofLight, 10);
 			recipe.AddTile(TileID.CrystalBall);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

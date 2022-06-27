@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using SpiritMod.Utilities;
 using SpiritMod.Mechanics.QuestSystem;
+using Terraria.GameContent;
 using Terraria.UI.Chat;
 
 namespace SpiritMod.UI.QuestUI
@@ -114,12 +115,12 @@ namespace SpiritMod.UI.QuestUI
 				TextSnippet[] allSnippets = ChatManager.ParseMessage(_prevText, Color.White * _opacity).ToArray();
 				ChatManager.ConvertNormalSnippets(allSnippets);
 
-				string text = QuestUtils.WrapText(Main.fontMouseText, allSnippets, _prevText, 260f, 0.8f);
+				string text = QuestUtils.WrapText(FontAssets.MouseText.Value, allSnippets, _prevText, 260f, 0.8f);
 				string[] lines = text.Split('\n');
 
 				float x = Main.screenWidth - (Main.playerInventory ? 450 : 280);
 
-				float lineHeight = Main.fontMouseText.MeasureString(" ").Y * 0.8f - 1f;
+				float lineHeight = FontAssets.MouseText.Value.MeasureString(" ").Y * 0.8f - 1f;
 
 				foreach (string line in lines)
 				{
@@ -128,8 +129,8 @@ namespace SpiritMod.UI.QuestUI
 
 					for (int i = 0; i < snips.Length; i++) snips[i].Color *= _opacity;
 
-					ChatManager.DrawColorCodedStringShadow(spriteBatch, Main.fontMouseText, snips, new Vector2(x, y), Color.Black * _opacity, 0f, Vector2.Zero, new Vector2(0.8f));
-					ChatManager.DrawColorCodedString(spriteBatch, Main.fontMouseText, snips, new Vector2(x, y), Color.White, 0f, Vector2.Zero, new Vector2(0.8f), out int h, -1f);
+					ChatManager.DrawColorCodedStringShadow(spriteBatch, FontAssets.MouseText.Value, snips, new Vector2(x, y), Color.Black * _opacity, 0f, Vector2.Zero, new Vector2(0.8f));
+					ChatManager.DrawColorCodedString(spriteBatch, FontAssets.MouseText.Value, snips, new Vector2(x, y), Color.White, 0f, Vector2.Zero, new Vector2(0.8f), out int h, -1f);
 
 					y += lineHeight;
 				}

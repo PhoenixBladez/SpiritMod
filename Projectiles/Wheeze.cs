@@ -9,21 +9,21 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wheeze Gas");
-			Main.projFrames[projectile.type] = 8;
+			Main.projFrames[Projectile.type] = 8;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.width = 22;
-			projectile.height = 22;
-			projectile.aiStyle = 1;
-			projectile.melee = true;
-			aiType = ProjectileID.Bullet;
-			projectile.friendly = true;
-			projectile.penetrate = 5;
-			projectile.alpha = 60;
-			projectile.timeLeft = 180;
+			Projectile.hostile = false;
+			Projectile.width = 22;
+			Projectile.height = 22;
+			Projectile.aiStyle = 1;
+			Projectile.DamageType = DamageClass.Melee;
+			AIType = ProjectileID.Bullet;
+			Projectile.friendly = true;
+			Projectile.penetrate = 5;
+			Projectile.alpha = 60;
+			Projectile.timeLeft = 180;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -38,15 +38,15 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			projectile.alpha += 3;
-			projectile.velocity *= 0.92f;
-			projectile.spriteDirection = projectile.direction;
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 6) {
-				projectile.frame++;
-				projectile.frameCounter = 0;
-				if (projectile.frame >= 8)
-					projectile.frame = 0;
+			Projectile.alpha += 3;
+			Projectile.velocity *= 0.92f;
+			Projectile.spriteDirection = Projectile.direction;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 6) {
+				Projectile.frame++;
+				Projectile.frameCounter = 0;
+				if (Projectile.frame >= 8)
+					Projectile.frame = 0;
 			}
 		}
 	}

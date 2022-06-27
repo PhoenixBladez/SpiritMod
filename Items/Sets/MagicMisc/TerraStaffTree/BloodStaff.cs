@@ -17,29 +17,29 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 
 		public override void SetDefaults()
 		{
-			item.damage = 36;
-			item.magic = true;
-			item.mana = 11;
-			item.width = 52;
-			item.height = 52;
-			item.useTime = 44;
-			item.useAnimation = 44;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 3;
-			item.value = Terraria.Item.sellPrice(0, 0, 50, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.crit += 10;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<BloodVessel>();
-			item.shootSpeed = 16f;
+			Item.damage = 36;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 11;
+			Item.width = 52;
+			Item.height = 52;
+			Item.useTime = 44;
+			Item.useAnimation = 44;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 3;
+			Item.value = Terraria.Item.sellPrice(0, 0, 50, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.crit += 10;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<BloodVessel>();
+			Item.shootSpeed = 16f;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Vector2 offset = Vector2.UnitX.RotatedBy(new Vector2(speedX, speedY).ToRotation()) * item.width;
+			Vector2 offset = Vector2.UnitX.RotatedBy(new Vector2(speedX, speedY).ToRotation()) * Item.width;
 			if (Collision.CanHit(player.Center, 0, 0, player.Center + offset, 0, 0))
 				position += offset;
 
@@ -48,14 +48,13 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe(1);
 			modRecipe.AddIngredient(ModContent.ItemType<CrimsonStaff>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<JungleStaff>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<DungeonStaff>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<HellStaff>(), 1);
 			modRecipe.AddTile(TileID.DemonAltar);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 
 	}

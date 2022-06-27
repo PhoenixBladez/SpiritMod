@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = Item.sellPrice(0, 0, 35, 0);
-			item.rare = ItemRarityID.Orange;
-			item.defense = 7;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = Item.sellPrice(0, 0, 35, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.defense = 7;
 		}
 		public override void UpdateEquip(Player player)
 		{
@@ -37,11 +37,10 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarArmor
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 11);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

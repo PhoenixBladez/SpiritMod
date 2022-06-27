@@ -21,41 +21,41 @@ namespace SpiritMod.NPCs.ChainedSinner
 
 		public override void SetDefaults()
 		{
-			npc.width = 56;
-			npc.height = 74;
-			npc.aiStyle = -1;
-			npc.knockBackResist = 0;
-			npc.lifeMax = 500;
-			npc.damage = 100;
-			npc.defense = 20;
-			npc.noTileCollide = false;
+			NPC.width = 56;
+			NPC.height = 74;
+			NPC.aiStyle = -1;
+			NPC.knockBackResist = 0;
+			NPC.lifeMax = 500;
+			NPC.damage = 100;
+			NPC.defense = 20;
+			NPC.noTileCollide = false;
 		}
 
 		public override void AI()
 		{
-			npc.TargetClosest(true);
-			npc.ai[0]++;
+			NPC.TargetClosest(true);
+			NPC.ai[0]++;
 
 			NPC parent = Main.npc[parentid];
 			if (!parent.active)
 			{
-				npc.life = 0;
-				npc.HitEffect(0, 10.0);
+				NPC.life = 0;
+				NPC.HitEffect(0, 10.0);
 				return;
 			}
-			chain.Update(parent.Center - new Vector2(0, 1), npc.Center);
+			chain.Update(parent.Center - new Vector2(0, 1), NPC.Center);
 
-			float X = (float)Math.Sin(npc.ai[0] / 50f);
+			float X = (float)Math.Sin(NPC.ai[0] / 50f);
 
-			Player player = Main.player[npc.target];
-			if (npc.ai[0] % 600 < 30)
+			Player player = Main.player[NPC.target];
+			if (NPC.ai[0] % 600 < 30)
 			{
-				if (npc.ai[0] % 600 == 1) CachedVel = Vector2.Normalize(player.Center - npc.Center);
-				if (npc.ai[0] % 600 > 1) arbitraryVelocity += CachedVel / 1.5f;
+				if (NPC.ai[0] % 600 == 1) CachedVel = Vector2.Normalize(player.Center - NPC.Center);
+				if (NPC.ai[0] % 600 > 1) arbitraryVelocity += CachedVel / 1.5f;
 			}
-			else if (npc.ai[0] % 600 > 200)
+			else if (NPC.ai[0] % 600 > 200)
 			{
-				float timeSince = npc.ai[0] % 600 - 200;
+				float timeSince = NPC.ai[0] % 600 - 200;
 				arbitraryVelocity = new Vector2(X, 0) * timeSince / 150f;
 			}
 			else
@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.ChainedSinner
 
 			chain.LastVertex.Position += arbitraryVelocity;
 
-			npc.Center = chain.LastVertex.Position;
+			NPC.Center = chain.LastVertex.Position;
 		}
 
 		public override bool CheckDead()
@@ -75,9 +75,9 @@ namespace SpiritMod.NPCs.ChainedSinner
 
 		public void InitializeChain(Vector2 position) => chain = new Chain(16, 16, position, new ChainPhysics(0.95f, 0.5f, 0.4f), true, false);
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			chain.Draw(spriteBatch, mod.GetTexture("NPCs/ChainedSinner/ChainedSinner_Chain"));
+			chain.Draw(spriteBatch, Mod.GetTexture("NPCs/ChainedSinner/ChainedSinner_Chain"));
 			return true;
 		}
 	}

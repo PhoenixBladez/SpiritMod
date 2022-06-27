@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 {
 	public class Blaststone_Grave : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -24,19 +24,19 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			16
 			};
 			TileObjectData.addTile(Type);
-            dustType = DustID.Stone;
+            DustType = DustID.Stone;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Gravestone");
 			AddMapEntry(new Color(107, 90, 64), name);
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             Tile tileBelow = Framing.GetTileSafely(i, j + 2);
-            if (!tileBelow.active() || tileBelow.halfBrick() || tileBelow.topSlope())
+            if (!tileBelow.HasTile || tileBelow.IsHalfBlock || tileBelow.TopSlope)
             {
                 WorldGen.KillTile(i, j);
             }

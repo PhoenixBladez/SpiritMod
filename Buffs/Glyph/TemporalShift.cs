@@ -1,11 +1,12 @@
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Glyph
 {
 	public class TemporalShift : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Temporal Shift");
 			Description.SetDefault("Double tap to dash and gain a temporary speed boost");
@@ -36,10 +37,10 @@ namespace SpiritMod.Buffs.Glyph
 
 			if (player.whoAmI == Main.myPlayer && !Main.dedServ) {
 				if (modPlayer.phaseStacks == 0) {
-					Main.buffTexture[Type] = mod.GetTexture("Buffs/Glyph/TemporalShift");
+					TextureAssets.Buff[Type].Value = Mod.GetTexture("Buffs/Glyph/TemporalShift");
 				}
 				else {
-					Main.buffTexture[Type] = mod.GetTexture("Buffs/Glyph/TemporalShift_" + modPlayer.phaseStacks.ToString());
+					TextureAssets.Buff[Type].Value = Mod.GetTexture("Buffs/Glyph/TemporalShift_" + modPlayer.phaseStacks.ToString());
 				}
 			}
 		}

@@ -12,11 +12,11 @@ namespace SpiritMod.Items.Glyphs
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 28;
-			item.value = 0;
-			item.rare = -11;
-			item.maxStack = 999;
+			Item.width = 28;
+			Item.height = 28;
+			Item.value = 0;
+			Item.rare = -11;
+			Item.maxStack = 999;
 		}
 	}
 }

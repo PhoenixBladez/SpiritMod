@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,46 +15,46 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			DisplayName.SetDefault("Sorcerer's Wand");
 			Tooltip.SetDefault("Launches a shadowflame orb into the sky");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Magic/GoblinSorcererStaff_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Weapon/Magic/GoblinSorcererStaff_Glow");
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.width = 48;
-			item.height = 50;
-			item.value = Item.buyPrice(0, 0, 60, 0);
-			item.rare = ItemRarityID.Green;
-			item.damage = 13;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.useTime = 24;
-			item.useAnimation = 24;
-			item.mana = 10;
-			item.knockBack = 3;
-			item.magic = true;
-			item.noMelee = true;
-			item.UseSound = SoundID.Item21;
-			item.shoot = ModContent.ProjectileType<Projectiles.Magic.GobSorcererOrb>();
-			item.shootSpeed = 8f;
+			Item.width = 48;
+			Item.height = 50;
+			Item.value = Item.buyPrice(0, 0, 60, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.damage = 13;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.useTime = 24;
+			Item.useAnimation = 24;
+			Item.mana = 10;
+			Item.knockBack = 3;
+			Item.DamageType = DamageClass.Magic;
+			Item.noMelee = true;
+			Item.UseSound = SoundID.Item21;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Magic.GobSorcererOrb>();
+			Item.shootSpeed = 8f;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
         {
-            Main.PlaySound(SoundID.DD2_CrystalCartImpact, player.Center);
-            Projectile.NewProjectile(position.X, position.Y, 0f, -4f, type, damage, knockBack, player.whoAmI, speedX, speedY);
+            SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact, player.Center);
+            Projectile.NewProjectile(position.X, position.Y, 0f, -4f, type, damage, knockback, player.whoAmI, speedX, speedY);
             return false;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Weapon/Magic/GoblinSorcererStaff_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Magic/GoblinSorcererStaff_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,

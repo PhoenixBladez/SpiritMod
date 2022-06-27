@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Candy
 {
 	public class LollipopBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lollipop");
 			Description.SetDefault("Increased life regeneration");

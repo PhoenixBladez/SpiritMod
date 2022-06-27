@@ -22,13 +22,13 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch
 			if (head < 0)
 				return;
 
-			layers.Insert(head, new PlayerLayer(mod.Name, "Head", delegate (PlayerDrawInfo drawInfo)
+			layers.Insert(head, new PlayerLayer(Mod.Name, "Head", delegate (PlayerDrawInfo drawInfo)
 			{
 				if (drawInfo.shadow != 0f)
 					return;
 				Player drawPlayer = drawInfo.drawPlayer;
 
-				if ((maskEquipped && drawPlayer.armor[10].type == ItemID.None) || drawPlayer.armor[10].type == mod.ItemType("Vulture_Matriarch_Mask"))
+				if ((maskEquipped && drawPlayer.armor[10].type == ItemID.None) || drawPlayer.armor[10].type == Mod.Find<ModItem>("Vulture_Matriarch_Mask").Type)
 				{
 					Mod mod = ModLoader.GetMod("SpiritMod");
 					Vector2 Position = drawPlayer.position;

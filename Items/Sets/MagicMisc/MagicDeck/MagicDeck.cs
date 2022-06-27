@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
@@ -14,27 +15,27 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 
 		public override void SetDefaults()
 		{
-			item.damage = 45;
-			item.magic = true;
-			item.mana = 9;
-			item.width = 40;
-			item.height = 40;
-			item.useTime = 6;
-			item.useAnimation = 18;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.noMelee = true;
-			item.knockBack = 2;
-			item.useTurn = false;
-			item.value = Item.sellPrice(0, 5, 0, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<MagicDeckProj>();
-			item.shootSpeed = 15;
-			item.noUseGraphic = true;
+			Item.damage = 45;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 9;
+			Item.width = 40;
+			Item.height = 40;
+			Item.useTime = 6;
+			Item.useAnimation = 18;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.knockBack = 2;
+			Item.useTurn = false;
+			Item.value = Item.sellPrice(0, 5, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<MagicDeckProj>();
+			Item.shootSpeed = 15;
+			Item.noUseGraphic = true;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 direction = new Vector2(speedX, speedY);
 			direction = direction.RotatedBy(Main.rand.NextFloat(-0.4f, 0.4f));
@@ -58,7 +59,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 		{
 			get
 			{
-				switch (projectile.frame)
+				switch (Projectile.frame)
 				{
 					case 0:
 						return new Color(93, 13, 184);
@@ -76,30 +77,30 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Magic Card");
-			Main.projFrames[projectile.type] = 4;
+			Main.projFrames[Projectile.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.penetrate = 1;
-			projectile.tileCollide = true;
-			projectile.hostile = false;
-			projectile.friendly = true;
-			projectile.width = projectile.height = 14;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			projectile.frame = Main.rand.Next(4);
+			Projectile.penetrate = 1;
+			Projectile.tileCollide = true;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
+			Projectile.width = Projectile.height = 14;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+			Projectile.frame = Main.rand.Next(4);
 		}
 
 		int counter;
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+			Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 			counter++;
 			if (counter > 15)
-				projectile.alpha += 25;
-			if (projectile.alpha > 255)
-				projectile.active = false;
+				Projectile.alpha += 25;
+			if (Projectile.alpha > 255)
+				Projectile.active = false;
 
 			if (stuck)
 			{
@@ -110,60 +111,60 @@ namespace SpiritMod.Items.Sets.MagicMisc.MagicDeck
 
 				}
 				else
-					projectile.position = target.position + offset;
+					Projectile.position = target.position + offset;
 				return;
 			}
 
-			projectile.frameCounter++;
-			if (projectile.frameCounter % 2 == 0)
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter % 2 == 0)
 				xFrame++;
 			xFrame %= NUMBEROFXFRAMES;
 
-			var target2 = Main.npc.Where(n => n.active && n.CanBeChasedBy(projectile) && !n.townNPC && Vector2.Distance(n.Center, projectile.Center) < 200).OrderBy(n => Vector2.Distance(n.Center, projectile.Center)).FirstOrDefault();
+			var target2 = Main.npc.Where(n => n.active && n.CanBeChasedBy(Projectile) && !n.townNPC && Vector2.Distance(n.Center, Projectile.Center) < 200).OrderBy(n => Vector2.Distance(n.Center, Projectile.Center)).FirstOrDefault();
 			if (target2 != default)
 			{
-				Vector2 direction = target2.Center - projectile.Center;
+				Vector2 direction = target2.Center - Projectile.Center;
 				direction.Normalize();
 				direction *= 15;
-				projectile.velocity = Vector2.Lerp(projectile.velocity, direction, 0.05f);
+				Projectile.velocity = Vector2.Lerp(Projectile.velocity, direction, 0.05f);
 			}
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			projectile.penetrate++;
+			Projectile.penetrate++;
 			if (!stuck && target.life > 0)
 			{
 				enemyID = target.whoAmI;
 				counter = 16;
 				stuck = true;
-				projectile.friendly = false;
-				projectile.tileCollide = false;
-				offset = projectile.position - target.position;
-				offset -= projectile.velocity;
-				projectile.timeLeft = 200;
+				Projectile.friendly = false;
+				Projectile.tileCollide = false;
+				offset = Projectile.position - target.position;
+				offset -= Projectile.velocity;
+				Projectile.timeLeft = 200;
 				if (Main.netMode != NetmodeID.SinglePlayer)
-					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
+					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, Projectile.whoAmI);
 			}
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			Texture2D tex2 = ModContent.GetTexture(Texture + "_White");
-			Texture2D tex3 = ModContent.GetTexture(Texture + "_Glow");
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			Texture2D tex2 = ModContent.Request<Texture2D>(Texture + "_White");
+			Texture2D tex3 = ModContent.Request<Texture2D>(Texture + "_Glow");
 			int frameWidth = tex.Width / NUMBEROFXFRAMES;
-			int frameHeight = tex.Height / Main.projFrames[projectile.type];
-			Rectangle frame = new Rectangle(frameWidth * xFrame, frameHeight * projectile.frame, frameWidth, frameHeight);
+			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
+			Rectangle frame = new Rectangle(frameWidth * xFrame, frameHeight * Projectile.frame, frameWidth, frameHeight);
 			Vector2 origin = new Vector2(frameWidth / 2, frameHeight / 2);
-			for (int k = projectile.oldPos.Length - 1; k > 0; k--)
+			for (int k = Projectile.oldPos.Length - 1; k > 0; k--)
 			{
-				Vector2 drawPos = projectile.oldPos[k] + (new Vector2(projectile.width, projectile.height) / 2);
-				Color color = lightColor * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length)) * (1 - (projectile.alpha / 255f));
-				Color fadeColor = SuitColor * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length)) * (projectile.alpha / 255f) * (1 - (projectile.alpha / 255f));
-				Color glowColor = Color.White * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length)) * (1 - (projectile.alpha / 255f));
-				spriteBatch.Draw(tex, drawPos - Main.screenPosition, frame, color, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
-				spriteBatch.Draw(tex2, drawPos - Main.screenPosition, frame, fadeColor, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
-				spriteBatch.Draw(tex3, drawPos - Main.screenPosition, frame, glowColor, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+				Vector2 drawPos = Projectile.oldPos[k] + (new Vector2(Projectile.width, Projectile.height) / 2);
+				Color color = lightColor * (float)(((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length)) * (1 - (Projectile.alpha / 255f));
+				Color fadeColor = SuitColor * (float)(((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length)) * (Projectile.alpha / 255f) * (1 - (Projectile.alpha / 255f));
+				Color glowColor = Color.White * (float)(((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length)) * (1 - (Projectile.alpha / 255f));
+				spriteBatch.Draw(tex, drawPos - Main.screenPosition, frame, color, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(tex2, drawPos - Main.screenPosition, frame, fadeColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(tex3, drawPos - Main.screenPosition, frame, glowColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

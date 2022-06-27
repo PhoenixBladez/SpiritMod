@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
  
@@ -13,82 +14,82 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
  		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gilded Feather");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10; 
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10; 
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         } 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.aiStyle = -1;
-			projectile.penetrate = 1;
-            projectile.friendly = true;
-			projectile.magic = true;
-            projectile.hostile = false;
-			projectile.timeLeft = 180;
-			projectile.tileCollide = true;
-			projectile.scale = 0.1f;
-			projectile.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.aiStyle = -1;
+			Projectile.penetrate = 1;
+            Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+            Projectile.hostile = false;
+			Projectile.timeLeft = 180;
+			Projectile.tileCollide = true;
+			Projectile.scale = 0.1f;
+			Projectile.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
         }
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = 8;
 			height = 8;
 			return true;
 		}
 
-		private float RotationDirection => projectile.ai[0];
+		private float RotationDirection => Projectile.ai[0];
 
-		private ref float AiState => ref projectile.ai[1];
-		private ref float Timer => ref projectile.localAI[0];
-		private ref float RotationToCursor => ref projectile.localAI[1];
+		private ref float AiState => ref Projectile.ai[1];
+		private ref float Timer => ref Projectile.localAI[0];
+		private ref float RotationToCursor => ref Projectile.localAI[1];
 
         public override void AI()
         {
-			Lighting.AddLight(projectile.position, 0.3f, .15f, 0f);
-			Player player = Main.player[projectile.owner];
-			projectile.scale = Math.Min(projectile.scale + 0.05f, 1);
+			Lighting.AddLight(Projectile.position, 0.3f, .15f, 0f);
+			Player player = Main.player[Projectile.owner];
+			Projectile.scale = Math.Min(Projectile.scale + 0.05f, 1);
 
 			switch (AiState)
 			{
 				case 0:
-					projectile.rotation += 0.3f * RotationDirection * Math.Max(projectile.velocity.Length()/7, 0.25f);
-					projectile.velocity *= 0.94f;
+					Projectile.rotation += 0.3f * RotationDirection * Math.Max(Projectile.velocity.Length()/7, 0.25f);
+					Projectile.velocity *= 0.94f;
 					if(++Timer > 35 && Main.LocalPlayer == player)
 					{
 						Timer = 0;
-						RotationToCursor = projectile.AngleTo(Main.MouseWorld);
+						RotationToCursor = Projectile.AngleTo(Main.MouseWorld);
 						AiState++;
-						projectile.netUpdate = true;
+						Projectile.netUpdate = true;
 					}
 					break;
 
 				case 1:
-					if (Math.Abs(MathHelper.WrapAngle(RotationToCursor + MathHelper.PiOver2 - projectile.rotation)) > MathHelper.PiOver4)
-						projectile.rotation += 0.15f * RotationDirection;
+					if (Math.Abs(MathHelper.WrapAngle(RotationToCursor + MathHelper.PiOver2 - Projectile.rotation)) > MathHelper.PiOver4)
+						Projectile.rotation += 0.15f * RotationDirection;
 
 					else
-						projectile.rotation = Utils.AngleLerp(projectile.rotation, RotationToCursor + MathHelper.PiOver2, 0.07f);
+						Projectile.rotation = Utils.AngleLerp(Projectile.rotation, RotationToCursor + MathHelper.PiOver2, 0.07f);
 
 					if(++Timer > 20)
 					{
 						AiState++;
-						projectile.velocity = Vector2.UnitX.RotatedBy(RotationToCursor) * Main.rand.NextFloat(6, 8);
+						Projectile.velocity = Vector2.UnitX.RotatedBy(RotationToCursor) * Main.rand.NextFloat(6, 8);
 						if (!Main.dedServ)
-							Main.PlaySound(SoundID.Item1.WithPitchVariance(0.2f), projectile.Center);
+							SoundEngine.PlaySound(SoundID.Item1.WithPitchVariance(0.2f), Projectile.Center);
 
-						projectile.netUpdate = true;
+						Projectile.netUpdate = true;
 					}
 					else if(Timer > 7) 
-						projectile.velocity = Vector2.Lerp(projectile.velocity, -Vector2.UnitX.RotatedBy(RotationToCursor) * 3, 0.2f);
+						Projectile.velocity = Vector2.Lerp(Projectile.velocity, -Vector2.UnitX.RotatedBy(RotationToCursor) * 3, 0.2f);
 
 					break;
 
 				case 2:
-					projectile.extraUpdates = 1;
-					projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-					if (projectile.velocity.Length() < 15)
-						projectile.velocity *= 1.02f;
+					Projectile.extraUpdates = 1;
+					Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+					if (Projectile.velocity.Length() < 15)
+						Projectile.velocity *= 1.02f;
 					break;
 			}
         }
@@ -108,31 +109,31 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
 			RotationToCursor = reader.ReadSingle();
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDraw(spriteBatch);
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(Color lightColor)
 		{
-			if (!projectile.wet)
+			if (!Projectile.wet)
 			{
-				Texture2D bloom = mod.GetTexture("Effects/Desert_Shadow");
+				Texture2D bloom = Mod.GetTexture("Effects/Desert_Shadow");
 
 				Color color = Color.LightGoldenrodYellow;
 				color.A = (byte)(color.A * 2);
-				spriteBatch.Draw(bloom, projectile.Center - Main.screenPosition, null, color * 0.3f, projectile.rotation, bloom.Size() / 2, projectile.scale * 1.5f, SpriteEffects.None, 0);
+				spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, color * 0.3f, Projectile.rotation, bloom.Size() / 2, Projectile.scale * 1.5f, SpriteEffects.None, 0);
 			}
 		}
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			if (!projectile.wet)
+			if (!Projectile.wet)
 			{
-				projectile.QuickDrawGlowTrail(spriteBatch);
+				Projectile.QuickDrawGlowTrail(spriteBatch);
 
-				projectile.QuickDrawGlow(spriteBatch);
+				Projectile.QuickDrawGlow(spriteBatch);
 			}
 		}
 
@@ -141,18 +142,18 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
 			if (Main.dedServ)
 				return;
 
-			Main.PlaySound(SoundID.Dig, projectile.Center);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 
 			for(int i = 0; i < 5; i++)
 			{
-				Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.Sandnado, projectile.velocity.RotatedByRandom(MathHelper.Pi / 12) * Main.rand.NextFloat(0.5f, 0.7f), 100, default, Main.rand.NextFloat(0.7f, 1f));
+				Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.Sandnado, Projectile.velocity.RotatedByRandom(MathHelper.Pi / 12) * Main.rand.NextFloat(0.5f, 0.7f), 100, default, Main.rand.NextFloat(0.7f, 1f));
 				dust.fadeIn = 0.75f;
 				dust.noGravity = true;
 			}
 
 			for (int j = 0; j < 10; j++)
 			{
-				Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.Sandnado, projectile.velocity.RotatedByRandom(MathHelper.Pi / 3) * Main.rand.NextFloat(0.1f, 0.3f), 100, default, Main.rand.NextFloat(0.2f, 0.4f));
+				Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.Sandnado, Projectile.velocity.RotatedByRandom(MathHelper.Pi / 3) * Main.rand.NextFloat(0.1f, 0.3f), 100, default, Main.rand.NextFloat(0.2f, 0.4f));
 				dust.fadeIn = 0.75f;
 				dust.noGravity = true;
 			}

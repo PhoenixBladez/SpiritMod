@@ -17,20 +17,20 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Duskfeather Blade");
-			Main.projFrames[projectile.type] = 13;
+			Main.projFrames[Projectile.type] = 13;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.height = 14;
-			projectile.width = 14;
-			projectile.alpha = 255;
-			projectile.penetrate = 2;
-			projectile.aiStyle = -1;
-			projectile.extraUpdates = Total_Updates - 1;
-			projectile.timeLeft = Total_Lifetime;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.height = 14;
+			Projectile.width = 14;
+			Projectile.alpha = 255;
+			Projectile.penetrate = 2;
+			Projectile.aiStyle = -1;
+			Projectile.extraUpdates = Total_Updates - 1;
+			Projectile.timeLeft = Total_Lifetime;
 		}
 
 		internal static void AttractBlades(Player player)
@@ -81,36 +81,36 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void Kill(int timeLeft)
 		{
-			if (projectile.alpha == 255)
+			if (Projectile.alpha == 255)
 				return;
 		}
 
 		private DuskfeatherState State {
-			get { return (DuskfeatherState)(int)projectile.ai[0]; }
-			set { projectile.ai[0] = (int)value; }
+			get { return (DuskfeatherState)(int)Projectile.ai[0]; }
+			set { Projectile.ai[0] = (int)value; }
 		}
 		private float FiringVelocity {
-			get { return projectile.ai[1]; }
-			set { projectile.ai[1] = value; }
+			get { return Projectile.ai[1]; }
+			set { Projectile.ai[1] = value; }
 		}
 		private Vector2 Origin {
-			get { return new Vector2(projectile.localAI[0], projectile.localAI[1]); }
+			get { return new Vector2(Projectile.localAI[0], Projectile.localAI[1]); }
 			set {
-				projectile.localAI[0] = value.X;
-				projectile.localAI[1] = value.Y;
+				Projectile.localAI[0] = value.X;
+				Projectile.localAI[1] = value.Y;
 			}
 		}
 		private float Poof {
-			get { return projectile.localAI[0]; }
-			set { projectile.localAI[0] = value; }
+			get { return Projectile.localAI[0]; }
+			set { Projectile.localAI[0] = value; }
 		}
 		public override void AI()
 		{
 			if (State < Return) {
-				if (projectile.alpha > 25)
-					projectile.alpha -= 25;
+				if (Projectile.alpha > 25)
+					Projectile.alpha -= 25;
 				else
-					projectile.alpha = 0;
+					Projectile.alpha = 0;
 			}
 			int minFrame = 7;
 			int maxFrame = 12;
@@ -140,27 +140,27 @@ namespace SpiritMod.Projectiles.DonatorItems
 					AIFade();
 					break;
 			}
-			if (projectile.numUpdates == 0) {
+			if (Projectile.numUpdates == 0) {
 				if (State == Moving || State == Return)
-					++projectile.frameCounter;
-				if (++projectile.frameCounter >= 5) {
-					projectile.frameCounter = 0;
-					++projectile.frame;
+					++Projectile.frameCounter;
+				if (++Projectile.frameCounter >= 5) {
+					Projectile.frameCounter = 0;
+					++Projectile.frame;
 				}
-				if (projectile.frame < minFrame || projectile.frame > maxFrame)
-					projectile.frame = minFrame;
+				if (Projectile.frame < minFrame || Projectile.frame > maxFrame)
+					Projectile.frame = minFrame;
 			}
 		}
 
 		private void AIMove()
 		{
 			if (Origin == Vector2.Zero) {
-				projectile.rotation = (float)System.Math.Atan2(projectile.velocity.X, -projectile.velocity.Y);
-				Origin = projectile.position;
-				projectile.velocity *= 1f / Total_Updates;
-				FiringVelocity = projectile.velocity.Length();
+				Projectile.rotation = (float)System.Math.Atan2(Projectile.velocity.X, -Projectile.velocity.Y);
+				Origin = Projectile.position;
+				Projectile.velocity *= 1f / Total_Updates;
+				FiringVelocity = Projectile.velocity.Length();
 			}
-			float distanceFromStart = Vector2.DistanceSquared(projectile.position, Origin);
+			float distanceFromStart = Vector2.DistanceSquared(Projectile.position, Origin);
 			if (Range * Range < distanceFromStart) {
 				Stop();
 			}
@@ -168,56 +168,56 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		private void AIStopped()
 		{
-			float distanceFromOwner = Vector2.DistanceSquared(projectile.position, Main.player[projectile.owner].position);
+			float distanceFromOwner = Vector2.DistanceSquared(Projectile.position, Main.player[Projectile.owner].position);
 			if (Max_Dist * Max_Dist < distanceFromOwner)
 				State = State == DuskfeatherState.Stopped ? FadeOut : FadeOutStuck;
 		}
 
 		private void AIReturn()
 		{
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = -1;
 			if (Poof == 0) {
 				Poof = 1;
 				//Utils.PoofOfSmoke(projectile.position);
 			}
-			Vector2 velocity = Main.player[projectile.owner].MountedCenter - projectile.position;
+			Vector2 velocity = Main.player[Projectile.owner].MountedCenter - Projectile.position;
 			float distance = velocity.Length();
 			if (distance < FiringVelocity) {
-				projectile.Kill();
+				Projectile.Kill();
 				return;
 			}
 			float startFade = 10 * Total_Updates * FiringVelocity;
 			if (distance < startFade)
-				projectile.alpha = 255 - (int)(distance / startFade * 255);
+				Projectile.alpha = 255 - (int)(distance / startFade * 255);
 
 			velocity /= distance;
 			velocity *= FiringVelocity *
 				(distance < Range ?
 				1.5f :
 				1.5f + (distance - Range) / Range);
-			projectile.velocity = velocity;
-			projectile.rotation = (float)System.Math.Atan2(velocity.X, -velocity.Y) + (float)System.Math.PI;
+			Projectile.velocity = velocity;
+			Projectile.rotation = (float)System.Math.Atan2(velocity.X, -velocity.Y) + (float)System.Math.PI;
 		}
 
 		private void AIFade()
 		{
-			if (projectile.numUpdates == 0) {
-				projectile.alpha += 5;
-				if (projectile.alpha >= 255)
-					projectile.Kill();
+			if (Projectile.numUpdates == 0) {
+				Projectile.alpha += 5;
+				if (Projectile.alpha >= 255)
+					Projectile.Kill();
 			}
 		}
 
 		private void Stop()
 		{
-			projectile.velocity = Vector2.Zero;
+			Projectile.velocity = Vector2.Zero;
 			State = DuskfeatherState.Stopped;
 			Poof = 0;
 		}
 
 
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = 0;
 			height = 0;
@@ -228,7 +228,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 		{
 			if (State != 0)
 				return false;
-			projectile.position += projectile.velocity *= Total_Updates;
+			Projectile.position += Projectile.velocity *= Total_Updates;
 			Stop();
 			State = StuckInBlock;
 			return false;

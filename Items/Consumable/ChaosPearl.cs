@@ -15,24 +15,24 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 16;
-			item.value = Item.sellPrice(0, 0, 4, 0);
-			item.rare = ItemRarityID.Orange;
-			item.maxStack = 999;
+			Item.width = 16;
+			Item.height = 16;
+			Item.value = Item.sellPrice(0, 0, 4, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.maxStack = 999;
 			//item.crit = 4;
-			item.damage = 0;
+			Item.damage = 0;
 			// item.knockBack = 3;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = item.useAnimation = 40;
-			//  item.thrown = true;
-			item.noMelee = true;
-			item.autoReuse = false;
-			item.consumable = true;
-			item.noUseGraphic = true;
-			item.shoot = ModContent.ProjectileType<Projectiles.Thrown.ChaosPearl>();
-			item.shootSpeed = 12;
-			item.UseSound = SoundID.Item1;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = Item.useAnimation = 40;
+			//  Item.DamageType = DamageClass.Throwing;
+			Item.noMelee = true;
+			Item.autoReuse = false;
+			Item.consumable = true;
+			Item.noUseGraphic = true;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.ChaosPearl>();
+			Item.shootSpeed = 12;
+			Item.UseSound = SoundID.Item1;
 		}
 	}
 }

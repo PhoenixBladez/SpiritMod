@@ -16,51 +16,49 @@ namespace SpiritMod.Items.Weapon.Magic
 
 		public override void SetDefaults()
 		{
-			item.damage = 38;
-			item.noMelee = true;
-			item.magic = true;
-			item.width = 28;
-			item.height = 30;
-			item.useTime = 15;
-			item.mana = 15;
-			item.useAnimation = 60;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.knockBack = 3;
-			item.value = 50000;
-			item.rare = ItemRarityID.LightRed;
-			item.UseSound = SoundID.Item34;
-			item.autoReuse = true;
-			item.shootSpeed = 1;
-			item.UseSound = SoundID.Item20;
-			item.shoot = ModContent.ProjectileType<SandWall>();
+			Item.damage = 38;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Magic;
+			Item.width = 28;
+			Item.height = 30;
+			Item.useTime = 15;
+			Item.mana = 15;
+			Item.useAnimation = 60;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 3;
+			Item.value = 50000;
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item34;
+			Item.autoReuse = true;
+			Item.shootSpeed = 1;
+			Item.UseSound = SoundID.Item20;
+			Item.shoot = ModContent.ProjectileType<SandWall>();
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			speedX = 0;
 			speedY = -0.25f;
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SandWall>(), damage, knockBack, player.whoAmI, speedX, speedY);
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SandWall2>(), damage, knockBack, player.whoAmI, speedX, speedY);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SandWall>(), damage, knockback, player.whoAmI, speedX, speedY);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SandWall2>(), damage, knockback, player.whoAmI, speedX, speedY);
 			return false;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.TitaniumBar, 4);
 			recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 1);
 			recipe.AddIngredient(ItemID.SpellTome, 1);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			recipe = new ModRecipe(mod);
+			recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.AdamantiteBar, 4);
 			recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 1);
 			recipe.AddIngredient(ItemID.SpellTome, 1);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

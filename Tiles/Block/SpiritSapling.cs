@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Block
 {
 	public class SpiritSapling : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -35,8 +35,8 @@ namespace SpiritMod.Tiles.Block
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Sapling");
 			AddMapEntry(new Color(200, 200, 200), name);
-			dustType = DustID.Stone;
-			adjTiles = new int[] { TileID.Saplings };
+			DustType = DustID.Stone;
+			AdjTiles = new int[] { TileID.Saplings };
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

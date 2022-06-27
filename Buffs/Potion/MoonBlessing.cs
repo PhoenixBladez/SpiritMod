@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Potion
 {
 	public class MoonBlessing : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moon Jelly");
 			Description.SetDefault("Extreme regeneration");

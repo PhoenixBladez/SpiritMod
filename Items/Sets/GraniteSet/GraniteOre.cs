@@ -11,19 +11,19 @@ namespace SpiritMod.Items.Sets.GraniteSet
 {
 	public class GraniteOre : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSpelunker[Type] = true;
 			Main.tileSolid[Type] = true;
 			Main.tileBlockLight[Type] = false;  //true for block to emit light
 			Main.tileLighted[Type] = false;
-			drop = ModContent.ItemType<GraniteChunk>();   //put your CustomBlock name
+			ItemDrop = ModContent.ItemType<GraniteChunk>();   //put your CustomBlock name
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Enchanted Granite Chunk");
 			AddMapEntry(new Color(30, 144, 255), name);
 			soundType = SoundID.Tink;
-			minPick = 65;
-			dustType = DustID.Electric;
+			MinPick = 65;
+			DustType = DustID.Electric;
 		}
 		public override bool CanExplode(int i, int j)
 		{

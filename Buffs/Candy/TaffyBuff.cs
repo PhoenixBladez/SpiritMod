@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Candy
 {
 	public class TaffyBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Taffy");
 			Description.SetDefault("+4 Defense");

@@ -15,11 +15,11 @@ namespace SpiritMod.Items.Accessory
 
 		public override void SetDefaults()
 		{
-			item.width = 38;
-			item.height = 38;
-			item.value = Item.buyPrice(gold: 4);
-			item.rare = ItemRarityID.Green;
-			item.accessory = true;
+			Item.width = 38;
+			Item.height = 38;
+			Item.value = Item.buyPrice(gold: 4);
+			Item.rare = ItemRarityID.Green;
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

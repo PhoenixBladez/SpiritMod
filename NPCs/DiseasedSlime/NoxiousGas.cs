@@ -12,20 +12,20 @@ namespace SpiritMod.NPCs.DiseasedSlime
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.penetrate = 4;
-			projectile.timeLeft = 90;
-			projectile.height = 80;
-			projectile.width = 80;
-			projectile.alpha = 255;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.penetrate = 4;
+			Projectile.timeLeft = 90;
+			Projectile.height = 80;
+			Projectile.width = 80;
+			Projectile.alpha = 255;
 		}
 
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 
-			float distance = Vector2.DistanceSquared(projectile.Center, player.Center);
+			float distance = Vector2.DistanceSquared(Projectile.Center, player.Center);
 			if (distance < 45 * 45)
 			{
 				player.AddBuff(ModContent.BuffType<FesteringWounds>(), 600);
@@ -33,7 +33,7 @@ namespace SpiritMod.NPCs.DiseasedSlime
 			}
 
 			if (Main.rand.NextBool(2))
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.NoxiousDust>(), Main.rand.NextFloat(-1.5f, 1.5f), 0f, 100, new Color(), Main.rand.NextFloat(1.5f, 1.75f));
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Dusts.NoxiousDust>(), Main.rand.NextFloat(-1.5f, 1.5f), 0f, 100, new Color(), Main.rand.NextFloat(1.5f, 1.75f));
 		}
     }
 }

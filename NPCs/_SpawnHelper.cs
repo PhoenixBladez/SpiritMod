@@ -19,7 +19,7 @@ namespace SpiritMod.NPCs
 
 		private static void ProcessSpawnInfo(NPCSpawnInfo info)
 		{
-			Player player = info.player;
+			Player player = info.Player;
 			if (Main.time == currentTime &&
 				player.whoAmI == currentPlayer)
 				return;
@@ -34,16 +34,16 @@ namespace SpiritMod.NPCs
 				((int)player.zone4 << 3));
 			bool notUnderground = player.position.Y < Main.worldSurface;
 			currentFlags =
-				(info.desertCave ? SpawnFlags.Desertcave : SpawnFlags.None) |
-				(info.granite ? SpawnFlags.Granite : SpawnFlags.None) |
-				(info.marble ? SpawnFlags.Marble : SpawnFlags.None) |
-				(info.lihzahrd ? SpawnFlags.Lihzahrd : SpawnFlags.None) |
-				(info.spiderCave ? SpawnFlags.SpiderCave : SpawnFlags.None) |
-				(info.sky ? SpawnFlags.Sky : SpawnFlags.None) |
-				(info.water ? SpawnFlags.Water : SpawnFlags.None) |
-				(info.playerSafe ? SpawnFlags.SafeWall : SpawnFlags.None) |
-				(info.playerInTown ? SpawnFlags.Town : SpawnFlags.None) |
-				(info.invasion ? SpawnFlags.Invasion : SpawnFlags.None) |
+				(info.DesertCave ? SpawnFlags.Desertcave : SpawnFlags.None) |
+				(info.Granite ? SpawnFlags.Granite : SpawnFlags.None) |
+				(info.Marble ? SpawnFlags.Marble : SpawnFlags.None) |
+				(info.Lihzahrd ? SpawnFlags.Lihzahrd : SpawnFlags.None) |
+				(info.SpiderCave ? SpawnFlags.SpiderCave : SpawnFlags.None) |
+				(info.Sky ? SpawnFlags.Sky : SpawnFlags.None) |
+				(info.Water ? SpawnFlags.Water : SpawnFlags.None) |
+				(info.PlayerSafe ? SpawnFlags.SafeWall : SpawnFlags.None) |
+				(info.PlayerInTown ? SpawnFlags.Town : SpawnFlags.None) |
+				(info.Invasion ? SpawnFlags.Invasion : SpawnFlags.None) |
 				(Main.bloodMoon && !Main.dayTime && notUnderground ? SpawnFlags.Bloodmoon : SpawnFlags.None) |
 				(Main.eclipse && Main.dayTime && notUnderground ? SpawnFlags.Eclipse : SpawnFlags.None) |
 				(Main.pumpkinMoon && !Main.dayTime && notUnderground ? SpawnFlags.PumpkinMoon : SpawnFlags.None) |

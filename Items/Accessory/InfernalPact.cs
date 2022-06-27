@@ -20,11 +20,11 @@ namespace SpiritMod.Items.Accessory
 
 		public override void SetDefaults()
 		{
-			item.width = 26;
-			item.height = 28;
-			item.value = Item.buyPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.accessory = true;
+			Item.width = 26;
+			Item.height = 28;
+			Item.value = Item.buyPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -35,10 +35,10 @@ namespace SpiritMod.Items.Accessory
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) //Glowmask
 		{
-			Texture2D glowmask = mod.GetTexture("Items/Accessory/InfernalPact_Glow");
-			var drawPos = new Vector2(item.position.X - Main.screenPosition.X + item.width * 0.5f, item.position.Y - Main.screenPosition.Y + item.height - glowmask.Height * 0.5f + 2f); //Jesus this line
+			Texture2D glowmask = Mod.GetTexture("Items/Accessory/InfernalPact_Glow");
+			var drawPos = new Vector2(Item.position.X - Main.screenPosition.X + Item.width * 0.5f, Item.position.Y - Main.screenPosition.Y + Item.height - glowmask.Height * 0.5f + 2f); //Jesus this line
 			float sine = (float)Math.Sin(sineTimer++ * 0.08f);
-			Color col = item.GetAlpha(Color.White) * (0.5f - sine);
+			Color col = Item.GetAlpha(Color.White) * (0.5f - sine);
 			spriteBatch.Draw(glowmask, drawPos, new Rectangle(0, 0, glowmask.Width, glowmask.Height), col, rotation, glowmask.Size() * 0.5f, scale + (sine * 0.09f), SpriteEffects.None, 0f);
 		}
 	}

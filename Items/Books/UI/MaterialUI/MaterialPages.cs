@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,12 +40,12 @@ namespace SpiritMod.Items.Books.UI.MaterialUI
 				mainPanel.Top.Set(offsetY, 0f);
 			}
 
-			var panelBackground = new UIImage(ModContent.GetTexture("SpiritMod/Items/Books/UI/MaterialUI/GraniteMaterialPage"));
+			var panelBackground = new UIImage(ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/MaterialUI/GraniteMaterialPage"));
 			panelBackground.SetPadding(12);
 			mainPanel.Append(panelBackground);
 			mainPanel.AddDragTarget(panelBackground);
 
-			Texture2D closeTexture = ModContent.GetTexture("SpiritMod/Items/Books/UI/closeButton");
+			Texture2D closeTexture = ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/closeButton");
 			UIImageButton closeButton = new UIImageButton(closeTexture);
 			closeButton.Left.Set(-20, 1f);
 			closeButton.Top.Set(5, 0f);
@@ -78,7 +79,7 @@ namespace SpiritMod.Items.Books.UI.MaterialUI
 		}
 
 		private void CloseButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
-			Main.PlaySound(SoundID.MenuClose);
+			SoundEngine.PlaySound(SoundID.MenuClose);
 			ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(null);
 		}
 	}
@@ -106,12 +107,12 @@ namespace SpiritMod.Items.Books.UI.MaterialUI
 				mainPanel.Top.Set(offsetY, 0f);
 			}
 
-			var panelBackground = new UIImage(ModContent.GetTexture("SpiritMod/Items/Books/UI/MaterialUI/MarbleMaterialPage"));
+			var panelBackground = new UIImage(ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/MaterialUI/MarbleMaterialPage"));
 			panelBackground.SetPadding(12);
 			mainPanel.Append(panelBackground);
 			mainPanel.AddDragTarget(panelBackground);
 
-			Texture2D closeTexture = ModContent.GetTexture("SpiritMod/Items/Books/UI/closeButton");
+			Texture2D closeTexture = ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/closeButton");
 			UIImageButton closeButton = new UIImageButton(closeTexture);
 			closeButton.Left.Set(-20, 1f);
 			closeButton.Top.Set(5, 0f);
@@ -145,7 +146,7 @@ namespace SpiritMod.Items.Books.UI.MaterialUI
 		}
 
 		private void CloseButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
-			Main.PlaySound(SoundID.MenuClose);
+			SoundEngine.PlaySound(SoundID.MenuClose);
 			ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(null);
 		}
 	}
@@ -173,12 +174,12 @@ namespace SpiritMod.Items.Books.UI.MaterialUI
 				mainPanel.Top.Set(offsetY, 0f);
 			}
 
-			var panelBackground = new UIImage(ModContent.GetTexture("SpiritMod/Items/Books/UI/MaterialUI/GlowrootPage"));
+			var panelBackground = new UIImage(ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/MaterialUI/GlowrootPage"));
 			panelBackground.SetPadding(12);
 			mainPanel.Append(panelBackground);
 			mainPanel.AddDragTarget(panelBackground);
 
-			Texture2D closeTexture = ModContent.GetTexture("SpiritMod/Items/Books/UI/closeButton");
+			Texture2D closeTexture = ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/closeButton");
 			UIImageButton closeButton = new UIImageButton(closeTexture);
 			closeButton.Left.Set(-20, 1f);
 			closeButton.Top.Set(5, 0f);
@@ -212,7 +213,7 @@ namespace SpiritMod.Items.Books.UI.MaterialUI
 		}
 
 		private void CloseButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
-			Main.PlaySound(SoundID.MenuClose);
+			SoundEngine.PlaySound(SoundID.MenuClose);
 			ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(null);
 		}
 	}
@@ -240,12 +241,12 @@ namespace SpiritMod.Items.Books.UI.MaterialUI
 				mainPanel.Top.Set(offsetY, 0f);
 			}
 
-			var panelBackground = new UIImage(ModContent.GetTexture("SpiritMod/Items/Books/UI/MaterialUI/BismiteMaterialPage"));
+			var panelBackground = new UIImage(ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/MaterialUI/BismiteMaterialPage"));
 			panelBackground.SetPadding(12);
 			mainPanel.Append(panelBackground);
 			mainPanel.AddDragTarget(panelBackground);
 
-			Texture2D closeTexture = ModContent.GetTexture("SpiritMod/Items/Books/UI/closeButton");
+			Texture2D closeTexture = ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/closeButton");
 			UIImageButton closeButton = new UIImageButton(closeTexture);
 			closeButton.Left.Set(-20, 1f);
 			closeButton.Top.Set(5, 0f);
@@ -279,7 +280,7 @@ namespace SpiritMod.Items.Books.UI.MaterialUI
 		}
 
 		private void CloseButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
-			Main.PlaySound(SoundID.MenuClose);
+			SoundEngine.PlaySound(SoundID.MenuClose);
 			ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(null);
 		}
 	}
@@ -307,12 +308,12 @@ namespace SpiritMod.Items.Books.UI.MaterialUI
 				mainPanel.Top.Set(offsetY, 0f);
 			}
 
-			var panelBackground = new UIImage(ModContent.GetTexture("SpiritMod/Items/Books/UI/MaterialUI/FrigidFragmentMaterialPage"));
+			var panelBackground = new UIImage(ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/MaterialUI/FrigidFragmentMaterialPage"));
 			panelBackground.SetPadding(12);
 			mainPanel.Append(panelBackground);
 			mainPanel.AddDragTarget(panelBackground);
 
-			Texture2D closeTexture = ModContent.GetTexture("SpiritMod/Items/Books/UI/closeButton");
+			Texture2D closeTexture = ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/closeButton");
 			UIImageButton closeButton = new UIImageButton(closeTexture);
 			closeButton.Left.Set(-20, 1f);
 			closeButton.Top.Set(5, 0f);
@@ -346,7 +347,7 @@ namespace SpiritMod.Items.Books.UI.MaterialUI
 		}
 
 		private void CloseButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
-			Main.PlaySound(SoundID.MenuClose);
+			SoundEngine.PlaySound(SoundID.MenuClose);
 			ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(null);
 		}
 	}
@@ -374,12 +375,12 @@ namespace SpiritMod.Items.Books.UI.MaterialUI
 				mainPanel.Top.Set(offsetY, 0f);
 			}
 
-			var panelBackground = new UIImage(ModContent.GetTexture("SpiritMod/Items/Books/UI/MaterialUI/HeartScaleMaterialPage"));
+			var panelBackground = new UIImage(ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/MaterialUI/HeartScaleMaterialPage"));
 			panelBackground.SetPadding(12);
 			mainPanel.Append(panelBackground);
 			mainPanel.AddDragTarget(panelBackground);
 
-			Texture2D closeTexture = ModContent.GetTexture("SpiritMod/Items/Books/UI/closeButton");
+			Texture2D closeTexture = ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/closeButton");
 			UIImageButton closeButton = new UIImageButton(closeTexture);
 			closeButton.Left.Set(-20, 1f);
 			closeButton.Top.Set(5, 0f);
@@ -413,7 +414,7 @@ namespace SpiritMod.Items.Books.UI.MaterialUI
 		}
 
 		private void CloseButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
-			Main.PlaySound(SoundID.MenuClose);
+			SoundEngine.PlaySound(SoundID.MenuClose);
 			ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(null);
 		}
 	}
@@ -441,12 +442,12 @@ namespace SpiritMod.Items.Books.UI.MaterialUI
 				mainPanel.Top.Set(offsetY, 0f);
 			}
 
-			var panelBackground = new UIImage(ModContent.GetTexture("SpiritMod/Items/Books/UI/MaterialUI/EnchantedLeafMaterialPage"));
+			var panelBackground = new UIImage(ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/MaterialUI/EnchantedLeafMaterialPage"));
 			panelBackground.SetPadding(12);
 			mainPanel.Append(panelBackground);
 			mainPanel.AddDragTarget(panelBackground);
 
-			Texture2D closeTexture = ModContent.GetTexture("SpiritMod/Items/Books/UI/closeButton");
+			Texture2D closeTexture = ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/closeButton");
 			UIImageButton closeButton = new UIImageButton(closeTexture);
 			closeButton.Left.Set(-20, 1f);
 			closeButton.Top.Set(5, 0f);
@@ -480,7 +481,7 @@ namespace SpiritMod.Items.Books.UI.MaterialUI
 		}
 
 		private void CloseButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
-			Main.PlaySound(SoundID.MenuClose);
+			SoundEngine.PlaySound(SoundID.MenuClose);
 			ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(null);
 		}
 	}

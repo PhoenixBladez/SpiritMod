@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,56 +13,56 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starfall");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 14; 
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 14; 
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 2;
-			projectile.height = 2;
-			projectile.scale = 2f;
-			projectile.tileCollide = false;
-			projectile.friendly = true;
-			projectile.magic = true;
-            projectile.extraUpdates = 3;
-            projectile.timeLeft = 60;
-            projectile.ignoreWater = true;
+			Projectile.width = 2;
+			Projectile.height = 2;
+			Projectile.scale = 2f;
+			Projectile.tileCollide = false;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+            Projectile.extraUpdates = 3;
+            Projectile.timeLeft = 60;
+            Projectile.ignoreWater = true;
 		}
         Color ColorSelect = Color.Orange;
         int counter = 0;
         public override void AI()
         {
             counter++;
-            Projectile parent = Main.projectile[(int)projectile.ai[0]];
+            Projectile parent = Main.projectile[(int)Projectile.ai[0]];
             if (!parent.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
             }
             if (counter == 1)
             {
-                projectile.velocity.Y = Main.rand.NextFloat(-16, 16);
-                projectile.velocity.X = Main.rand.NextFloat(-16, 16);
+                Projectile.velocity.Y = Main.rand.NextFloat(-16, 16);
+                Projectile.velocity.X = Main.rand.NextFloat(-16, 16);
                // ColorSelect = Color.Lerp(Color.Orange, Color.Yellow, Main.rand.NextFloat(1));
             }
             float x = 1f;
             float y = 1f;
-             projectile.velocity += new Vector2((float)Math.Sign(parent.Center.X - projectile.Center.X), (float)Math.Sign(parent.Center.Y - projectile.Center.Y)) * new Vector2(x, y);
-            if (projectile.velocity.Length() > 11)
+             Projectile.velocity += new Vector2((float)Math.Sign(parent.Center.X - Projectile.Center.X), (float)Math.Sign(parent.Center.Y - Projectile.Center.Y)) * new Vector2(x, y);
+            if (Projectile.velocity.Length() > 11)
             {
-                projectile.velocity *= (2f / projectile.velocity.Length());
+                Projectile.velocity *= (2f / Projectile.velocity.Length());
             }
         }
         float FlickerFactor => Math.Abs((float)Math.Sin(counter / 120f)) * 3;
         float FlickerFactor2 => Math.Abs((float)Math.Sin(counter / 20f)) * 3;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Helpers.DrawAdditive(Helpers.RadialMask, projectile.Center.ForDraw(), ColorSelect * (FlickerFactor * 0.1f + 0.12f), projectile.scale * Math.Abs((float)Math.Sin(counter / 120f) *0.2f));
-            Vector2 drawOrigin = new Vector2(projectile.width * 0.5f, projectile.height * 0.5f);
-            for (int k = 0; k < projectile.oldPos.Length; k++)
+            Helpers.DrawAdditive(Helpers.RadialMask, Projectile.Center.ForDraw(), ColorSelect * (FlickerFactor * 0.1f + 0.12f), Projectile.scale * Math.Abs((float)Math.Sin(counter / 120f) *0.2f));
+            Vector2 drawOrigin = new Vector2(Projectile.width * 0.5f, Projectile.height * 0.5f);
+            for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
-                    float fade = (1 - (k / (float)projectile.oldPos.Length));
-                    Vector2 drawPos = projectile.oldPos[k].ForDraw() + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                    spriteBatch.Draw(Main.magicPixel, drawPos, new Rectangle(0, 0, 2, 2), ColorSelect * fade * FlickerFactor, projectile.rotation, drawOrigin, projectile.scale * fade, SpriteEffects.None, 0f);
+                    float fade = (1 - (k / (float)Projectile.oldPos.Length));
+                    Vector2 drawPos = Projectile.oldPos[k].ForDraw() + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                    spriteBatch.Draw(TextureAssets.MagicPixel.Value, drawPos, new Rectangle(0, 0, 2, 2), ColorSelect * fade * FlickerFactor, Projectile.rotation, drawOrigin, Projectile.scale * fade, SpriteEffects.None, 0f);
             }
             return false;
         }

@@ -18,10 +18,10 @@ namespace SpiritMod.Items.Accessory.Rangefinder
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 32;
-			item.value = Item.buyPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.LightRed;
+			Item.width = 36;
+			Item.height = 32;
+			Item.value = Item.buyPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
 		}
 
 		public override void UpdateInventory(Player player) => player.GetModPlayer<RangefinderPlayer>().active = true;
@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Accessory.Rangefinder
 			if (arms < 0)
 				return;
 
-			layers.Insert(arms - 5, new PlayerLayer(mod.Name, "HeldItem",
+			layers.Insert(arms - 5, new PlayerLayer(Mod.Name, "HeldItem",
 				delegate (PlayerDrawInfo drawInfo)
 				{
 					Player drawPlayer = drawInfo.drawPlayer;
@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Accessory.Rangefinder
 					Vector2 distToProj = Main.MouseWorld - drawPlayerCenter;
 					float projRotation = distToProj.ToRotation() - 1.57f;
 					float distance = distToProj.Length();
-					if (active && player.itemAnimation > 0 && player.HeldItem.ranged && player.HeldItem.useAnimation > 0 && !drawPlayer.mount.Active)
+					if (active && Player.itemAnimation > 0 && Player.HeldItem.ranged && Player.HeldItem.useAnimation > 0 && !drawPlayer.mount.Active)
 					{
 						while (distance > 30 && !float.IsNaN(distance))
 						{

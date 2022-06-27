@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using SpiritMod.Buffs.Pet;
 using SpiritMod.Projectiles.Pet;
 using Terraria;
@@ -16,17 +17,17 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.Fish);
-			item.value = 25000;
-			item.rare = ItemRarityID.Orange;
-			item.shoot = ModContent.ProjectileType<Caltfist>();
-			item.buffType = ModContent.BuffType<CaltfistPetBuff>();
+			Item.CloneDefaults(ItemID.Fish);
+			Item.value = 25000;
+			Item.rare = ItemRarityID.Orange;
+			Item.shoot = ModContent.ProjectileType<Caltfist>();
+			Item.buffType = ModContent.BuffType<CaltfistPetBuff>();
 		}
 
-		public override void UseStyle(Player player)
+		public override void UseStyle(Player player, Rectangle heldItemFrame)
 		{
 			if (player.whoAmI == Main.myPlayer && player.itemTime == 0) {
-				player.AddBuff(item.buffType, 3600, true);
+				player.AddBuff(Item.buffType, 3600, true);
 			}
 		}
 

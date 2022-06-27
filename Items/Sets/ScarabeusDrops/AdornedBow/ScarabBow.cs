@@ -13,39 +13,39 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.AdornedBow
 		{
 			DisplayName.SetDefault("Adorned Bow");
 			Tooltip.SetDefault("Hold longer for more damage\nConverts wooden arrows into piercing adorned arrows, that get enchanted upon full charge");
-			SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
+			SpiritGlowmask.AddGlowMask(Item.type, Texture + "_glow");
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 24;
-			item.noMelee = true;
-			item.ranged = true;
-			item.width = 20;
-			item.height = 46;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ProjectileID.Shuriken;
-			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 1;
-			item.useTurn = false;
-			item.value = Item.sellPrice(0, 1, 80, 0);
-			item.rare = ItemRarityID.Blue;
-			item.autoReuse = false;
-			item.shootSpeed = 6.5f;
-			item.crit = 8;
-			item.channel = true;
+			Item.damage = 24;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 20;
+			Item.height = 46;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ProjectileID.Shuriken;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.knockBack = 1;
+			Item.useTurn = false;
+			Item.value = Item.sellPrice(0, 1, 80, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.autoReuse = false;
+			Item.shootSpeed = 6.5f;
+			Item.crit = 8;
+			Item.channel = true;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (type == ProjectileID.WoodenArrowFriendly) {
 				type = ModContent.ProjectileType<ScarabArrow>();
 			}
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AdornedBowProj>(), damage - item.damage, knockBack, player.whoAmI, type);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AdornedBowProj>(), damage - Item.damage, knockback, player.whoAmI, type);
 			return false;
 		}
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_glow"), rotation, scale);
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, Mod.GetTexture(Texture.Remove(0, Mod.Name.Length + 1) + "_glow"), rotation, scale);
 	}
 	public class AdornedBowProj : ChargeBowProj
 	{
@@ -66,21 +66,21 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.AdornedBow
 		{
 			if (!firstFire)
 				return;
-			if (Main.myPlayer == projectile.owner) {
+			if (Main.myPlayer == Projectile.owner) {
 				Projectile proj = Main.projectile[CreateArrow()];
-				if (charge >= 1 && projectile.ai[0] == ModContent.ProjectileType<ScarabArrow>()) proj.penetrate += 2;
+				if (charge >= 1 && Projectile.ai[0] == ModContent.ProjectileType<ScarabArrow>()) proj.penetrate += 2;
 				proj.netUpdate = true;
 			}
 		}
 
 		protected override void Charging() => AdjustDirection();
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			//if (firing)
 				//return false;
 			spriteBatch.End();
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			BasicEffect effect = new BasicEffect(Main.instance.GraphicsDevice) {
 				VertexColorEnabled = true
 			};

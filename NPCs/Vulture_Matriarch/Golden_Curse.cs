@@ -8,7 +8,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 	public class Golden_Curse : ModBuff
 	{
 		public int dustTimer = 0;
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Golden Curse");
 			Description.SetDefault("Increased fall speed and damage");

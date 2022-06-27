@@ -4,6 +4,9 @@ using SpiritMod.Items.Sets.GraniteSet;
 using SpiritMod.Projectiles;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,64 +19,63 @@ namespace SpiritMod.NPCs.GraniteSlime
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Granite Slime");
-			Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.BlueSlime];
+			Main.npcFrameCount[NPC.type] = Main.npcFrameCount[NPCID.BlueSlime];
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 16;
-			npc.height = 12;
-			npc.damage = 22;
-			npc.defense = 8;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.buffImmune[BuffID.Venom] = true;
-			npc.lifeMax = 85;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath43;
-			npc.value = 200f;
-			npc.knockBackResist = .25f;
-			npc.aiStyle = 1;
-			aiType = NPCID.BlueSlime;
-			animationType = NPCID.BlueSlime;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.GraniteSlimeBanner>();
+			NPC.width = 16;
+			NPC.height = 12;
+			NPC.damage = 22;
+			NPC.defense = 8;
+			NPC.buffImmune[BuffID.Poisoned] = true;
+			NPC.buffImmune[BuffID.Venom] = true;
+			NPC.lifeMax = 85;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath43;
+			NPC.value = 200f;
+			NPC.knockBackResist = .25f;
+			NPC.aiStyle = 1;
+			AIType = NPCID.BlueSlime;
+			AnimationType = NPCID.BlueSlime;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.GraniteSlimeBanner>();
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/GraniteSlime/GraniteSlime_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("NPCs/GraniteSlime/GraniteSlime_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 
 		public override void AI()
 		{
-			Player target = Main.player[npc.target];
-			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+			Player target = Main.player[NPC.target];
+			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
 			bool expertMode = Main.expertMode;
-			npc.direction = npc.spriteDirection;
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.12f, 0.29f, .42f);
+			NPC.direction = NPC.spriteDirection;
+			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0.12f, 0.29f, .42f);
 
-			if (!npc.collideY)
+			if (!NPC.collideY)
 				jump = true;
 
-			if (npc.collideY && jump && Main.rand.Next(3) == 0)
+			if (NPC.collideY && jump && Main.rand.Next(3) == 0)
 			{
 				for (int i = 0; i < 20; i++)
 				{
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default, 2f);
+					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, 0f, -2f, 0, default, 2f);
 					Main.dust[num].noGravity = true;
 					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].scale *= .25f;
-					if (Main.dust[num].position != npc.Center)
-						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
+					if (Main.dust[num].position != NPC.Center)
+						Main.dust[num].velocity = NPC.DirectionTo(Main.dust[num].position) * 6f;
 				}
 				jump = false;
-				Main.PlaySound(SoundID.Item, npc.Center, 110);
+				SoundEngine.PlaySound(SoundID.Item110, NPC.Center);
 				int damage = expertMode ? 11 : 21;
 				if (distance < 92)
 				{
@@ -84,8 +86,7 @@ namespace SpiritMod.NPCs.GraniteSlime
 				{
 					float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
 					Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-					int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y,
-						velocity.X, velocity.Y, ModContent.ProjectileType<GraniteShard1>(), 13, 1, Main.myPlayer, 0, 0);
+					int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, velocity.X, velocity.Y, ModContent.ProjectileType<GraniteShard1>(), 13, 1, Main.myPlayer, 0, 0);
 					Main.projectile[proj].friendly = false;
 					Main.projectile[proj].hostile = true;
 					Main.projectile[proj].velocity *= 4f;
@@ -93,55 +94,43 @@ namespace SpiritMod.NPCs.GraniteSlime
 			}
 		}
 
-		public override void NPCLoot()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gel, Main.rand.Next(1, 3) + 1);
-
-			if (Main.rand.Next(2) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GraniteChunk>(), 1);
-
-			if (Main.rand.Next(1000) == 33)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.NightVisionHelmet);
-
-			if (Main.rand.Next(10000) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SlimeStaff);
+			npcLoot.Add(ItemDropRule.Common(ItemID.Gel, 1, 2, 3));
+			npcLoot.Add(ItemDropRule.Common(ItemID.Gel, ModContent.ItemType<GraniteChunk>()));
+			npcLoot.Add(ItemDropRule.Common(ItemID.Gel, 1000, ItemID.NightVisionHelmet));
+			npcLoot.Add(ItemDropRule.Common(ItemID.Gel, 10000, ItemID.SlimeStaff));
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			int x = spawnInfo.spawnTileX;
-			int y = spawnInfo.spawnTileY;
-			int tile = (int)Main.tile[x, y].type;
-			return (tile == 368) && NPC.downedBoss2 && spawnInfo.spawnTileY > Main.rockLayer ? 0.17f : 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => (spawnInfo.SpawnTileType == 368) && NPC.downedBoss2 && spawnInfo.SpawnTileY > Main.rockLayer ? 0.17f : 0f;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Granite, 2.5f * hitDirection, -2.5f, 0, default, 0.87f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Granite, 2.5f * hitDirection, -2.5f, 0, default, 0.87f);
 				}
 			}
 
-			if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.Next(3) == 0)
+			if (Main.netMode != NetmodeID.MultiplayerClient && NPC.life <= 0 && Main.rand.Next(3) == 0)
 			{
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 109));
+				SoundEngine.PlaySound(SoundID.Item109);
 				for (int i = 0; i < 20; i++)
 				{
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default, 2f);
+					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, 0f, -2f, 0, default, 2f);
 					Main.dust[num].noGravity = true;
 					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].scale *= .25f;
-					if (Main.dust[num].position != npc.Center)
-						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
+					if (Main.dust[num].position != NPC.Center)
+						Main.dust[num].velocity = NPC.DirectionTo(Main.dust[num].position) * 6f;
 				}
 
-				Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-				NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<NPCs.CracklingCore.GraniteCore>());
+				Vector2 spawnAt = NPC.Center + new Vector2(0f, (float)NPC.height / 2f);
+				NPC.NewNPC(NPC.GetSource_Death(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<NPCs.CracklingCore.GraniteCore>());
 			}
 		}
 	}

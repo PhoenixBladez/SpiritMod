@@ -40,8 +40,8 @@ namespace SpiritMod.Mechanics.Coverings
             if (orientation == 0) return;
 
             Tile tile = Framing.GetTileSafely(x, y);
-            byte slope = tile.slope();
-            bool hb = tile.halfBrick();
+            byte slope = tile.Slope;
+            bool hb = tile.IsHalfBlock;
 
             Color clr = Lighting.GetColor(x, y, Color);
 
@@ -55,14 +55,14 @@ namespace SpiritMod.Mechanics.Coverings
             ReadableOrientation readOri = (ReadableOrientation)orientation;
 
             // if this has an up/left orientation and so does the one to bottom left
-            if ((readOri.Left || (tile.slope() == 2 && (readOri.Up || readOri.Left))) && ((ReadableOrientation)CoveringsManager.GetData(x - 1, y + 1).Orientation).Up)
+            if ((readOri.Left || (tile.Slope == 2 && (readOri.Up || readOri.Left))) && ((ReadableOrientation)CoveringsManager.GetData(x - 1, y + 1).Orientation).Up)
             {
                 DrawSpecificYFrame(spriteBatch, x, y + 1, frame, 20, clr);
                 if (halfBrick) readOri.Left = true;
             }
 
             // if this has an up orientation and so does the one to bottom right
-            if ((readOri.Right || (tile.slope() == 1 && (readOri.Up || readOri.Right))) && ((ReadableOrientation)CoveringsManager.GetData(x + 1, y + 1).Orientation).Up)
+            if ((readOri.Right || (tile.Slope == 1 && (readOri.Up || readOri.Right))) && ((ReadableOrientation)CoveringsManager.GetData(x + 1, y + 1).Orientation).Up)
             {
                 DrawSpecificYFrame(spriteBatch, x, y + 1, frame, 20, clr, SpriteEffects.FlipHorizontally);
                 if (halfBrick) readOri.Right = true;

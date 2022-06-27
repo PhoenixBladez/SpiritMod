@@ -15,11 +15,11 @@ namespace SpiritMod.Items.Armor.Daybloom
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 24;
-			item.value = Item.sellPrice(0, 0, 10, 0);
-			item.rare = ItemRarityID.White;
-			item.defense = 2;
+			Item.width = 28;
+			Item.height = 24;
+			Item.value = Item.sellPrice(0, 0, 10, 0);
+			Item.rare = ItemRarityID.White;
+			Item.defense = 2;
 		}
 
 		public override void UpdateEquip(Player player) => player.statManaMax2 += 20;
@@ -36,12 +36,11 @@ namespace SpiritMod.Items.Armor.Daybloom
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Sunflower, 1);
 			recipe.AddIngredient(ItemID.FallenStar, 1);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

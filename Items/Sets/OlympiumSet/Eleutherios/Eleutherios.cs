@@ -14,11 +14,11 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Eleutherios
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 32;
-			item.rare = ItemRarityID.LightRed;
-			item.value = Item.sellPrice(gold: 2);
-			item.accessory = true;
+			Item.width = 32;
+			Item.height = 32;
+			Item.rare = ItemRarityID.LightRed;
+			Item.value = Item.sellPrice(gold: 2);
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<OlympiumPlayer>().eleutherios = true;

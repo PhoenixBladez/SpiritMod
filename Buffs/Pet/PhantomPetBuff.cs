@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.Pet
 {
 	public class PhantomPetBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Phantom");
 			Description.SetDefault("'It blends into the night'");

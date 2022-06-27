@@ -17,13 +17,13 @@ namespace SpiritMod.Items.Accessory.Leather
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 28;
-			item.rare = ItemRarityID.Green;
-			item.defense = 2;
-			item.melee = true;
-			item.accessory = true;
-			item.value = Item.buyPrice(0, 0, 5, 0);
+			Item.width = 24;
+			Item.height = 28;
+			Item.rare = ItemRarityID.Green;
+			Item.defense = 2;
+			Item.DamageType = DamageClass.Melee;
+			Item.accessory = true;
+			Item.value = Item.buyPrice(0, 0, 5, 0);
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

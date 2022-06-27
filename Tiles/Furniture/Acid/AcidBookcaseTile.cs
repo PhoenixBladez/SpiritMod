@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 {
 	public class AcidBookcaseTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -29,9 +29,9 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			name.SetDefault("Corrosive Bookcase");
 			AddMapEntry(new Color(100, 122, 111), name);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
-			dustType = -1;
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Bookcases };
+			DustType = -1;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.Bookcases };
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

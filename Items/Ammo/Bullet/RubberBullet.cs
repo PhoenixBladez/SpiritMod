@@ -17,22 +17,22 @@ namespace SpiritMod.Items.Ammo.Bullet
 
 		public override void SetDefaults()
 		{
-			item.width = 8;
-			item.height = 16;
-			item.value = 80;
-			item.rare = ItemRarityID.Blue;
-			item.value = Item.buyPrice(0, 0, 0, 15);
-			item.maxStack = 999;
+			Item.width = 8;
+			Item.height = 16;
+			Item.value = 80;
+			Item.rare = ItemRarityID.Blue;
+			Item.value = Item.buyPrice(0, 0, 0, 15);
+			Item.maxStack = 999;
 
-			item.damage = 1;
-			item.knockBack = 4.5f;
-			item.ammo = AmmoID.Bullet;
+			Item.damage = 1;
+			Item.knockBack = 4.5f;
+			Item.ammo = AmmoID.Bullet;
 
-			item.ranged = true;
-			item.consumable = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.consumable = true;
 
-			item.shoot = ModContent.ProjectileType<RubberBulletProj>();
-			item.shootSpeed = 11f;
+			Item.shoot = ModContent.ProjectileType<RubberBulletProj>();
+			Item.shootSpeed = 11f;
 
 		}
 	}

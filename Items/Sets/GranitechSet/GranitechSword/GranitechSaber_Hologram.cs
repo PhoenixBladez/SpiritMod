@@ -4,6 +4,8 @@ using SpiritMod;
 using SpiritMod.Projectiles.BaseProj;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using SpiritMod.Prim;
 using Terraria.ModLoader;
@@ -20,8 +22,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Technobrand");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 12;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 12;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 
@@ -33,20 +35,20 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(88, 92);
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 20;
-			projectile.netUpdate = true;
-			projectile.ownerHitCheck = true;
+			Projectile.Size = new Vector2(88, 92);
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = -1;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 20;
+			Projectile.netUpdate = true;
+			Projectile.ownerHitCheck = true;
 		}
 
-		private ref float SwingDirection => ref projectile.ai[0];
-		private ref float Timer => ref projectile.ai[1];
+		private ref float SwingDirection => ref Projectile.ai[0];
+		private ref float Timer => ref Projectile.ai[1];
 
 		private int _hitTimer = 0;
 		private const int MAX_HITTIMER = 10;
@@ -57,27 +59,27 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			++Timer;
 			if (Timer == 3)
             {
-				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergySwordSlash").WithPitchVariance(0.4f).WithVolume(0.8f), projectile.Center);
+				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergySwordSlash").WithPitchVariance(0.4f).WithVolume(0.8f), Projectile.Center);
 			}
-			projectile.timeLeft = 2;
+			Projectile.timeLeft = 2;
 
 			_hitTimer = Math.Max(_hitTimer - 1, 0);
 			float progress = Timer / SwingTime;
 			progress = EaseFunction.EaseCircularInOut.Ease(progress);
-			projectile.velocity = InitialVelocity.RotatedBy(MathHelper.Lerp(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection, progress));
+			Projectile.velocity = InitialVelocity.RotatedBy(MathHelper.Lerp(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection, progress));
 
-			projectile.Center = BasePosition + projectile.velocity * Distance;
+			Projectile.Center = BasePosition + Projectile.velocity * Distance;
 
-			projectile.alpha = (int)MathHelper.Lerp(0, 200, 1 - (float)Math.Sin((Timer / SwingTime) * MathHelper.Pi));
+			Projectile.alpha = (int)MathHelper.Lerp(0, 200, 1 - (float)Math.Sin((Timer / SwingTime) * MathHelper.Pi));
 
-			projectile.direction = projectile.spriteDirection = (projectile.Center.X < BasePosition.X) ? -1 : 1;
+			Projectile.direction = Projectile.spriteDirection = (Projectile.Center.X < BasePosition.X) ? -1 : 1;
 
-			projectile.rotation = projectile.velocity.ToRotation() - (projectile.spriteDirection < 0 ? MathHelper.Pi : 0);
-			projectile.rotation += MathHelper.PiOver4 * projectile.direction;
-			if (SwingDirection == projectile.direction)
+			Projectile.rotation = Projectile.velocity.ToRotation() - (Projectile.spriteDirection < 0 ? MathHelper.Pi : 0);
+			Projectile.rotation += MathHelper.PiOver4 * Projectile.direction;
+			if (SwingDirection == Projectile.direction)
 			{
-				projectile.rotation += MathHelper.PiOver2 * projectile.direction;
-				projectile.direction = projectile.spriteDirection *= -1;
+				Projectile.rotation += MathHelper.PiOver2 * Projectile.direction;
+				Projectile.direction = Projectile.spriteDirection *= -1;
 			}
 
 			/*if (!Main.dedServ && projectile.oldPos[0] != Vector2.Zero)
@@ -92,12 +94,12 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			}*/
 
 			if (Timer > SwingTime)
-				projectile.Kill();
+				Projectile.Kill();
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
-			Vector2 halfLine = projectile.velocity * projectile.Size.Length() / 2;
+			Vector2 halfLine = Projectile.velocity * Projectile.Size.Length() / 2;
 			return base.Colliding(projHitbox, targetHitbox);
 		}
 
@@ -107,17 +109,17 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 		public void HitEffect(Vector2 position)
 		{
-			Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/GranitechImpact").WithPitchVariance(0.4f).WithVolume(0.4f), projectile.Center);
+			SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/GranitechImpact").WithPitchVariance(0.4f).WithVolume(0.4f), Projectile.Center);
 
-			projectile.damage = (int)(projectile.damage * 0.75f);
+			Projectile.damage = (int)(Projectile.damage * 0.75f);
 			if (Main.dedServ)
 				return;
 
-			Vector2 newPos = Vector2.Lerp(projectile.Center, position, 0.5f);
+			Vector2 newPos = Vector2.Lerp(Projectile.Center, position, 0.5f);
 			Vector2 direction = Vector2.Normalize(newPos - BasePosition);
 			if (_hitTimer == 0)
 			{
-				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.4f), projectile.Center);
+				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.4f), Projectile.Center);
 
 				_hitTimer = MAX_HITTIMER;
 				ParticleHandler.SpawnParticle(new GranitechSaber_Hit(position, Main.rand.NextFloat(0.9f, 1.1f), direction.ToRotation()));
@@ -149,24 +151,24 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			Distance = reader.ReadSingle();
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			if (projectile.timeLeft > 2) //bandaid fix for flickering
+			if (Projectile.timeLeft > 2) //bandaid fix for flickering
 				return false;
 
-			float opacity = projectile.Opacity;
+			float opacity = Projectile.Opacity;
 			float xMod = (1 + (Distance / 250) + (SwingRadians / GranitechSaberProjectile.SwingRadians));
-			Effect effect = mod.GetEffect("Effects/GSaber");
-			effect.Parameters["baseTexture"].SetValue(mod.GetTexture("Textures/GeometricTexture_2"));
+			Effect effect = Mod.GetEffect("Effects/GSaber");
+			effect.Parameters["baseTexture"].SetValue(Mod.GetTexture("Textures/GeometricTexture_2"));
 			effect.Parameters["baseColor"].SetValue(new Color(25, 132, 247).ToVector4());
-			effect.Parameters["overlayTexture"].SetValue(mod.GetTexture("Textures/GeometricTexture_1"));
+			effect.Parameters["overlayTexture"].SetValue(Mod.GetTexture("Textures/GeometricTexture_1"));
 			effect.Parameters["overlayColor"].SetValue(new Color(99, 255, 229).ToVector4());
 
 			effect.Parameters["xMod"].SetValue(1.5f * xMod); //scale with the total length of the strip
 			effect.Parameters["yMod"].SetValue(2.5f);
 
 			float slashProgress = EaseFunction.EaseCircularInOut.Ease(Timer / SwingTime);
-			effect.Parameters["timer"].SetValue(-Main.GlobalTime * 6);
+			effect.Parameters["timer"].SetValue(-Main.GlobalTimeWrappedHourly * 6);
 			effect.Parameters["progress"].SetValue(slashProgress);
 
 			Vector2 pos = BasePosition - Main.screenPosition;
@@ -177,8 +179,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 				PrimitiveSlashArc slash = new PrimitiveSlashArc
 				{
 					BasePosition = pos,
-					StartDistance = offset.X + Distance - projectile.Size.Length() / 2 * SwingDirection,
-					EndDistance = offset.X + Distance + projectile.Size.Length() / 2 * SwingDirection,
+					StartDistance = offset.X + Distance - Projectile.Size.Length() / 2 * SwingDirection,
+					EndDistance = offset.X + Distance + Projectile.Size.Length() / 2 * SwingDirection,
 					AngleRange = new Vector2(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection),
 					DirectionUnit = InitialVelocity,
 					Color = colorMod * opacity * 0.5f,
@@ -188,12 +190,12 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			});
 			PrimitiveRenderer.DrawPrimitiveShapeBatched(slashArcs.ToArray(), effect);
 
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			SpriteEffects spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-			DrawAberration.DrawChromaticAberration(projectile.velocity, 3, delegate (Vector2 offset, Color colorMod)
+			DrawAberration.DrawChromaticAberration(Projectile.velocity, 3, delegate (Vector2 offset, Color colorMod)
 			{
-				spriteBatch.Draw(tex, projectile.Center + offset - Main.screenPosition, null, colorMod * opacity, projectile.rotation, tex.Size() / 2, projectile.scale, spriteEffects, 0);
+				spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, colorMod * opacity, Projectile.rotation, tex.Size() / 2, Projectile.scale, spriteEffects, 0);
 			});
 
 			return false;

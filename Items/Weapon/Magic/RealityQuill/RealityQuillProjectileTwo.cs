@@ -25,35 +25,35 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Magic Gloop");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 30; 
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 30; 
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 2;
-			projectile.height = 2;
-			projectile.aiStyle = 0;
-			projectile.tileCollide = false;
-			projectile.hide = false;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 40;
-			projectile.timeLeft = 200;
+			Projectile.width = 2;
+			Projectile.height = 2;
+			Projectile.aiStyle = 0;
+			Projectile.tileCollide = false;
+			Projectile.hide = false;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.ignoreWater = true;
+			Projectile.penetrate = -1;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 40;
+			Projectile.timeLeft = 200;
 		}
 
 		RealityQuillPrimTrail trail;
 		public List<Vector2> points = new List<Vector2>();
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			foreach(Vector2 point in points)
 				Lighting.AddLight(point, Color.Purple.R * 0.007f, Color.Purple.G * 0.007f, Color.Purple.B * 0.007f);
 			if (!primsCreated)
 			{
-				trail = new RealityQuillPrimTrail(projectile);
+				trail = new RealityQuillPrimTrail(Projectile);
 
 				previousMousePosition = currentMousePosition = Main.MouseWorld;
 				SpiritMod.primitives.CreateTrail(trail);
@@ -66,15 +66,15 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 					player.manaRegenDelay = 60;
 				}
 				if (player.statMana <= 0) {
-					projectile.Kill();
+					Projectile.Kill();
 				}
 				player.itemTime = 5;
 				player.itemAnimation = 5;
-				projectile.position = Main.MouseWorld;
-				points.Add(projectile.position);
+				Projectile.position = Main.MouseWorld;
+				points.Add(Projectile.position);
 				if (points.Count() > 100)
 					points.RemoveAt(0);
-				projectile.timeLeft = 25;
+				Projectile.timeLeft = 25;
 			}
 			else
 				released = true;
@@ -115,8 +115,8 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) {
             int cooldown = 10;
-            projectile.localNPCImmunity[target.whoAmI] = 10;
-            target.immune[projectile.owner] = cooldown;
+            Projectile.localNPCImmunity[target.whoAmI] = 10;
+            target.immune[Projectile.owner] = cooldown;
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -125,7 +125,7 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 			damage = (int)(damage * MathHelper.Clamp((float)Math.Sqrt(distance), 1, 3));
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false;
+		public override bool PreDraw(ref Color lightColor) => false;
 
 		public override bool? CanCutTiles() => true;
 

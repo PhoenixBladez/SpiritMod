@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 
@@ -7,7 +8,7 @@ namespace SpiritMod.Gores
 {
 	public class GreenLeaf : ModGore
 	{
-		public override void OnSpawn(Gore gore)
+		public override void OnSpawn(Gore gore, IEntitySource source)
 		{
 			gore.numFrames = 8;
 			gore.behindTiles = true;

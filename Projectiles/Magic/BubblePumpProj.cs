@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using SpiritMod.Dusts;
 using Terraria.ID;
@@ -16,16 +17,16 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = -1;
-			projectile.friendly = false;
-			projectile.penetrate = 1;
-			projectile.tileCollide = false;
-			projectile.alpha = 255;
-			projectile.timeLeft = 999999;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = false;
+			Projectile.penetrate = 1;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 999999;
 		}
 
 		int counter = 7;
@@ -33,11 +34,11 @@ namespace SpiritMod.Projectiles.Magic
 		Vector2 direction = Vector2.Zero;
 		public override bool PreAI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			player.ChangeDir(Main.MouseWorld.X > player.position.X ? 1 : -1);
-			player.heldProj = projectile.whoAmI;
+			player.heldProj = Projectile.whoAmI;
 			if (player.statMana <= 0) {
-				projectile.Kill();
+				Projectile.Kill();
 			}
 
 			direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
@@ -56,11 +57,11 @@ namespace SpiritMod.Projectiles.Magic
 				}
 			}
 			if (player.channel && !firing) {
-				projectile.position = player.Center;
+				Projectile.position = player.Center;
 				if (counter < 100) {
 					counter++;
 					if (counter % 20 == 19)
-						Main.PlaySound(SoundID.Item5, (int)projectile.position.X, (int)projectile.position.Y);
+						SoundEngine.PlaySound(SoundID.Item5, (int)Projectile.position.X, (int)Projectile.position.Y);
 
 					Vector2 dustUnit = direction.RotatedBy(Main.rand.NextFloat(-1,1)) * 0.15f;
 					Vector2 dustOffset = player.Center + (direction * 5.3f) + player.velocity;
@@ -69,8 +70,8 @@ namespace SpiritMod.Projectiles.Magic
 					dust.noGravity = true;
 					dust.scale = (float)Math.Sqrt(counter / 100f);
 
-					projectile.ai[1]++;
-					if (projectile.ai[1] % 20 == 19) {
+					Projectile.ai[1]++;
+					if (Projectile.ai[1] % 20 == 19) {
 						if (player.statMana > 0) {
 							player.statMana -= 20;
 							player.manaRegenDelay = 90;
@@ -109,12 +110,12 @@ namespace SpiritMod.Projectiles.Magic
 							ModContent.ProjectileType<GunBubble4>(),
 							ModContent.ProjectileType<GunBubble5>()
 						});
-						Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 85);
-						Projectile.NewProjectile(player.Center + (direction * 5), direction.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.85f, 1.15f), bubbleproj, projectile.damage, projectile.knockBack, projectile.owner);
+						SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 85);
+						Projectile.NewProjectile(player.Center + (direction * 5), direction.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.85f, 1.15f), bubbleproj, Projectile.damage, Projectile.knockBack, Projectile.owner);
 					}
 				}
 				else {
-					projectile.active = false;
+					Projectile.active = false;
 				}
 			}
 			return true;

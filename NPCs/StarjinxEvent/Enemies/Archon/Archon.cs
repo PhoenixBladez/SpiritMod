@@ -6,6 +6,7 @@ using SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
@@ -32,7 +33,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		// Fields
 		internal int stage = InitStage;
 
-		private ref Player Target => ref Main.player[npc.target];
+		private ref Player Target => ref Main.player[NPC.target];
 
 		// FG/BG Related
 		internal bool inFG = true;
@@ -70,55 +71,55 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			get
 			{
 				GetRotation(out float rot, out _);
-				return npc.Center - new Vector2(10, 44).RotatedBy(rot);
+				return NPC.Center - new Vector2(10, 44).RotatedBy(rot);
 			}
 		}
 
-		private Texture2D SwordExtra => enchantment == Enchantment.Void ? ModContent.GetTexture(Texture + "_Sword_Void") : ModContent.GetTexture(Texture + "_Sword");
+		private Texture2D SwordExtra => enchantment == Enchantment.Void ? ModContent.Request<Texture2D>(Texture + "_Sword_Void") : ModContent.Request<Texture2D>(Texture + "_Sword");
 
 		public void SetDuo(float d) => timers["DUO"] = (int)d;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Archon");
-			Main.npcFrameCount[npc.type] = 6;
+			Main.npcFrameCount[NPC.type] = 6;
 		}
 
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetDefaults()
 		{
-			npc.width = 190;
-			npc.height = 114;
-			npc.damage = 0;
-			npc.defense = 28;
-			npc.lifeMax = 12000;
-			npc.aiStyle = -1;
-			npc.HitSound = SoundID.DD2_CrystalCartImpact;
-			npc.DeathSound = SoundID.DD2_ExplosiveTrapExplode;
-			npc.value = Item.buyPrice(0, 0, 15, 0);
-			npc.knockBackResist = 0f;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.boss = true;
+			NPC.width = 190;
+			NPC.height = 114;
+			NPC.damage = 0;
+			NPC.defense = 28;
+			NPC.lifeMax = 12000;
+			NPC.aiStyle = -1;
+			NPC.HitSound = SoundID.DD2_CrystalCartImpact;
+			NPC.DeathSound = SoundID.DD2_ExplosiveTrapExplode;
+			NPC.value = Item.buyPrice(0, 0, 15, 0);
+			NPC.knockBackResist = 0f;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.boss = true;
 		}
 
 		public override bool CheckActive() => !ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive;
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => npc.defDamage != 0;
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => NPC.defDamage != 0;
 
 		public override void AI()
 		{
 			if (Background == null) //init stuff
 			{
-				Background = new ArchonBG(npc.Center, npc);
+				Background = new ArchonBG(NPC.Center, NPC);
 				BackgroundItemManager.AddItem(Background);
 
 				SpiritMod.Metaballs.EnemyLayer.Sprites.Add(this);
 			}
 
-			npc.TargetClosest(true);
-			npc.dontTakeDamage = !inFG;
-			npc.defDamage = npc.damage = 0;
+			NPC.TargetClosest(true);
+			NPC.dontTakeDamage = !inFG;
+			NPC.defDamage = NPC.damage = 0;
 
 			if (transitionFG)
 			{
@@ -135,21 +136,21 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		#region Background Stuff
 		private void Transition()
 		{
-			npc.velocity.Y -= 0.06f;
+			NPC.velocity.Y -= 0.06f;
 
-			if (npc.Center.Y < -200 && fgTime > MaxForegroundTransitionTime / 2)
+			if (NPC.Center.Y < -200 && fgTime > MaxForegroundTransitionTime / 2)
 				fgTime = MaxForegroundTransitionTime / 2;
 
 			if (fgTime == MaxForegroundTransitionTime / 2)
 			{
 				inFG = !inFG;
-				npc.position.Y = -150;
+				NPC.position.Y = -150;
 			}
 
 			if (fgTime < MaxForegroundTransitionTime / 2)
 			{
-				npc.Center = Vector2.Lerp(npc.Center, fgPos, 0.125f);
-				npc.velocity *= 0f;
+				NPC.Center = Vector2.Lerp(NPC.Center, fgPos, 0.125f);
+				NPC.velocity *= 0f;
 			}
 
 			if (fgTime == 0)
@@ -160,7 +161,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		{
 			transitionFG = true;
 			fgTime = MaxForegroundTransitionTime;
-			fgPos = npc.Center;
+			fgPos = NPC.Center;
 		}
 
 		private void UpdateBackground()
@@ -189,15 +190,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				if (Main.rand.NextBool(2))
 				{
 					float scl = Main.rand.NextFloat(1f, 3.5f);
-					EnchantParticle(HeadPosition + Main.rand.NextVector2Circular(20, 20), npc.DirectionTo(HeadPosition) * (3.5f - scl) * 2, scl);
+					EnchantParticle(HeadPosition + Main.rand.NextVector2Circular(20, 20), NPC.DirectionTo(HeadPosition) * (3.5f - scl) * 2, scl);
 				}
 			}
 		}
 
 		internal void VoidDuoBehaviour(List<int> portals)
 		{
-			if (npc.velocity.Length() < 0.25f)
-				npc.rotation *= 0.95f;
+			if (NPC.velocity.Length() < 0.25f)
+				NPC.rotation *= 0.95f;
 		}
 
 		private void EnchantBehaviour()
@@ -209,7 +210,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			else if (enchantment != Enchantment.None)
 				timers["ATTACK"]++;
 
-			npc.velocity.Y = (float)Math.Sin(timers["ENCHANT"] * 0.1f) * 0.2f;
+			NPC.velocity.Y = (float)Math.Sin(timers["ENCHANT"] * 0.1f) * 0.2f;
 
 			switch (enchantment)
 			{
@@ -255,9 +256,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			const float SingleCastThreshold = 0.075f;
 
 			waitingOnAttack = true;
-			npc.rotation = MathHelper.Lerp(npc.rotation, 0f, 0.2f);
-			npc.velocity *= 0.95f;
-			npc.Center = Vector2.Lerp(npc.Center, Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition, 0.05f);
+			NPC.rotation = MathHelper.Lerp(NPC.rotation, 0f, 0.2f);
+			NPC.velocity *= 0.95f;
+			NPC.Center = Vector2.Lerp(NPC.Center, Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition, 0.05f);
 
 			if (timers["ATTACK"] == (int)(attackTimeMax * BeginCastThreshold)) //Begin singularity anim
 			{
@@ -271,7 +272,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					Vector2 sjinx = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition;
 					Vector2 realPos = sjinx + new Vector2(StarjinxMeteorite.EVENT_RADIUS, 0).RotatedByRandom(MathHelper.TwoPi);
 
-					int p = Projectile.NewProjectile(realPos, npc.DirectionFrom(realPos) * 8, ModContent.ProjectileType<MeteorEnchantment_Meteor>(), 40, 1f, Main.myPlayer);
+					int p = Projectile.NewProjectile(realPos, NPC.DirectionFrom(realPos) * 8, ModContent.ProjectileType<MeteorEnchantment_Meteor>(), 40, 1f, Main.myPlayer);
 					Main.projectile[p].timeLeft = 200;
 				}
 			}
@@ -311,22 +312,22 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				if (meteorDashOffset == Vector2.Zero)
 					meteorDashOffset = new Vector2(0, -Main.rand.Next(300, 400)).RotatedByRandom(MathHelper.PiOver2);
 
-				npc.velocity = Vector2.Zero;
-				npc.Center = Vector2.Lerp(npc.Center, Target.Center + meteorDashOffset, 0.15f);
+				NPC.velocity = Vector2.Zero;
+				NPC.Center = Vector2.Lerp(NPC.Center, Target.Center + meteorDashOffset, 0.15f);
 			}
 			else if (timers["ATTACK"] == (int)(attackTimeMax * AnticipationThreshold)) //Dash initialization
 			{
 				waitingOnAttack = true;
-				cachedAttackPos = npc.Center - ((npc.Center - Target.Center) * 2.5f);
-				meteorDashBegin = npc.Center;
+				cachedAttackPos = NPC.Center - ((NPC.Center - Target.Center) * 2.5f);
+				meteorDashBegin = NPC.Center;
 			}
 			else if (timers["ATTACK"] >= attackTimeMax * AnticipationThreshold && timers["ATTACK"] < attackTimeMax * MeteorRainThreshold - 2) //Actual dash
 			{
 				meteorDashFactor = MathHelper.Lerp(meteorDashFactor, 1f, 0.15f);
-				npc.velocity = npc.DirectionTo(cachedAttackPos) * 30 * meteorDashFactor;
+				NPC.velocity = NPC.DirectionTo(cachedAttackPos) * 30 * meteorDashFactor;
 
-				if (npc.DistanceSQ(cachedAttackPos) > 32 * 32)
-					npc.defDamage = 70;
+				if (NPC.DistanceSQ(cachedAttackPos) > 32 * 32)
+					NPC.defDamage = 70;
 				else
 					timers["ATTACK"] = (int)(attackTimeMax * MeteorRainThreshold) - 2;
 			}
@@ -336,13 +337,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				{
 					for (int i = 0; i < 4; ++i)
 					{
-						Vector2 vel = npc.DirectionFrom(meteorDashBegin).RotatedByRandom(0.1f) * Main.rand.NextFloat(6f, 17f);
+						Vector2 vel = NPC.DirectionFrom(meteorDashBegin).RotatedByRandom(0.1f) * Main.rand.NextFloat(6f, 17f);
 						Vector2 pos = meteorDashBegin - (vel * 30) - new Vector2(Main.rand.Next(-300, 300), 0);
 						Projectile.NewProjectile(pos, vel, ModContent.ProjectileType<MeteorEnchantment_Meteor>(), 20, 1f);
 					}
 				}
 
-				npc.velocity *= 0.8f; //Slow down
+				NPC.velocity *= 0.8f; //Slow down
 			}
 			else if (timers["ATTACK"] >= attackTimeMax)
 			{
@@ -382,7 +383,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		{
 			const float CastWaitThreshold = 0.4f;
 
-			npc.velocity *= 0.95f;
+			NPC.velocity *= 0.95f;
 
 			if (timers["ATTACK"] == (int)(attackTimeMax * CastWaitThreshold)) //Shoot bg star
 			{
@@ -415,7 +416,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 			if (timers["ATTACK"] <= (int)(attackTimeMax * MaxSetupThreadsThreshold))
 			{
-				npc.velocity *= 0.95f;
+				NPC.velocity *= 0.95f;
 
 				if (timers["ATTACK"] % (int)(attackTimeMax * SetupThreadsThreshold) == 0) //Setup threads
 					AddThread();
@@ -425,7 +426,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				int maxTimePerThread = (int)(attackTimeMax * (1 - MaxSetupThreadsThreshold) / threads.Count);
 				float progress = (timers["ATTACK"] % maxTimePerThread) / (float)maxTimePerThread;
 
-				npc.Center = Vector2.Lerp(threads[currentThread].StartPoint, threads[currentThread].EndPoint, progress);
+				NPC.Center = Vector2.Lerp(threads[currentThread].StartPoint, threads[currentThread].EndPoint, progress);
 
 				if (progress + (1f / maxTimePerThread) >= 0.99f)
 					currentThread++;
@@ -437,13 +438,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				timers["ATTACK"] = 0;
 				attack = AttackType.None;
 				waitingOnAttack = false;
-				npc.rotation = 0f;
+				NPC.rotation = 0f;
 			}
 		}
 
 		private void AddThread()
 		{
-			Vector2 startPos = npc.Center;
+			Vector2 startPos = NPC.Center;
 			if (threads.Count > 0)
 				startPos = threads[threads.Count - 1].EndPoint;
 
@@ -454,7 +455,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		private Vector2 GetThreadEndPoint(bool start)
 		{
 			if (start)
-				return npc.Center - (npc.DirectionFrom(Target.Center) * (npc.Distance(Target.Center) + 420));
+				return NPC.Center - (NPC.DirectionFrom(Target.Center) * (NPC.Distance(Target.Center) + 420));
 			else
 			{
 				int id = NPC.FindFirstNPC(ModContent.NPCType<StarjinxMeteorite>());
@@ -479,14 +480,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			float AnimationWaitThreshold = 0.8f;
 
 			waitingOnAttack = true;
-			npc.rotation = MathHelper.Lerp(npc.rotation, 0f, 0.2f);
-			npc.velocity *= 0.95f;
+			NPC.rotation = MathHelper.Lerp(NPC.rotation, 0f, 0.2f);
+			NPC.velocity *= 0.95f;
 
 			if (timers["ATTACK"] == (int)(attackTimeMax * AnimationWaitThreshold)) //Wait for animation to finish then shoot
 			{
 				if (enchantment == Enchantment.Starlight)
 				{
-					Vector2 baseVel = npc.DirectionTo(Target.Center) * 38;
+					Vector2 baseVel = NPC.DirectionTo(Target.Center) * 38;
 
 					int reps = Main.rand.Next(10, 14);
 					for (int i = 0; i < reps; ++i)
@@ -496,26 +497,26 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 						float angularOffset = Main.rand.NextFloat(-1, 1) * maxAngularOffset;
 						Vector2 velocity = baseVel.RotatedBy(angularOffset) * (1 - Math.Abs(angularOffset / maxAngularOffset)) * Main.rand.NextFloat(0.75f, 1.1f);
 
-						Projectile.NewProjectile(npc.Center, velocity, ModContent.ProjectileType<ArchonStarFragment>(), 20, 1f);
+						Projectile.NewProjectile(NPC.Center, velocity, ModContent.ProjectileType<ArchonStarFragment>(), 20, 1f);
 
 						if (!Main.dedServ)
 							for (int j = 0; j < 2; j++)
-								ParticleHandler.SpawnParticle(new StarParticle(npc.Center, velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.5f), Color.White, Color.Cyan, Main.rand.NextFloat(0.1f, 0.2f), 25));
+								ParticleHandler.SpawnParticle(new StarParticle(NPC.Center, velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.5f), Color.White, Color.Cyan, Main.rand.NextFloat(0.1f, 0.2f), 25));
 					}
 
-					npc.velocity -= baseVel / 4; //Recoil effect
+					NPC.velocity -= baseVel / 4; //Recoil effect
 				}
 				else if (enchantment == Enchantment.Meteor)
 				{
 					const float Speed = 15f;
 
-					Vector2 spawnPos = new Vector2(npc.Center.X, npc.Center.Y > Target.Center.Y ? Target.Center.Y : npc.Center.Y) - new Vector2(Main.rand.Next(-150, 150), 400);
+					Vector2 spawnPos = new Vector2(NPC.Center.X, NPC.Center.Y > Target.Center.Y ? Target.Center.Y : NPC.Center.Y) - new Vector2(Main.rand.Next(-150, 150), 400);
 					Vector2 velocity = Vector2.Normalize(Target.Center - spawnPos) * Speed;
 					Vector2 destination = spawnPos + (velocity * (Vector2.Distance(Target.Center, spawnPos) / Speed));
 
 					Projectile proj = Main.projectile[Projectile.NewProjectile(spawnPos, velocity, ModContent.ProjectileType<MeteorCastProjectile>(), 20, 1f)];
 
-					if (proj.modProjectile != null && proj.modProjectile is MeteorCastProjectile)
+					if (proj.ModProjectile != null && proj.ModProjectile is MeteorCastProjectile)
 					{
 						proj.ai[0] = destination.X;
 						proj.ai[1] = destination.Y;
@@ -536,36 +537,36 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			const float BeginAttackThreshold = 0.3f;
 
 			if (timers["ATTACK"] < (int)(attackTimeMax * AnticipationThreshold))
-				npc.rotation = MathHelper.Lerp(npc.rotation, 0f, 0.2f);
+				NPC.rotation = MathHelper.Lerp(NPC.rotation, 0f, 0.2f);
 			else if (timers["ATTACK"] == (int)(attackTimeMax * AnticipationThreshold)) //Teleport & start slash anticipation
 			{
 				waitingOnAttack = true;
 
 				for (int i = 0; i < 8; ++i)
-					EnchantParticle(npc.Center, new Vector2(0, Main.rand.NextFloat(4f, 7f)).RotatedByRandom(MathHelper.TwoPi), 2f);
+					EnchantParticle(NPC.Center, new Vector2(0, Main.rand.NextFloat(4f, 7f)).RotatedByRandom(MathHelper.TwoPi), 2f);
 
-				npc.Center = Target.Center + new Vector2(0, Main.rand.Next(300, 400)).RotatedByRandom(MathHelper.TwoPi);
+				NPC.Center = Target.Center + new Vector2(0, Main.rand.Next(300, 400)).RotatedByRandom(MathHelper.TwoPi);
 				if (enchantment == Enchantment.Void)
-					npc.Center = Target.Center + new Vector2(0, Main.rand.Next(300, 400)).RotatedBy(Main.rand.NextBool() ? 0 : MathHelper.Pi).RotatedByRandom(MathHelper.PiOver4);
+					NPC.Center = Target.Center + new Vector2(0, Main.rand.Next(300, 400)).RotatedBy(Main.rand.NextBool() ? 0 : MathHelper.Pi).RotatedByRandom(MathHelper.PiOver4);
 
 				for (int i = 0; i < 8; ++i)
-					EnchantParticle(npc.Center, new Vector2(0, Main.rand.NextFloat(8f, 11f)).RotatedByRandom(MathHelper.TwoPi), 3f);
+					EnchantParticle(NPC.Center, new Vector2(0, Main.rand.NextFloat(8f, 11f)).RotatedByRandom(MathHelper.TwoPi), 3f);
 
-				cachedAttackPos = npc.Center - (npc.DirectionFrom(Target.Center) * npc.Distance(Target.Center) * 2);
+				cachedAttackPos = NPC.Center - (NPC.DirectionFrom(Target.Center) * NPC.Distance(Target.Center) * 2);
 			}
 			else if (timers["ATTACK"] > attackTimeMax * AnticipationThreshold && timers["ATTACK"] < attackTimeMax * BeginAttackThreshold)
 			{
 				float mult = (attackTimeMax * BeginAttackThreshold) - timers["ATTACK"];
-				npc.velocity = -npc.DirectionTo(cachedAttackPos) * 0.5f * mult;
-				npc.rotation = MathHelper.Lerp(npc.rotation, npc.AngleTo(cachedAttackPos), 0.2f);
+				NPC.velocity = -NPC.DirectionTo(cachedAttackPos) * 0.5f * mult;
+				NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.AngleTo(cachedAttackPos), 0.2f);
 			}
 			else if (timers["ATTACK"] >= (int)(attackTimeMax * BeginAttackThreshold))
 			{
 				float factor = enchantment == Enchantment.Void ? 0.05f : 0.075f;
-				npc.Center = Vector2.Lerp(npc.Center, cachedAttackPos, factor);
+				NPC.Center = Vector2.Lerp(NPC.Center, cachedAttackPos, factor);
 
-				if (npc.DistanceSQ(cachedAttackPos) > 10 * 10)
-					npc.defDamage = 70;
+				if (NPC.DistanceSQ(cachedAttackPos) > 10 * 10)
+					NPC.defDamage = 70;
 				else
 					timers["ATTACK"] = (int)attackTimeMax;
 			}
@@ -573,7 +574,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			if (timers["ATTACK"] >= attackTimeMax)
 			{
 				timers["ATTACK"] = 0;
-				npc.velocity = Vector2.Zero;
+				NPC.velocity = Vector2.Zero;
 
 				if (!starlightDoubleSlash)
 				{
@@ -605,13 +606,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 		public override void FindFrame(int frameHeight)
 		{
-			if (npc.frameCounter++ > 6)
+			if (NPC.frameCounter++ > 6)
 			{
-				npc.frameCounter = 0;
-				npc.frame.Y += frameHeight;
+				NPC.frameCounter = 0;
+				NPC.frame.Y += frameHeight;
 
-				if (npc.frame.Y >= frameHeight * Main.npcFrameCount[npc.type])
-					npc.frame.Y = 0;
+				if (NPC.frame.Y >= frameHeight * Main.npcFrameCount[NPC.type])
+					NPC.frame.Y = 0;
 			}
 		}
 
@@ -630,15 +631,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 				DrawSword(true);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if (!inFG) //if not in foreground stop drawing
 				return false;
 
 			GetRotation(out float realRot, out SpriteEffects effect);
 
-			Color col = Lighting.GetColor((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f));
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, StarjinxGlobalNPC.GetColorBrightness(col), realRot, npc.frame.Size() / 2f, 1f, effect, 0f);
+			Color col = Lighting.GetColor((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f));
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition, NPC.frame, StarjinxGlobalNPC.GetColorBrightness(col), realRot, NPC.frame.Size() / 2f, 1f, effect, 0f);
 
 			if (enchantment != Enchantment.Void)
 				DrawSword();
@@ -650,20 +651,20 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			GetRotation(out float realRot, out SpriteEffects effect);
 
 			if (gloop)
-				Main.spriteBatch.Draw(SwordExtra, (npc.Center - Main.screenPosition) / 2f, npc.frame, Color.White, realRot, npc.frame.Size() / 2f, 1 / 2f, effect, 0f);
+				Main.spriteBatch.Draw(SwordExtra, (NPC.Center - Main.screenPosition) / 2f, NPC.frame, Color.White, realRot, NPC.frame.Size() / 2f, 1 / 2f, effect, 0f);
 			else
 			{
-				Color col = Lighting.GetColor((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f));
-				Main.spriteBatch.Draw(SwordExtra, npc.Center - Main.screenPosition, npc.frame, StarjinxGlobalNPC.GetColorBrightness(col), realRot, npc.frame.Size() / 2f, 1f, effect, 0f);
+				Color col = Lighting.GetColor((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f));
+				Main.spriteBatch.Draw(SwordExtra, NPC.Center - Main.screenPosition, NPC.frame, StarjinxGlobalNPC.GetColorBrightness(col), realRot, NPC.frame.Size() / 2f, 1f, effect, 0f);
 			}
 		}
 
 		private void GetRotation(out float realRot, out SpriteEffects effect)
 		{
-			realRot = npc.rotation;
+			realRot = NPC.rotation;
 			effect = SpriteEffects.None;
 
-			if (npc.rotation < -MathHelper.PiOver2 || npc.rotation > MathHelper.PiOver2)
+			if (NPC.rotation < -MathHelper.PiOver2 || NPC.rotation > MathHelper.PiOver2)
 			{
 				realRot -= MathHelper.Pi;
 				effect = SpriteEffects.FlipHorizontally;

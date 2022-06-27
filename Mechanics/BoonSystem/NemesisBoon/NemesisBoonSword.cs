@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Utilities;
@@ -21,9 +23,9 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 		private const int NUMBEROFSWINGS = 3;
 
-		private bool activated => projectile.ai[1] == 1;
+		private bool activated => Projectile.ai[1] == 1;
 
-		private NPC parent => Main.npc[(int)projectile.ai[0]];
+		private NPC parent => Main.npc[(int)Projectile.ai[0]];
 		private List<float> oldRotation = new List<float>();
 		private Player player;
 
@@ -42,30 +44,30 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sword of Nemesis");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 26;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.friendly = false;
-			projectile.ignoreWater = true;
+			Projectile.width = Projectile.height = 26;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.friendly = false;
+			Projectile.ignoreWater = true;
 		}
 
 		public override void AI()
 		{
 			if (!initialized)
 			{
-				for (int i = 0; i < projectile.oldPos.Length; i++)
-					oldRotation.Add(projectile.rotation);
+				for (int i = 0; i < Projectile.oldPos.Length; i++)
+					oldRotation.Add(Projectile.rotation);
 			}
 
-			oldRotation.Add(projectile.rotation);
-			while (oldRotation.Count > projectile.oldPos.Length)
+			oldRotation.Add(Projectile.rotation);
+			while (oldRotation.Count > Projectile.oldPos.Length)
 				oldRotation.RemoveAt(0);
 
 			if (activated)
@@ -73,10 +75,10 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 				if (!swinging)
 				{
 					swingWindup++;
-					projectile.timeLeft = (int)(SWINGDURATION * NUMBEROFSWINGS / 2f) + 5;
+					Projectile.timeLeft = (int)(SWINGDURATION * NUMBEROFSWINGS / 2f) + 5;
 					float newRot = swingDirection.ToRotation() + SWINGROTATION + 1.57f;
 
-					float rotDif = ((((newRot - projectile.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+					float rotDif = ((((newRot - Projectile.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 					if (swingWindup > 60)
 					{
 						soundTimer = 10;
@@ -84,20 +86,20 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 					}
 
 					if (Math.Abs(rotDif) > 0.1f)
-						projectile.rotation += rotDif / 15f;
-					projectile.rotation = MathHelper.Lerp(projectile.rotation, newRot, 0.1f);
+						Projectile.rotation += rotDif / 15f;
+					Projectile.rotation = MathHelper.Lerp(Projectile.rotation, newRot, 0.1f);
 
 					float velLength = (player.Center - swingBase).Length();
 					float offset = SWINGDISTANCE * Math.Min(swingWindup / 30f, 1);
 					offset *= 2;
-					projectile.velocity = swingDirection * (float)Math.Pow(Math.Abs(velLength - offset), 0.3f) * Math.Sign(velLength - offset);
+					Projectile.velocity = swingDirection * (float)Math.Pow(Math.Abs(velLength - offset), 0.3f) * Math.Sign(velLength - offset);
 
 					if (swingWindup == 30)
-						Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
+						SoundEngine.PlaySound(SoundID.NPCDeath7, Projectile.Center);
 				}
 				else
 				{
-					projectile.hostile = true;
+					Projectile.hostile = true;
 
 					swingTimer += swingSpeed;
 					if (swingTimer > 1 || swingTimer < 0)
@@ -108,37 +110,37 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 					soundTimer--;
 					if (soundTimer == 0)
-						Main.PlaySound(SoundID.Item, projectile.Center, 1);
+						SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 1);
 
 					float progress = swingTimer;
 					float oldProgress = EaseFunction.EaseCircularInOut.Ease(progress - swingSpeed);
 					slashProgress = progress = EaseFunction.EaseCircularInOut.Ease(progress);
 
-					projectile.velocity = swingDirection * 50 * (Math.Abs(oldProgress - progress));
+					Projectile.velocity = swingDirection * 50 * (Math.Abs(oldProgress - progress));
 
-					projectile.rotation = swingDirection.ToRotation() + MathHelper.Lerp(SWINGROTATION, -SWINGROTATION, progress) + 1.57f;
+					Projectile.rotation = swingDirection.ToRotation() + MathHelper.Lerp(SWINGROTATION, -SWINGROTATION, progress) + 1.57f;
 				}
 
-				projectile.Center = swingBase + ((projectile.rotation - 1.57f).ToRotationVector2() * SWINGDISTANCE * Math.Min(swingWindup / 30f, 1));
+				Projectile.Center = swingBase + ((Projectile.rotation - 1.57f).ToRotationVector2() * SWINGDISTANCE * Math.Min(swingWindup / 30f, 1));
 
-				swingBase += projectile.velocity;
+				swingBase += Projectile.velocity;
 			}
 			else
 			{
-				swingBase = projectile.Center;
+				swingBase = Projectile.Center;
 				player = Main.player[Player.FindClosest(swingBase, 0, 0)];
-				swingDirection = projectile.DirectionTo(player.Center);
-				projectile.velocity = Vector2.Zero;
+				swingDirection = Projectile.DirectionTo(player.Center);
+				Projectile.velocity = Vector2.Zero;
 				hoverCounter += 0.05f;
 
-				Vector2 posToBe = parent.Center + new Vector2(parent.direction * (parent.width + (projectile.width / 2)) * -1, (float)Math.Sin(hoverCounter) * 12).RotatedBy(parent.rotation);
+				Vector2 posToBe = parent.Center + new Vector2(parent.direction * (parent.width + (Projectile.width / 2)) * -1, (float)Math.Sin(hoverCounter) * 12).RotatedBy(parent.rotation);
 				if (!parent.active)
-					projectile.active = false;
+					Projectile.active = false;
 
-				Vector2 newPos = Vector2.Lerp(projectile.Center, posToBe, 0.1f);
-				Vector2 tiltDirection = projectile.DirectionTo(newPos);
-				projectile.rotation = tiltDirection.X * ((projectile.Center - newPos).Length() / 10f);
-				projectile.Center = newPos;
+				Vector2 newPos = Vector2.Lerp(Projectile.Center, posToBe, 0.1f);
+				Vector2 tiltDirection = Projectile.DirectionTo(newPos);
+				Projectile.rotation = tiltDirection.X * ((Projectile.Center - newPos).Length() / 10f);
+				Projectile.Center = newPos;
 
 			}
 		}
@@ -146,31 +148,31 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
 			float collisionPoint = 0;
-			return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + ((projectile.rotation - 1.57f).ToRotationVector2() * 70), projectile.width, ref collisionPoint);
+			return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + ((Projectile.rotation - 1.57f).ToRotationVector2() * 70), Projectile.width, ref collisionPoint);
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Vector2 vector9 = projectile.position;
+			Vector2 vector9 = Projectile.position;
 			for (int num257 = 0; num257 < 25; num257++)
 			{
-				int newDust = Dust.NewDust(projectile.Center + ((projectile.rotation - 1.57f).ToRotationVector2() * Main.rand.Next(70)) + Main.rand.NextVector2Circular(10, 10), projectile.width, projectile.height, DustID.Firework_Blue, 0f, 0f, 0, default, 1f);
+				int newDust = Dust.NewDust(Projectile.Center + ((Projectile.rotation - 1.57f).ToRotationVector2() * Main.rand.Next(70)) + Main.rand.NextVector2Circular(10, 10), Projectile.width, Projectile.height, DustID.Firework_Blue, 0f, 0f, 0, default, 1f);
 				Main.dust[newDust].velocity *= .125f;
 				Main.dust[newDust].noGravity = true;
 
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 
 			if (swinging)
 			{
 				spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
 				List<PrimitiveSlashArc> slashArcs = new List<PrimitiveSlashArc>();
-				Effect effect = mod.GetEffect("Effects/NemesisBoonShader");
+				Effect effect = Mod.GetEffect("Effects/NemesisBoonShader");
 				effect.Parameters["white"].SetValue(Color.White.ToVector4());
 				effect.Parameters["opacity"].SetValue(1);
 				PrimitiveSlashArc slash = new PrimitiveSlashArc
@@ -180,7 +182,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 					EndDistance = SWINGDISTANCE + tex.Height,
 					AngleRange = new Vector2(SWINGROTATION * Math.Sign(swingSpeed), -SWINGROTATION * Math.Sign(swingSpeed)),
 					DirectionUnit = swingDirection,
-					Color = Color.Cyan * projectile.velocity.Length() * 0.2f,
+					Color = Color.Cyan * Projectile.velocity.Length() * 0.2f,
 					SlashProgress = Math.Sign(swingSpeed) == 1 ? slashProgress : 1 - slashProgress
 				};
 				slashArcs.Add(slash);
@@ -194,9 +196,9 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 
-			Texture2D tex2 = ModContent.GetTexture(Texture + "_White");
+			Texture2D tex2 = ModContent.Request<Texture2D>(Texture + "_White");
 
 			DrawSword(spriteBatch, tex, 1, 1);
 
@@ -213,23 +215,23 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 		{
 			Vector2 origin = new Vector2(tex.Width / 2, tex.Height);
 
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White * 0.8f * transparency, projectile.rotation, origin, projectile.scale * scale, SpriteEffects.None, 0f);
-			for (int k = projectile.oldPos.Length - 1; k > 0; k--)
+			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * 0.8f * transparency, Projectile.rotation, origin, Projectile.scale * scale, SpriteEffects.None, 0f);
+			for (int k = Projectile.oldPos.Length - 1; k > 0; k--)
 			{
-				Vector2 drawPos = projectile.oldPos[k] + (new Vector2(projectile.width, projectile.height) / 2);
-				Color color = Color.White * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length));
+				Vector2 drawPos = Projectile.oldPos[k] + (new Vector2(Projectile.width, Projectile.height) / 2);
+				Color color = Color.White * (float)(((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length));
 				float num108 = 4;
-				float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
+				float num107 = (float)Math.Cos((double)(Main.GlobalTimeWrappedHourly % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
 				float num106 = 0f;
-				Color color29 = new Color(110 - projectile.alpha, 94 - projectile.alpha, 25 - projectile.alpha, 0).MultiplyRGBA(color);
+				Color color29 = new Color(110 - Projectile.alpha, 94 - Projectile.alpha, 25 - Projectile.alpha, 0).MultiplyRGBA(color);
 				for (int num103 = 0; num103 < 4; num103++)
 				{
 					Color color28 = color29;
-					color28 = projectile.GetAlpha(color28);
+					color28 = Projectile.GetAlpha(color28);
 					color28 *= 1.5f - num107;
-					color28 *= (float)Math.Pow((((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) / 2), 1.5f);
-					Vector2 vector29 = drawPos + ((float)num103 / (float)num108 * 6.28318548f + projectile.rotation + num106).ToRotationVector2() * (1.5f * num107 + 3f) - Main.screenPosition + new Vector2(0, projectile.gfxOffY) - projectile.velocity * (float)num103;
-					spriteBatch.Draw(tex, vector29, null, color28 * .6f * transparency, oldRotation[k], origin, projectile.scale * scale, SpriteEffects.None, 0f);
+					color28 *= (float)Math.Pow((((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) / 2), 1.5f);
+					Vector2 vector29 = drawPos + ((float)num103 / (float)num108 * 6.28318548f + Projectile.rotation + num106).ToRotationVector2() * (1.5f * num107 + 3f) - Main.screenPosition + new Vector2(0, Projectile.gfxOffY) - Projectile.velocity * (float)num103;
+					spriteBatch.Draw(tex, vector29, null, color28 * .6f * transparency, oldRotation[k], origin, Projectile.scale * scale, SpriteEffects.None, 0f);
 				}
 			}
 		}

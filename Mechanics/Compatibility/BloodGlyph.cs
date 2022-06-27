@@ -7,9 +7,9 @@ namespace SpiritMod.Items.Glyphs
 	{
 		public override string Texture => SpiritMod.EMPTY_TEXTURE;
 
-		public override void Load(TagCompound tag)
+		public override void LoadData(TagCompound tag)
 		{
-			item.SetDefaults(ModContent.ItemType<SanguineGlyph>());
+			Item.SetDefaults(ModContent.ItemType<SanguineGlyph>());
 		}
 	}
 }

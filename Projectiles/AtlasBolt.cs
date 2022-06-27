@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,37 +13,37 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Earthen Energy");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 22;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.melee = true;
-			projectile.ranged = true;
-			projectile.penetrate = 1;
-			projectile.tileCollide = true;
-			projectile.alpha = 255;
-			projectile.timeLeft = 500;
-			projectile.light = 0;
-			projectile.extraUpdates = 1;
+			Projectile.width = 22;
+			Projectile.height = 22;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 1;
+			Projectile.tileCollide = true;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 500;
+			Projectile.light = 0;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void AI()
 		{
-			Vector2 targetPos = projectile.Center;
+			Vector2 targetPos = Projectile.Center;
 			float targetDist = 350f;
 			bool targetAcquired = false;
 
 			//loop through first 200 NPCs in Main.npc
 			//this loop finds the closest valid target NPC within the range of targetDist pixels
 			for (int i = 0; i < 200; i++) {
-				if (Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
-					float dist = projectile.Distance(Main.npc[i].Center);
+				if (Main.npc[i].CanBeChasedBy(Projectile) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
+					float dist = Projectile.Distance(Main.npc[i].Center);
 					if (dist < targetDist) {
 						targetDist = dist;
 						targetPos = Main.npc[i].Center;
@@ -54,32 +55,32 @@ namespace SpiritMod.Projectiles
 			//change trajectory to home in on target
 			if (targetAcquired) {
 				float homingSpeedFactor = 6f;
-				Vector2 homingVect = targetPos - projectile.Center;
-				float dist = projectile.Distance(targetPos);
+				Vector2 homingVect = targetPos - Projectile.Center;
+				float dist = Projectile.Distance(targetPos);
 				dist = homingSpeedFactor / dist;
 				homingVect *= dist;
 
-				projectile.velocity = (projectile.velocity * 20 + homingVect) / 21f;
+				Projectile.velocity = (Projectile.velocity * 20 + homingVect) / 21f;
 			}
 
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.BubbleBlock, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.UnusedWhiteBluePurple, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+			int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.BubbleBlock, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 			Main.dust[dust].velocity *= 0f;
 			Main.dust[dust2].velocity *= 0f;
 			Main.dust[dust2].scale = 1.8f;
 			Main.dust[dust].scale = 1.8f;
-			projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
+			Projectile.rotation = Projectile.velocity.ToRotation() + (float)(Math.PI / 2);
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+			ProjectileExtras.Explode(Projectile.whoAmI, 120, 120,
 				delegate {
 					for (int num621 = 0; num621 < 40; num621++) {
-						int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default, 2f);
+						int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default, 2f);
 						Main.dust[num622].velocity *= 3f;
 						if (Main.rand.Next(2) == 0) {
 							Main.dust[num622].scale = 0.5f;
@@ -87,10 +88,10 @@ namespace SpiritMod.Projectiles
 						}
 					}
 					for (int num623 = 0; num623 < 70; num623++) {
-						int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.BubbleBlock, 0f, 0f, 100, default, 1f);
+						int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.BubbleBlock, 0f, 0f, 100, default, 1f);
 						Main.dust[num624].noGravity = true;
 						Main.dust[num624].velocity *= 1.5f;
-						num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default, 1f);
+						num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default, 1f);
 						Main.dust[num624].velocity *= 2f;
 					}
 				});

@@ -7,7 +7,7 @@ namespace SpiritMod.Dusts
 	public class Mana : ModDust
 	{
 		public override void OnSpawn(Dust dust) {
-			updateType = 235;
+			UpdateType = 235;
 		}
 
 		public override Color? GetAlpha(Dust dust, Color lightColor) 

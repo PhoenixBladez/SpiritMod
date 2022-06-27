@@ -14,20 +14,20 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.Shuriken);
-			item.width = 37;
-			item.height = 26;
-			item.shoot = ModContent.ProjectileType<GhostJellyBombProj>();
-			item.useAnimation = 27;
-			item.useTime = 27;
-			item.shootSpeed = 11f;
-			item.damage = 35;
-			item.knockBack = 1.0f;
-			item.value = Terraria.Item.sellPrice(0, 0, 3, 0);
-			item.crit = 6;
-			item.rare = ItemRarityID.Pink;
-			item.ranged = true;
-			item.autoReuse = false;
+			Item.CloneDefaults(ItemID.Shuriken);
+			Item.width = 37;
+			Item.height = 26;
+			Item.shoot = ModContent.ProjectileType<GhostJellyBombProj>();
+			Item.useAnimation = 27;
+			Item.useTime = 27;
+			Item.shootSpeed = 11f;
+			Item.damage = 35;
+			Item.knockBack = 1.0f;
+			Item.value = Terraria.Item.sellPrice(0, 0, 3, 0);
+			Item.crit = 6;
+			Item.rare = ItemRarityID.Pink;
+			Item.DamageType = DamageClass.Ranged;
+			Item.autoReuse = false;
 		}
 
 

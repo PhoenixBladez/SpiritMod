@@ -6,9 +6,9 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class CandyBowl : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
-			animationFrameHeight = 36;
+			AnimationFrameHeight = 36;
 			Main.tileTable[Type] = true;
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -42,10 +42,10 @@ namespace SpiritMod.Tiles.Furniture
 
 			player.noThrow = 2;
 			//player.showItemIcon = true;
-			player.showItemIconText = "Take a piece of candy";
+			player.cursorItemIconText = "Take a piece of candy";
 		}
 
-		public override bool NewRightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			if (Main.dayTime)
 				return false;

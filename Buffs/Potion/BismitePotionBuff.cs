@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Potion
 {
 	public class BismitePotionBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Toxin Strike");
 			Description.SetDefault("Critical strikes inflict Festering Wounds\n4% increased critical strike chance");

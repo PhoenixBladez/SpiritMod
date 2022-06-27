@@ -26,10 +26,10 @@ namespace SpiritMod.GlobalClasses.Tiles
 						continue;
 
 					if (tag.Tags.Contains(TileTags.Indestructible))
-						Indestructibles.Add(mod.TileType(type.Name));
+						Indestructibles.Add(mod.Find<ModTile>(type.Name).Type);
 
 					if (tag.Tags.Contains(TileTags.IndestructibleNoGround))
-						IndestructiblesUngrounded.Add(mod.TileType(type.Name));
+						IndestructiblesUngrounded.Add(mod.Find<ModTile>(type.Name).Type);
 				}
 			}
 		}
@@ -38,7 +38,7 @@ namespace SpiritMod.GlobalClasses.Tiles
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 
-			if (Indestructibles.Contains(type) || Indestructibles.Contains(tileAbove.type)) //Check for indestructibles
+			if (Indestructibles.Contains(type) || Indestructibles.Contains(tileAbove.TileType)) //Check for indestructibles
 				return false;
 			if (IndestructiblesUngrounded.Contains(type)) //Check for floating indesctructibles
 				return false;
@@ -49,7 +49,7 @@ namespace SpiritMod.GlobalClasses.Tiles
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 
-			if (Indestructibles.Contains(tileAbove.type) && type != tileAbove.type && TileID.Sets.Falling[type])
+			if (Indestructibles.Contains(tileAbove.TileType) && type != tileAbove.TileType && TileID.Sets.Falling[type])
 				return false;
 			if (IndestructiblesUngrounded.Contains(type))
 				return false;
@@ -60,8 +60,8 @@ namespace SpiritMod.GlobalClasses.Tiles
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 
-			if (Indestructibles.Contains(tileAbove.type) && type != tileAbove.type)
-				Main.tile[i, j].inActive(false);
+			if (Indestructibles.Contains(tileAbove.TileType) && type != tileAbove.TileType)
+				Main.tile[i, j].IsActuated = false;
 			return true;
 		}
 
@@ -71,7 +71,7 @@ namespace SpiritMod.GlobalClasses.Tiles
 		{
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 
-			if (Indestructibles.Contains(tileAbove.type) || Indestructibles.Contains(type))
+			if (Indestructibles.Contains(tileAbove.TileType) || Indestructibles.Contains(type))
 				return false;
 			if (IndestructiblesUngrounded.Contains(type))
 				return false;

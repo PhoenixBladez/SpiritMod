@@ -16,22 +16,22 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 8;
+			Projectile.width = 8;
+			Projectile.height = 8;
 
-			projectile.timeLeft = 30;
-			projectile.alpha = 255;
-			projectile.penetrate = -1;
-			projectile.hostile = false;
-			projectile.friendly = true;
+			Projectile.timeLeft = 30;
+			Projectile.alpha = 255;
+			Projectile.penetrate = -1;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
 		}
 		public override void AI()
 		{
 			for (int i = 0; i < 6; i++) {
-				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+				float x = Projectile.Center.X - Projectile.velocity.X / 10f * (float)i;
+				float y = Projectile.Center.Y - Projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.Flare_Blue);
-				Main.dust[num].alpha = projectile.alpha;
+				Main.dust[num].alpha = Projectile.alpha;
 				Main.dust[num].noGravity = true;
 			}
 

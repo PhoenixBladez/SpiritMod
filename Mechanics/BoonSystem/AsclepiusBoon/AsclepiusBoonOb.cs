@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Audio;
 using Terraria.ModLoader;
@@ -24,23 +25,23 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("");
-			NPCID.Sets.TrailCacheLength[npc.type] = 6;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 6;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			npc.width = 26;
-			npc.height = 26;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 1;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.knockBackResist = 0f;
+			NPC.width = 26;
+			NPC.height = 26;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 1;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.knockBackResist = 0f;
 		}
 		public override void AI()
 		{
-			npc.rotation = npc.velocity.ToRotation();
+			NPC.rotation = NPC.velocity.ToRotation();
 			/*if (Main.rand.Next(15) == 1)
 			{
 				StarParticle particle = new StarParticle(
@@ -54,32 +55,32 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 			}*/
 
 			if (counter == 0)
-				npc.velocity = npc.ai[1].ToRotationVector2() * 10;
+				NPC.velocity = NPC.ai[1].ToRotationVector2() * 10;
 			counter++;
 			if (counter < STARTTIME )
 			if (counter < STARTTIME)
 			{
-				npc.velocity.Y *= 0.96f;
-				npc.velocity.X *= 1.02f;
-				npc.velocity = npc.velocity.RotatedBy(0.04f);
+				NPC.velocity.Y *= 0.96f;
+				NPC.velocity.X *= 1.02f;
+				NPC.velocity = NPC.velocity.RotatedBy(0.04f);
 				return;
 			}
 
-			var target = Main.npc.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) < HOME_DISTANCE && n.whoAmI != (int)npc.ai[0] && n.life < n.lifeMax && npc.type != n.type).OrderBy(n => Vector2.Distance(n.Center, npc.Center)).FirstOrDefault();
+			var target = Main.npc.Where(n => n.active && Vector2.Distance(n.Center, NPC.Center) < HOME_DISTANCE && n.whoAmI != (int)NPC.ai[0] && n.life < n.lifeMax && NPC.type != n.type).OrderBy(n => Vector2.Distance(n.Center, NPC.Center)).FirstOrDefault();
 			if (target != default && canHome)
 			{
-				float rotDifference = ((((npc.DirectionTo(target.Center).ToRotation() - npc.velocity.ToRotation()) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+				float rotDifference = ((((NPC.DirectionTo(target.Center).ToRotation() - NPC.velocity.ToRotation()) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 
 				float lerper = (counter - STARTTIME) / 700f;
-				npc.velocity = npc.velocity.RotatedBy(rotDifference * lerper);
-				npc.velocity = MathHelper.Lerp(npc.velocity.Length(), 10, lerper) * Vector2.Lerp(Vector2.Normalize(npc.velocity), npc.DirectionTo(target.Center) * 10, lerper / 5f);
+				NPC.velocity = NPC.velocity.RotatedBy(rotDifference * lerper);
+				NPC.velocity = MathHelper.Lerp(NPC.velocity.Length(), 10, lerper) * Vector2.Lerp(Vector2.Normalize(NPC.velocity), NPC.DirectionTo(target.Center) * 10, lerper / 5f);
 
-				npc.velocity += npc.DirectionTo(target.Center) * lerper;
-				if (Vector2.Distance(target.Center, npc.Center) < 25)
+				NPC.velocity += NPC.DirectionTo(target.Center) * lerper;
+				if (Vector2.Distance(target.Center, NPC.Center) < 25)
 				{
-					npc.active = false;
+					NPC.active = false;
 					int heal = Math.Min(40, target.lifeMax - target.life);
-					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 29).WithPitchVariance(0.2f).WithVolume(.65f), npc.Center);
+					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 29).WithPitchVariance(0.2f).WithVolume(.65f), NPC.Center);
 
 					target.life += heal;
 					target.HealEffect(heal, true);
@@ -87,14 +88,14 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 			}
 			else
 			{
-				npc.velocity.X *= 1.02f;
-				npc.velocity = npc.velocity.RotatedBy(0.04f);
+				NPC.velocity.X *= 1.02f;
+				NPC.velocity = NPC.velocity.RotatedBy(0.04f);
 				if (counter > STARTTIME + 50)
 				{
 					canHome = false;
-					npc.scale -= 0.07f;
-					if (npc.scale < 0.07f)
-						npc.active = false;
+					NPC.scale -= 0.07f;
+					if (NPC.scale < 0.07f)
+						NPC.active = false;
 				}
 			}
 
@@ -105,56 +106,56 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 			if (Main.dedServ)
 				return;
 
-			Main.PlaySound(SoundID.Item27.WithPitchVariance(0.3f).WithVolume(0.6f), npc.Center);
+			SoundEngine.PlaySound(SoundID.Item27.WithPitchVariance(0.3f).WithVolume(0.6f), NPC.Center);
 			for (int i = 0; i < 15; i++)
 			{
 				Vector2 direction = Main.rand.NextVector2Circular(20, 20);
 				StarParticle particle = new StarParticle(
-				npc.Center + direction,
+				NPC.Center + direction,
 				direction * 0.15f,
 				new Color(49, 212, 76),
 				Main.rand.NextFloat(0.08f, 0.23f),
 				Main.rand.Next(20, 40));
-				Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 3);
+				SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 3);
 
 				ParticleHandler.SpawnParticle(particle);
 			}
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Texture2D tex = Main.npcTexture[npc.type];
+			Texture2D tex = TextureAssets.Npc[NPC.type].Value;
 
 			Vector2 origin = new Vector2(tex.Width / 2, tex.Height / 2);
 
-			for (int k = npc.oldPos.Length - 1; k >= 0; k--)
+			for (int k = NPC.oldPos.Length - 1; k >= 0; k--)
 			{
-				float mult = (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length));
-				Vector2 drawPos = npc.oldPos[k] + (new Vector2(npc.width, npc.height) / 2);
+				float mult = (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length));
+				Vector2 drawPos = NPC.oldPos[k] + (new Vector2(NPC.width, NPC.height) / 2);
 				Color color = Color.White * mult;
 				float num108 = 4;
-				float num107 = (float)Math.Cos((double)(Main.GlobalTime % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
+				float num107 = (float)Math.Cos((double)(Main.GlobalTimeWrappedHourly % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
 				float num106 = 0f;
-				Color color29 = new Color(212 - npc.alpha, 255 - npc.alpha, 137 - npc.alpha, 0).MultiplyRGBA(color);
+				Color color29 = new Color(212 - NPC.alpha, 255 - NPC.alpha, 137 - NPC.alpha, 0).MultiplyRGBA(color);
 				for (int num103 = 0; num103 < 4; num103++)
 				{
 					Color color28 = color29;
-					color28 = npc.GetAlpha(color28);
+					color28 = NPC.GetAlpha(color28);
 					color28 *= 1.5f - num107;
-					color28 *= (float)Math.Pow((((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2), 1.5f);
-					Vector2 vector29 = drawPos + ((float)num103 / (float)num108 * 6.28318548f + npc.rotation + num106).ToRotationVector2() * (1.5f * num107 + 4f) - Main.screenPosition + new Vector2(0, npc.gfxOffY) - npc.velocity * (float)num103;
-					spriteBatch.Draw(tex, vector29, null, color28 * .6f, npc.rotation, origin, npc.scale * (float)Math.Sqrt(mult), SpriteEffects.None, 0f);
+					color28 *= (float)Math.Pow((((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2), 1.5f);
+					Vector2 vector29 = drawPos + ((float)num103 / (float)num108 * 6.28318548f + NPC.rotation + num106).ToRotationVector2() * (1.5f * num107 + 4f) - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - NPC.velocity * (float)num103;
+					spriteBatch.Draw(tex, vector29, null, color28 * .6f, NPC.rotation, origin, NPC.scale * (float)Math.Sqrt(mult), SpriteEffects.None, 0f);
 				}
 			}
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-			Effect effect = mod.GetEffect("Effects/RotateSprite");
-			effect.Parameters["rotation"].SetValue(-npc.rotation);
+			Effect effect = Mod.GetEffect("Effects/RotateSprite");
+			effect.Parameters["rotation"].SetValue(-NPC.rotation);
 			effect.CurrentTechnique.Passes[0].Apply();
 
 
-			float xscale = MathHelper.Clamp(1, 1 + (npc.velocity.Length() / 40f), 1.5f);
-			float yscale = MathHelper.Clamp(1, 1 - (npc.velocity.Length() / 40f), 0.66f);
-			spriteBatch.Draw(tex, npc.Center - Main.screenPosition, null, Color.White * 0.8f, npc.rotation, origin, npc.scale * new Vector2(xscale, yscale), SpriteEffects.None, 0f);
+			float xscale = MathHelper.Clamp(1, 1 + (NPC.velocity.Length() / 40f), 1.5f);
+			float yscale = MathHelper.Clamp(1, 1 - (NPC.velocity.Length() / 40f), 0.66f);
+			spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.White * 0.8f, NPC.rotation, origin, NPC.scale * new Vector2(xscale, yscale), SpriteEffects.None, 0f);
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 

@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Block
 	public class HalloweenGrass : ModTile
 	{
 
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			SetModTree(new SpookyTree());
@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlockLight[Type] = true;
 			//Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(252, 161, 3));
-			drop = ModContent.ItemType<Items.Placeable.Tiles.HalloweenGrass>();
+			ItemDrop = ModContent.ItemType<Items.Placeable.Tiles.HalloweenGrass>();
 		}
 
 		public static bool PlaceObject(int x, int y, int type, bool mute = false, int style = 0, int alternate = 0, int random = -1, int direction = -1)
@@ -37,7 +37,7 @@ namespace SpiritMod.Tiles.Block
 
 		public override void RandomUpdate(int i, int j)
 		{
-			if (!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(20) == 0) {
+			if (!Framing.GetTileSafely(i, j - 1).HasTile && Main.rand.Next(20) == 0) {
 				int style = Main.rand.Next(23);
 				if (PlaceObject(i, j - 1, ModContent.TileType<SpookyFoliage>(), false, style))
 					NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<SpookyFoliage>(), style, 0, -1, -1);

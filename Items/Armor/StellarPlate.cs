@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Armor
 		}
 		public override void SetDefaults()
 		{
-			item.width = 34;
-			item.height = 30;
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Pink;
-			item.defense = 12;
+			Item.width = 34;
+			Item.height = 30;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Pink;
+			Item.defense = 12;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -31,19 +31,17 @@ namespace SpiritMod.Items.Armor
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<StarPiece>(), 1);
 			recipe.AddIngredient(ItemID.TitaniumBar, 20);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = CreateRecipe(1);
 			recipe1.AddIngredient(ModContent.ItemType<StarPiece>(), 1);
 			recipe1.AddIngredient(ItemID.AdamantiteBar, 20);
 			recipe1.AddTile(TileID.MythrilAnvil);
-			recipe1.SetResult(this, 1);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 }

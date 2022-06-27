@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.DoT
 {
 	public class Afflicted : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Unstable Affliction");
 			Description.SetDefault("Falling to pieces");

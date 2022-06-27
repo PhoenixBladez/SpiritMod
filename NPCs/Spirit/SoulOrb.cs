@@ -5,6 +5,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Spirit
 {
@@ -13,26 +14,26 @@ namespace SpiritMod.NPCs.Spirit
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Soul Orb");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[NPC.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 28;
-			npc.height = 28;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 5;
-			npc.HitSound = SoundID.NPCHit3;
-			npc.DeathSound = SoundID.NPCDeath6;
-			npc.value = 60f;
-			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)ModContent.ItemType<SoulOrbItem>();
-			npc.knockBackResist = .45f;
-			npc.aiStyle = 64;
-			npc.noGravity = true;
-			aiType = NPCID.Firefly;
-			Main.npcFrameCount[npc.type] = 4;
+			NPC.width = 28;
+			NPC.height = 28;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 5;
+			NPC.HitSound = SoundID.NPCHit3;
+			NPC.DeathSound = SoundID.NPCDeath6;
+			NPC.value = 60f;
+			Main.npcCatchable[NPC.type] = true;
+			NPC.catchItem = (short)ModContent.ItemType<SoulOrbItem>();
+			NPC.knockBackResist = .45f;
+			NPC.aiStyle = 64;
+			NPC.noGravity = true;
+			AIType = NPCID.Firefly;
+			Main.npcFrameCount[NPC.type] = 4;
 		}
 		public override Color? GetAlpha(Color lightColor)
 		{
@@ -40,34 +41,34 @@ namespace SpiritMod.NPCs.Spirit
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			Player player = spawnInfo.player;
-			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
+			Player player = spawnInfo.Player;
+			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.SpawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.SpawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
 				int[] TileArray2 = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<Spiritsand>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>(), };
-				return TileArray2.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && NPC.downedMechBossAny && spawnInfo.spawnTileY > (Main.rockLayer + 150) ? 1f : 0f;
+				return TileArray2.Contains(Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY].TileType) && NPC.downedMechBossAny && spawnInfo.SpawnTileY > (Main.rockLayer + 150) ? 1f : 0f;
 			}
 			return 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, 13);
-				Gore.NewGore(npc.position, npc.velocity, 12);
-				Gore.NewGore(npc.position, npc.velocity, 11);
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, 13);
+				Gore.NewGore(NPC.position, NPC.velocity, 12);
+				Gore.NewGore(NPC.position, NPC.velocity, 11);
 			}
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 1.1f, 1.1f, 1.8f);
+			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 1.1f, 1.1f, 1.8f);
 		}
 	}
 }

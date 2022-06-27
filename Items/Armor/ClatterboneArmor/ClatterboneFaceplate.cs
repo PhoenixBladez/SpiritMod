@@ -16,12 +16,12 @@ namespace SpiritMod.Items.Armor.ClatterboneArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 40;
-			item.height = 30;
-			item.value = Item.buyPrice(gold: 1, silver: 10);
-			item.rare = ItemRarityID.Green;
+			Item.width = 40;
+			Item.height = 30;
+			Item.value = Item.buyPrice(gold: 1, silver: 10);
+			Item.rare = ItemRarityID.Green;
 
-			item.defense = 3;
+			Item.defense = 3;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)

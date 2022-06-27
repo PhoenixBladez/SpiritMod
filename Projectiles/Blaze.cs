@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,33 +13,33 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fiery Blaze");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.minion = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 500;
-			projectile.height = 18;
-			projectile.width = 10;
-			projectile.alpha = 50;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.minion = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 500;
+			Projectile.height = 18;
+			Projectile.width = 10;
+			Projectile.alpha = 50;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override Color? GetAlpha(Color lightColor) => Color.White;
-		public override bool? CanHitNPC(NPC target) => target.immune[projectile.owner] == 0;
+		public override bool? CanHitNPC(NPC target) => target.immune[Projectile.owner] == 0;
 
 		public override void AI()
 		{
-			projectile.velocity.Y += 0.15f;
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-			Lighting.AddLight(projectile.position, 0.4f, .12f, .036f);
-			Dust dust = Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			Dust dust2 = Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Projectile.velocity.Y += 0.15f;
+			Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+			Lighting.AddLight(Projectile.position, 0.4f, .12f, .036f);
+			Dust dust = Dust.NewDustDirect(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+			Dust dust2 = Dust.NewDustDirect(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			dust.noGravity = true;
 			dust2.noGravity = true;
 			dust2.velocity *= 0.6f;
@@ -50,39 +52,39 @@ namespace SpiritMod.Projectiles
 		{
 			if (Main.rand.NextBool(6))
 				target.AddBuff(BuffID.OnFire, 180);
-			target.immune[projectile.owner] = 10;
+			target.immune[Projectile.owner] = 10;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 74);
-			ProjectileExtras.Explode(projectile.whoAmI, 80, 80,
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 74);
+			ProjectileExtras.Explode(Projectile.whoAmI, 80, 80,
 				delegate {
 					for (int i = 0; i < 40; i++) {
-						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, -2f, 0, default, 1.2f);
+						int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, 0f, -2f, 0, default, 1.2f);
 						Main.dust[num].noGravity = true;
 						Dust dust = Main.dust[num];
 						dust.position.X += (Main.rand.Next(-50, 51) / 20) - 1.5f;
 						dust.position.Y += (Main.rand.Next(-50, 51) / 20) - 1.5f;
-						if (dust.position != projectile.Center) 
-							dust.velocity = projectile.DirectionTo(dust.position) * 6f;
+						if (dust.position != Projectile.Center) 
+							dust.velocity = Projectile.DirectionTo(dust.position) * 6f;
 					}
 				});
 
 			for (int i = 0; i < 2; i++) {
-				int gore = Gore.NewGore(new Vector2(projectile.Center.X - 24f, projectile.Center.Y - 24f), default, Main.rand.Next(61, 64), 1f);
+				int gore = Gore.NewGore(new Vector2(Projectile.Center.X - 24f, Projectile.Center.Y - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[gore].velocity *= 1 / 3f * (i + 1);
 				Main.gore[gore].velocity.X += 1f;
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

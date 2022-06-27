@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class GoblinStandardTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -20,11 +20,11 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Goblin Battle Standard");
-			dustType = DustID.Stone;
+			DustType = DustID.Stone;
 			AddMapEntry(new Color(200, 200, 200), name);
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{

@@ -39,7 +39,7 @@ namespace SpiritMod.Mechanics.BackgroundSystem
 
 			foreach (var item in organizedItems) //Draw everything
 			{
-				Vector2 off = Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One;
+				Vector2 off = Lighting.LegacyEngine.Mode > 1 ? Vector2.Zero : Vector2.One;
 				//if (screen.Contains((item.DrawPosition).ToPoint()))
 				{
 					if (item.position.Y / 16f < Main.worldSurface)

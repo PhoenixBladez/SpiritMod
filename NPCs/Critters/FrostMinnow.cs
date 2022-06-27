@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Consumable.Fish;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -13,86 +14,86 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frost Minnow");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[NPC.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 40;
-			npc.height = 24;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 5;
-			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)ItemID.FrostMinnow;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = .35f;
-			npc.aiStyle = 16;
-			npc.noGravity = true;
-			npc.npcSlots = 0;
-			aiType = NPCID.Goldfish;
-			npc.dontCountMe = true;
-			npc.dontTakeDamageFromHostiles = false;
+			NPC.width = 40;
+			NPC.height = 24;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 5;
+			Main.npcCatchable[NPC.type] = true;
+			NPC.catchItem = (short)ItemID.FrostMinnow;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.knockBackResist = .35f;
+			NPC.aiStyle = 16;
+			NPC.noGravity = true;
+			NPC.npcSlots = 0;
+			AIType = NPCID.Goldfish;
+			NPC.dontCountMe = true;
+			NPC.dontTakeDamageFromHostiles = false;
 		}
 		public override void AI()
         {
-            Player player = Main.player[npc.target]; {
-                Player target = Main.player[npc.target];
-                int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-                if (distance < 65 && target.wet && npc.wet)
+            Player player = Main.player[NPC.target]; {
+                Player target = Main.player[NPC.target];
+                int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
+                if (distance < 65 && target.wet && NPC.wet)
                 {
-                    Vector2 vel = npc.DirectionFrom(target.Center);
+                    Vector2 vel = NPC.DirectionFrom(target.Center);
                     vel.Normalize();
                     vel *= 4.5f;
-                    npc.velocity = vel;
-                    npc.rotation = npc.velocity.X * .06f;
-                    if (target.position.X > npc.position.X) {
-                        npc.spriteDirection = -1;
-                        npc.direction = -1;
-                        npc.netUpdate = true;
+                    NPC.velocity = vel;
+                    NPC.rotation = NPC.velocity.X * .06f;
+                    if (target.position.X > NPC.position.X) {
+                        NPC.spriteDirection = -1;
+                        NPC.direction = -1;
+                        NPC.netUpdate = true;
                     }
-                    else if (target.position.X < npc.position.X) {
-                        npc.spriteDirection = 1;
-                        npc.direction = 1;
-                        npc.netUpdate = true;
+                    else if (target.position.X < NPC.position.X) {
+                        NPC.spriteDirection = 1;
+                        NPC.direction = 1;
+                        NPC.netUpdate = true;
                     }
                 }
             }
         }
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FrostMinnow1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FrostMinnow2"), 1f);
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/FrostMinnow1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/FrostMinnow2").Type, 1f);
 			}
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(2) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneSnow && spawnInfo.water ? 0.1f : 0f;
+			return spawnInfo.Player.ZoneSnow && spawnInfo.Water ? 0.1f : 0f;
 		}
 
 	}

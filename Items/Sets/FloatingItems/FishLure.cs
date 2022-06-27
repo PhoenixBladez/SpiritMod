@@ -20,23 +20,23 @@ namespace SpiritMod.Items.Sets.FloatingItems
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.rare = ItemRarityID.Blue;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.consumable = true;
-			item.maxStack = 99;
-			item.createTile = ModContent.TileType<FishLureTile>();
-			item.useTime = item.useAnimation = 20;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.noMelee = true;
-			item.autoReuse = false;
+			Item.width = Item.height = 16;
+			Item.rare = ItemRarityID.Blue;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.maxStack = 99;
+			Item.createTile = ModContent.TileType<FishLureTile>();
+			Item.useTime = Item.useAnimation = 20;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.noMelee = true;
+			Item.autoReuse = false;
 		}
 	}
 
 	public class FishLureTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = false;
 			Main.tileSolidTop[Type] = false;
@@ -48,15 +48,15 @@ namespace SpiritMod.Items.Sets.FloatingItems
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Bar");
-			drop = ModContent.ItemType<FishLure>();
+			ItemDrop = ModContent.ItemType<FishLure>();
 			AddMapEntry(new Color(200, 200, 200), name);
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 
 		public sealed override void NearbyEffects(int i, int j, bool closer)
 		{
-			if (Framing.GetTileSafely(i, j + 1).liquid < 155 && Framing.GetTileSafely(i, j).liquid < 155) //Kill me if I'm thirsty (aka kill if there's no water)
+			if (Framing.GetTileSafely(i, j + 1).LiquidAmount < 155 && Framing.GetTileSafely(i, j).LiquidAmount < 155) //Kill me if I'm thirsty (aka kill if there's no water)
 				WorldGen.KillTile(i, j);
 			Player player = Main.LocalPlayer;
 			MyPlayer modPlayer = player.GetSpiritPlayer();

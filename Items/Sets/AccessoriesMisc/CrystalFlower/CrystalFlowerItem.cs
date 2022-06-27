@@ -15,11 +15,11 @@ namespace SpiritMod.Items.Sets.AccessoriesMisc.CrystalFlower
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 28;
-			item.rare = ItemRarityID.Green;
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.accessory = true;
+			Item.width = 30;
+			Item.height = 28;
+			Item.rare = ItemRarityID.Green;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().crystalFlower = true;

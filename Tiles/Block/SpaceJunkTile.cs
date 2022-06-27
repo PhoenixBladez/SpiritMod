@@ -8,15 +8,15 @@ namespace SpiritMod.Tiles.Block
 {
 	public class SpaceJunkTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			AddMapEntry(new Color(87, 85, 81));
-			drop = ModContent.ItemType<SpaceJunkItem>();
-			dustType = DustID.Wraith;
+			ItemDrop = ModContent.ItemType<SpaceJunkItem>();
+			DustType = DustID.Wraith;
 		}
 
 		public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)

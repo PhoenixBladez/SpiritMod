@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarArmor
 		{
 			DisplayName.SetDefault("Astralite Chestguard");
 			Tooltip.SetDefault("20% chance to not consume ammo\nIncreases ranged damage by 5%");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/StarplateDrops/StarArmor/StarPlate_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/StarplateDrops/StarArmor/StarPlate_Glow");
 		}
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
 		{
@@ -22,11 +22,11 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = Item.sellPrice(0, 0, 38, 0);
-			item.rare = ItemRarityID.Orange;
-			item.defense = 9;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = Item.sellPrice(0, 0, 38, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.defense = 9;
 		}
 		public override void UpdateEquip(Player player)
 		{
@@ -39,11 +39,10 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 14);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

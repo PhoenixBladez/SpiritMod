@@ -4,6 +4,7 @@ using SpiritMod.Items.Placeable.Tiles;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,15 +12,15 @@ namespace SpiritMod.Tiles.Block
 {
 	public class CreepingIceTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			AddMapEntry(new Color(163, 224, 240));
-			drop = ModContent.ItemType<CreepingIce>();
-			dustType = DustID.SnowBlock;
+			ItemDrop = ModContent.ItemType<CreepingIce>();
+			DustType = DustID.SnowBlock;
 		}
 		public override bool HasWalkDust()
 		{
@@ -35,11 +36,11 @@ namespace SpiritMod.Tiles.Block
 			Player player = Main.LocalPlayer;
 			int distance = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
 			if (distance < 54) {
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
 
 			}
 		}
-		public override bool Dangersense(int i, int j, Player player)
+		public override bool IsTileDangerous(int i, int j, Player player)
 		{
 			return true;
 		}

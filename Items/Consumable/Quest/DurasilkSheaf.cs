@@ -14,17 +14,17 @@ namespace SpiritMod.Items.Consumable.Quest
 
 		public override void SetDefaults()
 		{
-			item.autoReuse = false;
-			item.useTurn = true;
-			item.consumable = true;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useAnimation = 15;
-			item.useTime = 15;
-			item.width = item.height = 16;
-			item.rare = ItemRarityID.Blue;
-			item.maxStack = 99;
-			item.value = Item.buyPrice(0, 0, 3, 0);
-			item.createTile = ModContent.TileType<Tiles.Furniture.DurasilkSheafTile>();
+			Item.autoReuse = false;
+			Item.useTurn = true;
+			Item.consumable = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useAnimation = 15;
+			Item.useTime = 15;
+			Item.width = Item.height = 16;
+			Item.rare = ItemRarityID.Blue;
+			Item.maxStack = 99;
+			Item.value = Item.buyPrice(0, 0, 3, 0);
+			Item.createTile = ModContent.TileType<Tiles.Furniture.DurasilkSheafTile>();
 
 		}
 
@@ -32,13 +32,13 @@ namespace SpiritMod.Items.Consumable.Quest
 		{
 			if (!QuestManager.GetQuest<FirstAdventure>().IsCompleted)
 			{
-				TooltipLine line = new TooltipLine(mod, "ItemName", "Quest Item") {
-					overrideColor = new Color(100, 222, 122)
+				TooltipLine line = new TooltipLine(Mod, "ItemName", "Quest Item") {
+					OverrideColor = new Color(100, 222, 122)
 				};
 				tooltips.Add(line);
 			}
-			TooltipLine line1 = new TooltipLine(mod, "FavoriteDesc", "'The fabric is soft, but quite strong'") {
-				overrideColor = new Color(255, 255, 255)
+			TooltipLine line1 = new TooltipLine(Mod, "FavoriteDesc", "'The fabric is soft, but quite strong'") {
+				OverrideColor = new Color(255, 255, 255)
 			};
 			tooltips.Add(line1);
 		}

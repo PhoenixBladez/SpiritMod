@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
@@ -30,7 +31,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 		private bool UpdateAtlasIndex()
 		{
-			int AtlasType = ModLoader.GetMod("SpiritMod").NPCType("Atlas");
+			int AtlasType = ModLoader.GetMod("SpiritMod").Find<ModNPC>("Atlas").Type;
 			if (AtlasIndex >= 0 && Main.npc[AtlasIndex].active && Main.npc[AtlasIndex].type == AtlasType)
 				return true;
 
@@ -48,11 +49,11 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
 		{
 			if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f) {
-				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0.13f, 0.13f, 0.13f) * intensity);
+				spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0.13f, 0.13f, 0.13f) * intensity);
 			}
 			//front of bg
 			if (maxDepth >= 0 && minDepth < 0) {
-				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0.3f, 0.3f, 0.3f) * 0.5f);
+				spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0.3f, 0.3f, 0.3f) * 0.5f);
 			}
 		}
 

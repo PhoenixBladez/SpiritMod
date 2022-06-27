@@ -14,24 +14,24 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 
 		public override void SetDefaults()
 		{
-			item.damage = 50;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 32;
-			item.useTime = 32;
-			item.shootSpeed = 2.7f;
-			item.knockBack = 3.5f;
-			item.width = 32;
-			item.height = 32;
-			item.scale = 1f;
-			item.rare = ItemRarityID.LightRed;
-			item.value = Item.sellPrice(gold: 2, silver: 50);
-			item.melee = true;
-			item.noMelee = true;
-			item.channel = true;
-			item.noUseGraphic = true;
-			item.autoReuse = true;
-			item.UseSound = SoundID.Item1;
-			item.shoot = ModContent.ProjectileType<Sovereign_Talon_Projectile>();
+			Item.damage = 50;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useAnimation = 32;
+			Item.useTime = 32;
+			Item.shootSpeed = 2.7f;
+			Item.knockBack = 3.5f;
+			Item.width = 32;
+			Item.height = 32;
+			Item.scale = 1f;
+			Item.rare = ItemRarityID.LightRed;
+			Item.value = Item.sellPrice(gold: 2, silver: 50);
+			Item.DamageType = DamageClass.Melee;
+			Item.noMelee = true;
+			Item.channel = true;
+			Item.noUseGraphic = true;
+			Item.autoReuse = true;
+			Item.UseSound = SoundID.Item1;
+			Item.shoot = ModContent.ProjectileType<Sovereign_Talon_Projectile>();
 		}
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<Sovereign_Talon_Projectile>()] < 1;

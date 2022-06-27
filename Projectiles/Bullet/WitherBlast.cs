@@ -15,24 +15,24 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.ranged = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 300;
-			projectile.height = 4;
-			projectile.width = 4;
-			projectile.alpha = 255;
-			aiType = ProjectileID.Bullet;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 300;
+			Projectile.height = 4;
+			Projectile.width = 4;
+			Projectile.alpha = 255;
+			AIType = ProjectileID.Bullet;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+			Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
 			for (int i = 0; i < 10; i++) {
-				float x = projectile.Center.X - projectile.velocity.X / 10f * i;
-				float y = projectile.Center.Y - projectile.velocity.Y / 10f * i;
+				float x = Projectile.Center.X - Projectile.velocity.X / 10f * i;
+				float y = Projectile.Center.Y - Projectile.velocity.Y / 10f * i;
 				int num = Dust.NewDust(new Vector2(x, y), 26, 26, DustID.RedTorch);
 				Main.dust[num].position.X = x;
 				Main.dust[num].position.Y = y;

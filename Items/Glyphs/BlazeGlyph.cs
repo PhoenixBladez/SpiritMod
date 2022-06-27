@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Glyphs
 {
@@ -34,12 +35,12 @@ namespace SpiritMod.Items.Glyphs
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 28;
-			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Pink;
+			Item.width = 28;
+			Item.height = 28;
+			Item.value = Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Pink;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 		}
 
 		public static void Rage(Player player, NPC target)
@@ -51,7 +52,7 @@ namespace SpiritMod.Items.Glyphs
 		public static void Rage(Player player)
 		{
 			if (Main.rand.NextDouble() < .075)
-				player.AddBuff(SpiritMod.Instance.BuffType("BurningRage"), 300);
+				player.AddBuff(SpiritMod.Instance.Find<ModBuff>("BurningRage").Type, 300);
 		}
 	}
 }

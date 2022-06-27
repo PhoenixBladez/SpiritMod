@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Block
 {
 	public class Spiritsand : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			SetModCactus(new SpiritCactus());
@@ -20,8 +20,8 @@ namespace SpiritMod.Tiles.Block
 			Main.tileLighted[Type] = true;
 			TileID.Sets.Conversion.Sand[Type] = true;
 			AddMapEntry(new Color(135, 206, 235));
-			drop = ModContent.ItemType<SpiritSandItem>();
-			dustType = DustID.Water_Space;
+			ItemDrop = ModContent.ItemType<SpiritSandItem>();
+			DustType = DustID.Water_Space;
 		}
 
 		public override bool CanExplode(int i, int j)
@@ -38,10 +38,10 @@ namespace SpiritMod.Tiles.Block
             Tile below = Main.tile[i, j + 1];
             bool canFall = true;
 
-            if (below == null || below.active())
+            if (below == null || below.HasTile)
                 canFall = false;
 
-            if (above.active() && (TileID.Sets.BasicChest[above.type] || TileID.Sets.BasicChestFake[above.type] || above.type == TileID.PalmTree || TileLoader.IsDresser(above.type)))
+            if (above.HasTile && (TileID.Sets.BasicChest[above.TileType] || TileID.Sets.BasicChestFake[above.TileType] || above.TileType == TileID.PalmTree || TileLoader.IsDresser(above.TileType)))
                 canFall = false;
 
             if (canFall)
@@ -60,7 +60,7 @@ namespace SpiritMod.Tiles.Block
                 }
                 else if (Main.netMode == NetmodeID.Server)
                 {
-                    Main.tile[i, j].active(false);
+                    Main.tile[i, j].HasTile = false;
                     bool spawnProj = true;
 
                     for (int k = 0; k < 1000; k++)

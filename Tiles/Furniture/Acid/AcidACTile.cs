@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -7,7 +8,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 {
 	public class AcidACTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -24,8 +25,8 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			TileObjectData.newTile.AnchorTop = default(AnchorData);
 			TileObjectData.newTile.AnchorWall = true;
 			TileObjectData.addTile(Type);
-			disableSmartCursor = true;
-			dustType -= 1;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType -= 1;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Broken Air Conditioner");
 			AddMapEntry(new Color(100, 122, 111), name);
@@ -37,7 +38,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
 			Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidAC>());
 		}
 	}

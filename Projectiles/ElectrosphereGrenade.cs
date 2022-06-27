@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,25 +11,25 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.aiStyle = 16;
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.timeLeft = 180;
-			projectile.width = 20;
-			projectile.height = 20;
+			Projectile.aiStyle = 16;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.timeLeft = 180;
+			Projectile.width = 20;
+			Projectile.height = 20;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, ProjectileID.Electrosphere, projectile.damage, 0, Main.myPlayer);
+			int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, ProjectileID.Electrosphere, Projectile.damage, 0, Main.myPlayer);
 			Main.projectile[proj].friendly = true;
 			Main.projectile[proj].hostile = false;
 			Main.projectile[proj].timeLeft = 180;
 
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 12);
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 12);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => projectile.Kill();
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => Projectile.Kill();
 	}
 }

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,48 +13,48 @@ namespace SpiritMod.NPCs.Boss.Infernon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Infernal Wave");
-			Main.projFrames[projectile.type] = 8;
+			Main.projFrames[Projectile.type] = 8;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 55;
+			Projectile.width = Projectile.height = 55;
 
-			projectile.hostile = true;
-			projectile.tileCollide = false;
+			Projectile.hostile = true;
+			Projectile.tileCollide = false;
 
-			projectile.penetrate = -1;
-			projectile.extraUpdates = 1;
+			Projectile.penetrate = -1;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override bool PreAI()
 		{
-			if (projectile.localAI[1] == 0f) {
-				projectile.localAI[1] = 1f;
-				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 8);
+			if (Projectile.localAI[1] == 0f) {
+				Projectile.localAI[1] = 1f;
+				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 8);
 			}
 
-			if (projectile.ai[0] == 0f || projectile.ai[0] == 2f) {
-				projectile.scale += 0.01f;
-				projectile.alpha -= 50;
-				if (projectile.alpha <= 0) {
-					projectile.ai[0] = 1f;
-					projectile.alpha = 0;
+			if (Projectile.ai[0] == 0f || Projectile.ai[0] == 2f) {
+				Projectile.scale += 0.01f;
+				Projectile.alpha -= 50;
+				if (Projectile.alpha <= 0) {
+					Projectile.ai[0] = 1f;
+					Projectile.alpha = 0;
 				}
 			}
-			else if (projectile.ai[0] == 1f) {
-				projectile.scale -= 0.01f;
-				projectile.alpha += 50;
-				if (projectile.alpha >= 255) {
-					projectile.ai[0] = 2f;
-					projectile.alpha = 255;
+			else if (Projectile.ai[0] == 1f) {
+				Projectile.scale -= 0.01f;
+				Projectile.alpha += 50;
+				if (Projectile.alpha >= 255) {
+					Projectile.ai[0] = 2f;
+					Projectile.alpha = 255;
 				}
 			}
 
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 5)
-				projectile.frame = (projectile.frame++) % Main.projFrames[projectile.type];
-			projectile.rotation = projectile.velocity.ToRotation() + 4.71F;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 5)
+				Projectile.frame = (Projectile.frame++) % Main.projFrames[Projectile.type];
+			Projectile.rotation = Projectile.velocity.ToRotation() + 4.71F;
 			return false;
 		}
 
@@ -67,13 +68,13 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override Color? GetAlpha(Color lightColor)
 		{
-			return new Color(200, 200, 200, projectile.alpha);
+			return new Color(200, 200, 200, Projectile.alpha);
 		}
 
 		public override void AI()
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+			int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 			Main.dust[dust2].velocity *= 0f;

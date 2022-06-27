@@ -7,7 +7,7 @@ namespace SpiritMod.Items.DonatorItems
 {
 	class LoomingPresence : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Looming Presence");
 			Description.SetDefault("It seems to attract a lot of attention.");

@@ -15,14 +15,14 @@ namespace SpiritMod.Projectiles.Held
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Trident);
+			Projectile.CloneDefaults(ProjectileID.Trident);
 
-			aiType = ProjectileID.Trident;
+			AIType = ProjectileID.Trident;
 		}
 		public override void AI()
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare_Blue, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+			int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.UnusedWhiteBluePurple, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 			Main.dust[dust2].velocity *= 0f;

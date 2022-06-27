@@ -14,52 +14,50 @@ namespace SpiritMod.Items.Weapon.Thrown
 		}
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.width = 9;
-			item.height = 15;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.ranged = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.consumable = true;
-			item.maxStack = 999;
-			item.shoot = mod.ProjectileType("Kunai_Throwing");
-			item.useAnimation = 25;
-			item.useTime = 25;
-			item.shootSpeed = 7.5f;
-			item.damage = 12;
-			item.knockBack = 1.5f;
-			item.value = Terraria.Item.sellPrice(0, 0, 1, 0);
-			item.crit = 8;
-			item.rare = ItemRarityID.Blue;
-			item.autoReuse = true;
-			item.maxStack = 999;
-			item.consumable = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.width = 9;
+			Item.height = 15;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.DamageType = DamageClass.Ranged;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.maxStack = 999;
+			Item.shoot = Mod.Find<ModProjectile>("Kunai_Throwing").Type;
+			Item.useAnimation = 25;
+			Item.useTime = 25;
+			Item.shootSpeed = 7.5f;
+			Item.damage = 12;
+			Item.knockBack = 1.5f;
+			Item.value = Terraria.Item.sellPrice(0, 0, 1, 0);
+			Item.crit = 8;
+			Item.rare = ItemRarityID.Blue;
+			Item.autoReuse = true;
+			Item.maxStack = 999;
+			Item.consumable = true;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(50);
 			recipe.AddIngredient(ItemID.Silk, 1);
 			recipe.AddIngredient(ItemID.IronBar, 2);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 50);
-			recipe.AddRecipe();
-			recipe = new ModRecipe(mod);
+			recipe.Register();
+			recipe = CreateRecipe(50);
 			recipe.AddIngredient(ItemID.Silk, 1);
 			recipe.AddIngredient(ItemID.LeadBar, 2);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 50);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 direction = new Vector2(speedX,speedY);
 
-			Projectile.NewProjectile(position, direction.RotatedBy(-0.2f), mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
-			Projectile.NewProjectile(position, direction, mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
-			Projectile.NewProjectile(position, direction.RotatedBy(0.2f), mod.ProjectileType("Kunai_Throwing"), damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position, direction.RotatedBy(-0.2f), Mod.Find<ModProjectile>("Kunai_Throwing").Type, damage, knockback, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position, direction, Mod.Find<ModProjectile>("Kunai_Throwing").Type, damage, knockback, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position, direction.RotatedBy(0.2f), Mod.Find<ModProjectile>("Kunai_Throwing").Type, damage, knockback, player.whoAmI, 0f, 0f);
 			return false;
 		}
 	}

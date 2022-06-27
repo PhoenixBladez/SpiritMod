@@ -14,52 +14,52 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.melee = true;
-			projectile.width = 24;
-			projectile.height = 24;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.penetrate = 8;
-			projectile.alpha = 255;
-			projectile.timeLeft = 60;
-			projectile.tileCollide = false;
-			projectile.extraUpdates = 7;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.width = 24;
+			Projectile.height = 24;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.penetrate = 8;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 60;
+			Projectile.tileCollide = false;
+			Projectile.extraUpdates = 7;
 		}
 
 
 
 		private int Mode {
-			get { return (int)projectile.ai[0]; }
-			set { projectile.ai[0] = value; }
+			get { return (int)Projectile.ai[0]; }
+			set { Projectile.ai[0] = value; }
 		}
 
 		private NPC Target {
-			get { return Main.npc[(int)projectile.ai[1]]; }
-			set { projectile.ai[1] = value.whoAmI; }
+			get { return Main.npc[(int)Projectile.ai[1]]; }
+			set { Projectile.ai[1] = value.whoAmI; }
 		}
 
 		private Vector2 Origin {
-			get { return new Vector2(projectile.localAI[0], projectile.localAI[1]); }
+			get { return new Vector2(Projectile.localAI[0], Projectile.localAI[1]); }
 			set {
-				projectile.localAI[0] = value.X;
-				projectile.localAI[1] = value.Y;
+				Projectile.localAI[0] = value.X;
+				Projectile.localAI[1] = value.Y;
 			}
 		}
 
 		public override void AI()
 		{
 			if (Mode == 0) {
-				Origin = projectile.position;
+				Origin = Projectile.position;
 				Mode = 1;
 			}
 			else {
 				if (Mode == 2) {
-					projectile.extraUpdates = 0;
-					projectile.numUpdates = 0;
+					Projectile.extraUpdates = 0;
+					Projectile.numUpdates = 0;
 				}
-				Trail(Origin, projectile.position);
-				Origin = projectile.position;
+				Trail(Origin, Projectile.position);
+				Origin = Projectile.position;
 			}
 		}
 
@@ -85,7 +85,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			float range = 16 * 14;
 			range *= range;
 			NPC target = null;
-			var center = projectile.Center;
+			var center = Projectile.Center;
 			for (int i = 0; i < 200; ++i) {
 				NPC npc = Main.npc[i];
 				//if npc is a valid target (active, not friendly, and not a critter)
@@ -102,14 +102,14 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			projectile.velocity = Vector2.Zero;
-			hit[projectile.penetrate - 1] = target;
+			Projectile.velocity = Vector2.Zero;
+			hit[Projectile.penetrate - 1] = target;
 
 			target = TargetNext(target);
 			if (target != null)
-				projectile.Center = target.Center;
+				Projectile.Center = target.Center;
 			else
-				projectile.Kill();
+				Projectile.Kill();
 		}
 	}
 }

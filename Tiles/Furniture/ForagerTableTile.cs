@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class ForagerTableTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
         {
             Main.tileTable[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -35,10 +35,10 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Naturalist's Workshop");
 			AddMapEntry(new Color(140, 140, 140), name);
-			dustType = -1;
+			DustType = -1;
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<ForagerTableItem>());
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 	}
 }

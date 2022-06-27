@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,32 +17,32 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 
 		public override void SetDefaults()
 		{
-			item.damage = 10;
-			item.width = 22;
-			item.height = 18;
-			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.White;
-			item.mana = 12;
-			item.knockBack = 2f;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.summon = true;
-			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<FairyMinion>();
+			Item.damage = 10;
+			Item.width = 22;
+			Item.height = 18;
+			Item.value = Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.White;
+			Item.mana = 12;
+			Item.knockBack = 2f;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.DamageType = DamageClass.Summon;
+			Item.noMelee = true;
+			Item.shoot = ModContent.ProjectileType<FairyMinion>();
 			if(!Main.dedServ)
-				item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Whistle").WithPitchVariance(0.3f).WithVolume(1.2f);
+				Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Whistle").WithPitchVariance(0.3f).WithVolume(1.2f);
 
-			item.scale = 0.75f;
+			Item.scale = 0.75f;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			player.itemRotation = 0;
 			if (!Main.dedServ)
-				Main.PlaySound(SoundID.Item44, player.Center);
+				SoundEngine.PlaySound(SoundID.Item44, player.Center);
 
-			Projectile.NewProjectile(position, -Vector2.UnitY, type, damage, knockBack, player.whoAmI);
+			Projectile.NewProjectile(source, position, -Vector2.UnitY, type, damage, knockback, player.whoAmI);
 			return false;
 		}
 
@@ -48,12 +50,11 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddRecipeGroup(RecipeGroupID.Wood, 25);
 			recipe.AddIngredient(ItemID.FallenStar, 4);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using System.Linq;
 using System.Text;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Material;
@@ -12,7 +13,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 {
 	public class QuasarGauntlet : ModItem
 	{
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetStaticDefaults()
 		{
@@ -22,23 +23,23 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 
 		public override void SetDefaults()
 		{
-			item.shoot = ModContent.ProjectileType<QuasarOrb>();
-			item.shootSpeed = 16f;
-			item.damage = 70;
-			item.knockBack = 3.3f;
-			item.magic = true;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 30;
-			item.useTime = 30;
-			item.channel = true;
-			item.width = 26;
-			item.height = 26;
-			item.mana = 20;
-			item.noUseGraphic = true;
-			item.noMelee = true;
-			item.autoReuse = true;
-			item.value = Item.sellPrice(gold: 1);
-			item.rare = ItemRarityID.Pink;
+			Item.shoot = ModContent.ProjectileType<QuasarOrb>();
+			Item.shootSpeed = 16f;
+			Item.damage = 70;
+			Item.knockBack = 3.3f;
+			Item.DamageType = DamageClass.Magic;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useAnimation = 30;
+			Item.useTime = 30;
+			Item.channel = true;
+			Item.width = 26;
+			Item.height = 26;
+			Item.mana = 20;
+			Item.noUseGraphic = true;
+			Item.noMelee = true;
+			Item.autoReuse = true;
+			Item.value = Item.sellPrice(gold: 1);
+			Item.rare = ItemRarityID.Pink;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
@@ -46,7 +47,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 		public override bool CanUseItem(Player player)
 		{
 			if (player.altFunctionUse != 2)
-				return player.ownedProjectileCounts[item.shoot] == 0;
+				return player.ownedProjectileCounts[Item.shoot] == 0;
 			else
 			{
 				bool foundproj = false;
@@ -55,7 +56,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 					Projectile proj = Main.projectile[i];
 					if (proj.active && proj.owner == Main.myPlayer && proj.type == ModContent.ProjectileType<QuasarOrb>())
 					{
-						if (proj.modProjectile is QuasarOrb orb)
+						if (proj.ModProjectile is QuasarOrb orb)
 						{
 							if (orb.AiState == QuasarOrb.STATE_SLOWDOWN)
 							{
@@ -78,17 +79,17 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 				mult = 0;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (player.altFunctionUse == 2)
 				return false;
 
-			Main.PlaySound(SoundID.Item117, player.Center);
-			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+			SoundEngine.PlaySound(SoundID.Item117, player.Center);
+			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockback, player.whoAmI);
 
 			for (int i = 0; i < 3; i++)
 			{
-				int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(0.15f, 0.22f), ModContent.ProjectileType<QuasarOrbiter>(), damage, knockBack, player.whoAmI, proj, Main.rand.Next(3));
+				int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(0.15f, 0.22f), ModContent.ProjectileType<QuasarOrbiter>(), damage, knockback, player.whoAmI, proj, Main.rand.Next(3));
 				Main.projectile[p].netUpdate = true;
 			}
 			return false;
@@ -96,11 +97,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<Starjinx>(), 16);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

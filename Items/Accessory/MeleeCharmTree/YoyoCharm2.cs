@@ -14,25 +14,24 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 22;
-			item.rare = ItemRarityID.Green;
-			item.UseSound = SoundID.Item11;
-			item.accessory = true;
-			item.value = Item.sellPrice(0, 0, 30, 0);
+			Item.width = 16;
+			Item.height = 22;
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item11;
+			Item.accessory = true;
+			Item.value = Item.sellPrice(0, 0, 30, 0);
 		}
 
 		public override void SafeUpdateAccessory(Player player, bool hideVisual) => player.meleeSpeed += 0.07f;
 
 		public override void AddRecipes()
 		{
-			var modRecipe = new ModRecipe(mod);
+			var modRecipe = CreateRecipe(1);
 			modRecipe.AddIngredient(ItemID.JungleSpores, 10);
 			modRecipe.AddIngredient(ItemID.Stinger, 3);
 			modRecipe.AddIngredient(ItemID.Vine, 2);
 			modRecipe.AddTile(TileID.Anvils);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

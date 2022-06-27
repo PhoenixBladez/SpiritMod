@@ -23,7 +23,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		public static Dictionary<int, QuestPoolData> SpawnPoolMods = new Dictionary<int, QuestPoolData>();
 		public static Dictionary<int, int> PoolModsCount = new Dictionary<int, int>();
 
-		public override void NPCLoot(NPC npc)
+		public override void OnKill(NPC npc)
 		{
 			if (npc.type == NPCID.Zombie || npc.type == NPCID.BaldZombie || npc.type == NPCID.SlimedZombie || npc.type == NPCID.SwampZombie || npc.type == NPCID.TwiggyZombie || npc.type == NPCID.ZombieRaincoat || npc.type == NPCID.PincushionZombie || npc.type == NPCID.ZombieEskimo)
 			{
@@ -155,12 +155,12 @@ namespace SpiritMod.Mechanics.QuestSystem
 			OnSetupShop?.Invoke(type, shop, nextSlot);
 		}
 
-		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor) //Draws the exclamation mark on the NPC when they have a quest
+		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) //Draws the exclamation mark on the NPC when they have a quest
 		{
 			bool valid = ModContent.GetInstance<SpiritClientConfig>().ShowNPCQuestNotice && npc.CanTalk; //Check if the NPC talks and if the config allows
 			if (valid && ModContent.GetInstance<QuestWorld>().NPCQuestQueue.ContainsKey(npc.type) && ModContent.GetInstance<QuestWorld>().NPCQuestQueue[npc.type].Count > 0)
 			{
-				Texture2D tex = mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
+				Texture2D tex = Mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
 				float scale = (float)Math.Sin(Main.time * 0.08f) * 0.14f;
 				spriteBatch.Draw(tex, new Vector2(npc.Center.X - 2, npc.Center.Y - 40) - Main.screenPosition, new Rectangle(0, 0, 6, 24), Color.White, 0f, new Vector2(3, 12), 1f + scale, SpriteEffects.None, 0f);
 			}
@@ -227,13 +227,13 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 			if (QuestManager.GetQuest<SlayerQuestDrBones>().IsActive)
 			{
-				if (!Main.dayTime && spawnInfo.player.ZoneJungle && !spawnInfo.playerSafe && spawnInfo.spawnTileY < Main.worldSurface && !NPC.AnyNPCs(NPCID.DoctorBones) && pool.ContainsKey(NPCID.DoctorBones))
+				if (!Main.dayTime && spawnInfo.Player.ZoneJungle && !spawnInfo.PlayerSafe && spawnInfo.SpawnTileY < Main.worldSurface && !NPC.AnyNPCs(NPCID.DoctorBones) && pool.ContainsKey(NPCID.DoctorBones))
 					pool[NPCID.DoctorBones] = 0.1f;
 			}
 
 			if (QuestManager.GetQuest<SlayerQuestDrBones>().IsActive)
 			{
-				if (spawnInfo.player.ZoneRockLayerHeight && !spawnInfo.playerSafe && spawnInfo.spawnTileY > Main.rockLayer && !NPC.AnyNPCs(NPCID.LostGirl) && pool.ContainsKey(NPCID.LostGirl))
+				if (spawnInfo.Player.ZoneRockLayerHeight && !spawnInfo.PlayerSafe && spawnInfo.SpawnTileY > Main.rockLayer && !NPC.AnyNPCs(NPCID.LostGirl) && pool.ContainsKey(NPCID.LostGirl))
 					pool[NPCID.LostGirl] = 0.05f;
 			}
 		}

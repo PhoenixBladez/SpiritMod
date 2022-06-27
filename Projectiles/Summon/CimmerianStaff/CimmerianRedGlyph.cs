@@ -1,4 +1,5 @@
-﻿using static Terraria.ModLoader.ModContent;
+﻿using Terraria.Audio;
+using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -13,60 +14,60 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gilded Bolt");
-            Main.projFrames[base.projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
-            ProjectileID.Sets.Homing[base.projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[base.Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.MinionSacrificable[base.Projectile.type] = true;
+            ProjectileID.Sets.CultistIsResistantTo[base.Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
-			projectile.width = 24;
-			projectile.height = 38;
-			projectile.minion = true;
-			projectile.friendly = true;
-            Main.projPet[projectile.type] = true;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 40;
-            projectile.alpha = 100;
+			Projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
+			Projectile.width = 24;
+			Projectile.height = 38;
+			Projectile.minion = true;
+			Projectile.friendly = true;
+            Main.projPet[Projectile.type] = true;
+            Projectile.penetrate = 2;
+            Projectile.timeLeft = 40;
+            Projectile.alpha = 100;
 		}
         float alphaCounter;
         float sineAdd;
         bool chooseFrame;
 		public override void AI()
 		{
-            projectile.rotation = 0f;
+            Projectile.rotation = 0f;
             alphaCounter += .095f;
 			if (Main.rand.NextBool(15))
             {
                 int glyphnum = Main.rand.Next(4);
-                DustHelper.DrawDustImage(new Vector2(projectile.Center.X + Main.rand.Next(-30, 30), projectile.Center.Y + Main.rand.Next(-30, 30)), 130, 0.05f, "SpiritMod/Effects/DustImages/CimmerianGlyph" + glyphnum, 1f);
+                DustHelper.DrawDustImage(new Vector2(Projectile.Center.X + Main.rand.Next(-30, 30), Projectile.Center.Y + Main.rand.Next(-30, 30)), 130, 0.05f, "SpiritMod/Effects/DustImages/CimmerianGlyph" + glyphnum, 1f);
             }
-            DoDustEffect(projectile.Center, 34f);
+            DoDustEffect(Projectile.Center, 34f);
             sineAdd = (float)Math.Sin(alphaCounter) + 2;
 			if (!chooseFrame)
             {
                 chooseFrame = true;
-                projectile.frame = Main.rand.Next(0, 4);
+                Projectile.frame = Main.rand.Next(0, 4);
             }
-            projectile.velocity = Vector2.Zero;
+            Projectile.velocity = Vector2.Zero;
         }
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), projectile.damage/3 * 2, projectile.knockBack, projectile.owner, 0f, 0f);
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), Projectile.damage/3 * 2, Projectile.knockBack, Projectile.owner, 0f, 0f);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 
             for (int k = 0; k < 40; k++)
             {
-                Dust d = Dust.NewDustPerfect(projectile.Center, 130, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, Main.rand.NextFloat(.4f, .8f));
+                Dust d = Dust.NewDustPerfect(Projectile.Center, 130, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, Main.rand.NextFloat(.4f, .8f));
                 d.noGravity = true;
             }
             for (int k = 0; k < 6; k++)
             {
                 int glyphnum = Main.rand.Next(4);
-                DustHelper.DrawDustImage(new Vector2(projectile.Center.X + Main.rand.Next(-30, 30), projectile.Center.Y + Main.rand.Next(-30, 30)), 130, 0.05f, "SpiritMod/Effects/DustImages/CimmerianGlyph" + glyphnum, 1f);
+                DustHelper.DrawDustImage(new Vector2(Projectile.Center.X + Main.rand.Next(-30, 30), Projectile.Center.Y + Main.rand.Next(-30, 30)), 130, 0.05f, "SpiritMod/Effects/DustImages/CimmerianGlyph" + glyphnum, 1f);
             }
         }
         private void DoDustEffect(Vector2 position, float distance, float minSpeed = 2f, float maxSpeed = 3f, object follow = null)
@@ -87,14 +88,14 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
         }
         public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Color color = new Color(255, 255, 200) * 0.75f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Color color = new Color(255, 255, 200) * 0.75f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 
-				float scale = projectile.scale * (float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length * 0.2f;
+				float scale = Projectile.scale * (float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length * 0.2f;
 				Texture2D tex = GetTexture("SpiritMod/Textures/Glow");
 
-				spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color * .1f, 0, tex.Size() / 2, scale * 5, default, default);
-				spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color * 0.3f, 0, tex.Size() / 2, scale * 4, default, default);
+				spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color * .1f, 0, tex.Size() / 2, scale * 5, default, default);
+				spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color * 0.3f, 0, tex.Size() / 2, scale * 4, default, default);
 			}
 		}
 	}

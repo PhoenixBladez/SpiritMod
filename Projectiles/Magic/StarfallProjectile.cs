@@ -3,6 +3,7 @@ using SpiritMod.Buffs;
 using SpiritMod.Projectiles.DonatorItems;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,14 +19,14 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(82);
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 28;
-			projectile.light = 0.5f;
-			projectile.height = 28;
-			projectile.friendly = true;
-			projectile.damage = 10;
+			Projectile.CloneDefaults(82);
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 28;
+			Projectile.light = 0.5f;
+			Projectile.height = 28;
+			Projectile.friendly = true;
+			Projectile.damage = 10;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -36,20 +37,20 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Firework_Yellow);
+			Projectile.rotation = Projectile.velocity.ToRotation() + (float)(Math.PI / 2);
+			Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Firework_Yellow);
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Wrath>(), projectile.damage / 3 * 2, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Wrath>(), Projectile.damage / 3 * 2, Projectile.knockBack, Projectile.owner, 0f, 0f);
 
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 			for (int num623 = 0; num623 < 70; num623++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Firework_Yellow, 0f, 0f, 100, default, 1f);
+				int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Firework_Yellow, 0f, 0f, 100, default, 1f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 1.5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Firework_Yellow, 0f, 0f, 100, default, 1f);
+				num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Firework_Yellow, 0f, 0f, 100, default, 1f);
 				Main.dust[num624].velocity *= 2f;
 			}
 		}

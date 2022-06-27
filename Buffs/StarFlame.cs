@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class StarFlame : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star Flame");
 			Description.SetDefault("'An astral force saps your vitality'");

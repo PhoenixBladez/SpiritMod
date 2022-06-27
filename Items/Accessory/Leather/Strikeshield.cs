@@ -17,11 +17,11 @@ namespace SpiritMod.Items.Accessory.Leather
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 28;
-			item.rare = ItemRarityID.Green;
-			item.defense = 1;
-			item.accessory = true;
+			Item.width = 24;
+			Item.height = 28;
+			Item.rare = ItemRarityID.Green;
+			Item.defense = 1;
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -30,13 +30,12 @@ namespace SpiritMod.Items.Accessory.Leather
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<LeatherShield>(), 1);
             recipe.AddIngredient(ItemID.ManaCrystal, 1);
             recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Tiles.BlastStoneItem>(), 10);
             recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

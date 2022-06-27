@@ -20,17 +20,17 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 		{
 			subID = Main.rand.Next(3);
 
-			item.value = 100;
-			item.maxStack = 999;
-			item.rare = ItemRarityID.Blue;
-			item.width = 28;
-			item.height = 28;
+			Item.value = 100;
+			Item.maxStack = 999;
+			Item.rare = ItemRarityID.Blue;
+			Item.width = 28;
+			Item.height = 28;
 		}
 
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
-			Texture2D tex = ModContent.GetTexture(Texture + "_World");
-			spriteBatch.Draw(tex, item.position - Main.screenPosition, new Rectangle(0, 28 * subID, 28, 26), GetAlpha(lightColor) ?? lightColor, rotation, Vector2.Zero, scale, SpriteEffects.None, 0f);
+			Texture2D tex = ModContent.Request<Texture2D>(Texture + "_World");
+			spriteBatch.Draw(tex, Item.position - Main.screenPosition, new Rectangle(0, 28 * subID, 28, 26), GetAlpha(lightColor) ?? lightColor, rotation, Vector2.Zero, scale, SpriteEffects.None, 0f);
 			return false;
 		}
 	}

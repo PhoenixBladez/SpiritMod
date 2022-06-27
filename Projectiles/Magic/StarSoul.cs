@@ -16,17 +16,17 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 4;       //projectile width
-			projectile.height = 4;  //projectile height
-			projectile.friendly = true;      //make that the projectile will not damage you
-			projectile.melee = true;         // 
-			projectile.tileCollide = true;   //make that the projectile will be destroed if it hits the terrain
-			projectile.penetrate = 2;      //how many npc will penetrate
-			projectile.timeLeft = 270;   //how many time projectile projectile has before disepire // projectile light
-			projectile.extraUpdates = 1;
-			projectile.ignoreWater = true;
-			projectile.alpha = 255;
-			projectile.aiStyle = -1;
+			Projectile.width = 4;       //projectile width
+			Projectile.height = 4;  //projectile height
+			Projectile.friendly = true;      //make that the projectile will not damage you
+			Projectile.DamageType = DamageClass.Melee;         // 
+			Projectile.tileCollide = true;   //make that the projectile will be destroed if it hits the terrain
+			Projectile.penetrate = 2;      //how many npc will penetrate
+			Projectile.timeLeft = 270;   //how many time projectile projectile has before disepire // projectile light
+			Projectile.extraUpdates = 1;
+			Projectile.ignoreWater = true;
+			Projectile.alpha = 255;
+			Projectile.aiStyle = -1;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles
 			if (Main.rand.Next(2) == 0)
 				target.AddBuff(ModContent.BuffType<SoulBurn>(), 200, true);
 
-			projectile.Kill();
+			Projectile.Kill();
 		}
 
 		public override void AI()
@@ -42,10 +42,10 @@ namespace SpiritMod.Projectiles
 			bool flag25 = false;
 			int jim = 1;
 			for (int index1 = 0; index1 < 200; index1++) {
-				if (Main.npc[index1].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
+				if (Main.npc[index1].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					float num23 = Main.npc[index1].position.X + (float)(Main.npc[index1].width / 2);
 					float num24 = Main.npc[index1].position.Y + (float)(Main.npc[index1].height / 2);
-					float num25 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num23) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num24);
+					float num25 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num23) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num24);
 					if (num25 < 300f) {
 						flag25 = true;
 						jim = index1;
@@ -55,7 +55,7 @@ namespace SpiritMod.Projectiles
 
 			if (flag25) {
 				float num1 = 12f;
-				Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+				Vector2 vector2 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;
 				float num3 = Main.npc[jim].Center.Y - vector2.Y;
 				float num4 = (float)Math.Sqrt((double)num2 * (double)num2 + (double)num3 * (double)num3);
@@ -63,14 +63,14 @@ namespace SpiritMod.Projectiles
 				float num6 = num2 * num5;
 				float num7 = num3 * num5;
 				int num8 = 30;
-				projectile.velocity.X = (projectile.velocity.X * (float)(num8 - 1) + num6) / (float)num8;
-				projectile.velocity.Y = (projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;
+				Projectile.velocity.X = (Projectile.velocity.X * (float)(num8 - 1) + num6) / (float)num8;
+				Projectile.velocity.Y = (Projectile.velocity.Y * (float)(num8 - 1) + num7) / (float)num8;
 			}
 
 			int num = 5;
 			for (int k = 0; k < 6; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Electric, 0.0f, 0.0f, 0, new Color(), 1f);
-				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+				int index2 = Dust.NewDust(Projectile.position, 1, 1, DustID.Electric, 0.0f, 0.0f, 0, new Color(), 1f);
+				Main.dust[index2].position = Projectile.Center - Projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .25f;
 				Main.dust[index2].velocity *= 0f;
 				Main.dust[index2].noGravity = true;
@@ -78,24 +78,24 @@ namespace SpiritMod.Projectiles
 			}
 
 
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 7200f) {
-				projectile.alpha += 5;
-				if (projectile.alpha > 255) {
-					projectile.alpha = 255;
-					projectile.Kill();
+			Projectile.ai[1] += 1f;
+			if (Projectile.ai[1] >= 7200f) {
+				Projectile.alpha += 5;
+				if (Projectile.alpha > 255) {
+					Projectile.alpha = 255;
+					Projectile.Kill();
 				}
 			}
 
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] >= 10f) {
-				projectile.localAI[0] = 0f;
+			Projectile.localAI[0] += 1f;
+			if (Projectile.localAI[0] >= 10f) {
+				Projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
-				int num419 = projectile.type;
+				int num419 = Projectile.type;
 				for (int num420 = 0; num420 < 1000; num420++) {
-					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
+					if (Main.projectile[num420].active && Main.projectile[num420].owner == Projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
 						num416++;
 						if (Main.projectile[num420].ai[1] > num418) {
 							num417 = num420;

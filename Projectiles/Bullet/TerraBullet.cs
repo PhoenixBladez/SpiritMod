@@ -14,32 +14,32 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void SetDefaults()
 		{
-			projectile.width = 4;
-			projectile.height = 4;
-			aiType = ProjectileID.Bullet;
-			projectile.alpha = 255;
-			projectile.penetrate = 2;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.hide = true;
+			Projectile.width = 4;
+			Projectile.height = 4;
+			AIType = ProjectileID.Bullet;
+			Projectile.alpha = 255;
+			Projectile.penetrate = 2;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.hide = true;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+			Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
 			// Don't emit dust until we've finished fading in
-			if (projectile.alpha < 170) {
+			if (Projectile.alpha < 170) {
 				for (int i = 0; i < 10; i++) {
-					float x = projectile.position.X - 3 - projectile.velocity.X / 10f * i;
-					float y = projectile.position.Y - 3 - projectile.velocity.Y / 10f * i;
+					float x = Projectile.position.X - 3 - Projectile.velocity.X / 10f * i;
+					float y = Projectile.position.Y - 3 - Projectile.velocity.Y / 10f * i;
 					int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.TerraBlade);
 					Main.dust[num].velocity = Vector2.Zero;
 					Main.dust[num].noGravity = true;
 				}
 			}
 
-			projectile.alpha = Math.Max(0, projectile.alpha - 25);
+			Projectile.alpha = Math.Max(0, Projectile.alpha - 25);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

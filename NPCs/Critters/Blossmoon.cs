@@ -14,60 +14,60 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blossmoon");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[NPC.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 18;
-			npc.height = 20;
-			npc.damage = 0;
-			npc.dontCountMe = true;
-			npc.defense = 0;
-			npc.lifeMax = 5;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)ModContent.ItemType<BlossmoonItem>();
-			npc.dontTakeDamageFromHostiles = false;
-			npc.knockBackResist = .45f;
-			npc.aiStyle = 0;
-			npc.npcSlots = 0;
-			npc.noGravity = false;
-			Main.npcFrameCount[npc.type] = 45;
+			NPC.width = 18;
+			NPC.height = 20;
+			NPC.damage = 0;
+			NPC.dontCountMe = true;
+			NPC.defense = 0;
+			NPC.lifeMax = 5;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			Main.npcCatchable[NPC.type] = true;
+			NPC.catchItem = (short)ModContent.ItemType<BlossmoonItem>();
+			NPC.dontTakeDamageFromHostiles = false;
+			NPC.knockBackResist = .45f;
+			NPC.aiStyle = 0;
+			NPC.npcSlots = 0;
+			NPC.noGravity = false;
+			Main.npcFrameCount[NPC.type] = 45;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 30; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ShadowbeamStaff, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			bool valid = spawnInfo.spawnTileY < Main.rockLayer && !Main.dayTime && MyWorld.calmNight && !spawnInfo.invasion && !spawnInfo.sky && !Main.eclipse;
+			bool valid = spawnInfo.SpawnTileY < Main.rockLayer && !Main.dayTime && MyWorld.calmNight && !spawnInfo.Invasion && !spawnInfo.Sky && !Main.eclipse;
 			if (!valid)
 				return 0f;
-			if (QuestManager.GetQuest<CritterCaptureBlossmoon>().IsActive && !NPC.AnyNPCs(npc.type))
+			if (QuestManager.GetQuest<CritterCaptureBlossmoon>().IsActive && !NPC.AnyNPCs(NPC.type))
 				return 0.25f;
 			return 0.076f;
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override bool PreAI()
 		{
-			Player player = Main.player[npc.target];
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .92f / 2, .632f / 2, 1.71f / 2);
+			Player player = Main.player[NPC.target];
+			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), .92f / 2, .632f / 2, 1.71f / 2);
 			{
-				Player target = Main.player[npc.target];
-				int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+				Player target = Main.player[NPC.target];
+				int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
 				if (distance < 480) {
 					player.AddBuff(BuffID.Calm, 300);
 				}

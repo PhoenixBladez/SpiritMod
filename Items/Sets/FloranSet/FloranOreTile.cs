@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Sets.FloranSet
 {
 	public class FloranOreTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSpelunker[Type] = true;
 			Main.tileSolid[Type] = true;
@@ -16,13 +16,13 @@ namespace SpiritMod.Items.Sets.FloranSet
 
 			TileID.Sets.Ore[Type] = true;
 
-			drop = ModContent.ItemType<FloranOre>();
+			ItemDrop = ModContent.ItemType<FloranOre>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Floran Ore");
 			AddMapEntry(new Color(30, 200, 25), name);
 			soundType = SoundID.Tink;
-			dustType = DustID.GrassBlades;
-			minPick = 40;
+			DustType = DustID.GrassBlades;
+			MinPick = 40;
 		}
 	}
 }

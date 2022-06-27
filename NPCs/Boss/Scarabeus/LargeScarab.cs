@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,92 +13,92 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 		public override void SetStaticDefaults() { 
 			DisplayName.SetDefault("Scarab");
-			Main.projFrames[projectile.type] = 4;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			Main.projFrames[Projectile.type] = 4;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 36;
-			projectile.height = 36;
-			projectile.hostile = true;
-			projectile.friendly = false;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 360;
-			projectile.frame = Main.rand.Next(4);
-			projectile.alpha = 255;
+			Projectile.width = 36;
+			Projectile.height = 36;
+			Projectile.hostile = true;
+			Projectile.friendly = false;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 360;
+			Projectile.frame = Main.rand.Next(4);
+			Projectile.alpha = 255;
 		}
 
-		public override bool CanHitPlayer(Player target) => projectile.ai[1] >= 120;
+		public override bool CanHitPlayer(Player target) => Projectile.ai[1] >= 120;
 		public override void Kill(int timeLeft)
 		{
-			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height); 
+			Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height); 
 			for (int i = 0; i < 10; i++) {
-				int d = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Plantera_Green, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+				int d = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Plantera_Green, Projectile.oldVelocity.X * 0.2f, Projectile.oldVelocity.Y * 0.2f);
 				Main.dust[d].noGravity = true;
 				Main.dust[d].scale = 1.2f;
 			}
-			Main.PlaySound(SoundID.NPCDeath16, (int)projectile.Center.X, (int)projectile.Center.Y);
+			SoundEngine.PlaySound(SoundID.NPCDeath16, (int)Projectile.Center.X, (int)Projectile.Center.Y);
 			for (int i = 1; i <= 3; i++) {
-				Gore.NewGore(projectile.Center, projectile.velocity, mod.GetGoreSlot("Gores/Scarabeus/largescarab" + i.ToString()));
+				Gore.NewGore(Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("Gores/Scarabeus/largescarab" + i.ToString()).Type);
 			}
 		}
 
 		public override void AI()
 		{
-			Player player = Main.player[(int)projectile.ai[0]];
+			Player player = Main.player[(int)Projectile.ai[0]];
 			if (!player.active || player.dead || !NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()))
-				projectile.Kill();
-			if (projectile.alpha > 0)
-				projectile.alpha -= 5;
+				Projectile.Kill();
+			if (Projectile.alpha > 0)
+				Projectile.alpha -= 5;
 			else
-				projectile.alpha = 0;
-			projectile.ai[1]++;
-			if(projectile.ai[1] < 130) {
-				projectile.spriteDirection = projectile.direction;
+				Projectile.alpha = 0;
+			Projectile.ai[1]++;
+			if(Projectile.ai[1] < 130) {
+				Projectile.spriteDirection = Projectile.direction;
 				Vector2 homepos = player.Center;
 				homepos.Y -= 180;
-				projectile.gfxOffY = Math.Sign(projectile.ai[1] / 5) * 25;
-				float vel = MathHelper.Clamp(projectile.Distance(homepos) / 20, 3, 18);
-				projectile.velocity.Y = MathHelper.Lerp(projectile.velocity.Y, projectile.DirectionTo(homepos).Y * vel, 0.05f);
-				projectile.velocity.X = MathHelper.Lerp(projectile.velocity.X, 0, 0.07f);
-				if (Math.Abs(projectile.velocity.X) <= 2f || Math.Abs(player.Center.X - projectile.Center.X) > 380) {
-					projectile.velocity.X = Math.Sign(projectile.DirectionTo(homepos).X) * MathHelper.Clamp(Math.Abs((player.Center.X - projectile.Center.X) / 12), 19, 28) * Main.rand.NextFloat(1f, 1.2f);
-					projectile.netUpdate = true;
+				Projectile.gfxOffY = Math.Sign(Projectile.ai[1] / 5) * 25;
+				float vel = MathHelper.Clamp(Projectile.Distance(homepos) / 20, 3, 18);
+				Projectile.velocity.Y = MathHelper.Lerp(Projectile.velocity.Y, Projectile.DirectionTo(homepos).Y * vel, 0.05f);
+				Projectile.velocity.X = MathHelper.Lerp(Projectile.velocity.X, 0, 0.07f);
+				if (Math.Abs(Projectile.velocity.X) <= 2f || Math.Abs(player.Center.X - Projectile.Center.X) > 380) {
+					Projectile.velocity.X = Math.Sign(Projectile.DirectionTo(homepos).X) * MathHelper.Clamp(Math.Abs((player.Center.X - Projectile.Center.X) / 12), 19, 28) * Main.rand.NextFloat(1f, 1.2f);
+					Projectile.netUpdate = true;
 				}
 			}
-			else if(projectile.ai[1] < 170) {
-				projectile.gfxOffY = MathHelper.Lerp(projectile.gfxOffY, 0, 0.1f);
-				projectile.velocity = Vector2.Lerp(projectile.velocity, -Vector2.UnitY * 5, 0.15f);
-				if(projectile.ai[1] == 130)
-					Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 44);
+			else if(Projectile.ai[1] < 170) {
+				Projectile.gfxOffY = MathHelper.Lerp(Projectile.gfxOffY, 0, 0.1f);
+				Projectile.velocity = Vector2.Lerp(Projectile.velocity, -Vector2.UnitY * 5, 0.15f);
+				if(Projectile.ai[1] == 130)
+					SoundEngine.PlaySound(SoundID.Zombie, (int)Projectile.position.X, (int)Projectile.position.Y, 44);
 			}
-			else if (projectile.ai[1] == 170) {
-				projectile.spriteDirection = projectile.direction;
-				projectile.tileCollide = (projectile.Center.Y >= player.position.Y);
-				projectile.velocity = Vector2.Lerp(projectile.DirectionTo(player.Center), Vector2.UnitY, 0.25f) * 8;
-				projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
+			else if (Projectile.ai[1] == 170) {
+				Projectile.spriteDirection = Projectile.direction;
+				Projectile.tileCollide = (Projectile.Center.Y >= player.position.Y);
+				Projectile.velocity = Vector2.Lerp(Projectile.DirectionTo(player.Center), Vector2.UnitY, 0.25f) * 8;
+				Projectile.spriteDirection = -Math.Sign(Projectile.velocity.X);
 			}
 			else {
-				projectile.velocity.Y *= 1.03f;
-				projectile.tileCollide = (projectile.Center.Y >= player.position.Y);
+				Projectile.velocity.Y *= 1.03f;
+				Projectile.tileCollide = (Projectile.Center.Y >= player.position.Y);
 			}
 
-			projectile.frameCounter++;
-			if(projectile.frameCounter > 6) {
-				projectile.frame++;
-				if (projectile.frame >= Main.projFrames[projectile.type])
-					projectile.frame = 0;
+			Projectile.frameCounter++;
+			if(Projectile.frameCounter > 6) {
+				Projectile.frame++;
+				if (Projectile.frame >= Main.projFrames[Projectile.type])
+					Projectile.frame = 0;
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			if(projectile.ai[1] > 170)
-				projectile.QuickDrawTrail(spriteBatch);
+			if(Projectile.ai[1] > 170)
+				Projectile.QuickDrawTrail(spriteBatch);
 
-			projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDraw(spriteBatch);
 			return false;
 		}
 	}

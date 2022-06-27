@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Sets.TideDrops;
@@ -13,187 +15,187 @@ namespace SpiritMod.NPCs.Tides
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mang-O War");
-			Main.npcFrameCount[npc.type] = 8;
-			NPCID.Sets.TrailCacheLength[npc.type] = 3;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 8;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 3;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 40;
-			npc.height = 50;
-			npc.damage = 30;
-			npc.defense = 6;
-			npc.lifeMax = 225;
-			npc.noGravity = true;
-			npc.knockBackResist = .03f;
-			npc.value = 200f;
-			npc.alpha = 35;
-			npc.noTileCollide = true;
-			npc.HitSound = SoundID.NPCHit25;
-			npc.DeathSound = SoundID.NPCDeath28;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.MangoWarBanner>();
+			NPC.width = 40;
+			NPC.height = 50;
+			NPC.damage = 30;
+			NPC.defense = 6;
+			NPC.lifeMax = 225;
+			NPC.noGravity = true;
+			NPC.knockBackResist = .03f;
+			NPC.value = 200f;
+			NPC.alpha = 35;
+			NPC.noTileCollide = true;
+			NPC.HitSound = SoundID.NPCHit25;
+			NPC.DeathSound = SoundID.NPCDeath28;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.MangoWarBanner>();
 		}
 
 		int xoffset = 0;
 		bool createdLaser = false;
 		float bloomCounter = 1;
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			if (npc.ai[3] == 1)
-				Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(22.5f * bloomCounter), (int)(13.8f * bloomCounter), (int)(21.6f * bloomCounter), 0), 0f, new Vector2(50, 50), 0.125f * (bloomCounter + 3), SpriteEffects.None, 0f);
+			if (NPC.ai[3] == 1)
+				Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), (NPC.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(22.5f * bloomCounter), (int)(13.8f * bloomCounter), (int)(21.6f * bloomCounter), 0), 0f, new Vector2(50, 50), 0.125f * (bloomCounter + 3), SpriteEffects.None, 0f);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 20; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ShadowbeamStaff, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 				for (int i = 1; i < 7; ++i)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MangoJelly/MangoJelly" + i), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MangoJelly/MangoJelly" + i).Type, 1f);
 		}
 
 		public override void AI()
 		{
-			npc.TargetClosest();
-			Player player = Main.player[npc.target];
-			npc.ai[0]++;
+			NPC.TargetClosest();
+			Player player = Main.player[NPC.target];
+			NPC.ai[0]++;
 
-			if (player.position.X > npc.position.X)
+			if (player.position.X > NPC.position.X)
 				xoffset = 24;
 			else
 				xoffset = -24;
 
-			if (npc.ai[0] == 400 && Main.netMode != NetmodeID.MultiplayerClient)
+			if (NPC.ai[0] == 400 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				npc.ai[2] = 1;
+				NPC.ai[2] = 1;
 				createdLaser = false;
-				npc.frameCounter = 0;
-				npc.netUpdate = true;
+				NPC.frameCounter = 0;
+				NPC.netUpdate = true;
 			}
 
-			if (npc.ai[0] == 550)
+			if (NPC.ai[0] == 550)
 			{
 				bloomCounter = 1;
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					npc.ai[3] = 0;
+					NPC.ai[3] = 0;
 					Vector2 vel = new Vector2(30f, 0).RotatedBy((float)(Main.rand.Next(90) * Math.PI / 180));
-					Main.PlaySound(SoundID.Item, npc.Center, 91);
+					SoundEngine.PlaySound(SoundID.Item, NPC.Center, 91);
 					for (int i = 0; i < 4; i++)
 					{
-						int lozar = Projectile.NewProjectile(npc.position + vel.RotatedBy(i * 1.57f) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), npc.damage / 3, 0, Main.myPlayer);
+						int lozar = Projectile.NewProjectile(NPC.position + vel.RotatedBy(i * 1.57f) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), NPC.damage / 3, 0, Main.myPlayer);
 						Main.projectile[lozar].netUpdate = true;
 					}
-					npc.netUpdate = true;
+					NPC.netUpdate = true;
 				}
 			}
 
-			if (npc.ai[0] >= 570 && Main.netMode != NetmodeID.MultiplayerClient)
+			if (NPC.ai[0] >= 570 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				npc.ai[2] = 0;
-				npc.ai[0] = 0;
-				npc.netUpdate = true;
+				NPC.ai[2] = 0;
+				NPC.ai[0] = 0;
+				NPC.netUpdate = true;
 			}
 
-			if (npc.ai[2] == 1)
+			if (NPC.ai[2] == 1)
 			{ //shooting
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 				num395 *= 0.2f;
-				npc.scale = num395 + 0.95f;
-				npc.knockBackResist = 0;
-				npc.velocity = Vector2.Zero;
+				NPC.scale = num395 + 0.95f;
+				NPC.knockBackResist = 0;
+				NPC.velocity = Vector2.Zero;
 				bloomCounter += 0.02f;
-				npc.rotation = 0f;
+				NPC.rotation = 0f;
 			}
 			else
 			{
-				npc.knockBackResist = .9f;
+				NPC.knockBackResist = .9f;
 				#region regular movement
-				npc.velocity.X *= 0.99f;
-				if (npc.ai[1] == 0)
+				NPC.velocity.X *= 0.99f;
+				if (NPC.ai[1] == 0)
 				{ //not jumping
-					if (npc.velocity.Y < 2.5f)
+					if (NPC.velocity.Y < 2.5f)
 					{
-						npc.velocity.Y += 0.1f;
+						NPC.velocity.Y += 0.1f;
 					}
-					if (player.position.Y < npc.position.Y && npc.ai[0] % 30 == 0)
+					if (player.position.Y < NPC.position.Y && NPC.ai[0] % 30 == 0)
 					{
-						npc.ai[1] = 1;
-						npc.velocity.X = xoffset / 1.25f;
-						npc.velocity.Y = -6;
+						NPC.ai[1] = 1;
+						NPC.velocity.X = xoffset / 1.25f;
+						NPC.velocity.Y = -6;
 					}
 				}
-				if (npc.ai[1] == 1)
+				if (NPC.ai[1] == 1)
 				{ //jumping
-					npc.velocity *= 0.97f;
-					if (Math.Abs(npc.velocity.X) < 0.125f)
+					NPC.velocity *= 0.97f;
+					if (Math.Abs(NPC.velocity.X) < 0.125f)
 					{
-						npc.ai[1] = 0;
+						NPC.ai[1] = 0;
 					}
-					npc.rotation = npc.velocity.ToRotation() + 1.57f;
+					NPC.rotation = NPC.velocity.ToRotation() + 1.57f;
 				}
 				#endregion
 			}
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.NextBool(25))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MagicConch>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MagicConch>());
 
 			if (Main.rand.NextBool(25))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MangoJellyStaff>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MangoJellyStaff>());
 		}
 
 		public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255);
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-			for (int k = 0; k < npc.oldPos.Length; k++)
+			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height * 0.5f));
+			for (int k = 0; k < NPC.oldPos.Length; k++)
 			{
-				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-				Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-				spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+				var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+				Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+				Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			}
 			return true;
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			Player player = Main.player[npc.target];
-			if (npc.ai[2] == 0)
+			Player player = Main.player[NPC.target];
+			if (NPC.ai[2] == 0)
 			{
-				if (player.position.Y < npc.position.Y)
-					npc.frameCounter += 0.10f;
+				if (player.position.Y < NPC.position.Y)
+					NPC.frameCounter += 0.10f;
 
-				npc.frameCounter += 0.05f;
-				npc.frameCounter %= 4;
-				int frame = (int)npc.frameCounter;
-				npc.frame.Y = frame * frameHeight;
+				NPC.frameCounter += 0.05f;
+				NPC.frameCounter %= 4;
+				int frame = (int)NPC.frameCounter;
+				NPC.frame.Y = frame * frameHeight;
 			}
 			else
 			{
-				if (npc.frameCounter < 2.8f)
-					npc.frameCounter += 0.1f;
-				else if (npc.ai[3] == 0 && npc.frameCounter < 3.8f)
-					npc.frameCounter += 0.08f;
+				if (NPC.frameCounter < 2.8f)
+					NPC.frameCounter += 0.1f;
+				else if (NPC.ai[3] == 0 && NPC.frameCounter < 3.8f)
+					NPC.frameCounter += 0.08f;
 
-				if (npc.frameCounter >= 2.8f && !createdLaser)
+				if (NPC.frameCounter >= 2.8f && !createdLaser)
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						npc.ai[3] = 1;
+						NPC.ai[3] = 1;
 					createdLaser = true;
-					npc.netUpdate = true;
+					NPC.netUpdate = true;
 				}
-				npc.frameCounter %= 4;
-				int frame = (int)npc.frameCounter + 4;
-				npc.frame.Y = frame * frameHeight;
+				NPC.frameCounter %= 4;
+				int frame = (int)NPC.frameCounter + 4;
+				NPC.frame.Y = frame * frameHeight;
 			}
 		}
 	}

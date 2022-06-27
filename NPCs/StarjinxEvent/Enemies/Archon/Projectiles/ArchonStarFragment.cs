@@ -14,59 +14,59 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star Fragment");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(10, 10);
-			projectile.scale = Main.rand.NextFloat(0.8f, 1.2f);
-			projectile.hostile = true;
-			projectile.timeLeft = 60;
-			projectile.ignoreWater = true;
+			Projectile.Size = new Vector2(10, 10);
+			Projectile.scale = Main.rand.NextFloat(0.8f, 1.2f);
+			Projectile.hostile = true;
+			Projectile.timeLeft = 60;
+			Projectile.ignoreWater = true;
 		}
 
 		public override void AI()
 		{
-			projectile.velocity *= 0.98f;
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-			Lighting.AddLight(projectile.Center, Color.LightCyan.ToVector3() / 3);
+			Projectile.velocity *= 0.98f;
+			Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+			Lighting.AddLight(Projectile.Center, Color.LightCyan.ToVector3() / 3);
 
 			if (Main.rand.NextBool(5) && !Main.dedServ)
-				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.3f), Color.White, Color.Cyan, Main.rand.NextFloat(0.1f, 0.2f) * projectile.scale, 25));
+				ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.3f), Color.White, Color.Cyan, Main.rand.NextFloat(0.1f, 0.2f) * Projectile.scale, 25));
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			projectile.QuickDrawTrail(spriteBatch, 0.25f);
-			projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDrawTrail(spriteBatch, 0.25f);
+			Projectile.QuickDraw(spriteBatch);
 			return false;
 		}
 
-		public override Color? GetAlpha(Color lightColor) => Color.White * projectile.Opacity;
+		public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.Opacity;
 
 		public void DoTrailCreation(TrailManager tManager)
 		{
-			float scalemod = projectile.scale;
-			tManager.CreateTrail(projectile, new GradientTrail(new Color(145, 255, 253), new Color(61, 178, 224)), new RoundCap(), new ArrowGlowPosition(), 10f * scalemod, 70f * scalemod, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
-			tManager.CreateTrail(projectile, new GradientTrail(new Color(145, 255, 253) * .5f, new Color(61, 178, 224) * .5f), new RoundCap(), new ArrowGlowPosition(), 30f * scalemod, 140f * scalemod, new DefaultShader());
-			tManager.CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new ArrowGlowPosition(), 10f * scalemod, 40f * scalemod, new DefaultShader());
-			tManager.CreateTrail(projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new ArrowGlowPosition(), 10f * scalemod, 40f * scalemod, new DefaultShader());
-			tManager.CreateTrail(projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new ArrowGlowPosition(), 30f * scalemod, 10f * scalemod, new DefaultShader());
+			float scalemod = Projectile.scale;
+			tManager.CreateTrail(Projectile, new GradientTrail(new Color(145, 255, 253), new Color(61, 178, 224)), new RoundCap(), new ArrowGlowPosition(), 10f * scalemod, 70f * scalemod, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+			tManager.CreateTrail(Projectile, new GradientTrail(new Color(145, 255, 253) * .5f, new Color(61, 178, 224) * .5f), new RoundCap(), new ArrowGlowPosition(), 30f * scalemod, 140f * scalemod, new DefaultShader());
+			tManager.CreateTrail(Projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new ArrowGlowPosition(), 10f * scalemod, 40f * scalemod, new DefaultShader());
+			tManager.CreateTrail(Projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new ArrowGlowPosition(), 10f * scalemod, 40f * scalemod, new DefaultShader());
+			tManager.CreateTrail(Projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new ArrowGlowPosition(), 30f * scalemod, 10f * scalemod, new DefaultShader());
 		}
 		public void AdditiveCall(SpriteBatch sb)
 		{
-			float blurLength = 100 * projectile.scale * projectile.Opacity;
-			float blurWidth = 25 * projectile.scale * projectile.Opacity;
+			float blurLength = 100 * Projectile.scale * Projectile.Opacity;
+			float blurWidth = 25 * Projectile.scale * Projectile.Opacity;
 
-			Effect blurEffect = mod.GetEffect("Effects/BlurLine");
+			Effect blurEffect = Mod.GetEffect("Effects/BlurLine");
 			SquarePrimitive blurLine = new SquarePrimitive()
 			{
-				Position = projectile.Center - Main.screenPosition,
+				Position = Projectile.Center - Main.screenPosition,
 				Height = blurWidth,
 				Length = blurLength,
-				Rotation = projectile.velocity.X * .1f,
+				Rotation = Projectile.velocity.X * .1f,
 				Color = new Color(181, 245, 255) * .5f
 			};
 			PrimitiveRenderer.DrawPrimitiveShape(blurLine, blurEffect);

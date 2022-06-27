@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
@@ -17,23 +18,23 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.minion = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 240;
-			projectile.height = 4;
-			projectile.width = 4;
-			projectile.alpha = 255;
-			aiType = ProjectileID.Bullet;
-			projectile.extraUpdates = 3;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.minion = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 240;
+			Projectile.height = 4;
+			Projectile.width = 4;
+			Projectile.alpha = 255;
+			AIType = ProjectileID.Bullet;
+			Projectile.extraUpdates = 3;
 		}
 
         public override void AI()
         {
             for (int i = 0; i < 5; i++)
             {
-                Vector2 position = projectile.Center;
+                Vector2 position = Projectile.Center;
                 Dust dust = Main.dust[Dust.NewDust(position, 0, 0, DustID.Electric, 0f, 0f, 0, new Color(255, 255, 255), 0.464947368f)];
                 dust.noLight = true;
                 dust.noGravity = true;
@@ -43,8 +44,8 @@ namespace SpiritMod.Projectiles.Summon
 			if (Main.rand.NextBool(3))
             {
                 // You need to set position depending on what you are doing. You may need to subtract width/2 and height/2 as well to center the spawn rectangle.
-                Vector2 position = projectile.Center;
-                Dust dust = Main.dust[Dust.NewDust(position, (int)projectile.velocity.X, (int)projectile.velocity.Y, DustID.Electric, 0f, 0f, 0, new Color(255, 255, 255), 0.464947368f)];
+                Vector2 position = Projectile.Center;
+                Dust dust = Main.dust[Dust.NewDust(position, (int)Projectile.velocity.X, (int)Projectile.velocity.Y, DustID.Electric, 0f, 0f, 0, new Color(255, 255, 255), 0.464947368f)];
                 dust.noLight = true;
                 dust.noGravity = true;
                 dust.velocity *= .6f;
@@ -52,7 +53,7 @@ namespace SpiritMod.Projectiles.Summon
             }
         }
 
-		public override void Kill(int timeLeft) => Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
+		public override void Kill(int timeLeft) => SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 3);
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             for (int i = 0; i < 10; i++)

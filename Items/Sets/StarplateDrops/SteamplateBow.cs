@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Arrow;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,28 +16,28 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			DisplayName.SetDefault("Starcharger");
 			Tooltip.SetDefault("Left-click to shoot Positive Arrows\nRight-click to shoot Negative Arrows\nOppositely charged arrows explode upon touching each other");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/StarplateDrops/SteamplateBow_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/StarplateDrops/SteamplateBow_Glow");
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.damage = 28;
-			item.noMelee = true;
-			item.ranged = true;
-			item.width = 28;
-			item.height = 36;
-			item.useTime = 26;
-			item.useAnimation = 26;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ProjectileID.Shuriken;
-			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 1;
-			item.rare = ItemRarityID.Orange;
-			item.UseSound = SoundID.Item5;
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.autoReuse = true;
-			item.shootSpeed = 15f;
+			Item.damage = 28;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 28;
+			Item.height = 36;
+			Item.useTime = 26;
+			Item.useAnimation = 26;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ProjectileID.Shuriken;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.knockBack = 1;
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item5;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.autoReuse = true;
+			Item.shootSpeed = 15f;
 
 		}
 		public override Vector2? HoldoutOffset()
@@ -45,14 +47,14 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Sets/StarplateDrops/SteamplateBow_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/StarplateDrops/SteamplateBow_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -67,26 +69,28 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			return true;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			if (player.altFunctionUse == 2) {
-				int positive = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<NegativeArrow>(), damage, knockBack, player.whoAmI);
-			}
-			else {
-				if (type == ProjectileID.WoodenArrowFriendly) {
-					type = ModContent.ProjectileType<PositiveArrow>();
-				}
-				int negative = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-			}
+			if (type == ProjectileID.WoodenArrowFriendly && player.altFunctionUse != 2)
+				type = ModContent.ProjectileType<PositiveArrow>();
+		}
+
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		{
+			if (player.altFunctionUse == 2)
+				Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<NegativeArrow>(), damage, knockback, player.whoAmI);
+			else
+				Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 			return false;
 		}
+
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 17);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 17)
+				.AddTile(TileID.Anvils)
+				.Register();
 		}
 	}
 }

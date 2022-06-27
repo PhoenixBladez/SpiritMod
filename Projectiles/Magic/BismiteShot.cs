@@ -2,6 +2,7 @@
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.DoT;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,24 +16,24 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 12;
-			projectile.height = 12;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 100;
-			projectile.alpha = 255;
-			projectile.extraUpdates = 1;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 12;
+			Projectile.height = 12;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 100;
+			Projectile.alpha = 255;
+			Projectile.extraUpdates = 1;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+			AIType = ProjectileID.Bullet;
 		}
 
 		public override void AI()
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Plantera_Green, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Plantera_Green, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Plantera_Green, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+			int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Plantera_Green, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 			Main.dust[dust2].velocity *= 0f;
@@ -43,17 +44,17 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.penetrate--;
-			if (projectile.penetrate <= 0)
-				projectile.Kill();
+			Projectile.penetrate--;
+			if (Projectile.penetrate <= 0)
+				Projectile.Kill();
 			else {
-				if (projectile.velocity.X != oldVelocity.X)
-					projectile.velocity.X = -oldVelocity.X;
+				if (Projectile.velocity.X != oldVelocity.X)
+					Projectile.velocity.X = -oldVelocity.X;
 
-				if (projectile.velocity.Y != oldVelocity.Y)
-					projectile.velocity.Y = -oldVelocity.Y;
+				if (Projectile.velocity.Y != oldVelocity.Y)
+					Projectile.velocity.Y = -oldVelocity.Y;
 
-				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
+				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 10);
 			}
 			return false;
 		}
@@ -61,9 +62,9 @@ namespace SpiritMod.Projectiles.Magic
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Plantera_Green);
 			}
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

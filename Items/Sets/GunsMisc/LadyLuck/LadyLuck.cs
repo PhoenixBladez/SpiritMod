@@ -1,9 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
 {
@@ -17,41 +19,41 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
 
 		public override void SetDefaults()
 		{
-			item.damage = 34;
-			item.ranged = true;
-			item.width = 24;
-			item.height = 24;
-			item.useTime = 9;
-			item.useAnimation = 9;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 0;
-			item.rare = ItemRarityID.LightRed;
-			item.UseSound = SoundID.Item41;
-			item.shoot = ModContent.ProjectileType<LadyLuckProj>();
-			item.shootSpeed = 12f;
-			item.useAmmo = AmmoID.Bullet;
-			item.value = Item.sellPrice(0, 2, 20, 0);
-			item.autoReuse = true;
+			Item.damage = 34;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 24;
+			Item.height = 24;
+			Item.useTime = 9;
+			Item.useAnimation = 9;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 0;
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item41;
+			Item.shoot = ModContent.ProjectileType<LadyLuckProj>();
+			Item.shootSpeed = 12f;
+			Item.useAmmo = AmmoID.Bullet;
+			Item.value = Item.sellPrice(0, 2, 20, 0);
+			Item.autoReuse = true;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			var direction = new Vector2(speedX, speedY);
+			var direction = velocity;
 
 			if (player.altFunctionUse == 2)
 			{
-				Projectile.NewProjectile(position, direction * 1.2f, item.shoot, 0, knockBack, player.whoAmI);
+				Projectile.NewProjectile(source, position, direction * 1.2f, Item.shoot, 0, knockback, player.whoAmI);
 				return false;
 			}
 			else
 			{
-				int p = Projectile.NewProjectile(position + (direction * 2.65f) + (direction.RotatedBy(-1.57f * player.direction) * -.02f), direction, ModContent.ProjectileType<LadyLuckFlash>(), 0, 0, player.whoAmI);
+				int p = Projectile.NewProjectile(source, position + (direction * 2.65f) + (direction.RotatedBy(-1.57f * player.direction) * -.02f), direction, ModContent.ProjectileType<LadyLuckFlash>(), 0, 0, player.whoAmI);
 				Main.projectile[p].frame = Main.rand.Next(0, 3);
-				Gore.NewGore(player.Center, new Vector2(player.direction * -1, -0.5f) * 4, mod.GetGoreSlot("Gores/BulletCasing"), 1f);
-				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+				Gore.NewGore(source, player.Center, new Vector2(player.direction * -1, -0.5f) * 4, Mod.Find<ModGore>("Gores/BulletCasing").Type, 1f);
+				int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<LLProj>().shotFromGun = true;
 			}
 			return false;
@@ -64,25 +66,25 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
 				if (player.ownedProjectileCounts[ModContent.ProjectileType<LadyLuckProj>()] > 0)
 					return false;
 
-				item.shootSpeed = 9f;
-				item.useTime = 16;
-				item.useAnimation = 16;
-				item.UseSound = SoundID.Item1;
-				item.noUseGraphic = true;
-				item.useStyle = ItemUseStyleID.SwingThrow;
-				item.useAmmo = 0;
-				item.autoReuse = false;
+				Item.shootSpeed = 9f;
+				Item.useTime = 16;
+				Item.useAnimation = 16;
+				Item.UseSound = SoundID.Item1;
+				Item.noUseGraphic = true;
+				Item.useStyle = ItemUseStyleID.Swing;
+				Item.useAmmo = 0;
+				Item.autoReuse = false;
 			}
 			else
 			{
-				item.shootSpeed = 16f;
-				item.useTime = 9;
-				item.useAnimation = 9;
-				item.useStyle = ItemUseStyleID.HoldingOut;
-				item.noUseGraphic = false;
-				item.useAmmo = AmmoID.Bullet;
-				item.UseSound = SoundID.Item41;
-				item.autoReuse = true;
+				Item.shootSpeed = 16f;
+				Item.useTime = 9;
+				Item.useAnimation = 9;
+				Item.useStyle = ItemUseStyleID.Shoot;
+				Item.noUseGraphic = false;
+				Item.useAmmo = AmmoID.Bullet;
+				Item.UseSound = SoundID.Item41;
+				Item.autoReuse = true;
 			}
 			return true;
 		}
@@ -97,52 +99,52 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("");
-			Main.projFrames[projectile.type] = 3;
+			Main.projFrames[Projectile.type] = 3;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.tileCollide = false;
-			projectile.Size = new Vector2(20, 10);
-			projectile.penetrate = -1;
-			projectile.timeLeft = 3;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.tileCollide = false;
+			Projectile.Size = new Vector2(20, 10);
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 3;
 		}
 
 		public override void AI()
 		{
-			if (projectile.velocity != Vector2.Zero)
+			if (Projectile.velocity != Vector2.Zero)
 			{
-				direction = Math.Sign(projectile.velocity.X);
-				projectile.rotation = projectile.velocity.ToRotation();
+				direction = Math.Sign(Projectile.velocity.X);
+				Projectile.rotation = Projectile.velocity.ToRotation();
 			}
-			projectile.velocity = Vector2.Zero;
+			Projectile.velocity = Vector2.Zero;
 			CreateParticles();
 		}
 
 		protected virtual void CreateParticles()
 		{
-			Vector2 lineDirection = projectile.rotation.ToRotationVector2() * (projectile.width * 0.7f);
-			Vector2 lineOffshoot = (projectile.rotation + 1.57f).ToRotationVector2() * projectile.height * 0.3f;
+			Vector2 lineDirection = Projectile.rotation.ToRotationVector2() * (Projectile.width * 0.7f);
+			Vector2 lineOffshoot = (Projectile.rotation + 1.57f).ToRotationVector2() * Projectile.height * 0.3f;
 			for (int i = 0; i < 3; i++)
 			{
-				Vector2 position = projectile.Center + (lineDirection * Main.rand.NextFloat()) + (lineOffshoot * Main.rand.NextFloat(-1f, 1f));
-				Dust.NewDustPerfect(position, 6, Main.rand.NextVector2Circular(1, 1) + ((projectile.rotation + Main.rand.NextFloat(-0.35f, 0.35f)).ToRotationVector2() * 5), 0, default, 1.3f).noGravity = true;
+				Vector2 position = Projectile.Center + (lineDirection * Main.rand.NextFloat()) + (lineOffshoot * Main.rand.NextFloat(-1f, 1f));
+				Dust.NewDustPerfect(position, 6, Main.rand.NextVector2Circular(1, 1) + ((Projectile.rotation + Main.rand.NextFloat(-0.35f, 0.35f)).ToRotationVector2() * 5), 0, default, 1.3f).noGravity = true;
 			}
 		}
 
 		public override Color? GetAlpha(Color lightColor) => Color.White * .8f;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			int frameHeight = tex.Height / Main.projFrames[projectile.type];
-			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
+			Rectangle frame = new Rectangle(0, frameHeight * Projectile.frame, tex.Width, frameHeight);
 			if (direction == 1)
-				spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, color * .8f, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, color * .8f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0f);
 			else
-				spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, color * .8f, projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+				Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, color * .8f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale, SpriteEffects.FlipHorizontally, 0f);
 			return false;
 		}
 	}

@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.SummonTag
 {
 	public class SummonTag3 : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Summon Tag");
 			Main.debuff[Type] = true;

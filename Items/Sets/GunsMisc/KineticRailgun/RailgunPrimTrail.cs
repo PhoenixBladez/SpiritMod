@@ -103,11 +103,11 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 
 			PointCount = Points.Count() * 6;
 
-			if ((!Entity.active && Entity != null) || Destroyed || !_target.active || ((Entity as Projectile).modProjectile is KineticRailgunProj modItem2 && !modItem2.targets.Contains(_target)))
+			if ((!Entity.active && Entity != null) || Destroyed || !_target.active || ((Entity as Projectile).ModProjectile is KineticRailgunProj modItem2 && !modItem2.targets.Contains(_target)))
 				OnDestroy();
 			else
 			{
-				if ((Entity as Projectile).modProjectile is KineticRailgunProj modItem3)
+				if ((Entity as Projectile).ModProjectile is KineticRailgunProj modItem3)
 				{
 					List<Vector2> points = new List<Vector2>();
 					Vector2 distance = _target.Center - Entity.position;

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,78 +10,78 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 {
 	public class Manajinx : ModProjectile
 	{
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Manajinx Pylon");
 
 		public override void SetDefaults()
 		{
-			projectile.width = 40;
-			projectile.height = 40;
-			projectile.timeLeft = 360;
-			projectile.friendly = true;
-			projectile.aiStyle = -1;
-			projectile.penetrate = -1;
-			projectile.alpha = 255;
-			projectile.scale = 0.5f;
+			Projectile.width = 40;
+			Projectile.height = 40;
+			Projectile.timeLeft = 360;
+			Projectile.friendly = true;
+			Projectile.aiStyle = -1;
+			Projectile.penetrate = -1;
+			Projectile.alpha = 255;
+			Projectile.scale = 0.5f;
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => false;
 
 		public override void AI()
 		{
-			Player owner = Main.player[projectile.owner];
+			Player owner = Main.player[Projectile.owner];
 			float grabrange = (owner.manaMagnet) ? 400 : 100;
 
-			if(projectile.Distance(owner.Center) < grabrange)
-				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(owner.Center) * 4, 0.05f);
+			if(Projectile.Distance(owner.Center) < grabrange)
+				Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(owner.Center) * 4, 0.05f);
 			else
-				projectile.velocity = Vector2.Lerp(projectile.velocity, Vector2.Zero, 0.1f);
+				Projectile.velocity = Vector2.Lerp(Projectile.velocity, Vector2.Zero, 0.1f);
 
-			if (projectile.Hitbox.Intersects(owner.Hitbox))
+			if (Projectile.Hitbox.Intersects(owner.Hitbox))
 			{
-				projectile.Kill();
+				Projectile.Kill();
 				owner.statMana = owner.statManaMax;
 				owner.ManaEffect(owner.statMana);
-				owner.AddBuff(mod.BuffType("ManajinxBuff"), 360);
-				Main.PlaySound(SoundID.Item29, owner.Center);
+				owner.AddBuff(Mod.Find<ModBuff>("ManajinxBuff").Type, 360);
+				SoundEngine.PlaySound(SoundID.Item29, owner.Center);
 			}
-			if(projectile.timeLeft > 40)
+			if(Projectile.timeLeft > 40)
 			{
-				if (projectile.alpha > 0)
-					projectile.alpha -= 7;
+				if (Projectile.alpha > 0)
+					Projectile.alpha -= 7;
 				else
 				{
-					projectile.alpha = 0;
-					projectile.ai[0] = 1;
+					Projectile.alpha = 0;
+					Projectile.ai[0] = 1;
 				}
 			}
 			else
 			{
-				projectile.alpha += 7;
-				if (projectile.alpha > 230)
-					projectile.Kill();
+				Projectile.alpha += 7;
+				if (Projectile.alpha > 230)
+					Projectile.Kill();
 			}
 			if(Main.rand.Next(20) == 0)
 			{
-				Vector2 spawnpos = projectile.position + Main.rand.NextVector2Circular(70, 70);
-				Vector2 gorevel = (projectile.position - spawnpos)/45;
-				Gore.NewGorePerfect(spawnpos, gorevel, mod.GetGoreSlot("Gores/StarjinxGore"), 0.4f);
+				Vector2 spawnpos = Projectile.position + Main.rand.NextVector2Circular(70, 70);
+				Vector2 gorevel = (Projectile.position - spawnpos)/45;
+				Gore.NewGorePerfect(spawnpos, gorevel, Mod.Find<ModGore>("Gores/StarjinxGore").Type, 0.4f);
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			if (projectile.ai[0] == 0)
+			if (Projectile.ai[0] == 0)
 			{
-				Player owner = Main.player[projectile.owner];
-				Texture2D tex = mod.GetTexture("Textures/Medusa_Ray");
-				Vector2 scale = new Vector2(projectile.Distance(owner.Center) / tex.Width, 1) * 0.75f;
+				Player owner = Main.player[Projectile.owner];
+				Texture2D tex = Mod.GetTexture("Textures/Medusa_Ray");
+				Vector2 scale = new Vector2(Projectile.Distance(owner.Center) / tex.Width, 1) * 0.75f;
 				spriteBatch.Draw(tex,
-					owner.Center - Main.screenPosition + new Vector2(tex.Size().X * scale.X, 0).RotatedBy(projectile.AngleFrom(owner.Center))/2,
+					owner.Center - Main.screenPosition + new Vector2(tex.Size().X * scale.X, 0).RotatedBy(Projectile.AngleFrom(owner.Center))/2,
 					null,
-					SpiritMod.StarjinxColor(Main.GlobalTime * 4) * 0.5f * (1 - (Math.Abs(0.5f - projectile.Opacity) * 2)),
-					projectile.AngleFrom(owner.Center),
+					SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 4) * 0.5f * (1 - (Math.Abs(0.5f - Projectile.Opacity) * 2)),
+					Projectile.AngleFrom(owner.Center),
 					tex.Size()/2,
 					scale,
 					SpriteEffects.None,
@@ -88,13 +89,13 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			}
 			for (int i = 0; i < 3; i++)
 			{
-				spriteBatch.Draw(mod.GetTexture("Textures/StardustPillarStar"),
-					projectile.Center - Main.screenPosition,
+				spriteBatch.Draw(Mod.GetTexture("Textures/StardustPillarStar"),
+					Projectile.Center - Main.screenPosition,
 					null,
-					SpiritMod.StarjinxColor(Main.GlobalTime * 4) * 0.75f * projectile.Opacity * (1 - (i * 0.33f)),
+					SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 4) * 0.75f * Projectile.Opacity * (1 - (i * 0.33f)),
 					0,
 					new Vector2(36, 36),
-					projectile.scale * ((float)Math.Sin(Main.GlobalTime * 3) / 4 + 1) * 0.8f * (1 + (i * 0.5f)),
+					Projectile.scale * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 4 + 1) * 0.8f * (1 + (i * 0.5f)),
 					SpriteEffects.None,
 					0);
 			}

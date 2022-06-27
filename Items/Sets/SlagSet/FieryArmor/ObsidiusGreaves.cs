@@ -17,11 +17,11 @@ namespace SpiritMod.Items.Sets.SlagSet.FieryArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 20;
-			item.value = Item.sellPrice(0, 0, 39, 0);
-			item.rare = ItemRarityID.Orange;
-			item.defense = 6;
+			Item.width = 30;
+			Item.height = 20;
+			Item.value = Item.sellPrice(0, 0, 39, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.defense = 6;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -31,11 +31,10 @@ namespace SpiritMod.Items.Sets.SlagSet.FieryArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 14);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

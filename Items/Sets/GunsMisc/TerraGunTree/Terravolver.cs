@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Bullet;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
@@ -21,33 +22,33 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 		int charger;
 		public override void SetDefaults()
 		{
-			item.damage = 43;
-			item.ranged = true;
-			item.width = 58;
-			item.height = 32;
-			item.useTime = 8;
-			item.useAnimation = 8;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 0.3f;
-			item.useTurn = false;
-			item.value = Item.sellPrice(0, 3, 0, 0);
-			item.rare = ItemRarityID.Yellow;
-			item.UseSound = SoundID.Item92;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<TerraBullet>();
-			item.shootSpeed = 14f;
-			item.useAmmo = AmmoID.Bullet;
+			Item.damage = 43;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 58;
+			Item.height = 32;
+			Item.useTime = 8;
+			Item.useAnimation = 8;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 0.3f;
+			Item.useTurn = false;
+			Item.value = Item.sellPrice(0, 3, 0, 0);
+			Item.rare = ItemRarityID.Yellow;
+			Item.UseSound = SoundID.Item92;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<TerraBullet>();
+			Item.shootSpeed = 14f;
+			Item.useAmmo = AmmoID.Bullet;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (player.IsUsingAlt()) {
 				player.itemTime = 29;
 				player.itemAnimation = 29;
-				Vector2 origVect = new Vector2(speedX, speedY);
+				Vector2 origVect = velocity;
 				for (int X = 0; X <= 3; X++) {
 					if (Main.rand.Next(2) == 1) {
 						newVect = origVect.RotatedBy(Math.PI / (Main.rand.Next(82, 1800) / 10));
@@ -56,7 +57,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 						newVect = origVect.RotatedBy(-Math.PI / (Main.rand.Next(82, 1800) / 10));
 					}
 					if (type == ProjectileID.Bullet) type = ModContent.ProjectileType<TerraBullet1>();
-					Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, type, damage, 8f, player.whoAmI);
+					Projectile.NewProjectile(source, position.X, position.Y, newVect.X, newVect.Y, type, damage, 8f, player.whoAmI);
 				}
 				return false;
 			}
@@ -65,7 +66,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 				if (charger >= 7) {
 					// Bombs do 33% more damage
 					int bombDamage = damage + (int)(damage * (1 / 3f));
-					Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<TerraBomb>(), bombDamage, knockBack, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<TerraBomb>(), bombDamage, knockback, player.whoAmI, 0f, 0f);
 					charger = 0;
 				}
 
@@ -82,19 +83,17 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<TrueShadowShot>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<TrueHolyBurst>(), 1);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = CreateRecipe(1);
 			recipe1.AddIngredient(ModContent.ItemType<TrueCrimbine>(), 1);
 			recipe1.AddIngredient(ModContent.ItemType<TrueHolyBurst>(), 1);
 			recipe1.AddTile(TileID.MythrilAnvil);
-			recipe1.SetResult(this, 1);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 }

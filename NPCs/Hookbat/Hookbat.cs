@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -15,154 +17,154 @@ namespace SpiritMod.NPCs.Hookbat
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hookbat");
-            Main.npcFrameCount[npc.type] = 5;
-            NPCID.Sets.TrailCacheLength[npc.type] = 2;
-            NPCID.Sets.TrailingMode[npc.type] = 0;
+            Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.TrailCacheLength[NPC.type] = 2;
+            NPCID.Sets.TrailingMode[NPC.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            npc.width = 38;
-            npc.height = 38;
-            npc.damage = 10;
-			npc.rarity = 2;
-            npc.defense = 4;
-            npc.lifeMax = 42;
-            npc.knockBackResist = .53f;
-            npc.noGravity = true;
-            npc.value = 60f;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath4;
+            NPC.width = 38;
+            NPC.height = 38;
+            NPC.damage = 10;
+			NPC.rarity = 2;
+            NPC.defense = 4;
+            NPC.lifeMax = 42;
+            NPC.knockBackResist = .53f;
+            NPC.noGravity = true;
+            NPC.value = 60f;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath4;
         }
 
         int frame;
 
         public override void AI()
         {
-            npc.spriteDirection = npc.direction;
-			Player target = Main.player[npc.target];
+            NPC.spriteDirection = NPC.direction;
+			Player target = Main.player[NPC.target];
 
-            npc.ai[0]++;
-            if (!target.dead && npc.ai[1] < 2f)
+            NPC.ai[0]++;
+            if (!target.dead && NPC.ai[1] < 2f)
             {
-                if (npc.collideX)
+                if (NPC.collideX)
                 {
-                    npc.velocity.X = npc.oldVelocity.X * -0.5f;
-                    if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 2f)
-                        npc.velocity.X = 2f;
-                    if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -2f)
-                        npc.velocity.X = -2f;
+                    NPC.velocity.X = NPC.oldVelocity.X * -0.5f;
+                    if (NPC.direction == -1 && NPC.velocity.X > 0f && NPC.velocity.X < 2f)
+                        NPC.velocity.X = 2f;
+                    if (NPC.direction == 1 && NPC.velocity.X < 0f && NPC.velocity.X > -2f)
+                        NPC.velocity.X = -2f;
                 }
-                if (npc.collideY)
+                if (NPC.collideY)
                 {
-                    npc.velocity.Y = npc.oldVelocity.Y * -0.5f;
-                    if (npc.velocity.Y > 0f && npc.velocity.Y < 1f)
-                        npc.velocity.Y = 1f;
-                    if (npc.velocity.Y < 0f && npc.velocity.Y > -1f)
-                        npc.velocity.Y = -1f;
-                }
-
-                npc.TargetClosest(true);
-
-                if (npc.direction == -1 && npc.velocity.X > -5f)
-                {
-                    npc.velocity.X = npc.velocity.X - 0.21f;
-                    if (npc.velocity.X > 5f)
-                        npc.velocity.X = npc.velocity.X - 0.21f;
-                    else if (npc.velocity.X > 0f)
-                        npc.velocity.X = npc.velocity.X - 0.05f;
-
-                    if (npc.velocity.X < -5f)
-                        npc.velocity.X = -5f;
-                }
-                else if (npc.direction == 1 && npc.velocity.X < 5f)
-                {
-                    npc.velocity.X = npc.velocity.X + 0.21f;
-                    if (npc.velocity.X < -5f)
-                        npc.velocity.X = npc.velocity.X + 0.21f;
-                    else if (npc.velocity.X < 0f)
-                        npc.velocity.X = npc.velocity.X + 0.05f;
-
-                    if (npc.velocity.X > 5f)
-                        npc.velocity.X = 5f;
+                    NPC.velocity.Y = NPC.oldVelocity.Y * -0.5f;
+                    if (NPC.velocity.Y > 0f && NPC.velocity.Y < 1f)
+                        NPC.velocity.Y = 1f;
+                    if (NPC.velocity.Y < 0f && NPC.velocity.Y > -1f)
+                        NPC.velocity.Y = -1f;
                 }
 
-                float num3225 = Math.Abs(npc.Center.X - target.Center.X);
-                float num3224 = target.position.Y - (npc.height / 2f);
+                NPC.TargetClosest(true);
+
+                if (NPC.direction == -1 && NPC.velocity.X > -5f)
+                {
+                    NPC.velocity.X = NPC.velocity.X - 0.21f;
+                    if (NPC.velocity.X > 5f)
+                        NPC.velocity.X = NPC.velocity.X - 0.21f;
+                    else if (NPC.velocity.X > 0f)
+                        NPC.velocity.X = NPC.velocity.X - 0.05f;
+
+                    if (NPC.velocity.X < -5f)
+                        NPC.velocity.X = -5f;
+                }
+                else if (NPC.direction == 1 && NPC.velocity.X < 5f)
+                {
+                    NPC.velocity.X = NPC.velocity.X + 0.21f;
+                    if (NPC.velocity.X < -5f)
+                        NPC.velocity.X = NPC.velocity.X + 0.21f;
+                    else if (NPC.velocity.X < 0f)
+                        NPC.velocity.X = NPC.velocity.X + 0.05f;
+
+                    if (NPC.velocity.X > 5f)
+                        NPC.velocity.X = 5f;
+                }
+
+                float num3225 = Math.Abs(NPC.Center.X - target.Center.X);
+                float num3224 = target.position.Y - (NPC.height / 2f);
 
                 if (num3225 > 50f)
                     num3224 -= 150f;
 
-                if (npc.position.Y < num3224)
+                if (NPC.position.Y < num3224)
                 {
-                    npc.velocity.Y = npc.velocity.Y + 0.05f;
-                    if (npc.velocity.Y < 0f)
-                        npc.velocity.Y = npc.velocity.Y + 0.01f;
+                    NPC.velocity.Y = NPC.velocity.Y + 0.05f;
+                    if (NPC.velocity.Y < 0f)
+                        NPC.velocity.Y = NPC.velocity.Y + 0.01f;
                 }
                 else
                 {
-                    npc.velocity.Y = npc.velocity.Y - 0.05f;
-                    if (npc.velocity.Y > 0f)
-                        npc.velocity.Y = npc.velocity.Y - 0.01f;
+                    NPC.velocity.Y = NPC.velocity.Y - 0.05f;
+                    if (NPC.velocity.Y > 0f)
+                        NPC.velocity.Y = NPC.velocity.Y - 0.01f;
                 }
 
-                if (npc.velocity.Y < -4f)
-                    npc.velocity.Y = -4f;
-                if (npc.velocity.Y > 4f)
-                    npc.velocity.Y = 3f;
+                if (NPC.velocity.Y < -4f)
+                    NPC.velocity.Y = -4f;
+                if (NPC.velocity.Y > 4f)
+                    NPC.velocity.Y = 3f;
             }
 
-            Vector2 direction = Main.player[npc.target].Center - npc.Center;
+            Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 
-            if (npc.ai[0] == 190)
+            if (NPC.ai[0] == 190)
             {
-                npc.ai[1] = 1f;
-                npc.netUpdate = true;
+                NPC.ai[1] = 1f;
+                NPC.netUpdate = true;
             }
 
-            npc.ai[3]++;
+            NPC.ai[3]++;
 
-            if (npc.ai[3] >= 6)
+            if (NPC.ai[3] >= 6)
             {
                 frame++;
-                npc.ai[3] = 0;
-                npc.netUpdate = true;
+                NPC.ai[3] = 0;
+                NPC.netUpdate = true;
             }
             if (frame > 3)
                 frame = 0;
-            if (npc.ai[1] == 1f)
+            if (NPC.ai[1] == 1f)
             {
                 frame = 4;
-				int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+				int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
 				if (distance < 400)
 				{
-					if (npc.ai[2] == 0)
+					if (NPC.ai[2] == 0)
 					{
 						direction.Normalize();
-						Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
+						SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDown, NPC.Center);
 						direction.X *= Main.rand.Next(14, 17);
 						direction.Y *= Main.rand.Next(19, 27);
-						npc.velocity.X = direction.X;
-						npc.velocity.Y = direction.Y;
-						npc.ai[2]++;
+						NPC.velocity.X = direction.X;
+						NPC.velocity.Y = direction.Y;
+						NPC.ai[2]++;
 					}
 					else
-						npc.velocity.Y -= .0625f;
+						NPC.velocity.Y -= .0625f;
 				}
-				if (npc.ai[0] > 235)
+				if (NPC.ai[0] > 235)
                 {
-                    npc.ai[0] = 0f;
-                    npc.ai[1] = 0f;
-                    npc.ai[2] = 0f;
-                    npc.netUpdate = true;
+                    NPC.ai[0] = 0f;
+                    NPC.ai[1] = 0f;
+                    NPC.ai[2] = 0f;
+                    NPC.netUpdate = true;
                 }
             }
         }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			bool valid = spawnInfo.spawnTileY < Main.rockLayer && !Main.dayTime && spawnInfo.player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Hookbat>());
+			bool valid = spawnInfo.SpawnTileY < Main.rockLayer && !Main.dayTime && spawnInfo.Player.ZoneOverworldHeight && !NPC.AnyNPCs(ModContent.NPCType<Hookbat>());
 			if (!valid)
 				return 0f;
 			if (QuestManager.GetQuest<FirstAdventure>().IsActive)
@@ -173,38 +175,38 @@ namespace SpiritMod.NPCs.Hookbat
 		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 10; k++)
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
 
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
 				for (int i = 1; i < 4; ++i)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hookbat/Hookbat" + i), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hookbat/Hookbat1"), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hookbat/Hookbat" + i).Type, 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hookbat/Hookbat1").Type, 1f);
             }
         }
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (QuestManager.GetQuest<FirstAdventure>().IsActive)
-				Item.NewItem(npc.getRect(), ModContent.ItemType<DurasilkSheaf>());
+				Item.NewItem(NPC.getRect(), ModContent.ItemType<DurasilkSheaf>());
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (npc.ai[1] == 1f)
+            if (NPC.ai[1] == 1f)
             {
-                Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-                for (int k = 0; k < npc.oldPos.Length; k++)
+                Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height * 0.5f));
+                for (int k = 0; k < NPC.oldPos.Length; k++)
                 {
-                    var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                    Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-                    Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-                    spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+                    var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                    Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+                    Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+                    spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
                 }
             }
             return true;
         }
 
-		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 	}
 }

@@ -16,14 +16,14 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.penetrate = 4;
-			projectile.timeLeft = 500;
-			projectile.height = 180;
-			projectile.width = 180;
-			projectile.alpha = 255;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.penetrate = 4;
+			Projectile.timeLeft = 500;
+			Projectile.height = 180;
+			Projectile.width = 180;
+			Projectile.alpha = 255;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void AI()
@@ -31,10 +31,10 @@ namespace SpiritMod.Projectiles
 			if (_npcAliveLast == null)
 				_npcAliveLast = new bool[200];
 
-			Player player = Main.player[projectile.owner];
-			projectile.Center = new Vector2(player.Center.X + (player.direction > 0 ? 0 : 0), player.position.Y + 30);   // I dont know why I had to set it to -60 so that it would look right   (change to -40 to 40 so that it's on the floor)
+			Player player = Main.player[Projectile.owner];
+			Projectile.Center = new Vector2(player.Center.X + (player.direction > 0 ? 0 : 0), player.position.Y + 30);   // I dont know why I had to set it to -60 so that it would look right   (change to -40 to 40 so that it's on the floor)
 
-			var list = Main.npc.Where(x => x.CanBeChasedBy() && x.Hitbox.Intersects(projectile.Hitbox));
+			var list = Main.npc.Where(x => x.CanBeChasedBy() && x.Hitbox.Intersects(Projectile.Hitbox));
 
 			foreach (var npc in list)
 			{
@@ -54,9 +54,9 @@ namespace SpiritMod.Projectiles
 
 			for (int i = 0; i < 4; i++)
 			{
-				Vector2 vector2 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * new Vector2(projectile.height, projectile.height) * projectile.scale * 1.45f / 2f;
-				int index = Dust.NewDust(projectile.Center + vector2, 0, 0, DustID.Blood, 0.0f, 0.0f, 0, default, 1f);
-				Main.dust[index].position = projectile.Center + vector2;
+				Vector2 vector2 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * new Vector2(Projectile.height, Projectile.height) * Projectile.scale * 1.45f / 2f;
+				int index = Dust.NewDust(Projectile.Center + vector2, 0, 0, DustID.Blood, 0.0f, 0.0f, 0, default, 1f);
+				Main.dust[index].position = Projectile.Center + vector2;
 				Main.dust[index].velocity = Vector2.Zero;
 				Main.dust[index].noGravity = true;
 			}

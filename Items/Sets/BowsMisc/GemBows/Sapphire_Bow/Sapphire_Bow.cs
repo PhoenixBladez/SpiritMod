@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Sapphire_Bow
 {
@@ -10,21 +11,21 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Sapphire_Bow
 	{
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 27;
-			item.useTime = 27;
-			item.width = 12;
-			item.height = 28;
-			item.shoot = ProjectileID.WoodenArrowFriendly;
-			item.useAmmo = AmmoID.Arrow;
-			item.UseSound = SoundID.Item5;
-			item.damage = 12;
-			item.shootSpeed = 8f;
-			item.knockBack = 0.5f;
-			item.rare = ItemRarityID.Blue;
-			item.noMelee = true;
-            item.value = Item.sellPrice(0, 0, 67, 50);
-            item.ranged = true;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useAnimation = 27;
+			Item.useTime = 27;
+			Item.width = 12;
+			Item.height = 28;
+			Item.shoot = ProjectileID.WoodenArrowFriendly;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.UseSound = SoundID.Item5;
+			Item.damage = 12;
+			Item.shootSpeed = 8f;
+			Item.knockBack = 0.5f;
+			Item.rare = ItemRarityID.Blue;
+			Item.noMelee = true;
+            Item.value = Item.sellPrice(0, 0, 67, 50);
+            Item.DamageType = DamageClass.Ranged;
 		}
 		
 		public override void SetStaticDefaults()
@@ -33,7 +34,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Sapphire_Bow
 			Tooltip.SetDefault("Turns wooden arrows into sapphire arrows\nSapphire arrows slightly home toward the cursor");
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (type == ProjectileID.WoodenArrowFriendly)
 				type = ModContent.ProjectileType<Sapphire_Arrow>();
@@ -45,19 +46,17 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Sapphire_Bow
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.IronBow, 1);
 			recipe.AddIngredient(ItemID.Sapphire, 8);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = CreateRecipe();
 			recipe1.AddIngredient(ItemID.LeadBow, 1);
 			recipe1.AddIngredient(ItemID.Sapphire, 8);
 			recipe1.AddTile(TileID.Anvils);
-			recipe1.SetResult(this);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 }

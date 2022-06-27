@@ -21,26 +21,26 @@ namespace SpiritMod.Items.Placeable.Furniture
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 28;
-			item.value = item.value = Item.buyPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.White;
-			item.maxStack = 99;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.createTile = ModContent.TileType<OccultistMapTile>();
+			Item.width = 36;
+			Item.height = 28;
+			Item.value = Item.value = Item.buyPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.White;
+			Item.maxStack = 99;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.createTile = ModContent.TileType<OccultistMapTile>();
 		}
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			if (!QuestManager.GetQuest<ZombieOriginQuest>().IsCompleted)
 			{
-				TooltipLine line = new TooltipLine(mod, "ItemName", "Quest Item");
-				line.overrideColor = new Color(100, 222, 122);
+				TooltipLine line = new TooltipLine(Mod, "ItemName", "Quest Item");
+				line.OverrideColor = new Color(100, 222, 122);
 				tooltips.Add(line);
 			}
 		}
@@ -55,9 +55,9 @@ namespace SpiritMod.Items.Placeable.Furniture
 		{
 			if (!QuestManager.GetQuest<ZombieOriginQuest>().IsUnlocked)
 			{
-				Texture2D tex = mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
+				Texture2D tex = Mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
 				float excscale = (float)Math.Sin(Main.time * 0.08f) * 0.14f;
-				spriteBatch.Draw(tex, new Vector2(item.Center.X, item.Center.Y - 40) - Main.screenPosition, new Rectangle(0, 0, 6, 24), Color.White, 0f, new Vector2(3, 12), 1f + excscale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(tex, new Vector2(Item.Center.X, Item.Center.Y - 40) - Main.screenPosition, new Rectangle(0, 0, 6, 24), Color.White, 0f, new Vector2(3, 12), 1f + excscale, SpriteEffects.None, 0f);
 			}
 		}
 	}

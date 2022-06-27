@@ -1,6 +1,7 @@
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.Utilities;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,18 +17,18 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.rare = ItemRarityID.Cyan;
-			item.maxStack = 99;
+			Item.width = Item.height = 16;
+			Item.rare = ItemRarityID.Cyan;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.useTime = item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.noMelee = true;
-			item.consumable = false;
-			item.autoReuse = false;
+			Item.noMelee = true;
+			Item.consumable = false;
+			Item.autoReuse = false;
 
-			item.UseSound = SoundID.Item43;
+			Item.UseSound = SoundID.Item43;
 		}
 
 		public override bool CanUseItem(Player player)
@@ -37,9 +38,9 @@ namespace SpiritMod.Items.Consumable
 			return false;
 		}
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			Main.PlaySound(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
+			SoundEngine.PlaySound(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
 			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 600, ModContent.NPCType<Atlas>());
 
 			Main.NewText("The earth is trembling!", 255, 60, 255);
@@ -48,13 +49,12 @@ namespace SpiritMod.Items.Consumable
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.LihzahrdPowerCell, 1);
 			recipe.AddIngredient(ItemID.MartianConduitPlating, 20);
 			recipe.AddIngredient(ItemID.StoneBlock, 100);
 			recipe.AddIngredient(ItemID.Bone, 10);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

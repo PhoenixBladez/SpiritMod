@@ -4,6 +4,7 @@ using SpiritMod.Items.Sets.HuskstalkSet;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -11,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static SpiritMod.NPCUtils;
 using static Terraria.ModLoader.ModContent;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Town
 {
@@ -24,51 +26,51 @@ namespace SpiritMod.NPCs.Town
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wandering Adventurer");
-			Main.npcFrameCount[npc.type] = 26;
-			NPCID.Sets.ExtraFramesCount[npc.type] = 9;
-			NPCID.Sets.AttackFrameCount[npc.type] = 4;
-			NPCID.Sets.DangerDetectRange[npc.type] = 500;
-			NPCID.Sets.AttackType[npc.type] = 0;
-			NPCID.Sets.AttackTime[npc.type] = 16;
-			NPCID.Sets.AttackAverageChance[npc.type] = 30;
+			Main.npcFrameCount[NPC.type] = 26;
+			NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
+			NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+			NPCID.Sets.DangerDetectRange[NPC.type] = 500;
+			NPCID.Sets.AttackType[NPC.type] = 0;
+			NPCID.Sets.AttackTime[NPC.type] = 16;
+			NPCID.Sets.AttackAverageChance[NPC.type] = 30;
 		}
 
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetDefaults()
 		{
-			npc.CloneDefaults(NPCID.Guide);
-			npc.townNPC = false;
-			npc.friendly = true;
-			npc.immortal = true;
-			npc.aiStyle = 7;
-			npc.damage = 30;
-			npc.defense = 30;
-			npc.lifeMax = 250;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = 0.4f;
-			animationType = NPCID.Guide;
+			NPC.CloneDefaults(NPCID.Guide);
+			NPC.townNPC = false;
+			NPC.friendly = true;
+			NPC.immortal = true;
+			NPC.aiStyle = 7;
+			NPC.damage = 30;
+			NPC.defense = 30;
+			NPC.lifeMax = 250;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.knockBackResist = 0.4f;
+			AnimationType = NPCID.Guide;
 		}
 
 		public override void AI()
 		{
 			if (Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.FirstAdventure>().IsActive)
 			{
-				if (npc.active)
+				if (NPC.active)
 				{
-					Main.PlaySound(SoundID.DoubleJump, npc.Center, 0);
-					Rectangle textPos = new Rectangle((int)npc.position.X, (int)npc.position.Y - 60, npc.width, npc.height);
+					SoundEngine.PlaySound(SoundID.DoubleJump, NPC.Center, 0);
+					Rectangle textPos = new Rectangle((int)NPC.position.X, (int)NPC.position.Y - 60, NPC.width, NPC.height);
 					CombatText.NewText(textPos, new Color(255, 240, 0, 100), "Gotta go adventurin', see you later!");
 					for (int i = 0; i < 2; i++)
 					{
-						Gore.NewGore(npc.position, npc.velocity, 11);
-						Gore.NewGore(npc.position, npc.velocity, 13);
-						Gore.NewGore(npc.position, npc.velocity, 12);
+						Gore.NewGore(NPC.position, NPC.velocity, 11);
+						Gore.NewGore(NPC.position, NPC.velocity, 13);
+						Gore.NewGore(NPC.position, NPC.velocity, 12);
 					}
-					npc.life = -1;
-					npc.active = false;
-					npc.netUpdate = true;
+					NPC.life = -1;
+					NPC.active = false;
+					NPC.netUpdate = true;
 				}
 			}
 		}
@@ -77,11 +79,11 @@ namespace SpiritMod.NPCs.Town
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Adventurer/Adventurer1"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Adventurer/Adventurer2"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Adventurer/Adventurer3"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Adventurer/Adventurer4"));
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer1").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer2").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer3").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer4").Type);
 			}
 		}
 
@@ -94,7 +96,7 @@ namespace SpiritMod.NPCs.Town
 
 		public override string TownNPCName() => Main.rand.Next(new string[] { "Indie", "Guy", "Nathan" });
 
-		public override void NPCLoot() => npc.DropItem(ItemType<AdventurerMap>());
+		public override void OnKill() => NPC.DropItem(ItemType<AdventurerMap>());
 
 		public override string GetChat()
 		{
@@ -107,13 +109,13 @@ namespace SpiritMod.NPCs.Town
 			return Main.rand.Next(dialogue);
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) 
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) 
 		{
 			if (!Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.FirstAdventure>().IsUnlocked)
 			{
-				Texture2D tex = mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
+				Texture2D tex = Mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
 				float scale = (float)Math.Sin(Main.time * 0.08f) * 0.14f;
-				spriteBatch.Draw(tex, new Vector2(npc.Center.X - 2, npc.Center.Y - 40) - Main.screenPosition, new Rectangle(0, 0, 6, 24), Color.White, 0f, new Vector2(3, 12), 1f + scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(tex, new Vector2(NPC.Center.X - 2, NPC.Center.Y - 40) - Main.screenPosition, new Rectangle(0, 0, 6, 24), Color.White, 0f, new Vector2(3, 12), 1f + scale, SpriteEffects.None, 0f);
 			}
 		}
 

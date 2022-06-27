@@ -13,17 +13,17 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 	{
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noUseGraphic = true;
-			item.melee = true;
-			item.channel = true;
-			item.UseSound = SoundID.Item19;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noUseGraphic = true;
+			Item.DamageType = DamageClass.Melee;
+			Item.channel = true;
+			Item.UseSound = SoundID.Item19;
 			SafeSetDefaults();
 		}
 
 		public virtual void SafeSetDefaults() { }
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] == 0;
 	}
 
 	public abstract class BaseFlailProj : ModProjectile
@@ -35,15 +35,15 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 		/// <summary>Mirrors projectile.ai[0].</summary>
 		internal float Timer
 		{
-			get => projectile.ai[0];
-			set => projectile.ai[0] = value;
+			get => Projectile.ai[0];
+			set => Projectile.ai[0] = value;
 		}
 
 		/// <summary>Mirrors projectile.ai[1].</summary>
 		internal float ChargeTime
 		{
-			get => projectile.ai[1];
-			set => projectile.ai[1] = value;
+			get => Projectile.ai[1];
+			set => Projectile.ai[1] = value;
 		}
 
 		public float MaxChargeTime;
@@ -59,15 +59,15 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 			this.MaxChargeTime = MaxChargeTime;
 			this.spinningdistance = spinningdistance;
 			this.degreespertick = degreespertick;
-			projectile.netUpdate = true;
+			Projectile.netUpdate = true;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(34, 34);
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = -1;
+			Projectile.Size = new Vector2(34, 34);
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = -1;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -86,32 +86,32 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 
 		public override void AI()
 		{
-			Player Owner = Main.player[projectile.owner];
+			Player Owner = Main.player[Projectile.owner];
 			Owner.itemTime = 2;
 			Owner.itemAnimation = 2;
-			Owner.heldProj = projectile.whoAmI;
+			Owner.heldProj = Projectile.whoAmI;
 			if (!Owner.channel && !released) //check to see if player stops channelling
 			{
 				released = true;
 				Timer = 0;
-				projectile.netUpdate = true;
+				Projectile.netUpdate = true;
 			}
 
 			if (Owner.channel && !released) //spinning around the player
 			{
 				Owner.itemRotation = 0;
-				projectile.velocity = Vector2.Zero;
-				projectile.tileCollide = false;
-				projectile.rotation = projectile.AngleFrom(Owner.MountedCenter) - 1.57f;
+				Projectile.velocity = Vector2.Zero;
+				Projectile.tileCollide = false;
+				Projectile.rotation = Projectile.AngleFrom(Owner.MountedCenter) - 1.57f;
 				if (++Timer % 20 == 0)
-					Main.PlaySound(new LegacySoundStyle(SoundID.Item, 19).WithPitchVariance(0.1f).WithVolume(0.5f), projectile.Center);
+					SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 19).WithPitchVariance(0.1f).WithVolume(0.5f), Projectile.Center);
 
 				ChargeTime = MathHelper.Clamp(Timer / 60, MaxChargeTime / 6, MaxChargeTime);
 
 				float radians = MathHelper.ToRadians(degreespertick * Timer * (1 + ChargeTime / MaxChargeTime)) * Owner.direction;
 				float distfromplayer = spinningdistance * ((float)Math.Abs(Math.Cos(radians) / 5) + 0.8f); //use a cosine function based on the amount of rotation the flail has gone through to create an ellipse-like pattern
 				Vector2 spinningoffset = new Vector2(distfromplayer, 0).RotatedBy(radians);
-				projectile.Center = Owner.MountedCenter + spinningoffset;
+				Projectile.Center = Owner.MountedCenter + spinningoffset;
 				if (Owner.whoAmI == Main.myPlayer)
 					Owner.ChangeDir(Math.Sign(Main.MouseWorld.X - Owner.Center.X));
 
@@ -120,20 +120,20 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 
 			else
 			{
-				projectile.rotation = projectile.AngleFrom(Owner.MountedCenter) - 1.57f;
-				Owner.ChangeDir(Math.Sign(projectile.Center.X - Owner.Center.X));
-				Owner.itemRotation = MathHelper.WrapAngle(projectile.AngleFrom(Owner.MountedCenter) - ((Owner.direction < 0) ? MathHelper.Pi : 0));
+				Projectile.rotation = Projectile.AngleFrom(Owner.MountedCenter) - 1.57f;
+				Owner.ChangeDir(Math.Sign(Projectile.Center.X - Owner.Center.X));
+				Owner.itemRotation = MathHelper.WrapAngle(Projectile.AngleFrom(Owner.MountedCenter) - ((Owner.direction < 0) ? MathHelper.Pi : 0));
 			}
 
 			float launchspeed = Owner.HeldItem.shootSpeed * MathHelper.Lerp(SpeedMult.X, SpeedMult.Y, ChargeTime / MaxChargeTime);
 			if (released && !falling) //basic flail launch, returns after a while
 			{
-				projectile.tileCollide = true;
+				Projectile.tileCollide = true;
 				if (++Timer == 1 && Owner.whoAmI == Main.myPlayer)
 				{
-					Main.PlaySound(SoundID.Item19, projectile.Center);
-					projectile.Center = Owner.MountedCenter;
-					projectile.velocity = Owner.DirectionTo(Main.MouseWorld) * launchspeed;
+					SoundEngine.PlaySound(SoundID.Item19, Projectile.Center);
+					Projectile.Center = Owner.MountedCenter;
+					Projectile.velocity = Owner.DirectionTo(Main.MouseWorld) * launchspeed;
 					OnLaunch(Owner);
 				}
 
@@ -145,7 +145,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 
 				if (Owner.controlUseItem)
 				{
-					projectile.netUpdate = true;
+					Projectile.netUpdate = true;
 					falling = true;
 					Timer = 0;
 				}
@@ -159,21 +159,21 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 				else
 				{
 					FallingExtras(Owner);
-					projectile.tileCollide = true;
-					if (projectile.velocity.Y < 16f)
-						projectile.velocity.Y += 0.5f;
+					Projectile.tileCollide = true;
+					if (Projectile.velocity.Y < 16f)
+						Projectile.velocity.Y += 0.5f;
 
-					projectile.velocity.X *= 0.98f;
+					Projectile.velocity.X *= 0.98f;
 				}
 			}
 		}
 
 		private void Return(float launchspeed, Player Owner)
 		{
-			projectile.tileCollide = false;
-			projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(Owner.Center) * launchspeed * 1.5f, 0.07f);
-			if (projectile.Hitbox.Intersects(Owner.Hitbox))
-				projectile.Kill();
+			Projectile.tileCollide = false;
+			Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(Owner.Center) * launchspeed * 1.5f, 0.07f);
+			if (Projectile.Hitbox.Intersects(Owner.Hitbox))
+				Projectile.Kill();
 			ReturnExtras(Owner);
 		}
 
@@ -208,29 +208,29 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 				struckTile = true;
 				FallingTileCollide(oldVelocity);
 			}
-			Main.PlaySound(SoundID.Dig, projectile.Center);
-			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-			projectile.velocity = new Vector2((projectile.velocity.X != projectile.oldVelocity.X) ?
-				-projectile.oldVelocity.X / 5 : projectile.velocity.X,
-				(projectile.velocity.Y != projectile.oldVelocity.Y) ?
-				-projectile.oldVelocity.Y / 5 : projectile.velocity.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
+			Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+			Projectile.velocity = new Vector2((Projectile.velocity.X != Projectile.oldVelocity.X) ?
+				-Projectile.oldVelocity.X / 5 : Projectile.velocity.X,
+				(Projectile.velocity.Y != Projectile.oldVelocity.Y) ?
+				-Projectile.oldVelocity.Y / 5 : Projectile.velocity.Y);
 			SafeTileCollide(oldVelocity);
 			Timer = 30;
 			return false;
 		}
 
-		public override bool PreDrawExtras(SpriteBatch spriteBatch)
+		public override bool PreDrawExtras()
 		{
-			Texture2D ChainTexture = mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_chain");
-			Player Owner = Main.player[projectile.owner];
-			int timestodrawchain = Math.Max((int)(projectile.Distance(Owner.MountedCenter) / ChainTexture.Width), 1);
+			Texture2D ChainTexture = Mod.GetTexture(Texture.Remove(0, Mod.Name.Length + 1) + "_chain");
+			Player Owner = Main.player[Projectile.owner];
+			int timestodrawchain = Math.Max((int)(Projectile.Distance(Owner.MountedCenter) / ChainTexture.Width), 1);
 			for (int i = 0; i < timestodrawchain; i++)
 			{
-				Vector2 chaindrawpos = Vector2.Lerp(Owner.MountedCenter, projectile.Center, (i / (float)timestodrawchain));
-				float scaleratio = projectile.Distance(Owner.MountedCenter) / ChainTexture.Width / timestodrawchain;
+				Vector2 chaindrawpos = Vector2.Lerp(Owner.MountedCenter, Projectile.Center, (i / (float)timestodrawchain));
+				float scaleratio = Projectile.Distance(Owner.MountedCenter) / ChainTexture.Width / timestodrawchain;
 				Vector2 chainscale = new Vector2(scaleratio, 1);
 				Color lightColor = Lighting.GetColor((int)chaindrawpos.X / 16, (int)chaindrawpos.Y / 16);
-				spriteBatch.Draw(ChainTexture, chaindrawpos - Main.screenPosition, null, lightColor, projectile.AngleFrom(Owner.MountedCenter), new Vector2(0, ChainTexture.Height / 2), chainscale, SpriteEffects.None, 0);
+				spriteBatch.Draw(ChainTexture, chaindrawpos - Main.screenPosition, null, lightColor, Projectile.AngleFrom(Owner.MountedCenter), new Vector2(0, ChainTexture.Height / 2), chainscale, SpriteEffects.None, 0);
 			}
 			return true;
 		}

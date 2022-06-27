@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Sets.AccessoriesMisc.CloakOfHealing
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 28;
-			item.rare = ItemRarityID.Green;
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.accessory = true;
+			Item.width = 30;
+			Item.height = 28;
+			Item.rare = ItemRarityID.Green;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -29,13 +29,12 @@ namespace SpiritMod.Items.Sets.AccessoriesMisc.CloakOfHealing
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.HealingPotion, 1);
 			recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 5);
 			recipe.AddIngredient(ModContent.ItemType<DreamstrideEssence>(), 5);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

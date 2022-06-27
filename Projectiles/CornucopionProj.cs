@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Projectiles.Magic;
@@ -17,16 +18,16 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.ranged = true;
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = -1;
-			projectile.friendly = false;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 999999;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = false;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 999999;
 		}
 
 		Vector2 direction = Vector2.Zero;
@@ -35,7 +36,7 @@ namespace SpiritMod.Projectiles
         int chargeStacks = 0;
         public override bool PreAI()
 		{
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (player.channel)
             {
 				if (counter == 1)
@@ -46,22 +47,20 @@ namespace SpiritMod.Projectiles
                 }
                 player.itemTime = 5;
                 player.itemAnimation = 5;
-                projectile.position = player.Center + holdOffset;
+                Projectile.position = player.Center + holdOffset;
                 player.velocity.X *= 0.97f;
                 counter++;
+
 				if (counter % 45 == 0)
                 {
                     chargeStacks++;
-                    Main.PlaySound(SoundID.Item5, (int)projectile.position.X, (int)projectile.position.Y);
+                    SoundEngine.PlaySound(SoundID.Item5, Projectile.position);
 					for (int i = 0; i < 14; i++)
-                    {
                         DoDustEffect(player.Center, 40f);
-                    }
                 }
+
 				if (counter > 240)
-                {
                     player.AddBuff(BuffID.Electrified, (chargeStacks - 5) * 45);
-                }
             }
             else
             {
@@ -74,22 +73,21 @@ namespace SpiritMod.Projectiles
                             int distance = (int)Vector2.Distance(player.Center, Main.npc[npcFinder].Center);
                             if (!Main.npc[npcFinder].friendly && !Main.npc[npcFinder].townNPC && Main.npc[npcFinder].active && distance < 800 && Main.npc[npcFinder].CanBeChasedBy(this))
                             {
-                                int p = Projectile.NewProjectile(Main.npc[npcFinder].Center, Vector2.Zero, ModContent.ProjectileType<MoonThunder>(), 20, 8);
-                                Main.PlaySound(SoundLoader.customSoundType, Main.projectile[p].Center, mod.GetSoundSlot(SoundType.Custom, "Sounds/Thunder2"));
-                                Main.npc[npcFinder].StrikeNPC(projectile.damage + (2 * chargeStacks), 12, 0, false);
+                                int p = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Main.npc[npcFinder].Center, Vector2.Zero, ModContent.ProjectileType<MoonThunder>(), 20, 8);
+                                SoundEngine.PlaySound(SoundLoader.customSoundType, Main.projectile[p].Center, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Thunder2"));
+                                Main.npc[npcFinder].StrikeNPC(Projectile.damage + (2 * chargeStacks), 12, 0, false);
                                 SpiritMod.tremorTime = 18;
                                 Main.projectile[p].friendly = true;
                                 Main.projectile[p].hostile = false;
                                 break;
                             }
-
                         }
                     }
                 }
                 
-                projectile.active = false;
+                Projectile.active = false;
             }
-            player.heldProj = projectile.whoAmI;
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
             return true;

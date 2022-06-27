@@ -17,18 +17,18 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.rare = ItemRarityID.Orange;
-			item.maxStack = 99;
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.reuseDelay = 10;
-			item.noMelee = true;
-			item.consumable = true;
-			item.autoReuse = false;
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.UseSound = SoundID.Item43;
+			Item.width = Item.height = 16;
+			Item.rare = ItemRarityID.Orange;
+			Item.maxStack = 99;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.reuseDelay = 10;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.autoReuse = false;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.UseSound = SoundID.Item43;
 		}
 
 		public override bool CanUseItem(Player player)
@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Consumable
 			return true;
 		}
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
 				SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.StartTide).Send();
@@ -56,12 +56,11 @@ namespace SpiritMod.Items.Consumable
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.Coral, 5);
 			recipe.AddIngredient(ItemID.Bone, 10);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

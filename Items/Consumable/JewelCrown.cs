@@ -1,5 +1,6 @@
 using SpiritMod.NPCs.Boss;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -16,20 +17,20 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.rare = ItemRarityID.Green;
-			item.maxStack = 99;
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.useTime = item.useAnimation = 20;
-			item.noMelee = true;
-			item.consumable = true;
-			item.autoReuse = false;
-			item.UseSound = SoundID.Item43;
+			Item.width = Item.height = 16;
+			Item.rare = ItemRarityID.Green;
+			Item.maxStack = 99;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.useTime = Item.useAnimation = 20;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.autoReuse = false;
+			Item.UseSound = SoundID.Item43;
 		}
 
 		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<AncientFlyer>()) && (player.ZoneOverworldHeight || player.ZoneSkyHeight);
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			if (player.ZoneOverworldHeight || player.ZoneSkyHeight)
 			{
@@ -53,19 +54,18 @@ namespace SpiritMod.Items.Consumable
 					SpiritMultiplayer.SpawnBossFromClient((byte)player.whoAmI, ModContent.NPCType<AncientFlyer>(), (int)spawnPos.X, (int)spawnPos.Y);
 				}
 
-				Main.PlaySound(SoundID.Roar, player.position, 0);
+				SoundEngine.PlaySound(SoundID.Roar, player.position, 0);
 				return true;
 			}
 			return false;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.FallenStar, 2);
 			recipe.AddIngredient(ItemID.Feather, 6);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

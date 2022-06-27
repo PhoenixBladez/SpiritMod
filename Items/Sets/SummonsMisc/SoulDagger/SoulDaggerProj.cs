@@ -6,6 +6,7 @@ using SpiritMod.Utilities;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -67,12 +68,12 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 		public override void AbstractSetStaticDefaults()
 		{
 			DisplayName.SetDefault("Soul Dagger");
-			Main.projFrames[projectile.type] = 1;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			Main.projFrames[Projectile.type] = 1;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
-		public override void AbstractSetDefaults() => projectile.localNPCHitCooldown = 20;
+		public override void AbstractSetDefaults() => Projectile.localNPCHitCooldown = 20;
 
 		public override bool MinionContactDamage() => true;
 
@@ -87,10 +88,10 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 					phase = Phases.IDLE;
 					break;
 			}
-			projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(player.Center - new Vector2(player.direction * 30, 0)) * 10, 0.03f);
-			projectile.rotation = projectile.velocity.X / 20f;
-			projectile.frameCounter++;
-			if (projectile.frameCounter % 3 == 2)
+			Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(player.Center - new Vector2(player.direction * 30, 0)) * 10, 0.03f);
+			Projectile.rotation = Projectile.velocity.X / 20f;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter % 3 == 2)
 			{
 				frameY++;
 			}
@@ -104,7 +105,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 				case Phases.IDLE:
 					phase = Phases.TRANSITIONING;
 					frameY = 0;
-					projectile.frameCounter = 0;
+					Projectile.frameCounter = 0;
 					break;
 				case Phases.TRANSITIONING:
 					TransitionBehavior(player, target);
@@ -117,18 +118,18 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 
 		private void TransitionBehavior(Player player, NPC target)
 		{
-			projectile.velocity = Vector2.Zero;
-			projectile.frameCounter++;
-			if (projectile.frameCounter % 3 == 2)
+			Projectile.velocity = Vector2.Zero;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter % 3 == 2)
 			{
 				if (frameY >= NumFrames)
 				{
 					phase = Phases.ATTACKING;
 					frameY = 0;
-					projectile.frameCounter = 0;
-					projectile.Center = target.Center;
-					projectile.rotation = Main.rand.NextFloat(6.28f);
-					Projectile.NewProjectile(projectile.Center - (projectile.rotation.ToRotationVector2() * 150), (projectile.rotation + 1.57f).ToRotationVector2(), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
+					Projectile.frameCounter = 0;
+					Projectile.Center = target.Center;
+					Projectile.rotation = Main.rand.NextFloat(6.28f);
+					Projectile.NewProjectile(Projectile.Center - (Projectile.rotation.ToRotationVector2() * 150), (Projectile.rotation + 1.57f).ToRotationVector2(), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
 				}
 				else
 					frameY++;
@@ -137,17 +138,17 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 
 		private void AttackBehavior(Player player, NPC target)
 		{
-			projectile.velocity = Vector2.Zero;
-			projectile.frameCounter++;
-			if (projectile.frameCounter % 3 == 2)
+			Projectile.velocity = Vector2.Zero;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter % 3 == 2)
 			{
 				if (frameY >= NumFrames)
 				{
-					projectile.Center = target.Center;
-					projectile.rotation = Main.rand.NextFloat(6.28f);
-					Projectile.NewProjectile(projectile.Center - (projectile.rotation.ToRotationVector2() * 150), (projectile.rotation + 1.57f).ToRotationVector2(), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
+					Projectile.Center = target.Center;
+					Projectile.rotation = Main.rand.NextFloat(6.28f);
+					Projectile.NewProjectile(Projectile.Center - (Projectile.rotation.ToRotationVector2() * 150), (Projectile.rotation + 1.57f).ToRotationVector2(), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
 					frameY = 0;
-					projectile.frameCounter = 0;
+					Projectile.frameCounter = 0;
 				}
 				else
 					frameY++;
@@ -156,17 +157,17 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 
 		private void AttackBehaviorToIdle(Player player)
 		{
-			projectile.velocity = Vector2.Zero;
-			projectile.frameCounter++;
-			if (projectile.frameCounter % 3 == 2)
+			Projectile.velocity = Vector2.Zero;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter % 3 == 2)
 			{
 				if (frameY >= NumFrames)
 				{
 					phase = Phases.IDLE;
 					frameY = 0;
-					projectile.frameCounter = 0;
-					projectile.Center = player.Center + Main.rand.NextVector2Circular(80, 80);
-					Projectile.NewProjectile(projectile.Center, new Vector2(0, 1), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
+					Projectile.frameCounter = 0;
+					Projectile.Center = player.Center + Main.rand.NextVector2Circular(80, 80);
+					Projectile.NewProjectile(Projectile.Center, new Vector2(0, 1), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
 				}
 				else
 					frameY++;
@@ -176,18 +177,18 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 		{
 			float collisionPoint = 0f;
 			if (phase == Phases.ATTACKING && frameY == 4)
-				return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center + (projectile.rotation.ToRotationVector2() * 150), projectile.Center - (projectile.rotation.ToRotationVector2() * 150), 30, ref collisionPoint);
+				return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + (Projectile.rotation.ToRotationVector2() * 150), Projectile.Center - (Projectile.rotation.ToRotationVector2() * 150), 30, ref collisionPoint);
 			return false;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = ModContent.GetTexture(Texture + TextureEnd);
+			Texture2D tex = ModContent.Request<Texture2D>(Texture + TextureEnd);
 			int frameHeight = tex.Height / NumFrames;
 			Rectangle frame = new Rectangle(0, frameHeight * frameY, tex.Width, frameHeight);
 
 			Vector2 origin = new Vector2(tex.Width, frameHeight) / 2;
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
 			return false;
 		}
 
@@ -200,38 +201,38 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Soul Dagger");
-			Main.projFrames[projectile.type] = 10;
+			Main.projFrames[Projectile.type] = 10;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = false;
-			projectile.ranged = true;
-			projectile.tileCollide = false;
-			projectile.Size = new Vector2(100, 100);
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 16;
+			Projectile.friendly = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.tileCollide = false;
+			Projectile.Size = new Vector2(100, 100);
+			Projectile.penetrate = -1;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 16;
 		}
 		public override void AI()
 		{
-			if (projectile.velocity != Vector2.Zero)
-				projectile.rotation = projectile.velocity.ToRotation() - 1.57f;
-			projectile.velocity = Vector2.Zero;
-			projectile.frameCounter++;
-			if (projectile.frameCounter % 3 == 0)
-				projectile.frame++;
-			if (projectile.frame >= Main.projFrames[projectile.type])
-				projectile.active = false;
+			if (Projectile.velocity != Vector2.Zero)
+				Projectile.rotation = Projectile.velocity.ToRotation() - 1.57f;
+			Projectile.velocity = Vector2.Zero;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter % 3 == 0)
+				Projectile.frame++;
+			if (Projectile.frame >= Main.projFrames[Projectile.type])
+				Projectile.active = false;
 		}
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			int frameHeight = tex.Height / Main.projFrames[projectile.type];
-			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
-			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, color, projectile.rotation, new Vector2(0, frameHeight), projectile.scale, SpriteEffects.None, 0f);
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
+			Rectangle frame = new Rectangle(0, frameHeight * Projectile.frame, tex.Width, frameHeight);
+			spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color, Projectile.rotation, new Vector2(0, frameHeight), Projectile.scale, SpriteEffects.None, 0f);
 			return false;
 		}
 	}

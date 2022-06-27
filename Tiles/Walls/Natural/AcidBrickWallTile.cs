@@ -6,10 +6,10 @@ namespace SpiritMod.Tiles.Walls.Natural
 {
 	public class AcidBrickWallTile : ModWall
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.wallHouse[Type] = true;
-			drop = ModContent.ItemType<Items.Placeable.Walls.AcidWall>();
+			ItemDrop = ModContent.ItemType<Items.Placeable.Walls.AcidWall>();
 			AddMapEntry(new Color(77, 84, 79));
 		}
 	}

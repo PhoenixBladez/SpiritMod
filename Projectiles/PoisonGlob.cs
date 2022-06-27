@@ -14,30 +14,30 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
+			Projectile.width = 16;
+			Projectile.height = 16;
 
-			projectile.penetrate = 1;
+			Projectile.penetrate = 1;
 
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.WoodenArrowHostile;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.WoodenArrowHostile;
 
-			projectile.ranged = true;
-			projectile.friendly = false;
-			projectile.hostile = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.friendly = false;
+			Projectile.hostile = true;
 		}
 
 		public override void AI()
 		{
 			for (int i = 0; i < 2; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.TerraBlade);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.TerraBlade);
 			}
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 2; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.TerraBlade);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.TerraBlade);
 			}
 		}
 

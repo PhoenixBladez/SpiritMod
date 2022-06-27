@@ -14,11 +14,11 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 22;
-			item.rare = ItemRarityID.Pink;
+			Item.width = 22;
+			Item.height = 22;
+			Item.rare = ItemRarityID.Pink;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 		}
 	}
 }

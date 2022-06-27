@@ -6,6 +6,7 @@ using SpiritMod.Prim;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,27 +17,27 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Haunted Skull");
-			ProjectileID.Sets.Homing[projectile.type] = true;
+			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(32, 42);
-			projectile.scale = Main.rand.NextFloat(0.4f, 0.5f);
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.alpha = 255;
-			projectile.timeLeft = 120;
+			Projectile.Size = new Vector2(32, 42);
+			Projectile.scale = Main.rand.NextFloat(0.4f, 0.5f);
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 120;
 		}
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, Color.Lerp(Color.White, Color.Red, 0.65f) * 0.1f), new RoundCap(), new SleepingStarTrailPosition(), 100 * projectile.scale, 300);
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, Color.Red, new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 100 * projectile.scale, 200, new ImageShader(mod.GetTexture("Textures/Trails/Trail_3"), 0.2f, 1f, 1f));
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, Color.Red, new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 100 * projectile.scale, 200, new ImageShader(mod.GetTexture("Textures/Trails/Trail_3"), 0.2f, 1f, 1f));
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, Color.Lerp(Color.White, Color.Red, 0.65f) * 0.1f), new RoundCap(), new SleepingStarTrailPosition(), 100 * Projectile.scale, 300);
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, Color.Red, new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 100 * Projectile.scale, 200, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_3"), 0.2f, 1f, 1f));
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, Color.Red, new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 100 * Projectile.scale, 200, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_3"), 0.2f, 1f, 1f));
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.immune[projectile.owner] = 20;
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.immune[Projectile.owner] = 20;
 
 		public struct SkullMovement
 		{
@@ -52,68 +53,68 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			}
 		}
 
-		ref float Timer => ref projectile.ai[0];
+		ref float Timer => ref Projectile.ai[0];
 		public SkullMovement Movement;
 
 		private Vector2 _origVel;
 
 		public override void AI()
 		{
-			projectile.alpha = (int)MathHelper.Max(projectile.alpha - 10, 0);
-			projectile.tileCollide = projectile.timeLeft < 110;
+			Projectile.alpha = (int)MathHelper.Max(Projectile.alpha - 10, 0);
+			Projectile.tileCollide = Projectile.timeLeft < 110;
 
-			if (!Main.dedServ && Main.rand.NextFloat(2f) < projectile.alpha/255f)
+			if (!Main.dedServ && Main.rand.NextFloat(2f) < Projectile.alpha/255f)
 			{
 				GlowParticle particle = new GlowParticle(
-					projectile.Center + Main.rand.NextVector2Circular(4, 4) * projectile.scale,
-					projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.4f) * (projectile.alpha / 255f),
-					Color.Red * (projectile.Opacity/2 + 0.5f),
+					Projectile.Center + Main.rand.NextVector2Circular(4, 4) * Projectile.scale,
+					Projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.4f) * (Projectile.alpha / 255f),
+					Color.Red * (Projectile.Opacity/2 + 0.5f),
 					Main.rand.NextFloat(0.02f, 0.04f),
 					Main.rand.Next(30, 40));
 
 				ParticleHandler.SpawnParticle(particle);
 			}
 
-			Lighting.AddLight(projectile.Center, Color.Red.ToVector3() / 2);
+			Lighting.AddLight(Projectile.Center, Color.Red.ToVector3() / 2);
 
 			if (++Timer == 1)
 			{
-				_origVel = projectile.velocity;
-				projectile.netUpdate = true;
+				_origVel = Projectile.velocity;
+				Projectile.netUpdate = true;
 			}
 			else
 			{
-				NPC npc = Projectiles.ProjectileExtras.FindNearestNPC(projectile.Center, 150, false);
+				NPC npc = Projectiles.ProjectileExtras.FindNearestNPC(Projectile.Center, 150, false);
 				if(npc != null)
 				{
-					_origVel = Vector2.Lerp(_origVel, projectile.DirectionTo(npc.Center) * 20, 0.17f);
+					_origVel = Vector2.Lerp(_origVel, Projectile.DirectionTo(npc.Center) * 20, 0.17f);
 					Movement.Amplitude = MathHelper.Lerp(Movement.Amplitude, 0, 0.1f);
 				}
 
-				projectile.velocity = _origVel.RotatedBy(Math.Cos(MathHelper.TwoPi * Timer / Movement.WaveLength) * MathHelper.ToRadians(Movement.Amplitude) * Movement.Direction);
+				Projectile.velocity = _origVel.RotatedBy(Math.Cos(MathHelper.TwoPi * Timer / Movement.WaveLength) * MathHelper.ToRadians(Movement.Amplitude) * Movement.Direction);
 				if (Timer < 30)
 				{
 					_origVel *= 1.03f;
-					projectile.scale *= 1.02f;
+					Projectile.scale *= 1.02f;
 				}
 			}
 
-			projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-			projectile.spriteDirection = Math.Sign(projectile.velocity.X);
-			projectile.rotation = projectile.velocity.ToRotation() - ((projectile.spriteDirection < 0) ? MathHelper.Pi : 0);
+			Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+			Projectile.spriteDirection = Math.Sign(Projectile.velocity.X);
+			Projectile.rotation = Projectile.velocity.ToRotation() - ((Projectile.spriteDirection < 0) ? MathHelper.Pi : 0);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D mask = ModContent.GetTexture(Texture + "_mask");
-			spriteBatch.Draw(mask, projectile.Center - Main.screenPosition, projectile.DrawFrame(), Color.White * projectile.Opacity,
-				projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale * 1.15f, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+			Texture2D mask = ModContent.Request<Texture2D>(Texture + "_mask");
+			spriteBatch.Draw(mask, Projectile.Center - Main.screenPosition, Projectile.DrawFrame(), Color.White * Projectile.Opacity,
+				Projectile.rotation, Projectile.DrawFrame().Size() / 2, Projectile.scale * 1.15f, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
-			projectile.QuickDraw(spriteBatch);
-			projectile.QuickDrawGlow(spriteBatch);
+			Projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDrawGlow(spriteBatch);
 
-			spriteBatch.Draw(mask, projectile.Center - Main.screenPosition, projectile.DrawFrame(), Color.White * (1 - projectile.Opacity) * projectile.Opacity, 
-				projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+			spriteBatch.Draw(mask, Projectile.Center - Main.screenPosition, Projectile.DrawFrame(), Color.White * (1 - Projectile.Opacity) * Projectile.Opacity, 
+				Projectile.rotation, Projectile.DrawFrame().Size() / 2, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 			return false;
 		}
 
@@ -137,17 +138,17 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		{
 			if (!Main.dedServ)
 			{
-				Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 3, 1f, 0f);
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f).WithVolume(0.7f), projectile.Center);
+				SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 3, 1f, 0f);
+				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f).WithVolume(0.7f), Projectile.Center);
 			}
 
-			Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<GraveyardBoom>(), projectile.damage, projectile.knockBack, projectile.owner);
+			Projectile.NewProjectileDirect(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GraveyardBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 			for (int i = 0; i <= 3; i++)
 			{
-				Gore gore = Gore.NewGoreDirect(projectile.position + new Vector2(Main.rand.Next(projectile.width), Main.rand.Next(projectile.height)),
+				Gore gore = Gore.NewGoreDirect(Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)),
 					Main.rand.NextVector2Circular(-1, 1),
-					mod.GetGoreSlot("Gores/Skelet/grave" + Main.rand.Next(1, 5)),
-					projectile.scale);
+					Mod.Find<ModGore>("Gores/Skelet/grave" + Main.rand.Next(1, 5)).Type,
+					Projectile.scale);
 				gore.timeLeft = 20;
 			}
 		}

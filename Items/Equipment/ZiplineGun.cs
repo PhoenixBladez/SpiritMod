@@ -1,8 +1,10 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Summon.Zipline;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Equipment
 {
@@ -14,7 +16,7 @@ namespace SpiritMod.Items.Equipment
 		int right = 0;
 		int left = 0;
 
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetStaticDefaults()
 		{
@@ -24,27 +26,27 @@ namespace SpiritMod.Items.Equipment
 
 		public override void SetDefaults()
 		{
-			item.ranged = true;
-			item.width = 44;
-			item.height = 48;
-			item.useTime = 55;
-			item.useAnimation = 55;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 5;
-			item.value = 20000;
-			item.rare = ItemRarityID.Green;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<RightZipline>();
-			item.shootSpeed = 16.7f;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 44;
+			Item.height = 48;
+			Item.useTime = 55;
+			Item.useAnimation = 55;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 5;
+			Item.value = 20000;
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<RightZipline>();
+			Item.shootSpeed = 16.7f;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MaliwanShot1"));
+			SoundEngine.PlaySound(SoundLoader.customSoundType, player.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/MaliwanShot1"));
 			if ((rightactive && Main.projectile[right].active == false) || (leftactive && Main.projectile[left].active == false)) //if the gates despawn, reset
 			{
 				Main.projectile[right].active = false;
@@ -59,7 +61,7 @@ namespace SpiritMod.Items.Equipment
 				if (rightactive) {
 					Main.projectile[right].active = false;
 				}
-				right = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<RightZipline>(), item.damage, 1, Main.myPlayer);
+				right = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<RightZipline>(), Item.damage, 1, Main.myPlayer);
 				rightactive = true;
 				if (leftactive) {
 					Main.projectile[right].ai[1] = left;
@@ -70,7 +72,7 @@ namespace SpiritMod.Items.Equipment
 				if (leftactive) {
 					Main.projectile[left].active = false;
 				}
-				left = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LeftZipline>(), item.damage, 1, Main.myPlayer);
+				left = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LeftZipline>(), Item.damage, 1, Main.myPlayer);
 				leftactive = true;
 				if (rightactive) {
 					Main.projectile[left].ai[1] = right;
@@ -82,12 +84,11 @@ namespace SpiritMod.Items.Equipment
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.IronBar, 6);
 			recipe.AddIngredient(ItemID.MinecartTrack, 15);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 		public override ModItem Clone(Item item)
 		{

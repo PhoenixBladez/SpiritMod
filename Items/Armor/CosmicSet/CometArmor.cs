@@ -15,24 +15,23 @@ namespace SpiritMod.Items.Armor.CosmicSet
         }
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 24;
-            item.value = Item.sellPrice(0, 7, 0, 0);
-            item.rare = ItemRarityID.Red;
+            Item.width = 24;
+            Item.height = 24;
+            Item.value = Item.sellPrice(0, 7, 0, 0);
+            Item.rare = ItemRarityID.Red;
 
-            item.vanity = true;
+            Item.vanity = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.FragmentVortex, 5);
 			recipe.AddIngredient(ItemID.FragmentNebula, 5);
 			recipe.AddIngredient(ItemID.FragmentSolar, 5);
 			recipe.AddIngredient(ItemID.FragmentStardust, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

@@ -14,20 +14,19 @@ namespace SpiritMod.Items.Armor.AcidArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 18;
-			item.value = Item.buyPrice(gold: 4, silver: 60);
-			item.rare = ItemRarityID.LightRed;
-			item.vanity = true;
+			Item.width = 20;
+			Item.height = 18;
+			Item.value = Item.buyPrice(gold: 4, silver: 60);
+			Item.rare = ItemRarityID.LightRed;
+			Item.vanity = true;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<Acid>(), 8);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -13,17 +13,17 @@ namespace SpiritMod.Projectiles.Yoyo
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Grasp");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Valor);
-			aiType = ProjectileID.Valor;
-			projectile.width = 16;
-			projectile.height = 18;
-			projectile.penetrate = 6;
+			Projectile.CloneDefaults(ProjectileID.Valor);
+			AIType = ProjectileID.Valor;
+			Projectile.width = 16;
+			Projectile.height = 18;
+			Projectile.penetrate = 6;
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
@@ -36,18 +36,18 @@ namespace SpiritMod.Projectiles.Yoyo
 
 		public override void AI()
 		{
-			Vector2 position = projectile.Center + Vector2.Normalize(projectile.velocity) * 4;
-			projectile.velocity.X *= 1.005f;
-			Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.ShadowbeamStaff, 0f, 0f, 0, default, 1f)];
+			Vector2 position = Projectile.Center + Vector2.Normalize(Projectile.velocity) * 4;
+			Projectile.velocity.X *= 1.005f;
+			Dust newDust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.ShadowbeamStaff, 0f, 0f, 0, default, 1f)];
 			newDust.position = position;
-			newDust.velocity = projectile.velocity.RotatedBy(Math.PI / 2, default) * 0.33F + projectile.velocity / 4;
-			newDust.position += projectile.velocity.RotatedBy(Math.PI / 2, default);
+			newDust.velocity = Projectile.velocity.RotatedBy(Math.PI / 2, default) * 0.33F + Projectile.velocity / 4;
+			newDust.position += Projectile.velocity.RotatedBy(Math.PI / 2, default);
 			newDust.fadeIn = 0.5f;
 			newDust.noGravity = true;
-			newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.ShadowbeamStaff, 0f, 0f, 0, default, 1)];
+			newDust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.ShadowbeamStaff, 0f, 0f, 0, default, 1)];
 			newDust.position = position;
-			newDust.velocity = projectile.velocity.RotatedBy(-Math.PI / 2, default) * 0.33F + projectile.velocity / 4;
-			newDust.position += projectile.velocity.RotatedBy(-Math.PI / 2, default);
+			newDust.velocity = Projectile.velocity.RotatedBy(-Math.PI / 2, default) * 0.33F + Projectile.velocity / 4;
+			newDust.position += Projectile.velocity.RotatedBy(-Math.PI / 2, default);
 			newDust.fadeIn = 0.5F;
 			newDust.noGravity = true;
 		}

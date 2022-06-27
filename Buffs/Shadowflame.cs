@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class Shadowflame : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shadowflame");
 			Main.debuff[Type] = true;

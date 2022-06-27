@@ -13,17 +13,17 @@ namespace SpiritMod.Items.Armor.Masks
 		{
 			DisplayName.SetDefault("Psycho Mask");
             Tooltip.SetDefault("'A flower? For meeee?'");
-            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/Masks/PsychoMask_Glow");
+            SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Armor/Masks/PsychoMask_Glow");
         }
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
+			Item.width = 22;
+			Item.height = 20;
 
-			item.value = Terraria.Item.buyPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Blue;
-			item.vanity = true;
+			Item.value = Terraria.Item.buyPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.vanity = true;
 		}
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
             => drawHair = true;

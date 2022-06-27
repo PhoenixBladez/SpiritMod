@@ -1,4 +1,6 @@
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,112 +15,112 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pulsar");
-			Main.npcFrameCount[npc.type] = 9;
+			Main.npcFrameCount[NPC.type] = 9;
 		}
 
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetDefaults()
 		{
-			npc.lifeMax = 500;
-			npc.defense = 25;
-			npc.value = 600f;
-			npc.alpha = 0;
-			npc.friendly = false;
-			npc.knockBackResist = 0f;
-			npc.HitSound = SoundID.DD2_CrystalCartImpact;
-			npc.DeathSound = SoundID.DD2_ExplosiveTrapExplode;
-			npc.width = 66;
-			npc.height = 88;
-			npc.damage = 45;
-			npc.lavaImmune = true;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
+			NPC.lifeMax = 500;
+			NPC.defense = 25;
+			NPC.value = 600f;
+			NPC.alpha = 0;
+			NPC.friendly = false;
+			NPC.knockBackResist = 0f;
+			NPC.HitSound = SoundID.DD2_CrystalCartImpact;
+			NPC.DeathSound = SoundID.DD2_ExplosiveTrapExplode;
+			NPC.width = 66;
+			NPC.height = 88;
+			NPC.damage = 45;
+			NPC.lavaImmune = true;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
 		}
 
 		public override bool CheckDead() => false;
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			Main.PlaySound(SoundID.NPCHit, npc.Center, 4);
+			SoundEngine.PlaySound(SoundID.NPCHit, NPC.Center, 4);
 			for (int k = 0; k < 10; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, .934f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, .934f);
 			}
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Main.PlaySound(SoundID.Item, npc.Center, 14);
+				SoundEngine.PlaySound(SoundID.Item, NPC.Center, 14);
 				for (int i = 0; i < 3; ++i)
 				{
-					Gore.NewGore(npc.position, npc.velocity, 99);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pulsar/Pulsar" + (i + 1)), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, 99);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pulsar/Pulsar" + (i + 1)).Type, 1f);
 				}
 			}
 		}
 
 		public override void AI()
 		{
-			npc.velocity *= 0.99f;
-			npc.ai[0]++;
-			npc.ai[1]++;
-			if (npc.ai[0] >= 150 && !Filters.Scene["PulsarShockwave"].IsActive())
+			NPC.velocity *= 0.99f;
+			NPC.ai[0]++;
+			NPC.ai[1]++;
+			if (NPC.ai[0] >= 150 && !Filters.Scene["PulsarShockwave"].IsActive())
 			{
-				Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
-				Projectile.NewProjectile(npc.Center - new Vector2(npc.rotation * 40, 0), Vector2.Zero, ModContent.ProjectileType<PulsarShockwave>(), 0, 0, npc.target);
-				npc.ai[0] = 1;
-				npc.ai[2] = 0;
-				npc.netUpdate = true;
+				SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDown, NPC.Center);
+				Projectile.NewProjectile(NPC.Center - new Vector2(NPC.rotation * 40, 0), Vector2.Zero, ModContent.ProjectileType<PulsarShockwave>(), 0, 0, NPC.target);
+				NPC.ai[0] = 1;
+				NPC.ai[2] = 0;
+				NPC.netUpdate = true;
 			}
-			if (npc.ai[0] % 5 == 0)
+			if (NPC.ai[0] % 5 == 0)
 			{
-				int d = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Flare);
+				int d = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Flare);
 				Main.dust[d].fadeIn += .5f;
 			}
-			if (npc.ai[1] % 240 == 0)
+			if (NPC.ai[1] % 240 == 0)
 			{
-				Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, npc.Center);
+				SoundEngine.PlaySound(SoundID.DD2_WitherBeastAuraPulse, NPC.Center);
 			}
-			if (npc.ai[0] >= 120 && npc.ai[0] < 150)
+			if (NPC.ai[0] >= 120 && NPC.ai[0] < 150)
 			{
-				npc.ai[2] = 1;
+				NPC.ai[2] = 1;
 			}
-			npc.rotation = (float)Math.Sin(npc.ai[1] / 30f) / 2;
+			NPC.rotation = (float)Math.Sin(NPC.ai[1] / 30f) / 2;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			if (npc.ai[2] != 0)
+			if (NPC.ai[2] != 0)
 			{
 				SpriteEffects spriteEffects = SpriteEffects.None;
-				if (npc.spriteDirection == 1)
+				if (NPC.spriteDirection == 1)
 					spriteEffects = SpriteEffects.FlipHorizontally;
-				Texture2D texture = Main.npcTexture[npc.type];
-				float num99 = (float)(Math.Cos(Main.GlobalTime % 2.4f / 2.4f * MathHelper.TwoPi) / 4.0f + 0.5f);
+				Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+				float num99 = (float)(Math.Cos(Main.GlobalTimeWrappedHourly % 2.4f / 2.4f * MathHelper.TwoPi) / 4.0f + 0.5f);
 				Color AfterimageColor = new Color(sbyte.MaxValue, sbyte.MaxValue, sbyte.MaxValue, 0).MultiplyRGBA(new Color(255, 111, 33, 150)) * 5f;
-				Vector2 GlowPosition = new Vector2(npc.Center.X - 24, npc.Center.Y - 42) - Main.screenPosition - new Vector2((float)texture.Width / 3, (texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f + npc.frame.Size() / 2 * npc.scale + new Vector2(0.0f, npc.gfxOffY);
+				Vector2 GlowPosition = new Vector2(NPC.Center.X - 24, NPC.Center.Y - 42) - Main.screenPosition - new Vector2((float)texture.Width / 3, (texture.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f + NPC.frame.Size() / 2 * NPC.scale + new Vector2(0.0f, NPC.gfxOffY);
 				for (int index2 = 0; index2 < 4; ++index2)
 				{
-					Color GlowColor = npc.GetAlpha(AfterimageColor) * (1f - num99);
-					Vector2 GlowPosition2 = new Vector2(npc.Center.X - 24, npc.Center.Y - 42) + ((index2 / 4f * MathHelper.TwoPi) + npc.rotation).ToRotationVector2() * (float)(8.0 * num99 + 2.0) - Main.screenPosition - new Vector2((float)texture.Width / 3, texture.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f + npc.frame.Size() / 2 * npc.scale + new Vector2(0.0f, npc.gfxOffY);
-					Main.spriteBatch.Draw(texture, GlowPosition2, new Microsoft.Xna.Framework.Rectangle?(npc.frame), GlowColor, npc.rotation, new Vector2(33, 0), npc.scale, spriteEffects, 0.0f);
+					Color GlowColor = NPC.GetAlpha(AfterimageColor) * (1f - num99);
+					Vector2 GlowPosition2 = new Vector2(NPC.Center.X - 24, NPC.Center.Y - 42) + ((index2 / 4f * MathHelper.TwoPi) + NPC.rotation).ToRotationVector2() * (float)(8.0 * num99 + 2.0) - Main.screenPosition - new Vector2((float)texture.Width / 3, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f + NPC.frame.Size() / 2 * NPC.scale + new Vector2(0.0f, NPC.gfxOffY);
+					Main.spriteBatch.Draw(texture, GlowPosition2, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), GlowColor, NPC.rotation, new Vector2(33, 0), NPC.scale, spriteEffects, 0.0f);
 				}
-				Main.spriteBatch.Draw(texture, GlowPosition, new Microsoft.Xna.Framework.Rectangle?(npc.frame), AfterimageColor, npc.rotation, new Vector2(33, 0), npc.scale, spriteEffects, 0.0f);
+				Main.spriteBatch.Draw(texture, GlowPosition, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), AfterimageColor, NPC.rotation, new Vector2(33, 0), NPC.scale, spriteEffects, 0.0f);
 			}
-			Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.position + new Vector2(33, 0) - Main.screenPosition, npc.frame, drawColor, npc.rotation, new Vector2(33, 0), npc.scale, SpriteEffects.None, 0f);
-			Main.spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/Enemies/Pulsar_Glow"), npc.position + new Vector2(33, 0) - Main.screenPosition, npc.frame, Color.White, npc.rotation, new Vector2(33, 0), npc.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.position + new Vector2(33, 0) - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, new Vector2(33, 0), NPC.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(Mod.GetTexture("NPCs/StarjinxEvent/Enemies/Pulsar_Glow"), NPC.position + new Vector2(33, 0) - Main.screenPosition, NPC.frame, Color.White, NPC.rotation, new Vector2(33, 0), NPC.scale, SpriteEffects.None, 0f);
 
 			return false;
 
 		}
-		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, npc, npc.frame, new Vector2(0, -44), new Vector2(33, 0));
+		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, NPC, NPC.frame, new Vector2(0, -44), new Vector2(33, 0));
 	}
 }

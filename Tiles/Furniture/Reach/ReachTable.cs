@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 {
 	public class ReachTable : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -23,8 +23,8 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Elderbark Table");
 			AddMapEntry(new Color(179, 146, 107), name);
-			disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Tables };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Tables };
         }
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

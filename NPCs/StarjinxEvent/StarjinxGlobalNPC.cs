@@ -44,9 +44,9 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				npc.target = 0; //Default to 0 if no target is found
 		}
 
-		public override void NPCLoot(NPC npc)
+		public override void OnKill(NPC npc)
 		{
-			if (npc.modNPC is IStarjinxEnemy || npc.type == ModContent.NPCType<Enemies.Pathfinder.Pathfinder>() || npc.type == NPCID.EyeofCthulhu) //Replace eye of cthulhu with actual bosses eventually, ofc
+			if (npc.ModNPC is IStarjinxEnemy || npc.type == ModContent.NPCType<Enemies.Pathfinder.Pathfinder>() || npc.type == NPCID.EyeofCthulhu) //Replace eye of cthulhu with actual bosses eventually, ofc
 				StarjinxEventWorld.IncrementKilledEnemies();
 		}
 

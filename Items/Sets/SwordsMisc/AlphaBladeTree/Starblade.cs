@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.StarplateDrops;
 using SpiritMod.Projectiles;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
@@ -13,28 +15,28 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 		{
 			DisplayName.SetDefault("Starblade");
 			Tooltip.SetDefault("'Harness the night sky'\nEvery third swing causes the blade to release multiple bright stars\nEach star explodes into homing star wisps");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/SwordsMisc/AlphaBladeTree/Starblade_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/SwordsMisc/AlphaBladeTree/Starblade_Glow");
 		}
 
 		int charger;
 
 		public override void SetDefaults()
 		{
-			item.damage = 32;
-			item.useTime = 27;
-			item.useAnimation = 27;
-			item.melee = true;
-			item.width = 50;
-			item.height = 50;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 4;
-			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.shootSpeed = 8;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.useTurn = true;
-			item.shoot = ModContent.ProjectileType<Starshock2>();
+			Item.damage = 32;
+			Item.useTime = 27;
+			Item.useAnimation = 27;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 50;
+			Item.height = 50;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 4;
+			Item.value = Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.shootSpeed = 8;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.useTurn = true;
+			Item.shoot = ModContent.ProjectileType<Starshock2>();
 		}
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -46,15 +48,14 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			Texture2D texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Sets/SwordsMiscAlphaBladeTree/Starblade_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/SwordsMiscAlphaBladeTree/Starblade_Glow").Value,
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -66,13 +67,13 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 			);
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			charger++;
 			if (charger >= 3)
 			{
 				for (int i = 0; i < 3; i++)
-					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<Starshock2>(), damage / 2, knockBack, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(source, position.X - 8, position.Y + 8, velocity.X + ((float)Main.rand.Next(-230, 230) / 100), velocity.Y + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<Starshock2>(), damage / 2, knockback, player.whoAmI, 0f, 0f);
 				charger = 0;
 			}
 			return false;
@@ -80,14 +81,13 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Starfury, 1);
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.AvianDrops.TalonBlade>(), 1);
 			recipe.AddIngredient(ItemID.FallenStar, 5);
 			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 6);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

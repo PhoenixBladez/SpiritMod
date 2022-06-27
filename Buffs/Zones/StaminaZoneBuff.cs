@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Zones
 {
 	public class StaminaZoneBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stamina Zone");
 			Description.SetDefault("You feel energized!");

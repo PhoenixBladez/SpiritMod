@@ -4,6 +4,8 @@ using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.BismiteSet
 {
@@ -19,37 +21,36 @@ namespace SpiritMod.Items.Sets.BismiteSet
 
 		public override void SetDefaults()
 		{
-			item.damage = 10;
-			item.noMelee = true;
-			item.ranged = true;
-			item.width = 20;
-			item.height = 46;
-			item.useTime = 21;
-			item.useAnimation = 21;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ProjectileID.Shuriken;
-			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 1;
-			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item5;
-			item.autoReuse = false;
-			item.shootSpeed = 6.5f;
-			item.crit = 8;
-			item.reuseDelay = 20;
+			Item.damage = 10;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 20;
+			Item.height = 46;
+			Item.useTime = 21;
+			Item.useAnimation = 21;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ProjectileID.Shuriken;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.knockBack = 1;
+			Item.useTurn = false;
+			Item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item5;
+			Item.autoReuse = false;
+			Item.shootSpeed = 6.5f;
+			Item.crit = 8;
+			Item.reuseDelay = 20;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 10);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+			int proj = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 			Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromBismiteBow = true;
 			Projectile projectile = Main.projectile[proj];
 			for (int k = 0; k < 25; k++) {

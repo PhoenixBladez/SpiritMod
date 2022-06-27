@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs.Summon;
 using SpiritMod.Projectiles.Summon.MoonjellySummon;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.MoonWizardDrops
@@ -13,29 +14,29 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 		{
 			DisplayName.SetDefault("Lunazoa Staff");
 			Tooltip.SetDefault("Summons a Moonlight Preserver\nMoonlight Preservers summon smaller jellyfish that explode\nOnly one Moonlight Preserver can exist at once\nUsing the staff multiple times takes up summon slots, but increases jellyfish spawn rates");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/MoonWizardDrops/MoonjellySummonStaff_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/MoonWizardDrops/MoonjellySummonStaff_Glow");
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 38;
-			item.value = Item.sellPrice(0, 2, 30, 0);
-			item.rare = ItemRarityID.Green;
-			item.mana = 10;
-			item.damage = 16;
-			item.knockBack = 1;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.summon = true;
-			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<MoonjellySummon>();
-			item.UseSound = SoundID.Item44;
+			Item.width = 36;
+			Item.height = 38;
+			Item.value = Item.sellPrice(0, 2, 30, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.mana = 10;
+			Item.damage = 16;
+			Item.knockBack = 1;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.DamageType = DamageClass.Summon;
+			Item.noMelee = true;
+			Item.shoot = ModContent.ProjectileType<MoonjellySummon>();
+			Item.UseSound = SoundID.Item44;
 		}
 		public override bool AltFunctionUse(Player player) => true;
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			if (player.altFunctionUse == 2)
 				player.MinionNPCTargetAim();
@@ -43,7 +44,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 			{
 				for (int i = 0; i < 1000; ++i)
 				{
-					if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
+					if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == Item.shoot)
 					{
 						Main.projectile[i].minionSlots += 1f;
 						Main.projectile[i].scale += .1f;
@@ -53,11 +54,11 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 			return base.UseItem(player);
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			for (int i = 0; i < 1000; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
+				if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == Item.shoot)
 					return false;
 			}
 			player.AddBuff(ModContent.BuffType<MoonjellySummonBuff>(), 3600);
@@ -70,7 +71,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 			{
 				for (int i = 0; i < 1000; ++i)
 				{
-					if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
+					if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == Item.shoot)
 					{
 						Main.projectile[i].minionSlots += 1f;
 						if (Main.projectile[i].scale < 1.3f)
@@ -83,16 +84,16 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.08f, .4f, .28f);
+			Lighting.AddLight(Item.position, 0.08f, .4f, .28f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/MoonWizardDrops/MoonjellySummonStaff_Glow"),
+				Mod.GetTexture("Items/Sets/MoonWizardDrops/MoonjellySummonStaff_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,

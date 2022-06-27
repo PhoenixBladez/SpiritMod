@@ -15,45 +15,45 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 340;
-			projectile.height = 8;
-			projectile.width = 8;
-			projectile.alpha = 255;
-			aiType = ProjectileID.Bullet;
-			projectile.extraUpdates = 1;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.magic = true;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 340;
+			Projectile.height = 8;
+			Projectile.width = 8;
+			Projectile.alpha = 255;
+			AIType = ProjectileID.Bullet;
+			Projectile.extraUpdates = 1;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.DamageType = DamageClass.Magic;
 		}
 
 		public override void AI()
 		{
-			if (!Main.projectile[(int)projectile.localAI[0]].active)
-				projectile.Kill();
+			if (!Main.projectile[(int)Projectile.localAI[0]].active)
+				Projectile.Kill();
 
-			int num = (int)projectile.velocity.X * 16;
-			int num2 = (int)projectile.velocity.Y;
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 120) {
-				projectile.frameCounter = 0;
-				if (projectile.frame == 5)
-					projectile.frame = 0;
+			int num = (int)Projectile.velocity.X * 16;
+			int num2 = (int)Projectile.velocity.Y;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter > 120) {
+				Projectile.frameCounter = 0;
+				if (Projectile.frame == 5)
+					Projectile.frame = 0;
 				else
-					projectile.frame++;
+					Projectile.frame++;
 			}
 
 			int num3 = 80 - num;
 			int num4 = 12 - num2;
 			int num5 = 16;
-			projectile.localAI[1] += 0.0104719754f * (float)num4;
-			projectile.localAI[1] %= 6.28318548f;
-			Vector2 center = Main.projectile[(int)projectile.localAI[0]].Center;
+			Projectile.localAI[1] += 0.0104719754f * (float)num4;
+			Projectile.localAI[1] %= 6.28318548f;
+			Vector2 center = Main.projectile[(int)Projectile.localAI[0]].Center;
 			center.X -= (float)num5;
-			projectile.rotation = (float)Math.Atan2((double)center.Y, (double)center.X) - 2f;
-			projectile.Center = center + (float)num3 * new Vector2((float)Math.Cos((double)projectile.localAI[1]), (float)Math.Sin((double)projectile.localAI[1]));
+			Projectile.rotation = (float)Math.Atan2((double)center.Y, (double)center.X) - 2f;
+			Projectile.Center = center + (float)num3 * new Vector2((float)Math.Cos((double)Projectile.localAI[1]), (float)Math.Sin((double)Projectile.localAI[1]));
 		}
 
 		private static Vector2 GetVelocity(Projectile projectile)

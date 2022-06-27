@@ -7,7 +7,7 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class Canvas_Tile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -24,8 +24,8 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.newTile.AnchorTop = default;
 			TileObjectData.newTile.AnchorWall = true;
 			TileObjectData.addTile(Type);
-			disableSmartCursor = true;
-			dustType -= 1;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType -= 1;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Canvas");
 			AddMapEntry(new Color(150, 150, 150), name);

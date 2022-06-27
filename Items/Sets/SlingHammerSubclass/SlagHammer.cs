@@ -18,34 +18,33 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 
 		public override void SetDefaults()
 		{
-			item.useStyle = 100;
-			item.width = 40;
-			item.height = 32;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.melee = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.useAnimation = 30;
-			item.useTime = 30;
-			item.shootSpeed = 8f;
-			item.knockBack = 5f;
-			item.damage = 29;
-			item.value = Item.sellPrice(0, 0, 60, 0);
-			item.rare = ItemRarityID.Orange;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ModContent.ProjectileType<SlagHammerProj>();
+			Item.useStyle = 100;
+			Item.width = 40;
+			Item.height = 32;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.DamageType = DamageClass.Melee;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.useAnimation = 30;
+			Item.useTime = 30;
+			Item.shootSpeed = 8f;
+			Item.knockBack = 5f;
+			Item.damage = 29;
+			Item.value = Item.sellPrice(0, 0, 60, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ModContent.ProjectileType<SlagHammerProj>();
 		}
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0 && player.ownedProjectileCounts[ModContent.ProjectileType<SlagHammerProjReturning>()] == 0;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] == 0 && player.ownedProjectileCounts[ModContent.ProjectileType<SlagHammerProjReturning>()] == 0;
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 16);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

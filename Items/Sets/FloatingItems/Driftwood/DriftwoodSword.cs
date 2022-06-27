@@ -14,31 +14,30 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 30;
-			item.value = Item.sellPrice(0, 0, 0, 20);
-			item.rare = ItemRarityID.White;
+			Item.width = 30;
+			Item.height = 30;
+			Item.value = Item.sellPrice(0, 0, 0, 20);
+			Item.rare = ItemRarityID.White;
 
-			item.damage = 9;
-			item.knockBack = 5f;
+			Item.damage = 9;
+			Item.knockBack = 5f;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 22;
-			item.useAnimation = 22;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 22;
+			Item.useAnimation = 22;
 
-			item.melee = true;
-			item.autoReuse = false;
+			Item.DamageType = DamageClass.Melee;
+			Item.autoReuse = false;
 
-			item.UseSound = SoundID.Item1;
+			Item.UseSound = SoundID.Item1;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe();
 			modRecipe.AddIngredient(ModContent.ItemType<DriftwoodTileItem>(), 16);
 			modRecipe.AddTile(TileID.Anvils);
-			modRecipe.SetResult(this);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

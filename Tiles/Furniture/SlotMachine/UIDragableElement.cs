@@ -91,7 +91,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			CalculatedStyle dimensions = base.GetOuterDimensions();
 			if (ContainsPoint(Main.MouseScreen)) {
 				Main.LocalPlayer.mouseInterface = true;
-				Main.LocalPlayer.showItemIcon = false;
+				Main.LocalPlayer.cursorItemIconEnabled = false;
 				Main.ItemIconCacheUpdate(0);
 			}
 			if (dragging) {

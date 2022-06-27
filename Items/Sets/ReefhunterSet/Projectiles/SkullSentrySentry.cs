@@ -15,15 +15,15 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 46;
-			projectile.height = 64;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.aiStyle = -1;
-			projectile.sentry = true;
-			projectile.timeLeft = Projectile.SentryLifeTime;
-			projectile.scale = 0.75f;
-			projectile.tileCollide = false;
+			Projectile.width = 46;
+			Projectile.height = 64;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.aiStyle = -1;
+			Projectile.sentry = true;
+			Projectile.timeLeft = Projectile.SentryLifeTime;
+			Projectile.scale = 0.75f;
+			Projectile.tileCollide = false;
 		}
 
 		public override void AI()
@@ -32,17 +32,17 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			{
 				DoDust();
 				eyeWhoAmIs = new int[3];
-				Vector2[] offsets = new Vector2[] { new Vector2(-10, -8) * projectile.scale, new Vector2(10, -8) * projectile.scale, new Vector2(0, 18) * projectile.scale };
+				Vector2[] offsets = new Vector2[] { new Vector2(-10, -8) * Projectile.scale, new Vector2(10, -8) * Projectile.scale, new Vector2(0, 18) * Projectile.scale };
 
 				for (int i = 0; i < 3; ++i)
 				{
-					Vector2 pos = projectile.Center + offsets[i];
-					int p = Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<SkullSentryEye>(), Main.player[projectile.owner].HeldItem.damage, 0f, projectile.owner, -1, i * SkullSentryEye.SHOOT_TIME / 3);
+					Vector2 pos = Projectile.Center + offsets[i];
+					int p = Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<SkullSentryEye>(), Main.player[Projectile.owner].HeldItem.damage, 0f, Projectile.owner, -1, i * SkullSentryEye.SHOOT_TIME / 3);
 
 					Projectile eye = Main.projectile[p];
-					(eye.modProjectile as SkullSentryEye).anchor = offsets[i];
-					(eye.modProjectile as SkullSentryEye).parent = projectile;
-					eye.scale = projectile.scale;
+					(eye.ModProjectile as SkullSentryEye).anchor = offsets[i];
+					(eye.ModProjectile as SkullSentryEye).parent = Projectile;
+					eye.scale = Projectile.scale;
 					eye.netUpdate = true;
 
 					eyeWhoAmIs[i] = p;
@@ -50,13 +50,13 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			}
 
 			foreach (Projectile p in GetEyeList()) //Refresh all eye targets at once per tick
-				if (p.modProjectile is SkullSentryEye eye)
+				if (p.ModProjectile is SkullSentryEye eye)
 					eye.Target = -1;
 
-			projectile.velocity.Y = (float)System.Math.Sin(projectile.timeLeft / 30f) / 6; //Subtle hovering
+			Projectile.velocity.Y = (float)System.Math.Sin(Projectile.timeLeft / 30f) / 6; //Subtle hovering
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => false;
 
 		public override void Kill(int timeLeft)
 		{
@@ -68,17 +68,17 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 				p.Kill();
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDraw(spriteBatch);
 
 			//Manually call drawing for eyes after this projectile's drawing is called (eyes have hide = true, so they don't automatically get drawn)
 			List<Projectile> eyes = GetEyeList();
 			foreach (Projectile p in eyes) //Draw all the chains before all the eyes
-				(p.modProjectile as SkullSentryEye).DrawChain(spriteBatch);
+				(p.ModProjectile as SkullSentryEye).DrawChain(spriteBatch);
 
 			foreach (Projectile p in eyes) 
-				(p.modProjectile as SkullSentryEye).Draw(spriteBatch, lightColor);
+				(p.ModProjectile as SkullSentryEye).Draw(spriteBatch, lightColor);
 
 			return false;
 		}
@@ -91,7 +91,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			{
 				Projectile proj = Main.projectile[i];
 				if (proj.active && proj.type == ModContent.ProjectileType<SkullSentryEye>() && proj != null)
-					if ((proj.modProjectile as SkullSentryEye).parent == projectile)
+					if ((proj.ModProjectile as SkullSentryEye).parent == Projectile)
 						temp.Add(proj);
 			}
 
@@ -103,7 +103,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			const int dustAmount = 25;
 			for(int i = 0; i < dustAmount; i++)
 			{
-				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Stone, Main.rand.NextFloat(-0.2f, 0.2f), 
+				int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Stone, Main.rand.NextFloat(-0.2f, 0.2f), 
 					Main.rand.NextFloat(-0.2f, 0.2f), 0, new Color(98, 180, 162), Main.rand.NextFloat(0.8f, 1.1f));
 				Main.dust[d].noGravity = true;
 			}

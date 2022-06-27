@@ -14,11 +14,11 @@ namespace SpiritMod.Items.Armor.PlagueDoctor
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 20;
-			item.value = Terraria.Item.sellPrice(0, 0, 14, 0);
-			item.rare = ItemRarityID.Green;
-			item.vanity = true;
+			Item.width = 30;
+			Item.height = 20;
+			Item.value = Terraria.Item.sellPrice(0, 0, 14, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.vanity = true;
 		}
 	}
 }

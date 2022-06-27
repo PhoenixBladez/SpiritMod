@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 {
 	public class RunicSiphon : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Runic Siphon");
 			Description.SetDefault("Reduced damage resistance and losing HP rapidly");

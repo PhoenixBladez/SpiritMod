@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs.Pet;
 using SpiritMod.Projectiles.Pet;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,21 +15,21 @@ namespace SpiritMod.Items.Pets
 		{
 			DisplayName.SetDefault("Stardrive Chip");
 			Tooltip.SetDefault("It's inscribed in an Astral language\nSummons a Star Spider to run alongside you");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Pets/TechChip_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Pets/TechChip_Glow");
 		}
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.Fish);
-			item.shoot = ModContent.ProjectileType<CogSpiderPet>();
-			item.buffType = ModContent.BuffType<CogSpiderPetBuff>();
-			item.UseSound = SoundID.Item93;
+			Item.CloneDefaults(ItemID.Fish);
+			Item.shoot = ModContent.ProjectileType<CogSpiderPet>();
+			Item.buffType = ModContent.BuffType<CogSpiderPetBuff>();
+			Item.UseSound = SoundID.Item93;
 		}
 
-		public override void UseStyle(Player player)
+		public override void UseStyle(Player player, Rectangle heldItemFrame)
 		{
 			if (player.whoAmI == Main.myPlayer && player.itemTime == 0) {
-				player.AddBuff(item.buffType, 3600, true);
+				player.AddBuff(Item.buffType, 3600, true);
 			}
 		}
 
@@ -38,16 +39,16 @@ namespace SpiritMod.Items.Pets
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.08f, .28f, .38f);
+			Lighting.AddLight(Item.position, 0.08f, .28f, .38f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Pets/TechChip_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Pets/TechChip_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,

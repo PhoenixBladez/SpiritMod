@@ -15,21 +15,21 @@ namespace SpiritMod.Items.Sets.FloranSet
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 16;
+			Item.width = 16;
+			Item.height = 16;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.value = 100;
-			item.useAnimation = 15;
-			item.rare = ItemRarityID.Green;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.value = 100;
+			Item.useAnimation = 15;
+			Item.rare = ItemRarityID.Green;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<FloranOreTile>();
+			Item.createTile = ModContent.TileType<FloranOreTile>();
 		}
 	}
 }

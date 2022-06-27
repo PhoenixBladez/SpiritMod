@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,26 +14,25 @@ namespace SpiritMod.Items.Material
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 18;
-			item.rare = ItemRarityID.Green;
-			item.maxStack = 99;
-			item.noUseGraphic = true;
-			item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
-			item.noMelee = true;
-			item.autoReuse = false;
+			Item.width = Item.height = 18;
+			Item.rare = ItemRarityID.Green;
+			Item.maxStack = 99;
+			Item.noUseGraphic = true;
+			Item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
+			Item.noMelee = true;
+			Item.autoReuse = false;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.LifeforcePotion, 1);
 			recipe1.AddIngredient(ItemID.BottledWater, 1);
 			recipe1.AddIngredient(ModContent.ItemType<HeartScale>(), 3);
 			recipe1.AddIngredient(ItemID.Waterleaf, 1);
 			recipe1.AddIngredient(ItemID.Moonglow, 1);
 			recipe1.AddIngredient(ItemID.Shiverthorn, 1);
 			recipe1.AddTile(TileID.Bottles);
-			recipe1.SetResult(ItemID.LifeforcePotion, 1);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 }

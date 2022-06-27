@@ -1,6 +1,7 @@
 using SpiritMod.Items.Sets.SpiritSet;
 using SpiritMod.NPCs.Boss.Dusking;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -17,23 +18,23 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.rare = ItemRarityID.LightRed;
-			item.maxStack = 99;
+			Item.width = Item.height = 16;
+			Item.rare = ItemRarityID.LightRed;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.useTime = item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.noMelee = true;
-			item.consumable = true;
-			item.autoReuse = false;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.autoReuse = false;
 
-			item.UseSound = SoundID.Item43;
+			Item.UseSound = SoundID.Item43;
 		}
 
 		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<Dusking>()) && !Main.dayTime;
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Dusking>());
@@ -52,18 +53,17 @@ namespace SpiritMod.Items.Consumable
 
 				SpiritMultiplayer.SpawnBossFromClient((byte)player.whoAmI, ModContent.NPCType<Dusking>(), (int)spawnPos.X, (int)spawnPos.Y);
 			}
-			Main.PlaySound(SoundID.Roar, player.position, 0);
+			SoundEngine.PlaySound(SoundID.Roar, player.position, 0);
 			return true;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 3);
 			recipe.AddIngredient(ItemID.SoulofNight, 4);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

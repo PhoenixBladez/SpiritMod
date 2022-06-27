@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Ammo
 			item.knockBack = 2f;
             item.ammo = AmmoID.Arrow;
 
-            item.ranged = true;
+            Item.DamageType = DamageClass.Ranged;
             item.consumable = true;
 
             item.shoot = ModContent.ProjectileType<TikiArrow>();

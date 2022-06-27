@@ -13,41 +13,41 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void SetDefaults()
 		{
-			projectile.width = 4;       //projectile width
-			projectile.height = 4;  //projectile height
-			projectile.friendly = true;      //make that the projectile will not damage you
-			projectile.ranged = true;         // 
-			projectile.tileCollide = true;   //make that the projectile will be destroed if it hits the terrain
-			projectile.penetrate = 2;      //how many npc will penetrate
-			projectile.timeLeft = 300;   //how many time projectile projectile has before disepire // projectile light
-			projectile.ignoreWater = true;
-			projectile.alpha = 255;
-			projectile.aiStyle = -1;
-			projectile.hide = true;
+			Projectile.width = 4;       //projectile width
+			Projectile.height = 4;  //projectile height
+			Projectile.friendly = true;      //make that the projectile will not damage you
+			Projectile.DamageType = DamageClass.Ranged;         // 
+			Projectile.tileCollide = true;   //make that the projectile will be destroed if it hits the terrain
+			Projectile.penetrate = 2;      //how many npc will penetrate
+			Projectile.timeLeft = 300;   //how many time projectile projectile has before disepire // projectile light
+			Projectile.ignoreWater = true;
+			Projectile.alpha = 255;
+			Projectile.aiStyle = -1;
+			Projectile.hide = true;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+			Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-			if (projectile.alpha < 170) {
+			if (Projectile.alpha < 170) {
 				for (int i = 0; i < 10; i++) {
-					float x = projectile.position.X - 3 - projectile.velocity.X / 10f * i;
-					float y = projectile.position.Y - 3 - projectile.velocity.Y / 10f * i;
+					float x = Projectile.position.X - 3 - Projectile.velocity.X / 10f * i;
+					float y = Projectile.position.Y - 3 - Projectile.velocity.Y / 10f * i;
 					int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.BlueCrystalShard);
-					Main.dust[num].alpha = projectile.alpha;
+					Main.dust[num].alpha = Projectile.alpha;
 					Main.dust[num].velocity = Vector2.Zero;
 					Main.dust[num].noGravity = true;
 				}
 			}
-			projectile.alpha = Math.Max(0, projectile.alpha - 25);
+			Projectile.alpha = Math.Max(0, Projectile.alpha - 25);
 
 			bool flag25 = false;
 			int jim = 1;
 			for (int index1 = 0; index1 < 200; index1++) {
-				if (Main.npc[index1].CanBeChasedBy(projectile, false)
-					&& projectile.Distance(Main.npc[index1].Center) < 500
-					&& Collision.CanHit(projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
+				if (Main.npc[index1].CanBeChasedBy(Projectile, false)
+					&& Projectile.Distance(Main.npc[index1].Center) < 500
+					&& Collision.CanHit(Projectile.Center, 1, 1, Main.npc[index1].Center, 1, 1)) {
 					flag25 = true;
 					jim = index1;
 				}
@@ -55,7 +55,7 @@ namespace SpiritMod.Projectiles.Bullet
 
 			if (flag25) {
 				float num1 = 6f;
-				Vector2 vector2 = new Vector2(projectile.position.X + projectile.width * 0.5f, projectile.position.Y + projectile.height * 0.5f);
+				Vector2 vector2 = new Vector2(Projectile.position.X + Projectile.width * 0.5f, Projectile.position.Y + Projectile.height * 0.5f);
 				float num2 = Main.npc[jim].Center.X - vector2.X;
 				float num3 = Main.npc[jim].Center.Y - vector2.Y;
 				float num4 = (float)Math.Sqrt((double)num2 * num2 + num3 * num3);
@@ -63,8 +63,8 @@ namespace SpiritMod.Projectiles.Bullet
 				float num6 = num2 * num5;
 				float num7 = num3 * num5;
 				int num8 = 10;
-				projectile.velocity.X = (projectile.velocity.X * (num8 - 1) + num6) / num8;
-				projectile.velocity.Y = (projectile.velocity.Y * (num8 - 1) + num7) / num8;
+				Projectile.velocity.X = (Projectile.velocity.X * (num8 - 1) + num6) / num8;
+				Projectile.velocity.Y = (Projectile.velocity.Y * (num8 - 1) + num7) / num8;
 			}
 		}
 	}

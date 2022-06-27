@@ -14,25 +14,25 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rune of Hecate");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 18;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.hostile = true;
-			projectile.scale = 1.5f;
-			projectile.hide = true;
-			projectile.ignoreWater = true;
-			projectile.direction = Main.rand.NextBool() ? -1 : 1;
+			Projectile.width = Projectile.height = 18;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.hostile = true;
+			Projectile.scale = 1.5f;
+			Projectile.hide = true;
+			Projectile.ignoreWater = true;
+			Projectile.direction = Main.rand.NextBool() ? -1 : 1;
 		}
 
-		private ref float AiState => ref projectile.localAI[0];
-		private ref float AiTimer => ref projectile.localAI[1];
+		private ref float AiState => ref Projectile.localAI[0];
+		private ref float AiTimer => ref Projectile.localAI[1];
 
 		private const int STATE_SPIN = 0; //Spins in place
 		private const int STATE_ANTICIPATION = 1; //Briefly moves away from target
@@ -51,7 +51,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 
 		public override void AI()
 		{
-			Player player = Main.player[(int)projectile.ai[0]];
+			Player player = Main.player[(int)Projectile.ai[0]];
 			//Die if target is dead
 			if((player.dead || !player.active || player == null) && AiState != STATE_FADE)
 			{
@@ -62,46 +62,46 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 			{
 				case STATE_SPIN:
 					float progress = AiTimer / SPIN_TIME;
-					projectile.rotation += ROTATION_SPEED_MAX * progress * projectile.direction;
+					Projectile.rotation += ROTATION_SPEED_MAX * progress * Projectile.direction;
 					if(AiTimer >= SPIN_TIME)
 					{
 						AiTimer = 0;
 						AiState = STATE_ANTICIPATION;
-						projectile.netUpdate = true;
+						Projectile.netUpdate = true;
 					}
 					break;
 
 				case STATE_ANTICIPATION:
-					projectile.rotation += ROTATION_SPEED_MAX * projectile.direction;
-					projectile.velocity = projectile.DirectionFrom(player.Center) * SPEED_MIN / 2;
+					Projectile.rotation += ROTATION_SPEED_MAX * Projectile.direction;
+					Projectile.velocity = Projectile.DirectionFrom(player.Center) * SPEED_MIN / 2;
 					if(AiTimer >= ANTICIPATION_TIME)
 					{
 						AiTimer = 0;
 						AiState = STATE_LAUNCH;
-						projectile.velocity = projectile.DirectionTo(player.Center) * SPEED_MIN;
-						projectile.netUpdate = true;
+						Projectile.velocity = Projectile.DirectionTo(player.Center) * SPEED_MIN;
+						Projectile.netUpdate = true;
 					}
 					break;
 
 				case STATE_LAUNCH:
 					progress = AiTimer / LAUNCH_TIME;
-					projectile.rotation += ROTATION_SPEED_MAX * projectile.direction;
-					projectile.velocity = Vector2.Normalize(projectile.velocity) * MathHelper.Lerp(SPEED_MIN, SPEED_MAX, progress);
+					Projectile.rotation += ROTATION_SPEED_MAX * Projectile.direction;
+					Projectile.velocity = Vector2.Normalize(Projectile.velocity) * MathHelper.Lerp(SPEED_MIN, SPEED_MAX, progress);
 					if(AiTimer >= LAUNCH_TIME)
 					{
 						AiTimer = 0;
 						AiState = STATE_FADE;
-						projectile.netUpdate = true;
+						Projectile.netUpdate = true;
 					}
 					break;
 
 				case STATE_FADE:
 					progress = AiTimer / FADE_TIME;
-					projectile.alpha = (int)(255 * progress);
-					projectile.rotation += ROTATION_SPEED_MAX * projectile.direction * (1 - progress);
-					projectile.velocity *= 0.98f;
+					Projectile.alpha = (int)(255 * progress);
+					Projectile.rotation += ROTATION_SPEED_MAX * Projectile.direction * (1 - progress);
+					Projectile.velocity *= 0.98f;
 					if(AiTimer >= FADE_TIME)
-						projectile.Kill();
+						Projectile.Kill();
 					break;
 			}
 			AiTimer++;
@@ -121,8 +121,8 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
-			int trailLength = ProjectileID.Sets.TrailCacheLength[projectile.type];
-			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+			int trailLength = ProjectileID.Sets.TrailCacheLength[Projectile.type];
+			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
 			for (int i = 0; i < trailLength; i++)
 			{
 				float progress = i / (float)trailLength;
@@ -131,11 +131,11 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 
 				float scale = 0.25f;
 
-				Vector2 drawPos = projectile.oldPos[i] + (projectile.Size / 2) - Main.screenPosition;
-				sB.Draw(bloom, drawPos, null, Color.Purple * opacity * projectile.Opacity, 0, bloom.Size() / 2, scale, SpriteEffects.None, 0);
+				Vector2 drawPos = Projectile.oldPos[i] + (Projectile.Size / 2) - Main.screenPosition;
+				sB.Draw(bloom, drawPos, null, Color.Purple * opacity * Projectile.Opacity, 0, bloom.Size() / 2, scale, SpriteEffects.None, 0);
 			}
-			projectile.QuickDrawTrail(sB, drawColor: Color.White);
-			projectile.QuickDraw(sB, drawColor: Color.White);
+			Projectile.QuickDrawTrail(sB, drawColor: Color.White);
+			Projectile.QuickDraw(sB, drawColor: Color.White);
 		}
 	}
 }

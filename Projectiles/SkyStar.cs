@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,30 +15,30 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sky Star");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.timeLeft = 300;
-			projectile.height = 34;
-			projectile.width = 34;
-			projectile.penetrate = 5;
-			aiType = ProjectileID.Bullet;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.timeLeft = 300;
+			Projectile.height = 34;
+			Projectile.width = 34;
+			Projectile.penetrate = 5;
+			AIType = ProjectileID.Bullet;
+			Projectile.extraUpdates = 1;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return true;
 		}
@@ -45,28 +47,28 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 10);
 			for (int i = 0; i < 16; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.BlueCrystalShard, 0f, -2f, 0, default, .8f);
+				int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.BlueCrystalShard, 0f, -2f, 0, default, .8f);
 				Main.dust[num].noGravity = true;
 				Dust dust = Main.dust[num];
 				dust.position.X += (Main.rand.Next(-50, 51) / 20) - 1.5f;
 				dust.position.Y += (Main.rand.Next(-50, 51) / 20) - 1.5f;
-				if (dust.position != projectile.Center) {
-					dust.velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
+				if (dust.position != Projectile.Center) {
+					dust.velocity = Projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			}
 		}
 		public override void AI()
 		{
-			projectile.rotation += .2f;
-			Lighting.AddLight(projectile.position, .055f, .054f, .223f);
-			if (projectile.ai[0] == 0) {
+			Projectile.rotation += .2f;
+			Lighting.AddLight(Projectile.position, .055f, .054f, .223f);
+			if (Projectile.ai[0] == 0) {
 				int num = 5;
 				for (int k = 0; k < 5; k++) {
-					int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.BlueCrystalShard, 0.0f, 0.0f, 0, new Color(), 1f);
-					Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
-					Main.dust[index2].scale = .8f * projectile.scale;
+					int index2 = Dust.NewDust(Projectile.position, 1, 1, DustID.BlueCrystalShard, 0.0f, 0.0f, 0, new Color(), 1f);
+					Main.dust[index2].position = Projectile.Center - Projectile.velocity / num * (float)k;
+					Main.dust[index2].scale = .8f * Projectile.scale;
 					Main.dust[index2].velocity *= 0f;
 					Main.dust[index2].noGravity = true;
 					Main.dust[index2].noLight = false;

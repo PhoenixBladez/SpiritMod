@@ -21,42 +21,40 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 22;
-			item.value = Item.sellPrice(0, 0, 10, 0);
+			Item.width = 28;
+			Item.height = 22;
+			Item.value = Item.sellPrice(0, 0, 10, 0);
 
-			item.maxStack = 99;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<FestivalLanternTile>();
+			Item.createTile = ModContent.TileType<FestivalLanternTile>();
 		}
         public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.ChineseLantern, 1);
 			recipe.AddIngredient(ItemID.IronBar, 1);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = CreateRecipe(1);
 			recipe1.AddIngredient(ItemID.ChineseLantern, 1);
 			recipe1.AddIngredient(ItemID.LeadBar, 1);
 			recipe1.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe1.SetResult(this, 1);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 	public class FestivalLanternTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -70,12 +68,12 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newTile.AnchorBottom = default(AnchorData);
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-			dustType = -1;//ModContent.DustType<Pixel>();
+			DustType = -1;//ModContent.DustType<Pixel>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Festival Lantern");
             AddMapEntry(new Color(100, 100, 100), name);
-            adjTiles = new int[] { TileID.Torches };
-            dustType = -1;
+            AdjTiles = new int[] { TileID.Torches };
+            DustType = -1;
         }
 
 
@@ -101,8 +99,8 @@ namespace SpiritMod.Tiles.Furniture
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/FestivalLantern_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Furniture/FestivalLantern_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }

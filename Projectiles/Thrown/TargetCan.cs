@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,27 +16,27 @@ namespace SpiritMod.Projectiles.Thrown
 		bool shot = false;
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Shuriken);
-			projectile.width = 25;
-			projectile.damage = 0;
-			projectile.height = 25;
-			projectile.ranged = false;
+			Projectile.CloneDefaults(ProjectileID.Shuriken);
+			Projectile.width = 25;
+			Projectile.damage = 0;
+			Projectile.height = 25;
+			Projectile.ranged = false;
 		}
 
 		public override void AI()
 		{
-			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
+			var list = Main.projectile.Where(x => x.Hitbox.Intersects(Projectile.Hitbox));
 			foreach (var proj in list) {
 				if (proj.ranged && proj.active && !shot && proj.friendly && !proj.hostile && (proj.width <= 6 || proj.height <= 6)) {
-					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
+					SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 10);
 					shot = true;
-					projectile.damage = 110;
-					projectile.velocity = proj.velocity * 2;
+					Projectile.damage = 110;
+					Projectile.velocity = proj.velocity * 2;
 					proj.active = false;
-					CombatText.NewText(new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height), new Color(255, 155, 0, 100),
+					CombatText.NewText(new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height), new Color(255, 155, 0, 100),
 				   "Bullseye!");
-					projectile.ranged = true;
-					projectile.penetrate = 2;
+					Projectile.DamageType = DamageClass.Ranged;
+					Projectile.penetrate = 2;
 				}
 			}
 		}

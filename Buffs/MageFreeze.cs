@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class MageFreeze : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Chilly Grasp");
 			Main.buffNoTimeDisplay[Type] = false;

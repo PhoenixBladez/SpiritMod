@@ -17,25 +17,25 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 
 		public override void SetDefaults()
 		{
-			item.damage = 15;
-			item.magic = true;
-			item.mana = 9;
-			item.width = 38;
-			item.height = 38;
-			item.useTime = 24;
-			item.useAnimation = 38;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 4;
-			item.value = Terraria.Item.sellPrice(0, 0, 8, 0);
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<Spit>();
-			item.shootSpeed = 12f;
+			Item.damage = 15;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 9;
+			Item.width = 38;
+			Item.height = 38;
+			Item.useTime = 24;
+			Item.useAnimation = 38;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 4;
+			Item.value = Terraria.Item.sellPrice(0, 0, 8, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<Spit>();
+			Item.shootSpeed = 12f;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
@@ -45,11 +45,10 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.DemoniteBar, 12);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,35 +17,35 @@ namespace SpiritMod.Projectiles.Thrown
 		bool shot = false;
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Shuriken);
-			projectile.width = 25;
-			projectile.damage = 0;
-			projectile.height = 25;
-			projectile.ranged = false;
+			Projectile.CloneDefaults(ProjectileID.Shuriken);
+			Projectile.width = 25;
+			Projectile.damage = 0;
+			Projectile.height = 25;
+			Projectile.ranged = false;
 		}
 
 		public override void AI()
 		{
-			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
+			var list = Main.projectile.Where(x => x.Hitbox.Intersects(Projectile.Hitbox));
 			foreach (var proj in list) {
 				if (proj.ranged && proj.active && !shot && proj.friendly && !proj.hostile && (proj.width <= 6 || proj.height <= 6)) {
-					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
+					SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
 					for (int num424 = 0; num424 < 15; num424++) {
-						Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Glass, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default, 0.75f);
+						Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Glass, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 0, default, 0.75f);
 					}
 					shot = true;
-					Main.player[projectile.owner].AddBuff(ModContent.BuffType<TrueMarksman>(), 210);
-					projectile.active = false;
-					CombatText.NewText(new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height), new Color(255, 155, 0, 100),
+					Main.player[Projectile.owner].AddBuff(ModContent.BuffType<TrueMarksman>(), 210);
+					Projectile.active = false;
+					CombatText.NewText(new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height), new Color(255, 155, 0, 100),
 				   "Bullseye!");
 				}
 			}
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
 			for (int num424 = 0; num424 < 15; num424++) {
-				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Glass, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default, 0.75f);
+				Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Glass, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 0, default, 0.75f);
 			}
 		}
 

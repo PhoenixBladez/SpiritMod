@@ -19,38 +19,37 @@ namespace SpiritMod.Items.Weapon.Magic
 
 		public override void SetDefaults()
 		{
-			item.damage = 55;
-			item.magic = true;
-			item.mana = 20;
-			item.width = 66;
-			item.height = 68;
-			item.useTime = 32;
-			item.useAnimation = 32;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 2;
-			item.crit = 10;
-			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
-			item.rare = ItemRarityID.Yellow;
-			item.UseSound = SoundID.Item93;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<ShadowOrb>();
-			item.shootSpeed = 1f;
+			Item.damage = 55;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 20;
+			Item.width = 66;
+			Item.height = 68;
+			Item.useTime = 32;
+			Item.useAnimation = 32;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 2;
+			Item.crit = 10;
+			Item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
+			Item.rare = ItemRarityID.Yellow;
+			Item.UseSound = SoundID.Item93;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<ShadowOrb>();
+			Item.shootSpeed = 1f;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe(1);
 			modRecipe.AddIngredient(ModContent.ItemType<DuskStone>(), 10);
 			modRecipe.AddIngredient(ItemID.Ectoplasm, 14);
 			modRecipe.AddTile(TileID.MythrilAnvil);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
-			Terraria.Projectile.NewProjectile(mouse.X, mouse.Y, 0f, 0f, type, damage, knockBack, player.whoAmI);
+			Terraria.Projectile.NewProjectile(mouse.X, mouse.Y, 0f, 0f, type, damage, knockback, player.whoAmI);
 			return false;
 		}
 

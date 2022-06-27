@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,64 +13,64 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mini Meteor");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			Main.projFrames[projectile.type] = 1;
-			ProjectileID.Sets.Homing[base.projectile.type] = true;
-            ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
-			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+			Main.projFrames[Projectile.type] = 1;
+			ProjectileID.Sets.CultistIsResistantTo[base.Projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[base.Projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Spazmamini);
-			aiType = ProjectileID.Spazmamini;
-			projectile.width = 20;
-			projectile.height = 20;
-			projectile.minion = true;
-			projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = true;
-			projectile.netImportant = true;
-			projectile.penetrate = -1;
-			projectile.minionSlots = 1;
+			Projectile.CloneDefaults(ProjectileID.Spazmamini);
+			AIType = ProjectileID.Spazmamini;
+			Projectile.width = 20;
+			Projectile.height = 20;
+			Projectile.minion = true;
+			Projectile.friendly = true;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = true;
+			Projectile.netImportant = true;
+			Projectile.penetrate = -1;
+			Projectile.minionSlots = 1;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (projectile.penetrate == 0)
-				projectile.Kill();
+			if (Projectile.penetrate == 0)
+				Projectile.Kill();
 
 			return false;
 		}
 
 		public override void AI()
 		{
-			bool flag64 = projectile.type == ModContent.ProjectileType<Minior>();
-			Player player = Main.player[projectile.owner];
+			bool flag64 = Projectile.type == ModContent.ProjectileType<Minior>();
+			Player player = Main.player[Projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (flag64) {
 				if (player.dead)
 				modPlayer.minior = false;
 				if (modPlayer.minior)
-				projectile.timeLeft = 2;
+				Projectile.timeLeft = 2;
 			}
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 50);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 50);
 			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Flare_Blue);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Flare_Blue);
 			}
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

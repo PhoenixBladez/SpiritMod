@@ -1,4 +1,5 @@
 using SpiritMod.Items.Material;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,20 +14,19 @@ namespace SpiritMod.Items.Armor.LeatherArmor
 		}
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 18;
-			item.value = 3500;
-			item.rare = ItemRarityID.Blue;
-			item.defense = 1;
+			Item.width = 22;
+			Item.height = 18;
+			Item.value = 3500;
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 1;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 7);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

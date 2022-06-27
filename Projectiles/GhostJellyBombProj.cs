@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,21 +15,21 @@ namespace SpiritMod.Projectiles
 		public override void SetDefaults()
 		{
 			///for reasons, I have to put a comment here.
-			aiType = ProjectileID.StickyGrenade;
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.timeLeft = 180;
-			projectile.width = 20;
-			projectile.CloneDefaults(ProjectileID.StickyGrenade);
-			projectile.height = 20;
+			AIType = ProjectileID.StickyGrenade;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.timeLeft = 180;
+			Projectile.width = 20;
+			Projectile.CloneDefaults(ProjectileID.StickyGrenade);
+			Projectile.height = 20;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			int proj = Projectile.NewProjectile(projectile.Center.X - 10, projectile.Center.Y - 10, 0, 0, ModContent.ProjectileType<SpiritBoom>(), (int)(projectile.damage), 0, Main.myPlayer);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+			int proj = Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X - 10, Projectile.Center.Y - 10, 0, 0, ModContent.ProjectileType<SpiritBoom>(), (int)(Projectile.damage), 0, Main.myPlayer);
 			for (int i = 0; i < 5; i++) {
-				int dust = Dust.NewDust(projectile.position, projectile.width + 40, projectile.height + 40, DustID.Flare_Blue);
+				int dust = Dust.NewDust(Projectile.position, Projectile.width + 40, Projectile.height + 40, DustID.Flare_Blue);
 				Main.dust[dust].scale = 1.9f;
 			}
 			Main.projectile[proj].friendly = true;
@@ -37,28 +38,28 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			projectile.Kill();
+			Projectile.Kill();
 		}
 
 		public override void AI()
 		{
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 7200f) {
-				projectile.alpha += 5;
-				if (projectile.alpha > 255) {
-					projectile.alpha = 255;
-					projectile.Kill();
+			Projectile.ai[1] += 1f;
+			if (Projectile.ai[1] >= 7200f) {
+				Projectile.alpha += 5;
+				if (Projectile.alpha > 255) {
+					Projectile.alpha = 255;
+					Projectile.Kill();
 				}
 			}
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] >= 10f) {
-				projectile.localAI[0] = 0f;
+			Projectile.localAI[0] += 1f;
+			if (Projectile.localAI[0] >= 10f) {
+				Projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
-				int num419 = projectile.type;
+				int num419 = Projectile.type;
 				for (int num420 = 0; num420 < 1000; num420++) {
-					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
+					if (Main.projectile[num420].active && Main.projectile[num420].owner == Projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
 						num416++;
 						if (Main.projectile[num420].ai[1] > num418) {
 							num417 = num420;

@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Weapon.Thrown;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,55 +17,55 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bone Cutter");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 22;
+			Projectile.width = Projectile.height = 22;
 
-			projectile.hostile = false;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = true;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = true;
 
-			projectile.penetrate = 4;
+			Projectile.penetrate = 4;
 
-			projectile.timeLeft = 160;
+			Projectile.timeLeft = 160;
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			if (Main.rand.Next(0, 4) == 0)
-				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<SkeletronHand>(), 1, false, 0, false, false);
+				Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<SkeletronHand>(), 1, false, 0, false, false);
 
 			for (int i = 0; i < 5; i++) {
-				int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Obsidian);
+				int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Obsidian);
 				Main.dust[d].scale *= .5f;
 			}
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}
 
 		public override bool PreAI()
 		{
-			projectile.rotation += .3f;
+			Projectile.rotation += .3f;
 			timer++;
 			if (timer == 20 || timer == 40 || timer == 80)
-				projectile.velocity *= 0.15f;
+				Projectile.velocity *= 0.15f;
 			else if (timer == 30 || timer == 90)
-				projectile.velocity *= 10;
+				Projectile.velocity *= 10;
 			else if (timer >= 100)
 				timer = 0;
 

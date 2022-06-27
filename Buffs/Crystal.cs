@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class Crystal : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crystallize");
 			Main.buffNoTimeDisplay[Type] = false;

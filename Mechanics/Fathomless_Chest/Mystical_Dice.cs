@@ -2,6 +2,7 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Tiles;
@@ -18,16 +19,16 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.maxStack = 999;
-			item.rare = ItemRarityID.Orange;
-			item.useAnimation = 45;
-			item.useTime = 45;
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.consumable = true;
+			Item.width = 20;
+			Item.height = 20;
+			Item.maxStack = 999;
+			Item.rare = ItemRarityID.Orange;
+			Item.useAnimation = 45;
+			Item.useTime = 45;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.consumable = true;
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			FathomlessChestPos(player);
 			return true;
@@ -41,7 +42,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				for (int y = (int)Main.rockLayer; y < Main.tile.GetLength(1); ++y) 
 				{
 					if (Main.tile[x, y] == null) continue;
-					if (Main.tile[x, y].type != mod.TileType("Fathomless_Chest")) continue;
+					if (Main.tile[x, y].TileType != Mod.Find<ModTile>("Fathomless_Chest").Type) continue;
 					pos = new Vector2((x) * 16, y * 16);
 					break;
 				}
@@ -52,7 +53,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			else {
 				CombatText.NewText(new Rectangle((int)player.Center.X, (int)player.Center.Y, 2, 2), Color.Cyan, "No Shrines Left!");
 				player.QuickSpawnItem(ModContent.ItemType<Black_Stone_Item>(), 15);
-				Main.PlaySound(SoundID.Item110, player.Center);
+				SoundEngine.PlaySound(SoundID.Item110, player.Center);
 				return;
 			}
 		}
@@ -60,15 +61,14 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		{
 			player.Teleport(pos, 2, 0);
 			player.velocity = Vector2.Zero;
-			Main.PlaySound(SoundID.Item6, player.Center);
+			SoundEngine.PlaySound(SoundID.Item6, player.Center);
 		}
 		
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(null, "Black_Stone_Item", 18);	
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

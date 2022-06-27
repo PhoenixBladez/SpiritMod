@@ -1,11 +1,12 @@
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Glyph
 {
 	public class CollapsingVoid : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Collapsing Void");
 			Description.SetDefault("");
@@ -44,10 +45,10 @@ namespace SpiritMod.Buffs.Glyph
 
 			if (player.whoAmI == Main.myPlayer && !Main.dedServ) {
 				if (modPlayer.voidStacks == 0) {
-					Main.buffTexture[Type] = mod.GetTexture("CollapsingVoid");
+					TextureAssets.Buff[Type].Value = Mod.GetTexture("CollapsingVoid");
 				}
 				else {
-					Main.buffTexture[Type] = mod.GetTexture("CollapsingVoid_" + modPlayer.voidStacks.ToString());
+					TextureAssets.Buff[Type].Value = Mod.GetTexture("CollapsingVoid_" + modPlayer.voidStacks.ToString());
 				}
 			}
 		}

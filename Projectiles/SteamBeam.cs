@@ -15,41 +15,41 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = false;
-			projectile.hostile = true;
-			projectile.penetrate = 4;
-			projectile.timeLeft = 150;
-			projectile.height = 6;
-			projectile.width = 6;
+			Projectile.friendly = false;
+			Projectile.hostile = true;
+			Projectile.penetrate = 4;
+			Projectile.timeLeft = 150;
+			Projectile.height = 6;
+			Projectile.width = 6;
 
-			projectile.alpha = 255;
-			aiType = ProjectileID.Bullet;
+			Projectile.alpha = 255;
+			AIType = ProjectileID.Bullet;
 		}
 		public override void AI()
 		{
-			if (projectile.velocity.Length() < 28)
-				projectile.velocity *= 1.02f;
+			if (Projectile.velocity.Length() < 28)
+				Projectile.velocity *= 1.02f;
 			else
-				projectile.velocity = Vector2.Normalize(projectile.velocity) * 28;
+				Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 28;
 		}
 
-		public void DoTrailCreation(TrailManager tManager) => tManager.CreateTrail(projectile, new StandardColorTrail(new Color(82, 232, 255)), new RoundCap(), new DefaultTrailPosition(), 10f, 450f);
+		public void DoTrailCreation(TrailManager tManager) => tManager.CreateTrail(Projectile, new StandardColorTrail(new Color(82, 232, 255)), new RoundCap(), new DefaultTrailPosition(), 10f, 450f);
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.penetrate--;
-			if (projectile.penetrate <= 0) {
-				projectile.Kill();
+			Projectile.penetrate--;
+			if (Projectile.penetrate <= 0) {
+				Projectile.Kill();
 			}
 			else {
-				projectile.ai[0] += 0.1f;
-				if (projectile.velocity.X != oldVelocity.X) {
-					projectile.velocity.X = -oldVelocity.X;
+				Projectile.ai[0] += 0.1f;
+				if (Projectile.velocity.X != oldVelocity.X) {
+					Projectile.velocity.X = -oldVelocity.X;
 				}
-				if (projectile.velocity.Y != oldVelocity.Y) {
-					projectile.velocity.Y = -oldVelocity.Y;
+				if (Projectile.velocity.Y != oldVelocity.Y) {
+					Projectile.velocity.Y = -oldVelocity.Y;
 				}
-				projectile.velocity *= 0.75f;
+				Projectile.velocity *= 0.75f;
 			}
 			return false;
 		}

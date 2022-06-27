@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
@@ -19,33 +21,32 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 
 		public override void SetDefaults()
 		{
-			item.damage = 70;
-			item.width = 40;
-			item.height = 40;
-			item.useTime = 20;
-			item.useAnimation = 20;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.noMelee = true;
-			item.knockBack = 2;
-			item.useTurn = false;
-			item.value = Item.sellPrice(0, 5, 0, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<GtechGrenadeProj>();
-			item.shootSpeed = 22;
-			item.noUseGraphic = true;
-			item.maxStack = 999;
-			item.consumable = true;
+			Item.damage = 70;
+			Item.width = 40;
+			Item.height = 40;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true;
+			Item.knockBack = 2;
+			Item.useTurn = false;
+			Item.value = Item.sellPrice(0, 5, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<GtechGrenadeProj>();
+			Item.shootSpeed = 22;
+			Item.noUseGraphic = true;
+			Item.maxStack = 999;
+			Item.consumable = true;
 		}
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe(10);
 			recipe.AddIngredient(ModContent.ItemType<GranitechMaterial>(), 1);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 10);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 
@@ -54,33 +55,33 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 		private const int ACTIVATION_TIME = 40; //How long the projectile takes to activate, slows down and moves in an arc until then
 		private const int DESPAWN_TIME = 10; //How long the projectile takes to shrink before despawning
 
-		private bool DamageAura => projectile.frame > 4;
+		private bool DamageAura => Projectile.frame > 4;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gtech Grenade");
-			Main.projFrames[projectile.type] = 15;
+			Main.projFrames[Projectile.type] = 15;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.penetrate = -1;
-			projectile.hostile = false;
-			projectile.friendly = false;
-			projectile.width = projectile.height = 32;
-			projectile.timeLeft = 300;
-			projectile.tileCollide = true;
+			Projectile.penetrate = -1;
+			Projectile.hostile = false;
+			Projectile.friendly = false;
+			Projectile.width = Projectile.height = 32;
+			Projectile.timeLeft = 300;
+			Projectile.tileCollide = true;
 		}
 
-		private ref float Timer => ref projectile.ai[0];
+		private ref float Timer => ref Projectile.ai[0];
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (Timer < ACTIVATION_TIME)
 			{
 				Timer = ACTIVATION_TIME;
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92).WithPitchVariance(0.2f), projectile.Center);
-				projectile.velocity = Vector2.Zero;
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92).WithPitchVariance(0.2f), Projectile.Center);
+				Projectile.velocity = Vector2.Zero;
 			}
 			return false;
 		}
@@ -93,9 +94,9 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
 				Projectile p = Main.projectile[i];
-				if (p.active && p.friendly && p.DistanceSQ(projectile.Center) < 20 * 20 && p.owner == projectile.owner)
+				if (p.active && p.friendly && p.DistanceSQ(Projectile.Center) < 20 * 20 && p.owner == Projectile.owner)
 				{
-					projectile.Kill();
+					Projectile.Kill();
 					p.velocity *= -1;
 					ProjectileLoader.OnTileCollide(p, -p.velocity);
 					return;
@@ -104,35 +105,35 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 
 			if (Timer < ACTIVATION_TIME)
 			{
-				projectile.velocity *= 0.94f;
+				Projectile.velocity *= 0.94f;
 				float progress = Timer / ACTIVATION_TIME;
 
 				//Travel in an arc, with reduced gravity over time
-				projectile.velocity.Y += 0.6f * (1 - progress);
+				Projectile.velocity.Y += 0.6f * (1 - progress);
 
 				//Ease rotation through multiple circles based on progress, in direction of movement
 				int numFullRotations = 3;
-				projectile.rotation = numFullRotations * MathHelper.TwoPi * EaseFunction.EaseQuadOut.Ease(progress) * (Math.Sign(projectile.velocity.X) > 0 ? 1 : -1);
-				projectile.rotation %= 6.28f;
+				Projectile.rotation = numFullRotations * MathHelper.TwoPi * EaseFunction.EaseQuadOut.Ease(progress) * (Math.Sign(Projectile.velocity.X) > 0 ? 1 : -1);
+				Projectile.rotation %= 6.28f;
 			}
 			else
 			{
 				if (Timer == ACTIVATION_TIME)
-					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92).WithPitchVariance(0.2f), projectile.Center);
+					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92).WithPitchVariance(0.2f), Projectile.Center);
 
-				projectile.velocity = Vector2.Zero;
-				projectile.frameCounter++;
-				projectile.UpdateFrame(12, 7);
+				Projectile.velocity = Vector2.Zero;
+				Projectile.frameCounter++;
+				Projectile.UpdateFrame(12, 7);
 
-				float rotationOffset = DamageAura ? 0 : (float)Math.Sin(projectile.frameCounter * 0.5f) * MathHelper.Lerp(0.05f, 0.02f, projectile.frameCounter / 25f);
-				float rotDifference = ((((0f - projectile.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+				float rotationOffset = DamageAura ? 0 : (float)Math.Sin(Projectile.frameCounter * 0.5f) * MathHelper.Lerp(0.05f, 0.02f, Projectile.frameCounter / 25f);
+				float rotDifference = ((((0f - Projectile.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 
-				projectile.rotation = MathHelper.Lerp(projectile.rotation, projectile.rotation + rotDifference, 0.2f) + rotationOffset;
+				Projectile.rotation = MathHelper.Lerp(Projectile.rotation, Projectile.rotation + rotDifference, 0.2f) + rotationOffset;
 			}
 
 			if (DamageAura)
 			{
-				Lighting.AddLight(projectile.Center, Color.Cyan.ToVector3());
+				Lighting.AddLight(Projectile.Center, Color.Cyan.ToVector3());
 				foreach (NPC npc in Main.npc)
 				{
 					//Ignore if the npc shouldn't be able to be hit
@@ -149,15 +150,15 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			}
 			else
 
-			if (DamageAura && CheckHit() && projectile.timeLeft > DESPAWN_TIME)
+			if (DamageAura && CheckHit() && Projectile.timeLeft > DESPAWN_TIME)
 			{
-				projectile.timeLeft = DESPAWN_TIME;
+				Projectile.timeLeft = DESPAWN_TIME;
 				/*for (int i = 0; i < 6; i++)
 					Dust.NewDustPerfect(projectile.Center, DustID.Electric);*/
 			}
 
-			if (projectile.timeLeft < DESPAWN_TIME)
-				projectile.scale = 1 - (float)Math.Pow(projectile.timeLeft / (float)DESPAWN_TIME, 0.5f);
+			if (Projectile.timeLeft < DESPAWN_TIME)
+				Projectile.scale = 1 - (float)Math.Pow(Projectile.timeLeft / (float)DESPAWN_TIME, 0.5f);
 		}
 
 		private bool CheckHit()
@@ -165,10 +166,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			foreach (Projectile proj in Main.projectile)
 			{
 				//Skip projectiles that aren't friendly, active, or of the same type
-				if (!proj.active || !proj.friendly || proj.type == projectile.type || proj == null)
+				if (!proj.active || !proj.friendly || proj.type == Projectile.type || proj == null)
 					continue;
 
-				if (proj.Colliding(proj.Hitbox, projectile.Hitbox))
+				if (proj.Colliding(proj.Hitbox, Projectile.Hitbox))
 					return true;
 			}
 
@@ -182,7 +183,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 
 			float collisionPoint = 0f;
 			for (float i = 0; i < MathHelper.TwoPi; i += MathHelper.PiOver4)
-				if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + (i.ToRotationVector2() * 50 * projectile.scale), projectile.width, ref collisionPoint))
+				if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + (i.ToRotationVector2() * 50 * Projectile.scale), Projectile.width, ref collisionPoint))
 					return true;
 
 			return false;
@@ -190,38 +191,38 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 94).WithPitchVariance(0.2f).WithVolume(.6f), projectile.Center);
-			Main.PlaySound(SoundID.DD2_SkyDragonsFurySwing, projectile.Center);
-			Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<GtechGrenadeExplode>(), projectile.damage, 0, projectile.owner);
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 94).WithPitchVariance(0.2f).WithVolume(.6f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.DD2_SkyDragonsFurySwing, Projectile.Center);
+			Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GtechGrenadeExplode>(), Projectile.damage, 0, Projectile.owner);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D aura = ModContent.GetTexture(Texture + "_Aura");
+			Texture2D aura = ModContent.Request<Texture2D>(Texture + "_Aura");
 			if (DamageAura)
-				spriteBatch.Draw(aura, projectile.Center - Main.screenPosition, null, Color.White * 0.3f, projectile.rotation, new Vector2(aura.Width, aura.Height) / 2, projectile.scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(aura, Projectile.Center - Main.screenPosition, null, Color.White * 0.3f, Projectile.rotation, new Vector2(aura.Width, aura.Height) / 2, Projectile.scale, SpriteEffects.None, 0f);
 
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			int frameHeight = tex.Height / Main.projFrames[projectile.type];
-			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
+			Rectangle frame = new Rectangle(0, frameHeight * Projectile.frame, tex.Width, frameHeight);
 
 			if (DamageAura)
 			{
 				float startScale = 1f;
 				float endScale = 1.3f;
-				tex = ModContent.GetTexture(Texture + "_Core");
+				tex = ModContent.Request<Texture2D>(Texture + "_Core");
 				for (int i = 0; i < 15; i++)
-					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, Color.Lerp(Color.White * 0.5f, Color.White * 0.2f, i / 15f), projectile.rotation, new Vector2(tex.Width, frameHeight) / 2, projectile.scale * MathHelper.Lerp(startScale, endScale, i / 15f), SpriteEffects.None, 0f);
+					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, Color.Lerp(Color.White * 0.5f, Color.White * 0.2f, i / 15f), Projectile.rotation, new Vector2(tex.Width, frameHeight) / 2, Projectile.scale * MathHelper.Lerp(startScale, endScale, i / 15f), SpriteEffects.None, 0f);
 			}
 
-			tex = Main.projectileTexture[projectile.type];
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, lightColor, projectile.rotation, new Vector2(tex.Width, frameHeight) / 2, projectile.scale, SpriteEffects.None, 0f);
+			tex = TextureAssets.Projectile[Projectile.type].Value;
+			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, lightColor, Projectile.rotation, new Vector2(tex.Width, frameHeight) / 2, Projectile.scale, SpriteEffects.None, 0f);
 
-			tex = ModContent.GetTexture(Texture + "_Glow");
+			tex = ModContent.Request<Texture2D>(Texture + "_Glow");
 			DrawAberration.DrawChromaticAberration(Vector2.UnitY, 2.5f, delegate (Vector2 offset, Color colorMod)
 			{
-				spriteBatch.Draw(tex, projectile.Center + offset - Main.screenPosition, frame, Color.White.MultiplyRGBA(colorMod),
-					projectile.rotation, projectile.DrawFrame().Size() / 2, projectile.scale, SpriteEffects.None, 0);
+				spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, frame, Color.White.MultiplyRGBA(colorMod),
+					Projectile.rotation, Projectile.DrawFrame().Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 			});
 
 			return false;
@@ -230,33 +231,33 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 
 	public class GtechGrenadeExplode : ModProjectile
 	{
-		private bool damaging => projectile.frame >= 2 && projectile.frame < 4;
+		private bool damaging => Projectile.frame >= 2 && Projectile.frame < 4;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gtech Grenade");
-			Main.projFrames[projectile.type] = 9;
+			Main.projFrames[Projectile.type] = 9;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.friendly = true;
-			projectile.width = projectile.height = 20;
-			projectile.timeLeft = 400;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
+			Projectile.width = Projectile.height = 20;
+			Projectile.timeLeft = 400;
 		}
 
 		public override void AI()
 		{
-			Lighting.AddLight(projectile.Center, Color.Cyan.ToVector3());
-			projectile.frameCounter++;
-			if (projectile.frameCounter % 5 == 0)
+			Lighting.AddLight(Projectile.Center, Color.Cyan.ToVector3());
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter % 5 == 0)
 			{
-				projectile.frame++;
-				if (projectile.frame >= Main.projFrames[projectile.type])
-					projectile.active = false;
+				Projectile.frame++;
+				if (Projectile.frame >= Main.projFrames[Projectile.type])
+					Projectile.active = false;
 			}
 		}
 
@@ -267,20 +268,20 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			float collisionPoint = 0f;
 			for (float i = 0; i < 6.28f; i += 0.392f)
 			{
-				if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + (i.ToRotationVector2() * 114), projectile.width, ref collisionPoint))
+				if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + (i.ToRotationVector2() * 114), Projectile.width, ref collisionPoint))
 					return true;
 			}
 			return false;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			int frameHeight = tex.Height / Main.projFrames[projectile.type];
-			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
+			Rectangle frame = new Rectangle(0, frameHeight * Projectile.frame, tex.Width, frameHeight);
 			DrawAberration.DrawChromaticAberration(Vector2.UnitY, 2f, delegate (Vector2 offset, Color colorMod)
 			{
-				spriteBatch.Draw(tex, projectile.Center + offset - Main.screenPosition, frame, Color.White.MultiplyRGBA(colorMod), projectile.rotation, new Vector2(tex.Width, frameHeight) / 2, projectile.scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, frame, Color.White.MultiplyRGBA(colorMod), Projectile.rotation, new Vector2(tex.Width, frameHeight) / 2, Projectile.scale, SpriteEffects.None, 0f);
 			});
 			return false;
 		}

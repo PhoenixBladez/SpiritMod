@@ -11,20 +11,19 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood.DriftwoodArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 38;
-			item.height = 26;
-			item.value = 0;
-			item.rare = ItemRarityID.Blue;
-			item.defense = 1;
+			Item.width = 38;
+			Item.height = 26;
+			Item.value = 0;
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 1;
 		}
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<DriftwoodTileItem>(), 12);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

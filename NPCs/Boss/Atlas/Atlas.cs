@@ -11,6 +11,8 @@ using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs.DoT;
@@ -31,109 +33,109 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Atlas");
-			NPCID.Sets.TrailCacheLength[npc.type] = 6;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
-			Main.npcFrameCount[npc.type] = 6;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 6;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
+			Main.npcFrameCount[NPC.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 290;
-			npc.height = 450;
+			NPC.width = 290;
+			NPC.height = 450;
 			bossBag = ModContent.ItemType<AtlasBag>();
-			npc.damage = 100;
-			npc.lifeMax = 41000;
-			npc.defense = 48;
-			npc.knockBackResist = 0f;
-			npc.boss = true;
-			npc.timeLeft = NPC.activeTime * 30;
+			NPC.damage = 100;
+			NPC.lifeMax = 41000;
+			NPC.defense = 48;
+			NPC.knockBackResist = 0f;
+			NPC.boss = true;
+			NPC.timeLeft = NPC.activeTime * 30;
 
-			npc.buffImmune[BuffID.Confused] = true;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.buffImmune[BuffID.Venom] = true;
-			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
-			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
-			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+			NPC.buffImmune[BuffID.Confused] = true;
+			NPC.buffImmune[BuffID.Poisoned] = true;
+			NPC.buffImmune[BuffID.Venom] = true;
+			NPC.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
+			NPC.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
+			NPC.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
 
-			npc.noGravity = true;
-			npc.alpha = 255;
-			npc.HitSound = SoundID.NPCHit7;
-			npc.DeathSound = SoundID.NPCDeath5;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Atlas");
+			NPC.noGravity = true;
+			NPC.alpha = 255;
+			NPC.HitSound = SoundID.NPCHit7;
+			NPC.DeathSound = SoundID.NPCDeath5;
+            Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Atlas");
         }
 
 		private int Counter;
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.25f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.25f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 		public override void AI()
 		{
 			bool expertMode = Main.expertMode; //expert mode bool
-			Player player = Main.player[npc.target]; //player target
-			bool aiChange = npc.life <= npc.lifeMax * 0.75f; //ai change to phase 2
-			bool aiChange2 = npc.life <= npc.lifeMax * 0.5f; //ai change to phase 3
-			bool aiChange3 = npc.life <= npc.lifeMax * 0.25f; //ai change to phase 4
-			bool phaseChange = npc.life <= npc.lifeMax * 0.1f; //aggression increase
+			Player player = Main.player[NPC.target]; //player target
+			bool aiChange = NPC.life <= NPC.lifeMax * 0.75f; //ai change to phase 2
+			bool aiChange2 = NPC.life <= NPC.lifeMax * 0.5f; //ai change to phase 3
+			bool aiChange3 = NPC.life <= NPC.lifeMax * 0.25f; //ai change to phase 4
+			bool phaseChange = NPC.life <= NPC.lifeMax * 0.1f; //aggression increase
 			player.AddBuff(ModContent.BuffType<UnstableAffliction>(), 2); //buff that causes gravity shit
-			int defenseBuff = (int)(35f * (1f - npc.life / npc.lifeMax));
-			npc.defense = npc.defDefense + defenseBuff;
+			int defenseBuff = (int)(35f * (1f - NPC.life / NPC.lifeMax));
+			NPC.defense = NPC.defDefense + defenseBuff;
 
-			if (npc.ai[0] == 0f) {
-				arms[0] = NPC.NewNPC((int)npc.Center.X - 80 - Main.rand.Next(80, 160), (int)npc.position.Y, ModContent.NPCType<AtlasArmRight>(), npc.whoAmI, npc.whoAmI);
-				arms[1] = NPC.NewNPC((int)npc.Center.X + 80 + Main.rand.Next(80, 160), (int)npc.position.Y, ModContent.NPCType<AtlasArmLeft>(), npc.whoAmI, npc.whoAmI);
-				npc.ai[0] = 1f;
-                npc.netUpdate = true;
+			if (NPC.ai[0] == 0f) {
+				arms[0] = NPC.NewNPC((int)NPC.Center.X - 80 - Main.rand.Next(80, 160), (int)NPC.position.Y, ModContent.NPCType<AtlasArmRight>(), NPC.whoAmI, NPC.whoAmI);
+				arms[1] = NPC.NewNPC((int)NPC.Center.X + 80 + Main.rand.Next(80, 160), (int)NPC.position.Y, ModContent.NPCType<AtlasArmLeft>(), NPC.whoAmI, NPC.whoAmI);
+				NPC.ai[0] = 1f;
+                NPC.netUpdate = true;
                 Main.npc[arms[0]].netUpdate = true;
                 Main.npc[arms[1]].netUpdate = true;
             }
-			else if (npc.ai[0] == 1f) {
-				npc.ai[1] += 1f;
-				if (npc.ai[1] >= 210f) {
-					npc.alpha -= 4;
-					if (npc.alpha <= 0) {
-						npc.ai[0] = 2f;
-						npc.ai[1] = 0f;
-						npc.alpha = 0;
-						npc.velocity.Y = 14f;
-						npc.netUpdate = true;
+			else if (NPC.ai[0] == 1f) {
+				NPC.ai[1] += 1f;
+				if (NPC.ai[1] >= 210f) {
+					NPC.alpha -= 4;
+					if (NPC.alpha <= 0) {
+						NPC.ai[0] = 2f;
+						NPC.ai[1] = 0f;
+						NPC.alpha = 0;
+						NPC.velocity.Y = 14f;
+						NPC.netUpdate = true;
 					}
 				}
 			}
-			else if (npc.ai[0] == 2f) {
-				if (npc.alpha == 0) {
-					Vector2 dist = player.Center - npc.Center;
-					Vector2 direction = player.Center - npc.Center;
-					npc.netUpdate = true;
-					npc.TargetClosest(true);
+			else if (NPC.ai[0] == 2f) {
+				if (NPC.alpha == 0) {
+					Vector2 dist = player.Center - NPC.Center;
+					Vector2 direction = player.Center - NPC.Center;
+					NPC.netUpdate = true;
+					NPC.TargetClosest(true);
 					if (!player.active || player.dead) {
-						npc.TargetClosest(false);
-						npc.velocity.Y = -100f;
+						NPC.TargetClosest(false);
+						NPC.velocity.Y = -100f;
 					}
 
 					#region Dashing mechanics
 					//dash if player is too far away
 					if (Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y)) > 155) {
 						direction.Normalize();
-						npc.velocity *= 0.99f;
-						if (Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) >= 7f) {
-							int dust = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, DustID.Stone, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
+						NPC.velocity *= 0.99f;
+						if (Math.Sqrt((NPC.velocity.X * NPC.velocity.X) + (NPC.velocity.Y * NPC.velocity.Y)) >= 7f) {
+							int dust = Dust.NewDust(NPC.position + NPC.velocity, NPC.width, NPC.height, DustID.Stone, NPC.velocity.X * 0.5f, NPC.velocity.Y * 0.5f);
 							Main.dust[dust].noGravity = true;
-							dust = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, DustID.Stone, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
+							dust = Dust.NewDust(NPC.position + NPC.velocity, NPC.width, NPC.height, DustID.Stone, NPC.velocity.X * 0.5f, NPC.velocity.Y * 0.5f);
 							Main.dust[dust].noGravity = true;
 						}
 
-						if (Math.Sqrt((npc.velocity.X * npc.velocity.X) + (npc.velocity.Y * npc.velocity.Y)) < 2f) {
+						if (Math.Sqrt((NPC.velocity.X * NPC.velocity.X) + (NPC.velocity.Y * NPC.velocity.Y)) < 2f) {
 							if (Main.netMode != NetmodeID.MultiplayerClient) {
 								if (Main.rand.Next(25) == 1) {
 									direction.X *= Main.rand.Next(19, 24);
 									direction.Y *= Main.rand.Next(19, 24);
-									npc.velocity.X = direction.X;
-									npc.velocity.Y = direction.Y;
-									npc.netUpdate = true;
+									NPC.velocity.X = direction.X;
+									NPC.velocity.Y = direction.Y;
+									NPC.netUpdate = true;
 								}
 							}
 						}
@@ -144,7 +146,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 					if (Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y)) < 325) {
 						float speed = expertMode ? 21f : 18f; //made more aggressive.  expert mode is more.  dusking base value is 7
 						float acceleration = expertMode ? 0.16f : 0.13f; //made more aggressive.  expert mode is more.  dusking base value is 0.09
-						Vector2 vector2 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+						Vector2 vector2 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
 						float xDir = player.position.X + (player.width / 2) - vector2.X;
 						float yDir = (float)(player.position.Y + (player.height / 2) - 120) - vector2.Y;
 						float length = (float)Math.Sqrt(xDir * xDir + yDir * yDir);
@@ -163,25 +165,25 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						float num10 = speed / length;
 						xDir *= num10;
 						yDir *= num10;
-						if (npc.velocity.X < xDir) {
-							npc.velocity.X = npc.velocity.X + acceleration;
-							if (npc.velocity.X < 0 && xDir > 0)
-								npc.velocity.X = npc.velocity.X + acceleration;
+						if (NPC.velocity.X < xDir) {
+							NPC.velocity.X = NPC.velocity.X + acceleration;
+							if (NPC.velocity.X < 0 && xDir > 0)
+								NPC.velocity.X = NPC.velocity.X + acceleration;
 						}
-						else if (npc.velocity.X > xDir) {
-							npc.velocity.X = npc.velocity.X - acceleration;
-							if (npc.velocity.X > 0 && xDir < 0)
-								npc.velocity.X = npc.velocity.X - acceleration;
+						else if (NPC.velocity.X > xDir) {
+							NPC.velocity.X = NPC.velocity.X - acceleration;
+							if (NPC.velocity.X > 0 && xDir < 0)
+								NPC.velocity.X = NPC.velocity.X - acceleration;
 						}
-						if (npc.velocity.Y < yDir) {
-							npc.velocity.Y = npc.velocity.Y + acceleration;
-							if (npc.velocity.Y < 0 && yDir > 0)
-								npc.velocity.Y = npc.velocity.Y + acceleration;
+						if (NPC.velocity.Y < yDir) {
+							NPC.velocity.Y = NPC.velocity.Y + acceleration;
+							if (NPC.velocity.Y < 0 && yDir > 0)
+								NPC.velocity.Y = NPC.velocity.Y + acceleration;
 						}
-						else if (npc.velocity.Y > yDir) {
-							npc.velocity.Y = npc.velocity.Y - acceleration;
-							if (npc.velocity.Y > 0 && yDir < 0)
-								npc.velocity.Y = npc.velocity.Y - acceleration;
+						else if (NPC.velocity.Y > yDir) {
+							NPC.velocity.Y = NPC.velocity.Y - acceleration;
+							if (NPC.velocity.Y > 0 && yDir < 0)
+								NPC.velocity.Y = NPC.velocity.Y - acceleration;
 						}
 					}
 					#endregion
@@ -193,15 +195,15 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						direction.Y *= 8f;
 						int amountOfProjectiles = Main.rand.Next(6, 8);
 						int damageAmount = expertMode ? 54 : 62; //always account for expert damage values
-						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 92);
+						SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 92);
 						for (int num621 = 0; num621 < 30; num621++) {
-							Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Electric, 0f, 0f, 100, default, 2f);
+							Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Electric, 0f, 0f, 100, default, 2f);
 						}
 						if (Main.netMode != NetmodeID.MultiplayerClient) {
 							for (int i = 0; i < amountOfProjectiles; ++i) {
 								float A = Main.rand.Next(-250, 250) * 0.01f;
 								float B = Main.rand.Next(-250, 250) * 0.01f;
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<PrismaticBoltHostile>(), damageAmount, 1, Main.myPlayer);
+								Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<PrismaticBoltHostile>(), damageAmount, 1, Main.myPlayer);
 								timer = 0;
 							}
 						}
@@ -209,12 +211,12 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 					if (aiChange) {
 						if (secondStage == false) {
-							Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 93);
+							SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 93);
 							float radius = 250;
 							float rot = MathHelper.TwoPi / 5;
 							for (int I = 0; I < 5; I++) {
-								Vector2 position = npc.Center + radius * (I * rot).ToRotationVector2();
-								NPC.NewNPC((int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye>(), npc.whoAmI, npc.whoAmI, I * rot, radius);
+								Vector2 position = NPC.Center + radius * (I * rot).ToRotationVector2();
+								NPC.NewNPC((int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye>(), NPC.whoAmI, NPC.whoAmI, I * rot, radius);
 							}
 							secondStage = true;
 						}
@@ -222,12 +224,12 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 					if (aiChange2) {
 						if (thirdStage == false) {
-							Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 93);
+							SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 93);
 							float radius = 400;
 							float rot = MathHelper.TwoPi / 10;
 							for (int I = 0; I < 10; I++) {
-								Vector2 position = npc.Center + radius * (I * rot).ToRotationVector2();
-								NPC.NewNPC((int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye2>(), npc.whoAmI, npc.whoAmI, I * rot, radius);
+								Vector2 position = NPC.Center + radius * (I * rot).ToRotationVector2();
+								NPC.NewNPC((int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye2>(), NPC.whoAmI, NPC.whoAmI, I * rot, radius);
 							}
 							thirdStage = true;
 						}
@@ -235,21 +237,21 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 					if (aiChange3) {
 						if (lastStage == false) {
-							Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 93);
+							SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 93);
 							float radius = 1200;
 							float rot = MathHelper.TwoPi / 41;
 							for (int I = 0; I < 41; I++) {
-								Vector2 position = npc.Center + radius * (I * rot).ToRotationVector2();
-								NPC.NewNPC((int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye3>(), npc.whoAmI, npc.whoAmI, I * rot, radius);
+								Vector2 position = NPC.Center + radius * (I * rot).ToRotationVector2();
+								NPC.NewNPC((int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye3>(), NPC.whoAmI, NPC.whoAmI, I * rot, radius);
 							}
 							lastStage = true;
 						}
 					}
 					for (int index1 = 0; index1 < 6; ++index1) {
-						float x = (npc.Center.X - 2);
-						float xnum2 = (npc.Center.X + 2);
-						float y = (npc.Center.Y - 160);
-						if (npc.direction == -1) {
+						float x = (NPC.Center.X - 2);
+						float xnum2 = (NPC.Center.X + 2);
+						float y = (NPC.Center.Y - 160);
+						if (NPC.direction == -1) {
 							int index2 = Dust.NewDust(new Vector2(x, y), 1, 1, DustID.Electric, 0.0f, 0.0f, 0, new Color(), 1f);
 							Main.dust[index2].position.X = x;
 							Main.dust[index2].position.Y = y;
@@ -258,7 +260,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 							Main.dust[index2].noGravity = true;
 							Main.dust[index2].noLight = false;
 						}
-						else if (npc.direction == 1) {
+						else if (NPC.direction == 1) {
 							int index2 = Dust.NewDust(new Vector2(xnum2, y), 1, 1, DustID.Electric, 0.0f, 0.0f, 0, new Color(), 1f);
 							Main.dust[index2].position.X = xnum2;
 							Main.dust[index2].position.Y = y;
@@ -273,13 +275,13 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 			collideTimer++;
 			if (collideTimer == 500) {
-				npc.noTileCollide = true;
+				NPC.noTileCollide = true;
 			}
 
-			npc.TargetClosest(true);
+			NPC.TargetClosest(true);
 			if (!player.active || player.dead) {
-				npc.TargetClosest(false);
-				npc.velocity.Y = -100f;
+				NPC.TargetClosest(false);
+				NPC.velocity.Y = -100f;
 				timer = 0;
 			}
 
@@ -292,22 +294,22 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.85f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.65f);
+			NPC.lifeMax = (int)(NPC.lifeMax * 0.85f * bossLifeScale);
+			NPC.damage = (int)(NPC.damage * 0.65f);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Stone, hitDirection, -1f, 0, default, 1f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, hitDirection, -1f, 0, default, 1f);
 			}
-			if (npc.life <= 0) {
-				npc.position = npc.Center;
-				npc.width = 300;
-				npc.height = 500;
-				npc.position = npc.Center;
+			if (NPC.life <= 0) {
+				NPC.position = NPC.Center;
+				NPC.width = 300;
+				NPC.height = 500;
+				NPC.position = NPC.Center;
 				for (int num621 = 0; num621 < 200; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 2f);
+					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
@@ -315,38 +317,38 @@ namespace SpiritMod.NPCs.Boss.Atlas
 					}
 				}
 				for (int num623 = 0; num623 < 400; num623++) {
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 3f);
+					int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 2f);
+					num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-			lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+			lightColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-			=> GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Atlas/Atlas_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+			=> GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Boss/Atlas/Atlas_Glow"));
 
-		public override bool PreNPCLoot()
+		public override bool PreKill()
 		{
 			MyWorld.downedAtlas = true;
 			return true;
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.expertMode) {
-				npc.DropBossBags();
+				NPC.DropBossBags();
 				return;
 			}
 
-			npc.DropItem(ModContent.ItemType<ArcaneGeyser>(), Main.rand.Next(32, 44));
+			NPC.DropItem(ModContent.ItemType<ArcaneGeyser>(), Main.rand.Next(32, 44));
 
 			int[] lootTable = {
 				ModContent.ItemType<Mountain>(),
@@ -356,21 +358,21 @@ namespace SpiritMod.NPCs.Boss.Atlas
 				ModContent.ItemType<Earthshatter>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
-			npc.DropItem(lootTable[loot]);
-            npc.DropItem(ModContent.ItemType<AtlasMask>(), 1f / 7);
-			npc.DropItem(ModContent.ItemType<Trophy8>(), 1f / 10);
+			NPC.DropItem(lootTable[loot]);
+            NPC.DropItem(ModContent.ItemType<AtlasMask>(), 1f / 7);
+			NPC.DropItem(ModContent.ItemType<Trophy8>(), 1f / 10);
 
             string[] lootTable1 = { "JackHead", "JackBody", "JackLegs" };
             int loot1 = Main.rand.Next(lootTable1.Length);
             if (Main.rand.NextBool(12))
             {
-                npc.DropItem(mod.ItemType(lootTable1[loot1]));
+                NPC.DropItem(Mod.Find<ModItem>(lootTable1[loot1]).Type);
             }
         }
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
-			if (npc.ai[0] < 2f)
+			if (NPC.ai[0] < 2f)
 				return false;
 
 			return base.CanHitPlayer(target, ref cooldownSlot);

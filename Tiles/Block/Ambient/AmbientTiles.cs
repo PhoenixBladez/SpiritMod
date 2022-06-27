@@ -13,40 +13,38 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{		
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<Magmastone_Tile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<Magmastone_Tile>();
         }
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(50);
 			recipe.AddIngredient(ItemID.StoneBlock, 50);
 			recipe.AddIngredient(ItemID.AshBlock, 1);
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 50);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.StoneBlock, 50);
 			recipe1.AddIngredient(this, 50);
 			recipe1.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe1.SetResult(ItemID.StoneBlock, 50);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
     }
     public class Magmastone_Tile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -55,10 +53,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
             AddMapEntry(new Color(79, 55, 59));
-			drop = ModContent.ItemType<MagmastoneItem>();
+			ItemDrop = ModContent.ItemType<MagmastoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Magmastone");
-			dustType = DustID.Fire;
+			DustType = DustID.Fire;
         }
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -75,9 +73,9 @@ namespace SpiritMod.Tiles.Block.Ambient
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			if (tile.slope() == 0 && !tile.halfBrick())
-				Main.spriteBatch.Draw(mod.GetTexture("Tiles/Block/Ambient/Magmastone_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			if (tile.Slope == 0 && !tile.IsHalfBlock)
+				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Block/Ambient/Magmastone_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
     }
     public class SmolderingRockItem : AmbientStoneItem
@@ -86,39 +84,37 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<SmolderingRock_Tile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<SmolderingRock_Tile>();
         }
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(50);
 			recipe.AddIngredient(ItemID.StoneBlock, 50);
 			recipe.AddIngredient(ItemID.AshBlock, 1);
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 50);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.StoneBlock, 50);
 			recipe1.AddIngredient(this, 50);
 			recipe1.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe1.SetResult(ItemID.StoneBlock, 50);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
     }
     public class SmolderingRock_Tile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -127,10 +123,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
             AddMapEntry(new Color(79, 55, 59));
-			drop = ModContent.ItemType<SmolderingRockItem>();
+			ItemDrop = ModContent.ItemType<SmolderingRockItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Magmastone");
-			dustType = DustID.Fire;
+			DustType = DustID.Fire;
         }
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -147,9 +143,9 @@ namespace SpiritMod.Tiles.Block.Ambient
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			if (tile.slope() == 0 && !tile.halfBrick())
-				Main.spriteBatch.Draw(mod.GetTexture("Tiles/Block/Ambient/SmolderingRock_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			if (tile.Slope == 0 && !tile.IsHalfBlock)
+				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Block/Ambient/SmolderingRock_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
     }
     public class CinderstoneItem : AmbientStoneItem
@@ -158,39 +154,37 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<CinderstoneTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<CinderstoneTile>();
         }
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(50);
 			recipe.AddIngredient(ItemID.StoneBlock, 50);
 			recipe.AddIngredient(ItemID.AshBlock, 1);
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 50);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.StoneBlock, 50);
 			recipe1.AddIngredient(this, 50);
 			recipe1.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe1.SetResult(ItemID.StoneBlock, 50);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}		
     }
     public class CinderstoneTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -199,10 +193,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
             AddMapEntry(new Color(79, 55, 59));
-			drop = ModContent.ItemType<CinderstoneItem>();
+			ItemDrop = ModContent.ItemType<CinderstoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Cinderstone");
-			dustType = DustID.Fire;
+			DustType = DustID.Fire;
         }
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -219,9 +213,9 @@ namespace SpiritMod.Tiles.Block.Ambient
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			if (tile.slope() == 0 && !tile.halfBrick()) 
-				Main.spriteBatch.Draw(mod.GetTexture("Tiles/Block/Ambient/Cinderstone_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			if (tile.Slope == 0 && !tile.IsHalfBlock) 
+				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Block/Ambient/Cinderstone_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
     }
     public class MottledStoneItem : AmbientStoneItem
@@ -230,25 +224,25 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<MottledStone_Tile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<MottledStone_Tile>();
         }
     }
 
     public class MottledStone_Tile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -256,10 +250,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			soundType = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(60, 60, 60));
-			drop = ModContent.ItemType<MottledStoneItem>();
+			ItemDrop = ModContent.ItemType<MottledStoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Mottled Stone");
-			dustType = DustID.Wraith;
+			DustType = DustID.Wraith;
         }
     }
 
@@ -269,25 +263,25 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<AzureBlock_Tile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<AzureBlock_Tile>();
         }
     }
 
     public class AzureBlock_Tile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -296,10 +290,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
             AddMapEntry(new Color(79, 55, 59));
-			drop = ModContent.ItemType<AzureGemBlockItem>();
+			ItemDrop = ModContent.ItemType<AzureGemBlockItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Azure Block");
-			dustType = DustID.Flare_Blue;
+			DustType = DustID.Flare_Blue;
         }
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -316,9 +310,9 @@ namespace SpiritMod.Tiles.Block.Ambient
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			if (tile.slope() == 0 && !tile.halfBrick())
-				Main.spriteBatch.Draw(mod.GetTexture("Tiles/Block/Ambient/AzureBlock_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			if (tile.Slope == 0 && !tile.IsHalfBlock)
+				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Block/Ambient/AzureBlock_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
     }
 
@@ -328,39 +322,37 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<ObsidianBlockTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<ObsidianBlockTile>();
         }
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(50);
 			recipe.AddIngredient(ItemID.StoneBlock, 50);
 			recipe.AddIngredient(ItemID.Obsidian, 1);
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 50);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.StoneBlock, 50);
 			recipe1.AddIngredient(this, 50);
 			recipe1.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe1.SetResult(ItemID.StoneBlock, 50);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}		
     }
     public class ObsidianBlockTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -368,10 +360,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			soundType = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(60, 60, 60));
-			drop = ModContent.ItemType<ObsidianBlockItem>();
+			ItemDrop = ModContent.ItemType<ObsidianBlockItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Obsidian Stone");
-			dustType = DustID.Wraith;
+			DustType = DustID.Wraith;
         }
     }
     public class OldStoneItem : AmbientStoneItem
@@ -380,24 +372,24 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<OldStone_Tile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<OldStone_Tile>();
         }
     }
     public class OldStone_Tile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -405,10 +397,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			soundType = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(74, 60, 50));
-			drop = ModContent.ItemType<OldStoneItem>();
+			ItemDrop = ModContent.ItemType<OldStoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Old Stone");
-			dustType = DustID.Iron;
+			DustType = DustID.Iron;
         }
     }
  	public class OutlandStoneItem : AmbientStoneItem
@@ -417,24 +409,24 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<OutlandStoneTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<OutlandStoneTile>();
         }
     }
     public class OutlandStoneTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -442,10 +434,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			soundType = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(74, 60, 50));
-			drop = ModContent.ItemType<OutlandStoneItem>();
+			ItemDrop = ModContent.ItemType<OutlandStoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Outland Stone");
-			dustType = DustID.Wraith;
+			DustType = DustID.Wraith;
         }
     }
 
@@ -455,25 +447,25 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<Ruinstone_Tile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<Ruinstone_Tile>();
         }
     }
 
     public class Ruinstone_Tile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -481,10 +473,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			soundType = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(115, 76, 48));
-			drop = ModContent.ItemType<RuinstoneItem>();
+			ItemDrop = ModContent.ItemType<RuinstoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Ruined Stone");
-			dustType = DustID.Mud;
+			DustType = DustID.Mud;
         }
     }
 
@@ -494,25 +486,25 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<Vinestone_Tile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<Vinestone_Tile>();
         }
     }
 
     public class Vinestone_Tile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -520,10 +512,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			soundType = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(69, 74, 60));
-			drop = ModContent.ItemType<VinestoneItem>();
+			ItemDrop = ModContent.ItemType<VinestoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Vinestone");
-			dustType = DustID.Mud;
+			DustType = DustID.Mud;
         }
     }
 
@@ -533,25 +525,25 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<WornStone_Tile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<WornStone_Tile>();
         }
     }
 
     public class WornStone_Tile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -559,10 +551,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			soundType = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(100, 100, 100));
-			drop = ModContent.ItemType<WornStoneItem>();
+			ItemDrop = ModContent.ItemType<WornStoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Worn Stone");
-			dustType = DustID.Stone;
+			DustType = DustID.Stone;
         }
     }    
 
@@ -572,24 +564,24 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<IvyStoneTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<IvyStoneTile>();
         }
     }
     public class IvyStoneTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -597,10 +589,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			soundType = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(100, 100, 100));
-			drop = ModContent.ItemType<IvyStoneItem>();
+			ItemDrop = ModContent.ItemType<IvyStoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Ivy Stone");
-			dustType = DustID.Stone;
+			DustType = DustID.Stone;
         }
     }    
 
@@ -610,35 +602,35 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<CorruptPustule_Tile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<CorruptPustule_Tile>();
         }
     }
 
     public class CorruptPustule_Tile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(80, 55, 82));
-			drop = ModContent.ItemType<CorruptPustuleItem>();
+			ItemDrop = ModContent.ItemType<CorruptPustuleItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrupt Pustule");
-			dustType = DustID.Corruption_Gravity;
+			DustType = DustID.Corruption_Gravity;
         	Main.tileLighted[Type] = true;
         }
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -654,9 +646,9 @@ namespace SpiritMod.Tiles.Block.Ambient
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			if (tile.slope() == 0 && !tile.halfBrick()) {
-				Main.spriteBatch.Draw(mod.GetTexture("Tiles/Block/Ambient/CorruptPustule_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), new Color(100, 100, 100, 60), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			if (tile.Slope == 0 && !tile.IsHalfBlock) {
+				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Block/Ambient/CorruptPustule_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 60), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
 		}
     }
@@ -668,24 +660,24 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<DarkFoliageTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<DarkFoliageTile>();
         }
     }
     public class DarkFoliageTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -693,10 +685,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileBlockLight[Type] = true;
 			soundType = SoundID.Grass;
             AddMapEntry(new Color(80, 55, 82));
-			drop = ModContent.ItemType<DarkFoliageItem>();
+			ItemDrop = ModContent.ItemType<DarkFoliageItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Dark Foliage");
-			dustType = DustID.Corruption_Gravity;
+			DustType = DustID.Corruption_Gravity;
         }
     }
 	public class CorruptOvergrowthItem : AmbientCorruptItem
@@ -707,34 +699,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<CorruptOvergrowthTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<CorruptOvergrowthTile>();
         }
     }
     public class CorruptOvergrowthTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(80, 55, 82));
-			drop = ModContent.ItemType<CorruptOvergrowthItem>();
+			ItemDrop = ModContent.ItemType<CorruptOvergrowthItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrupt Overgrowth");
-			dustType = DustID.Corruption_Gravity;
+			DustType = DustID.Corruption_Gravity;
         }
     }
 	public class CorruptTendrilItem : AmbientCorruptItem
@@ -742,34 +734,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Corrupt Tendril");
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<CorruptTendrilTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<CorruptTendrilTile>();
         }
     }
     public class CorruptTendrilTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(80, 55, 82));
-			drop = ModContent.ItemType<CorruptTendrilItem>();
+			ItemDrop = ModContent.ItemType<CorruptTendrilItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrupt Tendril");
-			dustType = DustID.Corruption_Gravity;
+			DustType = DustID.Corruption_Gravity;
         }
     }
 	public class CorruptMassItem : AmbientCorruptItem
@@ -780,34 +772,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<CorruptMassTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<CorruptMassTile>();
         }
     }
     public class CorruptMassTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(80, 55, 82));
-			drop = ModContent.ItemType<CorruptMassItem>();
+			ItemDrop = ModContent.ItemType<CorruptMassItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrupt Mass");
-			dustType = DustID.Corruption_Gravity;
+			DustType = DustID.Corruption_Gravity;
         }
     }
     public class StalactiteStoneItem : AmbientStoneItem
@@ -818,24 +810,24 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<StalactiteStone_Tile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<StalactiteStone_Tile>();
         }
     }
     public class StalactiteStone_Tile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -843,10 +835,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			soundType = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(100, 100, 100));
-			drop = ModContent.ItemType<StalactiteStoneItem>();
+			ItemDrop = ModContent.ItemType<StalactiteStoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Stalactite Stone");
-			dustType = DustID.Stone;
+			DustType = DustID.Stone;
         }
     }
 	public class CragstoneItem : AmbientStoneItem
@@ -857,24 +849,24 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<CragstoneTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<CragstoneTile>();
         }
     }
     public class CragstoneTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -882,10 +874,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			soundType = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(100, 100, 100));
-			drop = ModContent.ItemType<CragstoneItem>();
+			ItemDrop = ModContent.ItemType<CragstoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Cragstone");
-			dustType = DustID.Stone;
+			DustType = DustID.Stone;
         }
     }
 	public class FracturedStoneItem : AmbientStoneItem
@@ -896,24 +888,24 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<FracturedStoneTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<FracturedStoneTile>();
         }
     }
     public class FracturedStoneTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -921,10 +913,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			soundType = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(100, 100, 100));
-			drop = ModContent.ItemType<FracturedStoneItem>();
+			ItemDrop = ModContent.ItemType<FracturedStoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Fractured Stone");
-			dustType = DustID.Stone;
+			DustType = DustID.Stone;
         }
     }
 	public class LeafyDirtItem : AmbientLeafItem
@@ -935,34 +927,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<LeafyDirtTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<LeafyDirtTile>();
         }
     }
     public class LeafyDirtTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(115, 87, 62));
-			drop = ModContent.ItemType<LeafyDirtItem>();
+			ItemDrop = ModContent.ItemType<LeafyDirtItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Leafy Dirt");
-			dustType = DustID.Dirt;
+			DustType = DustID.Dirt;
         }
     }
 	public class ForestFoliageItem : AmbientLeafItem
@@ -973,34 +965,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<ForestFoliageTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<ForestFoliageTile>();
         }
     }
     public class ForestFoliageTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(57, 128, 78));
-			drop = ModContent.ItemType<ForestFoliageItem>();
+			ItemDrop = ModContent.ItemType<ForestFoliageItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Forest Foliage");
-			dustType = DustID.Grass;
+			DustType = DustID.Grass;
         }
     }
 	public class FloweryFoliageItem : AmbientLeafItem
@@ -1011,34 +1003,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<FloweryFoliageTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<FloweryFoliageTile>();
         }
     }
     public class FloweryFoliageTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(57, 128, 78));
-			drop = ModContent.ItemType<FloweryFoliageItem>();
+			ItemDrop = ModContent.ItemType<FloweryFoliageItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Flowery Foliage");
-			dustType = DustID.Grass;
+			DustType = DustID.Grass;
         }
     }
 	public class JungleFoliageItem : AmbientLeafItem
@@ -1049,34 +1041,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<JungleFoliageTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<JungleFoliageTile>();
         }
     }
     public class JungleFoliageTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(66, 122, 49));
-			drop = ModContent.ItemType<JungleFoliageItem>();
+			ItemDrop = ModContent.ItemType<JungleFoliageItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Jungle Foliage");
-			dustType = DustID.Vile;
+			DustType = DustID.Vile;
         }
     }
 	public class CrumblingDirtItem : AmbientDirtItem
@@ -1087,34 +1079,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<CrumblingDirtTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<CrumblingDirtTile>();
         }
     }
     public class CrumblingDirtTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(115, 87, 62));
-			drop = ModContent.ItemType<CrumblingDirtItem>();
+			ItemDrop = ModContent.ItemType<CrumblingDirtItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Crumbling Dirt");
-			dustType = DustID.Dirt;
+			DustType = DustID.Dirt;
         }
     }
 
@@ -1126,34 +1118,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<CrackedDirtTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<CrackedDirtTile>();
         }
     }
     public class CrackedDirtTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(115, 87, 62));
-			drop = ModContent.ItemType<CrackedDirtItem>();
+			ItemDrop = ModContent.ItemType<CrackedDirtItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Cracked Dirt");
-			dustType = DustID.Dirt;
+			DustType = DustID.Dirt;
         }
     }
 	public class RoughDirtItem : AmbientDirtItem
@@ -1164,34 +1156,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<RoughDirtTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<RoughDirtTile>();
         }
     }
     public class RoughDirtTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(115, 87, 62));
-			drop = ModContent.ItemType<RoughDirtItem>();
+			ItemDrop = ModContent.ItemType<RoughDirtItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Rough Dirt");
-			dustType = DustID.Dirt;
+			DustType = DustID.Dirt;
         }
     }
 	public class RockyDirtItem : AmbientDirtItem
@@ -1202,34 +1194,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<RockyDirtTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<RockyDirtTile>();
         }
     }
     public class RockyDirtTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(115, 87, 62));
-			drop = ModContent.ItemType<RockyDirtItem>();
+			ItemDrop = ModContent.ItemType<RockyDirtItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Rocky Dirt");
-			dustType = DustID.Dirt;
+			DustType = DustID.Dirt;
         }
     }
 	public class LayeredDirtItem : AmbientDirtItem
@@ -1240,34 +1232,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<LayeredDirtTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<LayeredDirtTile>();
         }
     }
     public class LayeredDirtTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(115, 87, 62));
-			drop = ModContent.ItemType<LayeredDirtItem>();
+			ItemDrop = ModContent.ItemType<LayeredDirtItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Layered Dirt");
-			dustType = DustID.Dirt;
+			DustType = DustID.Dirt;
         }
     }
 	public class CaveDirtItem : AmbientDirtItem
@@ -1278,34 +1270,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<CaveDirtTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<CaveDirtTile>();
         }
     }
     public class CaveDirtTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(115, 87, 62));
-			drop = ModContent.ItemType<CaveDirtItem>();
+			ItemDrop = ModContent.ItemType<CaveDirtItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Cave Dirt");
-			dustType = DustID.Dirt;
+			DustType = DustID.Dirt;
         }
     }
 	public class WavyDirtItem : AmbientDirtItem
@@ -1316,34 +1308,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<WavyDirtTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<WavyDirtTile>();
         }
     }
     public class WavyDirtTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(115, 87, 62));
-			drop = ModContent.ItemType<WavyDirtItem>();
+			ItemDrop = ModContent.ItemType<WavyDirtItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Wavy Dirt");
-			dustType = DustID.Dirt;
+			DustType = DustID.Dirt;
         }
     }
 
@@ -1353,35 +1345,35 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<CrimsonPustuleBlockTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<CrimsonPustuleBlockTile>();
         }
     }
 
     public class CrimsonPustuleBlockTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(92, 36, 49));
-			drop = ModContent.ItemType<CrimsonPustuleItem>();
+			ItemDrop = ModContent.ItemType<CrimsonPustuleItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Crimson Pustule");
-			dustType = DustID.Blood;
+			DustType = DustID.Blood;
         }
     }
 
@@ -1393,35 +1385,35 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<CrimsonScabTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<CrimsonScabTile>();
         }
     }
 
     public class CrimsonScabTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(92, 36, 49));
-			drop = ModContent.ItemType<CrimsonScabItem>();
+			ItemDrop = ModContent.ItemType<CrimsonScabItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Crimson Scab");
-			dustType = DustID.Blood;
+			DustType = DustID.Blood;
         }
     }
 
@@ -1431,25 +1423,25 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<BloodyFoliageTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<BloodyFoliageTile>();
         }
     }
 
     public class BloodyFoliageTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -1457,10 +1449,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileBlockLight[Type] = true;
 			soundType = SoundID.Grass;
             AddMapEntry(new Color(92, 36, 49));
-			drop = ModContent.ItemType<BloodyFoliageItem>();
+			ItemDrop = ModContent.ItemType<BloodyFoliageItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Bloody Foliage");
-			dustType = DustID.Blood;
+			DustType = DustID.Blood;
         }
     }
 
@@ -1469,35 +1461,35 @@ namespace SpiritMod.Tiles.Block.Ambient
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Crimson Blister");
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<CrimsonBlisterTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<CrimsonBlisterTile>();
         }
     }
 
     public class CrimsonBlisterTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(92, 36, 49));
-			drop = ModContent.ItemType<CrimsonBlisterItem>();
+			ItemDrop = ModContent.ItemType<CrimsonBlisterItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Crimson Blister");
-			dustType = DustID.Blood;
+			DustType = DustID.Blood;
 			Main.tileLighted[Type] = true;
         }
 
@@ -1514,9 +1506,9 @@ namespace SpiritMod.Tiles.Block.Ambient
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			if (tile.slope() == 0 && !tile.halfBrick()) {
-				Main.spriteBatch.Draw(mod.GetTexture("Tiles/Block/Ambient/CrimsonBlister_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), new Color(100, 100, 100, 60), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			if (tile.Slope == 0 && !tile.IsHalfBlock) {
+				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Block/Ambient/CrimsonBlister_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 60), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
 		}
     }
@@ -1529,34 +1521,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<HallowPrismstoneTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<HallowPrismstoneTile>();
         }
     }
     public class HallowPrismstoneTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(94, 40, 117));
-			drop = ModContent.ItemType<HallowPrismstoneItem>();
+			ItemDrop = ModContent.ItemType<HallowPrismstoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Hallowed Prismstone");
-			dustType = DustID.PinkCrystalShard;
+			DustType = DustID.PinkCrystalShard;
         	Main.tileLighted[Type] = true;
         }
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -1574,34 +1566,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<HallowCavernstoneTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<HallowCavernstoneTile>();
         }
     }
     public class HallowCavernstoneTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(94, 40, 117));
-			drop = ModContent.ItemType<HallowCavernstoneItem>();
+			ItemDrop = ModContent.ItemType<HallowCavernstoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Hallowed Cavernstone");
-			dustType = DustID.SnowBlock;
+			DustType = DustID.SnowBlock;
         }
 	}
 	public class HallowFoliageItem : AmbientLeafItem
@@ -1612,24 +1604,24 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<HallowFoliageTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<HallowFoliageTile>();
         }
     }
     public class HallowFoliageTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -1637,10 +1629,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileBlockLight[Type] = true;
 			soundType = SoundID.Grass;
             AddMapEntry(new Color(39, 132, 168));
-			drop = ModContent.ItemType<HallowFoliageItem>();
+			ItemDrop = ModContent.ItemType<HallowFoliageItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Hallowed Foliage");
-			dustType = DustID.Moss_Green;
+			DustType = DustID.Moss_Green;
         }
 	}
 	public class HallowShardstoneItem : AmbientHallowItem
@@ -1651,34 +1643,34 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<HallowShardstoneTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<HallowShardstoneTile>();
         }
     }
     public class HallowShardstoneTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(94, 40, 117));
-			drop = ModContent.ItemType<HallowShardstoneItem>();
+			ItemDrop = ModContent.ItemType<HallowShardstoneItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Hallowed Shardstone");
-			dustType = DustID.PinkCrystalShard;
+			DustType = DustID.PinkCrystalShard;
         }
 	}
 	public class HallowCrystallineItem : AmbientHallowItem
@@ -1687,35 +1679,35 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<HallowCrystallineTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<HallowCrystallineTile>();
         }
     }
 
     public class HallowCrystallineTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(94, 40, 117));
-			drop = ModContent.ItemType<HallowCrystallineItem>();
+			ItemDrop = ModContent.ItemType<HallowCrystallineItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Hallowed Crystalline Stone");
-			dustType = DustID.PinkCrystalShard;
+			DustType = DustID.PinkCrystalShard;
         }
 	}
 
@@ -1725,48 +1717,46 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<HiveBlockAltTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<HiveBlockAltTile>();
         }
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.Hive, 1);
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.Hive, 1);
 			recipe1.AddIngredient(this, 1);
 			recipe1.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe1.SetResult(ItemID.Hive, 1);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
     }
     public class HiveBlockAltTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(94, 40, 117));
-			drop = ModContent.ItemType<HiveBlockAltItem>();
+			ItemDrop = ModContent.ItemType<HiveBlockAltItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Hive Hexblock");
-			dustType = 7;
+			DustType = 7;
         }
 	}
 	public class RuneBlockItem : ModItem
@@ -1775,50 +1765,48 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<RuneBlockTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<RuneBlockTile>();
         }
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.ArcaneRuneWall, 4);
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.ArcaneRuneWall, 1);
 			recipe1.AddIngredient(this, 1);
 			recipe1.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe1.SetResult(ItemID.ArcaneRuneWall, 1);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
     }
 
     public class RuneBlockTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(99, 45, 117));
-			drop = ModContent.ItemType<RuneBlockItem>();
+			ItemDrop = ModContent.ItemType<RuneBlockItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Arcane Rune Block");
-			dustType = DustID.CorruptionThorns;
+			DustType = DustID.CorruptionThorns;
         }
 	}
 
@@ -1828,49 +1816,47 @@ namespace SpiritMod.Tiles.Block.Ambient
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-            item.createTile = ModContent.TileType<KrampusHornBlockTile>();
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+            Item.createTile = ModContent.TileType<KrampusHornBlockTile>();
         }
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.KrampusHornWallpaper, 4);
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.KrampusHornWallpaper, 1);
 			recipe1.AddIngredient(this, 1);
 			recipe1.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe1.SetResult(ItemID.KrampusHornWallpaper, 1);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
     }
 
     public class KrampusHornBlockTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(200, 200, 200));
-			drop = ModContent.ItemType<KrampusHornBlockItem>();
+			ItemDrop = ModContent.ItemType<KrampusHornBlockItem>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Krampus Horn Block");
-			dustType = DustID.Sand;
+			DustType = DustID.Sand;
         }
 	}
 }

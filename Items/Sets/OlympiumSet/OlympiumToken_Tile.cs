@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet
 {
 	public class OlympiumToken_Tile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileSolidTop[Type] = true;
@@ -17,12 +17,12 @@ namespace SpiritMod.Items.Sets.OlympiumSet
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.addTile(Type);
-			drop = ModContent.ItemType<Items.Sets.OlympiumSet.OlympiumToken>();
-			adjTiles = new int[] { TileID.MetalBars };
+			ItemDrop = ModContent.ItemType<Items.Sets.OlympiumSet.OlympiumToken>();
+			AdjTiles = new int[] { TileID.MetalBars };
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Olympium Token");
 			AddMapEntry(new Color(200, 200, 200), name);
-			dustType = -1;
+			DustType = -1;
 			soundType = SoundID.Coins;
 		}
 	}

@@ -10,18 +10,18 @@ namespace SpiritMod.Items.Sets.PirateStuff
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 28;
-			item.value = 500;
-			item.maxStack = 99;
-			item.useTime = 10;
-			item.useAnimation = 15;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.createTile = ModContent.TileType<OceanPirateChest>();
-			item.placeStyle = 0;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.width = 32;
+			Item.height = 28;
+			Item.value = 500;
+			Item.maxStack = 99;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.createTile = ModContent.TileType<OceanPirateChest>();
+			Item.placeStyle = 0;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 		}
 	}
 }

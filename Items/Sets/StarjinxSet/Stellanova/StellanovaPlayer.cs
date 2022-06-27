@@ -20,13 +20,13 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		//Helper properties
 		private string GlowmaskPath => TexturePath + "Glow";
 
-		private bool CanDraw => player.shadow == 0f && !player.frozen && player.itemAnimation > 0 && !player.dead;
-		private int CurFrame => (int)(NumFrames * ((player.HeldItem.useAnimation - player.itemAnimation) / (float)player.HeldItem.useAnimation));
+		private bool CanDraw => Player.shadow == 0f && !Player.frozen && Player.itemAnimation > 0 && !Player.dead;
+		private int CurFrame => (int)(NumFrames * ((Player.HeldItem.useAnimation - Player.itemAnimation) / (float)Player.HeldItem.useAnimation));
 		private Rectangle DrawFrame
 		{
 			get
 			{
-				Rectangle drawFrame = mod.GetTexture(TexturePath).Bounds;
+				Rectangle drawFrame = Mod.GetTexture(TexturePath).Bounds;
 				drawFrame.Height /= NumFrames;
 				drawFrame.Y = drawFrame.Height * CurFrame;
 				return drawFrame;
@@ -35,12 +35,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 		private Vector2 HoldOffset()
 		{
-			Vector2 offset = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
-			offset -= new Vector2(30 * player.direction, 30).RotatedBy(player.itemRotation);
-			if (player.direction > 0)
-				offset.X += player.width;
+			Vector2 offset = Main.OffsetsPlayerOnhand[Player.bodyFrame.Y / 56] * 2f;
+			offset -= new Vector2(30 * Player.direction, 30).RotatedBy(Player.itemRotation);
+			if (Player.direction > 0)
+				offset.X += Player.width;
 			else
-				offset.X += player.width / 2;
+				offset.X += Player.width / 2;
 
 			return offset;
 		}
@@ -49,8 +49,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			get
 			{
 				Vector2 origin = new Vector2(0, DrawFrame.Height / 2);
-				if (player.direction < 0)
-					origin.X = mod.GetTexture(TexturePath).Width;
+				if (Player.direction < 0)
+					origin.X = Mod.GetTexture(TexturePath).Width;
 
 				return origin;
 			}
@@ -59,15 +59,15 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		//Add in custom draw layers
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
-			if(player.HeldItem.type == ModContent.ItemType<StellanovaCannon>() && false)
-				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(mod.Name, "StellanovaHeld",
-					delegate (PlayerDrawInfo info) { DrawItem(mod.GetTexture("Items/Sets/StarjinxSet/Stellanova/StellanovaCannon_held"), info); }));
+			if(Player.HeldItem.type == ModContent.ItemType<StellanovaCannon>() && false)
+				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "StellanovaHeld",
+					delegate (PlayerDrawInfo info) { DrawItem(Mod.GetTexture("Items/Sets/StarjinxSet/Stellanova/StellanovaCannon_held"), info); }));
 		}
 
 		public override void PostUpdate()
 		{
-			if (player.HeldItem.type == ModContent.ItemType<StellanovaCannon>() && false)
-				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawAdditiveLayer(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
+			if (Player.HeldItem.type == ModContent.ItemType<StellanovaCannon>() && false)
+				Player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawAdditiveLayer(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
 		}
 
 		//Draw the item and its glowmask on the player
@@ -80,25 +80,25 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			Vector2 offset = HoldOffset();
 
 			Main.playerDrawData.Add(new DrawData(texture, info.itemLocation - Main.screenPosition + offset, DrawFrame, lightColor, 
-				player.itemRotation, TextureOrigin, player.HeldItem.scale, info.spriteEffects, 0)); 
+				Player.itemRotation, TextureOrigin, Player.HeldItem.scale, info.spriteEffects, 0)); 
 		}
 
 		public void DrawAdditiveLayer(SpriteBatch sB)
 		{
-			Texture2D glowmask = mod.GetTexture(GlowmaskPath);
+			Texture2D glowmask = Mod.GetTexture(GlowmaskPath);
 			if (!CanDraw)
 				return;
 
-			SpriteEffects effects = player.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			SpriteEffects effects = Player.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			Vector2 offset = HoldOffset();
 
 			PulseDraw.DrawPulseEffect((float)Math.Asin(-0.6), 8, 12, delegate (Vector2 posOffset, float opacityMod)
 			{
-				sB.Draw(glowmask, player.itemLocation + posOffset - Main.screenPosition + offset, DrawFrame, Color.White * opacityMod * 0.4f, 
-					player.itemRotation, TextureOrigin, player.HeldItem.scale, effects, 0);
+				sB.Draw(glowmask, Player.itemLocation + posOffset - Main.screenPosition + offset, DrawFrame, Color.White * opacityMod * 0.4f, 
+					Player.itemRotation, TextureOrigin, Player.HeldItem.scale, effects, 0);
 			});
 
-			sB.Draw(glowmask, player.itemLocation - Main.screenPosition + offset, DrawFrame, Color.White * 0.7f, player.itemRotation, TextureOrigin, player.HeldItem.scale, effects, 0);
+			sB.Draw(glowmask, Player.itemLocation - Main.screenPosition + offset, DrawFrame, Color.White * 0.7f, Player.itemRotation, TextureOrigin, Player.HeldItem.scale, effects, 0);
 		}
 	}
 }

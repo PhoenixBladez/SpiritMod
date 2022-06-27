@@ -93,7 +93,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 			if (Cap < PointCount / 6)
 				Points.RemoveAt(0);
 
-			if ((!Entity.active && Entity != null) || Destroyed || (Entity is Projectile x && x.modProjectile is AnimeSwordProj proj && proj.charge > proj.MAXCHARGE))
+			if ((!Entity.active && Entity != null) || Destroyed || (Entity is Projectile x && x.ModProjectile is AnimeSwordProj proj && proj.charge > proj.MAXCHARGE))
 				OnDestroy();
 			else
 				Points.Add(Entity.Center);

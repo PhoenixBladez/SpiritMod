@@ -26,6 +26,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
             _tasks.AddTask(new SlayTask(Terraria.ID.NPCID.Nymph, 1, null, new QuestPoolData(0.1f, true, true, SpawnConditions)));
         }
 
-		private bool SpawnConditions(NPCSpawnInfo conditions) => conditions.spawnTileY > Main.rockLayer && conditions.spawnTileY < Main.maxTilesY - 200;
+		private bool SpawnConditions(NPCSpawnInfo conditions) => conditions.SpawnTileY > Main.rockLayer && conditions.SpawnTileY < Main.maxTilesY - 200;
 	}
 }

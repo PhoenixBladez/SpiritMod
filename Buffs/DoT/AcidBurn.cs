@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.DoT
 {
 	public class AcidBurn : ModBuff
 	{
-		public override void SetDefaults() => DisplayName.SetDefault("Toxic Grasp");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Toxic Grasp");
 
 		public override bool ReApply(NPC npc, int time, int buffIndex)
 		{

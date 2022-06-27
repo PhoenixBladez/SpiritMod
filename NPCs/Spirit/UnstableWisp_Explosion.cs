@@ -8,33 +8,33 @@ namespace SpiritMod.NPCs.Spirit
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Unstable Wisp");
-			Main.projFrames[base.projectile.type] = 9;
+			Main.projFrames[base.Projectile.type] = 9;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 124;
-			projectile.height = 106;
-			projectile.penetrate = -1;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.hostile = true;
-			projectile.friendly = false;
+			Projectile.width = 124;
+			Projectile.height = 106;
+			Projectile.penetrate = -1;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.hostile = true;
+			Projectile.friendly = false;
 		}
 
 		public override bool PreAI()
 		{
-			if (projectile.ai[0] == 0f) {
-				projectile.Damage();
-				projectile.ai[0] = 1f;
+			if (Projectile.ai[0] == 0f) {
+				Projectile.Damage();
+				Projectile.ai[0] = 1f;
 			}
 
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 3) {
-				projectile.frameCounter = 0;
-				projectile.frame++;
-				if (projectile.frame > Main.projFrames[projectile.type]) {
-					projectile.Kill();
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter > 3) {
+				Projectile.frameCounter = 0;
+				Projectile.frame++;
+				if (Projectile.frame > Main.projFrames[Projectile.type]) {
+					Projectile.Kill();
 				}
 			}
 			return false;

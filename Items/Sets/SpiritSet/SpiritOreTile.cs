@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Sets.SpiritSet
 {
 	public class SpiritOreTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSpelunker[Type] = true;
 			Main.tileSolid[Type] = true;
@@ -18,12 +18,12 @@ namespace SpiritMod.Items.Sets.SpiritSet
 
 			TileID.Sets.Ore[Type] = true;
 
-			drop = ModContent.ItemType<SpiritOre>();
+			ItemDrop = ModContent.ItemType<SpiritOre>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Spirit Ore");
 			AddMapEntry(new Color(30, 144, 255), name);
 			soundType = SoundID.Tink;
-			minPick = 180;
+			MinPick = 180;
 
 		}
 

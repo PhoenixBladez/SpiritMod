@@ -17,16 +17,16 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.friendly = true;
-			projectile.alpha = 255;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 64;
-			projectile.tileCollide = false;
-			projectile.extraUpdates = 2;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.friendly = true;
+			Projectile.alpha = 255;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 64;
+			Projectile.tileCollide = false;
+			Projectile.extraUpdates = 2;
 		}
 
 		//int counter = -720;
@@ -35,12 +35,12 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 		{
 			if (!boom) {
 				if (Main.netMode != NetmodeID.Server && !Filters.Scene["ShockwaveTwo"].IsActive()) {
-					Filters.Scene.Activate("ShockwaveTwo", projectile.Center).GetShader().UseColor(Color.Cyan.ToVector3()).UseTargetPosition(projectile.Center);
+					Filters.Scene.Activate("ShockwaveTwo", Projectile.Center).GetShader().UseColor(Color.Cyan.ToVector3()).UseTargetPosition(Projectile.Center);
 				}
 				boom = true;
 			}
 			if (Main.netMode != NetmodeID.Server && Filters.Scene["ShockwaveTwo"].IsActive()) {
-				float progress = (float)(8 - Math.Sqrt(projectile.timeLeft)) * 60; // Will range from -3 to 3, 0 being the point where the bomb explodes.
+				float progress = (float)(8 - Math.Sqrt(Projectile.timeLeft)) * 60; // Will range from -3 to 3, 0 being the point where the bomb explodes.
 				Filters.Scene["ShockwaveTwo"].GetShader().UseProgress(progress);
 			}
 			return false;
@@ -54,19 +54,19 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
             // Custom collision so all chains across the flail can cause impact.
             float collisionPoint = 0f;
-			Vector2 dir = targetHitbox.Center.ToVector2() - projectile.Center;
+			Vector2 dir = targetHitbox.Center.ToVector2() - Projectile.Center;
 			dir.Normalize();
-			dir *= (float)(8 - Math.Sqrt(projectile.timeLeft)) * 80;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + dir, (projectile.width + projectile.height) * 0.5f * projectile.scale, ref collisionPoint)) {
+			dir *= (float)(8 - Math.Sqrt(Projectile.timeLeft)) * 80;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + dir, (Projectile.width + Projectile.height) * 0.5f * Projectile.scale, ref collisionPoint)) {
                 return true;
             }
             return false;
         }
-		public override void OnHitNPC(NPC target, int damage, float knockBack, bool crit)
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			int cooldown = 40;
-            projectile.localNPCImmunity[target.whoAmI] = 40;
-            target.immune[projectile.owner] = cooldown;
+            Projectile.localNPCImmunity[target.whoAmI] = 40;
+            target.immune[Projectile.owner] = cooldown;
 		}
 	}
 }

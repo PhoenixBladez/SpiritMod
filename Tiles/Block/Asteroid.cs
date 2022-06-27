@@ -7,15 +7,15 @@ namespace SpiritMod.Tiles.Block
 {
 	public class Asteroid : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			AddMapEntry(new Color(99, 79, 49));
 			soundType = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
-			minPick = 40;
-			drop = ModContent.ItemType<AsteroidBlock>();
+			MinPick = 40;
+			ItemDrop = ModContent.ItemType<AsteroidBlock>();
 		}
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
 		{

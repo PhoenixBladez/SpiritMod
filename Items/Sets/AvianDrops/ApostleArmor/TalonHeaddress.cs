@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Sets.AvianDrops.ApostleArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 38;
-			item.height = 26;
-			item.value = 10000;
-			item.rare = ItemRarityID.Orange;
-			item.defense = 3;
+			Item.width = 38;
+			Item.height = 26;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.Orange;
+			Item.defense = 3;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.AvianDrops.ApostleArmor
 		public override void UpdateArmorSet(Player player)
 		{
 			player.setBonus = "Wind Spirits guide you, granting you double jumps\nMagic and ranged attacks occasionally spawn feathers to attack foes.";
-			player.doubleJumpCloud = true;
+			player.hasJumpOption_Cloud = true;
 			player.GetSpiritPlayer().talonSet = true;
 		}
 

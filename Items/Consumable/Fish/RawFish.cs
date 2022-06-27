@@ -16,19 +16,19 @@ namespace SpiritMod.Items.Consumable.Fish
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 22;
-			item.rare = ItemRarityID.Blue;
-			item.maxStack = 99;
-			item.noUseGraphic = true;
-			item.useStyle = ItemUseStyleID.EatingUsing;
-			item.useTime = item.useAnimation = 30;
+			Item.width = Item.height = 22;
+			Item.rare = ItemRarityID.Blue;
+			Item.maxStack = 99;
+			Item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.EatFood;
+			Item.useTime = Item.useAnimation = 30;
 
-			item.buffType = BuffID.WellFed;
-			item.buffTime = 18000;
-			item.noMelee = true;
-			item.consumable = true;
-			item.UseSound = SoundID.Item2;
-			item.autoReuse = false;
+			Item.buffType = BuffID.WellFed;
+			Item.buffTime = 18000;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.UseSound = SoundID.Item2;
+			Item.autoReuse = false;
 
 		}
 		public override bool CanUseItem(Player player)
@@ -38,17 +38,15 @@ namespace SpiritMod.Items.Consumable.Fish
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.CookedFish, 1);
 			recipe1.AddIngredient(ModContent.ItemType<RawFish>(), 1);
 			recipe1.AddTile(TileID.CookingPots);
-			recipe1.SetResult(ItemID.CookedFish, 1);
-			recipe1.AddRecipe();
+			recipe1.Register();
 
-			ModRecipe recipe2 = new ModRecipe(mod);
+			Recipe recipe2 = Mod.CreateRecipe(ItemID.Sashimi, 1);
 			recipe2.AddIngredient(ModContent.ItemType<RawFish>(), 1);
 			recipe2.AddTile(TileID.WorkBenches);
-			recipe2.SetResult(ItemID.Sashimi, 1);
-			recipe2.AddRecipe();
+			recipe2.Register();
 		}
 	}
 }

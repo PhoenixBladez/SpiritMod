@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -18,15 +19,15 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
+			Projectile.width = 16;
+			Projectile.height = 16;
 			oppositearrow = ModContent.ProjectileType<NegativeArrow>();
-			projectile.ranged = true;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
 		}
 
-		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StandardColorTrail(new Color(122, 233, 255)), new RoundCap(), new ZigZagTrailPosition(3f), 8f, 250f);
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new StandardColorTrail(new Color(122, 233, 255)), new RoundCap(), new ZigZagTrailPosition(3f), 8f, 250f);
 
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(stuck);
 		public override void ReceiveExtraAI(BinaryReader reader) => stuck = reader.ReadBoolean();
@@ -34,46 +35,46 @@ namespace SpiritMod.Projectiles.Arrow
 		public override void Kill(int timeLeft)
 		{
 			if (timeLeft <= 0)
-				Main.PlaySound(SoundID.Dig, projectile.Center);
+				SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			for (int i = 0; i < 3; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Electric);
 			}
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (!stuck) {
-				projectile.rotation = oldVelocity.ToRotation() + 1.57f;
-				projectile.position += projectile.velocity * 2;
+				Projectile.rotation = oldVelocity.ToRotation() + 1.57f;
+				Projectile.position += Projectile.velocity * 2;
 				stuck = true;
-				projectile.timeLeft = 370;
-				projectile.velocity = Vector2.Zero;
-				projectile.aiStyle = -1;
+				Projectile.timeLeft = 370;
+				Projectile.velocity = Vector2.Zero;
+				Projectile.aiStyle = -1;
 			}
 			return false;
 		}
-		public override bool CanDamage() => projectile.ai[0] == 0;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => Projectile.ai[0] == 0;
 		public override bool PreAI()
 		{
 			if (stuck) {
-				CheckColliding(ref projectile.damage);
-				projectile.timeLeft = Math.Min(projectile.timeLeft, 360);
-				projectile.velocity = Vector2.Zero;
+				CheckColliding(ref Projectile.damage);
+				Projectile.timeLeft = Math.Min(Projectile.timeLeft, 360);
+				Projectile.velocity = Vector2.Zero;
 				return false;
 			}
-			if (projectile.ai[0] != 0) {
-				projectile.timeLeft = Math.Min(projectile.timeLeft, 360);
-				projectile.ignoreWater = true;
-				projectile.tileCollide = false;
+			if (Projectile.ai[0] != 0) {
+				Projectile.timeLeft = Math.Min(Projectile.timeLeft, 360);
+				Projectile.ignoreWater = true;
+				Projectile.tileCollide = false;
 
-				if (Main.npc[(int)projectile.ai[1]].active && !Main.npc[(int)projectile.ai[1]].dontTakeDamage) {
-					projectile.Center = Main.npc[(int)projectile.ai[1]].Center - projectile.velocity * 2f;
-					projectile.gfxOffY = Main.npc[(int)projectile.ai[1]].gfxOffY;
-					if (projectile.timeLeft % 30f == 0f) {
-						Main.npc[(int)projectile.ai[1]].HitEffect(0, 1.0);
+				if (Main.npc[(int)Projectile.ai[1]].active && !Main.npc[(int)Projectile.ai[1]].dontTakeDamage) {
+					Projectile.Center = Main.npc[(int)Projectile.ai[1]].Center - Projectile.velocity * 2f;
+					Projectile.gfxOffY = Main.npc[(int)Projectile.ai[1]].gfxOffY;
+					if (Projectile.timeLeft % 30f == 0f) {
+						Main.npc[(int)Projectile.ai[1]].HitEffect(0, 1.0);
 					}
 				}
 				else
-					projectile.Kill();
+					Projectile.Kill();
 
 				return false;
 			}
@@ -82,43 +83,43 @@ namespace SpiritMod.Projectiles.Arrow
 
 		private void CheckColliding(ref int Damage)
 		{
-			var list = Main.projectile.Where(x => x.active && x.type == oppositearrow && x.active && (x.Hitbox.Intersects(projectile.Hitbox)|| x.ai[1] == projectile.ai[1] && x.ai[0] == 1 && projectile.ai[0] == 1));
+			var list = Main.projectile.Where(x => x.active && x.type == oppositearrow && x.active && (x.Hitbox.Intersects(Projectile.Hitbox)|| x.ai[1] == Projectile.ai[1] && x.ai[0] == 1 && Projectile.ai[0] == 1));
 			if (list.Any()) {
 				foreach (var proj in list) {
 					DustHelper.DrawStar(new Vector2(proj.Center.X, proj.Center.Y), 226, pointAmount: 5, mainSize: 4.5f, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
 					proj.Kill();
 				}
 
-				Main.PlaySound(SoundID.Item93, projectile.position);
+				SoundEngine.PlaySound(SoundID.Item93, Projectile.position);
 				for (int num621 = 0; num621 < 40; num621++) {
-					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Electric, 0f, 0f, 100, default, 2f);
+					int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Electric, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					Main.dust[num622].noGravity = true;
 					Main.dust[num622].scale = 0.5f;
 				}
-				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
-				projectile.timeLeft = 8;
+				SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+				Projectile.timeLeft = 8;
 				Damage = (int)(Damage * 1.5);
-				ProjectileExtras.Explode(projectile.whoAmI, 75, 75,
+				ProjectileExtras.Explode(Projectile.whoAmI, 75, 75,
 				delegate {
-					DustHelper.DrawStar(new Vector2(projectile.Center.X, projectile.Center.Y), 226, pointAmount: 5, mainSize: 4.5f, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
+					DustHelper.DrawStar(new Vector2(Projectile.Center.X, Projectile.Center.Y), 226, pointAmount: 5, mainSize: 4.5f, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
 				});
-				projectile.Kill();
+				Projectile.Kill();
 			}
 		}
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			projectile.ai[0] = 1f;
-			projectile.ai[1] = (float)target.whoAmI;
-			projectile.velocity = (target.Center - projectile.Center) * 0.75f;
-			projectile.netUpdate = true;
+			Projectile.ai[0] = 1f;
+			Projectile.ai[1] = (float)target.whoAmI;
+			Projectile.velocity = (target.Center - Projectile.Center) * 0.75f;
+			Projectile.netUpdate = true;
 			CheckColliding(ref damage);
 			int num31 = 1;
 			Point[] array2 = new Point[num31];
 			int num32 = 0;
 
 			for (int n = 0; n < 1000; n++) {
-				if (n != projectile.whoAmI && Main.projectile[n].active && Main.projectile[n].owner == Main.myPlayer && Main.projectile[n].type == projectile.type && Main.projectile[n].ai[0] == 1f && Main.projectile[n].ai[1] == target.whoAmI) {
+				if (n != Projectile.whoAmI && Main.projectile[n].active && Main.projectile[n].owner == Main.myPlayer && Main.projectile[n].type == Projectile.type && Main.projectile[n].ai[0] == 1f && Main.projectile[n].ai[1] == target.whoAmI) {
 					array2[num32++] = new Point(n, Main.projectile[n].timeLeft);
 					if (num32 >= array2.Length)
 						break;
@@ -137,8 +138,8 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-			projectile.velocity.Y += 0.25f;
+			Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+			Projectile.velocity.Y += 0.25f;
 		}
 	}
 }

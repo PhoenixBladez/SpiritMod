@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Mechanics.Trails;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,23 +13,23 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.WoodenArrowFriendly;
-			projectile.friendly = true;
-			projectile.penetrate = 2;
-			projectile.damage = 0;
-			projectile.alpha = 255;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.WoodenArrowFriendly;
+			Projectile.friendly = true;
+			Projectile.penetrate = 2;
+			Projectile.damage = 0;
+			Projectile.alpha = 255;
 		}
 
-		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StandardColorTrail(new Color(122, 233, 255) * .6f), new RoundCap(), new SleepingStarTrailPosition(), 15f, 130f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new StandardColorTrail(new Color(122, 233, 255) * .6f), new RoundCap(), new SleepingStarTrailPosition(), 15f, 130f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
 
 		public override bool PreAI()
 		{
-			projectile.rotation += 0.1f;
+			Projectile.rotation += 0.1f;
 			if (Main.rand.Next(3) == 1) {
-				Dust dust = Dust.NewDustPerfect(projectile.Center, 226);
+				Dust dust = Dust.NewDustPerfect(Projectile.Center, 226);
 				dust.velocity = Vector2.Zero;
 				dust.noGravity = true;
 			}
@@ -37,18 +38,18 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			Player player = Main.player[projectile.owner];
-			Main.PlaySound((int)projectile.position.X, (int)projectile.position.Y, 27);
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 8);
+			Player player = Main.player[Projectile.owner];
+			SoundEngine.PlaySound((int)Projectile.position.X, (int)Projectile.position.Y, 27);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 8);
 			//Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			for (int num424 = 0; num424 < 10; num424++) {
-				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Coralstone, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default, 0.75f);
+				Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Coralstone, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 0, default, 0.75f);
 			}
-			Teleport(new Vector2(projectile.position.X, projectile.position.Y - 32), 2, 0);
+			Teleport(new Vector2(Projectile.position.X, Projectile.position.Y - 32), 2, 0);
 		}
 		public void Teleport(Vector2 newPos, int Style = 0, int extraInfo = 0)
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			try {
 				player.grappling[0] = -1;
 				player.grapCount = 0;
@@ -77,11 +78,11 @@ namespace SpiritMod.Projectiles.Magic
 					}
 					else {
 						Main.BlackFadeIn = 255;
-						Lighting.BlackOut();
+						Lighting.Clear();
 						Main.screenLastPosition = Main.screenPosition;
 						Main.screenPosition.X = player.position.X + (float)(player.width / 2) - (float)(Main.screenWidth / 2);
 						Main.screenPosition.Y = player.position.Y + (float)(player.height / 2) - (float)(Main.screenHeight / 2);
-						Main.quickBG = 10;
+						Main.instantBGTransitionCounter = 10;
 					}
 					if (num3 > 0.1f || !flag || Style != 0) {
 						if (Main.mapTime < 5) {

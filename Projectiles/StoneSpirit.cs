@@ -13,29 +13,29 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spirit");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 6;
-			projectile.height = 6;
-			projectile.friendly = true;
-			projectile.penetrate = 1;
-			projectile.tileCollide = false;
-			projectile.alpha = 255;
-			projectile.timeLeft = 500;
-			projectile.light = 0;
-			projectile.extraUpdates = 1;
+			Projectile.width = 6;
+			Projectile.height = 6;
+			Projectile.friendly = true;
+			Projectile.penetrate = 1;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 500;
+			Projectile.light = 0;
+			Projectile.extraUpdates = 1;
 		}
 
 		Vector2 offset = new Vector2(40, 40);
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			if (player.GetSpiritPlayer().SoulStone == true && player.active && !player.dead) {
-				projectile.timeLeft = 2;
+				Projectile.timeLeft = 2;
 			}
 			timer++;
 			int range = 15;   //How many tiles away the projectile targets NPCs
@@ -49,45 +49,45 @@ namespace SpiritMod.Projectiles
 				//if npc is a valid target (active, not friendly, and not a critter)
 				if (npc.active && !npc.friendly && npc.catchItem == 0) {
 					//if npc is within 50 blocks
-					float dist = projectile.Distance(npc.Center);
+					float dist = Projectile.Distance(npc.Center);
 					if (dist / 16 < range) {
 						//if npc is closer than closest found npc
 						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
-							projectile.ai[1] = npc.whoAmI;
+							Projectile.ai[1] = npc.whoAmI;
 						}
 					}
 				}
 			}
 
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare_Blue, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+			int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare_Blue, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 			Main.dust[dust].velocity *= 0f;
 			Main.dust[dust2].velocity *= 0f;
 			Main.dust[dust2].scale = 1.2f;
 			Main.dust[dust].scale = 1.2f;
-			projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
+			Projectile.rotation = Projectile.velocity.ToRotation() + (float)(Math.PI / 2);
 
-			NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
-			if (target.active && !target.friendly && projectile.Distance(target.Center) / 16 < range && timer > 100) {
-				Vector2 direction = target.Center - projectile.Center;
+			NPC target = (Main.npc[(int)Projectile.ai[1]] ?? new NPC()); //our target
+			if (target.active && !target.friendly && Projectile.Distance(target.Center) / 16 < range && timer > 100) {
+				Vector2 direction = target.Center - Projectile.Center;
 				direction.Normalize();
 				direction *= 10f;
-				projectile.velocity = direction;
+				Projectile.velocity = direction;
 			}
 			else {
-				var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
+				var list = Main.projectile.Where(x => x.Hitbox.Intersects(Projectile.Hitbox));
 				foreach (var proj in list) {
-					if (projectile != proj && proj.hostile)
+					if (Projectile != proj && proj.hostile)
 						proj.Kill();
 					{
 
-						projectile.ai[0] += .02f;
-						projectile.Center = player.Center + offset.RotatedBy(projectile.ai[0] + projectile.ai[1] * (Math.PI * 10 / 1));
+						Projectile.ai[0] += .02f;
+						Projectile.Center = player.Center + offset.RotatedBy(Projectile.ai[0] + Projectile.ai[1] * (Math.PI * 10 / 1));
 					}
 
 
@@ -98,7 +98,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Flare_Blue);
+				int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Flare_Blue);
 			}
 		}
 

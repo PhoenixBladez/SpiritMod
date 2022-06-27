@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Glyphs
 {
@@ -34,18 +35,18 @@ namespace SpiritMod.Items.Glyphs
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 28;
-			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.maxStack = 999;
+			Item.width = 28;
+			Item.height = 28;
+			Item.value = Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.maxStack = 999;
 		}
 
 		public static void DivineStrike(Player player, ref int damage)
 		{
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 			modPlayer.divineCounter = 0;
-			int index = player.FindBuffIndex(SpiritMod.Instance.BuffType("DivineStrike"));
+			int index = player.FindBuffIndex(SpiritMod.Instance.Find<ModBuff>("DivineStrike").Type);
 			if (index < 0)
 				return;
 

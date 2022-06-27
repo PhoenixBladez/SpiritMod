@@ -15,13 +15,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(48);
-			projectile.hostile = true;
-			projectile.timeLeft = 1000;
-			projectile.ignoreWater = true;
-			projectile.aiStyle = 1;
+			Projectile.Size = new Vector2(48);
+			Projectile.hostile = true;
+			Projectile.timeLeft = 1000;
+			Projectile.ignoreWater = true;
+			Projectile.aiStyle = 1;
 
-			aiType = ProjectileID.Bullet;
+			AIType = ProjectileID.Bullet;
 		}
 
 		public override void AI()
@@ -29,12 +29,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden.Projectiles
 
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDraw(spriteBatch);
 			return false;
 		}
 
-		public override Color? GetAlpha(Color lightColor) => Color.White * projectile.Opacity;
+		public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.Opacity;
 	}
 }

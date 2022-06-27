@@ -12,28 +12,28 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moon Blocker");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.penetrate = 1;
-			projectile.tileCollide = false;
-			projectile.hostile = true;
-			projectile.friendly = false;
-			projectile.timeLeft = 50;
-			projectile.damage = 13;
+			Projectile.penetrate = 1;
+			Projectile.tileCollide = false;
+			Projectile.hostile = true;
+			Projectile.friendly = false;
+			Projectile.timeLeft = 50;
+			Projectile.damage = 13;
 			//projectile.extraUpdates = 1;
-			projectile.alpha = 255;
-			projectile.width = projectile.height = 32;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			Projectile.alpha = 255;
+			Projectile.width = Projectile.height = 32;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		Vector2 initialSpeed = Vector2.Zero;
 		public override void AI()
 		{
-			Dust.NewDustPerfect(projectile.Center, 206);
+			Dust.NewDustPerfect(Projectile.Center, 206);
 		}
 	}
 }

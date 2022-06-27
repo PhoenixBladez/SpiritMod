@@ -16,18 +16,18 @@ namespace SpiritMod.Items.Placeable
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTurn = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.autoReuse = true;
-			item.maxStack = 99;
-			item.consumable = true;
-			item.createTile = ModContent.TileType<SuperSunFlower>();
-			item.width = 36;
-			item.height = 36;
-			item.rare = ItemRarityID.Orange;
-			item.value = Item.sellPrice(silver: 80);
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTurn = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.autoReuse = true;
+			Item.maxStack = 99;
+			Item.consumable = true;
+			Item.createTile = ModContent.TileType<SuperSunFlower>();
+			Item.width = 36;
+			Item.height = 36;
+			Item.rare = ItemRarityID.Orange;
+			Item.value = Item.sellPrice(silver: 80);
 		}
 	}
 }

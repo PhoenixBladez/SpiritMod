@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs
 {
 	public class SoulBurn : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Soul Burn");
 			Main.buffNoTimeDisplay[Type] = false;

@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 {
 	public class ShiverbarkTableTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -34,9 +34,9 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Shiverbark Table");
 			AddMapEntry(new Color(118, 155, 163), name);
-			disableSmartCursor = true;
-			dustType = -1;
-			adjTiles = new int[]{ TileID.Tables };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType = -1;
+			AdjTiles = new int[]{ TileID.Tables };
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{

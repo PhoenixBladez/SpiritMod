@@ -15,29 +15,28 @@ namespace SpiritMod.Items.Sets.BismiteSet
 		}
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.width = 24;
-			item.height = 24;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.melee = true;
-			item.noMelee = true;
-			item.useAnimation = 32;
-			item.useTime = 32;
-			item.shootSpeed = 3.8f;
-			item.knockBack = 4f;
-			item.damage = 11;
-			item.value = Item.sellPrice(0, 0, 10, 0);
-			item.rare = ItemRarityID.Blue;
-			item.shoot = ModContent.ProjectileType<BismiteSpearProj>();
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.width = 24;
+			Item.height = 24;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.DamageType = DamageClass.Melee;
+			Item.noMelee = true;
+			Item.useAnimation = 32;
+			Item.useTime = 32;
+			Item.shootSpeed = 3.8f;
+			Item.knockBack = 4f;
+			Item.damage = 11;
+			Item.value = Item.sellPrice(0, 0, 10, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.shoot = ModContent.ProjectileType<BismiteSpearProj>();
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 8);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

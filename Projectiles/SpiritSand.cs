@@ -18,12 +18,12 @@ namespace SpiritMod.Projectiles
 
         public override void SetDefaults()
         {
-            projectile.knockBack = 6f;
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.hostile = true;
-            projectile.penetrate = -1;
+            Projectile.knockBack = 6f;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.hostile = true;
+            Projectile.penetrate = -1;
             //Set the tile type to ExampleSand
             tileType = ModContent.TileType<Tiles.Block.Spiritsand>();
             dustType = DustID.Water_Space;
@@ -34,79 +34,79 @@ namespace SpiritMod.Projectiles
             //Change the 5 to determine how much dust will spawn. lower for more, higher for less
             if (Main.rand.Next(5) == 0)
             {
-                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
                 Main.dust[dust].velocity.X *= 0.4f;
             }
 
-            projectile.tileCollide = true;
-            projectile.localAI[1] = 0f;
+            Projectile.tileCollide = true;
+            Projectile.localAI[1] = 0f;
 
-            if (projectile.ai[0] == 1f)
+            if (Projectile.ai[0] == 1f)
             {
                 if (!falling)
                 {
-                    projectile.ai[1] += 1f;
+                    Projectile.ai[1] += 1f;
 
-                    if (projectile.ai[1] >= 60f)
+                    if (Projectile.ai[1] >= 60f)
                     {
-                        projectile.ai[1] = 60f;
-                        projectile.velocity.Y += 0.2f;
+                        Projectile.ai[1] = 60f;
+                        Projectile.velocity.Y += 0.2f;
                     }
                 }
                 else
-                    projectile.velocity.Y += 0.41f;
+                    Projectile.velocity.Y += 0.41f;
             }
-            else if (projectile.ai[0] == 2f)
+            else if (Projectile.ai[0] == 2f)
             {
-                projectile.velocity.Y += 0.2f;
+                Projectile.velocity.Y += 0.2f;
 
-                if (projectile.velocity.X < -0.04f)
-                    projectile.velocity.X += 0.04f;
-                else if (projectile.velocity.X > 0.04f)
-                    projectile.velocity.X -= 0.04f;
+                if (Projectile.velocity.X < -0.04f)
+                    Projectile.velocity.X += 0.04f;
+                else if (Projectile.velocity.X > 0.04f)
+                    Projectile.velocity.X -= 0.04f;
                 else
-                    projectile.velocity.X = 0f;
+                    Projectile.velocity.X = 0f;
             }
 
-            projectile.rotation += 0.1f;
+            Projectile.rotation += 0.1f;
 
-            if (projectile.velocity.Y > 10f)
-                projectile.velocity.Y = 10f;
+            if (Projectile.velocity.Y > 10f)
+                Projectile.velocity.Y = 10f;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             if (falling)
-                projectile.velocity = Collision.AnyCollision(projectile.position, projectile.velocity, projectile.width, projectile.height, true);
+                Projectile.velocity = Collision.AnyCollision(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height, true);
             else
-                projectile.velocity = Collision.TileCollision(projectile.position, projectile.velocity, projectile.width, projectile.height, fallThrough, fallThrough, 1);
+                Projectile.velocity = Collision.TileCollision(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height, fallThrough, fallThrough, 1);
 
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            if (projectile.owner == Main.myPlayer && !projectile.noDropItem)
+            if (Projectile.owner == Main.myPlayer && !Projectile.noDropItem)
             {
-                int tileX = (int)(projectile.position.X + projectile.width / 2) / 16;
-                int tileY = (int)(projectile.position.Y + projectile.width / 2) / 16;
+                int tileX = (int)(Projectile.position.X + Projectile.width / 2) / 16;
+                int tileY = (int)(Projectile.position.Y + Projectile.width / 2) / 16;
 
                 Tile tile = Main.tile[tileX, tileY];
                 Tile tileBelow = Main.tile[tileX, tileY + 1];
 
-                if (tile.halfBrick() && projectile.velocity.Y > 0f && System.Math.Abs(projectile.velocity.Y) > System.Math.Abs(projectile.velocity.X))
+                if (tile.IsHalfBlock && Projectile.velocity.Y > 0f && System.Math.Abs(Projectile.velocity.Y) > System.Math.Abs(Projectile.velocity.X))
                     tileY--;
 
-                if (!tile.active())
+                if (!tile.HasTile)
                 {
-                    bool onMinecartTrack = tileY < Main.maxTilesY - 2 && tileBelow != null && tileBelow.active() && tileBelow.type == TileID.MinecartTrack;
+                    bool onMinecartTrack = tileY < Main.maxTilesY - 2 && tileBelow != null && tileBelow.HasTile && tileBelow.TileType == TileID.MinecartTrack;
 
                     if (!onMinecartTrack)
                         WorldGen.PlaceTile(tileX, tileY, tileType, false, true);
 
-                    if (!onMinecartTrack && tile.active() && tile.type == tileType)
+                    if (!onMinecartTrack && tile.HasTile && tile.TileType == tileType)
                     {
-                        if (tileBelow.halfBrick() || tileBelow.slope() != 0)
+                        if (tileBelow.IsHalfBlock || tileBelow.Slope != 0)
                         {
                             WorldGen.SlopeTile(tileX, tileY + 1, 0);
 
@@ -121,6 +121,6 @@ namespace SpiritMod.Projectiles
             }
         }
 
-        public override bool CanDamage() => projectile.localAI[1] != -1f;
+        public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => Projectile.localAI[1] != -1f;
     }
 }

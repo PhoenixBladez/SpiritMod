@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			float widthVar;
 			var proj = Entity as Projectile;
 			bool flip = false;
-			if (proj.modProjectile is JadeDaoProj modproj)
+			if (proj.ModProjectile is JadeDaoProj modproj)
 				flip = !modproj.Flip;
 			if (Main.player[proj.owner].direction == -1)
 				flip = !flip;
@@ -77,7 +77,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			Effect effect = SpiritMod.Instance.GetEffect("Effects/JadeTrailShader");
 			effect.Parameters["white"].SetValue(new Color(106, 255, 35).ToVector4());
 			effect.Parameters["vnoiseLooping"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/voronoiLooping"));
-			PrepareShader(effect, "MainPS", -Main.GlobalTime);
+			PrepareShader(effect, "MainPS", -Main.GlobalTimeWrappedHourly);
 		}
 
 		public override void OnUpdate()
@@ -99,7 +99,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		public void AddPoints()
 		{
 			var proj = Entity as Projectile;
-			var modproj = proj.modProjectile as JadeDaoProj;
+			var modproj = proj.ModProjectile as JadeDaoProj;
 			Points.Add(modproj.CurrentBase);
 		}
 		public override void OnDestroy()

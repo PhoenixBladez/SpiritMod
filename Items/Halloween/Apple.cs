@@ -12,11 +12,11 @@ namespace SpiritMod.Items.Halloween
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 30;
-			item.rare = -1;
-			item.maxStack = 30;
-			item.autoReuse = false;
+			Item.width = 20;
+			Item.height = 30;
+			Item.rare = -1;
+			Item.maxStack = 30;
+			Item.autoReuse = false;
 		}
 	}
 }

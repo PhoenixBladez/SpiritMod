@@ -7,29 +7,29 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Mounts
 {
-	public class TideMount : ModMountData
+	public class TideMount : ModMount
 	{
 		private const float damage = 15f;
 		private const float knockback = 2f;
 
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
-			mountData.spawnDust = 167;
-			mountData.spawnDustNoGravity = true;
-			mountData.buff = ModContent.BuffType<TideMountBuff>();
-			mountData.heightBoost = 16;
-			mountData.fallDamage = 0f;
-			mountData.runSpeed = 9f;
-			mountData.dashSpeed = 3f;
-			mountData.flightTimeMax = 0;
-			mountData.fatigueMax = 0;
-			mountData.jumpHeight = 12;
-			mountData.acceleration = 0.05f;
-			mountData.jumpSpeed = 5f;
-			mountData.blockExtraJumps = true;
-			mountData.totalFrames = 11;
-			mountData.constantJump = false;
-			int[] array = new int[mountData.totalFrames];
+			MountData.spawnDust = 167;
+			MountData.spawnDustNoGravity = true;
+			MountData.buff = ModContent.BuffType<TideMountBuff>();
+			MountData.heightBoost = 16;
+			MountData.fallDamage = 0f;
+			MountData.runSpeed = 9f;
+			MountData.dashSpeed = 3f;
+			MountData.flightTimeMax = 0;
+			MountData.fatigueMax = 0;
+			MountData.jumpHeight = 12;
+			MountData.acceleration = 0.05f;
+			MountData.jumpSpeed = 5f;
+			MountData.blockExtraJumps = true;
+			MountData.totalFrames = 11;
+			MountData.constantJump = false;
+			int[] array = new int[MountData.totalFrames];
 			for (int i = 0; i < array.Length; i++) {
 				if (i == 1) {
 					array[i] = 24;
@@ -41,33 +41,33 @@ namespace SpiritMod.Mounts
 					array[i] = 20;
 				}
 			}
-			mountData.playerYOffsets = array;
-			mountData.yOffset = -4;
-			mountData.xOffset = +15;
-			mountData.bodyFrame = 3;
-			mountData.playerHeadOffset = 22;
-			mountData.standingFrameCount = 1;
-			mountData.standingFrameDelay = 12;
-			mountData.standingFrameStart = 0;
-			mountData.runningFrameCount = 6;
-			mountData.runningFrameDelay = 20;
-			mountData.runningFrameStart = 0;
-			mountData.flyingFrameCount = 1;
-			mountData.flyingFrameDelay = 0;
-			mountData.flyingFrameStart = 1;
-			mountData.inAirFrameCount = 1;
-			mountData.inAirFrameDelay = 12;
-			mountData.inAirFrameStart = 3;
-			mountData.idleFrameCount = 1;
-			mountData.idleFrameDelay = 12;
-			mountData.idleFrameStart = 0;
-			mountData.idleFrameLoop = true;
-			mountData.swimFrameCount = mountData.inAirFrameCount;
-			mountData.swimFrameDelay = mountData.inAirFrameDelay;
-			mountData.swimFrameStart = mountData.inAirFrameStart;
+			MountData.playerYOffsets = array;
+			MountData.yOffset = -4;
+			MountData.xOffset = +15;
+			MountData.bodyFrame = 3;
+			MountData.playerHeadOffset = 22;
+			MountData.standingFrameCount = 1;
+			MountData.standingFrameDelay = 12;
+			MountData.standingFrameStart = 0;
+			MountData.runningFrameCount = 6;
+			MountData.runningFrameDelay = 20;
+			MountData.runningFrameStart = 0;
+			MountData.flyingFrameCount = 1;
+			MountData.flyingFrameDelay = 0;
+			MountData.flyingFrameStart = 1;
+			MountData.inAirFrameCount = 1;
+			MountData.inAirFrameDelay = 12;
+			MountData.inAirFrameStart = 3;
+			MountData.idleFrameCount = 1;
+			MountData.idleFrameDelay = 12;
+			MountData.idleFrameStart = 0;
+			MountData.idleFrameLoop = true;
+			MountData.swimFrameCount = MountData.inAirFrameCount;
+			MountData.swimFrameDelay = MountData.inAirFrameDelay;
+			MountData.swimFrameStart = MountData.inAirFrameStart;
 			if (Main.netMode != NetmodeID.Server) {
-				mountData.textureWidth = mountData.backTexture.Width;
-				mountData.textureHeight = mountData.backTexture.Height;
+				MountData.textureWidth = MountData.backTexture.Width;
+				MountData.textureHeight = MountData.backTexture.Height;
 			}
 		}
 		public bool atkFrames;

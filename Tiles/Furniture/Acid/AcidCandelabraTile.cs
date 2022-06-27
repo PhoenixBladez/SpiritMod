@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -9,7 +10,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 {
 	public class AcidCandelabraTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileTable[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -21,9 +22,9 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrosive Candelabra");
-			dustType = -1;
+			DustType = -1;
 			AddMapEntry(new Color(63, 204, 68), name);
-			adjTiles = new int[] { TileID.Torches };
+			AdjTiles = new int[] { TileID.Torches };
 		}
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
@@ -38,17 +39,17 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/Acid/AcidCandelabraTile_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Furniture/Acid/AcidCandelabraTile_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			Tile t = Main.tile[i, j];
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
 			Terraria.Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidCandelabra>());
 		}
 	}

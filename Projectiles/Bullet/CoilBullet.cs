@@ -14,22 +14,22 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.ranged = true;
-			projectile.penetrate = 3;
-			projectile.timeLeft = 300;
-			projectile.height = 6;
-			projectile.width = 6;
-			projectile.alpha = 255;
-			aiType = ProjectileID.Bullet;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 3;
+			Projectile.timeLeft = 300;
+			Projectile.height = 6;
+			Projectile.width = 6;
+			Projectile.alpha = 255;
+			AIType = ProjectileID.Bullet;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void AI()
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Electric);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Electric);
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Electric);
+			int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Electric);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 			Main.dust[dust2].velocity = Vector2.Zero;

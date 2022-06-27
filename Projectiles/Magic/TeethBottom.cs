@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using SpiritMod.Dusts;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,27 +18,27 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 34;
-			projectile.height = 14;
-			projectile.friendly = false;
-			projectile.magic = true;
-			projectile.penetrate = 2;
-			projectile.timeLeft = 90;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			Projectile.width = 34;
+			Projectile.height = 14;
+			Projectile.friendly = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = 2;
+			Projectile.timeLeft = 90;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		int counter = 0;
 		public override void AI()
 		{
 			counter++;
 			if (counter >= 45) {
-				projectile.friendly = true;
+				Projectile.friendly = true;
 			}
 			if (counter == 33) {
 				for (int i = 0; i < 10; i++) {
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Moss_Red, Main.rand.Next(-2, 3), -2);
+					Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Moss_Red, Main.rand.Next(-2, 3), -2);
 				}
 			}
 		}
@@ -45,9 +47,9 @@ namespace SpiritMod.Projectiles.Magic
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<NightmareDust>());
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<NightmareDust>());
 			}
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -55,13 +57,13 @@ namespace SpiritMod.Projectiles.Magic
 			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<SurgingAnguish>(), 180);
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

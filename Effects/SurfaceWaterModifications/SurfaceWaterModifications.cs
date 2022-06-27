@@ -116,25 +116,25 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			if (leftOceanHeight == 0 || leftOceanHeight / 16f > Main.worldSurface)
 			{
 				var start = new Point(60, (int)(Main.maxTilesY * 0.35f / 16f));
-				while (Framing.GetTileSafely(start.X, start.Y).liquid < 255)
+				while (Framing.GetTileSafely(start.X, start.Y).LiquidAmount < 255)
 				{
 					start.Y++;
 					if (start.Y > maxYAllowed) break;
 				}
 
-				leftOceanHeight = start.Y * 16 - (int)(18 * (Framing.GetTileSafely(start.X, start.Y).liquid / 255f));
+				leftOceanHeight = start.Y * 16 - (int)(18 * (Framing.GetTileSafely(start.X, start.Y).LiquidAmount / 255f));
 			}
 
 			if (rightOceanHeight == 0 || rightOceanHeight / 16f > Main.worldSurface)
 			{
 				var start = new Point(Main.maxTilesX - 60, (int)(Main.maxTilesY * 0.35f / 16f));
-				while (Framing.GetTileSafely(start.X, start.Y).liquid < 255)
+				while (Framing.GetTileSafely(start.X, start.Y).LiquidAmount < 255)
 				{
 					start.Y++;
 					if (start.Y > maxYAllowed) break;
 				}
 
-				rightOceanHeight = start.Y * 16 - (int)(18 * (Framing.GetTileSafely(start.X, start.Y).liquid / 255f));
+				rightOceanHeight = start.Y * 16 - (int)(18 * (Framing.GetTileSafely(start.X, start.Y).LiquidAmount / 255f));
 			}
 		}
 
@@ -356,9 +356,9 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			Rectangle space = new Rectangle((int)pos.X, (int)pos.Y, 16, 16);
 
 			// if the tile above doesn't have full liquid, use the left or right one
-			if (Framing.GetTileSafely(x - 1, y).liquid > 0) space.X -= 16;
-			else if (Framing.GetTileSafely(x + 1, y).liquid > 0) space.X += 16;
-			else if (Framing.GetTileSafely(x, y - 1).liquid < 255) space.Y -= 16;
+			if (Framing.GetTileSafely(x - 1, y).LiquidAmount > 0) space.X -= 16;
+			else if (Framing.GetTileSafely(x + 1, y).LiquidAmount > 0) space.X += 16;
+			else if (Framing.GetTileSafely(x, y - 1).LiquidAmount < 255) space.Y -= 16;
 
 			Main.spriteBatch.End();
 
@@ -393,7 +393,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 				if (flag9)
 				{
 					rectangle4 = new Rectangle(0, 4, 16, 4);
-					if (tile.halfBrick() || tile.slope() != 0)
+					if (tile.IsHalfBlock || tile.Slope != 0)
 						rectangle4 = new Rectangle(0, 4, 16, 12);
 				}
 				else if (!flag10 || flag7 || flag8)
@@ -402,10 +402,10 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 					single1 /= 32f;
 					int num118 = 4;
 
-					if (tile3.liquid == 0 && !WorldGen.SolidTile(x, y - 1))
+					if (tile3.LiquidAmount == 0 && !WorldGen.SolidTile(x, y - 1))
 						num118 = 0;
 
-					if (flag7 & flag8 || tile.halfBrick() || tile.slope() != 0)
+					if (flag7 & flag8 || tile.IsHalfBlock || tile.Slope != 0)
 					{
 						vectorPosition = new Vector2(x * 16, y * 16 + (int)single1 * 2);
 						rectangle4 = new Rectangle(0, num118, 16, 16 - (int)single1 * 2);
@@ -441,12 +441,12 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			if (y < Main.worldSurface || gameAlpha > 1f)
 			{
 				gameAlpha = 1f;
-				if (tile3.wall > 0 || tile2.wall > 0 || tile1.wall > 0 || tile4.wall > 0)
+				if (tile3.WallType > 0 || tile2.WallType > 0 || tile1.WallType > 0 || tile4.WallType > 0)
 					gameAlpha = 0.65f;
-				if (tile.wall > 0)
+				if (tile.WallType > 0)
 					gameAlpha = 0.5f;
 			}
-			if (tile.halfBrick() && tile3.liquid > 0 && tile.wall > 0)
+			if (tile.IsHalfBlock && tile3.LiquidAmount > 0 && tile.WallType > 0)
 				gameAlpha = 0f;
 		}
 

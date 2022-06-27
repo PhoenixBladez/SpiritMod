@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class VirulenceCooldown : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Virulent Suppression");
 			Description.SetDefault("'The Putrid Humors must reset their energy'");

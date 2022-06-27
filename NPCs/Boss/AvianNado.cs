@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,34 +17,34 @@ namespace SpiritMod.NPCs.Boss
 
 		public override void SetDefaults()
 		{
-			projectile.width = 24;
-			projectile.height = 100;
-			projectile.hostile = true;
-			projectile.timeLeft = 300;
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
+			Projectile.width = 24;
+			Projectile.height = 100;
+			Projectile.hostile = true;
+			Projectile.timeLeft = 300;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = -1;
 		}
 
 		public override void AI()
 		{
 			float num1178 = 900f;
-			if (projectile.type == 657) {
+			if (Projectile.type == 657) {
 				num1178 = 300f;
 			}
-			projectile.ai[0] += 1f;
-			if (projectile.ai[0] >= num1178) {
-				projectile.Kill();
+			Projectile.ai[0] += 1f;
+			if (Projectile.ai[0] >= num1178) {
+				Projectile.Kill();
 			}
-			if (projectile.type == 656 && projectile.localAI[0] >= 30f) {
-				if (projectile.ai[0] < num1178 - 120f) {
-					float num1177 = projectile.ai[0] % 60f;
-					projectile.ai[0] = num1178 - 120f + num1177;
-					projectile.netUpdate = true;
+			if (Projectile.type == 656 && Projectile.localAI[0] >= 30f) {
+				if (Projectile.ai[0] < num1178 - 120f) {
+					float num1177 = Projectile.ai[0] % 60f;
+					Projectile.ai[0] = num1178 - 120f + num1177;
+					Projectile.netUpdate = true;
 				}
 			}
 			float num1176 = 15f;
 			float num1175 = 15f;
-			Point center = projectile.Center.ToTileCoordinates();
+			Point center = Projectile.Center.ToTileCoordinates();
 
 			Collision.ExpandVertically(center.X, center.Y, out int num1851, out int num1852, (int)num1176, (int)num1175);
 			int num2475 = num1851;
@@ -55,11 +56,11 @@ namespace SpiritMod.NPCs.Boss
 			Vector2 vector152 = Vector2.Lerp(value93, value92, 0.5f);
 			Vector2 value159 = new Vector2(0f, value92.Y - value93.Y);
 			value159.X = value159.Y * 0.2f;
-			projectile.width = (int)(value159.X * 0.65f);
-			projectile.height = (int)value159.Y;
-			projectile.Center = vector152;
+			Projectile.width = (int)(value159.X * 0.65f);
+			Projectile.height = (int)value159.Y;
+			Projectile.Center = vector152;
 
-			if (projectile.ai[0] < num1178 - 120f) {
+			if (Projectile.ai[0] < num1178 - 120f) {
 				for (int num1172 = 0; num1172 < 1; num1172 = num2475 + 1) {
 					float value91 = -0.5f;
 					float value90 = 0.9f;
@@ -85,18 +86,18 @@ namespace SpiritMod.NPCs.Boss
 				}
 			}
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			float num391 = 900f;
-			if (projectile.type == 657)
+			if (Projectile.type == 657)
 				num391 = 300f;
 			float num390 = 15f;
 			float num389 = 15f;
-			float num388 = projectile.ai[0];
+			float num388 = Projectile.ai[0];
 			float scale6 = MathHelper.Clamp(num388 / 30f, 0f, 1f);
 			if (num388 > num391 - 60f)
 				scale6 = MathHelper.Lerp(1f, 0f, (num388 - (num391 - 60f)) / 60f);
-			Point center = projectile.Center.ToTileCoordinates();
+			Point center = Projectile.Center.ToTileCoordinates();
 
 			Collision.ExpandVertically(center.X, center.Y, out int num571, out int num572, (int)num390, (int)num389);
 			num571++;
@@ -108,7 +109,7 @@ namespace SpiritMod.NPCs.Boss
 			Vector2 vector46 = new Vector2(0f, value12.Y - value13.Y);
 			vector46.X = vector46.Y * num387;
 			new Vector2(value13.X - vector46.X / 2f, value13.Y);
-			Texture2D texture2D12 = Main.projectileTexture[projectile.type];
+			Texture2D texture2D12 = TextureAssets.Projectile[Projectile.type].Value;
 			Microsoft.Xna.Framework.Rectangle rectangle5 = texture2D12.Frame(1, 1, 0, 0);
 			Vector2 origin6 = rectangle5.Size() / 2f;
 			float num386 = -0.06283186f * num388;

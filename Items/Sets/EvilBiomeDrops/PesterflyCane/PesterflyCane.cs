@@ -12,32 +12,32 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.PesterflyCane
 		{
 			DisplayName.SetDefault("Pesterfly Cane");
 			Tooltip.SetDefault("Summons pesterflies that swarm around hit enemies");
-			Item.staff[item.type] = true; //Set here since it's universal for this item
+			Item.staff[Item.type] = true; //Set here since it's universal for this item
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 14;
-			item.magic = true;
-			item.mana = 8;
-			item.width = 32;
-			item.height = 32;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 5;
-			item.value = 20000;
-			item.rare = ItemRarityID.Green;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<Pesterfly>();
-			item.shootSpeed = 8f;
+			Item.damage = 14;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 8;
+			Item.width = 32;
+			Item.height = 32;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 5;
+			Item.value = 20000;
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<Pesterfly>();
+			Item.shootSpeed = 8f;
 
-			item.useAnimation = 9;
-			item.useTime = 3;
-			item.reuseDelay = 16;
+			Item.useAnimation = 9;
+			Item.useTime = 3;
+			Item.reuseDelay = 16;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 vel = new Vector2(speedX, speedY) * Main.rand.NextFloat(0.95f, 1.05f);
 			vel = vel.RotatedByRandom(MathHelper.ToRadians(7.5f));

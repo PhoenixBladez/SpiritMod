@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Sets.TideDrops;
@@ -13,25 +14,25 @@ namespace SpiritMod.NPCs.Tides
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Kakamora Lobber");
-			Main.npcFrameCount[npc.type] = 7;
+			Main.npcFrameCount[NPC.type] = 7;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 52;
-			npc.height = 38;
-			npc.damage = 28;
-			npc.defense = 14;
-			aiType = NPCID.SnowFlinx;
-			npc.aiStyle = 3;
-			npc.lifeMax = 110;
-			npc.knockBackResist = .3f;
-			npc.value = 200f;
-			npc.noTileCollide = false;
-			npc.HitSound = SoundID.NPCHit2;
-			npc.DeathSound = SoundID.NPCDeath1;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.KakamoraThrowerBanner>();
+			NPC.width = 52;
+			NPC.height = 38;
+			NPC.damage = 28;
+			NPC.defense = 14;
+			AIType = NPCID.SnowFlinx;
+			NPC.aiStyle = 3;
+			NPC.lifeMax = 110;
+			NPC.knockBackResist = .3f;
+			NPC.value = 200f;
+			NPC.noTileCollide = false;
+			NPC.HitSound = SoundID.NPCHit2;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.KakamoraThrowerBanner>();
 		}
 
 		int timer = 0;
@@ -42,32 +43,32 @@ namespace SpiritMod.NPCs.Tides
 
 		public override void AI()
 		{
-			if (npc.wet)
+			if (NPC.wet)
 			{
-				npc.noGravity = true;
-				if (npc.velocity.Y > -7)
-					npc.velocity.Y -= .085f;
+				NPC.noGravity = true;
+				if (NPC.velocity.Y > -7)
+					NPC.velocity.Y -= .085f;
 				return;
 			}
 			else
-				npc.noGravity = false;
+				NPC.noGravity = false;
 
-			npc.TargetClosest(true);
-			Player player = Main.player[npc.target];
+			NPC.TargetClosest(true);
+			Player player = Main.player[NPC.target];
 
-			var list2 = Main.projectile.Where(x => x.Hitbox.Intersects(npc.Hitbox));
+			var list2 = Main.projectile.Where(x => x.Hitbox.Intersects(NPC.Hitbox));
 			foreach (var proj in list2)
 			{
-				if (proj.type == ModContent.ProjectileType<ShamanBolt>() && proj.active && npc.life < npc.lifeMax - 30)
+				if (proj.type == ModContent.ProjectileType<ShamanBolt>() && proj.active && NPC.life < NPC.lifeMax - 30)
 				{
-					npc.life += 30;
-					npc.HealEffect(30, true);
+					NPC.life += 30;
+					NPC.HealEffect(30, true);
 					proj.active = false;
 				}
-				else if (proj.type == ModContent.ProjectileType<ShamanBolt>() && proj.active && npc.life > npc.lifeMax - 30)
+				else if (proj.type == ModContent.ProjectileType<ShamanBolt>() && proj.active && NPC.life > NPC.lifeMax - 30)
 				{
-					npc.life += npc.lifeMax - npc.life;
-					npc.HealEffect(npc.lifeMax - npc.life, true);
+					NPC.life += NPC.lifeMax - NPC.life;
+					NPC.HealEffect(NPC.lifeMax - NPC.life, true);
 					proj.active = false;
 				}
 			}
@@ -80,147 +81,147 @@ namespace SpiritMod.NPCs.Tides
 				if (!throwing)
 				{
 					throwing = true;
-					npc.frameCounter = 0;
+					NPC.frameCounter = 0;
 				}
 			}
 
 			if (throwing)
 			{
-				npc.aiStyle = -1;
-				npc.velocity.X = 0;
+				NPC.aiStyle = -1;
+				NPC.velocity.X = 0;
 
-				if (player.position.X > npc.position.X)
-					npc.spriteDirection = 1;
+				if (player.position.X > NPC.position.X)
+					NPC.spriteDirection = 1;
 				else
-					npc.spriteDirection = -1;
+					NPC.spriteDirection = -1;
 			}
 
 			if (timer == 300)
 			{
 				charging = true;
-				Main.PlaySound(SoundID.NPCHit, npc.Center, 51);
-				npc.velocity.X = 0;
-				if (player.position.X > npc.position.X)
+				SoundEngine.PlaySound(SoundID.NPCHit, NPC.Center, 51);
+				NPC.velocity.X = 0;
+				if (player.position.X > NPC.position.X)
 				{
 					chargeDirection = 1;
-					npc.spriteDirection = 1;
+					NPC.spriteDirection = 1;
 				}
 				else
 				{
 					chargeDirection = -1;
-					npc.spriteDirection = -1;
+					NPC.spriteDirection = -1;
 				}
 			}
 			if (charging)
 			{
 				if (timer == 350)
 				{
-					npc.velocity.X = 4 * chargeDirection;
-					npc.velocity.Y = -7;
+					NPC.velocity.X = 4 * chargeDirection;
+					NPC.velocity.Y = -7;
 				}
 				if (timer < 350)
 				{
-					npc.aiStyle = -1;
-					npc.velocity.X = -0.6f * chargeDirection;
+					NPC.aiStyle = -1;
+					NPC.velocity.X = -0.6f * chargeDirection;
 				}
 				else
 				{
-					npc.aiStyle = 26;
-					npc.spriteDirection = npc.direction;
+					NPC.aiStyle = 26;
+					NPC.spriteDirection = NPC.direction;
 				}
-				if (Math.Abs(npc.velocity.X) < 3 && timer > 350)
+				if (Math.Abs(NPC.velocity.X) < 3 && timer > 350)
 				{
 					charging = false;
-					npc.aiStyle = 3;
-					npc.rotation = 0;
+					NPC.aiStyle = 3;
+					NPC.rotation = 0;
 					timer = 0;
 				}
-				if ((chargeDirection == 1 && player.position.X < npc.position.X) || (chargeDirection == -1 && player.position.X > npc.position.X) && timer > 180)
+				if ((chargeDirection == 1 && player.position.X < NPC.position.X) || (chargeDirection == -1 && player.position.X > NPC.position.X) && timer > 180)
 				{
-					npc.rotation += 0.1f * npc.velocity.X;
-					npc.velocity.Y = 5;
+					NPC.rotation += 0.1f * NPC.velocity.X;
+					NPC.velocity.Y = 5;
 				}
 			}
 			else if (!throwing)
 			{
-				npc.rotation = 0;
-				npc.aiStyle = 3;
-				npc.spriteDirection = npc.direction;
-				var list = Main.npc.Where(x => x.Hitbox.Intersects(npc.Hitbox));
+				NPC.rotation = 0;
+				NPC.aiStyle = 3;
+				NPC.spriteDirection = NPC.direction;
+				var list = Main.npc.Where(x => x.Hitbox.Intersects(NPC.Hitbox));
 				foreach (var npc2 in list)
 				{
-					if (npc2.type == ModContent.NPCType<LargeCrustecean>() && npc.Center.Y > npc2.Center.Y && npc2.active)
+					if (npc2.type == ModContent.NPCType<LargeCrustecean>() && NPC.Center.Y > npc2.Center.Y && npc2.active)
 					{
-						npc.velocity.X = npc2.direction * 7;
-						npc.velocity.Y = -2;
-						Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraHit"));
+						NPC.velocity.X = npc2.direction * 7;
+						NPC.velocity.Y = -2;
+						SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraHit"));
 					}
 				}
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.NextBool(50))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CoconutGun>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<CoconutGun>());
 
 			if (Main.rand.NextBool(50))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TikiJavelin>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<TikiJavelin>());
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
 			if (!throwing)
 			{
-				if (npc.collideY)
+				if (NPC.collideY)
 				{
 					if (charging)
-						npc.frameCounter += 0.1f;
+						NPC.frameCounter += 0.1f;
 
-					npc.frameCounter += 0.2f;
-					npc.frameCounter %= 4;
-					int frame = (int)npc.frameCounter;
-					npc.frame.Y = frame * frameHeight;
+					NPC.frameCounter += 0.2f;
+					NPC.frameCounter %= 4;
+					int frame = (int)NPC.frameCounter;
+					NPC.frame.Y = frame * frameHeight;
 				}
 			}
 			else
 			{
-				npc.frameCounter += 0.3f;
-				if (npc.frameCounter >= 3f)
+				NPC.frameCounter += 0.3f;
+				if (NPC.frameCounter >= 3f)
 				{
 					throwing = false;
-					npc.frameCounter = 0;
-					npc.aiStyle = 3;
+					NPC.frameCounter = 0;
+					NPC.aiStyle = 3;
 					thrownCoconut = false;
 				}
-				if (npc.frameCounter >= 1.3f && !thrownCoconut)
+				if (NPC.frameCounter >= 1.3f && !thrownCoconut)
 				{
-					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 1);
-					Vector2 direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 9f;
+					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 1);
+					Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 9f;
 					float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 					float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-					Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<CoconutHostile>(), npc.damage / 2, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(NPC.Center.X + (NPC.direction * 12), NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<CoconutHostile>(), NPC.damage / 2, 1, Main.myPlayer, 0, 0);
 					thrownCoconut = true;
 				}
-				npc.frameCounter %= 3;
-				int frame = (int)npc.frameCounter + 4;
-				npc.frame.Y = frame * frameHeight;
+				NPC.frameCounter %= 3;
+				int frame = (int)NPC.frameCounter + 4;
+				NPC.frame.Y = frame * frameHeight;
 			}
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 10; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.DynastyWood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.DynastyWood, 2.5f * hitDirection, -2.5f, 0, default, .34f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.DynastyWood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.DynastyWood, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_Gore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Kakamora_GoreSpear"), 1f);
+				SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_GoreSpear").Type, 1f);
 			}
 		}
 	}

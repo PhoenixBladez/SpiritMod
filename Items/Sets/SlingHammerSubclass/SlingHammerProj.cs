@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -13,14 +14,14 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 	{
 		public override void SetDefaults()
 		{
-			projectile.width = 90;
-			projectile.height = 90;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.melee = true;
-			projectile.ownerHitCheck = true;
+			Projectile.width = 90;
+			Projectile.height = 90;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.ownerHitCheck = true;
 		}
 
 		protected virtual int height => 60;
@@ -39,18 +40,18 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 		public override void AI()
 		{
 			alphaCounter += 0.08f;
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 			if (!released)
 			{
-                projectile.scale = MathHelper.Clamp(projectile.ai[0] / 10, 0, 1);
+                Projectile.scale = MathHelper.Clamp(Projectile.ai[0] / 10, 0, 1);
 			}
             if (player.direction == 1)
             {
-                radians += (double)((projectile.ai[0] + 10) / 200);
+                radians += (double)((Projectile.ai[0] + 10) / 200);
             }
             else
             {
-                radians -= (double)((projectile.ai[0] + 10) / 200);
+                radians -= (double)((Projectile.ai[0] + 10) / 200);
             }
             if (radians > 6.28)
             {
@@ -60,22 +61,22 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
             {
                 radians += 6.28;
             }
-			projectile.velocity = Vector2.Zero;
-			if (projectile.ai[0] % 20 == 0)
-				Main.PlaySound(new LegacySoundStyle(SoundID.Item, 19).WithPitchVariance(0.1f).WithVolume(0.5f), projectile.Center);
+			Projectile.velocity = Vector2.Zero;
+			if (Projectile.ai[0] % 20 == 0)
+				SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 19).WithPitchVariance(0.1f).WithVolume(0.5f), Projectile.Center);
 
-			if (projectile.ai[0] < chargeTime)
+			if (Projectile.ai[0] < chargeTime)
             {
-                projectile.ai[0]+= chargeRate;
-                if (projectile.ai[0] >= chargeTime)
+                Projectile.ai[0]+= chargeRate;
+                if (Projectile.ai[0] >= chargeTime)
                 {
-                    Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
+                    SoundEngine.PlaySound(SoundID.NPCDeath7, Projectile.Center);
                 }
             }
             Vector2 direction = Main.MouseWorld - player.position;
             direction.Normalize();
             double throwingAngle = direction.ToRotation() + 3.14;
-			projectile.position = player.Center - (Vector2.UnitX.RotatedBy(radians) * 40) - (projectile.Size / 2);
+			Projectile.position = player.Center - (Vector2.UnitX.RotatedBy(radians) * 40) - (Projectile.Size / 2);
 			player.itemTime = 4;
 			player.itemAnimation = 4;
 			player.itemRotation = MathHelper.WrapAngle((float)radians);
@@ -87,30 +88,30 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
             }
 			if (!player.channel || released)
             {
-                if (projectile.ai[0] < chargeTime || released)
+                if (Projectile.ai[0] < chargeTime || released)
                 {
                     released = true;
-                    projectile.scale -= 0.15f;
-                    if (projectile.scale < 0.15f)
+                    Projectile.scale -= 0.15f;
+                    if (Projectile.scale < 0.15f)
                     {
-                        projectile.active = false;
+                        Projectile.active = false;
                     }
                 }
                 else
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                     direction *= throwSpeed;
-                    Projectile.NewProjectile(player.Center, direction, thrownProj, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(player.Center, direction, thrownProj, (int)(Projectile.damage * damageMult), Projectile.knockBack, Projectile.owner);
 				}
             }
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
         {
                 Color color = lightColor;
-                Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, width, height), color, (float)radians + 3.9f, new Vector2(0, height), projectile.scale, SpriteEffects.None, 0);
-                if (projectile.ai[0] >= chargeTime)
+                Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Main.player[Projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, width, height), color, (float)radians + 3.9f, new Vector2(0, height), Projectile.scale, SpriteEffects.None, 0);
+                if (Projectile.ai[0] >= chargeTime)
                 {
-                    Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, height * 2, width, height), Color.White * 0.9f, (float)radians + 3.9f, new Vector2(0, height), projectile.scale, SpriteEffects.None, 1);
+                    Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Main.player[Projectile.owner].Center - Main.screenPosition, new Rectangle(0, height * 2, width, height), Color.White * 0.9f, (float)radians + 3.9f, new Vector2(0, height), Projectile.scale, SpriteEffects.None, 1);
 
                     if (flickerTime < 16)
                     {
@@ -122,7 +123,7 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
                         {
                             alpha = 0;
                         }
-                        Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, height, width, height), color * alpha, (float)radians + 3.9f, new Vector2(0, height), projectile.scale, SpriteEffects.None, 1);
+                        Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Main.player[Projectile.owner].Center - Main.screenPosition, new Rectangle(0, height, width, height), color * alpha, (float)radians + 3.9f, new Vector2(0, height), Projectile.scale, SpriteEffects.None, 1);
                     }
                 }
                 return false;
@@ -130,7 +131,7 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			SafeModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			if (target.Center.X > player.Center.X)
 				hitDirection = 1;
 			else

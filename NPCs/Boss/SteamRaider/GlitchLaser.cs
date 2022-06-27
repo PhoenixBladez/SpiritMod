@@ -10,25 +10,25 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = true;
-			projectile.width = 2;
-			projectile.height = 2;
-			projectile.aiStyle = -1;
-			projectile.friendly = false;
-			projectile.penetrate = 8;
-			projectile.alpha = 255;
-			projectile.timeLeft = 150;
-			projectile.tileCollide = true;
+			Projectile.hostile = true;
+			Projectile.width = 2;
+			Projectile.height = 2;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = false;
+			Projectile.penetrate = 8;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 150;
+			Projectile.tileCollide = true;
 		}
 
-		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StandardColorTrail(new Color(255, 232, 82)), new RoundCap(), new DefaultTrailPosition(), 10f, 450f);
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new StandardColorTrail(new Color(255, 232, 82)), new RoundCap(), new DefaultTrailPosition(), 10f, 450f);
 
 		public override void AI()
 		{
-			if (projectile.velocity.Length() < 32)
-				projectile.velocity *= 1.02f;
+			if (Projectile.velocity.Length() < 32)
+				Projectile.velocity *= 1.02f;
 			else
-				projectile.velocity = Vector2.Normalize(projectile.velocity) * 32;
+				Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 32;
 		}
 	}
 }

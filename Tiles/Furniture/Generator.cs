@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class Generator : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
         {
             Main.tileTable[Type] = true;
             Main.tileSolidTop[Type] = true;
@@ -34,7 +34,7 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Glowplate Generator");
 			AddMapEntry(new Color(60, 60, 60), name);
-			dustType = -1;
+			DustType = -1;
 		}
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
@@ -55,8 +55,8 @@ namespace SpiritMod.Tiles.Furniture
             {
                 zero = Vector2.Zero;
             }
-            int height = tile.frameY == 36 ? 18 : 16;
-            Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/Generator_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), new Color(150, 150, 150, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            int height = tile.TileFrameY == 36 ? 18 : 16;
+            Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Furniture/Generator_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(150, 150, 150, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             Tile t = Main.tile[i, j];
         }
     }

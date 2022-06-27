@@ -15,20 +15,20 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 16;
+			Item.width = 16;
+			Item.height = 16;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
-			item.rare = ItemRarityID.Orange;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
+			Item.rare = ItemRarityID.Orange;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<CryoliteOreTile>();
+			Item.createTile = ModContent.TileType<CryoliteOreTile>();
 		}
 	}
 }

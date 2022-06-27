@@ -26,23 +26,22 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 
 		public override void SafeSetDefaults()
 		{
-			item.Size = new Vector2(34, 30);
-			item.damage = 40;
-			item.rare = ItemRarityID.Orange;
-			item.value = Item.sellPrice(0, 01, 10, 0);
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.shoot = ModContent.ProjectileType<LivewireProj>();
-			item.shootSpeed = 13;
-			item.knockBack = 4;
+			Item.Size = new Vector2(34, 30);
+			Item.damage = 40;
+			Item.rare = ItemRarityID.Orange;
+			Item.value = Item.sellPrice(0, 01, 10, 0);
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.shoot = ModContent.ProjectileType<LivewireProj>();
+			Item.shootSpeed = 13;
+			Item.knockBack = 4;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 18);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 	public class LivewireProj : BaseFlailProj
@@ -70,20 +69,20 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(8, 8);
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = -1;
+			Projectile.Size = new Vector2(8, 8);
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = -1;
 		}
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Livewire");
 
 		public override bool PreAI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			player.itemTime = 2;
 			player.itemAnimation = 2;
-			player.heldProj = projectile.whoAmI;
+			player.heldProj = Projectile.whoAmI;
 
 			if (!released)
 				return true;
@@ -94,27 +93,27 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 				trail.Destroyed = true;
 				trail2.Destroyed = true;
 				stuck = false;
-				projectile.tileCollide = oldTileCollide;
+				Projectile.tileCollide = oldTileCollide;
 			}
 
 			if (stuck)
 			{
 
 				Vector2 vel = Vector2.UnitX.RotatedBy(Main.rand.NextFloat(6.28f));
-				ParticleHandler.SpawnParticle(new ImpactLine(projectile.Center, vel, new Color(33, 211, 255), new Vector2(0.25f, 1f), 16));
+				ParticleHandler.SpawnParticle(new ImpactLine(Projectile.Center, vel, new Color(33, 211, 255), new Vector2(0.25f, 1f), 16));
 
 				float lerper = Main.rand.NextFloat();
-				ParticleHandler.SpawnParticle(new GlowParticle(Vector2.Lerp(projectile.Center, player.Center, lerper), Vector2.Zero, new Color(33, 151, 255), 0.1f, 30));
-				projectile.velocity = Vector2.Zero;
-				projectile.tileCollide = false;
+				ParticleHandler.SpawnParticle(new GlowParticle(Vector2.Lerp(Projectile.Center, player.Center, lerper), Vector2.Zero, new Color(33, 151, 255), 0.1f, 30));
+				Projectile.velocity = Vector2.Zero;
+				Projectile.tileCollide = false;
 				if (stuckToTiles)
-					projectile.Center = stuckPosition;
+					Projectile.Center = stuckPosition;
 				else
 				{
 					if (!stickTarget.active)
 						stuckTimer = 0;
 					else
-						projectile.Center = stickTarget.Center + stuckPosition;
+						Projectile.Center = stickTarget.Center + stuckPosition;
 				}
 
 				return false;
@@ -126,29 +125,29 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			if (readyToStick && released && target.life > 0)
 			{
-				trail2 = new PlugTrail2(projectile, Main.player[projectile.owner]);
-				trail = new PlugTrail(projectile, Main.player[projectile.owner]);
+				trail2 = new PlugTrail2(Projectile, Main.player[Projectile.owner]);
+				trail = new PlugTrail(Projectile, Main.player[Projectile.owner]);
 				SpiritMod.primitives.CreateTrail(trail2);
 				SpiritMod.primitives.CreateTrail(trail);
-				oldTileCollide = projectile.tileCollide;
+				oldTileCollide = Projectile.tileCollide;
 				readyToStick = false;
 				stuck = true;
 				stuckToTiles = false;
 				stuckTimer = 100;
 				stickTarget = target;
-				stuckPosition = projectile.Center - target.Center;
-				projectile.rotation = projectile.DirectionTo(target.Center).ToRotation() - 1.57f;
+				stuckPosition = Projectile.Center - target.Center;
+				Projectile.rotation = Projectile.DirectionTo(target.Center).ToRotation() - 1.57f;
 				if (Main.netMode != NetmodeID.SinglePlayer)
-					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
+					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, Projectile.whoAmI);
 			}
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			float collisionPoint = 0f;
 			if (stuck)
-				return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), player.Center, projectile.Center, 12, ref collisionPoint);
+				return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), player.Center, Projectile.Center, 12, ref collisionPoint);
 			return base.Colliding(projHitbox, targetHitbox);
 		}
 
@@ -177,7 +176,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 					for (int i = 0; i < 20; i++)
 					{
 						Vector2 vel = Main.rand.NextVector2Circular(35, 25);
-						ParticleHandler.SpawnParticle(new GlowParticle(projectile.Center, vel, new Color(33, 211, 255), 0.05f, 10));
+						ParticleHandler.SpawnParticle(new GlowParticle(Projectile.Center, vel, new Color(33, 211, 255), 0.05f, 10));
 					}
 				}
 				else
@@ -193,40 +192,40 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 				return base.OnTileCollide(oldVelocity);
 			}
 
-			trail2 = new PlugTrail2(projectile, Main.player[projectile.owner]);
+			trail2 = new PlugTrail2(Projectile, Main.player[Projectile.owner]);
 			SpiritMod.primitives.CreateTrail(trail2);
 
-			trail = new PlugTrail(projectile, Main.player[projectile.owner]);
+			trail = new PlugTrail(Projectile, Main.player[Projectile.owner]);
 			SpiritMod.primitives.CreateTrail(trail);
 
-			oldTileCollide = projectile.tileCollide;
+			oldTileCollide = Projectile.tileCollide;
 			readyToStick = false;
 			stuck = true;
 			stuckToTiles = true;
 			stuckTimer = 100;
-			stuckPosition = projectile.Center;
+			stuckPosition = Projectile.Center;
 			struckTile = true;
 
-			if (oldVelocity.X != projectile.velocity.X) //if its an X axis collision
+			if (oldVelocity.X != Projectile.velocity.X) //if its an X axis collision
 			{
-				if (projectile.velocity.X > 0)
-					projectile.rotation = 1.57f;
+				if (Projectile.velocity.X > 0)
+					Projectile.rotation = 1.57f;
 				else
-					projectile.rotation = 4.71f;
+					Projectile.rotation = 4.71f;
 			}
 
-			if (oldVelocity.Y != projectile.velocity.Y) //if its a Y axis collision
+			if (oldVelocity.Y != Projectile.velocity.Y) //if its a Y axis collision
 			{
-				if (projectile.velocity.Y > 0)
-					projectile.rotation = 0f;
+				if (Projectile.velocity.Y > 0)
+					Projectile.rotation = 0f;
 				else
-					projectile.rotation = 3.14f;
+					Projectile.rotation = 3.14f;
 			}
 
 			return base.OnTileCollide(oldVelocity);
 		}
 
-		public override bool PreDrawExtras(SpriteBatch spriteBatch)
+		public override bool PreDrawExtras()
 		{
 			if (stuck)
 				return false;
@@ -264,12 +263,12 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			{
 				if (trail2 == null)
 				{
-					trail2 = new PlugTrail2(projectile, Main.player[projectile.owner]);
+					trail2 = new PlugTrail2(Projectile, Main.player[Projectile.owner]);
 					SpiritMod.primitives.CreateTrail(trail2);
 				}
 				if (trail == null)
 				{
-					trail = new PlugTrail(projectile, Main.player[projectile.owner]);
+					trail = new PlugTrail(Projectile, Main.player[Projectile.owner]);
 					SpiritMod.primitives.CreateTrail(trail);
 				}
 			}

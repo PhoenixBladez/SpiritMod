@@ -2,9 +2,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Summon.Zones;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs.Zones;
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 {
@@ -14,53 +17,53 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 		{
 			DisplayName.SetDefault("Arcane Codex: Slow Zone");
 			Tooltip.SetDefault("Summons a slow zone at the cursor position\nSlow zones reduce enemy movement speed\nZones count as sentries");
-            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/ArcaneZoneSubclass/SlowCodex_Glow");
+            SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/ArcaneZoneSubclass/SlowCodex_Glow");
         }
 
         public override void SetDefaults()
 		{
-			item.damage = 0;
-			item.summon = true;
-			item.mana = 10;
-			item.width = 54;
-			item.height = 50;
-			item.useTime = 31;
-			item.useAnimation = 31;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 0;
-			item.value = 10000;
-			item.rare = ItemRarityID.Orange;
-			item.UseSound = SoundID.DD2_EtherianPortalSpawnEnemy;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<SlowZone>();
-			item.shootSpeed = 0f;
-			item.buffType = ModContent.BuffType<CryoZoneTimer>();
-			item.buffTime = Projectile.SentryLifeTime;
+			Item.damage = 0;
+			Item.DamageType = DamageClass.Summon;
+			Item.mana = 10;
+			Item.width = 54;
+			Item.height = 50;
+			Item.useTime = 31;
+			Item.useAnimation = 31;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 0;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.DD2_EtherianPortalSpawnEnemy;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<SlowZone>();
+			Item.shootSpeed = 0f;
+			Item.buffType = ModContent.BuffType<CryoZoneTimer>();
+			Item.buffTime = Projectile.SentryLifeTime;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			position = Main.MouseWorld;
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
             player.UpdateMaxTurrets();
 			return false;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.1f, .2f, .22f);
+			Lighting.AddLight(Item.position, 0.1f, .2f, .22f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/ArcaneZoneSubclass/SlowCodex_Glow"),
+				Mod.GetTexture("Items/Sets/ArcaneZoneSubclass/SlowCodex_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -73,12 +76,11 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 		}
 		public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<EmptyCodex>(), 1);
             recipe.AddIngredient(ModContent.ItemType<Items.Sets.CryoliteSet.CryoliteBar>(), 8);
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

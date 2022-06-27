@@ -4,8 +4,11 @@ using SpiritMod.Items.Sets.Vulture_Matriarch;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Vulture_Matriarch
 {
@@ -21,28 +24,28 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vulture Matriarch");
-			Main.npcFrameCount[npc.type] = 8;
-			NPCID.Sets.TrailCacheLength[npc.type] = 20;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 8;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 20;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.aiStyle = -1;
-			npc.lifeMax = 3500;
-			npc.defense = 24;
-			npc.value = 0f;
-			npc.damage = 60;
-			npc.npcSlots = 6f;
-			npc.knockBackResist = 0f;
-			npc.width = 40;
-			npc.height = 50;
-			npc.lavaImmune = true;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.HitSound = SoundID.NPCHit28;
-			npc.DeathSound = SoundID.NPCDeath31;
-			npc.friendly = false;
+			NPC.aiStyle = -1;
+			NPC.lifeMax = 3500;
+			NPC.defense = 24;
+			NPC.value = 0f;
+			NPC.damage = 60;
+			NPC.npcSlots = 6f;
+			NPC.knockBackResist = 0f;
+			NPC.width = 40;
+			NPC.height = 50;
+			NPC.lavaImmune = true;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.HitSound = SoundID.NPCHit28;
+			NPC.DeathSound = SoundID.NPCDeath31;
+			NPC.friendly = false;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -63,38 +66,38 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 
 		public override void AI()
 		{
-			Player player = Main.player[npc.target];
-			npc.TargetClosest(true);
-			npc.rotation = npc.velocity.X * 0.05f;
-			npc.spriteDirection = npc.direction;
-			npc.defDamage = 0;
+			Player player = Main.player[NPC.target];
+			NPC.TargetClosest(true);
+			NPC.rotation = NPC.velocity.X * 0.05f;
+			NPC.spriteDirection = NPC.direction;
+			NPC.defDamage = 0;
 
-			if (npc.Distance(player.Center) <= 140 && npc.ai[0] == 0)
+			if (NPC.Distance(player.Center) <= 140 && NPC.ai[0] == 0)
 			{
-				npc.ai[0] = 1;
-				npc.netUpdate = true;
+				NPC.ai[0] = 1;
+				NPC.netUpdate = true;
 			}
 
-			if (npc.ai[0] != 0)
+			if (NPC.ai[0] != 0)
 			{
-				if (npc.position.Y > player.position.Y + 100)
-					npc.velocity.Y = -8f;
+				if (NPC.position.Y > player.position.Y + 100)
+					NPC.velocity.Y = -8f;
 
-				if (npc.ai[2] != 1)
+				if (NPC.ai[2] != 1)
 				{
-					npc.ai[2] = 1;
+					NPC.ai[2] = 1;
 					Main.NewText("The Vulture Matriarch has been disturbed!", 175, 75, 255);
-					Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 28, 1.5f, -0.4f);
-					npc.netUpdate = true;
+					SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 28, 1.5f, -0.4f);
+					NPC.netUpdate = true;
 				}
 
-				npc.noTileCollide = true;
+				NPC.noTileCollide = true;
 
-				if (Main.rand.Next(355) == 0 && !isFlashing && npc.ai[1] < 260 && !justFlashed)
+				if (Main.rand.Next(355) == 0 && !isFlashing && NPC.ai[1] < 260 && !justFlashed)
 				{
 					isFlashing = true;
 					justFlashed = true;
-					npc.netUpdate = true;
+					NPC.netUpdate = true;
 				}
 				else
 				{
@@ -106,16 +109,16 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 					Flashing();
 
 				if (!player.active || player.dead)
-					npc.velocity.Y = -5f;
+					NPC.velocity.Y = -5f;
 
-				npc.ai[3]++;
-				if (npc.ai[1] < 260)
+				NPC.ai[3]++;
+				if (NPC.ai[1] < 260)
 				{
-					int interval = npc.life < npc.lifeMax / 2 ? 55 : 110;
-					if (npc.ai[3] % interval == 0)
+					int interval = NPC.life < NPC.lifeMax / 2 ? 55 : 110;
+					if (NPC.ai[3] % interval == 0)
 					{
-						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 73, 1f, -0.5f);
-						Vector2 toPlayer = Vector2.Normalize(player.Center - npc.Center) * 12f;
+						SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 73, 1f, -0.5f);
+						Vector2 toPlayer = Vector2.Normalize(player.Center - NPC.Center) * 12f;
 
 						int numberProjectiles = 3 + Main.rand.Next(4);
 						if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -124,7 +127,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 							{
 								float scale = 1f - (Main.rand.NextFloat() * .3f);
 								Vector2 perturbedSpeed = toPlayer.RotatedByRandom(MathHelper.ToRadians(32)) * scale;
-								Projectile.NewProjectile(npc.Center.X + 23 * npc.direction, npc.Center.Y + 16, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Sharp_Feather>(), 22, 3f, Main.myPlayer);
+								Projectile.NewProjectile(NPC.Center.X + 23 * NPC.direction, NPC.Center.Y + 16, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Sharp_Feather>(), 22, 3f, Main.myPlayer);
 							}
 						}
 					}
@@ -132,20 +135,20 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 			}
 			else
 			{
-				npc.noTileCollide = false;
-				npc.velocity.Y = 5f;
-				npc.velocity.X = 0f;
+				NPC.noTileCollide = false;
+				NPC.velocity.Y = 5f;
+				NPC.velocity.X = 0f;
 			}
 		}
 
 		public void Flashing()
 		{
-			npc.ai[1] = 0;
+			NPC.ai[1] = 0;
 			flashingTimer++;
 
-			Player player = Main.player[npc.target];
-			npc.velocity = Vector2.Zero;
-			npc.spriteDirection = player.Center.X > npc.Center.X ? 1 : -1;
+			Player player = Main.player[NPC.target];
+			NPC.velocity = Vector2.Zero;
+			NPC.spriteDirection = player.Center.X > NPC.Center.X ? 1 : -1;
 
 			if (flashingTimer >= 179)
 			{
@@ -155,10 +158,10 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 
 			if (flashingTimer % 30 == 0 && flashingTimer != 180)
 			{
-				if (player.direction == -npc.spriteDirection && !player.HasBuff(ModContent.BuffType<Golden_Curse>()) && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+				if (player.direction == -NPC.spriteDirection && !player.HasBuff(ModContent.BuffType<Golden_Curse>()) && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0))
 				{
 					player.AddBuff(ModContent.BuffType<Golden_Curse>(), 600);
-					Main.PlaySound(SoundID.Trackable, (int)npc.position.X, (int)npc.position.Y, 50, 1f, -0.5f);
+					SoundEngine.PlaySound(SoundID.Trackable, (int)NPC.position.X, (int)NPC.position.Y, 50, 1f, -0.5f);
 
 					for (int i = 0; i < 50; ++i)
 					{
@@ -168,27 +171,27 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 							Main.dust[bbb].noGravity = true;
 					}
 				}
-				Main.PlaySound(SoundID.Trackable, (int)npc.position.X, (int)npc.position.Y, 41, 1f, 0f);
+				SoundEngine.PlaySound(SoundID.Trackable, (int)NPC.position.X, (int)NPC.position.Y, 41, 1f, 0f);
 			}
 		}
 
 		public void NormalMovement()
 		{
-			npc.knockBackResist = 0f;
+			NPC.knockBackResist = 0f;
 
-			Player player = Main.player[npc.target];
-			if (npc.ai[1] < 260 && npc.ai[1] > 1)
+			Player player = Main.player[NPC.target];
+			if (NPC.ai[1] < 260 && NPC.ai[1] > 1)
 			{
 				const float MovementSpeed = 0.25f;
 
-				float x = Main.player[npc.target].Center.X - npc.Center.X;
-				float y = Main.player[npc.target].Center.Y - npc.Center.Y - 300f;
+				float x = Main.player[NPC.target].Center.X - NPC.Center.X;
+				float y = Main.player[NPC.target].Center.Y - NPC.Center.Y - 300f;
 				float distSQ = x * x + y * y;
 
-				if (player == Main.player[npc.target])
+				if (player == Main.player[NPC.target])
 				{
-					float oldVelX = npc.velocity.X;
-					float oldVelY = npc.velocity.Y;
+					float oldVelX = NPC.velocity.X;
+					float oldVelY = NPC.velocity.Y;
 
 					if (distSQ >= 400.0)
 					{
@@ -197,30 +200,30 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 						oldVelY = y * num8;
 					}
 
-					if (npc.velocity.X < oldVelX)
+					if (NPC.velocity.X < oldVelX)
 					{
-						npc.velocity.X += MovementSpeed;
-						if (npc.velocity.X < 0 && oldVelX > 0)
-							npc.velocity.X += MovementSpeed * 2f;
+						NPC.velocity.X += MovementSpeed;
+						if (NPC.velocity.X < 0 && oldVelX > 0)
+							NPC.velocity.X += MovementSpeed * 2f;
 					}
-					else if (npc.velocity.X > oldVelX)
+					else if (NPC.velocity.X > oldVelX)
 					{
-						npc.velocity.X -= MovementSpeed;
-						if (npc.velocity.X > 0 && oldVelX < 0)
-							npc.velocity.X -= MovementSpeed * 2f;
+						NPC.velocity.X -= MovementSpeed;
+						if (NPC.velocity.X > 0 && oldVelX < 0)
+							NPC.velocity.X -= MovementSpeed * 2f;
 					}
 
-					if (npc.velocity.Y < oldVelY)
+					if (NPC.velocity.Y < oldVelY)
 					{
-						npc.velocity.Y += MovementSpeed;
-						if (npc.velocity.Y < 0 && oldVelY > 0)
-							npc.velocity.Y += MovementSpeed * 2f;
+						NPC.velocity.Y += MovementSpeed;
+						if (NPC.velocity.Y < 0 && oldVelY > 0)
+							NPC.velocity.Y += MovementSpeed * 2f;
 					}
-					else if (npc.velocity.Y > oldVelY)
+					else if (NPC.velocity.Y > oldVelY)
 					{
-						npc.velocity.Y -= MovementSpeed;
-						if (npc.velocity.Y > 0 && oldVelY < 0)
-							npc.velocity.Y -= MovementSpeed * 2f;
+						NPC.velocity.Y -= MovementSpeed;
+						if (NPC.velocity.Y > 0 && oldVelY < 0)
+							NPC.velocity.Y -= MovementSpeed * 2f;
 					}
 				}
 			}
@@ -228,165 +231,165 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 
 		public void CircularGlideMovement()
 		{
-			npc.knockBackResist = 0f;
-			npc.ai[1]++;
+			NPC.knockBackResist = 0f;
+			NPC.ai[1]++;
 
-			if (npc.ai[1] >= 260 && npc.ai[1] < 480)
+			if (NPC.ai[1] >= 260 && NPC.ai[1] < 480)
 			{
 				float rot = MathHelper.TwoPi / (720 / 2f);
-				npc.velocity = npc.velocity.RotatedBy(rot * 2 * npc.direction);
+				NPC.velocity = NPC.velocity.RotatedBy(rot * 2 * NPC.direction);
 			}
 
-			if (npc.ai[1] >= 480)
+			if (NPC.ai[1] >= 480)
 				FlyTowardsPlayer();
 		}
 
 		public void FlyTowardsPlayer()
 		{
-			npc.knockBackResist = 0.99f;
-			npc.defDamage = 50;
+			NPC.knockBackResist = 0.99f;
+			NPC.defDamage = 50;
 			gliding = true;
 
-			if (npc.ai[1] == 481)
-				Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 28, 1.5f, -0.4f);
+			if (NPC.ai[1] == 481)
+				SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 28, 1.5f, -0.4f);
 
-			Vector2 center = npc.Center;
-			Vector2 v = Vector2.Normalize(Main.player[npc.target].Center - center) * 10f;
+			Vector2 center = NPC.Center;
+			Vector2 v = Vector2.Normalize(Main.player[NPC.target].Center - center) * 10f;
 
-			npc.velocity.X = (npc.velocity.X * (30f - 1f) + v.X) / 30f;
-			npc.velocity.Y = (npc.velocity.Y * (30f - 1f) + v.Y) / 30f;
+			NPC.velocity.X = (NPC.velocity.X * (30f - 1f) + v.X) / 30f;
+			NPC.velocity.Y = (NPC.velocity.Y * (30f - 1f) + v.Y) / 30f;
 
-			if (npc.ai[1] >= 580)
+			if (NPC.ai[1] >= 580)
 			{
 				justFlashed = false;
 				gliding = false;
-				npc.ai[1] = 0;
-				npc.netUpdate = true;
+				NPC.ai[1] = 0;
+				NPC.netUpdate = true;
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if (isFlashing)
 			{
 				SpriteEffects spriteEffects = SpriteEffects.None;
-				if (npc.spriteDirection == 1)
+				if (NPC.spriteDirection == 1)
 					spriteEffects = SpriteEffects.FlipHorizontally;
 
-				Texture2D ripple = mod.GetTexture("Effects/Ripple");
+				Texture2D ripple = Mod.GetTexture("Effects/Ripple");
 
 				Color baseCol = new Color(211, 198, 111, 0);
 
 				Rectangle r3 = ripple.Frame(1, 1, 0, 0);
 				Vector2 origin = r3.Size() / 2f;
-				Vector2 drawPos = (npc.Bottom - Main.screenPosition) + new Vector2(0.0f, -40f);
+				Vector2 drawPos = (NPC.Bottom - Main.screenPosition) + new Vector2(0.0f, -40f);
 
 				Vector2 scale = new Vector2(0.75f, 1.75f) * 1.5f;
 				Vector2 scale2 = new Vector2(1.75f, 0.75f) * 1.5f;
 
-				Main.spriteBatch.Draw(ripple, drawPos, r3, baseCol * 0f, npc.rotation + MathHelper.PiOver2, origin, scale, spriteEffects ^ SpriteEffects.FlipHorizontally, 0.0f);
-				Main.spriteBatch.Draw(ripple, drawPos, r3, baseCol * 0f, npc.rotation + MathHelper.PiOver2, origin, scale2, spriteEffects ^ SpriteEffects.FlipHorizontally, 0.0f);
-				Main.spriteBatch.Draw(ripple, drawPos, r3, Color.Lerp(baseCol * 1.9f, Color.White, 0.7f), npc.rotation + MathHelper.PiOver2, origin, 1.5f, spriteEffects ^ SpriteEffects.FlipHorizontally, 0.0f);
-				Main.spriteBatch.Draw(ripple, drawPos, r3, Color.Lerp(baseCol * 0.3f, Color.White, 0.2f), npc.rotation + MathHelper.PiOver2, origin, 3f, spriteEffects ^ SpriteEffects.FlipHorizontally, 0.0f);
+				Main.spriteBatch.Draw(ripple, drawPos, r3, baseCol * 0f, NPC.rotation + MathHelper.PiOver2, origin, scale, spriteEffects ^ SpriteEffects.FlipHorizontally, 0.0f);
+				Main.spriteBatch.Draw(ripple, drawPos, r3, baseCol * 0f, NPC.rotation + MathHelper.PiOver2, origin, scale2, spriteEffects ^ SpriteEffects.FlipHorizontally, 0.0f);
+				Main.spriteBatch.Draw(ripple, drawPos, r3, Color.Lerp(baseCol * 1.9f, Color.White, 0.7f), NPC.rotation + MathHelper.PiOver2, origin, 1.5f, spriteEffects ^ SpriteEffects.FlipHorizontally, 0.0f);
+				Main.spriteBatch.Draw(ripple, drawPos, r3, Color.Lerp(baseCol * 0.3f, Color.White, 0.2f), NPC.rotation + MathHelper.PiOver2, origin, 3f, spriteEffects ^ SpriteEffects.FlipHorizontally, 0.0f);
 			}
 			return true;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			if (npc.ai[1] >= 360 + 80 || flashingTimer > 0)
+			if (NPC.ai[1] >= 360 + 80 || flashingTimer > 0)
 			{
 				const int Repeats = 4;
 
-				float num8 = (float)(Math.Cos(Main.GlobalTime % 2.4f / 2.4f * MathHelper.TwoPi) / 2.0 + 0.5);
+				float num8 = (float)(Math.Cos(Main.GlobalTimeWrappedHourly % 2.4f / 2.4f * MathHelper.TwoPi) / 2.0 + 0.5);
 
 				SpriteEffects spriteEffects = SpriteEffects.None;
-				if (npc.spriteDirection == 1)
+				if (NPC.spriteDirection == 1)
 					spriteEffects = SpriteEffects.FlipHorizontally;
 
-				Texture2D texture = Main.npcTexture[npc.type];
-				Vector2 texSize = new Vector2(texture.Width, texture.Height / Main.npcFrameCount[npc.type]);
+				Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+				Vector2 texSize = new Vector2(texture.Width, texture.Height / Main.npcFrameCount[NPC.type]);
 				Vector2 origin = texSize / 2f;
 
-				Vector2 position1 = npc.Center - Main.screenPosition - texSize * npc.scale / 2f + origin * npc.scale + new Vector2(0f, -10 + npc.gfxOffY);
-				Color color2 = new Color(sbyte.MaxValue - npc.alpha, sbyte.MaxValue - npc.alpha, sbyte.MaxValue - npc.alpha, 0).MultiplyRGBA(Color.Gold);
+				Vector2 position1 = NPC.Center - Main.screenPosition - texSize * NPC.scale / 2f + origin * NPC.scale + new Vector2(0f, -10 + NPC.gfxOffY);
+				Color color2 = new Color(sbyte.MaxValue - NPC.alpha, sbyte.MaxValue - NPC.alpha, sbyte.MaxValue - NPC.alpha, 0).MultiplyRGBA(Color.Gold);
 
 				for (int i = 0; i < Repeats; ++i)
 				{
-					Color color3 = npc.GetAlpha(color2) * .05f;
-					Vector2 offset = new Vector2(npc.Center.X + 2 * npc.spriteDirection, npc.Center.Y) + ((i / Repeats * MathHelper.TwoPi) + npc.rotation).ToRotationVector2();
-					Vector2 position2 = offset * (float)(4.0 * num8 + 2.0) - Main.screenPosition - texSize * npc.scale / 2f + origin * npc.scale + new Vector2(0f, -10 + npc.gfxOffY);
-					Main.spriteBatch.Draw(Main.npcTexture[npc.type], position2, npc.frame, color3, npc.rotation, origin, npc.scale * 1.15f, spriteEffects, 0.0f);
+					Color color3 = NPC.GetAlpha(color2) * .05f;
+					Vector2 offset = new Vector2(NPC.Center.X + 2 * NPC.spriteDirection, NPC.Center.Y) + ((i / Repeats * MathHelper.TwoPi) + NPC.rotation).ToRotationVector2();
+					Vector2 position2 = offset * (float)(4.0 * num8 + 2.0) - Main.screenPosition - texSize * NPC.scale / 2f + origin * NPC.scale + new Vector2(0f, -10 + NPC.gfxOffY);
+					Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, position2, NPC.frame, color3, NPC.rotation, origin, NPC.scale * 1.15f, spriteEffects, 0.0f);
 				}
-				Main.spriteBatch.Draw(Main.npcTexture[npc.type], position1, npc.frame, color2, npc.rotation, origin, npc.scale * 1.15f, spriteEffects, 0.0f);
+				Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, position1, NPC.frame, color2, NPC.rotation, origin, NPC.scale * 1.15f, spriteEffects, 0.0f);
 			}
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.ai[0] == 0)
+			if (NPC.ai[0] == 0)
 			{
-				npc.ai[0] = 1;
-				npc.netUpdate = true;
+				NPC.ai[0] = 1;
+				NPC.netUpdate = true;
 			}
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/VultureMatriarch/VultureMatriarchGore1"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore1").Type, 1f);
 				for (int i = 0; i < 2; ++i)
 				{
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/VultureMatriarch/VultureMatriarchGore2"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/VultureMatriarch/VultureMatriarchGore3"), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore2").Type, 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore3").Type, 1f);
 				}
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/VultureMatriarch/VultureMatriarchGore4"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore4").Type, 1f);
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
-			npc.DropItemInstanced(npc.position, npc.Size, ModContent.ItemType<GoldenEgg>(), 1, true);
+			NPC.DropItemInstanced(NPC.position, NPC.Size, ModContent.ItemType<GoldenEgg>(), 1, true);
 
 			if (Main.rand.Next(12) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Vulture_Matriarch_Mask>(), 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Vulture_Matriarch_Mask>(), 1);
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
 			const int AnimSpeed = 6;
 
-			npc.frameCounter++;
-			if (npc.ai[0] != 0)
+			NPC.frameCounter++;
+			if (NPC.ai[0] != 0)
 			{
 				if (!gliding)
 				{
-					if (npc.frameCounter < AnimSpeed * 1)
-						npc.frame.Y = 0 * frameHeight;
-					else if (npc.frameCounter < AnimSpeed * 2)
-						npc.frame.Y = 1 * frameHeight;
-					else if (npc.frameCounter < AnimSpeed * 3)
-						npc.frame.Y = 2 * frameHeight;
-					else if (npc.frameCounter < AnimSpeed * 4)
-						npc.frame.Y = 3 * frameHeight;
-					else if (npc.frameCounter < AnimSpeed * 5)
+					if (NPC.frameCounter < AnimSpeed * 1)
+						NPC.frame.Y = 0 * frameHeight;
+					else if (NPC.frameCounter < AnimSpeed * 2)
+						NPC.frame.Y = 1 * frameHeight;
+					else if (NPC.frameCounter < AnimSpeed * 3)
+						NPC.frame.Y = 2 * frameHeight;
+					else if (NPC.frameCounter < AnimSpeed * 4)
+						NPC.frame.Y = 3 * frameHeight;
+					else if (NPC.frameCounter < AnimSpeed * 5)
 					{
-						npc.frame.Y = 4 * frameHeight;
-						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 32, 1f, 0f);
+						NPC.frame.Y = 4 * frameHeight;
+						SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 32, 1f, 0f);
 					}
 					else
-						npc.frameCounter = 0;
+						NPC.frameCounter = 0;
 				}
 				else
 				{
-					if (npc.frameCounter < AnimSpeed * 1)
-						npc.frame.Y = 5 * frameHeight;
-					else if (npc.frameCounter < AnimSpeed * 2)
-						npc.frame.Y = 6 * frameHeight;
+					if (NPC.frameCounter < AnimSpeed * 1)
+						NPC.frame.Y = 5 * frameHeight;
+					else if (NPC.frameCounter < AnimSpeed * 2)
+						NPC.frame.Y = 6 * frameHeight;
 					else
-						npc.frameCounter = 0;
+						NPC.frameCounter = 0;
 				}
 			}
 			else
-				npc.frame.Y = 7 * frameHeight;
+				NPC.frame.Y = 7 * frameHeight;
 		}
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -397,7 +400,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (Main.tileSand[spawnInfo.spawnTileType] && Main.hardMode && !NPC.AnyNPCs(ModContent.NPCType<Vulture_Matriarch>()))
+			if (Main.tileSand[spawnInfo.SpawnTileType] && Main.hardMode && !NPC.AnyNPCs(ModContent.NPCType<Vulture_Matriarch>()))
 				return SpawnCondition.OverworldDayDesert.Chance * .145f;
 			return 0;
 		}

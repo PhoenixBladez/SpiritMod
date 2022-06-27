@@ -14,14 +14,14 @@ namespace SpiritMod.NPCs.CrystalDrifter
 
 		public override void SetDefaults()
 		{
-			projectile.aiStyle = -1;
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.friendly = false;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.penetrate = 2;
-			projectile.timeLeft = 300;
+			Projectile.aiStyle = -1;
+			Projectile.width = 8;
+			Projectile.height = 8;
+			Projectile.friendly = false;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.penetrate = 2;
+			Projectile.timeLeft = 300;
 		}
 
 		public override void AI()
@@ -31,25 +31,25 @@ namespace SpiritMod.NPCs.CrystalDrifter
 			float x = 0.2f;
 			float y = 0.4f;
 			bool flag2 = false;
-			if ((double)projectile.ai[0] < (double)num2) {
+			if ((double)Projectile.ai[0] < (double)num2) {
 				bool flag4 = true;
-				int index1 = (int)projectile.ai[1];
+				int index1 = (int)Projectile.ai[1];
 				if (Main.npc[index1].active && Main.npc[index1].type == num1) {
 					if (!flag2 && Main.npc[index1].oldPos[1] != Vector2.Zero)
-						projectile.position = projectile.position + Main.npc[index1].position - Main.npc[index1].oldPos[1];
+						Projectile.position = Projectile.position + Main.npc[index1].position - Main.npc[index1].oldPos[1];
 				}
 				else {
-					projectile.ai[0] = num2;
+					Projectile.ai[0] = num2;
 					flag4 = false;
 				}
 				if (flag4 && !flag2) {
-					projectile.velocity = projectile.velocity + new Vector2((float)Math.Sign(Main.npc[index1].Center.X - projectile.Center.X), (float)Math.Sign(Main.npc[index1].Center.Y - projectile.Center.Y)) * new Vector2(x, y);
+					Projectile.velocity = Projectile.velocity + new Vector2((float)Math.Sign(Main.npc[index1].Center.X - Projectile.Center.X), (float)Math.Sign(Main.npc[index1].Center.Y - Projectile.Center.Y)) * new Vector2(x, y);
 				}
 			}
 			for (int i = 0; i < 5; i++) {
-				if (projectile.width == 8) {
-					float x1 = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-					float y1 = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+				if (Projectile.width == 8) {
+					float x1 = Projectile.Center.X - Projectile.velocity.X / 10f * (float)i;
+					float y1 = Projectile.Center.Y - Projectile.velocity.Y / 10f * (float)i;
 					int num = Dust.NewDust(new Vector2(x1, y1), 2, 2, DustID.Snow);
 					Main.dust[num].velocity = Vector2.Zero;
 					Main.dust[num].noGravity = true;
@@ -64,15 +64,15 @@ namespace SpiritMod.NPCs.CrystalDrifter
 			const int DustType = 51;
 
 			for (int k = 0; k < 6; k++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustType, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustType, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
 			}
 
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
-			projectile.velocity *= 0f;
-			projectile.width = 40;
-			projectile.knockBack = 0;
+			Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustType, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
+			Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustType, 1.5f * Main.rand.Next(-2, 2), -2.5f, 0, Color.White, 0.7f);
+			Projectile.velocity *= 0f;
+			Projectile.width = 40;
+			Projectile.knockBack = 0;
 		}
 	}
 }

@@ -22,7 +22,7 @@ namespace SpiritMod.NPCs
 		/// <param name="action">Action that is invoked on every frame switch.</param>
 		public void UpdateYFrame(int fps, int startFrame, int endFrame, UpdateFrameAction action = null, int? loopFrame = null)
 		{
-			npc.frameCounter++;
+			NPC.frameCounter++;
 			bool reverse = startFrame > endFrame; //invert the looping logic and decrease frame height if the ending frame is before the starting frame, to allow updating frames in reverse
 
 			void LoopCheck()
@@ -36,10 +36,10 @@ namespace SpiritMod.NPCs
 			if (fps == 0)
 				return;
 
-			if (npc.frameCounter >= (60 / fps))
+			if (NPC.frameCounter >= (60 / fps))
 			{
 				frame.Y += reverse ? -1 : 1;
-				npc.frameCounter = 0;
+				NPC.frameCounter = 0;
 				LoopCheck();
 
 				if (action != null)
@@ -52,14 +52,14 @@ namespace SpiritMod.NPCs
 			if (ignorePlatforms)
 			{
 				bool onPlatform = true;
-				for (int i = (int)npc.position.X; i < npc.position.X + npc.width; i += npc.width / 4)
+				for (int i = (int)NPC.position.X; i < NPC.position.X + NPC.width; i += NPC.width / 4)
 				{
-					Tile tile = Framing.GetTileSafely(new Point((int)npc.position.X / 16, (int)(npc.position.Y + npc.height + 8) / 16));
-					if (!TileID.Sets.Platforms[tile.type])
+					Tile tile = Framing.GetTileSafely(new Point((int)NPC.position.X / 16, (int)(NPC.position.Y + NPC.height + 8) / 16));
+					if (!TileID.Sets.Platforms[tile.TileType])
 						onPlatform = false;
 				}
 
-				npc.noTileCollide = onPlatform;
+				NPC.noTileCollide = onPlatform;
 			}
 
 			return SafePreAI();
@@ -67,13 +67,13 @@ namespace SpiritMod.NPCs
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
-			writer.Write(npc.frameCounter);
+			writer.Write(NPC.frameCounter);
 			writer.WriteVector2(frame.ToVector2());
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
-			npc.frameCounter = reader.ReadDouble();
+			NPC.frameCounter = reader.ReadDouble();
 			frame = reader.ReadVector2().ToPoint();
 		}
 
@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs
 		/// Simple helper method to make an npc pass through platforms when above the player, but not when at the same height as them
 		/// </summary>
 		/// <param name="player"></param>
-		public void PlayerPlatformCheck(Player player) => ignorePlatforms = npc.Bottom.Y < player.Top.Y;
+		public void PlayerPlatformCheck(Player player) => ignorePlatforms = NPC.Bottom.Y < player.Top.Y;
 
 		/// <summary>
 		/// Use in cases where PreAI would be used, due to PreAI being implemented by SpiritNPC
@@ -91,7 +91,7 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 				OnHitKill(hitDirection, damage);
 
 			SafeHitEffect(hitDirection, damage);
@@ -115,8 +115,8 @@ namespace SpiritMod.NPCs
 		{
 			SafeFindFrame(frameHeight);
 
-			npc.frame.Y = frame.Y * frameHeight;
-			npc.frame.X = frame.X * npc.frame.Width;
+			NPC.frame.Y = frame.Y * frameHeight;
+			NPC.frame.X = frame.X * NPC.frame.Width;
 		}
 
 		/// <summary>

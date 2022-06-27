@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.Furniture.Reach;
 using Terraria;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -9,7 +10,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 {
 	public class ReachBed : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = true;
@@ -21,12 +22,12 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			name.SetDefault("Elderbark Bed");
 			AddMapEntry(new Color(179, 146, 107), name);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Beds };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.Beds };
 			bed = true;
             TileID.Sets.HasOutlines[Type] = true;
         }
-        public override bool HasSmartInteract() => true;
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public override void NumDust(int i, int j, bool fail, ref int num)
 		{
@@ -38,14 +39,14 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<ReachBedItem>());
 		}
 
-		public override bool NewRightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			Player player = Main.player[Main.myPlayer];
 			Tile tile = Main.tile[i, j];
-			int spawnX = i - tile.frameX / 18;
+			int spawnX = i - tile.TileFrameX / 18;
 			int spawnY = j + 2;
-			spawnX += tile.frameX >= 72 ? 5 : 2;
-			if (tile.frameY % 38 != 0) {
+			spawnX += tile.TileFrameX >= 72 ? 5 : 2;
+			if (tile.TileFrameY % 38 != 0) {
 				spawnY--;
 			}
 			player.FindSpawn();
@@ -64,8 +65,8 @@ namespace SpiritMod.Tiles.Furniture.Reach
 		{
 			Player player = Main.player[Main.myPlayer];
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			player.showItemIcon2 = ModContent.ItemType<ReachBedItem>();
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = ModContent.ItemType<ReachBedItem>();
 		}
 	}
 }

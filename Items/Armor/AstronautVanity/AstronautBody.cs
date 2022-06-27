@@ -14,11 +14,11 @@ namespace SpiritMod.Items.Armor.AstronautVanity
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 30;
-			item.value = Terraria.Item.sellPrice(0, 0, 18, 0);
-			item.rare = ItemRarityID.Green;
-			item.vanity = true;
+			Item.width = 30;
+			Item.height = 30;
+			Item.value = Terraria.Item.sellPrice(0, 0, 18, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.vanity = true;
 		}
 	}
 }

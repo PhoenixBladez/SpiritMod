@@ -17,32 +17,31 @@ namespace SpiritMod.Items.Sets.BismiteSet
 
 		public override void SetDefaults()
 		{
-			item.damage = 10;
-			item.magic = true;
-			item.mana = 6;
-			item.width = 34;
-			item.height = 34;
-			item.useTime = 24;
-			item.useAnimation = 24;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 0;
-			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<BismiteShard>();
-			item.shootSpeed = 8f;
+			Item.damage = 10;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 6;
+			Item.width = 34;
+			Item.height = 34;
+			Item.useTime = 24;
+			Item.useAnimation = 24;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 0;
+			Item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<BismiteShard>();
+			Item.shootSpeed = 8f;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 8);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

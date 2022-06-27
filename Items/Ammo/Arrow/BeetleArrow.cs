@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Ammo.Arrow
@@ -14,31 +15,30 @@ namespace SpiritMod.Items.Ammo.Arrow
 		public override void SetDefaults()
 		{
 
-			item.width = 10;
-			item.height = 28;
-			item.value = 450;
-			item.rare = ItemRarityID.Yellow;
+			Item.width = 10;
+			Item.height = 28;
+			Item.value = 450;
+			Item.rare = ItemRarityID.Yellow;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.damage = 16;
-			item.knockBack = 2f;
-			item.ammo = AmmoID.Arrow;
+			Item.damage = 16;
+			Item.knockBack = 2f;
+			Item.ammo = AmmoID.Arrow;
 
-			item.ranged = true;
-			item.consumable = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.consumable = true;
 
-			item.shoot = ModContent.ProjectileType<Projectiles.Arrow.BeetleArrow>();
-			item.shootSpeed = 2.5f;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Arrow.BeetleArrow>();
+			Item.shootSpeed = 2.5f;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(111);
 			recipe.AddIngredient(ItemID.BeetleHusk, 2);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 111);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

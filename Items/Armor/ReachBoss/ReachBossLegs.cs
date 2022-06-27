@@ -15,11 +15,11 @@ namespace SpiritMod.Items.Armor.ReachBoss
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = Item.buyPrice(silver: 20);
-			item.rare = ItemRarityID.Green;
-			item.vanity = true;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = Item.buyPrice(silver: 20);
+			Item.rare = ItemRarityID.Green;
+			Item.vanity = true;
 		}
 	}
 }

@@ -3,6 +3,7 @@ using SpiritMod.Projectiles.Arrow;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.BowsMisc.Eyeshot
 {
@@ -16,26 +17,26 @@ namespace SpiritMod.Items.Sets.BowsMisc.Eyeshot
 
 		public override void SetDefaults()
 		{
-			item.damage = 14;
-			item.noMelee = true;
-			item.ranged = true;
-			item.width = 50;
-			item.height = 30;
-			item.useTime = 25;
-			item.useAnimation = 25;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ProjectileID.Shuriken;
-			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 4;
-			item.useTurn = false;
-			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item5;
-			item.autoReuse = true;
-			item.shootSpeed = 4.25f;
+			Item.damage = 14;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 50;
+			Item.height = 30;
+			Item.useTime = 25;
+			Item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ProjectileID.Shuriken;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.knockBack = 4;
+			Item.useTurn = false;
+			Item.value = Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item5;
+			Item.autoReuse = true;
+			Item.shootSpeed = 4.25f;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (type == ProjectileID.WoodenArrowFriendly)
 				type = ModContent.ProjectileType<EyeArrow>();

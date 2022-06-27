@@ -16,16 +16,16 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.rare = ItemRarityID.Green;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.createTile = mod.TileType("ReachCrate_Tile");
-			item.maxStack = 999;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.consumable = true;
+			Item.width = 20;
+			Item.height = 20;
+			Item.rare = ItemRarityID.Green;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.createTile = Mod.Find<ModTile>("ReachCrate_Tile").Type;
+			Item.maxStack = 999;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.consumable = true;
 
 		}
 
@@ -35,11 +35,11 @@ namespace SpiritMod.Items.Consumable
 		{
 			string[] lootTable = { "AncientBark", "EnchantedLeaf", "BismiteCrystal" };
 			int loot = Main.rand.Next(lootTable.Length);
-			player.QuickSpawnItem(mod.ItemType(lootTable[loot]), Main.rand.Next(3, 5));
+			player.QuickSpawnItem(Mod.Find<ModItem>(lootTable[loot]).Type, Main.rand.Next(3, 5));
 			if (NPC.downedBoss1 && Main.rand.Next(2) == 0) {
 				string[] lootTable1 = { "TwigStaff", "ReachBrooch", "ReachBoomerang", "ThornHook", "ReachStaffChest", "ReachChestMagic" };
 				int loot1 = Main.rand.Next(lootTable1.Length);
-				player.QuickSpawnItem(mod.ItemType(lootTable1[loot1]));
+				player.QuickSpawnItem(Mod.Find<ModItem>(lootTable1[loot1]).Type);
 			}
 			{
 				int[] lootTable3 = { 2674, 2675 };

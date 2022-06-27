@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.UI;
@@ -29,7 +30,7 @@ namespace SpiritMod.Mechanics.AutoSell
 		{
 			Player player = Main.LocalPlayer;
 			player.GetModPlayer<AutoSellPlayer>().SpiritModMechanic = true;
-			Main.PlaySound(SoundID.Coins);
+			SoundEngine.PlaySound(SoundID.Coins);
 		}
 	}
 }

@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,35 +25,35 @@ namespace SpiritMod.Items.Sets.MagicMisc.OrnamentStaff
 
 		public override void SetDefaults()
 		{
-			projectile.width = 14;
-			projectile.height = 18;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.tileCollide = true;
-			projectile.timeLeft = 170;
-			projectile.netUpdate = true;
+			Projectile.width = 14;
+			Projectile.height = 18;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.tileCollide = true;
+			Projectile.timeLeft = 170;
+			Projectile.netUpdate = true;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + 1.570796f;
-			Lighting.AddLight(projectile.Center, color.ToVector3() / 2);
-			if (projectile.timeLeft < 120)
+			Projectile.rotation = Projectile.velocity.ToRotation() + 1.570796f;
+			Lighting.AddLight(Projectile.Center, color.ToVector3() / 2);
+			if (Projectile.timeLeft < 120)
 			{
-				if (!homing && projectile.owner == Main.myPlayer)
+				if (!homing && Projectile.owner == Main.myPlayer)
 				{
-					projectile.ai[0] = Main.MouseWorld.X;
-					projectile.ai[1] = Main.MouseWorld.Y;
+					Projectile.ai[0] = Main.MouseWorld.X;
+					Projectile.ai[1] = Main.MouseWorld.Y;
 					Vector2 vector2_1 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
-					Vector2 vector2_2 = Vector2.Normalize(vector2_1 - projectile.Center) * 14f;
-					projectile.velocity = vector2_2;
+					Vector2 vector2_2 = Vector2.Normalize(vector2_1 - Projectile.Center) * 14f;
+					Projectile.velocity = vector2_2;
 					homing = true;
-					projectile.netUpdate = true;
+					Projectile.netUpdate = true;
 				}
 
-				if (Vector2.Distance(projectile.Center, new Vector2(projectile.ai[0], projectile.ai[1])) <= 12.0)
-					projectile.timeLeft = Math.Min(projectile.timeLeft, 5);
+				if (Vector2.Distance(Projectile.Center, new Vector2(Projectile.ai[0], Projectile.ai[1])) <= 12.0)
+					Projectile.timeLeft = Math.Min(Projectile.timeLeft, 5);
 			}
 			else
 			{
@@ -60,78 +62,78 @@ namespace SpiritMod.Items.Sets.MagicMisc.OrnamentStaff
 					speed = Main.rand.NextFloat(0.9f, 0.95f);
 					speedCheck = true;
 				}
-				projectile.velocity *= speed;
+				Projectile.velocity *= speed;
 			}
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => damage += Math.Min(target.defense / 2, 4);
 
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = height = 8;
 			return true;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			SpriteEffects effect = projectile.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			SpriteEffects effect = Projectile.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-			Color col = Lighting.GetColor((int)(projectile.Center.Y) / 16, (int)(projectile.Center.Y) / 16);
-			var basePos = projectile.Center - Main.screenPosition + new Vector2(0.0f, projectile.gfxOffY);
+			Color col = Lighting.GetColor((int)(Projectile.Center.Y) / 16, (int)(Projectile.Center.Y) / 16);
+			var basePos = Projectile.Center - Main.screenPosition + new Vector2(0.0f, Projectile.gfxOffY);
 
-			Texture2D texture = Main.projectileTexture[projectile.type];
+			Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
 
-			int height = texture.Height / Main.projFrames[projectile.type];
-			var frame = new Rectangle(0, height * projectile.frame, texture.Width, height);
+			int height = texture.Height / Main.projFrames[Projectile.type];
+			var frame = new Rectangle(0, height * Projectile.frame, texture.Width, height);
 			Vector2 origin = frame.Size() / 2f;
 			int reps = 1;
 			while (reps < 5)
 			{
-				col = projectile.GetAlpha(Color.Lerp(col, Color.White, 2.5f));
+				col = Projectile.GetAlpha(Color.Lerp(col, Color.White, 2.5f));
 				float num7 = 5 - reps;
-				Color drawCol = col * (num7 / (ProjectileID.Sets.TrailCacheLength[projectile.type] * 1.5f));
-				Vector2 oldPo = projectile.oldPos[reps];
-				float rotation = projectile.rotation;
+				Color drawCol = col * (num7 / (ProjectileID.Sets.TrailCacheLength[Projectile.type] * 1.5f));
+				Vector2 oldPo = Projectile.oldPos[reps];
+				float rotation = Projectile.rotation;
 				SpriteEffects effects2 = effect;
-				if (ProjectileID.Sets.TrailingMode[projectile.type] == 2)
+				if (ProjectileID.Sets.TrailingMode[Projectile.type] == 2)
 				{
-					rotation = projectile.oldRot[reps];
-					effects2 = projectile.oldSpriteDirection[reps] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+					rotation = Projectile.oldRot[reps];
+					effects2 = Projectile.oldSpriteDirection[reps] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 				}
-				Vector2 drawPos = oldPo + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-				Main.spriteBatch.Draw(texture, drawPos, frame, drawCol, rotation + projectile.rotation * (reps - 1) * -effect.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin, MathHelper.Lerp(projectile.scale, 3f, reps / 15f), effects2, 0.0f);
+				Vector2 drawPos = oldPo + Projectile.Size / 2f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+				Main.spriteBatch.Draw(texture, drawPos, frame, drawCol, rotation + Projectile.rotation * (reps - 1) * -effect.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin, MathHelper.Lerp(Projectile.scale, 3f, reps / 15f), effects2, 0.0f);
 				reps++;
 			}
 
-			Main.spriteBatch.Draw(texture, basePos, frame, new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 175), projectile.rotation, origin, projectile.scale, effect, 0.0f);
+			Main.spriteBatch.Draw(texture, basePos, frame, new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 175), Projectile.rotation, origin, Projectile.scale, effect, 0.0f);
 
-			height = texture.Height / Main.projFrames[projectile.type];
-			frame = new Rectangle(0, height * projectile.frame, texture.Width, height);
+			height = texture.Height / Main.projFrames[Projectile.type];
+			frame = new Rectangle(0, height * Projectile.frame, texture.Width, height);
 			origin = new Vector2(texture.Width / 2, texture.Height / 2);
-			float num99 = (float)(Math.Cos(Main.GlobalTime % 2.40000009536743 / 2.40000009536743 * MathHelper.TwoPi) / 4.0f + 0.5f);
+			float num99 = (float)(Math.Cos(Main.GlobalTimeWrappedHourly % 2.40000009536743 / 2.40000009536743 * MathHelper.TwoPi) / 4.0f + 0.5f);
 
-			Color color2 = new Color(sbyte.MaxValue - projectile.alpha, sbyte.MaxValue - projectile.alpha, sbyte.MaxValue - projectile.alpha, 0).MultiplyRGBA(Color.White);
+			Color color2 = new Color(sbyte.MaxValue - Projectile.alpha, sbyte.MaxValue - Projectile.alpha, sbyte.MaxValue - Projectile.alpha, 0).MultiplyRGBA(Color.White);
 			for (int i = 0; i < 4; ++i)
 			{
-				Color drawCol = projectile.GetAlpha(color2) * (1f - num99);
-				Vector2 offset = ((i / 4 * MathHelper.TwoPi) + projectile.rotation).ToRotationVector2();
-				Vector2 position2 = projectile.Center + offset * (8.0f * num99 + 2.0f) - Main.screenPosition - texture.Size() * projectile.scale / 2f + origin * projectile.scale + new Vector2(0.0f, projectile.gfxOffY);
-				Main.spriteBatch.Draw(texture, position2, frame, drawCol, projectile.rotation, origin, projectile.scale, effect, 0.0f);
+				Color drawCol = Projectile.GetAlpha(color2) * (1f - num99);
+				Vector2 offset = ((i / 4 * MathHelper.TwoPi) + Projectile.rotation).ToRotationVector2();
+				Vector2 position2 = Projectile.Center + offset * (8.0f * num99 + 2.0f) - Main.screenPosition - texture.Size() * Projectile.scale / 2f + origin * Projectile.scale + new Vector2(0.0f, Projectile.gfxOffY);
+				Main.spriteBatch.Draw(texture, position2, frame, drawCol, Projectile.rotation, origin, Projectile.scale, effect, 0.0f);
 			}
 
-			Lighting.AddLight(projectile.Center, Color.Purple.ToVector3() / 2f);
+			Lighting.AddLight(Projectile.Center, Color.Purple.ToVector3() / 2f);
 			return false;
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			Vector2 spinPoint = new Vector2(0f, -3f).RotatedByRandom(MathHelper.Pi);
-			float maxRepeats = 18 * projectile.scale;
+			float maxRepeats = 18 * Projectile.scale;
 			var vector2 = new Vector2(1.1f, 1f);
 			for (float i = 0; i < maxRepeats; ++i)
 			{
-				int dustIndex = Dust.NewDust(projectile.Center, 0, 0, DustType, 0.0f, 0.0f, 0, new Color(), 1f);
-				Main.dust[dustIndex].position = projectile.Center;
+				int dustIndex = Dust.NewDust(Projectile.Center, 0, 0, DustType, 0.0f, 0.0f, 0, new Color(), 1f);
+				Main.dust[dustIndex].position = Projectile.Center;
 				Main.dust[dustIndex].velocity = spinPoint.RotatedBy(MathHelper.TwoPi * i / maxRepeats, new Vector2()) * vector2 * (0.8f + Main.rand.NextFloat() * 0.4f);
 				Main.dust[dustIndex].noGravity = true;
 				Main.dust[dustIndex].scale = 2f;
@@ -141,7 +143,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.OrnamentStaff
 				dust.fadeIn /= 2f;
 			}
 
-			Main.PlaySound(SoundID.Trackable, (int)projectile.position.X, (int)projectile.position.Y, 165, 0.5f, 0.0f);
+			SoundEngine.PlaySound(SoundID.Trackable, (int)Projectile.position.X, (int)Projectile.position.Y, 165, 0.5f, 0.0f);
 		}
 	}
 }

@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			SpiritMod.vignetteShader.UseIntensity(_opacity);
 			SpiritMod.vignetteEffect.Parameters["Radius"].SetValue(_radius);
 			SpiritMod.vignetteEffect.Parameters["FadeDistance"].SetValue(_fadeDistance);
-			player.ManageSpecialBiomeVisuals("SpiritMod:Vignette", _vignetteActive || _lastTickVignetteActive, _targetPosition);
+			Player.ManageSpecialBiomeVisuals("SpiritMod:Vignette", _vignetteActive || _lastTickVignetteActive, _targetPosition);
 		}
 	}
 }

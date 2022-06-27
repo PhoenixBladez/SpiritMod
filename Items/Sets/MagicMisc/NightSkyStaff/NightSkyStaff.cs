@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,31 +20,31 @@ namespace SpiritMod.Items.Sets.MagicMisc.NightSkyStaff
 		int charger;
 		public override void SetDefaults()
 		{
-			item.damage = 34;
-			item.magic = true;
-			item.mana = 7;
-			item.width = 58;
-			item.height = 58;
-			item.useTime = 24;
-			item.useAnimation = 24;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 2.5f;
-			item.useTurn = false;
-			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.UseSound = SoundID.Item72;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<NovaBeam1>();
-			item.shootSpeed = 15f;
+			Item.damage = 34;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 7;
+			Item.width = 58;
+			Item.height = 58;
+			Item.useTime = 24;
+			Item.useAnimation = 24;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 2.5f;
+			Item.useTurn = false;
+			Item.value = Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item72;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<NovaBeam1>();
+			Item.shootSpeed = 15f;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			charger++;
 			if (charger >= 5) {
-				Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX, speedY, ModContent.ProjectileType<NovaBeam2>(), damage / 2 * 3, knockBack, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(source, position.X - 8, position.Y + 8, velocity.X, velocity.Y, ModContent.ProjectileType<NovaBeam2>(), damage / 2 * 3, knockback, player.whoAmI, 0f, 0f);
 				charger = 0;
 				return false;
 			}
@@ -52,14 +53,13 @@ namespace SpiritMod.Items.Sets.MagicMisc.NightSkyStaff
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.MagicMisc.ZephyrBreath.BreathOfTheZephyr>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.FrigidSet.HowlingScepter>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.GraniteSet.GraniteWand>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.StarplateDrops.CosmiliteShard>(), 7);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 			item.height = 32;
 			item.noUseGraphic = true;
 			item.UseSound = SoundID.Item1;
-			item.summon = true;
+			Item.DamageType = DamageClass.Summon;
 			item.channel = true;
 			item.noMelee = true;
 			item.shootSpeed = 8f;
@@ -77,7 +77,7 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 			if (numSegments == 0)
 			{
 				numSegments++;
-				int headint = Projectile.NewProjectile(player.Center - new Vector2(0, 150), Vector2.Zero, ModContent.ProjectileType<WyvernStaffHead>(), projectile.damage, projectile.knockBack, projectile.owner);
+				int headint = Projectile.NewProjectile(player.Center - new Vector2(0, 150), Vector2.Zero, ModContent.ProjectileType<WyvernStaffHead>(), projectile.damage, Projectile.knockBack, projectile.owner);
 				head = Main.projectile[headint];
 				latestSegment = headint;
 			}
@@ -86,7 +86,7 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 			if ((int)projectile.ai[0] % 15 == 0 && numSegments < 25)
 			{
 				Main.projectile[latestSegment].frame = 1 + (int)projectile.ai[0] % 2;
-				latestSegment = Projectile.NewProjectile(Main.projectile[latestSegment].Center, Vector2.Zero, ModContent.ProjectileType<WyvernStaffBody>(), projectile.damage, projectile.knockBack, projectile.owner, latestSegment);
+				latestSegment = Projectile.NewProjectile(Main.projectile[latestSegment].Center, Vector2.Zero, ModContent.ProjectileType<WyvernStaffBody>(), projectile.damage, Projectile.knockBack, projectile.owner, latestSegment);
 				numSegments++;
 
 				if (!Main.projectile[latestSegment].active)

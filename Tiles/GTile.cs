@@ -4,6 +4,7 @@ using SpiritMod.NPCs.OceanSlime;
 using SpiritMod.Items.Consumable.Food;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Tiles.Ambient;
@@ -27,12 +28,12 @@ namespace SpiritMod.Tiles
 
 			if (type == TileID.Pearlstone && inLavaLayer)
 			{
-				if (WorldGen.genRand.NextBool(20) && !tileBelow.active() && !tileBelow.lava())
+				if (WorldGen.genRand.NextBool(20) && !tileBelow.HasTile && !(tileBelow.LiquidType == LiquidID.Lava))
 				{
-					if (!tile.bottomSlope())
+					if (!tile.BottomSlope)
 					{
-						tileBelow.type = (ushort)ModContent.TileType<Ambient.HangingChimes.HangingChimes>();
-						tileBelow.active(true);
+						tileBelow.TileType = (ushort)ModContent.TileType<Ambient.HangingChimes.HangingChimes>();
+						tileBelow.HasTile = true;
 						WorldGen.SquareTileFrame(i, j + 1, true);
 						if (Main.netMode == NetmodeID.Server)
 							NetMessage.SendTileSquare(-1, i, j + 1, 3, TileChangeType.None);
@@ -44,7 +45,7 @@ namespace SpiritMod.Tiles
 			{
 				if (MyWorld.CorruptHazards < 20)
 				{
-					if (DirtAndDecor.Contains(Framing.GetTileSafely(i, j - 1).type) && DirtAndDecor.Contains(Framing.GetTileSafely(i, j - 2).type) && DirtAndDecor.Contains(Framing.GetTileSafely(i, j - 3).type) && (j > (int)Main.worldSurface - 100 && j < (int)Main.rockLayer - 20))
+					if (DirtAndDecor.Contains(Framing.GetTileSafely(i, j - 1).TileType) && DirtAndDecor.Contains(Framing.GetTileSafely(i, j - 2).TileType) && DirtAndDecor.Contains(Framing.GetTileSafely(i, j - 3).TileType) && (j > (int)Main.worldSurface - 100 && j < (int)Main.rockLayer - 20))
 					{
 						if (Main.rand.Next(450) == 0)
 						{
@@ -83,7 +84,7 @@ namespace SpiritMod.Tiles
 						if (Main.hardMode)
 							tremorItem = Main.rand.Next(new int[] { 11, 12, 13, 14, 699, 700, 701, 702, 999, 182, 178, 179, 177, 180, 181, 364, 365, 366, 1104, 1105, 1106 });
 
-						Main.PlaySound(SoundLoader.customSoundType, new Vector2(i * 16, j * 16), mod.GetSoundSlot(SoundType.Custom, "Sounds/PositiveOutcome"));
+						SoundEngine.PlaySound(SoundLoader.customSoundType, new Vector2(i * 16, j * 16), Mod.GetSoundSlot(SoundType.Custom, "Sounds/PositiveOutcome"));
 						Item.NewItem(i * 16, j * 16, 64, 48, tremorItem, Main.rand.Next(1, 3));
 					}
 				}
@@ -138,8 +139,8 @@ namespace SpiritMod.Tiles
 		public static void DrawSlopedGlowMask(int i, int j, Texture2D texture, Color drawColor, Vector2 positionOffset, bool overrideFrame = false)
 		{
 			Tile tile = Main.tile[i, j];
-			int frameX = tile.frameX;
-			int frameY = tile.frameY;
+			int frameX = tile.TileFrameX;
+			int frameY = tile.TileFrameY;
 
 			if (overrideFrame)
 			{
@@ -154,13 +155,13 @@ namespace SpiritMod.Tiles
 			Vector2 offsets = -Main.screenPosition + zero + positionOffset;
 			Vector2 drawCoordinates = location + offsets;
 
-			if ((tile.slope() == 0 && !tile.halfBrick()) || (Main.tileSolid[tile.type] && Main.tileSolidTop[tile.type])) //second one should be for platforms
+			if ((tile.Slope == 0 && !tile.IsHalfBlock) || (Main.tileSolid[tile.TileType] && Main.tileSolidTop[tile.TileType])) //second one should be for platforms
 				Main.spriteBatch.Draw(texture, drawCoordinates, new Rectangle(frameX, frameY, width, height), drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-			else if (tile.halfBrick())
+			else if (tile.IsHalfBlock)
 				Main.spriteBatch.Draw(texture, new Vector2(drawCoordinates.X, drawCoordinates.Y + 8), new Rectangle(frameX, frameY, width, 8), drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			else
 			{
-				byte b = tile.slope();
+				byte b = tile.Slope;
 				Rectangle frame;
 				Vector2 drawPos;
 

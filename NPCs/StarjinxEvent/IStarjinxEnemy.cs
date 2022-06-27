@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using SpiritMod.Utilities;
 using System;
@@ -18,7 +19,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		{
 			SpriteEffects spriteEffects = (npc.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 			Vector2 center = npc.Center + new Vector2(0, npc.gfxOffY);
-			Texture2D tex = Main.npcTexture[npc.type];
+			Texture2D tex = TextureAssets.Npc[npc.type].Value;
 
 			DrawAfterImage(spriteBatch, tex, center, frame, offset, npc.Opacity, npc.rotation, npc.scale, origin, spriteEffects);
 		}

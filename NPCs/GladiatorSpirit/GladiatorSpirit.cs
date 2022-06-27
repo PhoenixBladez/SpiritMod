@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.MarbleSet;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,60 +14,60 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gladiator Spirit");
-			Main.npcFrameCount[npc.type] = 8;
-			NPCID.Sets.TrailCacheLength[npc.type] = 3;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 8;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 3;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 32;
-			npc.height = 56;
-			npc.damage = 30;
-			npc.defense = 9;
-			npc.lifeMax = 80;
-			npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = SoundID.NPCDeath6;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.buffImmune[BuffID.Venom] = true;
-			npc.buffImmune[BuffID.Confused] = true;
-			npc.value = 220f;
-			npc.knockBackResist = .40f;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.aiStyle = 22;
-			aiType = NPCID.Wraith;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.GladiatorSpiritBanner>();
+			NPC.width = 32;
+			NPC.height = 56;
+			NPC.damage = 30;
+			NPC.defense = 9;
+			NPC.lifeMax = 80;
+			NPC.HitSound = SoundID.NPCHit4;
+			NPC.DeathSound = SoundID.NPCDeath6;
+			NPC.buffImmune[BuffID.Poisoned] = true;
+			NPC.buffImmune[BuffID.Venom] = true;
+			NPC.buffImmune[BuffID.Confused] = true;
+			NPC.value = 220f;
+			NPC.knockBackResist = .40f;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.aiStyle = 22;
+			AIType = NPCID.Wraith;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.GladiatorSpiritBanner>();
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			int x = spawnInfo.spawnTileX;
-			int y = spawnInfo.spawnTileY;
-			return spawnInfo.player.GetSpiritPlayer().ZoneMarble && spawnInfo.spawnTileY > Main.rockLayer && NPC.downedBoss2 ? 0.135f : 0f;
+			int x = spawnInfo.SpawnTileX;
+			int y = spawnInfo.SpawnTileY;
+			return spawnInfo.Player.GetSpiritPlayer().ZoneMarble && spawnInfo.SpawnTileY > Main.rockLayer && NPC.downedBoss2 ? 0.135f : 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 10; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Wraith, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Wraith, 2.5f * hitDirection, -2.5f, 0, default, 0.27f);
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
 				for (int i = 0; i < 3; ++i)
-					Gore.NewGore(npc.position, npc.velocity, 99);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GladSpirit/GladSpirit1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GladSpirit/GladSpirit2"), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladSpirit/GladSpirit1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladSpirit/GladSpirit2").Type, 1f);
 			}
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		bool reflectPhase;
@@ -73,11 +75,11 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 
 		public override void AI()
 		{
-			npc.spriteDirection = -npc.direction;
+			NPC.spriteDirection = -NPC.direction;
 			reflectTimer++;
 
 			if (reflectTimer == 720)
-				Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, npc.Center);
+				SoundEngine.PlaySound(SoundID.DD2_WitherBeastAuraPulse, NPC.Center);
 
 			if (reflectTimer > 720)
 				reflectPhase = true;
@@ -89,30 +91,30 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 
 			if (reflectPhase)
 			{
-				npc.velocity = Vector2.Zero;
-				npc.defense = 9999;
-				Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2((float)npc.height, (float)npc.height) * npc.scale * 1.85f / 2f;
-				int index = Dust.NewDust(npc.Center + vector2, 0, 0, DustID.GoldCoin, 0.0f, 0.0f, 0, new Color(), 1f);
-				Main.dust[index].position = npc.Center + vector2;
+				NPC.velocity = Vector2.Zero;
+				NPC.defense = 9999;
+				Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2((float)NPC.height, (float)NPC.height) * NPC.scale * 1.85f / 2f;
+				int index = Dust.NewDust(NPC.Center + vector2, 0, 0, DustID.GoldCoin, 0.0f, 0.0f, 0, new Color(), 1f);
+				Main.dust[index].position = NPC.Center + vector2;
 				Main.dust[index].velocity = Vector2.Zero;
 			}
 			else
-				npc.defense = 9;
+				NPC.defense = 9;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			{
-				var effects = npc.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-				spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-								 lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+				var effects = NPC.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+								 lightColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 				{
-					Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-					for (int k = 0; k < npc.oldPos.Length; k++)
+					Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
+					for (int k = 0; k < NPC.oldPos.Length; k++)
 					{
-						Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-						Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-						spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+						Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+						Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+						spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 					}
 				}
 			}
@@ -129,14 +131,14 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MarbleChunk>());
+			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MarbleChunk>());
 
 			if (Main.rand.Next(120) == 2)
 			{
 				int[] lootTable = new int[] { 3187, 3188, 3189 };
-				npc.DropItem(lootTable[Main.rand.Next(3)]);
+				NPC.DropItem(lootTable[Main.rand.Next(3)]);
 			}
 		}
 	}

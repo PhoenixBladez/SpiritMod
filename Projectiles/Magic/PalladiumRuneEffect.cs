@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,19 +12,19 @@ namespace SpiritMod.Projectiles.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Palladium Rune");
-			Main.projFrames[projectile.type] = 10;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 16;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			Main.projFrames[Projectile.type] = 10;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 16;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 18;
-			projectile.height = 18;
-			projectile.friendly = true;
-			projectile.timeLeft = 60;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 18;
+			Projectile.height = 18;
+			Projectile.friendly = true;
+			Projectile.timeLeft = 60;
 
 		}
 		public override Color? GetAlpha(Color lightColor)
@@ -33,44 +34,44 @@ namespace SpiritMod.Projectiles.Magic
 		int timer;
 		public override void AI()
 		{
-			Lighting.AddLight(projectile.position, 0.4f / 2, .12f / 2, .036f / 2);
+			Lighting.AddLight(Projectile.position, 0.4f / 2, .12f / 2, .036f / 2);
 			timer += 4;
-			projectile.alpha += 6;
-			projectile.velocity.X *= .98f;
-			projectile.velocity.Y *= .98f;
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 10) {
-				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % 10;
+			Projectile.alpha += 6;
+			Projectile.velocity.X *= .98f;
+			Projectile.velocity.Y *= .98f;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 10) {
+				Projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % 10;
 			}
 		}
 		public override void Kill(int timeLeft)
 		{
 			{
 				for (int i = 0; i < 10; i++) {
-					int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.OrangeTorch, 0f, -2f, 0, Color.White, 2f);
+					int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.OrangeTorch, 0f, -2f, 0, Color.White, 2f);
 					Main.dust[num].noLight = true;
 					Main.dust[num].noGravity = true;
 					Dust dust = Main.dust[num];
 					dust.position.X = dust.position.X + ((float)(Main.rand.Next(-10, 11) / 20) - 1.5f);
 					Dust expr_92_cp_0 = Main.dust[num];
 					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-10, 11) / 20) - 1.5f);
-					if (Main.dust[num].position != projectile.Center) {
-						Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 2f;
+					if (Main.dust[num].position != Projectile.Center) {
+						Main.dust[num].velocity = Projectile.DirectionTo(Main.dust[num].position) * 2f;
 					}
 				}
 			}
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D texture = Main.projectileTexture[projectile.type];
-			int frameHeight = texture.Height / Main.projFrames[projectile.type];
-			Rectangle frameRect = new Rectangle(0, projectile.frame * frameHeight, texture.Width, frameHeight);
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, frameRect, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
+			int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+			Rectangle frameRect = new Rectangle(0, Projectile.frame * frameHeight, texture.Width, frameHeight);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, frameRect, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

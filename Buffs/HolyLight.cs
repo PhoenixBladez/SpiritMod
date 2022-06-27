@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class HolyLight : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Holy Light");
 			Main.debuff[Type] = true;

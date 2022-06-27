@@ -9,7 +9,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 {
 	public class ReachPlatform : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileLighted[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -30,10 +30,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 			AddMapEntry(new Color(179, 146, 107));
-			dustType = DustID.Dirt;
-			drop = ModContent.ItemType<ReachPlatformTile>();
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Platforms };
+			DustType = DustID.Dirt;
+			ItemDrop = ModContent.ItemType<ReachPlatformTile>();
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.Platforms };
 		}
 
 		public override void PostSetDefaults() => Main.tileNoSunLight[Type] = false;

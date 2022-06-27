@@ -9,7 +9,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class VaporwaveTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -33,7 +33,7 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Retrofuturist Panel");
 			AddMapEntry(new Color(150, 150, 150), name);
-			dustType = -1;
+			DustType = -1;
 		}
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
@@ -48,14 +48,14 @@ namespace SpiritMod.Tiles.Furniture
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Framing.GetTileSafely(i, j);
-            if (tile.frameY == 0 || tile.frameY == 18 || tile.frameY == 36 || tile.frameY == 54 || tile.frameY == 72 )
+            if (tile.TileFrameY == 0 || tile.TileFrameY == 18 || tile.TileFrameY == 36 || tile.TileFrameY == 54 || tile.TileFrameY == 72 )
             {
-                Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
+                Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
 
-                Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/Furniture/VaporwaveTile_Glow");
+                Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/VaporwaveTile_Glow");
                 Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
-                spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
+                spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), colour);
             }
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

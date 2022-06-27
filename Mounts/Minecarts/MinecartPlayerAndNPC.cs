@@ -8,9 +8,9 @@ namespace SpiritMod.Mounts.Minecarts
 	{
 		public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
 		{
-			if (player.mount.Type == ModContent.MountType<MarbleMinecart.MarbleMinecart>() && Math.Abs(player.velocity.X) > 3.5f) //reduces contact damage when ramming
+			if (Player.mount.Type == ModContent.MountType<MarbleMinecart.MarbleMinecart>() && Math.Abs(Player.velocity.X) > 3.5f) //reduces contact damage when ramming
 			{
-				damage -= (int)(Math.Abs(player.velocity.X) - 5);
+				damage -= (int)(Math.Abs(Player.velocity.X) - 5);
 				if (damage < 1) //idk if this is necessary but hey
 					damage = 1;
 			}

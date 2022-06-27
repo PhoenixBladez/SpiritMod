@@ -1,4 +1,6 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria.Audio;
+using Terraria.GameContent;
+using Terraria.ModLoader;
 using Terraria;
 using System;
 using Microsoft.Xna.Framework;
@@ -12,32 +14,32 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Azure Jelly");
-			Main.projFrames[projectile.type] = 5;
+			Main.projFrames[Projectile.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.aiStyle = -1;
-			projectile.width = 18;
-			projectile.height = 18;
-			projectile.friendly = false;
-			projectile.tileCollide = true;
-			projectile.hostile = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 150;
+			Projectile.aiStyle = -1;
+			Projectile.width = 18;
+			Projectile.height = 18;
+			Projectile.friendly = false;
+			Projectile.tileCollide = true;
+			Projectile.hostile = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 150;
 		}
 		
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
         {
 			Color color = Color.Pink;
 			color.A = 0;
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == 1)
+            if (Projectile.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            int xpos = (int)((projectile.Center.X + 10) - Main.screenPosition.X) - (Main.projectileTexture[projectile.type].Width / 2);
-            int ypos = (int)((projectile.Center.Y + 10) - Main.screenPosition.Y) - (Main.projectileTexture[projectile.type].Width / 2);
-            Texture2D ripple = mod.GetTexture("Effects/Masks/Extra_49");
-            Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), color, projectile.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);
+            int xpos = (int)((Projectile.Center.X + 10) - Main.screenPosition.X) - (TextureAssets.Projectile[Projectile.type].Value.Width / 2);
+            int ypos = (int)((Projectile.Center.Y + 10) - Main.screenPosition.Y) - (TextureAssets.Projectile[Projectile.type].Value.Width / 2);
+            Texture2D ripple = Mod.GetTexture("Effects/Masks/Extra_49");
+            Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), color, Projectile.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);
             return true;
         }
 
@@ -45,27 +47,27 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 
 		public override void AI()
         {
-            Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y), 0.075f, 0.231f, 0.255f);
-			Player player = Main.player[(int)projectile.ai[0]];
+            Lighting.AddLight(new Vector2(Projectile.Center.X, Projectile.Center.Y), 0.075f, 0.231f, 0.255f);
+			Player player = Main.player[(int)Projectile.ai[0]];
 
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-			Vector2 direction = player.Center - projectile.Center;
-			float rotDifference = ((((direction.ToRotation() - projectile.velocity.ToRotation()) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+			Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
+			Vector2 direction = player.Center - Projectile.Center;
+			float rotDifference = ((((direction.ToRotation() - Projectile.velocity.ToRotation()) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 
-			projectile.velocity = projectile.velocity.RotatedBy(Math.Sign(rotDifference) * 0.01f);
+			Projectile.velocity = Projectile.velocity.RotatedBy(Math.Sign(rotDifference) * 0.01f);
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 54);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 54);
 			for (int i = 0; i < 20; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.DungeonSpirit, 0f, -2f, 0, default, 2f);
+				int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.DungeonSpirit, 0f, -2f, 0, default, 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].scale *= .1825f;
-				if (Main.dust[num].position != projectile.Center)
-					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 2f;
+				if (Main.dust[num].position != Projectile.Center)
+					Main.dust[num].velocity = Projectile.DirectionTo(Main.dust[num].position) * 2f;
 			}
 		}
 	}

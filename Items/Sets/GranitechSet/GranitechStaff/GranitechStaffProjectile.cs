@@ -4,6 +4,7 @@ using SpiritMod;
 using SpiritMod.Projectiles.BaseProj;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using SpiritMod.Prim;
 using Terraria.ModLoader;
@@ -20,14 +21,14 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(76, 80);
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = (LASER_TIME/3) + 1;
+			Projectile.Size = new Vector2(76, 80);
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = -1;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = (LASER_TIME/3) + 1;
 		}
 
 		private Vector2 StaffTipPos = new Vector2(55, 29); //Position of the staff tip relative to the rest of the sprite
@@ -36,16 +37,16 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			get
 			{
 				bool oppositeDir = Owner.direction < 0;
-				Vector2 baseVec = (StaffTipPos - (projectile.Size / 2));
+				Vector2 baseVec = (StaffTipPos - (Projectile.Size / 2));
 				if (oppositeDir)
 					baseVec.X *= -1;
 
-				return baseVec.RotatedBy(projectile.rotation); //Direction from the center of the sprite to the staff tip
+				return baseVec.RotatedBy(Projectile.rotation); //Direction from the center of the sprite to the staff tip
 			}
 		}
 
-		public ref float AiState => ref projectile.ai[0];
-		public ref float AiTimer => ref projectile.ai[1];
+		public ref float AiState => ref Projectile.ai[0];
+		public ref float AiTimer => ref Projectile.ai[1];
 
 		public const int STATE_CHARGING = 0;
 		public const int STATE_LASER = 1;
@@ -68,8 +69,8 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			if (Owner == Main.LocalPlayer)
 				ScanLaser();
 
-			projectile.rotation /= 2.5f;
-			projectile.rotation += (Owner.direction < 0) ? MathHelper.PiOver4 : -MathHelper.PiOver4;
+			Projectile.rotation /= 2.5f;
+			Projectile.rotation += (Owner.direction < 0) ? MathHelper.PiOver4 : -MathHelper.PiOver4;
 
 			switch (AiState)
 			{
@@ -93,14 +94,14 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 						AiTimer = 0;
 						OnLaserFire();
 
-						projectile.netUpdate = true;
+						Projectile.netUpdate = true;
 					}
 					break;
 				case STATE_LASER:
 
 					if (!Main.dedServ && HittingTile) //Make particles if hitting a tile
 					{
-						Vector2 endPoint = projectile.Center + StaffTipDirection + BeamDirection * BeamLength;
+						Vector2 endPoint = Projectile.Center + StaffTipDirection + BeamDirection * BeamLength;
 						float beamprogress = AiTimer / (float)LASER_TIME;
 
 						ParallelParticles(endPoint, -BeamDirection * Main.rand.NextFloat(5, 10), 20, Main.rand.NextFloat(1.5f, 2f) * beamprogress);
@@ -110,7 +111,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 					}
 
 					if(AiTimer > LASER_TIME)
-						projectile.Kill();
+						Projectile.Kill();
 
 					break;
 			}
@@ -136,12 +137,12 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 		{
 			Owner.GetModPlayer<MyPlayer>().Shake = 8;
 
-			projectile.velocity = (projectile.direction > 0) ? projectile.velocity.RotatedBy(-MathHelper.Pi / 5) : projectile.velocity.RotatedBy(MathHelper.Pi / 5); //recoil effect
+			Projectile.velocity = (Projectile.direction > 0) ? Projectile.velocity.RotatedBy(-MathHelper.Pi / 5) : Projectile.velocity.RotatedBy(MathHelper.Pi / 5); //recoil effect
 
 			if (Main.netMode == NetmodeID.Server)
 				return;
 
-			Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GranitechLaserBlast").WithPitchVariance(0.1f).WithVolume(0.8f), projectile.Center);
+			SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GranitechLaserBlast").WithPitchVariance(0.1f).WithVolume(0.8f), Projectile.Center);
 
 			float beamLengthLerp = MathHelper.Clamp(BeamLength / 800f, 0, 1);
 			int maxRings = 3;
@@ -164,10 +165,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 					float speed = sizeModifier * RingSpeed;
 
 					Vector2 velNormal = Vector2.Normalize(BeamDirection);
-					Vector2 spawnPos = Vector2.Lerp(projectile.Center + StaffTipDirection + Vector2.Normalize(BeamDirection) * minRingDist,
-						projectile.Center + StaffTipDirection + Vector2.Normalize(BeamDirection) * maxRingDist, progress) + offset;
+					Vector2 spawnPos = Vector2.Lerp(Projectile.Center + StaffTipDirection + Vector2.Normalize(BeamDirection) * minRingDist,
+						Projectile.Center + StaffTipDirection + Vector2.Normalize(BeamDirection) * maxRingDist, progress) + offset;
 
-					ParticleHandler.SpawnParticle(new PulseCircle(projectile, color * 0.4f, scale * 100, (int)(LASER_TIME * 0.66f),
+					ParticleHandler.SpawnParticle(new PulseCircle(Projectile, color * 0.4f, scale * 100, (int)(LASER_TIME * 0.66f),
 						PulseCircle.MovementType.OutwardsSquareRooted, spawnPos)
 					{
 						Angle = BeamDirection.ToRotation(),
@@ -185,7 +186,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 
 			}
 
-			ParallelParticles(projectile.Center + StaffTipDirection, BeamDirection * Main.rand.NextFloat(30, 40), 35, Main.rand.NextFloat(1.5f, 3f), Main.rand.Next(14, 18));
+			ParallelParticles(Projectile.Center + StaffTipDirection, BeamDirection * Main.rand.NextFloat(30, 40), 35, Main.rand.NextFloat(1.5f, 3f), Main.rand.Next(14, 18));
 		}
 
 		/// <summary>
@@ -193,10 +194,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 		/// </summary>
 		private void ScanLaser()
 		{
-			Vector2 laserPos = projectile.Center + StaffTipDirection;
+			Vector2 laserPos = Projectile.Center + StaffTipDirection;
 			Vector2 desiredDirection = Vector2.Normalize(Main.MouseWorld - laserPos);
-			if (Math.Abs(MathHelper.WrapAngle(desiredDirection.ToRotation() - projectile.velocity.ToRotation())) > MathHelper.Pi / 4)
-				desiredDirection = Vector2.Lerp(desiredDirection, projectile.velocity, 0.8f); //Make the beam look less jank when player mouse is between staff tip and player body
+			if (Math.Abs(MathHelper.WrapAngle(desiredDirection.ToRotation() - Projectile.velocity.ToRotation())) > MathHelper.Pi / 4)
+				desiredDirection = Vector2.Lerp(desiredDirection, Projectile.velocity, 0.8f); //Make the beam look less jank when player mouse is between staff tip and player body
 
 			BeamDirection = Vector2.Normalize(Vector2.Lerp(BeamDirection, desiredDirection, CursorLerpSpeed()));
 
@@ -209,29 +210,29 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 				BeamLength += sample / samples.Length;
 
 			HittingTile = BeamLength != maxDistance;
-			projectile.netUpdate = true;
+			Projectile.netUpdate = true;
 		}
 
 		public override bool AutoAimCursor() => true;
 
 		public override Vector2 HoldoutOffset()
 		{
-			Vector2 sizeOffset = projectile.Size/2;
+			Vector2 sizeOffset = Projectile.Size/2;
 			Vector2 handPos = Main.OffsetsPlayerOnhand[Owner.bodyFrame.Y / 56] * 2f;
 			if (Owner.direction > 0)
 				handPos.X += Owner.width;
 
-			return handPos - sizeOffset - new Vector2(18 * Owner.direction, 14).RotatedBy(projectile.rotation + MathHelper.PiOver2 * Owner.direction) + new Vector2(2, 2);
+			return handPos - sizeOffset - new Vector2(18 * Owner.direction, 14).RotatedBy(Projectile.rotation + MathHelper.PiOver2 * Owner.direction) + new Vector2(2, 2);
 		}
 
 		public override float CursorLerpSpeed() => (AiState == STATE_CHARGING ? 0.2f : 0.015f);
 
-		public override bool CanDamage() => AiState == STATE_LASER;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => AiState == STATE_LASER;
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
 			float collisionPoint = 0;
-			return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center + StaffTipDirection, projectile.Center + StaffTipDirection + BeamDirection * BeamLength, 30, ref collisionPoint);
+			return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + StaffTipDirection, Projectile.Center + StaffTipDirection + BeamDirection * BeamLength, 30, ref collisionPoint);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -239,7 +240,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			if (Main.netMode == NetmodeID.Server)
 				return;
 
-			Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.6f), target.Center);
+			SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.6f), target.Center);
 			float scale = Main.rand.NextFloat(0.8f, 1f);
 			DrawAberration.DrawChromaticAberration(BeamDirection, 2f, delegate (Vector2 offset, Color colorMod) 
 			{
@@ -267,19 +268,19 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 				DrawBeam();
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(Color lightColor)
 		{
-			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
 			Color bloomColor = Color.LightBlue * 0.33f;
 			bloomColor.A = 0;
-			spriteBatch.Draw(bloom, projectile.Center + StaffTipDirection - Main.screenPosition, null, bloomColor, 0, bloom.Size() / 2, 0.15f, SpriteEffects.None, 0);
+			spriteBatch.Draw(bloom, Projectile.Center + StaffTipDirection - Main.screenPosition, null, bloomColor, 0, bloom.Size() / 2, 0.15f, SpriteEffects.None, 0);
 
-			projectile.QuickDrawGlow(spriteBatch);
+			Projectile.QuickDrawGlow(spriteBatch);
 		}
 
 		private void DrawTelegraphBeam(SpriteBatch spriteBatch)
 		{
-			Texture2D telegraph = mod.GetTexture("Textures/GlowTrail");
+			Texture2D telegraph = Mod.GetTexture("Textures/GlowTrail");
 			int ChargeTime = Owner.HeldItem.useTime;
 			float chargeAmount = MathHelper.Clamp(AiTimer / ChargeTime, 0, 1);
 			float PowF(float power) => (float)Math.Pow(chargeAmount, power);
@@ -314,7 +315,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 				Vector2 aberrationOffset = Vector2.UnitX.RotatedBy(BeamDirection.ToRotation() + (i - 1) * MathHelper.PiOver2) * 0.33f * MathHelper.Lerp(6, 1, PowF(0.5f)); //Offset each texture slightly
 				color *= 0.75f * PowF(0.05f);
 
-				spriteBatch.Draw(telegraph, projectile.Center + StaffTipDirection + aberrationOffset - Main.screenPosition, null, color, BeamDirection.ToRotation(), new Vector2(0, telegraph.Height / 2), scale, SpriteEffects.None, 0);
+				spriteBatch.Draw(telegraph, Projectile.Center + StaffTipDirection + aberrationOffset - Main.screenPosition, null, color, BeamDirection.ToRotation(), new Vector2(0, telegraph.Height / 2), scale, SpriteEffects.None, 0);
 			}
 		}
 
@@ -329,12 +330,12 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			Color color = Color.Lerp(midBlue, darkBlue, ColorLerp);
 			color *= 1 - PowF(2.5f) * 0.33f;
 			color.A = 10;
-			Vector2 position = projectile.Center + StaffTipDirection + (BeamDirection * BeamLength / 2) - Main.screenPosition; //Center between staff tip and beam end
+			Vector2 position = Projectile.Center + StaffTipDirection + (BeamDirection * BeamLength / 2) - Main.screenPosition; //Center between staff tip and beam end
 
 			//Draw the beam and apply shader parameters
-			Effect beamEffect = mod.GetEffect("Effects/Laser");
-			beamEffect.Parameters["uTexture"].SetValue(mod.GetTexture("Textures/Trails/Trail_1"));
-			beamEffect.Parameters["Progress"].SetValue(Main.GlobalTime * 3f);
+			Effect beamEffect = Mod.GetEffect("Effects/Laser");
+			beamEffect.Parameters["uTexture"].SetValue(Mod.GetTexture("Textures/Trails/Trail_1"));
+			beamEffect.Parameters["Progress"].SetValue(Main.GlobalTimeWrappedHourly * 3f);
 			beamEffect.Parameters["xMod"].SetValue(BeamLength / 150f);
 			beamEffect.Parameters["yMod"].SetValue(2f);
 			beamEffect.CurrentTechnique.Passes[0].Apply();
@@ -354,14 +355,14 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			if (HittingTile)
 			{
 				float scaleMod = scale.Y / 60;
-				Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
-				Vector2 endPos = projectile.Center + StaffTipDirection + BeamDirection * BeamLength;
+				Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+				Vector2 endPos = Projectile.Center + StaffTipDirection + BeamDirection * BeamLength;
 				Main.spriteBatch.Draw(bloom, endPos - Main.screenPosition, null, darkBlue, 0, bloom.Size() / 2, 0.5f * scaleMod, SpriteEffects.None, 0);
 
 				float blurLength = 400 * scaleMod;
 				float blurWidth = 12 * scaleMod;
-				float flickerStrength = (((float)Math.Sin(Main.GlobalTime * 20) % 1) * 0.3f) + 1f;
-				Effect blurEffect = mod.GetEffect("Effects/BlurLine");
+				float flickerStrength = (((float)Math.Sin(Main.GlobalTimeWrappedHourly * 20) % 1) * 0.3f) + 1f;
+				Effect blurEffect = Mod.GetEffect("Effects/BlurLine");
 
 				for(int i = -1; i <= 1; i++)
 				{

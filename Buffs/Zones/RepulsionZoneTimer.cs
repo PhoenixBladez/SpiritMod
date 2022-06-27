@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Zones
 {
 	public class RepulsionZoneTimer : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Repulsion Zone");
 			Description.SetDefault("The Repulsion Zone is up!");

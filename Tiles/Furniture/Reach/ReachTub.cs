@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 {
 	public class ReachTub : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -26,7 +26,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			name.SetDefault("Elderbark Bathtub");
 			AddMapEntry(new Color(179, 146, 107), name);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
-			disableSmartCursor = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

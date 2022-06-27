@@ -42,7 +42,7 @@ namespace SpiritMod.Mechanics.Boids
 					if (WorldGen.InWorld(tP.X, tP.Y, 10))
 					{
 						Tile tile = Framing.GetTileSafely(tP.X, tP.Y);
-						if (tile.liquid > 100)
+						if (tile.LiquidAmount > 100)
 							Flocks[flock].Populate(position, Main.rand.Next(20, 30), 50f);
 					}
 				}

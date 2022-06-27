@@ -11,57 +11,57 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crimson Tigerfish");
-			Main.npcFrameCount[npc.type] = 5;
+			Main.npcFrameCount[NPC.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 44;
-			npc.height = 24;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 5;
-			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)ItemID.CrimsonTigerfish;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = .35f;
-			npc.aiStyle = 16;
-			npc.dontCountMe = true;
-			npc.noGravity = true;
-			npc.npcSlots = 0;
-			aiType = NPCID.CorruptGoldfish;
-			npc.dontTakeDamageFromHostiles = false;
+			NPC.width = 44;
+			NPC.height = 24;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 5;
+			Main.npcCatchable[NPC.type] = true;
+			NPC.catchItem = (short)ItemID.CrimsonTigerfish;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.knockBackResist = .35f;
+			NPC.aiStyle = 16;
+			NPC.dontCountMe = true;
+			NPC.noGravity = true;
+			NPC.npcSlots = 0;
+			AIType = NPCID.CorruptGoldfish;
+			NPC.dontTakeDamageFromHostiles = false;
 		}
 		public override void AI()
         {
-            npc.spriteDirection = npc.direction;
+            NPC.spriteDirection = NPC.direction;
         }
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Tigerfish1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Tigerfish2"), 1f);
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Tigerfish1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Tigerfish2").Type, 1f);
 			}
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(2) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneCrimson && spawnInfo.water ? 0.06f : 0f;
+			return spawnInfo.Player.ZoneCrimson && spawnInfo.Water ? 0.06f : 0f;
 		}
 
 	}

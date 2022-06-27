@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class Sturdy : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sturdy");
 			Description.SetDefault("'Your shell has been cracked'");

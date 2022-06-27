@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.DonatorItems;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,47 +15,47 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dark Seed");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 14;
-			projectile.height = 20;
-			projectile.thrown = true;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.light = 0;
-			projectile.timeLeft = 300;
-			projectile.extraUpdates = 1;
+			Projectile.width = 14;
+			Projectile.height = 20;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.light = 0;
+			Projectile.timeLeft = 300;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override bool PreAI()
 		{
-			if (projectile.ai[0] == 0) {
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57F;
+			if (Projectile.ai[0] == 0) {
+				Projectile.rotation = Projectile.velocity.ToRotation() + 1.57F;
 			}
 			else {
-				projectile.ignoreWater = true;
-				projectile.tileCollide = false;
+				Projectile.ignoreWater = true;
+				Projectile.tileCollide = false;
 				int num996 = 1;
 				bool flag52 = false;
 				bool flag53 = false;
-				projectile.localAI[0] += 1f;
-				if (projectile.localAI[0] % 30f == 0f) {
+				Projectile.localAI[0] += 1f;
+				if (Projectile.localAI[0] % 30f == 0f) {
 					flag53 = true;
 				}
-				int num997 = (int)projectile.ai[1];
-				if (projectile.localAI[0] >= (float)(60 * num996)) {
+				int num997 = (int)Projectile.ai[1];
+				if (Projectile.localAI[0] >= (float)(60 * num996)) {
 					flag52 = true;
 				}
 				else if (num997 < 0 || num997 >= 300) {
 					flag52 = true;
 				}
 				else if (Main.npc[num997].active && !Main.npc[num997].dontTakeDamage) {
-					projectile.Center = Main.npc[num997].Center - projectile.velocity * 2f;
-					projectile.gfxOffY = Main.npc[num997].gfxOffY;
+					Projectile.Center = Main.npc[num997].Center - Projectile.velocity * 2f;
+					Projectile.gfxOffY = Main.npc[num997].gfxOffY;
 					if (flag53) {
 						Main.npc[num997].HitEffect(0, 1.0);
 					}
@@ -62,7 +64,7 @@ namespace SpiritMod.Projectiles
 					flag52 = true;
 				}
 				if (flag52) {
-					projectile.Kill();
+					Projectile.Kill();
 				}
 			}
 
@@ -70,15 +72,15 @@ namespace SpiritMod.Projectiles
 		}
 		public override void AI()
 		{
-			Vector2 targetPos = projectile.Center;
+			Vector2 targetPos = Projectile.Center;
 			float targetDist = 350f;
 			bool targetAcquired = false;
 
 			//loop through first 200 NPCs in Main.npc
 			//this loop finds the closest valid target NPC within the range of targetDist pixels
 			for (int i = 0; i < 200; i++) {
-				if (Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
-					float dist = projectile.Distance(Main.npc[i].Center);
+				if (Main.npc[i].CanBeChasedBy(Projectile) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
+					float dist = Projectile.Distance(Main.npc[i].Center);
 					if (dist < targetDist) {
 						targetDist = dist;
 						targetPos = Main.npc[i].Center;
@@ -90,38 +92,38 @@ namespace SpiritMod.Projectiles
 			//change trajectory to home in on target
 			if (targetAcquired) {
 				float homingSpeedFactor = 6f;
-				Vector2 homingVect = targetPos - projectile.Center;
-				float dist = projectile.Distance(targetPos);
+				Vector2 homingVect = targetPos - Projectile.Center;
+				float dist = Projectile.Distance(targetPos);
 				dist = homingSpeedFactor / dist;
 				homingVect *= dist;
 
-				projectile.velocity = (projectile.velocity * 20 + homingVect) / 21f;
+				Projectile.velocity = (Projectile.velocity * 20 + homingVect) / 21f;
 			}
 
 			//Spawn the dust
 			if (Main.rand.Next(11) == 0) {
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.RedTorch, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.RedTorch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			}
-			projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
+			Projectile.rotation = Projectile.velocity.ToRotation() + (float)(Math.PI / 2);
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return true;
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			projectile.ai[0] = 1f;
-			projectile.ai[1] = (float)target.whoAmI;
-			projectile.velocity = (target.Center - projectile.Center) * 0.75f;
-			projectile.netUpdate = true;
+			Projectile.ai[0] = 1f;
+			Projectile.ai[1] = (float)target.whoAmI;
+			Projectile.velocity = (target.Center - Projectile.Center) * 0.75f;
+			Projectile.netUpdate = true;
 			{
-				projectile.damage = 0;
+				Projectile.damage = 0;
 			}
 			knockback = 0;
 			int num31 = 6;
@@ -129,7 +131,7 @@ namespace SpiritMod.Projectiles
 			int num32 = 0;
 
 			for (int n = 0; n < 1000; n++) {
-				if (n != projectile.whoAmI && Main.projectile[n].active && Main.projectile[n].owner == Main.myPlayer && Main.projectile[n].type == projectile.type && Main.projectile[n].ai[0] == 1f && Main.projectile[n].ai[1] == target.whoAmI) {
+				if (n != Projectile.whoAmI && Main.projectile[n].active && Main.projectile[n].owner == Main.myPlayer && Main.projectile[n].type == Projectile.type && Main.projectile[n].ai[0] == 1f && Main.projectile[n].ai[1] == target.whoAmI) {
 					array2[num32++] = new Point(n, Main.projectile[n].timeLeft);
 					if (num32 >= array2.Length) {
 						break;
@@ -150,12 +152,12 @@ namespace SpiritMod.Projectiles
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, 0, ModContent.ProjectileType<Wrath>(), 55, 7, Main.myPlayer);
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<Wrath>(), 55, 7, Main.myPlayer);
 
 				for (int num621 = 0; num621 < 40; num621++) {
-					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.RedTorch, 0f, 0f, 100, default, 2f);
+					int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.RedTorch, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 1.2f;
 					Main.dust[num622].noGravity = true;
 					if (Main.rand.Next(2) == 0) {
@@ -164,7 +166,7 @@ namespace SpiritMod.Projectiles
 					}
 				}
 			}
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
 		}
 	}
 }

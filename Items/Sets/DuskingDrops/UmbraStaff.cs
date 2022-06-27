@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,40 +14,40 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 		{
 			DisplayName.SetDefault("Umbra Staff");
 			Tooltip.SetDefault("Shoots out homing Shadow Balls");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/DuskingDrops/UmbraStaff_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/DuskingDrops/UmbraStaff_Glow");
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 36;
-			item.value = Item.buyPrice(0, 7, 0, 0);
-			item.rare = ItemRarityID.Pink;
-			item.damage = 44;
-			item.knockBack = 3;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.useTime = 24;
-			item.useAnimation = 24;
-			item.mana = 6;
-			item.magic = true;
-			item.autoReuse = true;
-			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<ShadowBall_Friendly>();
-			item.shootSpeed = 10f;
+			Item.width = 36;
+			Item.height = 36;
+			Item.value = Item.buyPrice(0, 7, 0, 0);
+			Item.rare = ItemRarityID.Pink;
+			Item.damage = 44;
+			Item.knockBack = 3;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.useTime = 24;
+			Item.useAnimation = 24;
+			Item.mana = 6;
+			Item.DamageType = DamageClass.Magic;
+			Item.autoReuse = true;
+			Item.noMelee = true;
+			Item.shoot = ModContent.ProjectileType<ShadowBall_Friendly>();
+			Item.shootSpeed = 10f;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Sets/DuskingDrops/UmbraStaff_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/DuskingDrops/UmbraStaff_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,

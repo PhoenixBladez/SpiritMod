@@ -22,16 +22,16 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.rare = ItemRarityID.Pink;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.createTile = ModContent.TileType<SpiritCrateTile>();
-			item.maxStack = 999;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.consumable = true;
+			Item.width = 20;
+			Item.height = 20;
+			Item.rare = ItemRarityID.Pink;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.createTile = ModContent.TileType<SpiritCrateTile>();
+			Item.maxStack = 999;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.consumable = true;
 
 		}
 		public override bool CanRightClick()

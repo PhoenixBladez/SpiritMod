@@ -15,25 +15,25 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 
 		public override void SetDefaults()
 		{
-			item.damage = 44;
-			item.magic = true;
-			item.mana = 14;
-			item.width = 52;
-			item.height = 52;
-			item.useTime = 32;
-			item.useAnimation = 32;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 4;
-			item.value = 80000;
-			item.rare = ItemRarityID.Pink;
-			item.UseSound = SoundID.Item34;
-			item.crit = 11;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<ChillBolt>();
-			item.shootSpeed = 7f;
-			item.autoReuse = true;
+			Item.damage = 44;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 14;
+			Item.width = 52;
+			Item.height = 52;
+			Item.useTime = 32;
+			Item.useAnimation = 32;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 4;
+			Item.value = 80000;
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item34;
+			Item.crit = 11;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<ChillBolt>();
+			Item.shootSpeed = 7f;
+			Item.autoReuse = true;
 		}
 	}
 }

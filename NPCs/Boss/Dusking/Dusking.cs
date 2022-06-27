@@ -7,6 +7,7 @@ using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.NPCs.Boss.Dusking
@@ -22,56 +23,56 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dusking");
-			Main.npcFrameCount[npc.type] = 5;
+			Main.npcFrameCount[NPC.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 120;
-			npc.height = 160;
-			npc.damage = 45;
-			npc.defense = 32;
-			npc.lifeMax = 21000;
-			npc.knockBackResist = 0;
-			npc.boss = true;
+			NPC.width = 120;
+			NPC.height = 160;
+			NPC.damage = 45;
+			NPC.defense = 32;
+			NPC.lifeMax = 21000;
+			NPC.knockBackResist = 0;
+			NPC.boss = true;
 
-			npc.buffImmune[BuffID.Confused] = true;
-			npc.buffImmune[BuffID.ShadowFlame] = true;
+			NPC.buffImmune[BuffID.Confused] = true;
+			NPC.buffImmune[BuffID.ShadowFlame] = true;
 
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.npcSlots = 5;
-			npc.HitSound = SoundID.NPCHit7;
-			npc.DeathSound = SoundID.NPCDeath5;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.npcSlots = 5;
+			NPC.HitSound = SoundID.NPCHit7;
+			NPC.DeathSound = SoundID.NPCDeath5;
 
 			bossBag = ModContent.ItemType<DuskingBag>();
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DuskingTheme");
+			Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DuskingTheme");
 		}
 
-		public override bool CheckActive() => npc.Center.Y < -2000;
+		public override bool CheckActive() => NPC.Center.Y < -2000;
 
 		public override bool PreAI()
 		{
-			npc.netUpdate = true;
-			npc.TargetClosest(true);
+			NPC.netUpdate = true;
+			NPC.TargetClosest(true);
 
-			Lighting.AddLight(npc.Center, 0.7f, 0.3f, 0.7f);
-			Player player = Main.player[npc.target];
+			Lighting.AddLight(NPC.Center, 0.7f, 0.3f, 0.7f);
+			Player player = Main.player[NPC.target];
 
-			if (!player.active || player.dead || Main.dayTime || player.DistanceSQ(npc.Center) > 20000 * 20000)
+			if (!player.active || player.dead || Main.dayTime || player.DistanceSQ(NPC.Center) > 20000 * 20000)
 			{
-				npc.TargetClosest(false);
-				npc.velocity.Y = -100;
+				NPC.TargetClosest(false);
+				NPC.velocity.Y = -100;
 			}
 
-			if (npc.ai[0] == 0) // Flying around and shooting projectiles
+			if (NPC.ai[0] == 0) // Flying around and shooting projectiles
 			{
 				#region Flying Movement
 				float speed = 7f;
 				float acceleration = 0.09f;
 				
-				float xDir = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - npc.Center.X;
-				float yDir = (float)(Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 120) - npc.Center.Y;
+				float xDir = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - NPC.Center.X;
+				float yDir = (float)(Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2) - 120) - NPC.Center.Y;
 				float length = (float)Math.Sqrt(xDir * xDir + yDir * yDir);
 				if (length > 400 && Main.expertMode)
 				{
@@ -93,44 +94,44 @@ namespace SpiritMod.NPCs.Boss.Dusking
 				xDir *= num10;
 				yDir *= num10;
 
-				if (npc.velocity.X < xDir)
+				if (NPC.velocity.X < xDir)
 				{
-					npc.velocity.X = npc.velocity.X + acceleration;
-					if (npc.velocity.X < 0 && xDir > 0)
-						npc.velocity.X = npc.velocity.X + acceleration;
+					NPC.velocity.X = NPC.velocity.X + acceleration;
+					if (NPC.velocity.X < 0 && xDir > 0)
+						NPC.velocity.X = NPC.velocity.X + acceleration;
 				}
-				else if (npc.velocity.X > xDir)
+				else if (NPC.velocity.X > xDir)
 				{
-					npc.velocity.X = npc.velocity.X - acceleration;
-					if (npc.velocity.X > 0 && xDir < 0)
-						npc.velocity.X = npc.velocity.X - acceleration;
+					NPC.velocity.X = NPC.velocity.X - acceleration;
+					if (NPC.velocity.X > 0 && xDir < 0)
+						NPC.velocity.X = NPC.velocity.X - acceleration;
 				}
 
-				if (npc.velocity.Y < yDir)
+				if (NPC.velocity.Y < yDir)
 				{
-					npc.velocity.Y = npc.velocity.Y + acceleration;
-					if (npc.velocity.Y < 0 && yDir > 0)
-						npc.velocity.Y = npc.velocity.Y + acceleration;
+					NPC.velocity.Y = NPC.velocity.Y + acceleration;
+					if (NPC.velocity.Y < 0 && yDir > 0)
+						NPC.velocity.Y = NPC.velocity.Y + acceleration;
 				}
-				else if (npc.velocity.Y > yDir)
+				else if (NPC.velocity.Y > yDir)
 				{
-					npc.velocity.Y = npc.velocity.Y - acceleration;
-					if (npc.velocity.Y > 0 && yDir < 0)
-						npc.velocity.Y = npc.velocity.Y - acceleration;
+					NPC.velocity.Y = NPC.velocity.Y - acceleration;
+					if (NPC.velocity.Y > 0 && yDir < 0)
+						NPC.velocity.Y = NPC.velocity.Y - acceleration;
 				}
 				#endregion
 				// Shadow Ball Shoot
-				if (npc.ai[1] % 45 == 0)
+				if (NPC.ai[1] % 45 == 0)
 				{
-					Vector2 dir = Main.player[npc.target].Center - npc.Center;
+					Vector2 dir = Main.player[NPC.target].Center - NPC.Center;
 					dir.Normalize();
 					dir *= 14;
-					int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<ShadowBall>(), npc.whoAmI);
+					int newNPC = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ShadowBall>(), NPC.whoAmI);
 					Main.npc[newNPC].velocity = dir;
 				}
 
 				// Crystal Shadow Shoot.
-				if (npc.ai[1] == 150)
+				if (NPC.ai[1] == 150)
 				{
 					for (int i = 0; i < 8; ++i)
 					{
@@ -139,89 +140,89 @@ namespace SpiritMod.NPCs.Boss.Dusking
 						targetDir.Normalize();
 						targetDir *= 3;
 						int dmg = expertMode ? 23 : 37;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), dmg, 0.5F, Main.myPlayer);
+						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), dmg, 0.5F, Main.myPlayer);
 					}
 				}
 
 				// Shadowflamer Shoot
-				if (npc.ai[1] % 110 == 0)
+				if (NPC.ai[1] % 110 == 0)
 				{
-					Vector2 dir = Main.player[npc.target].Center - npc.Center;
+					Vector2 dir = Main.player[NPC.target].Center - NPC.Center;
 					dir += new Vector2(Main.rand.Next(-40, 41), Main.rand.Next(-40, 41));
 					dir.Normalize();
 					dir *= 12;
-					int newNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<Shadowflamer>(), npc.whoAmI);
+					int newNPC = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Shadowflamer>(), NPC.whoAmI);
 					Main.npc[newNPC].velocity = dir;
 				}
 
-				npc.ai[1]++;
-				if (npc.ai[1] >= 300)
+				NPC.ai[1]++;
+				if (NPC.ai[1] >= 300)
 				{
-					npc.ai[0] = 1;
-					npc.ai[1] = 60;
-					npc.ai[2] = 0;
-					npc.ai[3] = 0;
+					NPC.ai[0] = 1;
+					NPC.ai[1] = 60;
+					NPC.ai[2] = 0;
+					NPC.ai[3] = 0;
 				}
 
 				// Rage Phase Switch
-				if (npc.life <= 9000)
+				if (NPC.life <= 9000)
 				{
-					npc.ai[0] = 2;
-					npc.ai[1] = 0;
-					npc.ai[2] = 0;
-					npc.ai[3] = 0;
+					NPC.ai[0] = 2;
+					NPC.ai[1] = 0;
+					NPC.ai[2] = 0;
+					NPC.ai[3] = 0;
 				}
 			}
-			else if (npc.ai[0] == 1) // Charging.
+			else if (NPC.ai[0] == 1) // Charging.
 			{
-				npc.ai[1]++;
+				NPC.ai[1]++;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					if (npc.ai[1] % 45 == 0)
+					if (NPC.ai[1] % 45 == 0)
 					{
-						npc.TargetClosest(true);
-						float speed = 10 + (2 * (int)(npc.life / 5000));
-						Vector2 vector2_1 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-						float dirX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector2_1.X;
-						float dirY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector2_1.Y;
-						float targetVel = Math.Abs(Main.player[npc.target].velocity.X) + Math.Abs(Main.player[npc.target].velocity.Y) / 4f;
+						NPC.TargetClosest(true);
+						float speed = 10 + (2 * (int)(NPC.life / 5000));
+						Vector2 vector2_1 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+						float dirX = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2) - vector2_1.X;
+						float dirY = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2) - vector2_1.Y;
+						float targetVel = Math.Abs(Main.player[NPC.target].velocity.X) + Math.Abs(Main.player[NPC.target].velocity.Y) / 4f;
 
 						float speedMultiplier = targetVel + (10f - targetVel);
 						if (speedMultiplier < 6.0)
 							speedMultiplier = 6f;
 						if (speedMultiplier > 16.0)
 							speedMultiplier = 16f;
-						float speedX = dirX - Main.player[npc.target].velocity.X * speedMultiplier;
-						float speedY = dirY - (Main.player[npc.target].velocity.Y * speedMultiplier / 4);
+						float speedX = dirX - Main.player[NPC.target].velocity.X * speedMultiplier;
+						float speedY = dirY - (Main.player[NPC.target].velocity.Y * speedMultiplier / 4);
 						speedX *= (float)(1 + Main.rand.Next(-10, 11) * 0.01);
 						speedY *= (float)(1 + Main.rand.Next(-10, 11) * 0.01);
 						float speedLength = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
 						float actualSpeed = speed / speedLength;
-						npc.velocity.X = speedX * actualSpeed;
-						npc.velocity.Y = speedY * actualSpeed;
-						npc.velocity.X = npc.velocity.X + Main.rand.Next(-40, 41) * 0.1f;
-						npc.velocity.Y = npc.velocity.Y + Main.rand.Next(-40, 41) * 0.1f;
-						npc.netUpdate = true;
+						NPC.velocity.X = speedX * actualSpeed;
+						NPC.velocity.Y = speedY * actualSpeed;
+						NPC.velocity.X = NPC.velocity.X + Main.rand.Next(-40, 41) * 0.1f;
+						NPC.velocity.Y = NPC.velocity.Y + Main.rand.Next(-40, 41) * 0.1f;
+						NPC.netUpdate = true;
 					}
 				}
-				if (npc.ai[1] >= 270)
+				if (NPC.ai[1] >= 270)
 				{
-					npc.ai[0] = 0;
-					npc.ai[1] = 0;
-					npc.ai[2] = 0;
-					npc.ai[3] = 0;
-					npc.velocity *= 0.3F;
+					NPC.ai[0] = 0;
+					NPC.ai[1] = 0;
+					NPC.ai[2] = 0;
+					NPC.ai[3] = 0;
+					NPC.velocity *= 0.3F;
 				}
 			}
-			else if (npc.ai[0] == 2) // Continuous Charging.
+			else if (NPC.ai[0] == 2) // Continuous Charging.
 			{
-				if (npc.ai[1] == 0) // Flying Movement
+				if (NPC.ai[1] == 0) // Flying Movement
 				{
 					bool expertMode = Main.expertMode;
 					float speed = 38f;
 					float acceleration = 1.55f;
-					float num7 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - npc.Center.X;
-					float num8 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 120 - npc.Center.Y;
+					float num7 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - NPC.Center.X;
+					float num8 = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2) - 120 - NPC.Center.Y;
 					float num9 = (float)Math.Sqrt(num7 * num7 + num8 * num8);
 
 					if (Main.rand.Next(100) == 6)
@@ -231,16 +232,16 @@ namespace SpiritMod.NPCs.Boss.Dusking
 							Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 							targetDir.Normalize();
 							targetDir *= 3;
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), 26, 0.5F, Main.myPlayer);
+							Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), 26, 0.5F, Main.myPlayer);
 						}
 					}
 
-					if (npc.life >= (npc.lifeMax / 2))
+					if (NPC.life >= (NPC.lifeMax / 2))
 					{
 						if (Main.rand.Next(100) == 10)
 						{
-							Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 21);
-							Vector2 direction = Main.player[npc.target].Center - npc.Center;
+							SoundEngine.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 21);
+							Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 							direction.Normalize();
 							direction.X *= 12f;
 							direction.Y *= 12f;
@@ -251,7 +252,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 								float A = Main.rand.Next(-200, 200) * 0.01f;
 								float B = Main.rand.Next(-200, 200) * 0.01f;
 								int damage = expertMode ? 23 : 37;
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<CrystalShadow>(), damage, 1, Main.myPlayer, 0, 0);
+								Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<CrystalShadow>(), damage, 1, Main.myPlayer, 0, 0);
 							}
 						}
 					}
@@ -276,66 +277,66 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					float num11 = num7 * num10;
 					float num12 = num8 * num10;
 
-					if (npc.velocity.X < num11)
+					if (NPC.velocity.X < num11)
 					{
-						npc.velocity.X = npc.velocity.X + acceleration;
-						if (npc.velocity.X < 0 && num11 > 0)
-							npc.velocity.X = npc.velocity.X + acceleration;
+						NPC.velocity.X = NPC.velocity.X + acceleration;
+						if (NPC.velocity.X < 0 && num11 > 0)
+							NPC.velocity.X = NPC.velocity.X + acceleration;
 					}
-					else if (npc.velocity.X > num11)
+					else if (NPC.velocity.X > num11)
 					{
-						npc.velocity.X = npc.velocity.X - acceleration;
-						if (npc.velocity.X > 0 && num11 < 0)
-							npc.velocity.X = npc.velocity.X - acceleration;
-					}
-
-					if (npc.velocity.Y < num12)
-					{
-						npc.velocity.Y = npc.velocity.Y + acceleration;
-						if (npc.velocity.Y < 0 && num12 > 0)
-							npc.velocity.Y = npc.velocity.Y + acceleration;
-					}
-					else if (npc.velocity.Y > num12)
-					{
-						npc.velocity.Y = npc.velocity.Y - acceleration;
-						if (npc.velocity.Y > 0 && num12 < 0)
-							npc.velocity.Y = npc.velocity.Y - acceleration;
+						NPC.velocity.X = NPC.velocity.X - acceleration;
+						if (NPC.velocity.X > 0 && num11 < 0)
+							NPC.velocity.X = NPC.velocity.X - acceleration;
 					}
 
-					npc.ai[2]++;
-					if (npc.ai[2] >= 120)
+					if (NPC.velocity.Y < num12)
 					{
-						npc.ai[1] = 1;
-						npc.ai[2] = 0;
+						NPC.velocity.Y = NPC.velocity.Y + acceleration;
+						if (NPC.velocity.Y < 0 && num12 > 0)
+							NPC.velocity.Y = NPC.velocity.Y + acceleration;
+					}
+					else if (NPC.velocity.Y > num12)
+					{
+						NPC.velocity.Y = NPC.velocity.Y - acceleration;
+						if (NPC.velocity.Y > 0 && num12 < 0)
+							NPC.velocity.Y = NPC.velocity.Y - acceleration;
+					}
+
+					NPC.ai[2]++;
+					if (NPC.ai[2] >= 120)
+					{
+						NPC.ai[1] = 1;
+						NPC.ai[2] = 0;
 					}
 				}
 
-				else if (npc.ai[1] == 1)
+				else if (NPC.ai[1] == 1)
 				{
-					npc.ai[2]++;
-					if (npc.ai[2] % 45 == 0)
+					NPC.ai[2]++;
+					if (NPC.ai[2] % 45 == 0)
 					{
-						npc.TargetClosest(true);
-						float speed = 15 + (2 * (int)(npc.life / 10000));
-						Vector2 vector2_1 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-						float dirX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector2_1.X;
-						float dirY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector2_1.Y;
-						float targetVel = Math.Abs(Main.player[npc.target].velocity.X) + Math.Abs(Main.player[npc.target].velocity.Y) / 4f;
+						NPC.TargetClosest(true);
+						float speed = 15 + (2 * (int)(NPC.life / 10000));
+						Vector2 vector2_1 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+						float dirX = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2) - vector2_1.X;
+						float dirY = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2) - vector2_1.Y;
+						float targetVel = Math.Abs(Main.player[NPC.target].velocity.X) + Math.Abs(Main.player[NPC.target].velocity.Y) / 4f;
 						float speedMultiplier = targetVel + (10f - targetVel);
 						if (speedMultiplier < 35.0)
 							speedMultiplier = 35f;
 						if (speedMultiplier > 25.0)
 							speedMultiplier = 25f;
-						float speedX = dirX - Main.player[npc.target].velocity.X * speedMultiplier;
-						float speedY = dirY - (Main.player[npc.target].velocity.Y * speedMultiplier / 4);
+						float speedX = dirX - Main.player[NPC.target].velocity.X * speedMultiplier;
+						float speedY = dirY - (Main.player[NPC.target].velocity.Y * speedMultiplier / 4);
 						speedX *= 1 + Main.rand.Next(-10, 11) * 0.019f;
 						speedY *= 1 + Main.rand.Next(-10, 11) * 0.019f;
 						float speedLength = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
 						float actualSpeed = speed / speedLength;
-						npc.velocity.X = speedX * actualSpeed;
-						npc.velocity.Y = speedY * actualSpeed;
-						npc.velocity.X = npc.velocity.X + Main.rand.Next(-20, 21) * 0.5f;
-						npc.velocity.Y = npc.velocity.Y + Main.rand.Next(-20, 21) * 0.5f;
+						NPC.velocity.X = speedX * actualSpeed;
+						NPC.velocity.Y = speedY * actualSpeed;
+						NPC.velocity.X = NPC.velocity.X + Main.rand.Next(-20, 21) * 0.5f;
+						NPC.velocity.Y = NPC.velocity.Y + Main.rand.Next(-20, 21) * 0.5f;
 					}
 
 					if (Main.rand.Next(100) == 6)
@@ -345,70 +346,70 @@ namespace SpiritMod.NPCs.Boss.Dusking
 							Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 							targetDir.Normalize();
 							targetDir *= 3;
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), 26, 0.5F, Main.myPlayer);
+							Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), 26, 0.5F, Main.myPlayer);
 						}
 					}
-					if (npc.ai[2] >= 270)
+					if (NPC.ai[2] >= 270)
 					{
-						npc.ai[1] = 0;
-						npc.ai[2] = 0;
-						npc.velocity *= 0.3F;
+						NPC.ai[1] = 0;
+						NPC.ai[2] = 0;
+						NPC.velocity *= 0.3F;
 					}
 				}
 
 				// Circle code.
-				if (npc.localAI[0] < 1)
-					npc.localAI[0] += 0.01F;
-				npc.localAI[1] += 0.03F;
-				npc.ai[3]++;
+				if (NPC.localAI[0] < 1)
+					NPC.localAI[0] += 0.01F;
+				NPC.localAI[1] += 0.03F;
+				NPC.ai[3]++;
 
-				if (npc.ai[3] >= 6)
+				if (NPC.ai[3] >= 6)
 				{
 					for (int i = 0; i < 255; ++i)
 					{
 						if (Main.player[i].active && !Main.player[i].dead)
 						{
-							if ((Main.player[i].Center - npc.Center).Length() <= 200)
+							if ((Main.player[i].Center - NPC.Center).Length() <= 200)
 							{
 								//Main.player[i].Hurt(1, 0, false, false, " was evaporated...", false, 1); commed out because this needs work
 								Main.player[i].AddBuff(BuffID.Darkness, 330);
 							}
 						}
 					}
-					npc.ai[3] = 0;
+					NPC.ai[3] = 0;
 				}
 			}
-			else if (npc.ai[0] == 3)
+			else if (NPC.ai[0] == 3)
 			{
-				npc.velocity *= 0.97F;
-				npc.alpha += 3;
+				NPC.velocity *= 0.97F;
+				NPC.alpha += 3;
 
-				if (npc.alpha >= 255)
-					npc.active = false;
+				if (NPC.alpha >= 255)
+					NPC.active = false;
 			}
-			if (!Main.player[npc.target].active || Main.player[npc.target].dead)
+			if (!Main.player[NPC.target].active || Main.player[NPC.target].dead)
 			{
-				npc.TargetClosest(true);
+				NPC.TargetClosest(true);
 
-				if (!Main.player[npc.target].active || Main.player[npc.target].dead)
-					npc.ai[0] = 3;
+				if (!Main.player[NPC.target].active || Main.player[NPC.target].dead)
+					NPC.ai[0] = 3;
 			}
 			return true;
 		}
 
 		public override void AI()
 		{
-			npc.netUpdate = true;
-			npc.TargetClosest(true);
-			Lighting.AddLight(npc.Center, 0.7F, 0.3F, 0.7F);
-			Player player = Main.player[npc.target];
+			NPC.netUpdate = true;
+			NPC.TargetClosest(true);
+			Lighting.AddLight(NPC.Center, 0.7F, 0.3F, 0.7F);
+			Player player = Main.player[NPC.target];
 
 			if (Main.expertMode)
 			{
-				if (Main.rand.Next(100) == 2 && npc.life >= (npc.lifeMax / 2))
+				if (Main.rand.Next(100) == 2 && NPC.life >= (NPC.lifeMax / 2))
 				{
-					Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 33);
-					Vector2 direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 12f;
+					SoundEngine.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 33);
+					Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 12f;
 
 					bool expertMode = Main.expertMode;
 					int amountOfProjectiles = 1;
@@ -417,7 +418,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 						float A = Main.rand.Next(-80, 80) * 0.01f;
 						float B = Main.rand.Next(-80, 80) * 0.01f;
 						int damage = expertMode ? 23 : 37;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<ShadowPulse>(), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<ShadowPulse>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 				}
 			}
@@ -425,24 +426,24 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter++;
-			if (npc.frameCounter >= (npc.ai[0] == 2 ? 3 : 6))
+			NPC.frameCounter++;
+			if (NPC.frameCounter >= (NPC.ai[0] == 2 ? 3 : 6))
 			{
-				npc.frameCounter = 0;
-				npc.frame.Y = (npc.frame.Y + frameHeight) % (Main.npcFrameCount[npc.type] * frameHeight);
+				NPC.frameCounter = 0;
+				NPC.frame.Y = (NPC.frame.Y + frameHeight) % (Main.npcFrameCount[NPC.type] * frameHeight);
 			}
-			npc.spriteDirection = npc.direction;
+			NPC.spriteDirection = NPC.direction;
 		}
 
-		public override bool PreNPCLoot()
+		public override bool PreKill()
 		{
 			MyWorld.downedDusking = true;
 			for (int i = 0; i < 15; ++i)
 			{
-				int newDust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Shadowflame, 0f, 0f, 100, default, 2.5f);
+				int newDust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Shadowflame, 0f, 0f, 100, default, 2.5f);
 				Main.dust[newDust].noGravity = true;
 				Main.dust[newDust].velocity *= 5f;
-				newDust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Shadowflame, 0f, 0f, 100, default, 1.5f);
+				newDust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Shadowflame, 0f, 0f, 100, default, 1.5f);
 				Main.dust[newDust].velocity *= 3f;
 			}
 			return true;
@@ -450,15 +451,15 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 		public override void BossLoot(ref string name, ref int potionType) => potionType = ItemID.GreaterHealingPotion;
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.expertMode)
 			{
-				npc.DropBossBags();
+				NPC.DropBossBags();
 				return;
 			}
 
-			npc.DropItem(ModContent.ItemType<DuskStone>(), Main.rand.Next(25, 36));
+			NPC.DropItem(ModContent.ItemType<DuskStone>(), Main.rand.Next(25, 36));
 
 			int[] lootTable = {
 				ModContent.ItemType<ShadowflameSword>(),
@@ -468,23 +469,23 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			};
 			int loot = Main.rand.Next(lootTable.Length);
 			if (loot == 0)
-				npc.DropItem(lootTable[0], Main.rand.Next(74, 121));
+				NPC.DropItem(lootTable[0], Main.rand.Next(74, 121));
 			else
-				npc.DropItem(lootTable[loot]);
+				NPC.DropItem(lootTable[loot]);
 
-			npc.DropItem(ModContent.ItemType<DuskingMask>(), 1f / 7);
-			npc.DropItem(ModContent.ItemType<Trophy6>(), 1f / 10);
+			NPC.DropItem(ModContent.ItemType<DuskingMask>(), 1f / 7);
+			NPC.DropItem(ModContent.ItemType<Trophy6>(), 1f / 10);
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			if (npc.localAI[0] > 0)
+			if (NPC.localAI[0] > 0)
 			{
-				Texture2D ring = mod.GetTexture("Effects/Glowmasks/Dusking_Circle");
+				Texture2D ring = Mod.GetTexture("Effects/Glowmasks/Dusking_Circle");
 				Vector2 origin = new Vector2(ring.Width * 0.5F, ring.Height * 0.5F);
-				spriteBatch.Draw(ring, (npc.Center) - Main.screenPosition, null, Color.White * npc.localAI[0], npc.localAI[1], origin, 1, SpriteEffects.None, 0);
+				spriteBatch.Draw(ring, (NPC.Center) - Main.screenPosition, null, Color.White * NPC.localAI[0], NPC.localAI[1], origin, 1, SpriteEffects.None, 0);
 			}
 			return true;
 		}

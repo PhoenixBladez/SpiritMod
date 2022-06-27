@@ -12,16 +12,16 @@ namespace SpiritMod.Items.Material
 		{
 			DisplayName.SetDefault("Star Piece");
 			Tooltip.SetDefault("'A Cosmic Shard'");
-			ItemID.Sets.ItemNoGravity[item.type] = true;
+			ItemID.Sets.ItemNoGravity[Item.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 18;
-			item.value = 100;
-			item.rare = ItemRarityID.Pink;
-			item.maxStack = 999;
+			Item.width = 18;
+			Item.height = 18;
+			Item.value = 100;
+			Item.rare = ItemRarityID.Pink;
+			Item.maxStack = 999;
 		}
 
 		public override Color? GetAlpha(Color lightColor) => Color.White;

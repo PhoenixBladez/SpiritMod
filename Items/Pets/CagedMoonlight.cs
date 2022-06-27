@@ -2,6 +2,7 @@ using SpiritMod.Buffs.Pet;
 using SpiritMod.Projectiles.Pet;
 using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,20 +16,20 @@ namespace SpiritMod.Items.Pets
 		{
 			DisplayName.SetDefault("Caged Moonlight");
 			Tooltip.SetDefault("Summons a faerie to protect you\n'Your enemies shall be harassed by luminous lances'");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Pets/CagedMoonlight_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Pets/CagedMoonlight_Glow");
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.08f, .38f, .28f);
+			Lighting.AddLight(Item.position, 0.08f, .38f, .28f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Pets/CagedMoonlight_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Pets/CagedMoonlight_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -42,23 +43,23 @@ namespace SpiritMod.Items.Pets
 		public override void SetDefaults()
 		{
 
-			item.damage = 0;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.shoot = ModContent.ProjectileType<HarpyPet>();
-			item.width = 16;
-			item.height = 30;
-			item.useAnimation = 20;
-			item.useTime = 20;
-			item.rare = ItemRarityID.Orange;
-			item.noMelee = true;
-			item.value = Item.sellPrice(0, 3, 50, 0);
-			item.buffType = ModContent.BuffType<HarpyPetBuff>();
+			Item.damage = 0;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.shoot = ModContent.ProjectileType<HarpyPet>();
+			Item.width = 16;
+			Item.height = 30;
+			Item.useAnimation = 20;
+			Item.useTime = 20;
+			Item.rare = ItemRarityID.Orange;
+			Item.noMelee = true;
+			Item.value = Item.sellPrice(0, 3, 50, 0);
+			Item.buffType = ModContent.BuffType<HarpyPetBuff>();
 		}
 
-		public override void UseStyle(Player player)
+		public override void UseStyle(Player player, Rectangle heldItemFrame)
 		{
 			if (player.whoAmI == Main.myPlayer && player.itemTime == 0) {
-				player.AddBuff(item.buffType, 3600, true);
+				player.AddBuff(Item.buffType, 3600, true);
 			}
 		}
 
@@ -70,13 +71,12 @@ namespace SpiritMod.Items.Pets
 		public override void AddRecipes()
 		{
 
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe(1);
 			modRecipe.AddIngredient(ModContent.ItemType<Items.Consumable.Potion.MoonJelly>());
 			modRecipe.AddIngredient(ItemID.CrystalShard, 10);
 			modRecipe.AddIngredient(ItemID.SoulofLight, 5);
 			modRecipe.AddTile(TileID.MythrilAnvil);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

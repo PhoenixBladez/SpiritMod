@@ -13,20 +13,20 @@ namespace SpiritMod.Projectiles.Summon
 		private readonly static int numY = -16;
         public override void SetDefaults()
         {
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.timeLeft = maxtimeleft;
-            projectile.height = 8;
-            projectile.minion = true;
-            projectile.width = 8;
-            projectile.alpha = 255;
-            projectile.hide = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
-            projectile.usesLocalNPCImmunity = false;
-            projectile.localNPCHitCooldown = 1;
-            projectile.aiStyle = 1;
-            aiType = ProjectileID.Bullet;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.timeLeft = maxtimeleft;
+            Projectile.height = 8;
+            Projectile.minion = true;
+            Projectile.width = 8;
+            Projectile.alpha = 255;
+            Projectile.hide = true;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 1;
+            Projectile.usesLocalNPCImmunity = false;
+            Projectile.localNPCHitCooldown = 1;
+            Projectile.aiStyle = 1;
+            AIType = ProjectileID.Bullet;
         }
 
         public override void AI()
@@ -34,24 +34,24 @@ namespace SpiritMod.Projectiles.Summon
             int num = 5;
             for (int k = 0; k < 6; k++)
             {
-                int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Electric, 0.0f, 0.0f, 0, new Color(), .8f);
-                Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+                int index2 = Dust.NewDust(Projectile.position, 1, 1, DustID.Electric, 0.0f, 0.0f, 0, new Color(), .8f);
+                Main.dust[index2].position = Projectile.Center - Projectile.velocity / num * (float)k;
                 Main.dust[index2].scale = .5f;
                 Main.dust[index2].velocity *= 0f;
                 Main.dust[index2].noGravity = true;
                 Main.dust[index2].noLight = false;
-                Main.dust[index2].fadeIn = (float)(100 + projectile.owner);
+                Main.dust[index2].fadeIn = (float)(100 + Projectile.owner);
 
             }
-            if (projectile.timeLeft % 2 == 0)
+            if (Projectile.timeLeft % 2 == 0)
             {
-                projectile.velocity.Y -= (projectile.timeLeft == maxtimeleft) ? numY/2 : numY;
+                Projectile.velocity.Y -= (Projectile.timeLeft == maxtimeleft) ? numY/2 : numY;
             }
             else
             {
-                projectile.velocity.Y += numY;
-				if(projectile.timeLeft <= (maxtimeleft * 0.9f)) {
-					projectile.velocity.Y += 0.25f;
+                Projectile.velocity.Y += numY;
+				if(Projectile.timeLeft <= (maxtimeleft * 0.9f)) {
+					Projectile.velocity.Y += 0.25f;
 				}
             }
         }
@@ -68,8 +68,8 @@ namespace SpiritMod.Projectiles.Summon
                 if (Main.dust[num].position != target.Center)
                     Main.dust[num].velocity = target.DirectionTo(Main.dust[num].position) * 3f;
             }
-            Player player = Main.player[projectile.owner];
-            target.AddBuff(mod.BuffType("ElectricSummonTag"), 240, true);
+            Player player = Main.player[Projectile.owner];
+            target.AddBuff(Mod.Find<ModBuff>("ElectricSummonTag").Type, 240, true);
             int num1 = -1;
             for (int i = 0; i < 200; i++)
             {

@@ -16,25 +16,25 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void SetDefaults()
 		{
-			projectile.width = 2;
-			projectile.height = 2;
+			Projectile.width = 2;
+			Projectile.height = 2;
 
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.Bullet;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.Bullet;
 
-			projectile.ranged = true;
-			projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.friendly = true;
 
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.light = 0.5f;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.light = 0.5f;
 		}
 
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			//	knockback *= 1.8f;
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height,
+			Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height,
 				ModContent.DustType<RubberBulletDust>(), Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3));
 		}
 		public override Color? GetAlpha(Color lightColor)

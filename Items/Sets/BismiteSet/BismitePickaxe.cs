@@ -1,4 +1,5 @@
 using SpiritMod.Items.Material;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,29 +15,28 @@ namespace SpiritMod.Items.Sets.BismiteSet
 
 		public override void SetDefaults()
 		{
-			item.width = 38;
-			item.height = 30;
-			item.value = 1000;
-			item.rare = ItemRarityID.Blue;
-			item.pick = 40;
-			item.damage = 4;
-			item.knockBack = 4;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 16;
-			item.useAnimation = 20;
-			item.melee = true;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.UseSound = SoundID.Item1;
+			Item.width = 38;
+			Item.height = 30;
+			Item.value = 1000;
+			Item.rare = ItemRarityID.Blue;
+			Item.pick = 40;
+			Item.damage = 4;
+			Item.knockBack = 4;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 16;
+			Item.useAnimation = 20;
+			Item.DamageType = DamageClass.Melee;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.UseSound = SoundID.Item1;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 14);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

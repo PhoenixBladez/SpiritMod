@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,26 +19,26 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 
 		public override void SetDefaults()
 		{
-			item.damage = 17;
-			item.magic = true;
-			item.mana = 6;
-			item.width = 44;
-			item.height = 48;
-			item.useTime = 25;
-			item.useAnimation = 25;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 4;
-			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Green;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<ReachPetal>();
-			item.shootSpeed = 15f;
+			Item.damage = 17;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 6;
+			Item.width = 44;
+			Item.height = 48;
+			Item.useTime = 25;
+			Item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 4;
+			Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<ReachPetal>();
+			Item.shootSpeed = 15f;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Main.PlaySound(SoundID.Grass, (int)player.position.X, (int)player.position.Y);
+			SoundEngine.PlaySound(SoundID.Grass, (int)player.position.X, (int)player.position.Y);
 			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 			int amount = Main.rand.Next(1, 3);
 			for (int i = 0; i < amount; ++i) {

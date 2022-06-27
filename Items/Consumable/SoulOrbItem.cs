@@ -16,19 +16,19 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.rare = ItemRarityID.Blue;
-			item.maxStack = 99;
-			item.noUseGraphic = true;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = item.useAnimation = 20;
+			Item.width = Item.height = 16;
+			Item.rare = ItemRarityID.Blue;
+			Item.maxStack = 99;
+			Item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.noMelee = true;
-			item.consumable = true;
-			item.autoReuse = false;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.autoReuse = false;
 
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SoulOrb>());
 			return true;

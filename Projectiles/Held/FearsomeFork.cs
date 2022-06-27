@@ -17,14 +17,14 @@ namespace SpiritMod.Projectiles.Held
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Trident);
-			aiType = ProjectileID.Trident;
+			Projectile.CloneDefaults(ProjectileID.Trident);
+			AIType = ProjectileID.Trident;
 		}
 		public override void AI()
 		{
 			timer++;
 			if (timer % 7 == 1) {
-				int newProj = Projectile.NewProjectile(projectile.position, new Vector2(0, 0), ModContent.ProjectileType<Pumpkin>(), projectile.damage, 0, projectile.owner);
+				int newProj = Projectile.NewProjectile(Projectile.position, new Vector2(0, 0), ModContent.ProjectileType<Pumpkin>(), Projectile.damage, 0, Projectile.owner);
 				Main.projectile[newProj].magic = false;
 				Main.projectile[newProj].melee = true;
 			}

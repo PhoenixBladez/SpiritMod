@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,20 +10,19 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.maxStack = 999;
-			item.value = 500;
-			item.rare = ItemRarityID.Green;
+			Item.width = Item.height = 16;
+			Item.maxStack = 999;
+			Item.value = 500;
+			Item.rare = ItemRarityID.Green;
 		}
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe(1);
             recipe.AddIngredient(ItemID.Book, 1);
             recipe.AddIngredient(ItemID.FallenStar, 2);
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

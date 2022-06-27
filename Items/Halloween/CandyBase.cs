@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,7 +14,7 @@ namespace SpiritMod.Items.Halloween
 			for (int i = 0; i < 50; i++) {
 				if (inv[i].IsAir || inv[i].type != ModContent.ItemType<CandyBag>())
 					continue;
-				if (!((CandyBag)inv[i].modItem).Full)
+				if (!((CandyBag)inv[i].ModItem).Full)
 					return true;
 			}
 			return false;
@@ -25,9 +26,9 @@ namespace SpiritMod.Items.Halloween
 			for (int i = 0; i < 50; i++) {
 				if (inv[i].IsAir || inv[i].type != ModContent.ItemType<CandyBag>())
 					continue;
-				if (((CandyBag)inv[i].modItem).TryAdd(this)) {
-					ItemText.NewText(item, 1);
-					Main.PlaySound(SoundID.Grab, (int)player.position.X, (int)player.position.Y);
+				if (((CandyBag)inv[i].ModItem).TryAdd(this)) {
+					ItemText.NewText(Item, 1);
+					SoundEngine.PlaySound(SoundID.Grab, (int)player.position.X, (int)player.position.Y);
 					return false;
 				}
 			}
@@ -37,7 +38,7 @@ namespace SpiritMod.Items.Halloween
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			if (CanRightClick())
-				tooltips.Add(new TooltipLine(mod, "RightclickHint", "Right click to put into Candy Bag"));
+				tooltips.Add(new TooltipLine(Mod, "RightclickHint", "Right click to put into Candy Bag"));
 		}
 
 		public override bool CanRightClick()
@@ -51,15 +52,15 @@ namespace SpiritMod.Items.Halloween
 			for (int i = 0; i < 50; i++) {
 				if (inv[i].IsAir || inv[i].type != ModContent.ItemType<CandyBag>())
 					continue;
-				if (((CandyBag)inv[i].modItem).TryAdd(this)) {
-					Main.PlaySound(SoundID.Grab, (int)player.position.X, (int)player.position.Y);
+				if (((CandyBag)inv[i].ModItem).TryAdd(this)) {
+					SoundEngine.PlaySound(SoundID.Grab, (int)player.position.X, (int)player.position.Y);
 					return;
 				}
 			}
 			//No bags with free space found.
 
 			//Needed to counter the default consuption.
-			item.stack++;
+			Item.stack++;
 		}
 	}
 }

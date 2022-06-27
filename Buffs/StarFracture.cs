@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class StarFracture : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star Fracture");
 			Main.buffNoTimeDisplay[Type] = false;

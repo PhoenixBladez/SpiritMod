@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Summon
 {
 	public class MoonjellySummonBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moonlight Preserver");
 			Description.SetDefault("This moonlight preserver summons tiny Lunazoa to fight for you!");

@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Potion
 {
 	public class RunePotionBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Runescribe");
 			Description.SetDefault("Magic attacks may cause enemies to erupt into runes\n5% increased magic damage");

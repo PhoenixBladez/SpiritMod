@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
             float widthVar;
             float colorSin = (float)Math.Sin(Counter / 3f);
 			var proj = Entity as Projectile;
-			if (proj.modProjectile is RagingSunbladeProj modProj)
+			if (proj.ModProjectile is RagingSunbladeProj modProj)
 			{
 				Vector2 primCenter = modProj.primCenter;
 				if (!proj.active)
@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 					if (i == 0)
 					{
 						widthVar = (float)Math.Sqrt(Points.Count) * Width;
-						Color c1 = Color.Lerp(Color.White, SpiritMod.StarjinxColor(Main.GlobalTime * 2), colorSin);
+						Color c1 = Color.Lerp(Color.White, SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 2), colorSin);
 						Vector2 normalAhead = CurveNormal(Points, i + 1);
 						Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
 						Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;

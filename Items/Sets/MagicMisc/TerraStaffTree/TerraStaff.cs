@@ -16,41 +16,39 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 
 		public override void SetDefaults()
 		{
-			item.damage = 78;
-			item.magic = true;
-			item.mana = 20;
-			item.width = 58;
-			item.height = 58;
-			item.useTime = 14;
-			item.useAnimation = 14;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 6;
-			item.value = 200000;
-			item.rare = ItemRarityID.Cyan;
-			item.crit = 20;
-			item.UseSound = SoundID.Item60;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<Projectiles.Magic.TerraProj>();
-			item.shootSpeed = 8f;
+			Item.damage = 78;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 20;
+			Item.width = 58;
+			Item.height = 58;
+			Item.useTime = 14;
+			Item.useAnimation = 14;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 6;
+			Item.value = 200000;
+			Item.rare = ItemRarityID.Cyan;
+			Item.crit = 20;
+			Item.UseSound = SoundID.Item60;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Magic.TerraProj>();
+			Item.shootSpeed = 8f;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe(1);
 			modRecipe.AddIngredient(ModContent.ItemType<TrueDarkStaff>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<TrueHallowedStaff>(), 1);
 			modRecipe.AddTile(TileID.MythrilAnvil);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 
-			modRecipe = new ModRecipe(mod);
+			modRecipe = CreateRecipe(1);
 			modRecipe.AddIngredient(ModContent.ItemType<TrueBloodStaff>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<TrueHallowedStaff>(), 1);
 			modRecipe.AddTile(TileID.MythrilAnvil);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

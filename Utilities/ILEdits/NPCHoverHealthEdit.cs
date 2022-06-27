@@ -33,7 +33,7 @@ namespace SpiritMod.Utilities.ILEdits
 			if (self.type == ModContent.NPCType<StardustBombNPC>() || self.type == ModContent.NPCType<Hydra>())
 				return false;
 
-			if (self.modNPC != null && self.modNPC is ISolidTopNPC) //Platforms dont show names
+			if (self.ModNPC != null && self.ModNPC is ISolidTopNPC) //Platforms dont show names
 				return false;
 			return flag;
 		}

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
@@ -14,138 +15,138 @@ namespace SpiritMod.NPCs.DesertBandit
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Forsaken Bandit");
-			Main.npcFrameCount[npc.type] = 12;
-			NPCID.Sets.TrailCacheLength[npc.type] = 20;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 12;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 20;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 
 			//ModContent.GetInstance<SpiritMod>().NPCCandyBlacklist.Add(npc.type);
 		}
 
 		public override void SetDefaults()
 		{
-			npc.aiStyle = 3;
-			npc.lifeMax = 65;
-			npc.defense = 10;
-			npc.value = 105f;
-			aiType = NPCID.Skeleton;
-			npc.knockBackResist = 0.7f;
-			npc.width = 30;
-			npc.height = 42;
-			npc.damage = 18;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath6;
-			npc.lavaImmune = true;
-			for (int k = 0; k < npc.buffImmune.Length; k++)
-				npc.buffImmune[k] = true;
-			npc.noTileCollide = false;
-			npc.alpha = 255;
-			npc.dontTakeDamage = false;
-			npc.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 1);
+			NPC.aiStyle = 3;
+			NPC.lifeMax = 65;
+			NPC.defense = 10;
+			NPC.value = 105f;
+			AIType = NPCID.Skeleton;
+			NPC.knockBackResist = 0.7f;
+			NPC.width = 30;
+			NPC.height = 42;
+			NPC.damage = 18;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath6;
+			NPC.lavaImmune = true;
+			for (int k = 0; k < NPC.buffImmune.Length; k++)
+				NPC.buffImmune[k] = true;
+			NPC.noTileCollide = false;
+			NPC.alpha = 255;
+			NPC.dontTakeDamage = false;
+			NPC.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 1);
         }
 
-		public override void SendExtraAI(BinaryWriter writer) => writer.Write(npc.localAI[2]);
-		public override void ReceiveExtraAI(BinaryReader reader) => npc.localAI[2] = reader.ReadInt32();
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => npc.localAI[2] == 0f;
+		public override void SendExtraAI(BinaryWriter writer) => writer.Write(NPC.localAI[2]);
+		public override void ReceiveExtraAI(BinaryReader reader) => NPC.localAI[2] = reader.ReadInt32();
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => NPC.localAI[2] == 0f;
 
 		public override bool PreAI()
 		{
-			var textPos = new Rectangle((int)npc.position.X, (int)npc.position.Y - 60, npc.width, npc.height);
+			var textPos = new Rectangle((int)NPC.position.X, (int)NPC.position.Y - 60, NPC.width, NPC.height);
 
-			if (npc.alpha == 255)
+			if (NPC.alpha == 255)
             {
 				for (int i = 0; i < 10; i++)
 				{
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.LavaMoss, 0f, -2f, 0, default, 1.1f);
+					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.LavaMoss, 0f, -2f, 0, default, 1.1f);
 					Main.dust[num].noGravity = true;
 					Dust dust = Main.dust[num];
 					dust.position.X += ((Main.rand.Next(-30, 31) / 20) - 1.5f);
 					dust.position.Y += ((Main.rand.Next(-30, 31) / 20) - 1.5f);
-					if (dust.position != npc.Center)
-						dust.velocity = npc.DirectionTo(dust.position) * 4f;
+					if (dust.position != NPC.Center)
+						dust.velocity = NPC.DirectionTo(dust.position) * 4f;
 					dust.shader = GameShaders.Armor.GetSecondaryShader(13, Main.LocalPlayer);
 				}
 			}
 
-			if (npc.alpha > 0)
-				npc.alpha -= 3;
+			if (NPC.alpha > 0)
+				NPC.alpha -= 3;
 
-			Player target = Main.player[npc.target];
+			Player target = Main.player[NPC.target];
 
-			npc.TargetClosest(true);
-			if (npc.localAI[2] == 0f)
+			NPC.TargetClosest(true);
+			if (NPC.localAI[2] == 0f)
 			{
-				if (Vector2.Distance(target.Center, npc.Center) > 60f)
-					npc.aiStyle = 3;
+				if (Vector2.Distance(target.Center, NPC.Center) > 60f)
+					NPC.aiStyle = 3;
 				else
-					npc.velocity.X = 0f;
+					NPC.velocity.X = 0f;
 
-				if (npc.velocity.X < 0f)
-					npc.spriteDirection = 1;
-				else if (npc.velocity.X > 0f)
-					npc.spriteDirection = -1;
+				if (NPC.velocity.X < 0f)
+					NPC.spriteDirection = 1;
+				else if (NPC.velocity.X > 0f)
+					NPC.spriteDirection = -1;
 
-				if (npc.velocity.X == 0f && target.dead)
-					npc.spriteDirection = 1;
+				if (NPC.velocity.X == 0f && target.dead)
+					NPC.spriteDirection = 1;
 			}
 			else
             {
-				npc.aiStyle = 0;
-				npc.townNPC = true;
-				npc.homeless = true;
+				NPC.aiStyle = 0;
+				NPC.townNPC = true;
+				NPC.homeless = true;
 
-				if (npc.localAI[2] == -1)
+				if (NPC.localAI[2] == -1)
 				{
 					CombatText.NewText(textPos, new Color(61, 255, 142, 100), "Thank you again!");
-					npc.DropItem(ModContent.ItemType<Items.Sets.AccessoriesMisc.DustboundRing.Dustbound_Ring>());
+					NPC.DropItem(ModContent.ItemType<Items.Sets.AccessoriesMisc.DustboundRing.Dustbound_Ring>());
 
 					for (int i = 0; i < 3; ++i)
-						Gore.NewGore(npc.position, npc.velocity, 99);
+						Gore.NewGore(NPC.position, NPC.velocity, 99);
 
-					npc.localAI[2] = 0f;
-					npc.active = false;
-					npc.netUpdate = true;
+					NPC.localAI[2] = 0f;
+					NPC.active = false;
+					NPC.netUpdate = true;
 				}
 			}
 
-			if (NPC.CountNPCS(ModContent.NPCType<DesertBandit>()) == 1 && npc.localAI[2] == 0f)
+			if (NPC.CountNPCS(ModContent.NPCType<DesertBandit>()) == 1 && NPC.localAI[2] == 0f)
 			{
 				CombatText.NewText(textPos, new Color(61, 255, 142, 100), "Please spare me!");
-				npc.localAI[2] = 1f;
-				npc.netUpdate = true;
+				NPC.localAI[2] = 1f;
+				NPC.netUpdate = true;
 			}
 			return true;
 		}
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (Main.rand.NextBool(24))
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagicLantern);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.MagicLantern);
         }
 
 		int frame = 0;
 
 		public override void FindFrame(int frameHeight)
 		{
-			Player player = Main.player[npc.target];
-			npc.frameCounter++;
-			if (npc.localAI[2] == 0f)
+			Player player = Main.player[NPC.target];
+			NPC.frameCounter++;
+			if (NPC.localAI[2] == 0f)
 			{
-				if (Vector2.Distance(player.Center, npc.Center) >= 60f)
+				if (Vector2.Distance(player.Center, NPC.Center) >= 60f)
 				{
-					if (npc.frameCounter >= 7)
+					if (NPC.frameCounter >= 7)
 					{
 						frame++;
-						npc.frameCounter = 0;
+						NPC.frameCounter = 0;
 					}
 					if (frame >= 6)
 						frame = 0;
 				}
 				else
 				{
-					if (npc.frameCounter >= 5)
+					if (NPC.frameCounter >= 5)
 					{
 						frame++;
-						npc.frameCounter = 0;
+						NPC.frameCounter = 0;
 					}
 					if (frame >= 11)
 						frame = 6;
@@ -153,14 +154,14 @@ namespace SpiritMod.NPCs.DesertBandit
 					if (frame < 6)
 						frame = 6;
 
-					if (frame == 9 && npc.frameCounter == 4 && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
-						player.Hurt(PlayerDeathReason.LegacyDefault(), npc.damage * 2, npc.direction * -1, false, false, false, -1);
+					if (frame == 9 && NPC.frameCounter == 4 && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0))
+						player.Hurt(PlayerDeathReason.LegacyDefault(), NPC.damage * 2, NPC.direction * -1, false, false, false, -1);
 				}
 			}
-			npc.frame.Y = frameHeight * frame;
+			NPC.frame.Y = frameHeight * frame;
 		}
 
-		public override bool CanChat() => npc.localAI[2] != 0f;
+		public override bool CanChat() => NPC.localAI[2] != 0f;
 		public override string GetChat() => "Please, spare me! I was so desperate...I haven't had food for days. You can leave me be if you want, but if you give me that crown, I'll give you what I have and be on my way. Promise.";
 		public override void SetChatButtons(ref string button, ref string button2) => button = "Spare";
 
@@ -170,7 +171,7 @@ namespace SpiritMod.NPCs.DesertBandit
 			{
 				if (Main.npcChatText == TravelingMerchantDesertQuest.ThankText)
 				{
-					npc.localAI[2] = -1;
+					NPC.localAI[2] = -1;
 
 					for (int i = 0; i < Main.LocalPlayer.inventory.Length; ++i)
 					{
@@ -188,26 +189,26 @@ namespace SpiritMod.NPCs.DesertBandit
 		{
 			for (int k = 0; k < 11; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedBrown, hitDirection, -1f, 1, default, .61f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.UnusedBrown, hitDirection, -1f, 1, default, .61f);
 			}
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DesertBandit/DesertBanditGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DesertBandit/DesertBanditGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DesertBandit/DesertBanditGore3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DesertBandit/DesertBanditGore2"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DesertBandit/DesertBanditGore1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DesertBandit/DesertBanditGore2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DesertBandit/DesertBanditGore3").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DesertBandit/DesertBanditGore2").Type, 1f);
 			}
 			for (int k = 0; k < 7; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
 			}
 		}
 
 		public override void OnHitPlayer (Player target, int damage, bool crit)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(18, 0));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(18, 0));
 			int num1 = 0;
 			for (int index = 0; index < 59; ++index)
 			{

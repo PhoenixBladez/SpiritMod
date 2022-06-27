@@ -14,15 +14,15 @@ namespace SpiritMod.Projectiles.Returning
 
 		public override void SetDefaults()
 		{
-			projectile.width = 38;
-			projectile.height = 38;
-			projectile.aiStyle = 3;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.magic = false;
-			projectile.penetrate = 2;
-			projectile.timeLeft = 700;
-			projectile.extraUpdates = 1;
+			Projectile.width = 38;
+			Projectile.height = 38;
+			Projectile.aiStyle = 3;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.magic = false;
+			Projectile.penetrate = 2;
+			Projectile.timeLeft = 700;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Returning
 
 		public override void AI()
 		{
-			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Flare_Blue);
+			int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Flare_Blue);
 			Main.dust[dust].noGravity = true;
 		}
 

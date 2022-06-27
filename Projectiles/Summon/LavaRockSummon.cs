@@ -12,36 +12,36 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Magmarock");
-			Main.projPet[projectile.type] = true;
-			Main.projFrames[projectile.type] = 1;
-			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-			ProjectileID.Sets.Homing[projectile.type] = true;
+			Main.projPet[Projectile.type] = true;
+			Main.projFrames[Projectile.type] = 1;
+			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 36;
-			projectile.height = 36;
-			projectile.netImportant = true;
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.ignoreWater = true;
-			projectile.minionSlots = 1f;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.minion = true;
+			Projectile.width = 36;
+			Projectile.height = 36;
+			Projectile.netImportant = true;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.ignoreWater = true;
+			Projectile.minionSlots = 1f;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.minion = true;
 		}
 
 		public override void AI()
 		{
-			projectile.localAI[0]++;
-			if (projectile.localAI[0] >= 10f) {
-				projectile.localAI[0] = 0f;
+			Projectile.localAI[0]++;
+			if (Projectile.localAI[0] >= 10f) {
+				Projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float currentCap = 0f;
 				for (int i = 0; i < 1000; i++) {
-					if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner && Main.projectile[i].type == projectile.type && Main.projectile[i].ai[1] < 3600f) {
+					if (Main.projectile[i].active && Main.projectile[i].owner == Projectile.owner && Main.projectile[i].type == Projectile.type && Main.projectile[i].ai[1] < 3600f) {
 						num416++;
 						if (Main.projectile[i].ai[1] > currentCap) {
 							num417 = i;
@@ -55,48 +55,48 @@ namespace SpiritMod.Projectiles.Summon
 					return;
 				}
 			}
-			Lighting.AddLight(projectile.position, 0.4f, .12f, .036f);
+			Lighting.AddLight(Projectile.position, 0.4f, .12f, .036f);
 
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			SpawnDust(player);
 
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (projectile.type == ModContent.ProjectileType<LavaRockSummon>()) {
+			if (Projectile.type == ModContent.ProjectileType<LavaRockSummon>()) {
 				if (player.dead)
 					modPlayer.lavaRock = false;
 				if (modPlayer.lavaRock)
-					projectile.timeLeft = 2;
+					Projectile.timeLeft = 2;
 			}
 
-			projectile.position.X = Main.player[projectile.owner].Center.X - (projectile.width / 2f);
-			projectile.position.Y = Main.player[projectile.owner].Center.Y - (projectile.height / 2f) + Main.player[projectile.owner].gfxOffY - 60f;
+			Projectile.position.X = Main.player[Projectile.owner].Center.X - (Projectile.width / 2f);
+			Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (Projectile.height / 2f) + Main.player[Projectile.owner].gfxOffY - 60f;
 
-			if (Main.player[projectile.owner].gravDir == -1f) {
-				projectile.position.Y = projectile.position.Y + 120f;
-				projectile.rotation = 3.14f;
+			if (Main.player[Projectile.owner].gravDir == -1f) {
+				Projectile.position.Y = Projectile.position.Y + 120f;
+				Projectile.rotation = 3.14f;
 			}
 			else
-				projectile.rotation = 0f;
+				Projectile.rotation = 0f;
 
 			float adjScale = Main.mouseTextColor / 200f - 0.35f;
 			adjScale *= 0.2f;
-			projectile.scale = adjScale + 0.95f;
+			Projectile.scale = adjScale + 0.95f;
 
-			if (projectile.owner == Main.myPlayer) {
-				if (projectile.ai[0] != 0f) {
-					projectile.ai[0] -= 1f;
+			if (Projectile.owner == Main.myPlayer) {
+				if (Projectile.ai[0] != 0f) {
+					Projectile.ai[0] -= 1f;
 					return;
 				}
 
-				float shootPosX = projectile.position.X;
-				float shootPosY = projectile.position.Y;
+				float shootPosX = Projectile.position.X;
+				float shootPosY = Projectile.position.Y;
 				float maxDist = 700f;
 				bool validTarget = false;
 
 				for (int i = 0; i < Main.maxNPCs; i++) {
 					if (Main.npc[i].CanBeChasedBy()) {
-						float dist = Math.Abs(projectile.Center.X - Main.npc[i].Center.X) + Math.Abs(projectile.Center.Y - Main.npc[i].Center.Y);
-						if (dist < maxDist && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height)) {
+						float dist = Math.Abs(Projectile.Center.X - Main.npc[i].Center.X) + Math.Abs(Projectile.Center.Y - Main.npc[i].Center.Y);
+						if (dist < maxDist && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height)) {
 							maxDist = dist;
 							shootPosX = Main.npc[i].Center.X;
 							shootPosY = Main.npc[i].Center.Y;
@@ -106,9 +106,9 @@ namespace SpiritMod.Projectiles.Summon
 				}
 
 				if (validTarget) {
-					Projectile.NewProjectile(projectile.Center, projectile.GetArcVel(new Vector2(shootPosX, shootPosY), 0.15f, heightabovetarget: 150), ModContent.ProjectileType<Blaze>(), 
-						projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-					projectile.ai[0] = 30f;
+					Projectile.NewProjectile(Projectile.Center, Projectile.GetArcVel(new Vector2(shootPosX, shootPosY), 0.15f, heightabovetarget: 150), ModContent.ProjectileType<Blaze>(), 
+						Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+					Projectile.ai[0] = 30f;
 					return;
 				}
 			}
@@ -117,7 +117,7 @@ namespace SpiritMod.Projectiles.Summon
 		private void SpawnDust(Player player)
 		{
 			for (int k = 0; k < 3; k++) {
-				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 6, projectile.Center.Y + 3), 1, 1, DustID.Flare, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(new Vector2(Projectile.Center.X - 6, Projectile.Center.Y + 3), 1, 1, DustID.Flare, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].noGravity = false;
 				Main.dust[index2].velocity.X = player.velocity.X;
@@ -126,7 +126,7 @@ namespace SpiritMod.Projectiles.Summon
 			}
 
 			for (int j = 0; j < 3; j++) {
-				int index2 = Dust.NewDust(new Vector2(projectile.Center.X - 12, projectile.Center.Y + 3), 1, 1, DustID.Flare, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index2 = Dust.NewDust(new Vector2(Projectile.Center.X - 12, Projectile.Center.Y + 3), 1, 1, DustID.Flare, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].noGravity = false;
 				Main.dust[index2].velocity.X = player.velocity.X;

@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class EleutheriosBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eleutherios' Strength");
 			Description.SetDefault("Damage increased by 0%");

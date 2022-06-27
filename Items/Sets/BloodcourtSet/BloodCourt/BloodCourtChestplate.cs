@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 20;
-			item.value = 6000;
-			item.rare = ItemRarityID.Green;
-			item.defense = 5;
+			Item.width = 30;
+			Item.height = 20;
+			Item.value = 6000;
+			Item.rare = ItemRarityID.Green;
+			Item.defense = 5;
 		}
 		public override void UpdateEquip(Player player)
 		{
@@ -30,11 +30,10 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<DreamstrideEssence>(), 10);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

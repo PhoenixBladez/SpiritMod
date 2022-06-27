@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -8,7 +9,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 {
 	public class AcidKegTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileTable[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -19,12 +20,12 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrosive Keg");
 			AddMapEntry(new Color(100, 122, 111), name);
-			adjTiles = new int[] { TileID.Kegs };
-			dustType = -1;
+			AdjTiles = new int[] { TileID.Kegs };
+			DustType = -1;
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
 			Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidKeg>());
 		}
 	}

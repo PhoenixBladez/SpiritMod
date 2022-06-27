@@ -15,12 +15,12 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 18;
-			item.value = Item.buyPrice(0, 10, 0, 0);
-			item.rare = ItemRarityID.LightPurple;
-			item.accessory = true;
-			item.defense = 1;
+			Item.width = 18;
+			Item.height = 18;
+			Item.value = Item.buyPrice(0, 10, 0, 0);
+			Item.rare = ItemRarityID.LightPurple;
+			Item.accessory = true;
+			Item.defense = 1;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

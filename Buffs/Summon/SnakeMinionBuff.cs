@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Summon
 {
 	public class SnakeMinionBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flying Snake");
 			Description.SetDefault("'Quite venomous...'");

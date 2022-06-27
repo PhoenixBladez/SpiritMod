@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class StarDestiny : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star Destiny");
 			Main.debuff[Type] = true;

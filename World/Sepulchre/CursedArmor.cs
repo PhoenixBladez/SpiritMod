@@ -12,7 +12,7 @@ namespace SpiritMod.World.Sepulchre
 {
 	public class CursedArmor : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileSolid[Type] = false;
@@ -29,15 +29,15 @@ namespace SpiritMod.World.Sepulchre
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 
-			mineResist = 0.2f;
+			MineResist = 0.2f;
 
 			name.SetDefault("Cursed Armor");
 			AddMapEntry(Color.DarkSlateGray, name);
 		}
-		public override bool Dangersense(int i, int j, Player player) => true;
+		public override bool IsTileDangerous(int i, int j, Player player) => true;
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 6).WithPitchVariance(0.2f), new Vector2(i * 16, j * 16));
+			SoundEngine.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 6).WithPitchVariance(0.2f), new Vector2(i * 16, j * 16));
 			NPC npc = Main.npc[NPC.NewNPC((i + 1) * 16, (j + 4) * 16, ModContent.NPCType<Enchanted_Armor>())];
 			npc.velocity = Vector2.Zero;
 			if (Main.netMode != NetmodeID.SinglePlayer)

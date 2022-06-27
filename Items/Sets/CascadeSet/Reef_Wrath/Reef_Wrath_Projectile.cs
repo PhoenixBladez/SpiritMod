@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,15 +20,15 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 		readonly int maxtime = 50;
 		public override void SetDefaults()
 		{
-			projectile.width = 18;
-			projectile.height = 24;
-			projectile.magic = true;
-			projectile.friendly = true;
-			projectile.scale = 1f;
-			projectile.penetrate = -1;
-			projectile.alpha = 250;
-			projectile.tileCollide = false;
-			projectile.timeLeft = maxtime;
+			Projectile.width = 18;
+			Projectile.height = 24;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.friendly = true;
+			Projectile.scale = 1f;
+			Projectile.penetrate = -1;
+			Projectile.alpha = 250;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = maxtime;
 		}
 
 		int Number => int.Parse(Name.Remove(0, Name.Length - 1));
@@ -37,40 +38,40 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 			int num2 = Main.rand.Next(20, 40);
 			for (int index1 = 0; index1 < num2; ++index1)
 			{
-				int index2 = Dust.NewDust(projectile.Center, 0, 0, DustID.Blood, 0.0f, 0.0f, 100, new Color(), 1.5f);
+				int index2 = Dust.NewDust(Projectile.Center, 0, 0, DustID.Blood, 0.0f, 0.0f, 100, new Color(), 1.5f);
 				Main.dust[index2].velocity *= 1.2f;
 				--Main.dust[index2].velocity.Y;
-				Main.dust[index2].velocity += projectile.velocity;
+				Main.dust[index2].velocity += Projectile.velocity;
 				Main.dust[index2].noGravity = true;
 			}
 		}
 		public override bool PreAI()
 		{
-			projectile.position -= projectile.velocity;
+			Projectile.position -= Projectile.velocity;
 			return base.PreAI();
 		}
 
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-			if (projectile.alpha > 0 && projectile.timeLeft > 20)
-				projectile.alpha -= 25;
+			Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+			if (Projectile.alpha > 0 && Projectile.timeLeft > 20)
+				Projectile.alpha -= 25;
 			
-			if (projectile.timeLeft <= 10)
-				projectile.alpha += 25;
+			if (Projectile.timeLeft <= 10)
+				Projectile.alpha += 25;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) //dumb way of doing this but i didnt feel like making them all one projectile
+		public override bool PreDraw(ref Color lightColor) //dumb way of doing this but i didnt feel like making them all one projectile
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			float sinewave = 1.3f * (float)Math.Sin(Math.PI * (maxtime - projectile.timeLeft) / maxtime);
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			float sinewave = 1.3f * (float)Math.Sin(Math.PI * (maxtime - Projectile.timeLeft) / maxtime);
 			sinewave = Math.Min(sinewave, 1);
 			Rectangle drawRect = new Rectangle(0, 0, (int)(sinewave * tex.Width), tex.Height);
-			Vector2 position = projectile.Center - Main.screenPosition;
-			position += new Vector2(18 * (Number - 1), 0).RotatedBy(projectile.rotation) * (1 - sinewave);
-			position -= new Vector2(18, 0).RotatedBy(projectile.rotation) * sinewave;
-			position += new Vector2(18, 0).RotatedBy(projectile.rotation);
-			spriteBatch.Draw(tex, position, drawRect, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2, projectile.scale, SpriteEffects.None, 0);
+			Vector2 position = Projectile.Center - Main.screenPosition;
+			position += new Vector2(18 * (Number - 1), 0).RotatedBy(Projectile.rotation) * (1 - sinewave);
+			position -= new Vector2(18, 0).RotatedBy(Projectile.rotation) * sinewave;
+			position += new Vector2(18, 0).RotatedBy(Projectile.rotation);
+			spriteBatch.Draw(tex, position, drawRect, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 	}

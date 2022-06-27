@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Armor
 {
 	public class StellarMinionBonus : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stellar Empowerment");
 			Description.SetDefault("Increases minion damage and knockback");

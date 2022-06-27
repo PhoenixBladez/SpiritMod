@@ -15,21 +15,21 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override void SetDefaults()
 		{
-			item.width = 54;
-			item.height = 66;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.UseSound = SoundID.Item1;
+			Item.width = 54;
+			Item.height = 66;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.UseSound = SoundID.Item1;
 
-			item.value = Item.sellPrice(0, 7, 50, 0);
-			item.rare = ItemRarityID.Purple;
+			Item.value = Item.sellPrice(0, 7, 50, 0);
+			Item.rare = ItemRarityID.Purple;
 
-			item.damage = 180;
-			item.knockBack = 3f;
-			item.melee = true;
-			item.autoReuse = true;
+			Item.damage = 180;
+			Item.knockBack = 3f;
+			Item.DamageType = DamageClass.Melee;
+			Item.autoReuse = true;
 
-			item.useTime = 18;
-			item.useAnimation = 18;
+			Item.useTime = 18;
+			Item.useAnimation = 18;
 		}
 
 		public override bool AltFunctionUse(Player player)
@@ -38,18 +38,17 @@ namespace SpiritMod.Items.DonatorItems
 		}
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.LunarBar, 12);
 			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 		public override bool CanUseItem(Player player)
 		{
 			if (player.altFunctionUse == 2) {
 				if (player.dashDelay == 0) {
-					item.useStyle = ItemUseStyleID.Stabbing;
-					item.noMelee = true;
+					Item.useStyle = ItemUseStyleID.Thrust;
+					Item.noMelee = true;
 					player.GetModPlayer<MyPlayer>().PerformDash(
 						DashType.Shinigami,
 						(sbyte)player.direction);
@@ -58,8 +57,8 @@ namespace SpiritMod.Items.DonatorItems
 					return false;
 			}
 			else {
-				item.useStyle = ItemUseStyleID.SwingThrow;
-				item.noMelee = false;
+				Item.useStyle = ItemUseStyleID.Swing;
+				Item.noMelee = false;
 			}
 			return true;
 		}

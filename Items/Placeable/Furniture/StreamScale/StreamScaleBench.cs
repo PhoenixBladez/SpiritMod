@@ -15,21 +15,21 @@ namespace SpiritMod.Items.Placeable.Furniture.StreamScale
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 18;
-			item.value = 500;
+			Item.width = 32;
+			Item.height = 18;
+			Item.value = 500;
 
-			item.maxStack = 99;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<StreamScaleBenchTile>();
+			Item.createTile = ModContent.TileType<StreamScaleBenchTile>();
 		}
 		//public override void AddRecipes()
 		//{

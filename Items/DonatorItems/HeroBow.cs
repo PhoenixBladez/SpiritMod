@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.DonatorItems
 {
@@ -21,28 +22,28 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override void SetDefaults()
 		{
-			item.damage = 65;
-			item.noMelee = true;
-			item.ranged = true;
-			item.width = 22;
-			item.height = 46;
-			item.useTime = 19;
-			item.useAnimation = 19;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ProjectileID.WoodenArrowFriendly;
-			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 7;
-			item.value = Item.sellPrice(0, 10, 0, 0);
-			item.rare = ItemRarityID.Yellow;
-			item.UseSound = SoundID.Item5;
-			item.autoReuse = true;
-			item.useTurn = false;
-			item.shootSpeed = 14.2f;
+			Item.damage = 65;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 22;
+			Item.height = 46;
+			Item.useTime = 19;
+			Item.useAnimation = 19;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ProjectileID.WoodenArrowFriendly;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.knockBack = 7;
+			Item.value = Item.sellPrice(0, 10, 0, 0);
+			Item.rare = ItemRarityID.Yellow;
+			Item.UseSound = SoundID.Item5;
+			Item.autoReuse = true;
+			Item.useTurn = false;
+			Item.shootSpeed = 14.2f;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 25f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
@@ -50,7 +51,7 @@ namespace SpiritMod.Items.DonatorItems
 			}
 
 			if (type == ProjectileID.WoodenArrowFriendly) {
-				var p = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				var p = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockback, player.whoAmI);
 				if (Main.rand.Next(3) == 1) {
 					p.GetGlobalProjectile<SpiritGlobalProjectile>().effects.Add(new HeroBowFireEffect());
 				}
@@ -69,14 +70,13 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Ectoplasm, 8);
 			recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 10);
 			recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 10);
 			recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 8);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 
@@ -84,7 +84,7 @@ namespace SpiritMod.Items.DonatorItems
 	{
 		public override bool ProjectilePreAI(Projectile projectile)
 		{
-			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire);
+			int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Torch);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].velocity *= 0f;
 			Main.dust[dust].scale = 1.5f;

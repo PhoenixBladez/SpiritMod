@@ -15,14 +15,14 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 
 		public override void SetDefaults()
 		{
-			projectile.width = 4;
-			projectile.height = 4;
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.Bullet;
-			projectile.hide = true;
-			projectile.tileCollide = false;
-			projectile.scale = 1f;
-			projectile.timeLeft = 121;
+			Projectile.width = 4;
+			Projectile.height = 4;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.Bullet;
+			Projectile.hide = true;
+			Projectile.tileCollide = false;
+			Projectile.scale = 1f;
+			Projectile.timeLeft = 121;
 		}
 
 		public override void AI()
@@ -30,7 +30,7 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 			projectileTimer++;
 			if (projectileTimer % 30 == 0)
 			{
-				int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 20f, ModContent.ProjectileType<Earth_Slam_Falling>(), 0, 0, projectile.owner);
+				int p = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 20f, ModContent.ProjectileType<Earth_Slam_Falling>(), 0, 0, Projectile.owner);
 				Main.projectile[p].tileCollide = true;
 				Main.projectile[p].hostile = false;
 			}

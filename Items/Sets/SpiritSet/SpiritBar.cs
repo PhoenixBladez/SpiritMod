@@ -10,25 +10,24 @@ namespace SpiritMod.Items.Sets.SpiritSet
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 24;
-			item.value = Item.buyPrice(0, 2, 0, 0);
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.consumable = true;
-			item.rare = ItemRarityID.Pink;
-			item.maxStack = 999;
-			item.createTile = ModContent.TileType<SpiritBarTile>();
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
+			Item.width = 30;
+			Item.height = 24;
+			Item.value = Item.buyPrice(0, 2, 0, 0);
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.rare = ItemRarityID.Pink;
+			Item.maxStack = 999;
+			Item.createTile = ModContent.TileType<SpiritBarTile>();
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<SpiritOre>(), 4);
 			recipe.AddTile(TileID.AdamantiteForge);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

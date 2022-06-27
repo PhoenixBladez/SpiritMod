@@ -7,7 +7,7 @@ namespace SpiritMod.Tiles.Ambient.SpiritGrass
 {
 	public class SpiritGrassA5 : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			TileObjectData.addTile(Type);
@@ -24,7 +24,7 @@ namespace SpiritMod.Tiles.Ambient.SpiritGrass
 				16
 			};
 			TileObjectData.addTile(Type);
-			dustType = DustID.UnusedWhiteBluePurple;
+			DustType = DustID.UnusedWhiteBluePurple;
 			soundType = SoundID.Grass;
 		}
 

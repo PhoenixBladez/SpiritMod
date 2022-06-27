@@ -1,4 +1,5 @@
 using SpiritMod.Items.Placeable.Tiles;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using AcidBathtubTile = SpiritMod.Tiles.Furniture.Acid.AcidBathtubTile;
@@ -15,29 +16,28 @@ namespace SpiritMod.Items.Placeable.Furniture.Acid
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 28;
-			item.value = 200;
+			Item.width = 32;
+			Item.height = 28;
+			Item.value = 200;
 
-			item.maxStack = 99;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<AcidBathtubTile>();
+			Item.createTile = ModContent.TileType<AcidBathtubTile>();
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<AcidBrick>(), 14);
 			recipe.AddTile(TileID.HeavyWorkBench);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

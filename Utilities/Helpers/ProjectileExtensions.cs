@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,13 +15,13 @@ namespace SpiritMod
 
 		public static Rectangle DrawFrame(this Projectile projectile)
 		{
-			Texture2D texture = Main.projectileTexture[projectile.type];
+			Texture2D texture = TextureAssets.Projectile[projectile.type].Value;
 			return new Rectangle(0, projectile.frame * texture.Height / Main.projFrames[projectile.type], texture.Width, texture.Height / Main.projFrames[projectile.type]);
 		}
 
 		public static void QuickDraw(this Projectile projectile, SpriteBatch spriteBatch, float? rotation = null, SpriteEffects? spriteEffects = null, Color? drawColor = null, Vector2? drawOrigin = null)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D tex = TextureAssets.Projectile[projectile.type].Value;
 			Color color = drawColor ?? Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
 			if(spriteEffects == null)
 				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -31,10 +32,10 @@ namespace SpiritMod
 
 		public static void QuickDrawGlow(this Projectile projectile, SpriteBatch spriteBatch, Color? color = null, float? rotation = null, SpriteEffects? spriteEffects = null, Vector2? drawOrigin = null)
 		{
-			if (!ModContent.TextureExists(projectile.modProjectile.Texture + "_glow"))
+			if (!ModContent.HasAsset(projectile.ModProjectile.Texture + "_glow"))
 				return;
 
-			Texture2D tex = ModContent.GetTexture(projectile.modProjectile.Texture + "_glow");
+			Texture2D tex = ModContent.Request<Texture2D>(projectile.ModProjectile.Texture + "_glow");
 			Rectangle frame = new Rectangle(0, projectile.frame * tex.Height / Main.projFrames[projectile.type], tex.Width, tex.Height / Main.projFrames[projectile.type]);
 			if (spriteEffects == null)
 				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -45,7 +46,7 @@ namespace SpiritMod
 
 		public static void QuickDrawTrail(this Projectile projectile, SpriteBatch spriteBatch, float baseOpacity = 0.5f, float? rotation = null, SpriteEffects? spriteEffects = null, Color? drawColor = null, Vector2? drawOrigin = null)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D tex = TextureAssets.Projectile[projectile.type].Value;
 			Color color = drawColor ?? Lighting.GetColor((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16);
 			if (spriteEffects == null)
 				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -63,10 +64,10 @@ namespace SpiritMod
 
 		public static void QuickDrawGlowTrail(this Projectile projectile, SpriteBatch spriteBatch, float Opacity = 0.5f, Color? color = null, float? rotation = null, SpriteEffects? spriteEffects = null, Vector2? drawOrigin = null)
 		{
-			if (!ModContent.TextureExists(projectile.modProjectile.Texture + "_glow"))
+			if (!ModContent.HasAsset(projectile.ModProjectile.Texture + "_glow"))
 				return;
 
-			Texture2D tex = ModContent.GetTexture(projectile.modProjectile.Texture + "_glow");
+			Texture2D tex = ModContent.Request<Texture2D>(projectile.ModProjectile.Texture + "_glow");
 			Rectangle frame = new Rectangle(0, projectile.frame * tex.Height / Main.projFrames[projectile.type], tex.Width, tex.Height / Main.projFrames[projectile.type]);
 			if (spriteEffects == null)
 				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -111,7 +112,7 @@ namespace SpiritMod
 			{
 				for(int y = startY; y <= endY; y++)
 				{
-					if (TileID.Sets.Platforms[Framing.GetTileSafely(new Point(x, y)).type])
+					if (TileID.Sets.Platforms[Framing.GetTileSafely(new Point(x, y)).TileType])
 						return true;
 				}
 			}

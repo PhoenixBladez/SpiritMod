@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Candy
 {
 	public class ManaBuffC : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mana Candy");
 			Description.SetDefault("+40 Mana");

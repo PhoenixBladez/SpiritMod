@@ -3,6 +3,7 @@ using SpiritMod.Items.Consumable.Fish;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -11,37 +12,37 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gilded Jelly");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[NPC.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 14;
-			npc.height = 18;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 5;
-			npc.HitSound = SoundID.NPCHit25;
-			npc.DeathSound = SoundID.NPCDeath28;
-			npc.knockBackResist = .35f;
-			npc.dontCountMe = true;
-			npc.aiStyle = 18;
-			npc.noGravity = true;
-			npc.npcSlots = 0;
-			aiType = NPCID.PinkJellyfish;
+			NPC.width = 14;
+			NPC.height = 18;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 5;
+			NPC.HitSound = SoundID.NPCHit25;
+			NPC.DeathSound = SoundID.NPCDeath28;
+			NPC.knockBackResist = .35f;
+			NPC.dontCountMe = true;
+			NPC.aiStyle = 18;
+			NPC.noGravity = true;
+			NPC.npcSlots = 0;
+			AIType = NPCID.PinkJellyfish;
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe) {
+			if (spawnInfo.PlayerSafe) {
 				return 0f;
 			}
 			return SpawnCondition.OceanMonster.Chance * 0.008f;
@@ -49,15 +50,15 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-				npc.width = 30;
-				npc.height = 30;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+			if (NPC.life <= 0) {
+				NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
+				NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
+				NPC.width = 30;
+				NPC.height = 30;
+				NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
+				NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
 				for (int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.GoldCoin, 0f, 0f, 100, default, 1.4f);
+					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.GoldCoin, 0f, 0f, 100, default, 1.4f);
 					Main.dust[num622].velocity *= 1f;
 					Main.dust[num622].noGravity = true;
 					if (Main.rand.Next(2) == 0) {
@@ -68,18 +69,18 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override bool PreAI()
 		{
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .2f, .2f, .2f);
+			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), .2f, .2f, .2f);
 			return true;
 		}
 
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
 			}
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldCoin, 5);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.GoldCoin, 5);
 			}
 		}
 	}

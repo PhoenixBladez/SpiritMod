@@ -10,10 +10,10 @@ namespace SpiritMod.Tiles.Block
 {
 	public class BriarGrass : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			Main.tileMerge[Type][mod.TileType("BriarGrass")] = true;
+			Main.tileMerge[Type][Mod.Find<ModTile>("BriarGrass").Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
@@ -26,7 +26,7 @@ namespace SpiritMod.Tiles.Block
 			AddMapEntry(new Color(104, 156, 70));
 			SetModTree(new ReachTree());
 
-			drop = ItemID.DirtBlock;
+			ItemDrop = ItemID.DirtBlock;
 		}
 
 		public override void RandomUpdate(int i, int j)
@@ -36,12 +36,12 @@ namespace SpiritMod.Tiles.Block
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 
 			//Try place vine
-			if (WorldGen.genRand.NextBool(15) && !tileBelow.active() && !tileBelow.lava())
+			if (WorldGen.genRand.NextBool(15) && !tileBelow.HasTile && !(tileBelow.LiquidType == LiquidID.Lava))
 			{
-				if (!tile.bottomSlope())
+				if (!tile.BottomSlope)
 				{
-					tileBelow.type = (ushort)ModContent.TileType<BriarVines>();
-					tileBelow.active(true);
+					tileBelow.TileType = (ushort)ModContent.TileType<BriarVines>();
+					tileBelow.HasTile = true;
 					WorldGen.SquareTileFrame(i, j + 1, true);
 					if (Main.netMode == NetmodeID.Server)
 					{
@@ -51,14 +51,14 @@ namespace SpiritMod.Tiles.Block
 			}
 
 			//try place foliage
-			if (WorldGen.genRand.NextBool(25) && !tileAbove.active() && !tileBelow.lava())
+			if (WorldGen.genRand.NextBool(25) && !tileAbove.HasTile && !(tileBelow.LiquidType == LiquidID.Lava))
 			{
-				if (!tile.bottomSlope() && !tile.topSlope() && !tile.halfBrick() && !tile.topSlope())
+				if (!tile.BottomSlope && !tile.TopSlope && !tile.IsHalfBlock && !tile.TopSlope)
 				{
-					tileAbove.type = (ushort)ModContent.TileType<BriarFoliage>();
-					tileAbove.active(true);
-					tileAbove.frameY = 0;
-					tileAbove.frameX = (short)(WorldGen.genRand.Next(8) * 18);
+					tileAbove.TileType = (ushort)ModContent.TileType<BriarFoliage>();
+					tileAbove.HasTile = true;
+					tileAbove.TileFrameY = 0;
+					tileAbove.TileFrameX = (short)(WorldGen.genRand.Next(8) * 18);
 					WorldGen.SquareTileFrame(i, j + 1, true);
 					if (Main.netMode == NetmodeID.Server)
 						NetMessage.SendTileSquare(-1, i, j - 1, 3, TileChangeType.None);
@@ -79,7 +79,7 @@ namespace SpiritMod.Tiles.Block
 					Point p = adjacents[Main.rand.Next(adjacents.Count)];
 					if (HasOpening(p.X, p.Y))
 					{
-						Framing.GetTileSafely(p.X, p.Y).type = (ushort)ModContent.TileType<BriarGrass>();
+						Framing.GetTileSafely(p.X, p.Y).TileType = (ushort)ModContent.TileType<BriarGrass>();
 						if (Main.netMode == NetmodeID.Server)
 							NetMessage.SendTileSquare(-1, p.X, p.Y, 1, TileChangeType.None);
 					}
@@ -92,7 +92,7 @@ namespace SpiritMod.Tiles.Block
 			var p = new List<Point>();
 			for (int k = -1; k < 2; ++k)
 				for (int l = -1; l < 2; ++l)
-					if (!(l == 0 && k == 0) && Framing.GetTileSafely(i + k, j + l).active() && Framing.GetTileSafely(i + k, j + l).type == type)
+					if (!(l == 0 && k == 0) && Framing.GetTileSafely(i + k, j + l).HasTile && Framing.GetTileSafely(i + k, j + l).TileType == type)
 						p.Add(new Point(i + k, j + l));
 			return p;
 		}
@@ -101,7 +101,7 @@ namespace SpiritMod.Tiles.Block
 		{
 			for (int k = -1; k < 2; ++k)
 				for (int l = -1; l < 2; ++l)
-					if (!Framing.GetTileSafely(i + k, j + l).active())
+					if (!Framing.GetTileSafely(i + k, j + l).HasTile)
 						return true;
 			return false;
 		}
@@ -117,7 +117,7 @@ namespace SpiritMod.Tiles.Block
 			if (!fail) //Change self into dirt
 			{
 				fail = true;
-				Framing.GetTileSafely(i, j).type = TileID.Dirt;
+				Framing.GetTileSafely(i, j).TileType = TileID.Dirt;
 			}
 		}
 	}

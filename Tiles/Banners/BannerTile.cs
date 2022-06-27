@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Banners
 {
 	public class BannerTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -24,8 +24,8 @@ namespace SpiritMod.Tiles.Banners
 			TileObjectData.newTile.StyleWrapLimit = 111;
 			TileObjectData.addTile(Type);
 
-			dustType = -1;
-			disableSmartCursor = true;
+			DustType = -1;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Banner");
@@ -35,8 +35,8 @@ namespace SpiritMod.Tiles.Banners
 		{
 			Tile tile = Main.tile[i, j];
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
-			int height = tile.frameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(mod.GetTexture("Tiles/Banners/BannerTile_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White * .8f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Banners/BannerTile_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White * .8f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
@@ -338,7 +338,7 @@ namespace SpiritMod.Tiles.Banners
 				default:
 					return;
 			}
-			Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType(item));
+			Item.NewItem(i * 16, j * 16, 16, 48, Mod.Find<ModItem>(item).Type);
 		}
 
 		public override void NearbyEffects(int i, int j, bool closer)
@@ -346,7 +346,7 @@ namespace SpiritMod.Tiles.Banners
 			if (closer)
 			{
 				Player player = Main.LocalPlayer;
-				int style = Main.tile[i, j].frameX / 18;
+				int style = Main.tile[i, j].TileFrameX / 18;
 
 				// NPC internal name array for banner buff usage.
 				// If you need to add another npc, make sure there is a space before/after every NPC name apart from the very last, i.e.
@@ -363,7 +363,7 @@ namespace SpiritMod.Tiles.Banners
 					" Molten_Core Pokey_Body ScreechOwl AutomataCreeper AstralAdventurer AutomataSpinner Chest_Zombie Boulder_Termagant Falling_Asteroid Goblin_Grenadier" +
 					" BlazingSkull StymphalianBat Skeleton_Brute Enchanted_Armor PirateLobber").Split(' ');
 
-				player.NPCBannerBuff[mod.NPCType(names[style])] = true;
+				player.NPCBannerBuff[Mod.Find<ModNPC>(names[style]).Type] = true;
 				player.hasBanner = true;
 			}
 		}

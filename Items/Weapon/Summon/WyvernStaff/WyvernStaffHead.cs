@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,22 +13,22 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wyvern");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.damage = 13;
-			projectile.width = projectile.height = 22;
-			projectile.netImportant = true;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			projectile.minionSlots = 0;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.damage = 13;
+			Projectile.width = Projectile.height = 22;
+			Projectile.netImportant = true;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+			Projectile.minionSlots = 0;
 		}
 
 		public bool attack;
@@ -38,15 +39,15 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 			deathCounter--;
 			if (deathCounter == 1)
 			{
-				Main.PlaySound(SoundID.NPCKilled, projectile.Center, 8);
-				Gore.NewGore(projectile.Center, projectile.velocity, Main.rand.Next(11, 13), 1f);
-				projectile.active = false;
+				SoundEngine.PlaySound(SoundID.NPCKilled, Projectile.Center, 8);
+				Gore.NewGore(Projectile.Center, Projectile.velocity, Main.rand.Next(11, 13), 1f);
+				Projectile.active = false;
 			}
 
 			if (attack)
 			{
-				projectile.aiStyle = 121;
-				aiType = 625;
+				Projectile.aiStyle = 121;
+				AIType = 625;
 			}
 		}
 	}

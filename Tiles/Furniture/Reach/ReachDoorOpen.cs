@@ -3,6 +3,7 @@ using SpiritMod.Items.Placeable.Furniture.Reach;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -11,7 +12,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 {
 	public class ReachDoorOpen : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileSolid[Type] = false;
@@ -61,12 +62,12 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Elderbark Door");
 			AddMapEntry(new Color(179, 146, 107), name);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.OpenDoor };
-			closeDoorID = ModContent.TileType<ReachDoorClosed>();
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.OpenDoor };
+			CloseDoorID = ModContent.TileType<ReachDoorClosed>();
             TileID.Sets.HasOutlines[Type] = true;
         }
-        public override bool HasSmartInteract() => true;
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public override void NumDust(int i, int j, bool fail, ref int num)
 		{
@@ -76,8 +77,8 @@ namespace SpiritMod.Tiles.Furniture.Reach
 		{
 			Player player = Main.LocalPlayer;
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			player.showItemIcon2 = ModContent.ItemType<ReachDoorItem>();
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = ModContent.ItemType<ReachDoorItem>();
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{

@@ -17,32 +17,31 @@ namespace SpiritMod.Items.Sets.RunicSet
 
 		public override void SetDefaults()
 		{
-			item.damage = 43;
-			item.magic = true;
-			item.mana = 20;
-			item.width = 28;
-			item.height = 32;
-			item.useTime = 24;
-			item.useAnimation = 24;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true; //so the item's animation doesn't do damage
-			item.knockBack = 5;
-			item.value = Item.sellPrice(0, 4, 0, 0);
-			item.rare = ItemRarityID.Pink;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<RuneBook>();
-			item.shootSpeed = 2f;
+			Item.damage = 43;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 20;
+			Item.width = 28;
+			Item.height = 32;
+			Item.useTime = 24;
+			Item.useAnimation = 24;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true; //so the item's animation doesn't do damage
+			Item.knockBack = 5;
+			Item.value = Item.sellPrice(0, 4, 0, 0);
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<RuneBook>();
+			Item.shootSpeed = 2f;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<Rune>(), 8);
 			recipe.AddIngredient(ModContent.ItemType<SoulShred>(), 4);
 			recipe.AddIngredient(ItemID.SpellTome, 1);
 			recipe.AddTile(TileID.Bookcases);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -9,14 +9,14 @@ namespace SpiritMod.Tiles.Furniture.StreamScale
 {
 	public class StreamScaleCandleTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.addTile(Type);
-			drop = ModContent.ItemType<Items.Placeable.Furniture.StreamScale.StreamScaleCandle>();
+			ItemDrop = ModContent.ItemType<Items.Placeable.Furniture.StreamScale.StreamScaleCandle>();
 			ModTranslation name = CreateMapEntryName();
 			Main.tileLighted[Type] = true;
 			name.SetDefault("Stream Scale Candle");
@@ -39,8 +39,8 @@ namespace SpiritMod.Tiles.Furniture.StreamScale
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/StreamScale/StreamScaleCandleTile_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Furniture/StreamScale/StreamScaleCandleTile_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			Tile t = Main.tile[i, j];
 		}
 	}

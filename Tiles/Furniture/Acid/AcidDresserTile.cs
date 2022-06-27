@@ -1,8 +1,10 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -12,7 +14,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 {
 	public class AcidDresserTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -24,8 +26,8 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			TileObjectData.newTile.Origin = new Point16(1, 1);
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
-			TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
-			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
+			TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(Chest.FindEmptyChest, -1, 0, true);
+			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(Chest.AfterPlacement_Hook, -1, 0, false);
 			TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.LavaDeath = false;
@@ -35,33 +37,33 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrosive Dresser");
 			AddMapEntry(new Color(100, 122, 111), name);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Dressers };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.Dressers };
 			dresser = "Corrosive Dresser";
-			dustType = -1;
-			dresserDrop = ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidDresser>();
+			DustType = -1;
+			DresserDrop = ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidDresser>();
             TileID.Sets.HasOutlines[Type] = true;
         }
-        public override bool HasSmartInteract() => true;
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
-			if (Main.tile[Player.tileTargetX, Player.tileTargetY].frameY == 0) {
+			if (Main.tile[Player.tileTargetX, Player.tileTargetY].TileFrameY == 0) {
 				Main.CancelClothesWindow(true);
 				Main.mouseRightRelease = false;
-				int left = (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].frameX / 18);
+				int left = (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].TileFrameX / 18);
 				left %= 3;
 				left = Player.tileTargetX - left;
-				int top = Player.tileTargetY - (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].frameY / 18);
+				int top = Player.tileTargetY - (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].TileFrameY / 18);
 				if (player.sign > -1) {
-					Main.PlaySound(SoundID.MenuClose);
+					SoundEngine.PlaySound(SoundID.MenuClose);
 					player.sign = -1;
 					Main.editSign = false;
 					Main.npcChatText = string.Empty;
 				}
 				if (Main.editChest) {
-					Main.PlaySound(SoundID.MenuTick);
+					SoundEngine.PlaySound(SoundID.MenuTick);
 					Main.editChest = false;
 					Main.npcChatText = string.Empty;
 				}
@@ -73,7 +75,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 					if (left == player.chestX && top == player.chestY && player.chest != -1) {
 						player.chest = -1;
 						Recipe.FindRecipes();
-						Main.PlaySound(SoundID.MenuClose);
+						SoundEngine.PlaySound(SoundID.MenuClose);
 					}
 					else {
 						NetMessage.SendData(MessageID.RequestChestOpen, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
@@ -88,13 +90,13 @@ namespace SpiritMod.Tiles.Furniture.Acid
 						if (num213 == player.chest) {
 							player.chest = -1;
 							Recipe.FindRecipes();
-							Main.PlaySound(SoundID.MenuClose);
+							SoundEngine.PlaySound(SoundID.MenuClose);
 						}
 						else if (num213 != player.chest && player.chest == -1) {
 							player.chest = num213;
 							Main.playerInventory = true;
 							Main.recBigList = false;
-							Main.PlaySound(SoundID.MenuOpen);
+							SoundEngine.PlaySound(SoundID.MenuOpen);
 							player.chestX = left;
 							player.chestY = top;
 						}
@@ -102,7 +104,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 							player.chest = num213;
 							Main.playerInventory = true;
 							Main.recBigList = false;
-							Main.PlaySound(SoundID.MenuTick);
+							SoundEngine.PlaySound(SoundID.MenuTick);
 							player.chestX = left;
 							player.chestY = top;
 						}
@@ -114,8 +116,8 @@ namespace SpiritMod.Tiles.Furniture.Acid
 				Main.playerInventory = false;
 				player.chest = -1;
 				Recipe.FindRecipes();
-				Main.dresserX = Player.tileTargetX;
-				Main.dresserY = Player.tileTargetY;
+				Main.interactedDresserTopLeftX = Player.tileTargetX;
+				Main.interactedDresserTopLeftY = Player.tileTargetY;
 				Main.OpenClothesWindow();
 			}
 
@@ -128,32 +130,32 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
 			int left = Player.tileTargetX;
 			int top = Player.tileTargetY;
-			left -= (int)(tile.frameX % 54 / 18);
-			if (tile.frameY % 36 != 0) {
+			left -= (int)(tile.TileFrameX % 54 / 18);
+			if (tile.TileFrameY % 36 != 0) {
 				top--;
 			}
 			int chestIndex = Chest.FindChest(left, top);
-			player.showItemIcon2 = -1;
+			player.cursorItemIconID = -1;
 			if (chestIndex < 0) {
-				player.showItemIconText = Language.GetTextValue("LegacyDresserType.0");
+				player.cursorItemIconText = Language.GetTextValue("LegacyDresserType.0");
 			}
 			else {
 				if (Main.chest[chestIndex].name != "") {
-					player.showItemIconText = Main.chest[chestIndex].name;
+					player.cursorItemIconText = Main.chest[chestIndex].name;
 				}
 				else {
-					player.showItemIconText = chest;
+					player.cursorItemIconText = chest;
 				}
-				if (player.showItemIconText == chest) {
-					player.showItemIcon2 = ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidDresser>();
-					player.showItemIconText = "";
+				if (player.cursorItemIconText == chest) {
+					player.cursorItemIconID = ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidDresser>();
+					player.cursorItemIconText = "";
 				}
 			}
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			if (player.showItemIconText == "") {
-				player.showItemIcon = false;
-				player.showItemIcon2 = 0;
+			player.cursorItemIconEnabled = true;
+			if (player.cursorItemIconText == "") {
+				player.cursorItemIconEnabled = false;
+				player.cursorItemIconID = 0;
 			}
 		}
 
@@ -163,31 +165,31 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
 			int left = Player.tileTargetX;
 			int top = Player.tileTargetY;
-			left -= (int)(tile.frameX % 54 / 18);
-			if (tile.frameY % 36 != 0) {
+			left -= (int)(tile.TileFrameX % 54 / 18);
+			if (tile.TileFrameY % 36 != 0) {
 				top--;
 			}
 			int num138 = Chest.FindChest(left, top);
-			player.showItemIcon2 = -1;
+			player.cursorItemIconID = -1;
 			if (num138 < 0) {
-				player.showItemIconText = Language.GetTextValue("LegacyDresserType.0");
+				player.cursorItemIconText = Language.GetTextValue("LegacyDresserType.0");
 			}
 			else {
 				if (Main.chest[num138].name != "") {
-					player.showItemIconText = Main.chest[num138].name;
+					player.cursorItemIconText = Main.chest[num138].name;
 				}
 				else {
-					player.showItemIconText = chest;
+					player.cursorItemIconText = chest;
 				}
-				if (player.showItemIconText == chest) {
-					player.showItemIcon2 = ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidDresser>();
-					player.showItemIconText = "";
+				if (player.cursorItemIconText == chest) {
+					player.cursorItemIconID = ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidDresser>();
+					player.cursorItemIconText = "";
 				}
 			}
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			if (Main.tile[Player.tileTargetX, Player.tileTargetY].frameY > 0) {
-				player.showItemIcon2 = ItemID.FamiliarShirt;
+			player.cursorItemIconEnabled = true;
+			if (Main.tile[Player.tileTargetX, Player.tileTargetY].TileFrameY > 0) {
+				player.cursorItemIconID = ItemID.FamiliarShirt;
 			}
 		}
 
@@ -198,8 +200,8 @@ namespace SpiritMod.Tiles.Furniture.Acid
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-			Item.NewItem(i * 16, j * 16, 48, 32, dresserDrop);
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Item.NewItem(i * 16, j * 16, 48, 32, DresserDrop);
 			Chest.DestroyChest(i, j);
 		}
 	}

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
@@ -11,7 +12,7 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
 {
 	public class PurpleShard : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 
 			TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
@@ -68,11 +69,11 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
 			TileObjectData.addTile(Type);
-			dustType = DustID.DungeonSpirit;
+			DustType = DustID.DungeonSpirit;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = 2;
-		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem) => Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem) => SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{

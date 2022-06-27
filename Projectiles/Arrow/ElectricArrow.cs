@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,24 +14,24 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
-			projectile.width = 14;
-			projectile.height = 30;
+			Projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
+			Projectile.width = 14;
+			Projectile.height = 30;
 		}
 
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(4) == 0)
-				target.AddBuff(mod.BuffType("ElectrifiedV2"), 180, true);
+				target.AddBuff(Mod.Find<ModBuff>("ElectrifiedV2").Type, 180, true);
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Electric);
 			}
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
 		}
 
 	}

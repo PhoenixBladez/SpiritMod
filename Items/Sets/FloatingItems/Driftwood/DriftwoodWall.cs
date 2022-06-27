@@ -15,44 +15,42 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 22;
+			Item.width = 22;
+			Item.height = 22;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 7;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 7;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createWall = ModContent.WallType<DriftwoodWall>();
+			Item.createWall = ModContent.WallType<DriftwoodWall>();
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(4);
 			recipe.AddIngredient(ModContent.ItemType<DriftwoodTileItem>());
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this, 4);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ModContent.ItemType<DriftwoodTileItem>());
 			recipe1.AddIngredient(this, 4);
 			recipe1.AddTile(TileID.WorkBenches);
-			recipe1.SetResult(ModContent.ItemType<DriftwoodTileItem>());
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 
 	public class DriftwoodWall : ModWall
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.wallHouse[Type] = true;
-			drop = ModContent.ItemType<DriftwoodWallItem>();
+			ItemDrop = ModContent.ItemType<DriftwoodWallItem>();
 			AddMapEntry(new Color(87, 61, 44));
 		}
 	}

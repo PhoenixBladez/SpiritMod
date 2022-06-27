@@ -6,6 +6,8 @@ using SpiritMod.Utilities;
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,12 +25,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 
         public override bool PreAI()
         {
-			if (projectile.ai[0] == 0) //check for first tick
+			if (Projectile.ai[0] == 0) //check for first tick
             {
-				truePosition = projectile.position - Player.Center;
+				truePosition = Projectile.position - Player.Center;
 				newCenter = Player.Center;
-				projectile.ai[0]++;
-				projectile.netUpdate = true;
+				Projectile.ai[0]++;
+				Projectile.netUpdate = true;
 			}
 
 			if (Vector2.Distance(newCenter, Player.Center) > 500) //if too much distance from the center used for orbiting and the real player's center, set the new center to the player's center
@@ -36,9 +38,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 			else //otherwise slowly adjust it
 				newCenter = Vector2.Lerp(newCenter, Player.Center, 0.066f);
 
-			projectile.position -= projectile.velocity; //override default position updating, make it relative to player position
-			truePosition += projectile.velocity;
-			projectile.Center = newCenter + truePosition;
+			Projectile.position -= Projectile.velocity; //override default position updating, make it relative to player position
+			truePosition += Projectile.velocity;
+			Projectile.Center = newCenter + truePosition;
             return base.PreAI();
         }
 
@@ -47,7 +49,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 		public override void IdleMovement(Player player)
 		{
 			OrbitingMovement();
-			projectile.rotation = projectile.AngleFrom(player.Center);
+			Projectile.rotation = Projectile.AngleFrom(player.Center);
 		}
 
 		private const float MaxDistFromCenter = 100;
@@ -56,75 +58,75 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 			float distanceStrength = 0.002f;
 			float mindistance = 30;
 
-			if (projectile.Distance(newCenter) > mindistance)
-				projectile.velocity += projectile.DirectionTo(newCenter) * MathHelper.Clamp((projectile.Distance(newCenter) - mindistance) * distanceStrength, 0, 0.5f);
+			if (Projectile.Distance(newCenter) > mindistance)
+				Projectile.velocity += Projectile.DirectionTo(newCenter) * MathHelper.Clamp((Projectile.Distance(newCenter) - mindistance) * distanceStrength, 0, 0.5f);
 
-			if (projectile.Distance(newCenter) > MaxDistFromCenter)
-				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(newCenter) * 10, MathHelper.Clamp((projectile.Distance(newCenter) - MaxDistFromCenter) * distanceStrength * 0.05f, 0, 0.01f));
+			if (Projectile.Distance(newCenter) > MaxDistFromCenter)
+				Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(newCenter) * 10, MathHelper.Clamp((Projectile.Distance(newCenter) - MaxDistFromCenter) * distanceStrength * 0.05f, 0, 0.01f));
 
-			if (projectile.velocity.Length() < 8)
-				projectile.velocity *= 1.03f;
+			if (Projectile.velocity.Length() < 8)
+				Projectile.velocity *= 1.03f;
 
-			if (projectile.velocity.Length() > 11)
-				projectile.velocity *= 0.98f;
+			if (Projectile.velocity.Length() > 11)
+				Projectile.velocity *= 0.98f;
 		}
 
         public override void TargettingBehavior(Player player, NPC target)
 		{
 			OrbitingMovement();
 
-			projectile.rotation = Utils.AngleLerp(projectile.rotation, projectile.AngleTo(target.Center), 0.05f);
+			Projectile.rotation = Utils.AngleLerp(Projectile.rotation, Projectile.AngleTo(target.Center), 0.05f);
 
-			projectile.ai[1]++;
-			if(projectile.ai[1] > 50 && Collision.CanHit(projectile.Center, 0, 0, target.Center, 0, 0))
+			Projectile.ai[1]++;
+			if(Projectile.ai[1] > 50 && Collision.CanHit(Projectile.Center, 0, 0, target.Center, 0, 0))
             {
 				if (Main.netMode != NetmodeID.Server)
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starCast").WithPitchVariance(0.3f).WithVolume(0.6f), projectile.position);
+					SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starCast").WithPitchVariance(0.3f).WithVolume(0.6f), Projectile.position);
 
-				Vector2 vel = projectile.GetArcVel(target.Center, 0.1f, heightabovetarget : Main.rand.Next(50, 100));
-				projectile.velocity = projectile.DirectionFrom(target.Center).RotatedByRandom(MathHelper.PiOver2) * 8;
+				Vector2 vel = Projectile.GetArcVel(target.Center, 0.1f, heightabovetarget : Main.rand.Next(50, 100));
+				Projectile.velocity = Projectile.DirectionFrom(target.Center).RotatedByRandom(MathHelper.PiOver2) * 8;
 
-				Projectile.NewProjectileDirect(projectile.Center, vel, ModContent.ProjectileType<JinxprobeEnergy>(), projectile.damage, projectile.knockBack, projectile.owner).netUpdate = true;
-				projectile.ai[1] = 0;
-				projectile.netUpdate = true;
+				Projectile.NewProjectileDirect(Projectile.Center, vel, ModContent.ProjectileType<JinxprobeEnergy>(), Projectile.damage, Projectile.knockBack, Projectile.owner).netUpdate = true;
+				Projectile.ai[1] = 0;
+				Projectile.netUpdate = true;
             }
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D glow = mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_glow");
-			Texture2D glow2 = mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_glow2");
+			Texture2D glow = Mod.GetTexture(Texture.Remove(0, Mod.Name.Length + 1) + "_glow");
+			Texture2D glow2 = Mod.GetTexture(Texture.Remove(0, Mod.Name.Length + 1) + "_glow2");
 			Rectangle rect = glow.Bounds;
 
 			//draw beam to player
-			Texture2D tex = mod.GetTexture("Textures/Medusa_Ray");
-			Color beamcolor = SpiritMod.StarjinxColor(Main.GlobalTime * 4) * 0.5f * ((float)Math.Sin(Main.GlobalTime * 3) / 4 + 0.75f);
-			Vector2 scale = new Vector2(projectile.Distance(Player.Center) / tex.Width, 1) * 0.75f;
+			Texture2D tex = Mod.GetTexture("Textures/Medusa_Ray");
+			Color beamcolor = SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 4) * 0.5f * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 4 + 0.75f);
+			Vector2 scale = new Vector2(Projectile.Distance(Player.Center) / tex.Width, 1) * 0.75f;
 			spriteBatch.Draw(tex,
-				projectile.Center - Main.screenPosition + new Vector2(tex.Size().X * scale.X, 0).RotatedBy(projectile.AngleTo(Player.Center)) / 2,
+				Projectile.Center - Main.screenPosition + new Vector2(tex.Size().X * scale.X, 0).RotatedBy(Projectile.AngleTo(Player.Center)) / 2,
 				null,
-				SpiritMod.StarjinxColor(Main.GlobalTime * 4) * 0.5f * ((float)Math.Sin(Main.GlobalTime * 3) / 4 + 0.75f),
-				projectile.AngleTo(Player.Center),
+				SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 4) * 0.5f * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 4 + 0.75f),
+				Projectile.AngleTo(Player.Center),
 				tex.Size() / 2,
 				scale,
 				SpriteEffects.None,
 				0);
 
-			float newrotation = (Math.Abs(projectile.rotation) > MathHelper.Pi/2) ? projectile.rotation - MathHelper.Pi : projectile.rotation;
-			SpriteEffects flip = (Math.Abs(projectile.rotation) > MathHelper.Pi / 2) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			float newrotation = (Math.Abs(Projectile.rotation) > MathHelper.Pi/2) ? Projectile.rotation - MathHelper.Pi : Projectile.rotation;
+			SpriteEffects flip = (Math.Abs(Projectile.rotation) > MathHelper.Pi / 2) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
 			//draw big glow underneath projectile
-			spriteBatch.Draw(glow2, projectile.Center - Main.screenPosition, glow2.Bounds, beamcolor, newrotation,
-				glow2.Size() / 2, projectile.scale * 1.1f, flip, 0); 
-			spriteBatch.Draw(glow2, projectile.Center - Main.screenPosition, glow2.Bounds, beamcolor * 0.3f, newrotation,
-				 glow2.Size() / 2, projectile.scale * ((float)Math.Sin(Main.GlobalTime * 3) / 6 + 1.2f), flip, 0);
+			spriteBatch.Draw(glow2, Projectile.Center - Main.screenPosition, glow2.Bounds, beamcolor, newrotation,
+				glow2.Size() / 2, Projectile.scale * 1.1f, flip, 0); 
+			spriteBatch.Draw(glow2, Projectile.Center - Main.screenPosition, glow2.Bounds, beamcolor * 0.3f, newrotation,
+				 glow2.Size() / 2, Projectile.scale * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 6 + 1.2f), flip, 0);
 
 			//redraw projectile and glowmask
-			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, rect, projectile.GetAlpha(lightColor), newrotation, rect.Size() / 2, projectile.scale, flip, 0);
-			spriteBatch.Draw(glow, projectile.Center - Main.screenPosition, rect, projectile.GetAlpha(Color.White), newrotation, rect.Size() / 2, projectile.scale, flip, 0);
+			spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, rect, Projectile.GetAlpha(lightColor), newrotation, rect.Size() / 2, Projectile.scale, flip, 0);
+			spriteBatch.Draw(glow, Projectile.Center - Main.screenPosition, rect, Projectile.GetAlpha(Color.White), newrotation, rect.Size() / 2, Projectile.scale, flip, 0);
 
-			spriteBatch.Draw(glow, projectile.Center - Main.screenPosition, rect, projectile.GetAlpha(Color.White * 0.5f), newrotation, rect.Size() / 2, 
-				projectile.scale + (projectile.scale * (0.3f + (float)Math.Sin(Main.GlobalTime * 3)/6)), flip, 0);
+			spriteBatch.Draw(glow, Projectile.Center - Main.screenPosition, rect, Projectile.GetAlpha(Color.White * 0.5f), newrotation, rect.Size() / 2, 
+				Projectile.scale + (Projectile.scale * (0.3f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3)/6)), flip, 0);
 
 			return false;
 		}

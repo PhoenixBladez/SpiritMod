@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class AceOfDiamondsBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ace of Diamonds");
 			Description.SetDefault("Damage increased by 15%");

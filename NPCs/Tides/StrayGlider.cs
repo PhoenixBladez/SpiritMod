@@ -12,23 +12,23 @@ namespace SpiritMod.NPCs.Tides
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stray Glider");
-			Main.projFrames[base.projectile.type] = 3;
+			Main.projFrames[base.Projectile.type] = 3;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 46;
-			projectile.height = 32;
-			projectile.friendly = false;
-			projectile.hostile = false;
-			projectile.tileCollide = false;
-			projectile.alpha = 0;
+			Projectile.width = 46;
+			Projectile.height = 32;
+			Projectile.friendly = false;
+			Projectile.hostile = false;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 0;
 		}
 		public override void AI()
 		{
-			projectile.alpha += 5;
-			if (projectile.alpha > 240) {
-				projectile.active = false;
+			Projectile.alpha += 5;
+			if (Projectile.alpha > 240) {
+				Projectile.active = false;
 			}
 		}
 	}

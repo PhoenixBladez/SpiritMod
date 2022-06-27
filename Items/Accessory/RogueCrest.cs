@@ -15,15 +15,15 @@ namespace SpiritMod.Items.Accessory
 
 		public override void SetDefaults()
 		{
-            item.damage = 5;
-            item.summon = true;
-            item.knockBack = .5f;
-            item.width = 48;
-			item.height = 49;
-			item.value = Item.buyPrice(0, 3, 0, 0);
-			item.rare = ItemRarityID.Green;
-			item.defense = 1;
-			item.accessory = true;
+            Item.damage = 5;
+            Item.DamageType = DamageClass.Summon;
+            Item.knockBack = .5f;
+            Item.width = 48;
+			Item.height = 49;
+			Item.value = Item.buyPrice(0, 3, 0, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.defense = 1;
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().rogueCrest = true;

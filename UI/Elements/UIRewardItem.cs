@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.GameContent.Achievements;
 using Terraria.ID;
@@ -49,9 +50,9 @@ namespace SpiritMod.UI.Elements
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
             float prevScale = Main.inventoryScale;
-			Texture2D prevTexture = Main.inventoryBackTexture;
+			Texture2D prevTexture = TextureAssets.InventoryBack.Value;
 
-			Main.inventoryBackTexture = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/RewardItemBack");
+			TextureAssets.InventoryBack.Value = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/RewardItemBack");
 			Main.inventoryScale = 0.8f;
 
             CalculatedStyle style = GetDimensions();
@@ -65,7 +66,7 @@ namespace SpiritMod.UI.Elements
             }
 
             Main.inventoryScale = prevScale;
-			Main.inventoryBackTexture = prevTexture;
+			TextureAssets.InventoryBack.Value = prevTexture;
 		}
     }
 }

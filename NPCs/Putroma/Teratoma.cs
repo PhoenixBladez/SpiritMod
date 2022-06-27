@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
@@ -16,77 +18,77 @@ namespace SpiritMod.NPCs.Putroma
 
 		public override void SetDefaults()
 		{
-			npc.width = 34;
-			npc.height = 36;
-			npc.damage = 20;
-			npc.defense = 5;
-			npc.lifeMax = 65;
-			npc.HitSound = SoundID.NPCHit18;
-			npc.DeathSound = SoundID.NPCDeath21;
-			npc.value = 110f;
-			npc.knockBackResist = 0.45f;
-			npc.aiStyle = 3;
-			aiType = NPCID.WalkingAntlion;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.PutromaBanner>();
+			NPC.width = 34;
+			NPC.height = 36;
+			NPC.damage = 20;
+			NPC.defense = 5;
+			NPC.lifeMax = 65;
+			NPC.HitSound = SoundID.NPCHit18;
+			NPC.DeathSound = SoundID.NPCDeath21;
+			NPC.value = 110f;
+			NPC.knockBackResist = 0.45f;
+			NPC.aiStyle = 3;
+			AIType = NPCID.WalkingAntlion;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.PutromaBanner>();
 		}
 		public override void AI()
 		{
-			npc.rotation += .06f * npc.velocity.X;
+			NPC.rotation += .06f * NPC.velocity.X;
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-				drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+				drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			spriteBatch.Draw(mod.GetTexture("NPCs/Putroma/Teratoma_Eyes"), npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-				drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(Mod.GetTexture("NPCs/Putroma/Teratoma_Eyes"), NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+				drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 30; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Pot, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.ScourgeOfTheCorruptor, 2.5f * hitDirection, -2.5f, 0, Color.White, .34f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Pot, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ScourgeOfTheCorruptor, 2.5f * hitDirection, -2.5f, 0, Color.White, .34f);
 			}
 
 			if (Main.rand.Next(2) == 0) {
-				Main.PlaySound(SoundID.NPCHit, npc.Center, 19);
+				SoundEngine.PlaySound(SoundID.NPCHit, NPC.Center, 19);
 				int tomaProj;
 				tomaProj = Main.rand.Next(new int[] { ModContent.ProjectileType<Teratoma1>(), ModContent.ProjectileType<Teratoma2>(), ModContent.ProjectileType<Teratoma3>() });
-				Main.PlaySound(SoundID.Item20, npc.Center);
+				SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
 				int damagenumber = Main.expertMode ? 9 : 12;
-				int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-4, 4), Main.rand.Next(-4, 0), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
+				int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, Main.rand.Next(-4, 4), Main.rand.Next(-4, 0), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
 				Main.projectile[p].friendly = false;
 				Main.projectile[p].hostile = true;
 			}
 
-			if (npc.life <= 0) {
+			if (NPC.life <= 0) {
 				for (int i = 1; i < 8; ++i)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma" + i), Main.rand.NextFloat(.85f, 1.1f));
-				Main.PlaySound(SoundID.Zombie, npc.Center, 9);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma" + i).Type, Main.rand.NextFloat(.85f, 1.1f));
+				SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, 9);
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneCorrupt && spawnInfo.player.ZoneOverworldHeight ? .2f : 0f;
+			return spawnInfo.Player.ZoneCorrupt && spawnInfo.Player.ZoneOverworldHeight ? .2f : 0f;
 		}
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.RottenChunk);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.RottenChunk);
             }
             if (Main.rand.NextBool(5))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WormTooth);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.WormTooth);
             }
             if (Main.rand.NextBool(16))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Meatballs>());
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Meatballs>());
             }
         }
     }

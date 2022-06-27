@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,36 +20,35 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 
 		public override void SetDefaults()
 		{
-			item.damage = 100;
-			item.width = 65;
-			item.height = 21;
-			item.useTime = 65;
-			item.useAnimation = 65;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 1.5f;
-			item.value = Item.sellPrice(0, 10, 0, 0);
-			item.rare = ItemRarityID.Red;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<KineticRailgunProj>();
-			item.shootSpeed = 20f;
-			item.ranged = true;
-			item.channel = true;
-			item.noUseGraphic = true;
-			item.useAmmo = AmmoID.Gel;
-			item.UseSound = SoundID.DD2_SkyDragonsFuryShot;
+			Item.damage = 100;
+			Item.width = 65;
+			Item.height = 21;
+			Item.useTime = 65;
+			Item.useAnimation = 65;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 1.5f;
+			Item.value = Item.sellPrice(0, 10, 0, 0);
+			Item.rare = ItemRarityID.Red;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<KineticRailgunProj>();
+			Item.shootSpeed = 20f;
+			Item.DamageType = DamageClass.Ranged;
+			Item.channel = true;
+			Item.noUseGraphic = true;
+			Item.useAmmo = AmmoID.Gel;
+			Item.UseSound = SoundID.DD2_SkyDragonsFuryShot;
 		}
 
-		public override bool ConsumeAmmo(Player player) => false;
+		public override bool CanConsumeAmmo(Item item, Player player) => false;
 		public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.FragmentVortex, 18);
 			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 
@@ -60,18 +61,18 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.ranged = true;
-			projectile.width = 2;
-			projectile.height = 2;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 999999;
-			projectile.ignoreWater = true;
-			projectile.alpha = 255;
-			Main.projFrames[projectile.type] = 4;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.width = 2;
+			Projectile.height = 2;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 999999;
+			Projectile.ignoreWater = true;
+			Projectile.alpha = 255;
+			Main.projFrames[Projectile.type] = 4;
 		}
 
 		public Vector2 direction = Vector2.Zero;
@@ -80,35 +81,35 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			player.ChangeDir(Main.MouseWorld.X > player.position.X ? 1 : -1);
 
-			if (projectile.owner != Main.myPlayer)
+			if (Projectile.owner != Main.myPlayer)
 				return;
 
 			player.itemTime = 5; // Set item time to 2 frames while we are used
 			player.itemAnimation = 5; // Set item animation time to 2 frames while we are used
 			direction = Vector2.Normalize(Main.MouseWorld - player.Center) * 70f;
-			projectile.position = player.Center + direction;
-			projectile.velocity = Vector2.Zero;
+			Projectile.position = player.Center + direction;
+			Projectile.velocity = Vector2.Zero;
 			player.itemRotation = direction.ToRotation();
-			player.heldProj = projectile.whoAmI;
+			player.heldProj = Projectile.whoAmI;
 
 			if (player.direction != 1)
 				player.itemRotation -= 3.14f;
 
 			if (player.channel)
 			{
-				if (projectile.soundDelay <= 0 && targets.Count > 0) //Create sound & use ammo
+				if (Projectile.soundDelay <= 0 && targets.Count > 0) //Create sound & use ammo
 				{
-					projectile.soundDelay = 20;
-					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 15);
+					Projectile.soundDelay = 20;
+					SoundEngine.PlaySound(SoundID.Item15, Projectile.position);
 					GItem.UseAmmo(player, AmmoID.Gel);
 				}
 
-				projectile.timeLeft = 2;
+				Projectile.timeLeft = 2;
 				counter++;
-				projectile.frame = (counter / 5) % 4;
+				Projectile.frame = (counter / 5) % 4;
 				for (int i = 0; i < Main.npc.Length; i++)
 				{
 					NPC npc = Main.npc[i];
@@ -129,7 +130,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 
 						if (!targetted)
 						{
-							SpiritMod.primitives.CreateTrail(new RailgunPrimTrail(projectile, npc));
+							SpiritMod.primitives.CreateTrail(new RailgunPrimTrail(Projectile, npc));
 							targets.Add(npc);
 							npc.GetGlobalNPC<TeslaCannonGNPC>().charging = true;
 						}
@@ -149,12 +150,12 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 				}
 			}
 			else
-				projectile.active = false;
+				Projectile.active = false;
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			Vector2 toNPC = targetHitbox.Center.ToVector2() - player.Center;
 			return toNPC.Length() < RANGE && AnglesWithinCone(toNPC.ToRotation(), direction.ToRotation());
 		}
@@ -178,7 +179,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 			}
 
 			if (target.life <= 0)
-				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<VortexExplosion>(), 0, 0);
+				Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<VortexExplosion>(), 0, 0);
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -198,28 +199,30 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 			return false;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
+			Texture2D proj = ModContent.Request<Texture2D>("Items/Sets/GunsMisc/KineticRailgun/KineticRailgunProj", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D glow = ModContent.Request<Texture2D>("Items/Sets/GunsMisc/KineticRailgun/KineticRailgunProj_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			if (player.direction == 1)
 			{
 				SpriteEffects effects1 = SpriteEffects.None;
-				Texture2D texture = Main.projectileTexture[projectile.type];
-				int height = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-				int y2 = height * projectile.frame;
-				Vector2 position = (projectile.position - (0.5f * direction) + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition).Floor();
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Sets/GunsMisc/KineticRailgun/KineticRailgunProj"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), lightColor, direction.ToRotation(), new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, effects1, 0.0f);
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Sets/GunsMisc/KineticRailgun/KineticRailgunProj_Glow"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, direction.ToRotation(), new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, effects1, 0.0f);
+				Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
+				int height = TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type];
+				int y2 = height * Projectile.frame;
+				Vector2 position = (Projectile.position - (0.5f * direction) + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition).Floor();
+				Main.spriteBatch.Draw(proj, position, new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height), lightColor, direction.ToRotation(), new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, effects1, 0.0f);
+				Main.spriteBatch.Draw(glow, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, direction.ToRotation(), new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, effects1, 0.0f);
 			}
 			else if (player.direction != 1)
 			{
 				SpriteEffects effects1 = SpriteEffects.FlipHorizontally;
-				Texture2D texture = Main.projectileTexture[projectile.type];
-				int height = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-				int y2 = height * projectile.frame;
-				Vector2 position = (projectile.position - (0.5f * direction) + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition).Floor();
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Sets/GunsMisc/KineticRailgun/KineticRailgunProj"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), lightColor, direction.ToRotation() - 3.14f, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, effects1, 0.0f);
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Sets/GunsMisc/KineticRailgun/KineticRailgunProj_Glow"), position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, direction.ToRotation() - 3.14f, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, effects1, 0.0f);
+				Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
+				int height = TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type];
+				int y2 = height * Projectile.frame;
+				Vector2 position = (Projectile.position - (0.5f * direction) + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition).Floor();
+				Main.spriteBatch.Draw(proj, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), lightColor, direction.ToRotation() - 3.14f, new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, effects1, 0.0f);
+				Main.spriteBatch.Draw(glow, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, direction.ToRotation() - 3.14f, new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, effects1, 0.0f);
 			}
 			return false;
 		}
@@ -232,40 +235,41 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vortex Explosion");
-			Main.projFrames[projectile.type] = 7;
+			Main.projFrames[Projectile.type] = 7;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = false;
-			projectile.ranged = true;
-			projectile.tileCollide = false;
-			projectile.Size = new Vector2(166, 158);
-			projectile.penetrate = -1;
+			Projectile.friendly = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.tileCollide = false;
+			Projectile.Size = new Vector2(166, 158);
+			Projectile.penetrate = -1;
 		}
 		public override void AI()
 		{
-			if (projectile.frameCounter == 0)
+			if (Projectile.frameCounter == 0)
 			{
 				frameX = Main.rand.Next(2);
 			}
-			projectile.velocity = Vector2.Zero;
-			projectile.frameCounter++;
-			if (projectile.frameCounter % 4 == 0)
-				projectile.frame++;
-			if (projectile.frame >= Main.projFrames[projectile.type])
-				projectile.active = false;
+			Projectile.velocity = Vector2.Zero;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter % 4 == 0)
+				Projectile.frame++;
+			if (Projectile.frame >= Main.projFrames[Projectile.type])
+				Projectile.active = false;
 
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			int frameHeight = tex.Height / Main.projFrames[projectile.type];
-			Rectangle frame = new Rectangle((tex.Width / 2) * frameX, frameHeight * projectile.frame, tex.Width / 2, frameHeight);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, lightColor, projectile.rotation, new Vector2(tex.Width / 4, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
+			Rectangle frame = new Rectangle((tex.Width / 2) * frameX, frameHeight * Projectile.frame, tex.Width / 2, frameHeight);
+			Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, lightColor, Projectile.rotation, new Vector2(tex.Width / 4, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0f);
 			return false;
 		}
+
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}
 	public class TeslaCannonGNPC : GlobalNPC

@@ -18,34 +18,34 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 		{
 			DisplayName.SetDefault("Locust Crook");
 			Tooltip.SetDefault("Conjures a friendly locust that dashes into enemies\nLocusts infest hit enemies, causing baby locusts to hatch from them");
-			SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
+			SpiritGlowmask.AddGlowMask(Item.type, Texture + "_glow");
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 46;
-			item.damage = 14;
-			item.rare = ItemRarityID.Blue;
-			item.mana = 16;
-			item.value = Item.sellPrice(0, 1, 80, 0);
-			item.knockBack = 0;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.summon = true;
-			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<LocustBig>();
-			item.UseSound = SoundID.Item44;
+			Item.width = Item.height = 46;
+			Item.damage = 14;
+			Item.rare = ItemRarityID.Blue;
+			Item.mana = 16;
+			Item.value = Item.sellPrice(0, 1, 80, 0);
+			Item.knockBack = 0;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.DamageType = DamageClass.Summon;
+			Item.noMelee = true;
+			Item.shoot = ModContent.ProjectileType<LocustBig>();
+			Item.UseSound = SoundID.Item44;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			position = Main.MouseWorld;
-			Projectile.NewProjectile(position, Main.rand.NextVector2Circular(3, 3), type, damage, knockBack, player.whoAmI);
+			Projectile.NewProjectile(position, Main.rand.NextVector2Circular(3, 3), type, damage, knockback, player.whoAmI);
 			return false;
 		}
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_glow"), rotation, scale);
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, Mod.GetTexture(Texture.Remove(0, Mod.Name.Length + 1) + "_glow"), rotation, scale);
 	}
 
 	[AutoloadMinionBuff("Locusts", "Bringer of a plague")]
@@ -57,120 +57,120 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 		public override void AbstractSetStaticDefaults()
 		{
 			DisplayName.SetDefault("Locust");
-			Main.projFrames[projectile.type] = 3;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = traillength;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			Main.projFrames[Projectile.type] = 3;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = traillength;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
-		public override void AbstractSetDefaults() => projectile.localNPCHitCooldown = 20;
+		public override void AbstractSetDefaults() => Projectile.localNPCHitCooldown = 20;
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			Main.PlaySound(SoundID.Dig, projectile.Center);
-			Collision.HitTiles(projectile.Center, projectile.velocity, projectile.width, projectile.height);
-			projectile.Bounce(oldVelocity, 0.5f);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
+			Collision.HitTiles(Projectile.Center, Projectile.velocity, Projectile.width, Projectile.height);
+			Projectile.Bounce(oldVelocity, 0.5f);
 			return false;
 		}
 
 		public override bool PreAI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation();
+			Projectile.rotation = Projectile.velocity.ToRotation();
 			return true;
 		}
 
 		public override void IdleMovement(Player player)
 		{
-			projectile.tileCollide = false;
+			Projectile.tileCollide = false;
 			Vector2 targetCenter = player.MountedCenter - new Vector2(25 * IndexOfType * player.direction, 100);
 
-			float acc = (projectile.Distance(targetCenter) > 300) ? 0.2f : 0.1f;
-			float maxspeed = (projectile.Distance(targetCenter) > 300) ? (projectile.Distance(targetCenter) / 50) : 6f;
-			if (projectile.Distance(targetCenter) > 50)
-				projectile.velocity += new Vector2((projectile.Center.X < targetCenter.X) ? acc : -acc, (projectile.Center.Y < targetCenter.Y) ? acc : -acc);
+			float acc = (Projectile.Distance(targetCenter) > 300) ? 0.2f : 0.1f;
+			float maxspeed = (Projectile.Distance(targetCenter) > 300) ? (Projectile.Distance(targetCenter) / 50) : 6f;
+			if (Projectile.Distance(targetCenter) > 50)
+				Projectile.velocity += new Vector2((Projectile.Center.X < targetCenter.X) ? acc : -acc, (Projectile.Center.Y < targetCenter.Y) ? acc : -acc);
 
-			if (projectile.velocity.Length() > maxspeed)
-				projectile.velocity = Vector2.Normalize(projectile.velocity) * maxspeed;
+			if (Projectile.velocity.Length() > maxspeed)
+				Projectile.velocity = Vector2.Normalize(Projectile.velocity) * maxspeed;
 
-			if (projectile.Distance(targetCenter) > 3000)
-				projectile.Center = targetCenter;
+			if (Projectile.Distance(targetCenter) > 3000)
+				Projectile.Center = targetCenter;
 
-			projectile.ai[0] = 0;
+			Projectile.ai[0] = 0;
 		}
 
 		public override void TargettingBehavior(Player player, NPC target)
 		{
-			projectile.tileCollide = true;
-			projectile.ai[0]++;
-			if (projectile.ai[0] < 40)
+			Projectile.tileCollide = true;
+			Projectile.ai[0]++;
+			if (Projectile.ai[0] < 40)
 			{ //get close to the target, but not too close
-				float vel = MathHelper.Clamp(Math.Abs(projectile.Distance(target.Center) - 100) / 12, 6, 20);
-				projectile.velocity = (projectile.Distance(target.Center) > 120) ? LerpVel(projectile.DirectionTo(target.Center) * vel) :
-					(projectile.Distance(target.Center) < 80) ? LerpVel(projectile.DirectionFrom(target.Center) * vel / 2) : LerpVel(Vector2.Zero);
+				float vel = MathHelper.Clamp(Math.Abs(Projectile.Distance(target.Center) - 100) / 12, 6, 20);
+				Projectile.velocity = (Projectile.Distance(target.Center) > 120) ? LerpVel(Projectile.DirectionTo(target.Center) * vel) :
+					(Projectile.Distance(target.Center) < 80) ? LerpVel(Projectile.DirectionFrom(target.Center) * vel / 2) : LerpVel(Vector2.Zero);
 			}
-			else if (projectile.ai[0] < 60) //wind up before dash
-				projectile.velocity = LerpVel(projectile.DirectionFrom(target.Center) * 10, 0.1f);
+			else if (Projectile.ai[0] < 60) //wind up before dash
+				Projectile.velocity = LerpVel(Projectile.DirectionFrom(target.Center) * 10, 0.1f);
 
-			if (projectile.ai[0] == 60)
+			if (Projectile.ai[0] == 60)
 			{ //dash
-				float vel = MathHelper.Clamp(projectile.Distance(target.Center) / 12, 10, 20);
-				projectile.velocity = projectile.DirectionTo(target.Center) * vel;
-				projectile.ai[1] = Main.rand.NextBool() ? -1 : 1;
+				float vel = MathHelper.Clamp(Projectile.Distance(target.Center) / 12, 10, 20);
+				Projectile.velocity = Projectile.DirectionTo(target.Center) * vel;
+				Projectile.ai[1] = Main.rand.NextBool() ? -1 : 1;
 				for (int i = 0; i < 6; i++)
-					Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(10, 10), ModContent.DustType<SandDust>(), -projectile.velocity.RotatedByRandom(MathHelper.Pi / 8));
+					Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(10, 10), ModContent.DustType<SandDust>(), -Projectile.velocity.RotatedByRandom(MathHelper.Pi / 8));
 
-				projectile.netUpdate = true;
+				Projectile.netUpdate = true;
 			}
 
-			if (projectile.ai[0] > 80 && projectile.ai[0] < 100)
+			if (Projectile.ai[0] > 80 && Projectile.ai[0] < 100)
 			{ //after a delay, circle backwards
-				projectile.velocity = projectile.velocity.RotatedBy(MathHelper.ToRadians(4) * projectile.ai[1]);
-				projectile.velocity *= 0.98f;
+				Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(4) * Projectile.ai[1]);
+				Projectile.velocity *= 0.98f;
 			}
 
-			if (projectile.ai[0] == 100)
+			if (Projectile.ai[0] == 100)
 			{ //reset
-				projectile.ai[0] = 0;
-				projectile.netUpdate = true;
+				Projectile.ai[0] = 0;
+				Projectile.netUpdate = true;
 			}
 		}
 
 		public override bool DoAutoFrameUpdate(ref int framespersecond, ref int startframe, ref int endframe)
 		{
-			framespersecond = (int)MathHelper.Clamp(projectile.velocity.Length(), 10, 20);
+			framespersecond = (int)MathHelper.Clamp(Projectile.velocity.Length(), 10, 20);
 			return true;
 		}
 
-		private Vector2 LerpVel(Vector2 desiredvel, float lerpstrength = 0.05f) => Vector2.Lerp(projectile.velocity, desiredvel, lerpstrength);
+		private Vector2 LerpVel(Vector2 desiredvel, float lerpstrength = 0.05f) => Vector2.Lerp(Projectile.velocity, desiredvel, lerpstrength);
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			LocustNPC lnpc = target.GetGlobalNPC<LocustNPC>();
-			lnpc.locustinfo = new LocustNPC.LocustInfo((int)(projectile.damage * 0.65f), Main.rand.Next(40, 80), projectile.owner);
+			lnpc.locustinfo = new LocustNPC.LocustInfo((int)(Projectile.damage * 0.65f), Main.rand.Next(40, 80), Projectile.owner);
 
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, target.whoAmI);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			float rotation = projectile.rotation;
+			float rotation = Projectile.rotation;
 			SpriteEffects effects = SpriteEffects.None;
 			if (Math.Abs(rotation) > MathHelper.PiOver2)
 			{
 				rotation -= MathHelper.Pi;
 				effects = SpriteEffects.FlipHorizontally;
 			}
-			if (projectile.ai[0] > 60)
+			if (Projectile.ai[0] > 60)
 			{
-				projectile.QuickDrawTrail(spriteBatch, 0.5f, rotation, effects);
-				projectile.QuickDrawGlowTrail(spriteBatch, 0.5f, rotation: rotation, spriteEffects: effects);
+				Projectile.QuickDrawTrail(spriteBatch, 0.5f, rotation, effects);
+				Projectile.QuickDrawGlowTrail(spriteBatch, 0.5f, rotation: rotation, spriteEffects: effects);
 			}
-			projectile.QuickDraw(spriteBatch, rotation, effects);
-			projectile.QuickDrawGlow(spriteBatch, rotation: rotation, spriteEffects : effects);
+			Projectile.QuickDraw(spriteBatch, rotation, effects);
+			Projectile.QuickDrawGlow(spriteBatch, rotation: rotation, spriteEffects : effects);
 			return false;
 		}
 
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			fallThrough = true;
 			return true;
@@ -223,109 +223,109 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Baby Locust");
-			Main.projFrames[projectile.type] = 2;
-			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = traillength;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			Main.projFrames[Projectile.type] = 2;
+			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = traillength;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 10;
-			projectile.minion = true;
-			projectile.friendly = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 90;
-			projectile.scale = 0.1f;
+			Projectile.width = Projectile.height = 10;
+			Projectile.minion = true;
+			Projectile.friendly = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 90;
+			Projectile.scale = 0.1f;
 		}
 
 		public override void AI()
 		{
-			if (projectile.timeLeft > 80)
-				projectile.tileCollide = false;
+			if (Projectile.timeLeft > 80)
+				Projectile.tileCollide = false;
             else
-				projectile.tileCollide = true;
+				Projectile.tileCollide = true;
 
-			projectile.scale = MathHelper.Lerp(projectile.scale, 1, 0.1f);
-			projectile.width = projectile.height = 10;
+			Projectile.scale = MathHelper.Lerp(Projectile.scale, 1, 0.1f);
+			Projectile.width = Projectile.height = 10;
 
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 
 			NPC target = null;
 			float maxdist = 600;
-			NPC miniontarget = projectile.OwnerMinionAttackTargetNPC;
-			if (miniontarget != null && miniontarget.CanBeChasedBy(this) && CanHit(projectile.Center, miniontarget.Center) && CanHit(player.Center, miniontarget.Center) && miniontarget.Distance(projectile.Center) <= maxdist)
+			NPC miniontarget = Projectile.OwnerMinionAttackTargetNPC;
+			if (miniontarget != null && miniontarget.CanBeChasedBy(this) && CanHit(Projectile.Center, miniontarget.Center) && CanHit(player.Center, miniontarget.Center) && miniontarget.Distance(Projectile.Center) <= maxdist)
 				target = miniontarget;
 			else
 			{
-				var validtargets = Main.npc.Where(x => x != null && x.CanBeChasedBy(this) && CanHit(projectile.Center, x.Center) && CanHit(player.Center, x.Center)
-														 && x.Distance(projectile.Center) <= maxdist && x.Distance(player.Center) <= maxdist * 2);
+				var validtargets = Main.npc.Where(x => x != null && x.CanBeChasedBy(this) && CanHit(Projectile.Center, x.Center) && CanHit(player.Center, x.Center)
+														 && x.Distance(Projectile.Center) <= maxdist && x.Distance(player.Center) <= maxdist * 2);
 
 				foreach (NPC npc in validtargets)
 				{
-					if (npc.Distance(projectile.Center) <= maxdist)
+					if (npc.Distance(Projectile.Center) <= maxdist)
 					{
-						maxdist = npc.Distance(projectile.Center);
+						maxdist = npc.Distance(Projectile.Center);
 						target = npc;
 					}
 				}
 			}
 
-			if (target != null && ++projectile.ai[0] > 30)
+			if (target != null && ++Projectile.ai[0] > 30)
 			{
-				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * Math.Max(8, projectile.velocity.Length()), 0.08f);
-				projectile.velocity *= 1.02f + (projectile.ai[0] / 3000);
+				Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(target.Center) * Math.Max(8, Projectile.velocity.Length()), 0.08f);
+				Projectile.velocity *= 1.02f + (Projectile.ai[0] / 3000);
 			}
 
-			UpdateFrame((int)MathHelper.Clamp(projectile.velocity.Length(), 8, 16));
-			projectile.rotation = projectile.velocity.ToRotation();
+			UpdateFrame((int)MathHelper.Clamp(Projectile.velocity.Length(), 8, 16));
+			Projectile.rotation = Projectile.velocity.ToRotation();
 		}
 
 		private bool CanHit(Vector2 center1, Vector2 center2) => Collision.CanHit(center1, 0, 0, center2, 0, 0);
 
-		public override bool CanDamage() => projectile.ai[0] > 30;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => Projectile.ai[0] > 30;
 
 		private void UpdateFrame(int framespersecond)
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 60 / framespersecond)
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter > 60 / framespersecond)
 			{
-				projectile.frameCounter = 0;
-				projectile.frame++;
+				Projectile.frameCounter = 0;
+				Projectile.frame++;
 
-				if (projectile.frame >= Main.projFrames[projectile.type])
-					projectile.frame = 0;
+				if (Projectile.frame >= Main.projFrames[Projectile.type])
+					Projectile.frame = 0;
 			}
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 8; i++)
-				Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.Plantera_Green, Scale: Main.rand.NextFloat(0.7f, 1)).noGravity = true;
+				Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Plantera_Green, Scale: Main.rand.NextFloat(0.7f, 1)).noGravity = true;
 
-			Main.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 1).WithPitchVariance(0.2f).WithVolume(0.15f), projectile.Center);
+			SoundEngine.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 1).WithPitchVariance(0.2f).WithVolume(0.15f), Projectile.Center);
 
 			for (int j = 1; j <= 3; j++)
 			{
-				Gore gore = Gore.NewGoreDirect(projectile.Center, projectile.velocity, mod.GetGoreSlot("Gores/LocustCrook/SmallLocustGore" + j.ToString()));
+				Gore gore = Gore.NewGoreDirect(Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("Gores/LocustCrook/SmallLocustGore" + j.ToString()).Type);
 				gore.timeLeft = 20;
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			float rotation = projectile.rotation;
+			float rotation = Projectile.rotation;
 			SpriteEffects effects = SpriteEffects.None;
 			if (Math.Abs(rotation) > MathHelper.PiOver2)
 			{
 				rotation -= MathHelper.Pi;
 				effects = SpriteEffects.FlipHorizontally;
 			}
-			projectile.QuickDrawTrail(spriteBatch, 0.5f, rotation, effects);
-			projectile.QuickDrawGlowTrail(spriteBatch, 0.5f, rotation: rotation, spriteEffects: effects);
+			Projectile.QuickDrawTrail(spriteBatch, 0.5f, rotation, effects);
+			Projectile.QuickDrawGlowTrail(spriteBatch, 0.5f, rotation: rotation, spriteEffects: effects);
 
-			projectile.QuickDraw(spriteBatch, rotation, effects);
-			projectile.QuickDrawGlow(spriteBatch, rotation: rotation, spriteEffects: effects); 
+			Projectile.QuickDraw(spriteBatch, rotation, effects);
+			Projectile.QuickDrawGlow(spriteBatch, rotation: rotation, spriteEffects: effects); 
 			return false;
 		}
 	}

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -18,25 +19,25 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pathfinder");
-			Main.npcFrameCount[npc.type] = 7;
+			Main.npcFrameCount[NPC.type] = 7;
 		}
 
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetDefaults()
 		{
-			npc.width = 45;
-			npc.height = 78;
-			npc.damage = 0;
-			npc.defense = 28;
-			npc.lifeMax = 450;
-			npc.aiStyle = -1;
-			npc.HitSound = SoundID.DD2_CrystalCartImpact;
-			npc.DeathSound = SoundID.DD2_ExplosiveTrapExplode;
-			npc.value = Item.buyPrice(0, 0, 15, 0);
-			npc.knockBackResist = 1f;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
+			NPC.width = 45;
+			NPC.height = 78;
+			NPC.damage = 0;
+			NPC.defense = 28;
+			NPC.lifeMax = 450;
+			NPC.aiStyle = -1;
+			NPC.HitSound = SoundID.DD2_CrystalCartImpact;
+			NPC.DeathSound = SoundID.DD2_ExplosiveTrapExplode;
+			NPC.value = Item.buyPrice(0, 0, 15, 0);
+			NPC.knockBackResist = 1f;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
 		}
 
 		private NPC Target = null;
@@ -46,8 +47,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 
 		private bool selfDestruct = false;
 
-		private ref float AiTimer => ref npc.ai[0];
-		private ref float BeamStrength => ref npc.ai[1];
+		private ref float AiTimer => ref NPC.ai[0];
+		private ref float BeamStrength => ref NPC.ai[1];
 		private float flickerStrength = 0;
 
 		private const int SCANTIME = 180; //How long it tries to look for a target before self destructing
@@ -57,9 +58,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 
 		public override void AI()
 		{
-			npc.TargetClosest(false);
+			NPC.TargetClosest(false);
 
-			Lighting.AddLight(npc.Center, Color.HotPink.ToVector3() * flickerStrength);
+			Lighting.AddLight(NPC.Center, Color.HotPink.ToVector3() * flickerStrength);
 			//Scan to find targets for first few seconds of not having one
 			if (!LockedOn && !selfDestruct)
 			{
@@ -70,7 +71,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 				{
 					AiTimer = 0;
 					selfDestruct = true;
-					npc.netUpdate = true;
+					NPC.netUpdate = true;
 				}
 			}
 
@@ -82,12 +83,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 			else
 				SelfDestruct();
 
-			npc.rotation = npc.velocity.X * 0.03f;
+			NPC.rotation = NPC.velocity.X * 0.03f;
 			
 			if(!selfDestruct)
 				flickerStrength = MathHelper.Max(flickerStrength - 0.03f, 0);
 
-			npc.position.Y += (float)Math.Sin(Main.GameUpdateCount / 30f); //Constant hovering motion added on to other velocity
+			NPC.position.Y += (float)Math.Sin(Main.GameUpdateCount / 30f); //Constant hovering motion added on to other velocity
 		}
 
 		private void FindTarget()
@@ -95,14 +96,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 			AiTimer++;
 
 			BeamStrength = 0;
-			npc.velocity *= 0.95f;
+			NPC.velocity *= 0.95f;
 
-			NPC target = Main.npc.Where(n => n.active && !n.GetGlobalNPC<PathfinderGNPC>().Targetted && n.modNPC is IStarjinxEnemy modEnemy).OrderBy(n => Vector2.Distance(n.Center, npc.Center)).FirstOrDefault();
+			NPC target = Main.npc.Where(n => n.active && !n.GetGlobalNPC<PathfinderGNPC>().Targetted && n.ModNPC is IStarjinxEnemy modEnemy).OrderBy(n => Vector2.Distance(n.Center, NPC.Center)).FirstOrDefault();
 			if (target != default)
 			{
 				Target = target;
 				target.GetGlobalNPC<PathfinderGNPC>().TargetTime = 2;
-				npc.netUpdate = true;
+				NPC.netUpdate = true;
 			}
 
 			UpdateYFrame(8, 0, 6);
@@ -114,14 +115,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 			Target.GetGlobalNPC<PathfinderGNPC>().TargetTime = 2;
 
 			//Move to target if too far away
-			Vector2 desiredPos = Target.Center + (npc.DirectionFrom(Target.Center) * FOLLOW_MINRANGE);
-			npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Lerp(npc.Center, desiredPos, 0.04f) - npc.Center, 0.1f);
+			Vector2 desiredPos = Target.Center + (NPC.DirectionFrom(Target.Center) * FOLLOW_MINRANGE);
+			NPC.velocity = Vector2.Lerp(NPC.velocity, Vector2.Lerp(NPC.Center, desiredPos, 0.04f) - NPC.Center, 0.1f);
 			float velHardCap = 30;
-			if (npc.velocity.Length() > velHardCap)
-				npc.velocity = Vector2.Normalize(npc.velocity) * velHardCap;
+			if (NPC.velocity.Length() > velHardCap)
+				NPC.velocity = Vector2.Normalize(NPC.velocity) * velHardCap;
 
 			//Buff enemy if close enough
-			if (npc.Distance(Target.Center) <= FOLLOW_MAXRANGE)
+			if (NPC.Distance(Target.Center) <= FOLLOW_MAXRANGE)
 			{
 				BeamStrength = Math.Min(BeamStrength + 0.03f, 1);
 				if (BeamStrength == 1)
@@ -132,15 +133,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 			else
 				BeamStrength = 0;
 
-			if (npc.soundDelay-- < 0)
+			if (NPC.soundDelay-- < 0)
 			{
-				Main.PlaySound(SoundID.Item8, npc.Center);
-				npc.soundDelay = 60;
+				SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+				NPC.soundDelay = 60;
 			}
 
 			UpdateYFrame(15, 0, 6, delegate 
 			{
-				if (frame.Y == 5 && npc.Distance(Target.Center) <= FOLLOW_MAXRANGE)
+				if (frame.Y == 5 && NPC.Distance(Target.Center) <= FOLLOW_MAXRANGE)
 					flickerStrength = 1;
 			});
 		}
@@ -154,32 +155,32 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 
 			Target = null;
 
-			npc.velocity.X *= 0.95f;
-			npc.velocity.Y = -1;
+			NPC.velocity.X *= 0.95f;
+			NPC.velocity.Y = -1;
 
 
 			if(AiTimer > SELFDESTRUCT_TIME)
 			{
-				npc.life = 0;
-				Main.PlaySound(npc.DeathSound, npc.Center);
-				npc.HitEffect();
-				npc.NPCLoot();
-				npc.active = false;
+				NPC.life = 0;
+				SoundEngine.PlaySound(NPC.DeathSound, NPC.Center);
+				NPC.HitEffect();
+				NPC.NPCLoot();
+				NPC.active = false;
 			}
 			UpdateYFrame(12, 0, 6);
 		}
 
-		public override Color? GetAlpha(Color drawColor) => Color.Lerp(drawColor, Color.White, 0.5f) * npc.Opacity;
+		public override Color? GetAlpha(Color drawColor) => Color.Lerp(drawColor, Color.White, 0.5f) * NPC.Opacity;
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
-			Vector2 drawPosition = npc.Center + (Vector2.UnitY * npc.height / 4);
+			Vector2 drawPosition = NPC.Center + (Vector2.UnitY * NPC.height / 4);
 
-			if (LockedOn && npc.Distance(Target.Center) < FOLLOW_MAXRANGE)
+			if (LockedOn && NPC.Distance(Target.Center) < FOLLOW_MAXRANGE)
 			{
-				Effect effect = mod.GetEffect("Effects/EmpowermentBeam");
-				effect.Parameters["uTexture"].SetValue(mod.GetTexture("Textures/Trails/Trail_2"));
-				effect.Parameters["progress"].SetValue(Main.GlobalTime / 3);
+				Effect effect = Mod.GetEffect("Effects/EmpowermentBeam");
+				effect.Parameters["uTexture"].SetValue(Mod.GetTexture("Textures/Trails/Trail_2"));
+				effect.Parameters["progress"].SetValue(Main.GlobalTimeWrappedHourly / 3);
 				effect.Parameters["uColor"].SetValue(new Color(245, 59, 164).ToVector4());
 				effect.Parameters["uSecondaryColor"].SetValue(new Color(255, 138, 212).ToVector4());
 
@@ -200,42 +201,42 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 			float blurLength = 250;
 			float blurWidth = 25;
 
-			Effect blurEffect = mod.GetEffect("Effects/BlurLine");
+			Effect blurEffect = Mod.GetEffect("Effects/BlurLine");
 			SquarePrimitive blurLine = new SquarePrimitive()
 			{
 				Position = drawPosition - Main.screenPosition,
 				Height = blurWidth * flickerStrength,
 				Length = blurLength * flickerStrength,
-				Rotation = npc.rotation,
+				Rotation = NPC.rotation,
 				Color = new Color(255, 138, 212) * flickerStrength
 			};
 
 			PrimitiveRenderer.DrawPrimitiveShape(blurLine, blurEffect);
 
-			sB.Draw(ModContent.GetTexture(Texture + "_Glow"), npc.Center - Main.screenPosition, npc.frame, Color.White,
-				npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+			sB.Draw(ModContent.Request<Texture2D>(Texture + "_Glow"), NPC.Center - Main.screenPosition, NPC.frame, Color.White,
+				NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/StarjinxEvent/Enemies/Pathfinder/Pathfinder_Glow"), Color.White * 0.75f);
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/StarjinxEvent/Enemies/Pathfinder/Pathfinder_Glow"), Color.White * 0.75f);
 
 		public override void OnHitKill(int hitDirection, double damage)
 		{
 			if (!Main.dedServ)
 			{
 				for(int i = 0; i < 2; i++)
-					ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, Color.HotPink * 0.2f, 120 + 30 * i, 15, PulseCircle.MovementType.OutwardsSquareRooted)
+					ParticleHandler.SpawnParticle(new PulseCircle(NPC.Center, Color.HotPink * 0.2f, 120 + 30 * i, 15, PulseCircle.MovementType.OutwardsSquareRooted)
 					{
 						RingColor = Color.HotPink
 					});
 
 				for (int i = 0; i < 10; i++)
-					ParticleHandler.SpawnParticle(new ImpactLine(npc.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.5f, 1.5f), Color.HotPink, new Vector2(0.5f, Main.rand.NextFloat(1f, 3f)), 15));
+					ParticleHandler.SpawnParticle(new ImpactLine(NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.5f, 1.5f), Color.HotPink, new Vector2(0.5f, Main.rand.NextFloat(1f, 3f)), 15));
 
 				for (int i = 0; i < 7; i++)
-					ParticleHandler.SpawnParticle(new StarParticle(npc.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(6f), Color.LightPink, Color.HotPink, Main.rand.NextFloat(0.2f, 0.4f), 25));
+					ParticleHandler.SpawnParticle(new StarParticle(NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(6f), Color.LightPink, Color.HotPink, Main.rand.NextFloat(0.2f, 0.4f), 25));
 
 				for (int i = 0; i < 7; i++)
-					ParticleHandler.SpawnParticle(new PathfinderGores.PathfinderGore(npc.Center, Main.rand.NextVector2Circular(14, 14), Main.rand.NextFloat(0.8f, 1.2f), 180));
+					ParticleHandler.SpawnParticle(new PathfinderGores.PathfinderGore(NPC.Center, Main.rand.NextVector2Circular(14, 14), Main.rand.NextFloat(0.8f, 1.2f), 180));
 			}
 		}
 
@@ -284,7 +285,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 			foreach(NPC npc in Main.npc)
 			{
 				if (npc != null) //First, do a null check
-					if (npc.active && npc.GetGlobalNPC<PathfinderGNPC>().Buffed && npc.modNPC is IStarjinxEnemy starjinxEnemy) //If npc is active and a buffed starjinx enemy, add to list
+					if (npc.active && npc.GetGlobalNPC<PathfinderGNPC>().Buffed && npc.ModNPC is IStarjinxEnemy starjinxEnemy) //If npc is active and a buffed starjinx enemy, add to list
 						starjinxEnemies.Add(starjinxEnemy);
 			}
 

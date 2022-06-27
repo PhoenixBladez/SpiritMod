@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.Pet
 {
 	public class CaptiveMaskPetBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Unbound Mask");
 			Description.SetDefault("'Once more unto the breach!'");

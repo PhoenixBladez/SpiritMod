@@ -13,12 +13,12 @@ namespace SpiritMod.Items.Armor.FreemanSet
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 30;
-			item.value = Item.buyPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Green;
+			Item.width = 30;
+			Item.height = 30;
+			Item.value = Item.buyPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Green;
 
-			item.vanity = true;
+			Item.vanity = true;
 		}
     }
 }

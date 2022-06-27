@@ -17,32 +17,32 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 
 		public override void SetDefaults()
 		{
-			item.summon = true;
-			item.damage = 60;
-			item.Size = new Vector2(44, 48);
-			item.value = Item.sellPrice(0, 8, 0, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.knockBack = 2;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = 45;
-			item.useAnimation = 45;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.shoot = ModContent.ProjectileType<SanguineFlayerProj>();
-			item.shootSpeed = 1;
-			item.UseSound = SoundID.Item1;
-			item.channel = true;
-			item.autoReuse = true;
+			Item.DamageType = DamageClass.Summon;
+			Item.damage = 60;
+			Item.Size = new Vector2(44, 48);
+			Item.value = Item.sellPrice(0, 8, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.knockBack = 2;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useTime = 45;
+			Item.useAnimation = 45;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.shoot = ModContent.ProjectileType<SanguineFlayerProj>();
+			Item.shootSpeed = 1;
+			Item.UseSound = SoundID.Item1;
+			Item.channel = true;
+			Item.autoReuse = true;
 		}
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] == 0;
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			if(proj.modProjectile is SanguineFlayerProj flayer)
+			Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockback, player.whoAmI);
+			if(proj.ModProjectile is SanguineFlayerProj flayer)
 			{
-				flayer.SwingTime = item.useTime;
+				flayer.SwingTime = Item.useTime;
 				flayer.SwingDistance = player.Distance(Main.MouseWorld);
 			}
 

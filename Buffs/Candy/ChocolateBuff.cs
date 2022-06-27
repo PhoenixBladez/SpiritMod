@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Candy
 {
 	public class ChocolateBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Chocolate");
 			Description.SetDefault("10% Increased Speed");

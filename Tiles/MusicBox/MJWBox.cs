@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using static Terraria.ModLoader.ModContent;
@@ -9,7 +10,7 @@ namespace SpiritMod.Tiles.MusicBox
 {
 	internal class MJWBox : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileObsidianKill[Type] = true;
@@ -18,24 +19,24 @@ namespace SpiritMod.Tiles.MusicBox
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.DrawYOffset = 2;
 			TileObjectData.addTile(Type);
-			disableSmartCursor = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Music Box");
-            dustType = -1;
+            DustType = -1;
             AddMapEntry(new Color(200, 200, 200), name);
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 16, 48, ItemType<Items.Placeable.MusicBox.MJWBox>());
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, ItemType<Items.Placeable.MusicBox.MJWBox>());
 		}
 
 		public override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			player.showItemIcon2 = ItemType<Items.Placeable.MusicBox.MJWBox>();
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = ItemType<Items.Placeable.MusicBox.MJWBox>();
 		}
 	}
 }

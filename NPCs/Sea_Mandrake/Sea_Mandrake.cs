@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -10,6 +12,7 @@ using SpiritMod.Items.Consumable.Fish;
 using SpiritMod.Items.Weapon.Magic.LuminanceSeacone;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Sea_Mandrake
 {
@@ -24,29 +27,29 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sea Mandrake");
-			Main.npcFrameCount[npc.type] = 4;
-			NPCID.Sets.TrailCacheLength[npc.type] = 20;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 4;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 20;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.aiStyle = 16;
-			npc.lifeMax = 50;
-			npc.defense = 7;
-			npc.value = 200f;
-			npc.knockBackResist = 1.2f;
-			npc.width = 30;
-			npc.aiStyle = 16;
-			npc.height = 50;
-			npc.damage = 0;
-			npc.lavaImmune = false;
-			npc.noTileCollide = false;
-			npc.noGravity = true;
-			npc.HitSound = SoundID.NPCHit25;
-			npc.DeathSound = SoundID.NPCDeath28;
+			NPC.aiStyle = 16;
+			NPC.lifeMax = 50;
+			NPC.defense = 7;
+			NPC.value = 200f;
+			NPC.knockBackResist = 1.2f;
+			NPC.width = 30;
+			NPC.aiStyle = 16;
+			NPC.height = 50;
+			NPC.damage = 0;
+			NPC.lavaImmune = false;
+			NPC.noTileCollide = false;
+			NPC.noGravity = true;
+			NPC.HitSound = SoundID.NPCHit25;
+			NPC.DeathSound = SoundID.NPCDeath28;
 
-			aiType = NPCID.Goldfish;
+			AIType = NPCID.Goldfish;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -66,23 +69,23 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 		}
 		public override void AI()
 		{
-			Player player = Main.player[npc.target];
+			Player player = Main.player[NPC.target];
 
 			if (Main.rand.Next(500) == 0)
-				Main.PlaySound(SoundLoader.customSoundType, (int)npc.position.X, (int)npc.position.Y, mod.GetSoundSlot(SoundType.Custom, "Sounds/Mandrake_Idle"));
+				SoundEngine.PlaySound(SoundLoader.customSoundType, (int)NPC.position.X, (int)NPC.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Mandrake_Idle"));
 
-			npc.rotation = npc.velocity.X * .1f;
+			NPC.rotation = NPC.velocity.X * .1f;
 
-			if (npc.velocity.X < 0f)
-				npc.spriteDirection = -1;
-			else if (npc.velocity.X > 0f)
-				npc.spriteDirection = 1;
+			if (NPC.velocity.X < 0f)
+				NPC.spriteDirection = -1;
+			else if (NPC.velocity.X > 0f)
+				NPC.spriteDirection = 1;
 
-			if (npc.wet)
+			if (NPC.wet)
 				Movement();
 
-			if (!npc.wet && !player.wet)
-				npc.velocity.Y = 8f;
+			if (!NPC.wet && !player.wet)
+				NPC.velocity.Y = 8f;
 
 			if (!hasGottenColor)
 			{
@@ -94,9 +97,9 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 
 			sineTimer++;
 
-			Lighting.AddLight(new Vector2(npc.Center.X, npc.Center.Y), r * 0.002f, g * 0.002f, b * 0.002f);
+			Lighting.AddLight(new Vector2(NPC.Center.X, NPC.Center.Y), r * 0.002f, g * 0.002f, b * 0.002f);
 
-			if (npc.wet)
+			if (NPC.wet)
 				DodgeProjectiles();
 		}
 
@@ -109,86 +112,86 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 				if (!projectile.active)
 					continue;
 
-				float dist = Vector2.DistanceSquared(projectile.Center, npc.Center);
+				float dist = Vector2.DistanceSquared(projectile.Center, NPC.Center);
 
 				if (dist <= 100f * 100f && dist > 20f * 20f && projectile.friendly)
 				{
-					Vector2 vel = projectile.Center - npc.Center + new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10));
+					Vector2 vel = projectile.Center - NPC.Center + new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10));
 					float speed = 8f / vel.Length();
 
-					npc.velocity = vel * speed * -0.83f;
+					NPC.velocity = vel * speed * -0.83f;
 
-					if (projectile.position.X > npc.position.X)
-						npc.spriteDirection = npc.direction = -1;
+					if (projectile.position.X > NPC.position.X)
+						NPC.spriteDirection = NPC.direction = -1;
 					else
-						npc.spriteDirection = npc.direction = 1;
+						NPC.spriteDirection = NPC.direction = 1;
 				}
 			}
 		}
 
 		private void Movement()
 		{
-			Player player = Main.player[npc.target];
-			float distance = npc.Distance(player.Center);
-			bool validYDistance = Math.Abs(player.Center.Y - npc.Center.Y) < npc.height;
+			Player player = Main.player[NPC.target];
+			float distance = NPC.Distance(player.Center);
+			bool validYDistance = Math.Abs(player.Center.Y - NPC.Center.Y) < NPC.height;
 
-			if (validYDistance && distance < 130 && player.wet && npc.wet)
+			if (validYDistance && distance < 130 && player.wet && NPC.wet)
 			{
-				Vector2 vel = npc.DirectionFrom(player.Center) * 6.5f;
+				Vector2 vel = NPC.DirectionFrom(player.Center) * 6.5f;
 
-				npc.velocity = vel;
-				npc.rotation = npc.velocity.X * .15f;
+				NPC.velocity = vel;
+				NPC.rotation = NPC.velocity.X * .15f;
 
-				if (player.position.X > npc.position.X)
+				if (player.position.X > NPC.position.X)
 				{
-					npc.spriteDirection = -1;
-					npc.direction = -1;
-					npc.netUpdate = true;
+					NPC.spriteDirection = -1;
+					NPC.direction = -1;
+					NPC.netUpdate = true;
 				}
-				else if (player.position.X < npc.position.X)
+				else if (player.position.X < NPC.position.X)
 				{
-					npc.spriteDirection = 1;
-					npc.direction = 1;
-					npc.netUpdate = true;
+					NPC.spriteDirection = 1;
+					NPC.direction = 1;
+					NPC.netUpdate = true;
 				}
 			}
 
-			if (validYDistance && Vector2.Distance(player.Center, npc.Center) <= 120 && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+			if (validYDistance && Vector2.Distance(player.Center, NPC.Center) <= 120 && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0))
 			{
 				player.AddBuff(BuffID.Darkness, 150);
-				player.Hurt(PlayerDeathReason.LegacyDefault(), (int)(npc.damage / 1.5f), npc.direction, false, false, false, -1);
+				player.Hurt(PlayerDeathReason.LegacyDefault(), (int)(NPC.damage / 1.5f), NPC.direction, false, false, false, -1);
 
 				for (int i = 0; i < 2; i++)
 				{
-					int index2 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.AncientLight, 0.0f, 0.0f, 100, new Color(r, g, b), 3f);
+					int index2 = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.AncientLight, 0.0f, 0.0f, 100, new Color(r, g, b), 3f);
 					Main.dust[index2].alpha += Main.rand.Next(100);
 					Main.dust[index2].noGravity = true;
-					Main.dust[index2].velocity.X += i == 0 ? Main.rand.Next(-80, -40) * 0.025f * npc.velocity.X : Main.rand.Next(-240, -180) * 0.025f * npc.velocity.X;
+					Main.dust[index2].velocity.X += i == 0 ? Main.rand.Next(-80, -40) * 0.025f * NPC.velocity.X : Main.rand.Next(-240, -180) * 0.025f * NPC.velocity.X;
 					Main.dust[index2].velocity.Y -= 0.4f + Main.rand.Next(-3, 14) * 0.15f;
 					Main.dust[index2].fadeIn = (float)(0.25 + Main.rand.Next(10) * 0.15f);
 				}
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.NextBool(20))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<LuminanceSeacone>(), 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<LuminanceSeacone>(), 1);
 
 			if (Main.rand.NextBool(2))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
 
 			if (QuestManager.GetQuest<StylistQuestSeafoam>().IsActive)
-				Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.SeaMandrakeSac>());
+				Item.NewItem(NPC.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.SeaMandrakeSac>());
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
 				for (int index1 = 0; index1 < 26; ++index1)
 				{
-					int index2 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.AncientLight, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, new Color(r, g, b), 2.5f);
+					int index2 = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.AncientLight, NPC.velocity.X * 0.5f, NPC.velocity.Y * 0.5f, 90, new Color(r, g, b), 2.5f);
 					Main.dust[index2].noGravity = true;
 					Main.dust[index2].fadeIn = 1f;
 					Main.dust[index2].velocity *= 4f;
@@ -197,7 +200,7 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 			}
 
 			for (int k = 0; k < 18; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.AncientLight, 2.5f * hitDirection, -2.5f, 0, new Color(r, g, b), Main.rand.NextFloat(0.5f, 1.2f));
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.AncientLight, 2.5f * hitDirection, -2.5f, 0, new Color(r, g, b), Main.rand.NextFloat(0.5f, 1.2f));
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -207,16 +210,16 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 			return SpawnCondition.OceanMonster.Chance * 0.05f;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => false;
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Vector2 drawPos = npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY);
-			SpriteEffects effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			Texture2D glow = mod.GetTexture("NPCs/Sea_Mandrake/Sea_Mandrake_Glow");
+			Vector2 drawPos = NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY);
+			SpriteEffects effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			Texture2D glow = Mod.GetTexture("NPCs/Sea_Mandrake/Sea_Mandrake_Glow");
 
-			spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
-			spriteBatch.Draw(glow, drawPos, npc.frame, new Color(r - npc.alpha, g - npc.alpha, b - npc.alpha, byte.MaxValue - npc.alpha), npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0.0f);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(glow, drawPos, NPC.frame, new Color(r - NPC.alpha, g - NPC.alpha, b - NPC.alpha, byte.MaxValue - NPC.alpha), NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0.0f);
 
 			const int MaxGlows = 6;
 
@@ -224,23 +227,23 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 			{
 				float sine = (float)Math.Sin(sineTimer * 0.06f) * 2.5f;
 				Vector2 sineOffset = new Vector2(sine * sine, 0).RotatedBy(index * MathHelper.TwoPi / MaxGlows);
-				Main.spriteBatch.Draw(glow, drawPos + sineOffset, npc.frame, new Color(r, g, b, 0) * 0.2f, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0.0f);
+				Main.spriteBatch.Draw(glow, drawPos + sineOffset, NPC.frame, new Color(r, g, b, 0) * 0.2f, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0.0f);
 			}
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter++;
-			if (npc.frameCounter < 6)
-				npc.frame.Y = 0;
-			else if (npc.frameCounter < 12)
-				npc.frame.Y = frameHeight;
-			else if (npc.frameCounter < 18)
-				npc.frame.Y = 2 * frameHeight;
-			else if (npc.frameCounter < 24)
-				npc.frame.Y = 3 * frameHeight;
+			NPC.frameCounter++;
+			if (NPC.frameCounter < 6)
+				NPC.frame.Y = 0;
+			else if (NPC.frameCounter < 12)
+				NPC.frame.Y = frameHeight;
+			else if (NPC.frameCounter < 18)
+				NPC.frame.Y = 2 * frameHeight;
+			else if (NPC.frameCounter < 24)
+				NPC.frame.Y = 3 * frameHeight;
 			else
-				npc.frameCounter = 0;
+				NPC.frameCounter = 0;
 		}
 	}
 }

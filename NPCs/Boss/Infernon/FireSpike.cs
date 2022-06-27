@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,47 +13,47 @@ namespace SpiritMod.NPCs.Boss.Infernon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fire Spike");
-			Main.projFrames[projectile.type] = 4;
+			Main.projFrames[Projectile.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 34;
+			Projectile.width = Projectile.height = 34;
 
-			projectile.hostile = true;
-			projectile.friendly = false;
+			Projectile.hostile = true;
+			Projectile.friendly = false;
 
-			projectile.penetrate = -1;
+			Projectile.penetrate = -1;
 		}
 
 		public override bool PreAI()
 		{
-			projectile.alpha -= 40;
-			if (projectile.alpha < 0) {
-				projectile.alpha = 0;
+			Projectile.alpha -= 40;
+			if (Projectile.alpha < 0) {
+				Projectile.alpha = 0;
 			}
-			projectile.spriteDirection = projectile.direction;
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 3) {
-				projectile.frame++;
-				projectile.frameCounter = 0;
-				if (projectile.frame >= 4)
-					projectile.frame = 0;
+			Projectile.spriteDirection = Projectile.direction;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 3) {
+				Projectile.frame++;
+				Projectile.frameCounter = 0;
+				if (Projectile.frame >= 4)
+					Projectile.frame = 0;
 			}
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57F;
+			Projectile.rotation = Projectile.velocity.ToRotation() + 1.57F;
 
 			return true;
 		}
 
 		public override Color? GetAlpha(Color lightColor)
 		{
-			return new Color(200, 200, 200, projectile.alpha);
+			return new Color(200, 200, 200, Projectile.alpha);
 		}
 
 		public override void AI()
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+			int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 			Main.dust[dust2].velocity *= 0f;
@@ -63,16 +64,16 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			projectile.position.X = projectile.position.X + (float)(projectile.width / 4);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 4);
-			projectile.width = 20;
-			projectile.height = 20;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 4);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 4);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+			Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 4);
+			Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 4);
+			Projectile.width = 20;
+			Projectile.height = 20;
+			Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 4);
+			Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 4);
 
 			for (int num621 = 0; num621 < 20; num621++) {
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 60, default, 2f);
+				int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Torch, 0f, 0f, 60, default, 2f);
 				Main.dust[num622].velocity *= 3f;
 				if (Main.rand.Next(2) == 0) {
 					Main.dust[num622].scale = 0.5f;
@@ -88,13 +89,13 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				if (num625 == 2) {
 					scaleFactor10 = 1f;
 				}
-				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+				int num626 = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13AB6_cp_0 = Main.gore[num626];
 				expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
 				Gore expr_13AD6_cp_0 = Main.gore[num626];
 				expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13B79_cp_0 = Main.gore[num626];
 				expr_13B79_cp_0.velocity.X = expr_13B79_cp_0.velocity.X - 1f;
@@ -102,16 +103,16 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				expr_13B99_cp_0.velocity.Y = expr_13B99_cp_0.velocity.Y + 1f;
 			}
 
-			projectile.position.X = projectile.position.X + (float)(projectile.width / 4);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 4);
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 4);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 4);
+			Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 4);
+			Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 4);
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 4);
+			Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 4);
 
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
 			for (int num273 = 0; num273 < 3; num273++) {
-				int num274 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 0, default, 1f);
+				int num274 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Torch, 0f, 0f, 0, default, 1f);
 				Main.dust[num274].noGravity = true;
 				Main.dust[num274].noLight = true;
 				Main.dust[num274].scale = 0.7f;

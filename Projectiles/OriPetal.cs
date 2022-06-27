@@ -8,26 +8,26 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Orichalcum Petal");
-			Main.projFrames[projectile.type] = 3;
+			Main.projFrames[Projectile.type] = 3;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 20;
-			projectile.tileCollide = false;
-			projectile.height = 20;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.penetrate = 10;
-			projectile.timeLeft = 60;
+			Projectile.width = 20;
+			Projectile.tileCollide = false;
+			Projectile.height = 20;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 10;
+			Projectile.timeLeft = 60;
 		}
 
 		public override void AI()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 8) {
-				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % 3;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 8) {
+				Projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % 3;
 			}
 		}
 	}

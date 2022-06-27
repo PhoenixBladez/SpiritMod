@@ -20,8 +20,8 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
 using SpiritMod.Items.Sets.FloranSet;
+using Terraria.WorldBuilding;
 
 namespace SpiritMod.World
 {
@@ -129,7 +129,7 @@ namespace SpiritMod.World
 					for (int j = -yDist / 2; j <= yDist / 2; j++)
 					{
 						Tile tile = Framing.GetTileSafely(xCenter + i, yCenter + j);
-						if (TileBlacklist.Contains(tile.type) || WallBlacklist.Contains(tile.wall))
+						if (TileBlacklist.Contains(tile.TileType) || WallBlacklist.Contains(tile.WallType))
 						{
 							blackListedTile = true;
 							break;
@@ -186,7 +186,7 @@ namespace SpiritMod.World
 
 				Tile tile = Main.tile[fireX, fireY];
 				// If the type of the tile we are placing the tower on doesn't match what we want, try again
-				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone)
+				if (tile.TileType != TileID.Dirt && tile.TileType != TileID.Grass && tile.TileType != TileID.Stone)
 					continue;
 
 				// place the tower
@@ -215,8 +215,8 @@ namespace SpiritMod.World
 								break;
 							case 1:
 								tile.ClearTile();
-								tile.type = 0;
-								tile.active(true);
+								tile.TileType = 0;
+								tile.HasTile = true;
 								break;
 							case 2:
 								tile.ClearTile();
@@ -266,7 +266,7 @@ namespace SpiritMod.World
 								break;
 							case 5:
 								WorldGen.PlaceTile(k, l, 28);  // Pot
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 						}
 					}
@@ -284,7 +284,7 @@ namespace SpiritMod.World
 				int hideoutY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 450);
 				Tile tile = Main.tile[hideoutX, hideoutY];
 
-				if (!tile.active() || tile.type != TileID.Stone)
+				if (!tile.HasTile || tile.TileType != TileID.Stone)
 					continue;
 
 				StructureLoader.GetStructure("CrateStashRegular").PlaceForce(hideoutX, hideoutY, out Point[] containers);
@@ -300,7 +300,7 @@ namespace SpiritMod.World
 				int hideoutY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 450);
 				Tile tile = Framing.GetTileSafely(hideoutX, hideoutY);
 
-				if (!tile.active() || tile.type != 60)
+				if (!tile.HasTile || tile.TileType != 60)
 					continue;
 
 				StructureLoader.GetStructure("CrateStashJungle").PlaceForce(hideoutX, hideoutY, out Point[] containers);
@@ -321,7 +321,7 @@ namespace SpiritMod.World
 				List<Point> location = new List<Point>(); //these are for ease of use if we ever want to add containers to these existing structures
 				Point[] containers = location.ToArray();
 
-				if (!tile.active() || tile.type != TileID.Stone)
+				if (!tile.HasTile || tile.TileType != TileID.Stone)
 					continue;
 
 				if (WorldGen.genRand.Next(2) == 0)
@@ -345,7 +345,7 @@ namespace SpiritMod.World
 				int hideoutY = Main.rand.Next((int)Main.rockLayer, Main.maxTilesY);
 				Tile tile = Framing.GetTileSafely(hideoutX, hideoutY);
 
-				if (!tile.active() || tile.type != TileID.Stone)
+				if (!tile.HasTile || tile.TileType != TileID.Stone)
 					continue;
 
 				StructureLoader.GetStructure("StoneDungeon" + (WorldGen.genRand.Next(3) + 1)).PlaceForce(hideoutX, hideoutY, out Point[] containers);
@@ -569,27 +569,27 @@ namespace SpiritMod.World
 
 							case 1:
 								WorldGen.PlaceTile(k, l, 30);
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 
 							case 2:
 								WorldGen.PlaceTile(k, l, 19);
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 
 							case 3:
 								WorldGen.PlaceTile(k, l, 63);
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 
 							case 4:
 								WorldGen.PlaceTile(k, l, 51);
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 
 							case 7:
 								WorldGen.PlaceTile(k, l, 64);
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 						}
 					}
@@ -642,7 +642,7 @@ namespace SpiritMod.World
 
 							case 5:
 								WorldGen.PlaceTile(k, l, TileID.Pots);  // Pot
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 
 							case 6:
@@ -727,7 +727,7 @@ namespace SpiritMod.World
 				for (int j = 0; j < 20; ++j)
 				{
 					Tile tile = Framing.GetTileSafely(islandX + i, islandY + j);
-					if (tile.active())
+					if (tile.HasTile)
 						goto retry; //Retry if this space is taken up
 				}
 			}
@@ -754,8 +754,8 @@ namespace SpiritMod.World
 				{
 					for (int y = 0; y < 2; y++)
 					{
-						Main.tile[chestLocation.X + x, chestLocation.Y + y].active(false);
-						Main.tile[chestLocation.X + x, chestLocation.Y + y].type = 0;
+						Main.tile[chestLocation.X + x, chestLocation.Y + y].HasTile = false;
+						Main.tile[chestLocation.X + x, chestLocation.Y + y].TileType = 0;
 					}
 				}
 				WorldGen.PlaceChest(chestLocation.X, chestLocation.Y + 1, 21, true, 28);
@@ -867,7 +867,7 @@ namespace SpiritMod.World
 
 				Tile tile = Main.tile[hideoutX, hideoutY];
 				// If the type of the tile we are placing the hideout on doesn't match what we want, try again
-				if (tile.type != TileID.Sand && tile.type != TileID.Ebonsand && tile.type != TileID.Crimsand && tile.type != TileID.Sandstone)
+				if (tile.TileType != TileID.Sand && tile.TileType != TileID.Ebonsand && tile.TileType != TileID.Crimsand && tile.TileType != TileID.Sandstone)
 				{
 					continue;
 				}
@@ -955,11 +955,11 @@ namespace SpiritMod.World
 								break;
 							case 1:
 								WorldGen.PlaceTile(k, l, 151);
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 							case 2:
 								WorldGen.PlaceTile(k, l, 152);
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 						}
 					}
@@ -1132,7 +1132,7 @@ namespace SpiritMod.World
 					if (!WorldGen.InWorld(smoothX, smoothY)) continue;
 
 					Tile tile = Framing.GetTileSafely(smoothX, smoothY);
-					if (tile.active() && (tile.type == junkType || tile.type == asteroidType) && WorldGen.genRand.Next(2) == 0)
+					if (tile.HasTile && (tile.TileType == junkType || tile.TileType == asteroidType) && WorldGen.genRand.Next(2) == 0)
 					{
 						Tile.SmoothSlope(smoothX, smoothY);
 					}
@@ -1207,7 +1207,7 @@ namespace SpiritMod.World
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active())
+					if (tile.TileType == TileID.Stone && tile.HasTile)
 					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<CopperPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<CopperPile>(), 0, 0, -1, -1);
@@ -1221,7 +1221,7 @@ namespace SpiritMod.World
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active())
+					if (tile.TileType == TileID.Stone && tile.HasTile)
 					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<TinPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<TinPile>(), 0, 0, -1, -1);
@@ -1236,7 +1236,7 @@ namespace SpiritMod.World
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active())
+					if (tile.TileType == TileID.Stone && tile.HasTile)
 					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<IronPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<IronPile>(), 0, 0, -1, -1);
@@ -1250,7 +1250,7 @@ namespace SpiritMod.World
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active())
+					if (tile.TileType == TileID.Stone && tile.HasTile)
 					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<LeadPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<LeadPile>(), 0, 0, -1, -1);
@@ -1265,7 +1265,7 @@ namespace SpiritMod.World
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active())
+					if (tile.TileType == TileID.Stone && tile.HasTile)
 					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<SilverPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<SilverPile>(), 0, 0, -1, -1);
@@ -1279,7 +1279,7 @@ namespace SpiritMod.World
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active())
+					if (tile.TileType == TileID.Stone && tile.HasTile)
 					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<TungstenPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<TungstenPile>(), 0, 0, -1, -1);
@@ -1294,7 +1294,7 @@ namespace SpiritMod.World
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active())
+					if (tile.TileType == TileID.Stone && tile.HasTile)
 					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<GoldPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<GoldPile>(), 0, 0, -1, -1);
@@ -1308,7 +1308,7 @@ namespace SpiritMod.World
 					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					Tile tile = Main.tile[num3, num4];
-					if (tile.type == TileID.Stone && tile.active())
+					if (tile.TileType == TileID.Stone && tile.HasTile)
 					{
 						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<PlatinumPile>());
 						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<PlatinumPile>(), 0, 0, -1, -1);
@@ -1320,7 +1320,7 @@ namespace SpiritMod.World
 			{
 				int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
 				int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY - 200);
-				if (Main.tile[X, Y].type == TileID.Stone)
+				if (Main.tile[X, Y].TileType == TileID.Stone)
 				{
 					WorldGen.PlaceObject(X, Y, ModContent.TileType<ExplosiveBarrelTile>());
 					NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<ExplosiveBarrelTile>(), 0, 0, -1, -1);
@@ -1332,7 +1332,7 @@ namespace SpiritMod.World
 				int[] sculptures = new int[] { ModContent.TileType<IceWheezerPassive>(), ModContent.TileType<IceFlinxPassive>(), ModContent.TileType<IceBatPassive>(), ModContent.TileType<IceVikingPassive>(), ModContent.TileType<IceWheezerHostile>(), ModContent.TileType<IceFlinxHostile>(), ModContent.TileType<IceBatHostile>(), ModContent.TileType<IceVikingHostile>() };
 				int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 				int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-				if ((Main.tile[X, Y].type == TileID.IceBlock || Main.tile[X, Y].type == TileID.SnowBlock) && Main.tile[X, Y + 1].type != 162)
+				if ((Main.tile[X, Y].TileType == TileID.IceBlock || Main.tile[X, Y].TileType == TileID.SnowBlock) && Main.tile[X, Y + 1].TileType != 162)
 				{
 					WorldGen.PlaceObject(X, Y, (ushort)sculptures[Main.rand.Next(8)]);
 					NetMessage.SendObjectPlacment(-1, X, Y, (ushort)sculptures[Main.rand.Next(4)], 0, 0, -1, -1);
@@ -1345,13 +1345,13 @@ namespace SpiritMod.World
 				int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
 				if (Main.tile[EEXX, WHHYY] != null)
 				{
-					if (Main.tile[EEXX, WHHYY].active())
+					if (Main.tile[EEXX, WHHYY].HasTile)
 					{
-						if (Main.tile[EEXX, WHHYY].type == 368)
+						if (Main.tile[EEXX, WHHYY].TileType == 368)
 						{
 							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(4, 8), (ushort)ModContent.TileType<GraniteOre>());
 						}
-						if (Main.tile[EEXX, WHHYY].type == 367)
+						if (Main.tile[EEXX, WHHYY].TileType == 367)
 						{
 							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(4, 9), (ushort)ModContent.TileType<MarbleOre>());
 						}
@@ -1364,7 +1364,7 @@ namespace SpiritMod.World
 				{
 					int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 					int Y = WorldGen.genRand.Next(0, Main.maxTilesY);
-					if ((Main.tile[X, Y].type == ModContent.TileType<Asteroid>() || Main.tile[X, Y].type == ModContent.TileType<BigAsteroid>()))
+					if ((Main.tile[X, Y].TileType == ModContent.TileType<Asteroid>() || Main.tile[X, Y].TileType == ModContent.TileType<BigAsteroid>()))
 					{
 						WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<BlueShardBig>());
 						NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<BlueShardBig>(), 0, 0, -1, -1);
@@ -1382,7 +1382,7 @@ namespace SpiritMod.World
 				if (ice)
 					types = new ushort[] { (ushort)ModContent.TileType<IceCube1>(), (ushort)ModContent.TileType<IceCube2>(), (ushort)ModContent.TileType<IceCube3>() };
 
-				if (Main.tile[X, Y].type == TileID.SnowBlock || Main.tile[X, Y].type == TileID.IceBlock)
+				if (Main.tile[X, Y].TileType == TileID.SnowBlock || Main.tile[X, Y].TileType == TileID.IceBlock)
 				{
 					if (Main.rand.Next(3) == 0)
 					{

@@ -4,6 +4,7 @@ using ReLogic.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using Terraria.UI.Chat;
@@ -66,7 +67,7 @@ namespace SpiritMod.Items.Books.UI
 			CalculatedStyle space = GetInnerDimensions();
 			//Main.spriteBatch.Draw(Main.magicPixel, space.ToRectangle(), Color.Yellow * .7f);
 			//Main.spriteBatch.Draw(Main.magicPixel, GetOuterDimensions().ToRectangle(), Color.Red * .7f);
-			DynamicSpriteFont font = Main.fontMouseText;
+			DynamicSpriteFont font = FontAssets.MouseText.Value;
 			float position = 0f;
 			if (this._scrollbar != null) {
 				position = -this._scrollbar.GetValue();
@@ -131,7 +132,7 @@ namespace SpiritMod.Items.Books.UI
 			if (space.Width <= 0 || space.Height <= 0) {
 				return;
 			}
-			DynamicSpriteFont font = Main.fontMouseText;
+			DynamicSpriteFont font = FontAssets.MouseText.Value;
 
 			drawTextSnippets = WordwrapStringSmart(text, Color.White, font, (int)space.Width -2, -1);
 			//height = ChatManager.GetStringSize(font, text, Vector2.One, space.Width).Y;

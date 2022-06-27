@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Block
 {
 	public class SpiritStone : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileMerge[Type][ModContent.TileType<SpiritDirt>()] = true;
@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Block
 			TileID.Sets.Conversion.Stone[Type] = true;
 			AddMapEntry(new Color(70, 130, 180));
 			soundType = SoundID.Tink;
-			drop = ModContent.ItemType<SpiritStoneItem>();
+			ItemDrop = ModContent.ItemType<SpiritStoneItem>();
 		}
 
 		public override bool CanExplode(int i, int j)

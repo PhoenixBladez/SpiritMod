@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.ID;
 using SpiritMod.Items.Sets.GamblerChestLoot.Jem;
@@ -19,52 +21,52 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gold Chest");
-			Main.npcFrameCount[npc.type] = 2;
+			Main.npcFrameCount[NPC.type] = 2;
 		}
 		public override void SetDefaults()
 		{
-			npc.width = 36;
-			npc.height = 24;
-			npc.knockBackResist = 0;
-			npc.aiStyle = -1;
-			npc.lifeMax = 1;
-			npc.immortal = true;
-			npc.noTileCollide = false;
-			npc.dontCountMe = true;
+			NPC.width = 36;
+			NPC.height = 24;
+			NPC.knockBackResist = 0;
+			NPC.aiStyle = -1;
+			NPC.lifeMax = 1;
+			NPC.immortal = true;
+			NPC.noTileCollide = false;
+			NPC.dontCountMe = true;
 		}
 		int counter = -1;
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Vector2 center = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Vector2 center = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
 			#region shader
 			Main.spriteBatch.End();
 			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 			Vector4 colorMod = Color.Gold.ToVector4();
 			SpiritMod.StarjinxNoise.Parameters["distance"].SetValue(2.9f - (sineAdd / 10));
 			SpiritMod.StarjinxNoise.Parameters["colorMod"].SetValue(colorMod);
-			SpiritMod.StarjinxNoise.Parameters["noise"].SetValue(mod.GetTexture("Textures/noise"));
+			SpiritMod.StarjinxNoise.Parameters["noise"].SetValue(Mod.GetTexture("Textures/noise"));
 			SpiritMod.StarjinxNoise.Parameters["rotation"].SetValue(sineAdd / 5);
 			SpiritMod.StarjinxNoise.Parameters["opacity2"].SetValue(0.3f + (sineAdd / 10));
 			SpiritMod.StarjinxNoise.CurrentTechnique.Passes[0].Apply();
-			Main.spriteBatch.Draw(mod.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) + new Vector2(0, 2), null, Color.White, 0f, new Vector2(50, 50), 1.1f + (sineAdd / 9), SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(Mod.GetTexture("Effects/Masks/Extra_49"), (NPC.Center - Main.screenPosition) + new Vector2(0, 2), null, Color.White, 0f, new Vector2(50, 50), 1.1f + (sineAdd / 9), SpriteEffects.None, 0f);
 
 			Main.spriteBatch.End();
 			Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 			#endregion
 
 			if (counter > 0)
-				Main.spriteBatch.Draw(mod.GetTexture("Effects/Masks/Extra_49_Top"), (npc.Center - Main.screenPosition) + new Vector2(0, 2), null, new Color(200, 200, 200, 0), 0f, new Vector2(50, 50), 0.33f, SpriteEffects.None, 0f);
-			Main.spriteBatch.Draw(Main.npcTexture[npc.type], (npc.Center - Main.screenPosition) + new Vector2(0, 2), new Rectangle(0, npc.frame.Y, npc.width, npc.height), lightColor, npc.rotation, center, npc.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Mod.GetTexture("Effects/Masks/Extra_49_Top"), (NPC.Center - Main.screenPosition) + new Vector2(0, 2), null, new Color(200, 200, 200, 0), 0f, new Vector2(50, 50), 0.33f, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, (NPC.Center - Main.screenPosition) + new Vector2(0, 2), new Rectangle(0, NPC.frame.Y, NPC.width, NPC.height), lightColor, NPC.rotation, center, NPC.scale, SpriteEffects.None, 0f);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Vector2 center = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Vector2 center = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
 			if (counter > 0)
 			{
 				Color color = Color.White;
 				float alpha = (Math.Max(0, 50 - counter)) / 50f;
-				Main.spriteBatch.Draw(mod.GetTexture("Items/Sets/GamblerChestLoot/GamblerChestNPCs/GoldChestTop_White"), (npc.Center - Main.screenPosition) + new Vector2(0, 2), new Rectangle(0, npc.frame.Y, npc.width, npc.height), color * alpha, npc.rotation, center, npc.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Mod.GetTexture("Items/Sets/GamblerChestLoot/GamblerChestNPCs/GoldChestTop_White"), (NPC.Center - Main.screenPosition) + new Vector2(0, 2), new Rectangle(0, NPC.frame.Y, NPC.width, NPC.height), color * alpha, NPC.rotation, center, NPC.scale, SpriteEffects.None, 0f);
 			}
 		}
 		bool rightClicked = false;
@@ -72,34 +74,34 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 		public override void AI()
 		{
 			sineAdd += 0.03f;
-			if (!rightClicked && npc.velocity.Y == 0 && counter < -50)
+			if (!rightClicked && NPC.velocity.Y == 0 && counter < -50)
 			{
 				rightClicked = true;
-				npc.velocity.Y = -5;
+				NPC.velocity.Y = -5;
 			}
 			if (counter % 10 == 0)
 			{
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.GoldCoin, 0, 0);
+				int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GoldCoin, 0, 0);
 				Main.dust[dust].velocity = Vector2.Zero;
 			}
-			if (rightClicked && npc.velocity.Y != 0)
+			if (rightClicked && NPC.velocity.Y != 0)
 			{
-				npc.rotation += Main.rand.NextFloat(-0.1f, 0.1f);
+				NPC.rotation += Main.rand.NextFloat(-0.1f, 0.1f);
 			}
-			if (rightClicked && npc.velocity.Y == 0 && npc.localAI[0] == 0)
+			if (rightClicked && NPC.velocity.Y == 0 && NPC.localAI[0] == 0)
 			{
-				npc.localAI[0]++;
-				Main.PlaySound(SoundID.Dig, npc.Center);
+				NPC.localAI[0]++;
+				SoundEngine.PlaySound(SoundID.Dig, NPC.Center);
 			}
 
 			counter--;
 			if (counter == 0)
 			{
-				npc.active = false;
-				Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/GoldChestGore4"), 1f);
-				Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/GoldChestGore5"), 1f);
-				Projectile.NewProjectile(npc.Center - new Vector2(0, 30), Vector2.Zero, ProjectileID.DD2ExplosiveTrapT2Explosion, 0, 0, npc.target);
-				Main.PlaySound(SoundID.Item14, npc.Center);
+				NPC.active = false;
+				Gore.NewGore(NPC.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/GoldChestGore4").Type, 1f);
+				Gore.NewGore(NPC.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/GoldChestGore5").Type, 1f);
+				Projectile.NewProjectile(NPC.Center - new Vector2(0, 30), Vector2.Zero, ProjectileID.DD2ExplosiveTrapT2Explosion, 0, 0, NPC.target);
+				SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
 			}
 			if (counter > 0)
 			{
@@ -125,7 +127,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 						itemid = ItemID.PlatinumCoin;
 					}
 
-					item = Item.NewItem(npc.Center, Vector2.Zero, itemid, 1);
+					item = Item.NewItem(NPC.Center, Vector2.Zero, itemid, 1);
 					Main.item[item].velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(1.57f, 4.71f)) * 4;
 					Main.item[item].velocity.Y /= 2;
 					if (Main.netMode != NetmodeID.SinglePlayer)
@@ -134,20 +136,20 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 
 				if (counter == 50)
 				{
-					npc.DropItem(ModContent.ItemType<Jem.Jem>(), 0.01f);
-					npc.DropItem(ModContent.ItemType<Consumable.Food.GoldenCaviar>(), 0.1f);
-					npc.DropItem(ModContent.ItemType<FunnyFirework.FunnyFirework>(), 0.08f, Main.rand.Next(5, 9));
-					npc.DropItem(ItemID.AngelStatue, 0.02f);
-					npc.DropItem(ModContent.ItemType<Champagne.Champagne>(), 0.08f, Main.rand.Next(1, 3));
-					npc.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.05f);
+					NPC.DropItem(ModContent.ItemType<Jem.Jem>(), 0.01f);
+					NPC.DropItem(ModContent.ItemType<Consumable.Food.GoldenCaviar>(), 0.1f);
+					NPC.DropItem(ModContent.ItemType<FunnyFirework.FunnyFirework>(), 0.08f, Main.rand.Next(5, 9));
+					NPC.DropItem(ItemID.AngelStatue, 0.02f);
+					NPC.DropItem(ModContent.ItemType<Champagne.Champagne>(), 0.08f, Main.rand.Next(1, 3));
+					NPC.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.05f);
 
 					switch (Main.rand.NextBool())
 					{ //mutually exclusive
 						case true:
-							npc.DropItem(ModContent.ItemType<GildedMustache.GildedMustache>(), 0.05f);
+							NPC.DropItem(ModContent.ItemType<GildedMustache.GildedMustache>(), 0.05f);
 							break;
 						case false:
-							npc.DropItem(ModContent.ItemType<RegalCane.RegalCane>(), 0.05f);
+							NPC.DropItem(ModContent.ItemType<RegalCane.RegalCane>(), 0.05f);
 							break;
 					}
 
@@ -163,14 +165,14 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 					int donatorloot = Main.rand.Next(lootTable.Length);
 					if (Main.rand.NextBool(20))
 					{
-						npc.DropItem(mod.ItemType(donatorLootTable[donatorloot]));
+						NPC.DropItem(Mod.Find<ModItem>(donatorLootTable[donatorloot]).Type);
 					}
 					if (Main.rand.Next(50) == 0)
 					{
-						npc.DropItem(mod.ItemType(lootTable[loot]));
+						NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
 						for (int value = 0; value < 32; value++)
 						{
-							int num = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y - 20), 50, 50, DustID.ShadowbeamStaff, 0f, -2f, 0, default, 2f);
+							int num = Dust.NewDust(new Vector2(NPC.Center.X, NPC.Center.Y - 20), 50, 50, DustID.ShadowbeamStaff, 0f, -2f, 0, default, 2f);
 							Main.dust[num].noGravity = true;
 							Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 							Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
@@ -181,12 +183,12 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 				}
 			}
 
-			if (rightClicked && npc.velocity.Y == 0 && counter < 0)
+			if (rightClicked && NPC.velocity.Y == 0 && counter < 0)
 			{
-				npc.rotation = 0;
-				npc.frame.Y = npc.height;
+				NPC.rotation = 0;
+				NPC.frame.Y = NPC.height;
 				counter = 200;
-				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<GoldChestTop>(), 0, 0, npc.target, npc.position.X, npc.position.Y);
+				Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<GoldChestTop>(), 0, 0, NPC.target, NPC.position.X, NPC.position.Y);
 			}
 		}
 	}
@@ -195,50 +197,50 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gold Chest");
-			Main.projFrames[projectile.type] = 12;
+			Main.projFrames[Projectile.type] = 12;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 36;
-			projectile.height = 24;
-			projectile.aiStyle = -1;
-			projectile.magic = true;
-			projectile.penetrate = -1;
-			projectile.hostile = true;
-			projectile.friendly = true;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.damage = 0;
-			projectile.timeLeft = 200;
+			Projectile.width = 36;
+			Projectile.height = 24;
+			Projectile.aiStyle = -1;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = -1;
+			Projectile.hostile = true;
+			Projectile.friendly = true;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.damage = 0;
+			Projectile.timeLeft = 200;
 		}
 		public override void AI()
 		{
-			projectile.velocity.Y = -0.05f;
-			projectile.velocity.X = 0;
-			projectile.frameCounter++;
-			if (projectile.frameCounter > Math.Sqrt(Math.Max((projectile.timeLeft - 100), 1) / 2) / 2)
+			Projectile.velocity.Y = -0.05f;
+			Projectile.velocity.X = 0;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter > Math.Sqrt(Math.Max((Projectile.timeLeft - 100), 1) / 2) / 2)
 			{
-				projectile.frameCounter = 0;
-				projectile.frame++;
-				if (projectile.frame >= 12)
+				Projectile.frameCounter = 0;
+				Projectile.frame++;
+				if (Projectile.frame >= 12)
 				{
-					projectile.frame = 0;
+					Projectile.frame = 0;
 				}
 			}
-			if (projectile.timeLeft == 1)
+			if (Projectile.timeLeft == 1)
 			{
-				Gore.NewGore(projectile.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/GoldChestGore1"), 1f);
-				Gore.NewGore(projectile.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/GoldChestGore2"), 1f);
-				Gore.NewGore(projectile.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/GoldChestGore3"), 1f);
+				Gore.NewGore(Projectile.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/GoldChestGore1").Type, 1f);
+				Gore.NewGore(Projectile.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/GoldChestGore2").Type, 1f);
+				Gore.NewGore(Projectile.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/GoldChestGore3").Type, 1f);
 			}
 
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(Color lightColor)
 		{
 			Color color = Color.White;
-			float alpha = (Math.Max(0, 50 - projectile.timeLeft)) / 50f;
-			Main.spriteBatch.Draw(mod.GetTexture("Items/Sets/GamblerChestLoot/GamblerChestNPCs/GoldChestTop_White"), (projectile.position - Main.screenPosition), new Rectangle(0, projectile.frame * projectile.height, projectile.width, projectile.height), color * alpha, projectile.rotation, Vector2.Zero, projectile.scale, SpriteEffects.None, 0f);
+			float alpha = (Math.Max(0, 50 - Projectile.timeLeft)) / 50f;
+			Main.spriteBatch.Draw(Mod.GetTexture("Items/Sets/GamblerChestLoot/GamblerChestNPCs/GoldChestTop_White"), (Projectile.position - Main.screenPosition), new Rectangle(0, Projectile.frame * Projectile.height, Projectile.width, Projectile.height), color * alpha, Projectile.rotation, Vector2.Zero, Projectile.scale, SpriteEffects.None, 0f);
 		}
 	}
 }

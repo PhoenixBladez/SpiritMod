@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class DynastyFanBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Windglider");
 			Description.SetDefault("You're still falling, but slower");

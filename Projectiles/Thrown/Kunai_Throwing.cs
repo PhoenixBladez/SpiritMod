@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,31 +10,31 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Kunai");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 5;
-			projectile.height = 12;
-			projectile.aiStyle = 113;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.alpha = 255;
-			projectile.extraUpdates = 1;
-			projectile.light = 0;
-			aiType = ProjectileID.ThrowingKnife;
+			Projectile.width = 5;
+			Projectile.height = 12;
+			Projectile.aiStyle = 113;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.alpha = 255;
+			Projectile.extraUpdates = 1;
+			Projectile.light = 0;
+			AIType = ProjectileID.ThrowingKnife;
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Wraith);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Wraith);
 			}
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
 		}
 
 		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -18,19 +18,19 @@ namespace SpiritMod.Projectiles.Clubs
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.width = 30;
-			projectile.height = 30;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.damage = 1;
-			projectile.penetrate = -1;
-            projectile.hide = true;
-			projectile.alpha = 255;
-            projectile.timeLeft = 75;
-			projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.melee = true;
+			Projectile.hostile = false;
+			Projectile.width = 30;
+			Projectile.height = 30;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.damage = 1;
+			Projectile.penetrate = -1;
+            Projectile.hide = true;
+			Projectile.alpha = 255;
+            Projectile.timeLeft = 75;
+			Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Melee;
 		}
 
 		//projectile.ai[0]: how many more pillars. Each one is one less
@@ -41,26 +41,26 @@ namespace SpiritMod.Projectiles.Clubs
         {
             if (startposY == 0)
             {
-                startposY = projectile.position.Y;
-                if (Main.tile[(int)projectile.Center.X / 16, (int)(projectile.Center.Y / 16)].collisionType == 1)
+                startposY = Projectile.position.Y;
+                if (Main.tile[(int)Projectile.Center.X / 16, (int)(Projectile.Center.Y / 16)].collisionType == 1)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
-            projectile.velocity.X = 0;
+            Projectile.velocity.X = 0;
             if (!activated)
             {
-                projectile.velocity.Y = 24;
-				if (projectile.timeLeft < 58)
+                Projectile.velocity.Y = 24;
+				if (Projectile.timeLeft < 58)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
             else
             {
-                if (projectile.timeLeft % 15 == 0)
+                if (Projectile.timeLeft % 15 == 0)
                 {
-                    int proj = Terraria.Projectile.NewProjectile(projectile.Center.X + Main.rand.Next(-15, 15), projectile.Center.Y + 6, 0, Main.rand.NextFloat(-2f, -1f), ModContent.ProjectileType<NautilusBubbleProj>(), projectile.damage / 4, projectile.owner, 0, 0f);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X + Main.rand.Next(-15, 15), Projectile.Center.Y + 6, 0, Main.rand.NextFloat(-2f, -1f), ModContent.ProjectileType<NautilusBubbleProj>(), Projectile.damage / 4, Projectile.owner, 0, 0f);
                     Main.projectile[proj].scale = Main.rand.NextFloat(.8f, 1f);
                     Main.projectile[proj].timeLeft = Main.rand.Next(90, 110);
                 }
@@ -71,19 +71,20 @@ namespace SpiritMod.Projectiles.Clubs
         {
             return false;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (oldVelocity.Y != projectile.velocity.Y && !activated) {
-				startposY = projectile.position.Y;
+			if (oldVelocity.Y != Projectile.velocity.Y && !activated) {
+				startposY = Projectile.position.Y;
 				activated = true;
 			}
 			return false;
 		}
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			fallThrough = false;
 			return true;
 		}
-
 	}
 }

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
@@ -28,7 +29,7 @@ namespace SpiritMod.Skies
 		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
 		{
 			if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f) {
-				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * intensity * .4f);
+				spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * intensity * .4f);
 			}
 		}
 

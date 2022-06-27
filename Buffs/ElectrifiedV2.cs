@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class ElectrifiedV2 : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Electrified");
 			Main.buffNoTimeDisplay[Type] = false;

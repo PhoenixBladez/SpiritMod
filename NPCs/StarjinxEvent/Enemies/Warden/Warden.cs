@@ -26,7 +26,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 		private int stage = InitStage;
 
-		private ref Player Target => ref Main.player[npc.target];
+		private ref Player Target => ref Main.player[NPC.target];
 
 		// Foreground/Background stuff
 		internal bool inFG = true;
@@ -66,33 +66,33 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 		internal int archonWhoAmI = -1;
 		private ref NPC ArchonNPC => ref Main.npc[archonWhoAmI];
-		private Archon.Archon GetArchon => ArchonNPC.modNPC as Archon.Archon;
+		private Archon.Archon GetArchon => ArchonNPC.ModNPC as Archon.Archon;
 
 		private readonly Dictionary<string, float> timers = new Dictionary<string, float>() { { "ENCHANT", 0 }, { "ARCHATK", 0 }, { "ATTACK", 0 }, { "DUO", 0 } };
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Warden");
-			Main.npcFrameCount[npc.type] = 1;
+			Main.npcFrameCount[NPC.type] = 1;
 		}
 
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetDefaults()
 		{
-			npc.width = 136;
-			npc.height = 128;
-			npc.damage = 0;
-			npc.defense = 28;
-			npc.lifeMax = 12000;
-			npc.aiStyle = -1;
-			npc.HitSound = SoundID.DD2_CrystalCartImpact;
-			npc.DeathSound = SoundID.DD2_ExplosiveTrapExplode;
-			npc.value = Item.buyPrice(0, 0, 15, 0);
-			npc.knockBackResist = 0f;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.boss = true;
+			NPC.width = 136;
+			NPC.height = 128;
+			NPC.damage = 0;
+			NPC.defense = 28;
+			NPC.lifeMax = 12000;
+			NPC.aiStyle = -1;
+			NPC.HitSound = SoundID.DD2_CrystalCartImpact;
+			NPC.DeathSound = SoundID.DD2_ExplosiveTrapExplode;
+			NPC.value = Item.buyPrice(0, 0, 15, 0);
+			NPC.knockBackResist = 0f;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.boss = true;
 		}
 
 		public override bool CheckActive() => !ModContent.GetInstance<StarjinxEventWorld>().StarjinxActive;
@@ -101,10 +101,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		{
 			if (Background == null) //init stuff
 			{
-				Background = new WardenBG(npc.Center, npc);
+				Background = new WardenBG(NPC.Center, NPC);
 				BackgroundItemManager.AddItem(Background);
 
-				archonWhoAmI = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 300, ModContent.NPCType<Archon.Archon>());
+				archonWhoAmI = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y + 300, ModContent.NPCType<Archon.Archon>());
 
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, archonWhoAmI);
@@ -112,8 +112,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				stage = EnchantStage;
 			}
 
-			npc.TargetClosest(true);
-			npc.dontTakeDamage = !inFG;
+			NPC.TargetClosest(true);
+			NPC.dontTakeDamage = !inFG;
 
 			if (transitionFG)
 			{
@@ -130,21 +130,21 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		#region Background Stuff
 		private void Transition()
 		{
-			npc.velocity.Y -= 0.06f;
+			NPC.velocity.Y -= 0.06f;
 
-			if (npc.Center.Y < -200 && fgTime > MaxForegroundTransitionTime / 2)
+			if (NPC.Center.Y < -200 && fgTime > MaxForegroundTransitionTime / 2)
 				fgTime = MaxForegroundTransitionTime / 2;
 
 			if (fgTime == MaxForegroundTransitionTime / 2)
 			{
 				inFG = !inFG;
-				npc.position.Y = -150;
+				NPC.position.Y = -150;
 			}
 
 			if (fgTime < MaxForegroundTransitionTime / 2)
 			{
-				npc.Center = Vector2.Lerp(npc.Center, fgPos, 0.125f);
-				npc.velocity *= 0f;
+				NPC.Center = Vector2.Lerp(NPC.Center, fgPos, 0.125f);
+				NPC.velocity *= 0f;
 			}
 
 			if (fgTime == 0)
@@ -155,7 +155,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		{
 			transitionFG = true;
 			fgTime = MaxForegroundTransitionTime;
-			fgPos = npc.Center;
+			fgPos = NPC.Center;
 		}
 
 		private void UpdateBackground()
@@ -188,13 +188,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 		private void FadeAtEdges()
 		{
-			npc.alpha = 0;
+			NPC.alpha = 0;
 
-			float dist = npc.DistanceSQ(Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition);
+			float dist = NPC.DistanceSQ(Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition);
 			if (dist > StarjinxMeteorite.EVENT_RADIUS * StarjinxMeteorite.EVENT_RADIUS)
 			{
 				dist -= StarjinxMeteorite.EVENT_RADIUS * StarjinxMeteorite.EVENT_RADIUS;
-				npc.alpha = dist > 50 ? 255 : (int)(dist / 50f) * 255;
+				NPC.alpha = dist > 50 ? 255 : (int)(dist / 50f) * 255;
 			}
 		}
 
@@ -270,8 +270,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		{
 			Vector2 portal = Main.projectile[GetVoidPortalHitLine()].Center;
 
-			Vector2 vel = npc.DirectionTo(portal) * 7;
-			Projectile.NewProjectile(npc.Center, vel, ModContent.ProjectileType<Projectiles.VoidProjectile>(), 20, 1f);
+			Vector2 vel = NPC.DirectionTo(portal) * 7;
+			Projectile.NewProjectile(NPC.Center, vel, ModContent.ProjectileType<Projectiles.VoidProjectile>(), 20, 1f);
 		}
 
 		private int GetVoidPortalHitLine()
@@ -307,7 +307,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 			var unmatchedPortals = new List<int>(voidPortals);
 
-			Projectiles.VoidPortal GetPortal(int index) => (Main.projectile[index].modProjectile != null && Main.projectile[index].modProjectile is Projectiles.VoidPortal portal) ? portal : null;
+			Projectiles.VoidPortal GetPortal(int index) => (Main.projectile[index].ModProjectile != null && Main.projectile[index].ModProjectile is Projectiles.VoidPortal portal) ? portal : null;
 
 			//"Connects" every portal
 			while (unmatchedPortals.Count > 0)
@@ -337,7 +337,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 			ArchonNPC.velocity *= 0.93f;
 			ArchonNPC.rotation *= 0.93f;
-			npc.velocity *= 0.93f;
+			NPC.velocity *= 0.93f;
 
 			if (timers["DUO"] == 1) //Initialize
 			{
@@ -345,13 +345,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				meteorPongPosition = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition + new Vector2(0, StarjinxMeteorite.EVENT_RADIUS - 120).RotatedBy(rot);
 			}
 			else if (timers["DUO"] < (int)(duoMaxTime * MeteorPongStartThreshold)) //Set first pong position
-				npc.Center = Vector2.Lerp(npc.Center, meteorPongPosition, timers["DUO"] / (duoMaxTime * 0.05f));
+				NPC.Center = Vector2.Lerp(NPC.Center, meteorPongPosition, timers["DUO"] / (duoMaxTime * 0.05f));
 			else if (timers["DUO"] == (int)(duoMaxTime * MeteorPongStartThreshold)) //Spawn pong meteor and set Archon pong position
 			{
 				CalculateBouncePosition(true);
 
 				int type = ModContent.ProjectileType<Archon.Projectiles.MeteorCastProjectile>();
-				int p = Projectile.NewProjectile(npc.Center, npc.DirectionTo(archonMeteorPongPosition) * MeteorPongSpeed, type, 20, 1f, Main.myPlayer);
+				int p = Projectile.NewProjectile(NPC.Center, NPC.DirectionTo(archonMeteorPongPosition) * MeteorPongSpeed, type, 20, 1f, Main.myPlayer);
 				Main.projectile[p].timeLeft = MeteorDuoMaxTime;
 				Main.projectile[p].scale = 10f;
 
@@ -368,7 +368,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				else if (timers["DUO"] >= duoMaxTime)
 					return;
 
-				npc.Center = Vector2.Lerp(npc.Center, meteorPongPosition, 0.05f);
+				NPC.Center = Vector2.Lerp(NPC.Center, meteorPongPosition, 0.05f);
 				ArchonNPC.Center = Vector2.Lerp(ArchonNPC.Center, archonMeteorPongPosition, 0.05f);
 
 				pongTimer--;
@@ -378,10 +378,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 				const int PongDistance = 140 * 140;
 
-				if (npc.DistanceSQ(PongMeteor.Center) < PongDistance)
+				if (NPC.DistanceSQ(PongMeteor.Center) < PongDistance)
 				{
 					CalculateBouncePosition(true);
-					PongMeteor.velocity = npc.DirectionTo(archonMeteorPongPosition) * MeteorPongSpeed;
+					PongMeteor.velocity = NPC.DirectionTo(archonMeteorPongPosition) * MeteorPongSpeed;
 					pongTimer = 10;
 				}
 
@@ -397,7 +397,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		/// <summary>Gets the next pong position of a boss.</summary>
 		void CalculateBouncePosition(bool setArchon)
 		{
-			Vector2 center = setArchon ? npc.Center : ArchonNPC.Center;
+			Vector2 center = setArchon ? NPC.Center : ArchonNPC.Center;
 			float dir = (center - Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition).ToRotation();
 			float newDir = dir + (dir < 0 ? MathHelper.Pi : -MathHelper.Pi);
 			newDir += Main.rand.NextFloat(-MathHelper.PiOver4 / 2f, MathHelper.PiOver4 / 2f);
@@ -422,7 +422,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 			if (timers["DUO"] == (int)(duoMaxTime * 0.05f))
 			{
-				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.SplitStar>(), 20, 1f);
+				int p = Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.SplitStar>(), 20, 1f);
 				Main.projectile[p].timeLeft = StarlightDuoMaxTime;
 				Main.projectile[p].scale = 20f;
 
@@ -432,7 +432,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			{
 				Projectile proj = Main.projectile[Main.rand.Next(massiveStarWhoAmIs)];
 
-				if (proj.active && proj.modProjectile is Projectiles.SplitStar star)
+				if (proj.active && proj.ModProjectile is Projectiles.SplitStar star)
 				{
 					int newProj = star.Split();
 
@@ -481,7 +481,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 			if (timers["ARCHATK"] == 50) //Spawn projectile
 			{
-				int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidCastProjectile>(), 60, 1f, Main.myPlayer);
+				int p = Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidCastProjectile>(), 60, 1f, Main.myPlayer);
 				Main.projectile[p].timeLeft = ArchonAttackMaxTime - 50;
 
 				blackHoleWhoAmI = p;
@@ -505,7 +505,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 		private void StarlightAttack()
 		{
-			npc.velocity *= 0.94f;
+			NPC.velocity *= 0.94f;
 
 			if (timers["ARCHATK"] == 50) //Spawn NPCs
 			{
@@ -514,7 +514,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 				for (int i = 0; i < npcCount; ++i)
 				{
-					int id = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 200, Main.rand.Next(types), Main.rand.Next(10) * 10);
+					int id = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y - 200, Main.rand.Next(types), Main.rand.Next(10) * 10);
 
 					Main.npc[id].hide = true;
 					doppelgangers.Add(id);
@@ -532,9 +532,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				}
 
 				if (doppelLoc != Vector2.Zero)
-					npc.Center = Vector2.Lerp(npc.Center, doppelLoc / doppelgangers.Count, 0.05f);
+					NPC.Center = Vector2.Lerp(NPC.Center, doppelLoc / doppelgangers.Count, 0.05f);
 				else
-					npc.Center = Vector2.Lerp(npc.Center, Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition, 0.05f);
+					NPC.Center = Vector2.Lerp(NPC.Center, Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition, 0.05f);
 			}
 			else if (timers["ARCHATK"] == ArchonAttackMaxTime - 50) //Blow up NPCs
 			{
@@ -556,19 +556,19 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 		private void BasicIdleMovement(float speedMult = 1f, bool run = true)
 		{
-			float magnitude = 10 - (npc.Distance(Target.Center) * 0.02f);
-			Vector2 vel = -npc.DirectionTo(Target.Center) * magnitude * speedMult;
+			float magnitude = 10 - (NPC.Distance(Target.Center) * 0.02f);
+			Vector2 vel = -NPC.DirectionTo(Target.Center) * magnitude * speedMult;
 
 			if (magnitude < 0 || !run)
 			{
-				magnitude = (npc.Distance(Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition) * 0.02f) - 3;
+				magnitude = (NPC.Distance(Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition) * 0.02f) - 3;
 				if (magnitude < 0)
 					magnitude = 0;
 
-				vel = npc.DirectionTo(Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition) * magnitude;
+				vel = NPC.DirectionTo(Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition) * magnitude;
 			}
 
-			npc.velocity = vel;
+			NPC.velocity = vel;
 
 			WrapLocation();
 		}
@@ -576,10 +576,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		private void WrapLocation()
 		{
 			Vector2 sjinxLoc = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition;
-			if (npc.DistanceSQ(sjinxLoc) > StarjinxMeteorite.EVENT_RADIUS * StarjinxMeteorite.EVENT_RADIUS * 1.05f)
+			if (NPC.DistanceSQ(sjinxLoc) > StarjinxMeteorite.EVENT_RADIUS * StarjinxMeteorite.EVENT_RADIUS * 1.05f)
 			{
-				Vector2 offset = npc.Center - sjinxLoc;
-				npc.Center = sjinxLoc - (offset * 0.95f);
+				Vector2 offset = NPC.Center - sjinxLoc;
+				NPC.Center = sjinxLoc - (offset * 0.95f);
 			}
 		}
 
@@ -587,12 +587,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		{
 			timers["ENCHANT"]++;
 
-			npc.velocity *= 0.94f;
+			NPC.velocity *= 0.94f;
 
 			if (timers["ENCHANT"] == EnchantMaxTime / 2)
 			{
 				GetArchon.SetRandomEnchantment();
-				CombatText.NewText(npc.getRect(), Color.Gold, $"Enchant moment - we got {GetArchon.enchantment}");
+				CombatText.NewText(NPC.getRect(), Color.Gold, $"Enchant moment - we got {GetArchon.enchantment}");
 			}
 			else if (timers["ENCHANT"] >= EnchantMaxTime)
 			{
@@ -620,14 +620,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				return;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if (!inFG) //if not in foreground stop drawing
 				return false;
 			return true;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if (GetArchon.enchantment == Archon.Archon.Enchantment.Starlight && stage == ArchonAttackStage)
 				DrawDoppelgangers();

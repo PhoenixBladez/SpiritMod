@@ -47,7 +47,7 @@ namespace SpiritMod.Mechanics.Trails
 		{
 			_xOffset -= _coordMult.X;
 			effect.Parameters["imageTexture"].SetValue(_texture);
-			effect.Parameters["coordOffset"].SetValue(new Vector2(_xOffset, Main.GlobalTime * _yAnimSpeed));
+			effect.Parameters["coordOffset"].SetValue(new Vector2(_xOffset, Main.GlobalTimeWrappedHourly * _yAnimSpeed));
 			effect.Parameters["coordMultiplier"].SetValue(_coordMult);
 			effect.Parameters["strength"].SetValue(_strength);
 			effect.CurrentTechnique.Passes[ShaderPass].Apply();

@@ -8,38 +8,38 @@ using Terraria.ModLoader;
  
 namespace SpiritMod.Mounts
 {
-    public class Obolos_Mount : ModMountData
+    public class Obolos_Mount : ModMount
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            mountData.spawnDust = 160;
-            mountData.buff = mod.BuffType("Obolos_Buff");
-            mountData.heightBoost = 10;         
-            mountData.fallDamage = 0f;
-            mountData.runSpeed = 8f;
-            mountData.dashSpeed = 8f;
-            mountData.flightTimeMax = 320;
-            mountData.fatigueMax = 320;
-            mountData.jumpHeight = 10;
-            mountData.acceleration = 0.4f;
-            mountData.jumpSpeed = 10f;
-            mountData.blockExtraJumps = true;
-            mountData.totalFrames = 14;           
-			mountData.usesHover = true;
-            int[] array = new int[mountData.totalFrames];
+            MountData.spawnDust = 160;
+            MountData.buff = Mod.Find<ModBuff>("Obolos_Buff").Type;
+            MountData.heightBoost = 10;         
+            MountData.fallDamage = 0f;
+            MountData.runSpeed = 8f;
+            MountData.dashSpeed = 8f;
+            MountData.flightTimeMax = 320;
+            MountData.fatigueMax = 320;
+            MountData.jumpHeight = 10;
+            MountData.acceleration = 0.4f;
+            MountData.jumpSpeed = 10f;
+            MountData.blockExtraJumps = true;
+            MountData.totalFrames = 14;           
+			MountData.usesHover = true;
+            int[] array = new int[MountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
             {
                 array[l] = 16;
             }
-			mountData.playerYOffsets = array;
-            mountData.xOffset = -26;                    
-            mountData.yOffset = -4;          
-            mountData.bodyFrame = 0;          
-            mountData.playerHeadOffset = 22;
+			MountData.playerYOffsets = array;
+            MountData.xOffset = -26;                    
+            MountData.yOffset = -4;          
+            MountData.bodyFrame = 0;          
+            MountData.playerHeadOffset = 22;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.textureWidth = mountData.frontTexture.Width;
-                mountData.textureHeight = mountData.frontTexture.Height;
+                MountData.textureWidth = MountData.frontTexture.Width;
+                MountData.textureHeight = MountData.frontTexture.Height;
             }
         }
 
@@ -62,7 +62,7 @@ namespace SpiritMod.Mounts
             else if (player.controlDown)
             {
 				player.velocity.Y += acc * num1;
-				if (TileID.Sets.Platforms[Framing.GetTileSafely((int)(player.Center.X / 16), (int)((player.MountedCenter.Y + (player.height / 2)) / 16) + 1).type])
+				if (TileID.Sets.Platforms[Framing.GetTileSafely((int)(player.Center.X / 16), (int)((player.MountedCenter.Y + (player.height / 2)) / 16) + 1).TileType])
 					player.position.Y += 1;
 
 				yvelcap = 3f;
@@ -116,7 +116,7 @@ namespace SpiritMod.Mounts
 
         public override bool Draw(List<Terraria.DataStructures.DrawData> playerDrawData, int drawType, Player drawPlayer, ref Texture2D texture, ref Texture2D glowTexture, ref Vector2 drawPosition, ref Rectangle frame, ref Color drawColor, ref Color glowColor, ref float rotation, ref SpriteEffects spriteEffects, ref Vector2 drawOrigin, ref float drawScale, float shadow)
         {
-            glowTexture = mod.GetTexture("Mounts/Obolos_Mount_Glow");
+            glowTexture = Mod.GetTexture("Mounts/Obolos_Mount_Glow");
 
             if (drawPlayer.velocity.X < 0 && drawPlayer.direction > 0)
             {

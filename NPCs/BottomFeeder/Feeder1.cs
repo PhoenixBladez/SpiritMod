@@ -15,39 +15,39 @@ namespace SpiritMod.NPCs.BottomFeeder
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.friendly = false;
-			projectile.hostile = true;
-			projectile.penetrate = 3;
+			Projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.friendly = false;
+			Projectile.hostile = true;
+			Projectile.penetrate = 3;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation += .1f;
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 7200f)
+			Projectile.rotation += .1f;
+			Projectile.ai[1] += 1f;
+			if (Projectile.ai[1] >= 7200f)
 			{
-				projectile.alpha += 5;
-				if (projectile.alpha > 255)
+				Projectile.alpha += 5;
+				if (Projectile.alpha > 255)
 				{
-					projectile.alpha = 255;
-					projectile.Kill();
+					Projectile.alpha = 255;
+					Projectile.Kill();
 				}
 			}
 
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] >= 10f)
+			Projectile.localAI[0] += 1f;
+			if (Projectile.localAI[0] >= 10f)
 			{
-				projectile.localAI[0] = 0f;
+				Projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
-				int num419 = projectile.type;
+				int num419 = Projectile.type;
 				for (int num420 = 0; num420 < 1000; num420++)
 				{
-					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f)
+					if (Main.projectile[num420].active && Main.projectile[num420].owner == Projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f)
 					{
 						num416++;
 						if (Main.projectile[num420].ai[1] > num418)
@@ -67,8 +67,8 @@ namespace SpiritMod.NPCs.BottomFeeder
 			int num = 5;
 			for (int k = 0; k < 2; k++)
 			{
-				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Blood, 0.0f, 0.0f, 0, new Color(), 1f);
-				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+				int index2 = Dust.NewDust(Projectile.position, 1, 1, DustID.Blood, 0.0f, 0.0f, 0, new Color(), 1f);
+				Main.dust[index2].position = Projectile.Center - Projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;
 				Main.dust[index2].noGravity = true;
@@ -81,8 +81,8 @@ namespace SpiritMod.NPCs.BottomFeeder
 			const int DustType = DustID.Blood;
 			for (int k = 0; k < 10; k++)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustType, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustType, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
 			}
 			return true;
 		}

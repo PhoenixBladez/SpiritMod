@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Zones
 {
 	public class LowGravZoneTimer : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Low Gravity Zone");
 			Description.SetDefault("The Low Gravity Zone is up!");

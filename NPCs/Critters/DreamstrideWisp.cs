@@ -2,8 +2,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.BloodcourtSet;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -12,46 +14,46 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dreamstride Wisp");
-			Main.npcFrameCount[npc.type] = 5;
-			Main.npcCatchable[npc.type] = true;
+			Main.npcFrameCount[NPC.type] = 5;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 32;
-			npc.height = 32;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 5;
-			npc.dontCountMe = true;
-			npc.catchItem = (short)ModContent.ItemType<DreamstrideEssence>();
-			npc.knockBackResist = .45f;
-			npc.aiStyle = 64;
-			npc.npcSlots = 0;
-			npc.noGravity = true;
-			npc.alpha = 255;
-			npc.scale = Main.rand.NextFloat(1.1f, 1.3f);
+			NPC.width = 32;
+			NPC.height = 32;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 5;
+			NPC.dontCountMe = true;
+			NPC.catchItem = (short)ModContent.ItemType<DreamstrideEssence>();
+			NPC.knockBackResist = .45f;
+			NPC.aiStyle = 64;
+			NPC.npcSlots = 0;
+			NPC.noGravity = true;
+			NPC.alpha = 255;
+			NPC.scale = Main.rand.NextFloat(1.1f, 1.3f);
 
-			aiType = NPCID.Firefly;
+			AIType = NPCID.Firefly;
 
 			if (!Main.dedServ)
 			{
-				npc.HitSound = SoundID.NPCHit36.WithVolume(0.5f);
-				npc.DeathSound = SoundID.NPCDeath39.WithVolume(0.5f);
+				NPC.HitSound = SoundID.NPCHit36.WithVolume(0.5f);
+				NPC.DeathSound = SoundID.NPCDeath39.WithVolume(0.5f);
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, Color.White * npc.Opacity, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, Color.White * NPC.Opacity, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			Texture2D circleGradient = mod.GetTexture("Effects/Masks/CircleGradient");
-			spriteBatch.Draw(circleGradient, npc.Center - Main.screenPosition, null, Color.Red * 0.8f * npc.Opacity, 0, circleGradient.Size() / 2, new Vector2(0.33f, 0.45f) * npc.scale, SpriteEffects.None, 0);
+			Texture2D circleGradient = Mod.GetTexture("Effects/Masks/CircleGradient");
+			spriteBatch.Draw(circleGradient, NPC.Center - Main.screenPosition, null, Color.Red * 0.8f * NPC.Opacity, 0, circleGradient.Size() / 2, new Vector2(0.33f, 0.45f) * NPC.scale, SpriteEffects.None, 0);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -65,22 +67,22 @@ namespace SpiritMod.NPCs.Critters
 		{
 			ignorePlatforms = true;
 			UpdateYFrame(7, 0, 4);
-			npc.rotation = npc.velocity.X * 0.1f;
-			Lighting.AddLight(npc.Center, npc.Opacity * Color.Red.ToVector3());
+			NPC.rotation = NPC.velocity.X * 0.1f;
+			Lighting.AddLight(NPC.Center, NPC.Opacity * Color.Red.ToVector3());
 
 			if (!Main.dayTime)
-				npc.alpha = (int)MathHelper.Max(npc.alpha - 3, 80);
+				NPC.alpha = (int)MathHelper.Max(NPC.alpha - 3, 80);
 			else
 			{
-				npc.alpha += 10;
-				if(npc.alpha >= 255)
+				NPC.alpha += 10;
+				if(NPC.alpha >= 255)
 				{
-					npc.active = false;
-					npc.netUpdate = true;
+					NPC.active = false;
+					NPC.netUpdate = true;
 				}
 			}
 		}
 
-		public override void NPCLoot() => Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DreamstrideEssence>());
+		public override void OnKill() => Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<DreamstrideEssence>());
 	}
 }

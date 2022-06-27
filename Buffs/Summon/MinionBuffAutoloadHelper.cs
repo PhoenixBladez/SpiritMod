@@ -43,7 +43,7 @@ namespace SpiritMod.Buffs.Summon
 		public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if (AutoloadMinionDictionary.BuffDictionary.TryGetValue(type, out int buffType))
-				player.AddBuff(buffType, 180);
+				Player.AddBuff(buffType, 180);
 
 			return base.Shoot(item, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
 		}
@@ -78,8 +78,8 @@ namespace SpiritMod.Buffs.Summon
 			{
 				AutoloadMinionBuff attribute = (AutoloadMinionBuff)Attribute.GetCustomAttribute(MinionType, typeof(AutoloadMinionBuff)); 
 				ModProjectile mProjectile = (ModProjectile)Activator.CreateInstance(MinionType);
-				SpiritMod.Instance.AddBuff(MinionType.Name + "_buff", new AutoloadedMinionBuff(SpiritMod.Instance.ProjectileType(MinionType.Name), attribute.BuffName, attribute.Description), MinionType.FullName.Replace(".", "/") + "_buff");
-				BuffDictionary.Add(SpiritMod.Instance.ProjectileType(MinionType.Name), SpiritMod.Instance.BuffType(MinionType.Name + "_buff"));
+				SpiritMod.Instance.AddBuff(MinionType.Name + "_buff", new AutoloadedMinionBuff(SpiritMod.Instance.Find<ModProjectile>(MinionType.Name).Type, attribute.BuffName, attribute.Description), MinionType.FullName.Replace(".", "/") + "_buff");
+				BuffDictionary.Add(SpiritMod.Instance.Find<ModProjectile>(MinionType.Name).Type, SpiritMod.Instance.Find<ModBuff>(MinionType.Name + "_buff").Type);
 			}
 		}
 
@@ -99,7 +99,7 @@ namespace SpiritMod.Buffs.Summon
 			this.BuffDescription = BuffDescription;
 		}
 
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault(BuffName);
 			Description.SetDefault(BuffDescription);

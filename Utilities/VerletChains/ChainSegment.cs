@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.GameContent;
 
 namespace SpiritMod.VerletChains
 {
@@ -50,7 +51,7 @@ namespace SpiritMod.VerletChains
 			Vector2 delta = (Vertex1.Position - Vertex2.Position);
 			float rotation = (float)Math.Atan2(delta.Y, delta.X);
 
-			sB.Draw(Main.magicPixel, Vertex2.Position - Main.screenPosition, null, Color.White, rotation, new Vector2(0f, 0.5f), new Vector2(delta.Length(), 2f), SpriteEffects.None, 0);
+			sB.Draw(TextureAssets.MagicPixel.Value, Vertex2.Position - Main.screenPosition, null, Color.White, rotation, new Vector2(0f, 0.5f), new Vector2(delta.Length(), 2f), SpriteEffects.None, 0);
 		}
 
 		public void Draw(SpriteBatch sB, Texture2D texture, float scale, Color color = default)

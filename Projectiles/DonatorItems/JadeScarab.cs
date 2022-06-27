@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,51 +12,51 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ornate Scarab");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.BabySlime);
-			projectile.width = 32;
-			projectile.height = 16;
-			projectile.minion = true;
-			projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = true;
-			projectile.netImportant = true;
-			aiType = ProjectileID.BabySlime;
-			projectile.alpha = 0;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 180;
-			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-			ProjectileID.Sets.Homing[projectile.type] = true;
-			Main.projFrames[projectile.type] = 4;
+			Projectile.CloneDefaults(ProjectileID.BabySlime);
+			Projectile.width = 32;
+			Projectile.height = 16;
+			Projectile.minion = true;
+			Projectile.friendly = true;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = true;
+			Projectile.netImportant = true;
+			AIType = ProjectileID.BabySlime;
+			Projectile.alpha = 0;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 180;
+			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
+			Main.projFrames[Projectile.type] = 4;
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D texture = Main.projectileTexture[projectile.type];
-			int frameHeight = texture.Height / Main.projFrames[projectile.type];
-			Rectangle frameRect = new Rectangle(0, projectile.frame * frameHeight, texture.Width, frameHeight);
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, frameRect, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
+			int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+			Rectangle frameRect = new Rectangle(0, Projectile.frame * frameHeight, texture.Width, frameHeight);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, frameRect, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (projectile.penetrate == 0)
-				projectile.Kill();
+			if (Projectile.penetrate == 0)
+				Projectile.Kill();
 
 			return false;
 		}
 		public override void AI()
 		{
-			projectile.spriteDirection = projectile.direction;
+			Projectile.spriteDirection = Projectile.direction;
 		}
 		public override Color? GetAlpha(Color lightColor)
 		{
@@ -70,7 +71,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 10; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Flare_Blue, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			}
 		}
 

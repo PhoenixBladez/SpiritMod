@@ -15,29 +15,29 @@ namespace SpiritMod.Projectiles.Flail
 
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 18;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.melee = true;
+			Projectile.width = 30;
+			Projectile.height = 18;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.DamageType = DamageClass.Melee;
 		}
 
 		public override bool PreAI()
 		{
-			ProjectileExtras.FlailAI(projectile.whoAmI);
+			ProjectileExtras.FlailAI(Projectile.whoAmI);
 			return false;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			return ProjectileExtras.FlailTileCollide(projectile.whoAmI, oldVelocity);
+			return ProjectileExtras.FlailTileCollide(Projectile.whoAmI, oldVelocity);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			ProjectileExtras.DrawChain(projectile.whoAmI, Main.player[projectile.owner].MountedCenter,
+			ProjectileExtras.DrawChain(Projectile.whoAmI, Main.player[Projectile.owner].MountedCenter,
 				"SpiritMod/Projectiles/Flail/ClatterMace_Chain");
-			ProjectileExtras.DrawAroundOrigin(projectile.whoAmI, lightColor);
+			ProjectileExtras.DrawAroundOrigin(Projectile.whoAmI, lightColor);
 			return false;
 		}
 	}

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -14,29 +15,29 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 
 		public override void SetDefaults()
 		{
-			projectile.width = 4;
-			projectile.height = 4;
-			projectile.hide = true;
-			projectile.friendly = true;
-			projectile.aiStyle = 0;
-			projectile.MaxUpdates = 15;
-			projectile.timeLeft = 66;
-			projectile.tileCollide = false;
+			Projectile.width = 4;
+			Projectile.height = 4;
+			Projectile.hide = true;
+			Projectile.friendly = true;
+			Projectile.aiStyle = 0;
+			Projectile.MaxUpdates = 15;
+			Projectile.timeLeft = 66;
+			Projectile.tileCollide = false;
 		}
 
 		public override void AI()
 		{
-			projectile.localAI[0] += 1f;
+			Projectile.localAI[0] += 1f;
 			
-			if (projectile.localAI[0] > -1f)
-				x = projectile.Center.Y + 50;
+			if (Projectile.localAI[0] > -1f)
+				x = Projectile.Center.Y + 50;
 
-			if (projectile.localAI[0] > -1f)
+			if (Projectile.localAI[0] > -1f)
             {
 				for (int i = 0; i < 10; i++)
 				{
-					float PosX = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-					float PosY = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+					float PosX = Projectile.Center.X - Projectile.velocity.X / 10f * (float)i;
+					float PosY = Projectile.Center.Y - Projectile.velocity.Y / 10f * (float)i;
 					
 					int dustIndex = Dust.NewDust(new Vector2(PosX, PosY), 0, 0, DustID.Electric, 0f, 0f, 180, default, 0.5f);
 					
@@ -48,14 +49,14 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 				}
             }
 			
-			Vector2 destination = new Vector2(projectile.ai[0], projectile.ai[1]);
-			Vector2 dif = destination - projectile.Center;
+			Vector2 destination = new Vector2(Projectile.ai[0], Projectile.ai[1]);
+			Vector2 dif = destination - Projectile.Center;
 			float speed = 16f / dif.Length();
 
 			Vector2 randomSpeed = new Vector2(dif.X, dif.Y).RotatedByRandom(MathHelper.ToRadians(90));
 			
-			if (projectile.localAI[0] > 1f)
-				projectile.velocity = new Vector2(randomSpeed.X * speed, randomSpeed.Y * speed);
+			if (Projectile.localAI[0] > 1f)
+				Projectile.velocity = new Vector2(randomSpeed.X * speed, randomSpeed.Y * speed);
 		}
 
 		public override void Kill(int timeLeft)
@@ -63,12 +64,12 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 			int num = 22;
 			for (int index1 = 0; index1 < num; ++index1)
 			{
-				int index2 = Dust.NewDust(projectile.Center, 0, 0, DustID.FireworkFountain_Yellow, 0.0f, 0.0f, 0, new Color(), 0.75f);
+				int index2 = Dust.NewDust(Projectile.Center, 0, 0, DustID.FireworkFountain_Yellow, 0.0f, 0.0f, 0, new Color(), 0.75f);
 				Main.dust[index2].velocity *= 0.3f;
 				--Main.dust[index2].velocity.Y;
-				Main.dust[index2].position = Vector2.Lerp(Main.dust[index2].position, projectile.Center, 0.75f);
+				Main.dust[index2].position = Vector2.Lerp(Main.dust[index2].position, Projectile.Center, 0.75f);
 			}
-			Main.PlaySound(SoundID.Trackable, (int)projectile.position.X, (int)projectile.position.Y, 141, 1f, 0f);
+			SoundEngine.PlaySound(SoundID.Trackable, (int)Projectile.position.X, (int)Projectile.position.Y, 141, 1f, 0f);
 		}
 	}
 }

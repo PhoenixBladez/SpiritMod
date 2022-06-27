@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,37 +20,37 @@ namespace SpiritMod.Projectiles
 		}
 		public override void SetDefaults()
 		{
-			projectile.penetrate = 600;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.friendly = true;
-			projectile.timeLeft = 2;
-			projectile.damage = 1;
-			projectile.extraUpdates = 1;
-			projectile.alpha = 255;
-			projectile.width = projectile.height = 24;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			Projectile.penetrate = 600;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
+			Projectile.timeLeft = 2;
+			Projectile.damage = 1;
+			Projectile.extraUpdates = 1;
+			Projectile.alpha = 255;
+			Projectile.width = Projectile.height = 24;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
 			for (int k = 0; k < 15; k++) {
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.DungeonSpirit, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+				Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.DungeonSpirit, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
 			}
 		}
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			//Factors for calculations
-			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
+			var list = Main.projectile.Where(x => x.Hitbox.Intersects(Projectile.Hitbox));
 			foreach (var proj in list) {
 				if (proj.hostile && proj.active && proj.timeLeft > 2) {
 					if (proj.damage < 65) {
 						counter++;
 						proj.timeLeft = 2;
-						Main.PlaySound(SoundID.Item93, projectile.position);
+						SoundEngine.PlaySound(SoundID.Item93, Projectile.position);
 						proj.active = false;
 					}
 					else {
@@ -58,11 +59,11 @@ namespace SpiritMod.Projectiles
 				}
 			}
 			if (counter >= 2) {
-				projectile.active = false;
-				((MyPlayer)player.GetModPlayer(mod, "MyPlayer")).shieldsLeft -= 1;
-				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
+				Projectile.active = false;
+				((MyPlayer)player.GetModPlayer(Mod, "MyPlayer")).shieldsLeft -= 1;
+				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
 			}
-			Vector2 center = projectile.Center;
+			Vector2 center = Projectile.Center;
 			float num8 = (float)player.miscCounter / 60f;
 			float num7 = 1.0471975512f * 2;
 			for (int i = 0; i < 3; i++) {
@@ -73,7 +74,7 @@ namespace SpiritMod.Projectiles
 				Main.dust[num6].position = center + (num8 * 6.28318548f + num7 * (float)i).ToRotationVector2() * 12f;
 			}
 
-			double deg = (double)projectile.ai[1]; //The degrees, you can multiply projectile.ai[1] to make it orbit faster, may be choppy depending on the value
+			double deg = (double)Projectile.ai[1]; //The degrees, you can multiply projectile.ai[1] to make it orbit faster, may be choppy depending on the value
 			double rad = deg * (Math.PI / 180); //Convert degrees to radians
 
 			/*Position the projectile based on where the player is, the Sin/Cos of the angle times the /
@@ -81,13 +82,13 @@ namespace SpiritMod.Projectiles
             /and height divided by two so the center of the projectile is at the right place.     */
 
 			//Increase the counter/angle in degrees by 1 point, you can change the rate here too, but the orbit may look choppy depending on the value
-			projectile.ai[1] += .38f;
-			if (((MyPlayer)player.GetModPlayer(mod, "MyPlayer")).ShieldCore) {
-				projectile.timeLeft = 2;
+			Projectile.ai[1] += .38f;
+			if (((MyPlayer)player.GetModPlayer(Mod, "MyPlayer")).ShieldCore) {
+				Projectile.timeLeft = 2;
 			}
-			projectile.position.X = player.Center.X - (int)(Math.Cos(rad) * dist) - projectile.width / 2;
-			projectile.position.Y = player.Center.Y - (int)(Math.Sin(rad) * dist) - projectile.height / 2;
-			direction = player.Center - projectile.Center;
+			Projectile.position.X = player.Center.X - (int)(Math.Cos(rad) * dist) - Projectile.width / 2;
+			Projectile.position.Y = player.Center.Y - (int)(Math.Sin(rad) * dist) - Projectile.height / 2;
+			direction = player.Center - Projectile.Center;
 			direction.Normalize();
 		}
 	}

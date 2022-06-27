@@ -14,17 +14,17 @@ namespace SpiritMod.Items.Material
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 24;
-			item.value = Item.buyPrice(0, 0, 10, 0);
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.consumable = true;
-			item.rare = ItemRarityID.Blue;
-			item.maxStack = 99;
-			item.createTile = ModContent.TileType<Tiles.Ambient.Canvas_Tile>();
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
+			Item.width = 30;
+			Item.height = 24;
+			Item.value = Item.buyPrice(0, 0, 10, 0);
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.rare = ItemRarityID.Blue;
+			Item.maxStack = 99;
+			Item.createTile = ModContent.TileType<Tiles.Ambient.Canvas_Tile>();
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
 		}
 	}
 }

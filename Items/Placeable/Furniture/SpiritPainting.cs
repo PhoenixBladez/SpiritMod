@@ -15,31 +15,31 @@ namespace SpiritMod.Items.Placeable.Furniture
 
 		public override void SetDefaults()
 		{
-			item.width = 94;
-			item.height = 62;
-			item.value = item.value = Terraria.Item.buyPrice(0, 10, 1000, 10);
-			item.rare = ItemRarityID.LightPurple;
+			Item.width = 94;
+			Item.height = 62;
+			Item.value = Item.value = Terraria.Item.buyPrice(0, 10, 1000, 10);
+			Item.rare = ItemRarityID.LightPurple;
 
-			item.maxStack = 99;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<SpiritPaintingTile>();
+			Item.createTile = ModContent.TileType<SpiritPaintingTile>();
 		}
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			TooltipLine line = new TooltipLine(mod, "ItemName", "'Quite a milestone indeed!\nThings can only look up from here'");
-			line.overrideColor = new Color(50, 80, 200);
+			TooltipLine line = new TooltipLine(Mod, "ItemName", "'Quite a milestone indeed!\nThings can only look up from here'");
+			line.OverrideColor = new Color(50, 80, 200);
 			tooltips.Add(line);
 			foreach (TooltipLine line2 in tooltips) {
-				if (line2.mod == "Terraria" && line2.Name == "ItemName") {
-					line2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
+				if (line2.Mod == "Terraria" && line2.Name == "ItemName") {
+					line2.OverrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
 				}
 			}
 		}

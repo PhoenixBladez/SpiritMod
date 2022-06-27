@@ -1,6 +1,7 @@
 using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Items.Sets.BriarDrops;
 using SpiritMod.Tiles.Furniture;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TreemanStatueTile = SpiritMod.Tiles.Furniture.Reach.TreemanStatue;
@@ -17,31 +18,30 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 28;
-			item.value = 25500;
-			item.maxStack = 99;
-			item.rare = ItemRarityID.Orange;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.createTile = ModContent.TileType<TreemanStatueTile>();
+			Item.width = 32;
+			Item.height = 28;
+			Item.value = 25500;
+			Item.maxStack = 99;
+			Item.rare = ItemRarityID.Orange;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.createTile = ModContent.TileType<TreemanStatueTile>();
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 50);
 			recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 20);
 			recipe.AddIngredient(ItemID.GoldCoin, 10);
 			recipe.AddIngredient(ItemID.Book, 5);
 			recipe.AddIngredient(ItemID.Bone, 5);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

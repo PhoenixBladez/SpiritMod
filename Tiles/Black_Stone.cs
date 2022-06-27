@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,23 +10,23 @@ namespace SpiritMod.Tiles
 	public class Black_Stone : ModTile
 	{
 		public bool check;
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileLighted[Type] = true;
 			Main.tileSpelunker[Type] = true;
-			dustType = DustID.DungeonSpirit;
+			DustType = DustID.DungeonSpirit;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Blackrock");
-			drop = mod.ItemType("Black_Stone_Item");
+			ItemDrop = Mod.Find<ModItem>("Black_Stone_Item").Type;
 			AddMapEntry(new Color(133, 206, 181), name);
 			soundStyle = 21;
 		}
 
 		public override bool KillSound(int i, int j)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(21, 0));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(21, 0));
 			return false;
 		}
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -42,10 +43,10 @@ namespace SpiritMod.Tiles
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			if (tile.slope() == 0 && !tile.halfBrick()) 
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			if (tile.Slope == 0 && !tile.IsHalfBlock) 
 			{
-				Main.spriteBatch.Draw(mod.GetTexture("Tiles/Black_Stone_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Black_Stone_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
 		}
 	}
@@ -56,18 +57,18 @@ namespace SpiritMod.Tiles
 
 		public override void SetDefaults()
 		{
-			item.width = 12;
-			item.height = 12;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.value = 1000;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.consumable = true;
-			item.rare = ItemRarityID.White;
-			item.createTile = mod.TileType("Black_Stone");
+			Item.width = 12;
+			Item.height = 12;
+			Item.maxStack = 999;
+			Item.useTurn = true;
+			Item.value = 1000;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.rare = ItemRarityID.White;
+			Item.createTile = Mod.Find<ModTile>("Black_Stone").Type;
 		}
 	}
 }

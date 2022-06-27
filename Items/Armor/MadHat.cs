@@ -17,24 +17,24 @@ namespace SpiritMod.Items.Armor
 
 		public override void SetDefaults()
 		{
-			item.damage = 49;
-			item.magic = true;
-			item.width = 18;
-			item.mana = 7;
-			item.height = 28;
-			item.useTime = 19;
-			item.useAnimation = 19;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.noMelee = true; //so the item's animation doesn't do damage
-			item.knockBack = 5;
-			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Pink;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<MadHatProj>();
-			item.shootSpeed = 10f;
-			item.noUseGraphic = true;
-			item.defense = 6;
+			Item.damage = 49;
+			Item.DamageType = DamageClass.Magic;
+			Item.width = 18;
+			Item.mana = 7;
+			Item.height = 28;
+			Item.useTime = 19;
+			Item.useAnimation = 19;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.noMelee = true; //so the item's animation doesn't do damage
+			Item.knockBack = 5;
+			Item.value = Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<MadHatProj>();
+			Item.shootSpeed = 10f;
+			Item.noUseGraphic = true;
+			Item.defense = 6;
 		}
 		public override void UpdateEquip(Player player)
 		{

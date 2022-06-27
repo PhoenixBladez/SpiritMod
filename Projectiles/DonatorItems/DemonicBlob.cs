@@ -11,24 +11,24 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wishbone");
-			Main.projFrames[projectile.type] = 27;
-			Main.projPet[projectile.type] = true;
+			Main.projFrames[Projectile.type] = 27;
+			Main.projPet[Projectile.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.netImportant = true;
-			projectile.width = 45;
-			projectile.height = 62;
-			projectile.scale = 0.85f;
-			projectile.aiStyle = 144;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.manualDirectionChange = true;
-			projectile.timeLeft *= 5;
-			aiType = ProjectileID.DD2PetGato;
+			Projectile.netImportant = true;
+			Projectile.width = 45;
+			Projectile.height = 62;
+			Projectile.scale = 0.85f;
+			Projectile.aiStyle = 144;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.manualDirectionChange = true;
+			Projectile.timeLeft *= 5;
+			AIType = ProjectileID.DD2PetGato;
 		}
 
 		private int animationCounter;
@@ -37,18 +37,18 @@ namespace SpiritMod.Projectiles.DonatorItems
 		{
 			if (++animationCounter >= 6) {
 				animationCounter = 0;
-				if (++frame >= Main.projFrames[projectile.type]) {
+				if (++frame >= Main.projFrames[Projectile.type]) {
 					if (Main.rand.Next(2) == 0)
 						frame = 0;
 					else
 						frame = 9;
 				}
 			}
-			projectile.frameCounter = 2;
-			projectile.frame = frame;
-			var owner = Main.player[projectile.owner];
+			Projectile.frameCounter = 2;
+			Projectile.frame = frame;
+			var owner = Main.player[Projectile.owner];
 			if (owner.active && owner.HasBuff(ModContent.BuffType<LoomingPresence>()))
-				projectile.timeLeft = 2;
+				Projectile.timeLeft = 2;
 		}
 	}
 }

@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Sets.DuskingDrops.DuskArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 40;
-			item.height = 30;
-			item.value = 70000;
-			item.rare = ItemRarityID.Pink;
-			item.defense = 12;
+			Item.width = 40;
+			Item.height = 30;
+			Item.value = 70000;
+			Item.rare = ItemRarityID.Pink;
+			Item.defense = 12;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -49,11 +49,10 @@ namespace SpiritMod.Items.Sets.DuskingDrops.DuskArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<DuskStone>(), 8);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

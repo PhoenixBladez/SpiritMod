@@ -1,5 +1,6 @@
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.DonatorItems;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,36 +16,34 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override void SetDefaults()
 		{
-			item.damage = 13;
-			item.melee = true;
-			item.width = 30;
-			item.height = 30;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.noUseGraphic = true;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 9;
-			item.value = 4000;
-			item.rare = ItemRarityID.Green;
-			item.shootSpeed = 6f;
-			item.shoot = ModContent.ProjectileType<Dodgeball1>();
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
+			Item.damage = 13;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 30;
+			Item.height = 30;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 9;
+			Item.value = 4000;
+			Item.rare = ItemRarityID.Green;
+			Item.shootSpeed = 6f;
+			Item.shoot = ModContent.ProjectileType<Dodgeball1>();
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Silk, 11);
 			recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 8);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe2 = new ModRecipe(mod);
+			Recipe recipe2 = CreateRecipe();
 			recipe2.AddIngredient(ModContent.ItemType<DodgeBall>(), 1);
-			recipe2.SetResult(this);
-			recipe2.AddRecipe();
+			recipe2.Register();
 		}
 	}
 }

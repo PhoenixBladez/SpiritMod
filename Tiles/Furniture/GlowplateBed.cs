@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -10,7 +11,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class GlowplateBed : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = true;
@@ -22,26 +23,26 @@ namespace SpiritMod.Tiles.Furniture
 			name.SetDefault("Glowplate Bed");
 			AddMapEntry(new Color(50, 50, 50), name);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
-            disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Beds };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.Beds };
 			bed = true;
             TileID.Sets.HasOutlines[Type] = true;
         }
 
-        public override bool HasSmartInteract() => true;
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = 1;
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<GlowplateBedItem>());
 
-		public override bool NewRightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			Player player = Main.player[Main.myPlayer];
 			Tile tile = Main.tile[i, j];
-			int spawnX = i - tile.frameX / 18;
+			int spawnX = i - tile.TileFrameX / 18;
 			int spawnY = j + 2;
-			spawnX += tile.frameX >= 72 ? 5 : 2;
-			if (tile.frameY % 38 != 0)
+			spawnX += tile.TileFrameX >= 72 ? 5 : 2;
+			if (tile.TileFrameY % 38 != 0)
 				spawnY--;
 			player.FindSpawn();
 			if (player.SpawnX == spawnX && player.SpawnY == spawnY) {
@@ -59,8 +60,8 @@ namespace SpiritMod.Tiles.Furniture
 		{
 			Player player = Main.player[Main.myPlayer];
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			player.showItemIcon2 = ModContent.ItemType<GlowplateBedItem>();
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = ModContent.ItemType<GlowplateBedItem>();
 		}
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
@@ -69,8 +70,8 @@ namespace SpiritMod.Tiles.Furniture
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
                 zero = Vector2.Zero;
-            int height = tile.frameY == 36 ? 18 : 16;
-            Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/GlowplateBed_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), new Color(150, 150, 150, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            int height = tile.TileFrameY == 36 ? 18 : 16;
+            Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Furniture/GlowplateBed_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(150, 150, 150, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
 	}
 	
@@ -80,32 +81,31 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 28;
-			item.value = item.value = Item.buyPrice(0, 0, 5, 0);
-			item.rare = ItemRarityID.Blue;
+			Item.width = 36;
+			Item.height = 28;
+			Item.value = Item.value = Item.buyPrice(0, 0, 5, 0);
+			Item.rare = ItemRarityID.Blue;
 
-			item.maxStack = 99;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<GlowplateBed>();
+			Item.createTile = ModContent.TileType<GlowplateBed>();
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<TechBlockItem>(), 15);
 			recipe.AddIngredient(ItemID.Silk, 5);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
     }
 }

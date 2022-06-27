@@ -15,22 +15,22 @@ namespace SpiritMod.Items.Placeable.Furniture
 
 		public override void SetDefaults()
 		{
-			item.width = 94;
-			item.height = 62;
-			item.value = 15000;
-			item.rare = ItemRarityID.LightPurple;
+			Item.width = 94;
+			Item.height = 62;
+			Item.value = 15000;
+			Item.rare = ItemRarityID.LightPurple;
 
-			item.maxStack = 99;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<ProbePrint>();
+			Item.createTile = ModContent.TileType<ProbePrint>();
 		}
 	}
 }

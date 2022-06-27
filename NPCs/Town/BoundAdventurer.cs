@@ -11,24 +11,24 @@ namespace SpiritMod.NPCs.Town
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ensnared Adventurer");
-			NPCID.Sets.TownCritter[npc.type] = true;
+			NPCID.Sets.TownCritter[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.friendly = true;
-			npc.townNPC = true;
-			npc.dontTakeDamage = true;
-			npc.width = 32;
-			npc.height = 48;
-			npc.aiStyle = 0;
-			npc.damage = 0;
-			npc.defense = 25;
-			npc.lifeMax = 10000;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = 0f;
-			npc.rarity = 1;
+			NPC.friendly = true;
+			NPC.townNPC = true;
+			NPC.dontTakeDamage = true;
+			NPC.width = 32;
+			NPC.height = 48;
+			NPC.aiStyle = 0;
+			NPC.damage = 0;
+			NPC.defense = 25;
+			NPC.lifeMax = 10000;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.knockBackResist = 0f;
+			NPC.rarity = 1;
 		}
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
@@ -39,21 +39,21 @@ namespace SpiritMod.NPCs.Town
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                npc.homeless = false;
-                npc.homeTileX = -1;
-                npc.homeTileY = -1;
-                npc.netUpdate = true;
+                NPC.homeless = false;
+                NPC.homeTileX = -1;
+                NPC.homeTileY = -1;
+                NPC.netUpdate = true;
             }
 
-            if (npc.wet)
-                npc.life = 250;
+            if (NPC.wet)
+                NPC.life = 250;
 
             foreach (var player in Main.player)
             {
                 if (!player.active)
 					continue;
 
-                if (player.talkNPC == npc.whoAmI)
+                if (player.talkNPC == NPC.whoAmI)
                 {
                     Rescue();
                     return;
@@ -63,8 +63,8 @@ namespace SpiritMod.NPCs.Town
 
 		public void Rescue()
         {
-            npc.Transform(NPCType<Adventurer>());
-            npc.dontTakeDamage = false;
+            NPC.Transform(NPCType<Adventurer>());
+            NPC.dontTakeDamage = false;
         }
 	}
 }

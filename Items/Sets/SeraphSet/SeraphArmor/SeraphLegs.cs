@@ -13,15 +13,15 @@ namespace SpiritMod.Items.Sets.SeraphSet.SeraphArmor
 		{
 			DisplayName.SetDefault("Seraph's Greaves");
 			Tooltip.SetDefault("Increases maximum mana by 50");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/SeraphSet/SeraphArmor/SeraphLegs_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/SeraphSet/SeraphArmor/SeraphLegs_Glow");
 		}
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 16;
-			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.defense = 12;
+			Item.width = 22;
+			Item.height = 16;
+			Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.defense = 12;
 		}
 		public override void UpdateEquip(Player player)
 		{
@@ -34,11 +34,10 @@ namespace SpiritMod.Items.Sets.SeraphSet.SeraphArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<MoonStone>(), 10);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

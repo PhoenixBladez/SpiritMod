@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using SpiritMod.Dusts;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,19 +15,19 @@ namespace SpiritMod.Projectiles.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blood Fangs");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 18;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 18;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 34;
-			projectile.height = 14;
-			projectile.friendly = false;
-			projectile.magic = true;
-			projectile.penetrate = 2;
-			projectile.timeLeft = 90;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
+			Projectile.width = 34;
+			Projectile.height = 14;
+			Projectile.friendly = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = 2;
+			Projectile.timeLeft = 90;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
 		}
 		int counter = 0;
 		int counter2 = 0;
@@ -34,16 +36,16 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			counter++;
 			if (counter >= 20) {
-				projectile.friendly = true;
-				if (counter2 < projectile.ai[0]) {
-					projectile.velocity.Y = closeSpeed * 2;
+				Projectile.friendly = true;
+				if (counter2 < Projectile.ai[0]) {
+					Projectile.velocity.Y = closeSpeed * 2;
 					counter2 += closeSpeed;
 				}
 				else {
-					projectile.velocity.Y = 0;
+					Projectile.velocity.Y = 0;
 				}
 				if (counter == 23) {
-					Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 2);
+					SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 2);
 				}
 			}
 		}
@@ -52,9 +54,9 @@ namespace SpiritMod.Projectiles.Magic
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<NightmareDust>());
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<NightmareDust>());
 			}
-			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 6);
+			SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 6);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -62,13 +64,13 @@ namespace SpiritMod.Projectiles.Magic
 			if (Main.rand.Next(5) == 0)
 				target.AddBuff(ModContent.BuffType<SurgingAnguish>(), 180);
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

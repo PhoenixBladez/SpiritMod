@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.SpiritSet;
 using SpiritMod.Items.Sets.SpiritBiomeDrops;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using SpiritMod.Tiles.Block;
 using System.Linq;
@@ -17,52 +18,52 @@ namespace SpiritMod.NPCs.Spirit
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Soul Crusher");
-			Main.npcFrameCount[npc.type] = 7;
+			Main.npcFrameCount[NPC.type] = 7;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 64;
-			npc.height = 52;
-			npc.damage = 35;
-			npc.defense = 15;
-			npc.lifeMax = 250;
-			npc.HitSound = SoundID.NPCHit3;
-			npc.DeathSound = SoundID.NPCDeath6;
-			npc.value = 60f;
-			npc.knockBackResist = .35f;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.lavaImmune = true;
-			npc.buffImmune[BuffID.OnFire] = true;
+			NPC.width = 64;
+			NPC.height = 52;
+			NPC.damage = 35;
+			NPC.defense = 15;
+			NPC.lifeMax = 250;
+			NPC.HitSound = SoundID.NPCHit3;
+			NPC.DeathSound = SoundID.NPCDeath6;
+			NPC.value = 60f;
+			NPC.knockBackResist = .35f;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.lavaImmune = true;
+			NPC.buffImmune[BuffID.OnFire] = true;
 
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SpiritOre>(), Main.rand.Next(2) + 1);
+			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SpiritOre>(), Main.rand.Next(2) + 1);
 
 
             if (Main.rand.Next(2) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SoulShred>(), Main.rand.Next(1) + 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SoulShred>(), Main.rand.Next(1) + 1);
             if (Main.rand.NextBool(75))
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.SpiritBiomeDrops.Gravehunter>());
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.SpiritBiomeDrops.Gravehunter>());
         }
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Spirit/SoulCrusher_Glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Spirit/SoulCrusher_Glow"));
 		}
         private static int[] SpawnTiles = { };
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			Player player = spawnInfo.player;
+			Player player = spawnInfo.Player;
             if (!player.GetSpiritPlayer().ZoneSpirit)
             {
                 return 0f;
@@ -72,42 +73,42 @@ namespace SpiritMod.NPCs.Spirit
                 int[] Tiles = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>() };
                 SpawnTiles = Tiles;
             }
-            return SpawnTiles.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && player.position.Y / 16 >= Main.maxTilesY - 330 && player.GetSpiritPlayer().ZoneSpirit && !spawnInfo.playerSafe ? 3f : 0f;
+            return SpawnTiles.Contains(Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY].TileType) && player.position.Y / 16 >= Main.maxTilesY - 330 && player.GetSpiritPlayer().ZoneSpirit && !spawnInfo.PlayerSafe ? 3f : 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, 13);
-				Gore.NewGore(npc.position, npc.velocity, 12);
-				Gore.NewGore(npc.position, npc.velocity, 11);
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, 13);
+				Gore.NewGore(NPC.position, NPC.velocity, 12);
+				Gore.NewGore(NPC.position, NPC.velocity, 11);
 			}
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += .07f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += .07f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override bool PreAI()
 		{
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.05f, 0.05f, 0.4f);
-			npc.TargetClosest(true);
-			Vector2 direction = Main.player[npc.target].Center - npc.Center;
-			npc.rotation = direction.ToRotation();
+			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.05f, 0.05f, 0.4f);
+			NPC.TargetClosest(true);
+			Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
+			NPC.rotation = direction.ToRotation();
 			direction.Normalize();
-			npc.velocity *= 0.98f;
-			int dust2 = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, DustID.UnusedWhiteBluePurple, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
+			NPC.velocity *= 0.98f;
+			int dust2 = Dust.NewDust(NPC.position + NPC.velocity, NPC.width, NPC.height, DustID.UnusedWhiteBluePurple, NPC.velocity.X * 0.5f, NPC.velocity.Y * 0.5f);
 			Main.dust[dust2].noGravity = true;
 
 			if (frame == 0) {
 				direction.X = direction.X * Main.rand.Next(10, 15);
 				direction.Y = direction.Y * Main.rand.Next(10, 15);
-				npc.velocity.X = direction.X;
-				npc.velocity.Y = direction.Y;
+				NPC.velocity.X = direction.X;
+				NPC.velocity.Y = direction.Y;
 			}
 			return false;
 		}

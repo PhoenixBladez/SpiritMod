@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs
 {
 	public class VineTrap : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vine Trap");
 			Main.buffNoTimeDisplay[Type] = false;

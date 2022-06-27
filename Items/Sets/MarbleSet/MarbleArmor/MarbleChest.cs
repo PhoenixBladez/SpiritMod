@@ -12,33 +12,28 @@ namespace SpiritMod.Items.Sets.MarbleSet.MarbleArmor
 		{
 			DisplayName.SetDefault("Gilded Robe");
 			Tooltip.SetDefault("3% increased movement speed");
+
+			ArmorIDs.Body.Sets.HidesHands[Item.bodySlot] = false;
+			ArmorIDs.Body.Sets.NeedsToDrawArm[Item.bodySlot] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 24;
-			item.value = 12100;
-			item.rare = ItemRarityID.Green;
-			item.defense = 5;
+			Item.width = 28;
+			Item.height = 24;
+			Item.value = 12100;
+			Item.rare = ItemRarityID.Green;
+			Item.defense = 5;
 		}
-		public override void UpdateEquip(Player player)
-		{
-			player.maxRunSpeed += 0.03f;
-		}
-		public override void DrawHands(ref bool drawHands, ref bool drawArms)
-		{
-			drawHands = true;
-			drawArms = true;
-		}
+
+		public override void UpdateEquip(Player player) => player.maxRunSpeed += 0.03f;
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<MarbleChunk>(), 12);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

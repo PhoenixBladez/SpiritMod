@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Bullet;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,31 +17,34 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 
 		public override void SetDefaults()
 		{
-			item.channel = true;
-			item.damage = 88;
-			item.ranged = true;
-			item.width = 24;
-			item.height = 24;
-			item.useTime = 24;
-			item.useAnimation = 24;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 6;
-			item.useTurn = false;
-			item.value = Item.sellPrice(0, 5, 0, 0);
-			item.rare = ItemRarityID.Pink;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<HeavenFleetProj>();
-			item.shootSpeed = 25f;
-			item.useAmmo = AmmoID.FallenStar;
+			Item.channel = true;
+			Item.damage = 88;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 24;
+			Item.height = 24;
+			Item.useTime = 24;
+			Item.useAnimation = 24;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 6;
+			Item.useTurn = false;
+			Item.value = Item.sellPrice(0, 5, 0, 0);
+			Item.rare = ItemRarityID.Pink;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<HeavenFleetProj>();
+			Item.shootSpeed = 25f;
+			Item.useAmmo = AmmoID.FallenStar;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
 			if (type == ProjectileID.Bullet)
 				type = ModContent.ProjectileType<ConfluxPellet>();
+		}
 
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HeavenFleetProj>(), damage, knockBack, player.whoAmI, type);
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		{
+			Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<HeavenFleetProj>(), damage, knockback, player.whoAmI, type);
 			return false;
 		}
 
@@ -49,15 +52,14 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.GunsMisc.Blaster.Blaster>(), 1);
 			recipe.AddIngredient(ItemID.IllegalGunParts, 1);
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.StarplateDrops.CosmiliteShard>(), 8);
 			recipe.AddIngredient(ItemID.SoulofFlight, 10);
 			recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Tiles.ScrapItem>(), 25);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

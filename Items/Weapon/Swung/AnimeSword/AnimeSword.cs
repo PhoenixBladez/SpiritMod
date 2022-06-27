@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -19,25 +20,25 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 
         public override void SetDefaults()
         {
-            item.channel = true;
-            item.damage = 32;
-            item.width = 60;
-            item.height = 60;
-            item.useTime = 60;
-            item.useAnimation = 60;
-            item.crit = 4;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            Item.staff[item.type] = true;
-            item.melee = true;
-            item.noMelee = true;
-            item.knockBack = 1;
-            item.useTurn = false;
-            item.value = Item.sellPrice(0, 0, 90, 0);
-            item.rare = ItemRarityID.Orange;
-            item.autoReuse = false;
-            item.shoot = ModContent.ProjectileType<AnimeSwordProj>();
-            item.shootSpeed = 6f;
-            item.noUseGraphic = true;
+            Item.channel = true;
+            Item.damage = 32;
+            Item.width = 60;
+            Item.height = 60;
+            Item.useTime = 60;
+            Item.useAnimation = 60;
+            Item.crit = 4;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.staff[Item.type] = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.knockBack = 1;
+            Item.useTurn = false;
+            Item.value = Item.sellPrice(0, 0, 90, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.autoReuse = false;
+            Item.shoot = ModContent.ProjectileType<AnimeSwordProj>();
+            Item.shootSpeed = 6f;
+            Item.noUseGraphic = true;
         }
 
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
@@ -53,14 +54,14 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 
 		public override void SetDefaults()
 		{
-            projectile.width = projectile.height = 40;
-			projectile.hostile = false;
-			projectile.melee = true;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-            projectile.alpha = 255;
+            Projectile.width = Projectile.height = 40;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+            Projectile.alpha = 255;
 		}
 
         public readonly int MAXCHARGE = 69;
@@ -71,29 +72,29 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            player.heldProj = projectile.whoAmI;
+            Player player = Main.player[Projectile.owner];
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            projectile.Center = player.Center;
+            Projectile.Center = player.Center;
 
             if (player.channel)
             {
-                projectile.timeLeft = 120;
+                Projectile.timeLeft = 120;
                 charge++;
                 if (charge < 60)
                     charge++;
 
                 if (charge == 60)
                 {
-					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), projectile.Center);
-					SpiritMod.primitives.CreateTrail(new AnimePrimTrail(projectile));
-					if (projectile.owner == Main.myPlayer)
+					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), Projectile.Center);
+					SpiritMod.primitives.CreateTrail(new AnimePrimTrail(Projectile));
+					if (Projectile.owner == Main.myPlayer)
 					{
 						direction = Vector2.Normalize(Main.MouseWorld - player.Center) * 45f;
 
 						if (Main.netMode != NetmodeID.SinglePlayer)
-							NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projectile.whoAmI);
+							NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, Projectile.whoAmI);
 					}
 				}
 
@@ -137,7 +138,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                     charge = MAXCHARGE + 1;
                 }
 
-                if (projectile.timeLeft % 5 == 0)
+                if (Projectile.timeLeft % 5 == 0)
                 {
                     float mindist = 0;
                     NPC closest = null;
@@ -147,7 +148,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                         {
                             if (npc.active && (!npc.townNPC || !npc.friendly))
                             {
-                                float distance = (npc.Center - projectile.Center).Length();
+                                float distance = (npc.Center - Projectile.Center).Length();
                                 if (mostRecent == null)
                                 {
                                     if (distance > mindist)
@@ -158,7 +159,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                                 }
                                 else
                                 {
-                                    float maxdistance = (mostRecent.Center - projectile.Center).Length();
+                                    float maxdistance = (mostRecent.Center - Projectile.Center).Length();
                                     if (distance > mindist && distance < maxdistance)
                                     {
                                         closest = npc;
@@ -175,15 +176,15 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
                         if (mostRecent.active)
                             SpiritMod.primitives.CreateTrail(new AnimePrimTrailTwo(mostRecent));
                     }
-                    else if (projectile.timeLeft > 15)
-                        projectile.timeLeft = 15;
+                    else if (Projectile.timeLeft > 15)
+                        Projectile.timeLeft = 15;
                 }
             }
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (charge > 60 && charge < MAXCHARGE)
                 return base.Colliding(projHitbox, targetHitbox);
             if (!player.channel)
@@ -193,8 +194,8 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 
         public override bool? CanHitNPC(NPC target)
 		{
-            Player player = Main.player[projectile.owner];
-            if (player.channel || projectile.timeLeft > 5)
+            Player player = Main.player[Projectile.owner];
+            if (player.channel || Projectile.timeLeft > 5)
                 return false;
             foreach (var npc in hit)
 				if (target == npc)
@@ -202,8 +203,8 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 			return false;
         }
 
-		public override void Kill(int timeLeft) => Main.player[projectile.owner].GetModPlayer<MyPlayer>().AnimeSword = false;
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false;
+		public override void Kill(int timeLeft) => Main.player[Projectile.owner].GetModPlayer<MyPlayer>().AnimeSword = false;
+		public override bool PreDraw(ref Color lightColor) => false;
 		public override void SendExtraAI(BinaryWriter writer) => writer.WriteVector2(direction);
 		public override void ReceiveExtraAI(BinaryReader reader) => direction = reader.ReadVector2();
 	}
@@ -212,11 +213,11 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 	{
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
-			if (player.HeldItem.type == ModContent.ItemType<AnimeSword>())
+			if (Player.HeldItem.type == ModContent.ItemType<AnimeSword>())
 			{
-				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(mod.Name, "AnimeSwordHeld",
+				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "AnimeSwordHeld",
 					delegate (PlayerDrawInfo info) {
-						DragonPlayer.DrawItem(mod.GetTexture("Items/Weapon/Swung/AnimeSword/AnimeSwordProj"), mod.GetTexture("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_sparkle"), info);
+						DragonPlayer.DrawItem(Mod.GetTexture("Items/Weapon/Swung/AnimeSword/AnimeSwordProj"), Mod.GetTexture("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_sparkle"), info);
 					}));
 			}
 		}

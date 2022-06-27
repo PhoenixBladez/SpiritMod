@@ -8,10 +8,10 @@ namespace SpiritMod.NPCs.ChestZombie
 	{
 		public override void SetDefaults()
 		{
-			item.width = 40;
-			item.height = 32;
-			item.maxStack = 999;
-			item.rare = ItemRarityID.White;
+			Item.width = 40;
+			Item.height = 32;
+			Item.maxStack = 999;
+			Item.rare = ItemRarityID.White;
 		}
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Chest");
@@ -20,7 +20,7 @@ namespace SpiritMod.NPCs.ChestZombie
 
 		public override bool OnPickup(Player player)
 		{
-			for (int i = 0; i < item.stack; i++)
+			for (int i = 0; i < Item.stack; i++)
 			{
 				int bab = Main.rand.Next(11);
 				if (bab == 0)

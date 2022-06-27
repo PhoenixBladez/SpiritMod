@@ -13,29 +13,29 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.penetrate = -1;
-			projectile.tileCollide = true;
-			projectile.timeLeft = 220;
-			projectile.height = 14;
-			projectile.width = 14;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = true;
+			Projectile.timeLeft = 220;
+			Projectile.height = 14;
+			Projectile.width = 14;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void AI()
 		{
-			if (projectile.localAI[0] == 0f)
+			if (Projectile.localAI[0] == 0f)
 			{
 				ProjectileExtras.LookAlongVelocity(this);
-				projectile.localAI[0] = 1f;
+				Projectile.localAI[0] = 1f;
 			}
 
 			if (Main.rand.NextDouble() < 0.5)
 			{
-				Dust dust = Dust.NewDustDirect(projectile.position - new Vector2(4, 4), projectile.width + 8, projectile.height + 8, ModContent.DustType<Wind>());
-				dust.velocity = projectile.velocity * 0.2f;
-				dust.customData = new WindAnchor(projectile.Center, projectile.velocity, dust.position);
+				Dust dust = Dust.NewDustDirect(Projectile.position - new Vector2(4, 4), Projectile.width + 8, Projectile.height + 8, ModContent.DustType<Wind>());
+				dust.velocity = Projectile.velocity * 0.2f;
+				dust.customData = new WindAnchor(Projectile.Center, Projectile.velocity, dust.position);
 			}
 		}
 
@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.velocity.Y -= projectile.knockBack * target.knockBackResist;
+			target.velocity.Y -= Projectile.knockBack * target.knockBackResist;
 			target.AddBuff(ModContent.BuffType<WindBurst>(), 300);
 		}
 
@@ -55,8 +55,8 @@ namespace SpiritMod.Projectiles
 		{
 			for (int i = 0; i < 6; i++)
 			{
-				Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, ModContent.DustType<Wind>());
-				dust.customData = new WindAnchor(projectile.Center, projectile.velocity, dust.position);
+				Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<Wind>());
+				dust.customData = new WindAnchor(Projectile.Center, Projectile.velocity, dust.position);
 			}
 		}
 	}

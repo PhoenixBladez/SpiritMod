@@ -15,25 +15,25 @@ namespace SpiritMod.Items.Sets.ToolsMisc.BrilliantHarvester
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 32;
-			item.value = 12000;
-			item.rare = ItemRarityID.Blue;
+			Item.width = 32;
+			Item.height = 32;
+			Item.value = 12000;
+			Item.rare = ItemRarityID.Blue;
 
-			item.pick = 55;
+			Item.pick = 55;
 
-			item.damage = 8;
-			item.knockBack = 3;
+			Item.damage = 8;
+			Item.knockBack = 3;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 16;
-			item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 16;
+			Item.useAnimation = 20;
 
-			item.melee = true;
-			item.useTurn = true;
-			item.autoReuse = true;
+			Item.DamageType = DamageClass.Melee;
+			Item.useTurn = true;
+			Item.autoReuse = true;
 
-			item.UseSound = SoundID.Item1;
+			Item.UseSound = SoundID.Item1;
 		}
 		public override void HoldItem(Player player)
 		{

@@ -16,20 +16,20 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override void SetDefaults()
 		{
-			item.damage = 52;
-			item.useTime = 18;
-			item.useAnimation = 18;
-			item.melee = true;
-			item.width = 48;
-			item.height = 48;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 6;
-			item.value = 25700;
-			item.rare = ItemRarityID.Pink;
-			item.crit = 7;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.useTurn = true;
+			Item.damage = 52;
+			Item.useTime = 18;
+			Item.useAnimation = 18;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 48;
+			Item.height = 48;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 6;
+			Item.value = 25700;
+			Item.rare = ItemRarityID.Pink;
+			Item.crit = 7;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.useTurn = true;
 		}
 
 
@@ -51,12 +51,11 @@ namespace SpiritMod.Items.DonatorItems
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<DuskStone>(), 5);
 			recipe.AddIngredient(ItemID.SoulofNight, 30);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

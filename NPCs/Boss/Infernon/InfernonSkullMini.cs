@@ -11,45 +11,45 @@ namespace SpiritMod.NPCs.Boss.Infernon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Infernon Skull");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[NPC.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = npc.height = 27;
-			npc.alpha = 255;
-			npc.damage = 45;
-			npc.lifeMax = 65;
-			npc.defense = 5;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
+			NPC.width = NPC.height = 27;
+			NPC.alpha = 255;
+			NPC.damage = 45;
+			NPC.lifeMax = 65;
+			NPC.defense = 5;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
 		}
 
 		bool hasTarget = false;
 
 		public override bool PreAI()
 		{
-			if (npc.localAI[0] == 0)
-				npc.localAI[0] = (float)Math.Sqrt(npc.velocity.X * npc.velocity.X + npc.velocity.Y * npc.velocity.Y);
+			if (NPC.localAI[0] == 0)
+				NPC.localAI[0] = (float)Math.Sqrt(NPC.velocity.X * NPC.velocity.X + NPC.velocity.Y * NPC.velocity.Y);
 
-			if (npc.alpha > 0)
-				npc.alpha -= 25;
+			if (NPC.alpha > 0)
+				NPC.alpha -= 25;
 			else
-				npc.alpha = 0;
+				NPC.alpha = 0;
 
-			float dirX = npc.position.X;
-			float dirY = npc.position.Y;
+			float dirX = NPC.position.X;
+			float dirY = NPC.position.Y;
 			float distance = 1200f;
 			int target = 0;
 
-			if (npc.ai[1] == 0f && !hasTarget)
+			if (NPC.ai[1] == 0f && !hasTarget)
 			{
 				for (int i = 0; i < 255; i++)
 				{
-					if (Main.player[i].active && !Main.player[i].dead && (npc.ai[1] == 0f || npc.ai[1] == (float)(i + 1)))
+					if (Main.player[i].active && !Main.player[i].dead && (NPC.ai[1] == 0f || NPC.ai[1] == (float)(i + 1)))
 					{
 						Vector2 playerPosition = new Vector2(Main.player[i].position.X + (Main.player[i].width / 2), Main.player[i].position.Y + (Main.player[i].height / 2));
-						Vector2 npcPosition = new Vector2(npc.position.X + (npc.width / 2), npc.position.Y + (npc.height / 2));
+						Vector2 npcPosition = new Vector2(NPC.position.X + (NPC.width / 2), NPC.position.Y + (NPC.height / 2));
 						float currentDistance = (playerPosition - npcPosition).Length();
 						if (currentDistance < distance && Collision.CanHit(npcPosition, 1, 1, playerPosition, 1, 1))
 						{
@@ -62,16 +62,16 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					}
 				}
 				if (hasTarget)
-					npc.ai[1] = (target + 1);
+					NPC.ai[1] = (target + 1);
 			}
 
-			if (npc.ai[1] > 0f)
+			if (NPC.ai[1] > 0f)
 			{
-				int index = (int)(npc.ai[1] - 1f);
+				int index = (int)(NPC.ai[1] - 1f);
 				if (Main.player[index].active && !Main.player[index].dead)
 				{
 					Vector2 playerPosition = new Vector2(Main.player[index].position.X + (Main.player[index].width / 2), Main.player[index].position.Y + (Main.player[index].height / 2));
-					Vector2 npcPosition = new Vector2(npc.position.X + (npc.width / 2), npc.position.Y + (npc.height / 2));
+					Vector2 npcPosition = new Vector2(NPC.position.X + (NPC.width / 2), NPC.position.Y + (NPC.height / 2));
 					float currentDistance = (npcPosition - playerPosition).Length();
 					if (currentDistance < 600f)
 					{
@@ -82,60 +82,60 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				}
 				else
 				{
-					npc.ai[1] = 0f;
+					NPC.ai[1] = 0f;
 					hasTarget = false;
 				}
 			}
 
 			if (hasTarget)
 			{
-				dirX -= npc.Center.X;
-				dirY -= npc.Center.Y;
+				dirX -= NPC.Center.X;
+				dirY -= NPC.Center.Y;
 				float l = (float)Math.Sqrt(dirX * dirX + dirY * dirY);
-				l = npc.localAI[0] / l;
+				l = NPC.localAI[0] / l;
 				dirX *= l;
 				dirY *= l;
 				// Higher followSpeed = slower rotation.
 				float followSpeed = 25;
-				npc.velocity.X = (npc.velocity.X * (followSpeed - 1) + dirX) / followSpeed;
-				npc.velocity.Y = (npc.velocity.Y * (followSpeed - 1) + dirY) / followSpeed;
+				NPC.velocity.X = (NPC.velocity.X * (followSpeed - 1) + dirX) / followSpeed;
+				NPC.velocity.Y = (NPC.velocity.Y * (followSpeed - 1) + dirY) / followSpeed;
 			}
 
-			npc.spriteDirection = npc.velocity.X > 0 ? -1 : 1;
-			npc.rotation = npc.velocity.ToRotation() + (npc.velocity.X > 0 ? 0 : MathHelper.Pi);
+			NPC.spriteDirection = NPC.velocity.X > 0 ? -1 : 1;
+			NPC.rotation = NPC.velocity.ToRotation() + (NPC.velocity.X > 0 ? 0 : MathHelper.Pi);
 			return false;
 		}
 
-		public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, npc.alpha);
+		public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, NPC.alpha);
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter++;
-			if (npc.ai[1] == 0)
+			NPC.frameCounter++;
+			if (NPC.ai[1] == 0)
 			{
-				if (npc.frameCounter >= 10)
+				if (NPC.frameCounter >= 10)
 				{
-					npc.frame.Y += frameHeight;
-					if (npc.frame.Y > frameHeight)
-						npc.frame.Y = 0;
-					npc.frameCounter = 0;
+					NPC.frame.Y += frameHeight;
+					if (NPC.frame.Y > frameHeight)
+						NPC.frame.Y = 0;
+					NPC.frameCounter = 0;
 				}
 			}
 			else
 			{
-				if (npc.frameCounter >= 10)
+				if (NPC.frameCounter >= 10)
 				{
-					npc.frame.Y += frameHeight;
-					if (npc.frame.Y > frameHeight * 3)
-						npc.frame.Y = 0;
-					if (npc.frame.Y < frameHeight)
-						npc.frame.Y = frameHeight;
-					npc.frameCounter = 0;
+					NPC.frame.Y += frameHeight;
+					if (NPC.frame.Y > frameHeight * 3)
+						NPC.frame.Y = 0;
+					if (NPC.frame.Y < frameHeight)
+						NPC.frame.Y = frameHeight;
+					NPC.frameCounter = 0;
 				}
 			}
 		}
 
-		public override void AI() => Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire);
+		public override void AI() => Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Torch);
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{

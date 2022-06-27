@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Held;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,43 +13,43 @@ namespace SpiritMod.Items.Sets.SpiritSet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spirit Drill");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/SpiritSet/SpiritDrill_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/SpiritSet/SpiritDrill_Glow");
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 54;
-			item.height = 22;
-			item.value = 40000;
-			item.pick = 180;
-			item.damage = 39;
-			item.knockBack = 0;
-			item.shootSpeed = 40f;
-			item.useTime = 7;
-			item.useAnimation = 25;
-			item.melee = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.autoReuse = true;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item23;
-			item.rare = ItemRarityID.Pink;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ModContent.ProjectileType<SpiritDrillProjectile>();
+			Item.width = 54;
+			Item.height = 22;
+			Item.value = 40000;
+			Item.pick = 180;
+			Item.damage = 39;
+			Item.knockBack = 0;
+			Item.shootSpeed = 40f;
+			Item.useTime = 7;
+			Item.useAnimation = 25;
+			Item.DamageType = DamageClass.Melee;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.autoReuse = true;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item23;
+			Item.rare = ItemRarityID.Pink;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ModContent.ProjectileType<SpiritDrillProjectile>();
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.06f, .16f, .22f);
+			Lighting.AddLight(Item.position, 0.06f, .16f, .22f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/SpiritSet/SpiritDrill_Glow"),
+				Mod.GetTexture("Items/Sets/SpiritSet/SpiritDrill_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -62,11 +63,10 @@ namespace SpiritMod.Items.Sets.SpiritSet
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe();
 			modRecipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 18);
 			modRecipe.AddTile(TileID.MythrilAnvil);
-			modRecipe.SetResult(this);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

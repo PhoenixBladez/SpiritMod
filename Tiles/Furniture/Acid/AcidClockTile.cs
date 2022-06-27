@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 {
 	public class AcidClockTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -30,11 +30,11 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrosive Clock");
 			AddMapEntry(new Color(100, 122, 111), name);
-			dustType = -1;
-			adjTiles = new int[] { TileID.GrandfatherClocks };
+			DustType = -1;
+			AdjTiles = new int[] { TileID.GrandfatherClocks };
 		}
 
-		public override bool NewRightClick(int x, int y)
+		public override bool RightClick(int x, int y)
 		{
 			string text = "AM";
 			//Get current weird time
@@ -82,7 +82,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
 			if (closer) {
-				Main.clock = true;
+				Main.SceneMetrics.HasClock = true;
 			}
 		}
 

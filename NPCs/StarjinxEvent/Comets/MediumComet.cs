@@ -21,9 +21,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			npc.lifeMax = 500;
-			npc.width = 42;
-			npc.height = 40;
+			NPC.lifeMax = 500;
+			NPC.width = 42;
+			NPC.height = 40;
 		}
 
 		public override void SpawnWave()

@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,7 +11,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 {
 	public class Sagittarius : ModItem
 	{
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetStaticDefaults()
 		{
@@ -20,33 +22,33 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 
 		public override void SetDefaults()
 		{
-			item.damage = 100;
-			item.noMelee = true;
-			item.ranged = true;
-			item.width = 40;
-			item.height = 78;
-			item.useTime = 70;
-			item.useAnimation = 70;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ProjectileID.WoodenArrowFriendly;
-			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 3;
-			item.channel = true;
+			Item.damage = 100;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 40;
+			Item.height = 78;
+			Item.useTime = 70;
+			Item.useAnimation = 70;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ProjectileID.WoodenArrowFriendly;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.knockBack = 3;
+			Item.channel = true;
 			//item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starCast");
-			item.rare = ItemRarityID.Pink;
-			item.value = Item.sellPrice(gold: 2);
-			item.noUseGraphic = true;
-			item.autoReuse = true;
-			item.shootSpeed = 22f;
+			Item.rare = ItemRarityID.Pink;
+			Item.value = Item.sellPrice(gold: 2);
+			Item.noUseGraphic = true;
+			Item.autoReuse = true;
+			Item.shootSpeed = 22f;
 		}
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, ModContent.GetTexture(Texture + "_glow"), rotation, scale);
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, ModContent.Request<Texture2D>(Texture + "_glow"), rotation, scale);
 
 		public override void HoldItem(Player player)
 		{
 			if (player == Main.LocalPlayer)
 			{
-				int fireTime = 3 * (item.useAnimation / 9);
+				int fireTime = 3 * (Item.useAnimation / 9);
 
 				if (!player.channel && player.itemAnimation > fireTime)
 				{
@@ -69,11 +71,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 				{
 					int type = ModContent.ProjectileType<SagittariusArrow>();
 					Vector2 shootDir = Vector2.UnitX.RotatedBy(player.AngleTo(Main.MouseWorld));
-					Projectile constellation = Projectile.NewProjectileDirect(player.MountedCenter - shootDir.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(70, 100),
-						Vector2.Zero, ModContent.ProjectileType<SagittariusConstellation>(), (int)(item.damage * 0.75f), item.knockBack, player.whoAmI, 4, -1);
+					Projectile constellation = Projectile.NewProjectileDirect(Item.GetSource_ItemUse(Item), player.MountedCenter - shootDir.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(70, 100), Vector2.Zero, ModContent.ProjectileType<SagittariusConstellation>(), (int)(Item.damage * 0.75f), Item.knockBack, player.whoAmI, 4, -1);
 
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/StarCast"), player.Center);
-					Projectile arrow = Projectile.NewProjectileDirect(player.MountedCenter + (shootDir * 20), shootDir * item.shootSpeed, type, item.damage, item.knockBack, player.whoAmI);
+					SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/StarCast"), player.Center);
+					Projectile arrow = Projectile.NewProjectileDirect(Item.GetSource_ItemUse(Item), player.MountedCenter + (shootDir * 20), shootDir * Item.shootSpeed, type, Item.damage, Item.knockBack, player.whoAmI);
 
 					if (Main.netMode != NetmodeID.SinglePlayer)
 					{
@@ -84,17 +85,16 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			}
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) => false;
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)  => false;
 
 		public override Vector2? HoldoutOffset() => new Vector2(-20, 0);
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<Starjinx>(), 18);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
@@ -16,26 +17,26 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void SetDefaults()
 		{
-			projectile.width = 20;
-			projectile.height = 20;
+			Projectile.width = 20;
+			Projectile.height = 20;
 
-			projectile.aiStyle = 2;
+			Projectile.aiStyle = 2;
 
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.ranged = true;
-			projectile.alpha = 0;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.alpha = 0;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Player player = Main.player[projectile.owner];
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 19));
-            Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 107));
+			Player player = Main.player[Projectile.owner];
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 19));
+            SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 107));
             for (int j = 0; j < 4; j++)
-				Gore.NewGore(projectile.position, new Vector2(), Main.rand.Next(134, 137), 1);
-			if (Main.rand.Next(4) == 0 && !player.HasBuff(ModContent.BuffType<CrimsonSkullBuff>()) && projectile.friendly)
-				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y - 20, projectile.width, projectile.height, ModContent.ItemType<CrimsonSkull>());
+				Gore.NewGore(Projectile.position, new Vector2(), Main.rand.Next(134, 137), 1);
+			if (Main.rand.Next(4) == 0 && !player.HasBuff(ModContent.BuffType<CrimsonSkullBuff>()) && Projectile.friendly)
+				Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y - 20, Projectile.width, Projectile.height, ModContent.ItemType<CrimsonSkull>());
 		}
 	}
 }

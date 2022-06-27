@@ -46,7 +46,7 @@ namespace SpiritMod.Mechanics.Trails
 		public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
 		{
 			float progress = distanceFromStart / trailLength;
-			float hue = (Main.GlobalTime * _speed + distanceFromStart * _distanceMultiplier) % MathHelper.TwoPi;
+			float hue = (Main.GlobalTimeWrappedHourly * _speed + distanceFromStart * _distanceMultiplier) % MathHelper.TwoPi;
 			return ColorFromHSL(hue, _saturation, _lightness) * (1f - progress);
 		}
 
@@ -135,7 +135,7 @@ namespace SpiritMod.Mechanics.Trails
 		public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
 		{
 			float progress = distanceFromStart / trailLength;
-			Color returnColor = Color.Lerp(SpiritMod.StarjinxColor(_start + Main.GlobalTime * _speed), SpiritMod.StarjinxColor(_start + 5 + Main.GlobalTime * _speed), progress) * (1f - progress) * _opacity;
+			Color returnColor = Color.Lerp(SpiritMod.StarjinxColor(_start + Main.GlobalTimeWrappedHourly * _speed), SpiritMod.StarjinxColor(_start + 5 + Main.GlobalTimeWrappedHourly * _speed), progress) * (1f - progress) * _opacity;
 			if (_proj != null)
 			{
 				return returnColor * _proj.Opacity;

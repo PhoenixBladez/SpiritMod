@@ -14,22 +14,22 @@ namespace SpiritMod.Items.Ammo.Arrow
 		}
 		public override void SetDefaults()
 		{
-			item.width = 14;
-			item.height = 30;
-			item.value = Item.buyPrice(0, 0, 3, 0);
-			item.rare = ItemRarityID.Cyan;
+			Item.width = 14;
+			Item.height = 30;
+			Item.value = Item.buyPrice(0, 0, 3, 0);
+			Item.rare = ItemRarityID.Cyan;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.damage = 16;
-			item.knockBack = 2f;
-			item.ammo = AmmoID.Arrow;
+			Item.damage = 16;
+			Item.knockBack = 2f;
+			Item.ammo = AmmoID.Arrow;
 
-			item.ranged = true;
-			item.consumable = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.consumable = true;
 
-			item.shoot = ModContent.ProjectileType<ElectricArrow>();
-			item.shootSpeed = 4f;
+			Item.shoot = ModContent.ProjectileType<ElectricArrow>();
+			Item.shootSpeed = 4f;
 		}
 
 

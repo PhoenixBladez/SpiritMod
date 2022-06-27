@@ -12,7 +12,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class GemsPickaxeRuby : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileSolid[Type] = false;
@@ -34,7 +34,7 @@ namespace SpiritMod.Tiles.Furniture
 			name.SetDefault("Lodged Pickaxe");
 			AddMapEntry(Color.Red, name);
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}

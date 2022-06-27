@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.Glyph
 {
 	public class WindBurst : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wind Burst");
 			Description.SetDefault("Knockback is amplified");

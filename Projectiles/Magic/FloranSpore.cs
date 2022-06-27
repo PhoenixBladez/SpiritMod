@@ -15,61 +15,61 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 24;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 180;
-			projectile.alpha = 0;
-			projectile.extraUpdates = 1;
+			Projectile.width = 30;
+			Projectile.height = 24;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 180;
+			Projectile.alpha = 0;
+			Projectile.extraUpdates = 1;
 		}
 		public float counter = -1440;
 		bool stopped = false;
 		public override void AI()
 		{
-			projectile.ai[0]++;
-			if (projectile.velocity.Length() >= 0.1) {
-				if (projectile.velocity.X > 0)
-					projectile.velocity.X -= 0.2f;
-				else if (projectile.velocity.X < 0)
-					projectile.velocity.X += 0.2f;
+			Projectile.ai[0]++;
+			if (Projectile.velocity.Length() >= 0.1) {
+				if (Projectile.velocity.X > 0)
+					Projectile.velocity.X -= 0.2f;
+				else if (Projectile.velocity.X < 0)
+					Projectile.velocity.X += 0.2f;
 
-				if (projectile.velocity.Y > 0)
-					projectile.velocity.Y -= 0.2f;
-				else if (projectile.velocity.Y < 0)
-					projectile.velocity.Y += 0.2f;
+				if (Projectile.velocity.Y > 0)
+					Projectile.velocity.Y -= 0.2f;
+				else if (Projectile.velocity.Y < 0)
+					Projectile.velocity.Y += 0.2f;
 			}
-			if (projectile.velocity.Length() <= 0.1f) {
-				projectile.velocity = Vector2.Zero;
+			if (Projectile.velocity.Length() <= 0.1f) {
+				Projectile.velocity = Vector2.Zero;
 				stopped = true;
 			}
 			if (!stopped) {
 				if (Main.rand.Next(5) == 0) {
-					int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.JungleGrass);
+					int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.JungleGrass);
 					Main.dust[d].scale *= 0.42f;
 				}
 				for (int i = 0; i < 6; i++) {
-					float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-					float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+					float x = Projectile.Center.X - Projectile.velocity.X / 10f * (float)i;
+					float y = Projectile.Center.Y - Projectile.velocity.Y / 10f * (float)i;
 
-					int num = Dust.NewDust(projectile.Center, 6, 6, DustID.JungleGrass, 0f, 0f, 0, default, 1f);
+					int num = Dust.NewDust(Projectile.Center, 6, 6, DustID.JungleGrass, 0f, 0f, 0, default, 1f);
 					Main.dust[num].velocity *= .1f;
 					Main.dust[num].scale *= .9f;
 					Main.dust[num].noGravity = true;
 
 				}
 			}
-			if (projectile.ai[0] % 2 == 0)
-				projectile.alpha += 3;
-			if (projectile.alpha >= 250)
-				projectile.Kill();
+			if (Projectile.ai[0] % 2 == 0)
+				Projectile.alpha += 3;
+			if (Projectile.alpha >= 250)
+				Projectile.Kill();
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 20; i++) {
-				int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.JungleGrass, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
+				int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.JungleGrass, (float)(Main.rand.Next(8) - 4), (float)(Main.rand.Next(8) - 4), 133);
 				Main.dust[d].scale *= 0.42f;
 			}
 		}

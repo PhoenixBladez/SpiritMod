@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class Stopped : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.buffNoTimeDisplay[Type] = false;
 			DisplayName.SetDefault("Stopped");

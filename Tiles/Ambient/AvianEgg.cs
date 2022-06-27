@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.NPCs.Boss;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -9,7 +10,7 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class AvianEgg : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -27,7 +28,7 @@ namespace SpiritMod.Tiles.Ambient
 			AddMapEntry(new Color(227, 195, 124), name);
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 
 		public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
 		{
@@ -58,13 +59,13 @@ namespace SpiritMod.Tiles.Ambient
 				}
 			}
 
-			Main.PlaySound(SoundID.Roar, new Vector2(i * 16, j * 16), 0);
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 1));
+			SoundEngine.PlaySound(SoundID.Roar, new Vector2(i * 16, j * 16), 0);
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 1));
 
 			for (int k = 0; k < 20; k++)
 			{
 				Dust.NewDust(new Vector2(i * 16, j * 16 - 10), 0, 16, DustID.Dirt, 0.0f, -1, 0, new Color(), 0.5f);
-				Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-10, 10)), new Vector2(-1, 1), mod.GetGoreSlot("Gores/Apostle2"), Main.rand.NextFloat(.7f, 1.8f));
+				Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-10, 10)), new Vector2(-1, 1), Mod.Find<ModGore>("Gores/Apostle2").Type, Main.rand.NextFloat(.7f, 1.8f));
 			}
 		}
 	}

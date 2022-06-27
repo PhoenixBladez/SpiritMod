@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,21 +20,21 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Urchin");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 20;
-			projectile.height = 20;
-			projectile.magic = true;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.aiStyle = 0;
+			Projectile.width = 20;
+			Projectile.height = 20;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.aiStyle = 0;
 		}
 
-		public override bool CanDamage() => !hasTarget;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => !hasTarget;
 		public override bool? CanCutTiles() => !hasTarget;
 
 		public override void AI()
@@ -42,63 +43,63 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			{
 				if(stuckInTile) //Check if tile it's stuck in is still active
 				{
-					projectile.velocity = Vector2.Zero;
-					if(!Main.tile[stuckTilePos.X, stuckTilePos.Y].active()) //If not, update and let the projectile fall again
+					Projectile.velocity = Vector2.Zero;
+					if(!Main.tile[stuckTilePos.X, stuckTilePos.Y].HasTile) //If not, update and let the projectile fall again
 					{
 						stuckInTile = false;
 						stuckTilePos = new Point(0, 0);
-						projectile.netUpdate = true;
+						Projectile.netUpdate = true;
 					}	
 				}
 
 				else
 				{
-					projectile.velocity.Y += 0.2f;
-					projectile.rotation += 0.06f * Math.Sign(projectile.velocity.X);
+					Projectile.velocity.Y += 0.2f;
+					Projectile.rotation += 0.06f * Math.Sign(Projectile.velocity.X);
 				}
 			}
 
 			else
 			{
-				NPC npc = Main.npc[(int)projectile.ai[1]];
+				NPC npc = Main.npc[(int)Projectile.ai[1]];
 
 				if (!npc.CanBeChasedBy(this) && npc.type != NPCID.TargetDummy)
 				{
-					projectile.netUpdate = true;
-					projectile.tileCollide = true;
-					projectile.timeLeft *= 2;
+					Projectile.netUpdate = true;
+					Projectile.tileCollide = true;
+					Projectile.timeLeft *= 2;
 
 					hasTarget = false;
 					return;
 				}
 
-				projectile.Center = npc.Center + relativePoint;
+				Projectile.Center = npc.Center + relativePoint;
 			}
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (projectile.timeLeft > 240)
-				projectile.timeLeft = 240;
+			if (Projectile.timeLeft > 240)
+				Projectile.timeLeft = 240;
 
-			projectile.velocity = Vector2.Zero;
+			Projectile.velocity = Vector2.Zero;
 			stuckInTile = true;
-			stuckTilePos = (projectile.Center + oldVelocity).ToTileCoordinates();
-			projectile.netUpdate = true;
+			stuckTilePos = (Projectile.Center + oldVelocity).ToTileCoordinates();
+			Projectile.netUpdate = true;
 
 			return false;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			projectile.ai[1] = target.whoAmI;
-			projectile.tileCollide = false;
-			projectile.netUpdate = true;
-			projectile.timeLeft = 240;
-			projectile.velocity = new Vector2(0, -0.4f);
+			Projectile.ai[1] = target.whoAmI;
+			Projectile.tileCollide = false;
+			Projectile.netUpdate = true;
+			Projectile.timeLeft = 240;
+			Projectile.velocity = new Vector2(0, -0.4f);
 
 			hasTarget = true;
-			relativePoint = projectile.Center - target.Center;
+			relativePoint = Projectile.Center - target.Center;
 		}
 
 		public override void Kill(int timeLeft)
@@ -106,37 +107,37 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			for (int i = 0; i < 8; ++i)
 			{
 				Vector2 vel = new Vector2(Main.rand.NextFloat(6f, 8f), 0).RotatedBy(i * MathHelper.TwoPi / 8f).RotatedByRandom(0.33f);
-				Projectile.NewProjectile(projectile.Center + (hasTarget ? Vector2.Normalize(relativePoint) * 6 : vel), vel, ModContent.ProjectileType<UrchinSpike>(), projectile.damage, 2f, projectile.owner);
+				Projectile.NewProjectile(Projectile.Center + (hasTarget ? Vector2.Normalize(relativePoint) * 6 : vel), vel, ModContent.ProjectileType<UrchinSpike>(), Projectile.damage, 2f, Projectile.owner);
 			}
 
 			for (int i = 0; i < 2; ++i)
-				Gore.NewGore(projectile.Center, Vector2.Zero, mod.GetGoreSlot("Gores/Projectiles/UrchinLobber/Urchin" + i));
+				Gore.NewGore(Projectile.Center, Vector2.Zero, Mod.Find<ModGore>("Gores/Projectiles/UrchinLobber/Urchin" + i).Type);
 
-			Main.PlaySound(SoundID.Item14.WithPitchVariance(0.2f).WithVolume(0.4f), projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item14.WithPitchVariance(0.2f).WithVolume(0.4f), Projectile.Center);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			projectile.QuickDrawTrail(spriteBatch, 0.33f);
-			projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDrawTrail(spriteBatch, 0.33f);
+			Projectile.QuickDraw(spriteBatch);
 
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(Color lightColor)
 		{
 			const float Cutoff = 120;
 
-			Texture2D tex = ModContent.GetTexture(Texture + "Glow");
+			Texture2D tex = ModContent.Request<Texture2D>(Texture + "Glow");
 
-			float flashTimer = (Math.Max(Cutoff - projectile.timeLeft, 0) / Cutoff);
+			float flashTimer = (Math.Max(Cutoff - Projectile.timeLeft, 0) / Cutoff);
 			int numFlashes = 6;
 			float alpha = 1 - (float)Math.Pow(Math.Sin(Utilities.EaseFunction.EaseQuadIn.Ease(flashTimer) * numFlashes * MathHelper.Pi), 4);
 
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White * (1 - alpha), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * (1 - alpha), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
 		}
 
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width /= 3;
 			height /= 3;
@@ -165,8 +166,8 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Urchin");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 		private bool hasTarget = false;
@@ -174,55 +175,55 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 6;
-			projectile.height = 6;
-			projectile.magic = true;
-			projectile.friendly = true;
-			projectile.penetrate = 1;
-			projectile.aiStyle = 0;
-			projectile.extraUpdates = 1;
-			projectile.timeLeft = 40;
-			projectile.scale = Main.rand.NextFloat(0.9f, 1.1f);
+			Projectile.width = 6;
+			Projectile.height = 6;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.friendly = true;
+			Projectile.penetrate = 1;
+			Projectile.aiStyle = 0;
+			Projectile.extraUpdates = 1;
+			Projectile.timeLeft = 40;
+			Projectile.scale = Main.rand.NextFloat(0.9f, 1.1f);
 		}
 
-		public override bool CanDamage() => !hasTarget;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => !hasTarget;
 		public override bool? CanCutTiles() => !hasTarget;
 
 		public override void AI()
 		{
-			projectile.alpha = 255 - (int)((projectile.timeLeft / 50f) * 255);
-			projectile.velocity *= 0.96f;
+			Projectile.alpha = 255 - (int)((Projectile.timeLeft / 50f) * 255);
+			Projectile.velocity *= 0.96f;
 			if (!hasTarget)
-				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+				Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
 			else
 			{
-				NPC npc = Main.npc[(int)projectile.ai[1]];
+				NPC npc = Main.npc[(int)Projectile.ai[1]];
 
 				if (!npc.active)
-					projectile.Kill();
+					Projectile.Kill();
 				else
-					projectile.Center = npc.Center + relativePoint;
+					Projectile.Center = npc.Center + relativePoint;
 			}
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			projectile.ai[1] = target.whoAmI;
-			projectile.tileCollide = false;
-			projectile.netUpdate = true;
-			projectile.timeLeft = 60;
-			projectile.velocity = Vector2.Zero;
-			projectile.penetrate++;
+			Projectile.ai[1] = target.whoAmI;
+			Projectile.tileCollide = false;
+			Projectile.netUpdate = true;
+			Projectile.timeLeft = 60;
+			Projectile.velocity = Vector2.Zero;
+			Projectile.penetrate++;
 
 			hasTarget = true;
-			relativePoint = projectile.Center - target.Center;
+			relativePoint = Projectile.Center - target.Center;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			projectile.QuickDrawTrail(spriteBatch, 0.5f);
-			projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDrawTrail(spriteBatch, 0.5f);
+			Projectile.QuickDraw(spriteBatch);
 			return false;
 		}
 	}

@@ -17,16 +17,16 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = true;
-			projectile.magic = true;
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.friendly = false;
-			projectile.alpha = 255;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 64;
-			projectile.tileCollide = false;
-			projectile.extraUpdates = 1;
+			Projectile.hostile = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.friendly = false;
+			Projectile.alpha = 255;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 64;
+			Projectile.tileCollide = false;
+			Projectile.extraUpdates = 1;
 		}
 
 		//int counter = -720;
@@ -35,12 +35,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 		{
 			if (!boom) {
 				if (Main.netMode != NetmodeID.Server && !Filters.Scene["PulsarShockwave"].IsActive()) {
-					Filters.Scene.Activate("PulsarShockwave", projectile.Center).GetShader().UseColor(Color.Orange.ToVector3()).UseTargetPosition(projectile.Center).UseOpacity(0.9f);
+					Filters.Scene.Activate("PulsarShockwave", Projectile.Center).GetShader().UseColor(Color.Orange.ToVector3()).UseTargetPosition(Projectile.Center).UseOpacity(0.9f);
 					boom = true;
 				}
 			}
 			if (Main.netMode != NetmodeID.Server && Filters.Scene["PulsarShockwave"].IsActive() && boom) {
-				float progress = (float)(8 - Math.Sqrt(projectile.timeLeft)) * 60; // Will range from -3 to 3, 0 being the point where the bomb explodes.
+				float progress = (float)(8 - Math.Sqrt(Projectile.timeLeft)) * 60; // Will range from -3 to 3, 0 being the point where the bomb explodes.
 				Filters.Scene["PulsarShockwave"].GetShader().UseProgress(progress);
 			}
 			for(int i = 0; i < Main.maxPlayers; i++)
@@ -50,12 +50,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 				{
 					PulsarPlayer modPlayer = player.GetModPlayer<PulsarPlayer>();
 					float collisionPoint = 0f;
-					Vector2 dir = player.Center - projectile.Center;
+					Vector2 dir = player.Center - Projectile.Center;
 					dir.Normalize();
 					Vector2 dir2 = dir;
-					dir *= (float)(8 - Math.Sqrt(projectile.timeLeft)) * 60;
-					if (Collision.CheckAABBvLineCollision(player.position, player.position + new Vector2(player.width, player.height), projectile.Center, projectile.Center + dir, (projectile.width + projectile.height) * 0.5f * projectile.scale, ref collisionPoint) && modPlayer.shockwaveCooldown <= 0) {		
-						player.velocity += dir2 * (float)Math.Sqrt(projectile.timeLeft) * 2;
+					dir *= (float)(8 - Math.Sqrt(Projectile.timeLeft)) * 60;
+					if (Collision.CheckAABBvLineCollision(player.position, player.position + new Vector2(player.width, player.height), Projectile.Center, Projectile.Center + dir, (Projectile.width + Projectile.height) * 0.5f * Projectile.scale, ref collisionPoint) && modPlayer.shockwaveCooldown <= 0) {		
+						player.velocity += dir2 * (float)Math.Sqrt(Projectile.timeLeft) * 2;
 						modPlayer.shockwaveCooldown = 30;
 					}
 				}

@@ -17,21 +17,21 @@ namespace SpiritMod.Items.Sets.MagicMisc.ZephyrBreath
 
 		public override void SetDefaults()
 		{
-			item.damage = 19;
-			item.magic = true;
-			item.mana = 9;
-			item.width = 46;
-			item.height = 46;
-			item.useTime = 24;
-			item.useAnimation = 24;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 5;
-			item.value = Terraria.Item.sellPrice(0, 0, 40, 0);
-			item.rare = ItemRarityID.Blue;
-			item.shoot = ModContent.ProjectileType<Zephyr>();
-			item.autoReuse = true;
+			Item.damage = 19;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 9;
+			Item.width = 46;
+			Item.height = 46;
+			Item.useTime = 24;
+			Item.useAnimation = 24;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 5;
+			Item.value = Terraria.Item.sellPrice(0, 0, 40, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.shoot = ModContent.ProjectileType<Zephyr>();
+			Item.autoReuse = true;
 		}
 
 		public override bool AltFunctionUse(Player player)
@@ -41,18 +41,18 @@ namespace SpiritMod.Items.Sets.MagicMisc.ZephyrBreath
 		public override bool CanUseItem(Player player)
 		{
 			if (player.altFunctionUse == 2) {
-				item.UseSound = SoundID.Item1;
-				item.shoot = ModContent.ProjectileType<ZephyrSpearProj>();
-				item.knockBack = 5;
-				item.shootSpeed = 6f;
-				item.noUseGraphic = true;
+				Item.UseSound = SoundID.Item1;
+				Item.shoot = ModContent.ProjectileType<ZephyrSpearProj>();
+				Item.knockBack = 5;
+				Item.shootSpeed = 6f;
+				Item.noUseGraphic = true;
 			}
 			else {
-				item.UseSound = SoundID.Item34;
-				item.shoot = ModContent.ProjectileType<Zephyr>();
-				item.knockBack = 10;
-				item.noUseGraphic = false;
-				item.shootSpeed = 14f;
+				Item.UseSound = SoundID.Item34;
+				Item.shoot = ModContent.ProjectileType<Zephyr>();
+				Item.knockBack = 10;
+				Item.noUseGraphic = false;
+				Item.shootSpeed = 14f;
 			}
 			if (player.ownedProjectileCounts[ModContent.ProjectileType<ZephyrSpearProj>()] > 0)
 				return false;

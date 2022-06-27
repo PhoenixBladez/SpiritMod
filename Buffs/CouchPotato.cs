@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class CouchPotato : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Couch potato");
 			Description.SetDefault("'Stop being so lazy!'");

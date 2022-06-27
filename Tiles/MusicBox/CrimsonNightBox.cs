@@ -9,7 +9,7 @@ namespace SpiritMod.Tiles.MusicBox
 {
 	internal class CrimsonNightBox : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileObsidianKill[Type] = true;
@@ -18,11 +18,11 @@ namespace SpiritMod.Tiles.MusicBox
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.DrawYOffset = 2;
 			TileObjectData.addTile(Type);
-			disableSmartCursor = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Music Box");
 			AddMapEntry(new Color(200, 200, 200), name);
-            dustType = -1;
+            DustType = -1;
         }
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
@@ -34,8 +34,8 @@ namespace SpiritMod.Tiles.MusicBox
 		{
 			Player player = Main.LocalPlayer;
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			player.showItemIcon2 = ItemType<Items.Placeable.MusicBox.CrimsonNightBox>();
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = ItemType<Items.Placeable.MusicBox.CrimsonNightBox>();
 		}
 	}
 }

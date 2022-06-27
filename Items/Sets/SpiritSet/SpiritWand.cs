@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,42 +14,42 @@ namespace SpiritMod.Items.Sets.SpiritSet
 		{
 			DisplayName.SetDefault("Spirit Wand");
 			Tooltip.SetDefault("Shoots out energy that travels along the ground");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/SpiritSet/SpiritWand_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/SpiritSet/SpiritWand_Glow");
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.damage = 50;
-			item.magic = true;
-			item.mana = 9;
-			item.width = 44;
-			item.height = 44;
-			item.useTime = 27;
-			item.useAnimation = 27;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 5;
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Pink;
-			item.UseSound = SoundID.Item8;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<EarthSpirit>();
-			item.shootSpeed = 8f;
+			Item.damage = 50;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 9;
+			Item.width = 44;
+			Item.height = 44;
+			Item.useTime = 27;
+			Item.useAnimation = 27;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 5;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item8;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<EarthSpirit>();
+			Item.shootSpeed = 8f;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.06f, .16f, .22f);
+			Lighting.AddLight(Item.position, 0.06f, .16f, .22f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/SpiritSet/SpiritWand_Glow"),
+				Mod.GetTexture("Items/Sets/SpiritSet/SpiritWand_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -61,12 +62,11 @@ namespace SpiritMod.Items.Sets.SpiritSet
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 14);
 			recipe.AddIngredient(ModContent.ItemType<SoulShred>(), 5);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class OnyxWind : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Onyx Whirlwind");
 			Description.SetDefault("10% increased movement speed");

@@ -1,4 +1,5 @@
 using SpiritMod.Projectiles.Thrown;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,32 +16,31 @@ namespace SpiritMod.Items.Weapon.Thrown
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 24;
-			item.value = Terraria.Item.buyPrice(0, 30, 0, 0);
-			item.rare = ItemRarityID.Yellow;
-			item.maxStack = 999;
-			item.damage = 65;
-			item.knockBack = 3.5f;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 15;
-			item.useAnimation = 15;
-			item.ranged = true;
-			item.noMelee = true;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.noUseGraphic = true;
-			item.shoot = ModContent.ProjectileType<SpectreKnifeProj>();
-			item.shootSpeed = 11f;
-			item.UseSound = SoundID.Item1;
+			Item.width = 16;
+			Item.height = 24;
+			Item.value = Terraria.Item.buyPrice(0, 30, 0, 0);
+			Item.rare = ItemRarityID.Yellow;
+			Item.maxStack = 999;
+			Item.damage = 65;
+			Item.knockBack = 3.5f;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
+			Item.DamageType = DamageClass.Ranged;
+			Item.noMelee = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.noUseGraphic = true;
+			Item.shoot = ModContent.ProjectileType<SpectreKnifeProj>();
+			Item.shootSpeed = 11f;
+			Item.UseSound = SoundID.Item1;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(33);
 			recipe.AddIngredient(ItemID.SpectreBar, 1);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 33);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,40 +13,40 @@ namespace SpiritMod.Items.Sets.SpiritSet
 		{
 			DisplayName.SetDefault("Spirit Boomerang");
 			Tooltip.SetDefault("Inflicts Soul Burn");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/SpiritSet/SpiritBoomerang_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/SpiritSet/SpiritBoomerang_Glow");
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.damage = 54;
-			item.melee = true;
-			item.width = 40;
-			item.height = 40;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.noUseGraphic = true;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 3;
-			item.value = Terraria.Item.sellPrice(0, 1, 20, 0);
-			item.rare = ItemRarityID.Pink;
-			item.shootSpeed = 9f;
-			item.shoot = ModContent.ProjectileType<Projectiles.Returning.SpiritBoomerang>();
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
+			Item.damage = 54;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 40;
+			Item.height = 40;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 3;
+			Item.value = Terraria.Item.sellPrice(0, 1, 20, 0);
+			Item.rare = ItemRarityID.Pink;
+			Item.shootSpeed = 9f;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Returning.SpiritBoomerang>();
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.06f, .16f, .22f);
+			Lighting.AddLight(Item.position, 0.06f, .16f, .22f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/SpiritSet/SpiritBoomerang_Glow"),
+				Mod.GetTexture("Items/Sets/SpiritSet/SpiritBoomerang_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -56,21 +57,20 @@ namespace SpiritMod.Items.Sets.SpiritSet
 				0f
 			);
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			for (int I = 0; I < 2; I++) {
-				Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-250, 250) / 100), speedY + ((float)Main.rand.Next(-250, 250) / 100), type, damage, knockBack, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-250, 250) / 100), speedY + ((float)Main.rand.Next(-250, 250) / 100), type, damage, knockback, player.whoAmI, 0f, 0f);
 			}
 			return true;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 12);
 			recipe.AddIngredient(ModContent.ItemType<SoulShred>(), 8);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

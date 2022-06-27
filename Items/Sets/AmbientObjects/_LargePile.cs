@@ -9,16 +9,16 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 	{
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 24;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.consumable = true;
-			item.rare = ItemRarityID.White;
-			item.maxStack = 999;
-			item.createTile = TileID.LargePiles;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
+			Item.width = 30;
+			Item.height = 24;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.rare = ItemRarityID.White;
+			Item.maxStack = 999;
+			Item.createTile = TileID.LargePiles;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
 			SafeSetDefaults();
 
 		}
@@ -29,16 +29,16 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 	{
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 24;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.consumable = true;
-			item.rare = ItemRarityID.White;
-			item.maxStack = 999;
-			item.createTile = TileID.LargePiles2;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
+			Item.width = 30;
+			Item.height = 24;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.rare = ItemRarityID.White;
+			Item.maxStack = 999;
+			Item.createTile = TileID.LargePiles2;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
 			SafeSetDefaults();
 
 		}
@@ -51,16 +51,15 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Bone, 4);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(0, 7);
+			Item.placeStyle = Main.rand.Next(0, 7);
 			return base.UseItem(player);
 		}
 	}
@@ -68,20 +67,19 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 	public class StonePile : DefaultLargePile1
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Stone Rubble");
-		public override void SafeSetDefaults() => item.placeStyle = 7;
+		public override void SafeSetDefaults() => Item.placeStyle = 7;
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.StoneBlock, 10);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(7, 13);
+			Item.placeStyle = Main.rand.Next(7, 13);
 			return base.UseItem(player);
 		}
 	}
@@ -89,30 +87,28 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 	public class StonePileHelmet : DefaultLargePile1
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Helmet Rubble");
-		public override void SafeSetDefaults() => item.placeStyle = 13;
+		public override void SafeSetDefaults() => Item.placeStyle = 13;
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.StoneBlock, 10);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 
 	public class StonePilePickaxe : DefaultLargePile1
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Mining Rubble");
-		public override void SafeSetDefaults() => item.placeStyle = 14;
+		public override void SafeSetDefaults() => Item.placeStyle = 14;
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.StoneBlock, 10);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 	public class StonePileSword : DefaultLargePile1
@@ -121,35 +117,33 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 15;
+			Item.placeStyle = 15;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.StoneBlock, 10);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 
 	public class WoodRuinPile : DefaultLargePile1
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Ruined Furniture");
-		public override void SafeSetDefaults() => item.placeStyle = 22;
+		public override void SafeSetDefaults() => Item.placeStyle = 22;
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Wood, 5);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(22, 24);
+			Item.placeStyle = Main.rand.Next(22, 24);
 			return base.UseItem(player);
 		}
 	}
@@ -159,15 +153,14 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 24;
+			Item.placeStyle = 24;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Wood, 8);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 	public class ChandelierPile : DefaultLargePile1
@@ -176,16 +169,15 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 25;
+			Item.placeStyle = 25;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Chain, 3);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 	public class IcePile : DefaultLargePile1
@@ -194,19 +186,18 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 26;
+			Item.placeStyle = 26;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.IceBlock, 10);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(26, 32);
+			Item.placeStyle = Main.rand.Next(26, 32);
 			return true;
 		}
 	}
@@ -216,20 +207,19 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 32;
+			Item.placeStyle = 32;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.StoneBlock, 10);
 			recipe.AddIngredient(ItemID.GlowingMushroom, 1);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(32, 35);
+			Item.placeStyle = Main.rand.Next(32, 35);
 			return base.UseItem(player);
 		}
 	}
@@ -239,20 +229,19 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 1;
+			Item.placeStyle = 1;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.StoneBlock, 5);
 			recipe.AddIngredient(ItemID.MudBlock, 5);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(0, 3);
+			Item.placeStyle = Main.rand.Next(0, 3);
 			return base.UseItem(player);
 		}
 	}
@@ -262,19 +251,18 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 3;
+			Item.placeStyle = 3;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.MudBlock, 10);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(3, 6);
+			Item.placeStyle = Main.rand.Next(3, 6);
 			return base.UseItem(player);
 		}
 	}
@@ -284,20 +272,19 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 6;
+			Item.placeStyle = 6;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.AshBlock, 10);
 			recipe.AddIngredient(ItemID.Hellstone, 1);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(6, 9);
+			Item.placeStyle = Main.rand.Next(6, 9);
 			return base.UseItem(player);
 		}
 	}
@@ -307,19 +294,18 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 9;
+			Item.placeStyle = 9;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Cobweb, 10);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(9, 14);
+			Item.placeStyle = Main.rand.Next(9, 14);
 			return base.UseItem(player);
 		}
 	}
@@ -329,20 +315,19 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 14;
+			Item.placeStyle = 14;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.StoneBlock, 5);
 			recipe.AddIngredient(ItemID.DirtBlock, 5);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(14, 17);
+			Item.placeStyle = Main.rand.Next(14, 17);
 			return base.UseItem(player);
 		}
 	}
@@ -352,19 +337,18 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 18;
+			Item.placeStyle = 18;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.LihzahrdBrick, 10);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(18, 21);
+			Item.placeStyle = Main.rand.Next(18, 21);
 			return base.UseItem(player);
 		}
 	}
@@ -374,15 +358,14 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 21;
+			Item.placeStyle = 21;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.RichMahogany, 10);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 	public class MahoganyCageFull : DefaultLargePile2
@@ -391,16 +374,15 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 22;
+			Item.placeStyle = 22;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.RichMahogany, 10);
 			recipe.AddIngredient(ItemID.Bird, 1);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 	public class RustyMinecart : DefaultLargePile2
@@ -409,17 +391,16 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 23;
+			Item.placeStyle = 23;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.IronBar, 3);
 			recipe.AddIngredient(ItemID.DirtBlock, 5);
 			recipe.anyIronBar = true;
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 	public class OldWell : DefaultLargePile2
@@ -428,15 +409,14 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 24;
+			Item.placeStyle = 24;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.StoneBlock, 14);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 	public class DirtPile : DefaultLargePile2
@@ -445,15 +425,14 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 25;
+			Item.placeStyle = 25;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.DirtBlock, 15);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 	public class OldTent : DefaultLargePile2
@@ -462,15 +441,14 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 26;
+			Item.placeStyle = 26;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Silk, 5);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 	public class OldWheelbarrow : DefaultLargePile2
@@ -479,17 +457,16 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 27;
+			Item.placeStyle = 27;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.IronBar, 2);
 			recipe.AddIngredient(ItemID.DirtBlock, 10);
 			recipe.anyIronBar = true;
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 	public class SandPile : DefaultLargePile2
@@ -498,19 +475,18 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 29;
+			Item.placeStyle = 29;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.SandBlock, 10);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(29, 35);
+			Item.placeStyle = Main.rand.Next(29, 35);
 			return base.UseItem(player);
 		}
 	}
@@ -520,19 +496,18 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 35;
+			Item.placeStyle = 35;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Granite, 6);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(35, 41);
+			Item.placeStyle = Main.rand.Next(35, 41);
 			return base.UseItem(player);
 		}
 	}
@@ -542,19 +517,18 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 
 		public override void SafeSetDefaults()
 		{
-			item.placeStyle = 41;
+			Item.placeStyle = 41;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Marble, 6);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(41, 47);
+			Item.placeStyle = Main.rand.Next(41, 47);
 			return base.UseItem(player);
 		}
 	}

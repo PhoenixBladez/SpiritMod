@@ -13,21 +13,21 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 		{
 			DisplayName.SetDefault("Dreamstride Essence");
 			Tooltip.SetDefault("'The stuff of nightmares'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 4));
-			ItemID.Sets.ItemNoGravity[item.type] = true;
-			ItemID.Sets.ItemIconPulse[item.type] = true;
+			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 4));
+			ItemID.Sets.ItemNoGravity[Item.type] = true;
+			ItemID.Sets.ItemIconPulse[Item.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 28;
-			item.value = 100;
-			item.rare = ItemRarityID.Blue;
-			item.maxStack = 999;
+			Item.width = 24;
+			Item.height = 28;
+			Item.value = 100;
+			Item.rare = ItemRarityID.Blue;
+			Item.maxStack = 999;
 		}
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => Lighting.AddLight(item.position, 0.92f, .14f, .24f);
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => Lighting.AddLight(Item.position, 0.92f, .14f, .24f);
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}
 }

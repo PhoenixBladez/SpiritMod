@@ -10,29 +10,29 @@ namespace SpiritMod.NPCs.Spirit
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Soul Scythe");
-			Main.projFrames[base.projectile.type] = 6;
+			Main.projFrames[base.Projectile.type] = 6;
 		}
 
 		int timer = 0;
 		public override void SetDefaults()
 		{
-			projectile.friendly = false;
-			projectile.hostile = true;
-			projectile.penetrate = 2;
-			projectile.tileCollide = true;
-			projectile.timeLeft = 300;
-			projectile.height = 28;
-			projectile.width = 28;
-			aiType = ProjectileID.Bullet;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = false;
+			Projectile.hostile = true;
+			Projectile.penetrate = 2;
+			Projectile.tileCollide = true;
+			Projectile.timeLeft = 300;
+			Projectile.height = 28;
+			Projectile.width = 28;
+			AIType = ProjectileID.Bullet;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation += 0.2f;
+			Projectile.rotation += 0.2f;
 
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X, projectile.velocity.Y);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X, projectile.velocity.Y);
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare_Blue, Projectile.velocity.X, Projectile.velocity.Y);
+			int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare_Blue, Projectile.velocity.X, Projectile.velocity.Y);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 			Main.dust[dust2].velocity *= 0f;
@@ -42,11 +42,11 @@ namespace SpiritMod.NPCs.Spirit
 
 			timer++;
 			if (timer == 10)
-				projectile.velocity *= 0.1f;
+				Projectile.velocity *= 0.1f;
 			else if (timer == 20)
-				projectile.velocity *= 5f;
+				Projectile.velocity *= 5f;
 			else if (timer == 40)
-				projectile.velocity *= 5f;
+				Projectile.velocity *= 5f;
 			else if (timer == 300)
 				timer = 0;
 
@@ -54,8 +54,8 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override void Kill(int timeLeft)
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare_Blue, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+			int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare_Blue, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 			Main.dust[dust2].velocity *= 0f;

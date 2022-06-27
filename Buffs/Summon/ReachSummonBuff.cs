@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Summon
 {
 	public class ReachSummonBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Briar Spirit");
 			Description.SetDefault("A Briar Spirit fights for you!");

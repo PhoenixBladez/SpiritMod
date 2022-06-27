@@ -36,8 +36,8 @@ namespace SpiritMod.Projectiles.BaseProj
 
 		public override void Kill(int timeLeft)
 		{
-			projectile.hostile = true;
-			ProjectileExtras.Explode(projectile.whoAmI, ExplosionRange, ExplosionRange, delegate
+			Projectile.hostile = true;
+			ProjectileExtras.Explode(Projectile.whoAmI, ExplosionRange, ExplosionRange, delegate
 			{
 				if (!Main.dedServ)
 					ExplodeEffect();

@@ -13,20 +13,20 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 2;
-			projectile.timeLeft = 2;
-			projectile.height = 2;
-			projectile.penetrate = -1;
-			projectile.ignoreWater = true;
-			projectile.alpha = 255;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.friendly = true;
+			Projectile.width = 2;
+			Projectile.timeLeft = 2;
+			Projectile.height = 2;
+			Projectile.penetrate = -1;
+			Projectile.ignoreWater = true;
+			Projectile.alpha = 255;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
 		}
 
 		public override void AI()
 		{
-			projectile.Kill();
+			Projectile.Kill();
 		}
 
 		public override void Kill(int timeLeft)
@@ -35,11 +35,11 @@ namespace SpiritMod.Projectiles
 			int deviation = Main.rand.Next(0, 300);
 			for (int i = 0; i < n; i++) {
 				float rotation = MathHelper.ToRadians(270 / n * i + deviation);
-				Vector2 perturbedSpeed = new Vector2(projectile.velocity.X + 1, projectile.velocity.Y).RotatedBy(rotation);
+				Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X + 1, Projectile.velocity.Y).RotatedBy(rotation);
 				perturbedSpeed.Normalize();
 				perturbedSpeed.X *= 2.5f;
 				perturbedSpeed.Y *= 2.5f;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Blaze>(), projectile.damage, projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Blaze>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 			}
 		}
 	}

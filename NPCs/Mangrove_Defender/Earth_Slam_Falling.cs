@@ -10,14 +10,14 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 
 		public override void SetDefaults()
 		{
-			projectile.width = 4;
-			projectile.height = 4;
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.Bullet;
-			projectile.hide = true;
-			projectile.scale = 1f;
+			Projectile.width = 4;
+			Projectile.height = 4;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.Bullet;
+			Projectile.hide = true;
+			Projectile.scale = 1f;
 		}
 
-		public override void Kill(int timeLeft) => Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 40, 0f, 0f, ModContent.ProjectileType<Earth_Slam_Projectile>(), 23, 10f, projectile.owner);
+		public override void Kill(int timeLeft) => Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y - 40, 0f, 0f, ModContent.ProjectileType<Earth_Slam_Projectile>(), 23, 10f, Projectile.owner);
 	}
 }

@@ -1,4 +1,5 @@
 using SpiritMod.Items.Sets.BriarDrops;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,34 +15,33 @@ namespace SpiritMod.Items.Sets.FloranSet
 
 		public override void SetDefaults()
 		{
-			item.width = 34;
-			item.height = 42;
-			item.value = 1000;
-			item.rare = ItemRarityID.Blue;
+			Item.width = 34;
+			Item.height = 42;
+			Item.value = 1000;
+			Item.rare = ItemRarityID.Blue;
 
-			item.pick = 55;
+			Item.pick = 55;
 
-			item.damage = 12;
-			item.knockBack = 3;
+			Item.damage = 12;
+			Item.knockBack = 3;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 15;
-			item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 15;
+			Item.useAnimation = 25;
 
-			item.melee = true;
-			item.useTurn = true;
-			item.autoReuse = true;
+			Item.DamageType = DamageClass.Melee;
+			Item.useTurn = true;
+			Item.autoReuse = true;
 
-			item.UseSound = SoundID.Item1;
+			Item.UseSound = SoundID.Item1;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe();
 			modRecipe.AddIngredient(ModContent.ItemType<FloranBar>(), 15);
 			modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 5);
 			modRecipe.AddTile(TileID.Anvils);
-			modRecipe.SetResult(this);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

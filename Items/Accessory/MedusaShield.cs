@@ -16,22 +16,21 @@ namespace SpiritMod.Items.Accessory
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 36;
-			item.rare = ItemRarityID.Pink;
-			item.value = 100000;
-			item.accessory = true;
-			item.defense = 6;
+			Item.width = 28;
+			Item.height = 36;
+			Item.rare = ItemRarityID.Pink;
+			Item.value = 100000;
+			Item.accessory = true;
+			Item.defense = 6;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<GoldShield>(), 1);
 			recipe.AddIngredient(ItemID.PocketMirror, 1);
 			recipe.AddTile(TileID.TinkerersWorkbench);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
 		public override void SafeUpdateAccessory(Player player, bool hideVisual)

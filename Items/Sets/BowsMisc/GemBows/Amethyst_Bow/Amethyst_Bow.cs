@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Amethyst_Bow
 {
@@ -15,24 +16,24 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Amethyst_Bow
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 29;
-			item.useTime = 29;
-			item.width = 12;
-			item.height = 28;
-			item.shoot = ProjectileID.WoodenArrowFriendly;
-			item.useAmmo = AmmoID.Arrow;
-			item.UseSound = SoundID.Item5;
-			item.damage = 10;
-			item.shootSpeed = 7f;
-			item.knockBack = 0.5f;
-			item.rare = ItemRarityID.White;
-			item.noMelee = true;
-            item.value = Item.sellPrice(0, 0, 22, 50);
-            item.ranged = true;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useAnimation = 29;
+			Item.useTime = 29;
+			Item.width = 12;
+			Item.height = 28;
+			Item.shoot = ProjectileID.WoodenArrowFriendly;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.UseSound = SoundID.Item5;
+			Item.damage = 10;
+			Item.shootSpeed = 7f;
+			Item.knockBack = 0.5f;
+			Item.rare = ItemRarityID.White;
+			Item.noMelee = true;
+            Item.value = Item.sellPrice(0, 0, 22, 50);
+            Item.DamageType = DamageClass.Ranged;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 40f;
 
@@ -48,19 +49,17 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Amethyst_Bow
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.CopperBow, 1);
 			recipe.AddIngredient(ItemID.Amethyst, 8);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = CreateRecipe();
 			recipe1.AddIngredient(ItemID.TinBow, 1);
 			recipe1.AddIngredient(ItemID.Amethyst, 8);
 			recipe1.AddTile(TileID.Anvils);
-			recipe1.SetResult(this);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 }

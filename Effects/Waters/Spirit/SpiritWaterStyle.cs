@@ -11,12 +11,12 @@ namespace SpiritMod.Effects.Waters.Spirit
 	{
 		public override bool ChooseWaterStyle()
 		{
-			return Main.bgStyle == mod.GetSurfaceBgStyleSlot<SpiritSurfaceBgStyle>();
+			return Main.bgStyle == Mod.GetSurfaceBgStyleSlot<SpiritSurfaceBgStyle>();
 		}
 
 		public override int ChooseWaterfallStyle()
 		{
-			return mod.GetWaterfallStyleSlot<SpiritWaterfallStyle>();
+			return Mod.GetWaterfallStyleSlot<SpiritWaterfallStyle>();
 		}
 
 		public override int GetSplashDust()
@@ -26,7 +26,7 @@ namespace SpiritMod.Effects.Waters.Spirit
 
 		public override int GetDropletGore()
 		{
-			return mod.GetGoreSlot<SpiritDroplet>();
+			return Mod.GetGoreSlot<SpiritDroplet>();
 		}
 
 		public override void LightColorMultiplier(ref float r, ref float g, ref float b)

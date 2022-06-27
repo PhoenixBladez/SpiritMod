@@ -16,10 +16,10 @@ namespace SpiritMod.Items.Halloween.DevMasks
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = 3000;
-			item.rare = ItemRarityID.Cyan;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = 3000;
+			Item.rare = ItemRarityID.Cyan;
 		}
 
 		public override void DrawHair(ref bool drawHair, ref bool drawAltHair)

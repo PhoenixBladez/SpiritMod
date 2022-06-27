@@ -6,7 +6,7 @@ namespace SpiritMod.Tiles.Furniture.Fountains
 	public class BriarFountain : BaseFountain
     {
 		internal override int DropType => ModContent.ItemType<BriarFountainItem>();
-		internal override int WaterStyle => ModContent.GetInstance<ReachWaterStyle>().Type;
+		internal override int WaterStyle => ModContent.GetInstance<ReachWaterStyle>().Slot;
 	}
 
 	public class BriarFountainItem : BaseFountainItem

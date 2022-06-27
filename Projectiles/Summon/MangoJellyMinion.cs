@@ -12,26 +12,26 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mango Jelly Minion");
-			Main.projFrames[base.projectile.type] = 4;
-			ProjectileID.Sets.MinionSacrificable[base.projectile.type] = true;
-			ProjectileID.Sets.Homing[base.projectile.type] = true;
-			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+			Main.projFrames[base.Projectile.type] = 4;
+			ProjectileID.Sets.MinionSacrificable[base.Projectile.type] = true;
+			ProjectileID.Sets.CultistIsResistantTo[base.Projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.netImportant = true;
-			projectile.width = 22;
-			projectile.height = 23;
-			projectile.friendly = true;
-			Main.projPet[projectile.type] = true;
-			projectile.minion = true;
-			projectile.minionSlots = 1;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 18000;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			aiType = ProjectileID.Raven;
+			Projectile.netImportant = true;
+			Projectile.width = 22;
+			Projectile.height = 23;
+			Projectile.friendly = true;
+			Main.projPet[Projectile.type] = true;
+			Projectile.minion = true;
+			Projectile.minionSlots = 1;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 18000;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			AIType = ProjectileID.Raven;
 		}
 		bool jump = false;
 		int xoffset = 0;
@@ -41,17 +41,17 @@ namespace SpiritMod.Projectiles.Summon
 		}
 		public override void AI()
 		{
-			float num = 1f - (float)projectile.alpha / 255f;
-			num *= projectile.scale;
+			float num = 1f - (float)Projectile.alpha / 255f;
+			num *= Projectile.scale;
 			float num395 = Main.mouseTextColor / 155f - 0.35f;
 			num395 *= 0.34f;
-			projectile.scale = num395 + 0.55f;
-			bool flag64 = projectile.type == ModContent.ProjectileType<MangoJellyMinion>();
-			Player player = Main.player[projectile.owner];
-			if (projectile.Distance(player.Center) > 1500) {
-				projectile.position = player.position + new Vector2(Main.rand.Next(-125, 126), Main.rand.Next(-125, 126));
+			Projectile.scale = num395 + 0.55f;
+			bool flag64 = Projectile.type == ModContent.ProjectileType<MangoJellyMinion>();
+			Player player = Main.player[Projectile.owner];
+			if (Projectile.Distance(player.Center) > 1500) {
+				Projectile.position = player.position + new Vector2(Main.rand.Next(-125, 126), Main.rand.Next(-125, 126));
 				for (int i = 0; i < 25; i++) {
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.WitherLightning);
+					Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.WitherLightning);
 				}
 			}
 			MyPlayer modPlayer = player.GetSpiritPlayer();
@@ -60,110 +60,110 @@ namespace SpiritMod.Projectiles.Summon
 					modPlayer.mangoMinion = false;
 
 				if (modPlayer.mangoMinion)
-					projectile.timeLeft = 2;
+					Projectile.timeLeft = 2;
 			}
 
 			int range = 40;   //How many tiles away the projectile targets NPCs
 			float lowestDist = float.MaxValue;
 			if (player.HasMinionAttackTargetNPC) {
 				NPC npc = Main.npc[player.MinionAttackTargetNPC];
-				float dist = projectile.Distance(npc.Center);
+				float dist = Projectile.Distance(npc.Center);
 				if (dist / 16 < range) {
-					projectile.ai[1] = npc.whoAmI;
+					Projectile.ai[1] = npc.whoAmI;
 				}
 			}
 			else
 			{
 				foreach (NPC npc in Main.npc) {
 					//if npc is a valid target (active, not friendly, and not a critter)
-					if (npc.active && !npc.friendly && npc.catchItem == 0 && npc.CanBeChasedBy(projectile, false)) {
+					if (npc.active && !npc.friendly && npc.catchItem == 0 && npc.CanBeChasedBy(Projectile, false)) {
 						//if npc is within 50 blocks
-						float dist = projectile.Distance(npc.Center);
+						float dist = Projectile.Distance(npc.Center);
 						if (dist / 16 < range) {
 							//if npc is closer than closest found npc
 							if (dist < lowestDist) {
 								lowestDist = dist;
 
 								//target this npc
-								projectile.ai[1] = npc.whoAmI;
+								Projectile.ai[1] = npc.whoAmI;
 							}
 						}
 					}
 				}
 			}
-			NPC target = (Main.npc[(int)projectile.ai[1]] ?? new NPC()); //our target
+			NPC target = (Main.npc[(int)Projectile.ai[1]] ?? new NPC()); //our target
 			if (target.active && !target.friendly && target.type != NPCID.TargetDummy && target.type != NPCID.DD2LanePortal) {
-				if (target.position.X > projectile.position.X) {
+				if (target.position.X > Projectile.position.X) {
 					xoffset = Main.rand.Next(24, 28);
 				}
 				else {
 					xoffset = Main.rand.Next(-28, -24);
 				}
-				projectile.ai[0]++;
-				projectile.velocity.X *= 0.99f;
+				Projectile.ai[0]++;
+				Projectile.velocity.X *= 0.99f;
 				if (!jump) {
-					if (projectile.velocity.Y < 7.5f) {
-						projectile.velocity.Y += 0.095f;
+					if (Projectile.velocity.Y < 7.5f) {
+						Projectile.velocity.Y += 0.095f;
 					}
-					if (target.position.Y < projectile.position.Y && projectile.ai[0] % 8 == 0) {
+					if (target.position.Y < Projectile.position.Y && Projectile.ai[0] % 8 == 0) {
 						jump = true;
-						projectile.velocity.X = xoffset / 1.75f;
-						if (target.position.Y < projectile.position.Y - 150) {
-							projectile.velocity.Y = -9;
+						Projectile.velocity.X = xoffset / 1.75f;
+						if (target.position.Y < Projectile.position.Y - 150) {
+							Projectile.velocity.Y = -9;
 						}
 						else {
-							projectile.velocity.Y = -1.5f;
+							Projectile.velocity.Y = -1.5f;
 						}
 					}
-					projectile.rotation = 0f;
+					Projectile.rotation = 0f;
 				}
 				if (jump) {
-					projectile.velocity *= 0.96f;
-					if (Math.Abs(projectile.velocity.X) < 0.9f) {
+					Projectile.velocity *= 0.96f;
+					if (Math.Abs(Projectile.velocity.X) < 0.9f) {
 						jump = false;
 					}
-					projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+					Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 				}
 			}
 			else {
-				if (player.position.X > projectile.position.X) {
+				if (player.position.X > Projectile.position.X) {
 					xoffset = Main.rand.Next(16, 24);
 				}
 				else {
 					xoffset = Main.rand.Next(-24, -16);
 				}
-				projectile.ai[0]++;
-				projectile.velocity.X *= 0.99f;
+				Projectile.ai[0]++;
+				Projectile.velocity.X *= 0.99f;
 				if (!jump) {
-					if (projectile.velocity.Y < 7.5f) {
-						projectile.velocity.Y += 0.05f;
+					if (Projectile.velocity.Y < 7.5f) {
+						Projectile.velocity.Y += 0.05f;
 					}
-					if (player.position.Y < projectile.position.Y && projectile.ai[0] % 20 == 0) {
+					if (player.position.Y < Projectile.position.Y && Projectile.ai[0] % 20 == 0) {
 						jump = true;
-						projectile.velocity.X = xoffset / 1.25f;
-						if (player.position.Y < projectile.position.Y - 150) {
-							projectile.velocity.Y = -9;
+						Projectile.velocity.X = xoffset / 1.25f;
+						if (player.position.Y < Projectile.position.Y - 150) {
+							Projectile.velocity.Y = -9;
 						}
 						else {
-							projectile.velocity.Y = -1.5f;
+							Projectile.velocity.Y = -1.5f;
 						}
 					}
-					projectile.rotation = 0f;
+					Projectile.rotation = 0f;
 				}
 				if (jump) {
-					projectile.velocity *= 0.97f;
-					if (Math.Abs(projectile.velocity.X) < 0.3f) {
+					Projectile.velocity *= 0.97f;
+					if (Math.Abs(Projectile.velocity.X) < 0.3f) {
 						jump = false;
 					}
-					projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+					Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 				}
 			}
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 7) {
-				projectile.frame++;
-				projectile.frameCounter = 0;
-				if (projectile.frame >= 4)
-					projectile.frame = 0;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 7) {
+				Projectile.frame++;
+				Projectile.frameCounter = 0;
+				if (Projectile.frame >= 4)
+					Projectile.frame = 0;
 			}
 		}
 

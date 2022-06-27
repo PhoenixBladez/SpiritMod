@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,36 +14,36 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fiery Bolt");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 500;
-			projectile.height = 6;
-			projectile.width = 6;
-			projectile.alpha = 255;
-			aiType = ProjectileID.BallofFire;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 500;
+			Projectile.height = 6;
+			Projectile.width = 6;
+			Projectile.alpha = 255;
+			AIType = ProjectileID.BallofFire;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 74);
-			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 50;
-			projectile.height = 50;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 74);
+			Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+			Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+			Projectile.width = 50;
+			Projectile.height = 50;
+			Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+			Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
 
 			for (int num621 = 0; num621 < 20; num621++) {
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.CopperCoin, 0f, 0f, 100, default, .8f);
+				int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.CopperCoin, 0f, 0f, 100, default, .8f);
 				Main.dust[num622].velocity *= 1f;
 				if (Main.rand.Next(2) == 0) {
 					Main.dust[num622].scale = 0.5f;
@@ -49,42 +51,42 @@ namespace SpiritMod.Projectiles.DonatorItems
 				}
 			}
 			for (int num623 = 0; num623 < 25; num623++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.CopperCoin, 0f, 0f, 100, default, 1.5f);
+				int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.CopperCoin, 0f, 0f, 100, default, 1.5f);
 				Main.dust[num624].noGravity = true;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.CopperCoin, 0f, 0f, 100, default, 1f);
+				num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.CopperCoin, 0f, 0f, 100, default, 1f);
 				Main.dust[num624].velocity *= 1f;
 			}
 
 
-			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+			Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+			Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
 		}
 		public override void AI()
 		{
-			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+			Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + 1.57f;
 		}
 		public override Color? GetAlpha(Color lightColor)
 		{
 			return new Color(255, 150, 100, 100);
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			projectile.Kill();
+			Projectile.Kill();
 			target.AddBuff(BuffID.OnFire, 300);
 		}
 

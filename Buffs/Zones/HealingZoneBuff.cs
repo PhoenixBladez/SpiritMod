@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Zones
 {
 	public class HealingZoneBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Healing Zone");
 			Description.SetDefault("You feel invigorated!");

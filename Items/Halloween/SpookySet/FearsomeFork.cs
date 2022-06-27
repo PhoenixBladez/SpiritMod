@@ -15,30 +15,29 @@ namespace SpiritMod.Items.Halloween.SpookySet
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.width = 24;
-			item.height = 24;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.melee = true;
-			item.noMelee = true;
-			item.useAnimation = 27;
-			item.useTime = 27;
-			item.shootSpeed = 5f;
-			item.knockBack = 8f;
-			item.damage = 67;
-			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Yellow;
-			item.shoot = ModContent.ProjectileType<Projectiles.Held.FearsomeFork>();
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.width = 24;
+			Item.height = 24;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.DamageType = DamageClass.Melee;
+			Item.noMelee = true;
+			Item.useAnimation = 27;
+			Item.useTime = 27;
+			Item.shootSpeed = 5f;
+			Item.knockBack = 8f;
+			Item.damage = 67;
+			Item.value = Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Yellow;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Held.FearsomeFork>();
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.SpookyWood, 12);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

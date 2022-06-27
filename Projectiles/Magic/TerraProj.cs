@@ -10,23 +10,23 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 30;
-			projectile.height = 30;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.alpha = 255;
-			projectile.timeLeft = 540;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 30;
+			Projectile.height = 30;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 540;
 		}
 
 		public override bool PreAI()
 		{
-			projectile.tileCollide = true;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.TerraBlade, 0f, 0f);
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.TerraBlade, 0f, 0f);
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.TerraBlade, 0f, 0f);
+			Projectile.tileCollide = true;
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.TerraBlade, 0f, 0f);
+			Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.TerraBlade, 0f, 0f);
+			Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.TerraBlade, 0f, 0f);
 			Main.dust[dust].scale = 1.5f;
 			Main.dust[dust].noGravity = true;
 			return true;
@@ -34,10 +34,10 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 30f, 0f, ModContent.ProjectileType<TerraProj2>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -30f, 0f, ModContent.ProjectileType<TerraProj2>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -30f, ModContent.ProjectileType<TerraProj2>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 10f, 30f, ModContent.ProjectileType<TerraProj2>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 30f, 0f, ModContent.ProjectileType<TerraProj2>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, -30f, 0f, ModContent.ProjectileType<TerraProj2>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 0f, -30f, ModContent.ProjectileType<TerraProj2>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 10f, 30f, ModContent.ProjectileType<TerraProj2>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

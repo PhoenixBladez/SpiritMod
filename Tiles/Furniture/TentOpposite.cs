@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class TentOpposite : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileSolid[Type] = false;
@@ -32,7 +32,7 @@ namespace SpiritMod.Tiles.Furniture
 			name.SetDefault("Tent");
 			this.AddMapEntry(new Color(100, 100, 100), name);
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}

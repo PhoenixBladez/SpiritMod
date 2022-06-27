@@ -9,11 +9,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 	{
 		private readonly NPC Parent;
 
-		private Warden WardenParent => Parent.modNPC as Warden;
+		private Warden WardenParent => Parent.ModNPC as Warden;
 
 		public WardenBG(Vector2 pos, NPC parent) : base(pos, 0f, new Point(0, 0))
 		{
-			tex = ModContent.GetTexture("SpiritMod/NPCs/StarjinxEvent/Enemies/Warden/WardenBG");
+			tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/StarjinxEvent/Enemies/Warden/WardenBG");
 			source = new Rectangle(0, 0, tex.Width, tex.Height);
 			scale = 1f;
 

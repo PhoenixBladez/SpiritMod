@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class MidasTouch : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Midas Touch");
 			Description.SetDefault("Enemies drop more gold when killed");

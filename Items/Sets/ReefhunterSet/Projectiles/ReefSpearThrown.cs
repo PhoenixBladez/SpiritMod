@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,7 +10,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 {
 	public class ReefSpearThrown : ModProjectile
 	{
-		public override string Texture => mod.Name + "/Items/Sets/ReefhunterSet/Projectiles/ReefSpearProjectile";
+		public override string Texture => Mod.Name + "/Items/Sets/ReefhunterSet/Projectiles/ReefSpearProjectile";
 
 		private bool hasTarget = false;
 		private Vector2 relativePoint = Vector2.Zero;
@@ -16,98 +18,98 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Reef Trident");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 30;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = true;
-			projectile.ignoreWater = true;
-			projectile.melee = true;
-			projectile.aiStyle = 0;
+			Projectile.width = 30;
+			Projectile.height = 30;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = true;
+			Projectile.ignoreWater = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.aiStyle = 0;
 		}
 
-		public override bool CanDamage() => !hasTarget;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => !hasTarget;
 		public override bool? CanCutTiles() => !hasTarget;
 
 		public override void AI()
 		{
 			if (!hasTarget)
 			{
-				projectile.velocity.Y += 0.3f;
+				Projectile.velocity.Y += 0.3f;
 
-				projectile.rotation = projectile.velocity.ToRotation();
+				Projectile.rotation = Projectile.velocity.ToRotation();
 			}
 			else
 			{
-				NPC npc = Main.npc[(int)projectile.ai[1]];
+				NPC npc = Main.npc[(int)Projectile.ai[1]];
 
 				if (!npc.active)
 				{
-					projectile.netUpdate = true;
-					projectile.tileCollide = true;
-					projectile.timeLeft *= 2;
-					projectile.velocity *= 0;
+					Projectile.netUpdate = true;
+					Projectile.tileCollide = true;
+					Projectile.timeLeft *= 2;
+					Projectile.velocity *= 0;
 
 					hasTarget = false;
 					return;
 				}
 
-				projectile.ai[0]++;
-				float factor = 1 - (projectile.ai[0] / 10f);
-				if (projectile.ai[0] >= 10f)
+				Projectile.ai[0]++;
+				float factor = 1 - (Projectile.ai[0] / 10f);
+				if (Projectile.ai[0] >= 10f)
 					factor = 0;
 
-				relativePoint += projectile.velocity * factor * 0.1f;
+				relativePoint += Projectile.velocity * factor * 0.1f;
 
-				projectile.Center = npc.Center + relativePoint;
+				Projectile.Center = npc.Center + relativePoint;
 			}
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			projectile.ai[0] = 0;
-			projectile.ai[1] = target.whoAmI;
-			projectile.tileCollide = false;
-			projectile.netUpdate = true;
-			projectile.timeLeft = 240;
+			Projectile.ai[0] = 0;
+			Projectile.ai[1] = target.whoAmI;
+			Projectile.tileCollide = false;
+			Projectile.netUpdate = true;
+			Projectile.timeLeft = 240;
 
 			target.AddBuff(BuffID.Poisoned, 300);
 
 			hasTarget = true;
-			relativePoint = projectile.Center - target.Center;
+			relativePoint = Projectile.Center - target.Center;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D projTex = Main.projectileTexture[projectile.type];
+			Texture2D projTex = TextureAssets.Projectile[Projectile.type].Value;
 			const int halfTipWidth = 15;
-			Vector2 drawOrigin = new Vector2(projectile.spriteDirection > 0 ? projTex.Width - halfTipWidth : halfTipWidth, projTex.Height / 2);
+			Vector2 drawOrigin = new Vector2(Projectile.spriteDirection > 0 ? projTex.Width - halfTipWidth : halfTipWidth, projTex.Height / 2);
 			if(!hasTarget)
-				projectile.QuickDrawTrail(spriteBatch, 0.25f, drawOrigin: drawOrigin);
+				Projectile.QuickDrawTrail(spriteBatch, 0.25f, drawOrigin: drawOrigin);
 
-			projectile.QuickDraw(spriteBatch, drawOrigin: drawOrigin);
+			Projectile.QuickDraw(spriteBatch, drawOrigin: drawOrigin);
 			return false;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Dig, projectile.Center);
-			Vector2 goreVel = hasTarget ? Vector2.Zero : projectile.oldVelocity / 3;
-			Vector2 pos = projectile.Center;
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
+			Vector2 goreVel = hasTarget ? Vector2.Zero : Projectile.oldVelocity / 3;
+			Vector2 pos = Projectile.Center;
 			for (int i = 1; i <= 6; i++)
 			{
 				if (i >= 4)
-					pos -= Vector2.Normalize(projectile.oldVelocity) * (15 + (i - 3) * 3);
+					pos -= Vector2.Normalize(Projectile.oldVelocity) * (15 + (i - 3) * 3);
 
-				Gore g = Gore.NewGorePerfect(pos, goreVel, mod.GetGoreSlot("Gores/Projectiles/ReefTrident/Trident" + i));
+				Gore g = Gore.NewGorePerfect(pos, goreVel, Mod.Find<ModGore>("Gores/Projectiles/ReefTrident/Trident" + i).Type);
 				g.timeLeft = 0;
-				g.rotation = projectile.rotation;
+				g.rotation = Projectile.rotation;
 			}
 		}
 	}

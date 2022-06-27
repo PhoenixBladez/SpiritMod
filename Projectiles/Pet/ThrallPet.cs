@@ -8,34 +8,34 @@ namespace SpiritMod.Projectiles.Pet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lil' Leonardo");
-			Main.projFrames[projectile.type] = 7;
-			Main.projPet[projectile.type] = true;
+			Main.projFrames[Projectile.type] = 7;
+			Main.projPet[Projectile.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.BabySnowman);
-			aiType = ProjectileID.BabySnowman;
-			projectile.height = 40;
-			projectile.width = 20;
+			Projectile.CloneDefaults(ProjectileID.BabySnowman);
+			AIType = ProjectileID.BabySnowman;
+			Projectile.height = 40;
+			Projectile.width = 20;
 		}
 
 		public override bool PreAI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			player.snowman = false; // Relic from aiType
 			return true;
 		}
 
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (player.dead)
 				modPlayer.thrallPet = false;
 
 			if (modPlayer.thrallPet)
-				projectile.timeLeft = 2;
+				Projectile.timeLeft = 2;
 
 		}
 

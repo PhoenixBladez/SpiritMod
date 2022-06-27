@@ -7,6 +7,8 @@ using System.Text;
 using System.Reflection;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.UI;
@@ -62,9 +64,9 @@ namespace SpiritMod.UI.Elements
 			this._isHoveringOverHandle = handleRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y));
 			if (!flag && this._isHoveringOverHandle && Main.hasFocus)
 			{
-				Main.PlaySound(SoundID.MenuTick, -1, -1, 1, 1f, 0f);
+				SoundEngine.PlaySound(SoundID.MenuTick, -1, -1, 1, 1f, 0f);
 			}
-			spriteBatch.Draw(Main.blackTileTexture, handleRectangle, Colour * (this._isDragging || this._isHoveringOverHandle ? 1f : 0.85f));
+			spriteBatch.Draw(TextureAssets.BlackTile.Value, handleRectangle, Colour * (this._isDragging || this._isHoveringOverHandle ? 1f : 0.85f));
 
 			UserInterface.ActiveInstance = activeInstance;
 		}

@@ -15,11 +15,11 @@ namespace SpiritMod.Items.Armor.Daybloom
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 20;
-			item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
-			item.rare = ItemRarityID.White;
-			item.defense = 2;
+			Item.width = 30;
+			Item.height = 20;
+			Item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
+			Item.rare = ItemRarityID.White;
+			Item.defense = 2;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -29,12 +29,11 @@ namespace SpiritMod.Items.Armor.Daybloom
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Sunflower, 2);
 			recipe.AddIngredient(ItemID.FallenStar, 2);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

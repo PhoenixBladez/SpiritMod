@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Armor
 {
 	class ExplorerFight : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Strike Strength");
 			Description.SetDefault("You're getting the hang of it!");

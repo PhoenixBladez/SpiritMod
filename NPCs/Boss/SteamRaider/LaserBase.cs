@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,50 +19,50 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Laser Launcher");
-			Main.npcFrameCount[npc.type] = 1;
+			Main.npcFrameCount[NPC.type] = 1;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 56;
-			npc.height = 46;
-			npc.damage = 0;
-			npc.defense = 12;
-			npc.noTileCollide = true;
-			npc.dontTakeDamage = true;
-			npc.lifeMax = 65;
-			npc.HitSound = SoundID.NPCHit4;
-			npc.value = 160f;
-			npc.knockBackResist = .16f;
-			npc.noGravity = true;
-			npc.dontCountMe = true;
+			NPC.width = 56;
+			NPC.height = 46;
+			NPC.damage = 0;
+			NPC.defense = 12;
+			NPC.noTileCollide = true;
+			NPC.dontTakeDamage = true;
+			NPC.lifeMax = 65;
+			NPC.HitSound = SoundID.NPCHit4;
+			NPC.value = 160f;
+			NPC.knockBackResist = .16f;
+			NPC.noGravity = true;
+			NPC.dontCountMe = true;
 		}
 
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			if (npc.alpha != 255)
+			if (NPC.alpha != 255)
 			{
-				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/SteamRaider/LaserBase_Glow"));
+				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Boss/SteamRaider/LaserBase_Glow"));
 			}
 		}
 
 		public override bool PreAI()
 		{
-			npc.TargetClosest(true);
-			Player player = Main.player[npc.target];
+			NPC.TargetClosest(true);
+			Player player = Main.player[NPC.target];
 
-			float num5 = npc.position.X + (float)(npc.width / 2) - player.position.X - (float)(player.width / 2);
-			float num6 = npc.position.Y + (float)npc.height - 59f - player.position.Y - (float)(player.height / 2);
+			float num5 = NPC.position.X + (float)(NPC.width / 2) - player.position.X - (float)(player.width / 2);
+			float num6 = NPC.position.Y + (float)NPC.height - 59f - player.position.Y - (float)(player.height / 2);
 			float num7 = (float)Math.Atan2((double)num6, (double)num5) + 1.57f;
-			if (!(npc.ai[0] >= 100 && npc.ai[0] <= 130))
+			if (!(NPC.ai[0] >= 100 && NPC.ai[0] <= 130))
 			{
 				if (num7 < 0f)
 				{
@@ -71,46 +73,46 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					num7 -= 6.283f;
 				}
 			}
-			npc.spriteDirection = npc.direction;
-			if (npc.ai[0] == 0)
+			NPC.spriteDirection = NPC.direction;
+			if (NPC.ai[0] == 0)
 			{
-				npc.ai[1] = Main.rand.Next(160, 190);
-				npc.netUpdate = true;
+				NPC.ai[1] = Main.rand.Next(160, 190);
+				NPC.netUpdate = true;
 			}
-			npc.ai[0]++;
-			if (npc.ai[0] >= npc.ai[1])
+			NPC.ai[0]++;
+			if (NPC.ai[0] >= NPC.ai[1])
 			{
-				Main.PlaySound(SoundID.Item, npc.Center, 110);
+				SoundEngine.PlaySound(SoundID.Item110, NPC.Center);
 				for (int i = 0; i < 40; i++)
 				{
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 117, new Color(0, 255, 142), .6f);
+					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
 					Dust dust = Main.dust[num];
 					dust.position.X += ((Main.rand.Next(-50, 51) / 20) - 1.5f);
 					dust.position.Y += ((Main.rand.Next(-50, 51) / 20) - 1.5f);
-					if (Main.dust[num].position != npc.Center)
-						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 3f;
+					if (Main.dust[num].position != NPC.Center)
+						Main.dust[num].velocity = NPC.DirectionTo(Main.dust[num].position) * 3f;
 				}
 				if (Main.expertMode)
-					npc.Transform(ModContent.NPCType<SuicideLaser>());
+					NPC.Transform(ModContent.NPCType<SuicideLaser>());
 				else
-					npc.active = false;
-				npc.netUpdate = true;
+					NPC.active = false;
+				NPC.netUpdate = true;
 			}
 			else
 			{
-				npc.velocity.X = 0;
-				npc.velocity.Y = 0;
+				NPC.velocity.X = 0;
+				NPC.velocity.Y = 0;
 			}
-			if (npc.ai[0] <= 75)
+			if (NPC.ai[0] <= 75)
 			{
-				direction9 = player.Center - npc.Center;
+				direction9 = player.Center - NPC.Center;
 				direction9.Normalize();
 			}
-			if (npc.ai[0] >= 60 && npc.ai[0] <= 110 & npc.ai[0] % 2 == 0)
+			if (NPC.ai[0] >= 60 && NPC.ai[0] <= 110 & NPC.ai[0] % 2 == 0)
 			{
 				{
-					int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.Electric);
+					int dust = Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.Electric);
 					Main.dust[dust].velocity *= -1f;
 					Main.dust[dust].scale *= .8f;
 					Main.dust[dust].noGravity = true;
@@ -120,30 +122,30 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					Main.dust[dust].velocity = vector2_2;
 					vector2_2.Normalize();
 					Vector2 vector2_3 = vector2_2 * 34f;
-					Main.dust[dust].position = npc.Center - vector2_3;
+					Main.dust[dust].position = NPC.Center - vector2_3;
 				}
 			}
-			if (npc.alpha != 255)
+			if (NPC.alpha != 255)
 			{
 				if (Main.rand.NextFloat() < 0.5f)
 				{
-					Vector2 position = new Vector2(npc.Center.X - 10, npc.Center.Y);
-					Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(npc.rotation), 0, new Color(255, 0, 0), 0.6578947f);
+					Vector2 position = new Vector2(NPC.Center.X - 10, NPC.Center.Y);
+					Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(NPC.rotation), 0, new Color(255, 0, 0), 0.6578947f);
 				}
 				if (Main.rand.NextFloat() < 0.5f)
 				{
-					Vector2 position = new Vector2(npc.Center.X + 10, npc.Center.Y);
-					Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(npc.rotation), 0, new Color(255, 0, 0), 0.6578947f);
+					Vector2 position = new Vector2(NPC.Center.X + 10, NPC.Center.Y);
+					Dust.NewDustPerfect(position, 226, new Vector2(0f, -6.421053f).RotatedBy(NPC.rotation), 0, new Color(255, 0, 0), 0.6578947f);
 				}
 
-				if (npc.ai[0] == 110) //change to frame related later
+				if (NPC.ai[0] == 110) //change to frame related later
 				{
-					Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 53);
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), NPCUtils.ToActualDamage(55, 1.5f), 1, Main.myPlayer);
+					SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 53);
+					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), NPCUtils.ToActualDamage(55, 1.5f), 1, Main.myPlayer);
 				}
-				if (npc.ai[0] < 110 && npc.ai[0] > 75 && npc.ai[0] % 3 == 0)
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<StarLaserTrace>(), NPCUtils.ToActualDamage(27, 1.5f), 1, Main.myPlayer);
-				npc.rotation = direction9.ToRotation() - 1.57f;
+				if (NPC.ai[0] < 110 && NPC.ai[0] > 75 && NPC.ai[0] % 3 == 0)
+					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<StarLaserTrace>(), NPCUtils.ToActualDamage(27, 1.5f), 1, Main.myPlayer);
+				NPC.rotation = direction9.ToRotation() - 1.57f;
 			}
 			return false;
 		}

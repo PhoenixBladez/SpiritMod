@@ -14,12 +14,12 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 
 		public override void SetDefaults()
 		{
-			item.width = 14;
-			item.height = 24;
-			item.rare = ItemRarityID.Orange;
-			item.UseSound = SoundID.Item11;
-			item.accessory = true;
-			item.value = Item.buyPrice(0, 2, 30, 0);
+			Item.width = 14;
+			Item.height = 24;
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item11;
+			Item.accessory = true;
+			Item.value = Item.buyPrice(0, 2, 30, 0);
 		}
 
 		public override void SafeUpdateAccessory(Player player, bool hideVisual)
@@ -39,14 +39,13 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe(1);
 			modRecipe.AddIngredient(ModContent.ItemType<YoyoCharm2>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<MCharm>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<DCharm>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<HCharm>(), 1);
 			modRecipe.AddTile(TileID.DemonAltar);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

@@ -14,12 +14,12 @@ namespace SpiritMod.Items.Sets.BriarDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 26;
-			item.height = 28;
-			item.value = 1000;
-			item.rare = ItemRarityID.Blue;
+			Item.width = 26;
+			Item.height = 28;
+			Item.value = 1000;
+			Item.rare = ItemRarityID.Blue;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 		}
 	}
 }

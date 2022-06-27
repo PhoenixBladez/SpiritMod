@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.Graphics.Effects;
@@ -27,13 +28,13 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 			goldified = false;
 		}
 		
-		public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
+		public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
 		{
 			if (goldified)
 			{
 				if (Main.rand.Next(5) == 0 && drawInfo.shadow == 0f)
 				{
-					int index = Dust.NewDust(new Vector2((float)player.getRect().X, (float)player.getRect().Y), player.getRect().Width, player.getRect().Height, DustID.GoldFlame, 0.0f, 0.0f, 0, new Color(), 1f);
+					int index = Dust.NewDust(new Vector2((float)Player.getRect().X, (float)Player.getRect().Y), Player.getRect().Width, Player.getRect().Height, DustID.GoldFlame, 0.0f, 0.0f, 0, new Color(), 1f);
 					Main.dust[index].scale = 1.5f;
 					Main.dust[index].noGravity = true;
 					Main.dust[index].velocity *= 1.1f;
@@ -48,9 +49,9 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 		{
 			if (goldified)
 			{
-				damageSource = PlayerDeathReason.ByCustomReason(player.name + " died solid as a gold bar");
+				damageSource = PlayerDeathReason.ByCustomReason(Player.name + " died solid as a gold bar");
 				playSound = false;
-				Main.PlaySound(SoundID.Item37, player.position);
+				SoundEngine.PlaySound(SoundID.Item37, Player.position);
 			}
 			return base.PreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
 		}

@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class ClockBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Time power");
 			Description.SetDefault("ZAWARUDO!!");

@@ -5,7 +5,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 {
 	public class BottleMountBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Raft");
 			Description.SetDefault("Sending out an SOS");

@@ -15,20 +15,20 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.rare = ItemRarityID.LightRed;
+			Item.width = Item.height = 16;
+			Item.rare = ItemRarityID.LightRed;
 
-			item.maxStack = 99;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.useTime = item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.noMelee = true;
-			item.consumable = true;
-			item.autoReuse = false;
-			item.buffType = ModContent.BuffType<OliveBranchBuff>();
-			item.buffTime = 10800;
-			item.UseSound = SoundID.Item29;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.autoReuse = false;
+			Item.buffType = ModContent.BuffType<OliveBranchBuff>();
+			Item.buffTime = 10800;
+			Item.UseSound = SoundID.Item29;
 		}
 	}
 }

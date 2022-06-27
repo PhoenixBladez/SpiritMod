@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,117 +15,117 @@ namespace SpiritMod.NPCs.FallenAngel
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fallen Angel");
-			Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.FlyingFish];
-			NPCID.Sets.TrailCacheLength[npc.type] = 3;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = Main.npcFrameCount[NPCID.FlyingFish];
+			NPCID.Sets.TrailCacheLength[NPC.type] = 3;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 44;
-			npc.height = 60;
-			npc.damage = 50;
-			npc.defense = 31;
-			npc.lifeMax = 3200;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.buffImmune[BuffID.Venom] = true;
-			npc.buffImmune[BuffID.OnFire] = true;
-			npc.buffImmune[BuffID.CursedInferno] = true;
-			npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = SoundID.NPCDeath6;
-			npc.value = 60f;
-			npc.knockBackResist = 0.03f;
-			npc.aiStyle = 44;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.stepSpeed = 2f;
-			npc.rarity = 3;
+			NPC.width = 44;
+			NPC.height = 60;
+			NPC.damage = 50;
+			NPC.defense = 31;
+			NPC.lifeMax = 3200;
+			NPC.buffImmune[BuffID.Poisoned] = true;
+			NPC.buffImmune[BuffID.Venom] = true;
+			NPC.buffImmune[BuffID.OnFire] = true;
+			NPC.buffImmune[BuffID.CursedInferno] = true;
+			NPC.HitSound = SoundID.NPCHit4;
+			NPC.DeathSound = SoundID.NPCDeath6;
+			NPC.value = 60f;
+			NPC.knockBackResist = 0.03f;
+			NPC.aiStyle = 44;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.stepSpeed = 2f;
+			NPC.rarity = 3;
 
-			aiType = NPCID.FlyingFish;
-			animationType = NPCID.FlyingFish;
+			AIType = NPCID.FlyingFish;
+			AnimationType = NPCID.FlyingFish;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.sky && Main.hardMode && !NPC.AnyNPCs(ModContent.NPCType<FallenAngel>()) ? 0.013f : 0f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Sky && Main.hardMode && !NPC.AnyNPCs(ModContent.NPCType<FallenAngel>()) ? 0.013f : 0f;
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0.091f, 0.24f, .24f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.091f, 0.24f, .24f);
 
-			npc.rotation = npc.velocity.X * .009f;
-			npc.ai[0]++;
-			npc.ai[1] += 0.04f;
+			NPC.rotation = NPC.velocity.X * .009f;
+			NPC.ai[0]++;
+			NPC.ai[1] += 0.04f;
 
-			if (npc.ai[0] == 100 || npc.ai[0] == 240 || npc.ai[0] == 360 || npc.ai[0] == 620)
+			if (NPC.ai[0] == 100 || NPC.ai[0] == 240 || NPC.ai[0] == 360 || NPC.ai[0] == 620)
 			{
-				Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
-				Vector2 direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * new Vector2(Main.rand.Next(8, 10), Main.rand.Next(8, 10));
-				npc.velocity = direction * 0.96f;
+				SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDown, NPC.Center);
+				Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * new Vector2(Main.rand.Next(8, 10), Main.rand.Next(8, 10));
+				NPC.velocity = direction * 0.96f;
 			}
 
-			if (npc.ai[0] >= 680)
+			if (NPC.ai[0] >= 680)
 			{
-				Main.PlaySound(SoundID.Item, npc.Center, 109);
-				DustHelper.DrawStar(npc.Center, DustID.GoldCoin, pointAmount: 5, mainSize: 2.25f * 2.33f, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
+				SoundEngine.PlaySound(SoundID.Item, NPC.Center, 109);
+				DustHelper.DrawStar(NPC.Center, DustID.GoldCoin, pointAmount: 5, mainSize: 2.25f * 2.33f, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
 
 				for (int i = 0; i < 5; i++)
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-8, 8), Main.rand.Next(-8, 8), ModContent.ProjectileType<ShootingStarHostile>(), 30, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, Main.rand.Next(-8, 8), Main.rand.Next(-8, 8), ModContent.ProjectileType<ShootingStarHostile>(), 30, 1, Main.myPlayer, 0, 0);
 
-				npc.ai[0] = 0;
+				NPC.ai[0] = 0;
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-			float sineAdd = (float)Math.Sin(npc.ai[1]) + 3;
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
+			float sineAdd = (float)Math.Sin(NPC.ai[1]) + 3;
 
-			Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), (NPC.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
 
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 
-			if (npc.velocity != Vector2.Zero)
+			if (NPC.velocity != Vector2.Zero)
 			{
-				for (int k = 0; k < npc.oldPos.Length; k++)
+				for (int k = 0; k < NPC.oldPos.Length; k++)
 				{
-					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-					Color color = npc.GetAlpha(drawColor) * (((npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+					Color color = NPC.GetAlpha(drawColor) * (((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
 			return false;
 		}
 
-		public override bool PreNPCLoot()
+		public override bool PreKill()
 		{
-			Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+			SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
 			return true;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/FallenAngel/FallenAngel_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/FallenAngel/FallenAngel_Glow"));
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StarPiece>(), Main.rand.Next(1, 3));
+			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<StarPiece>(), Main.rand.Next(1, 3));
 
 			if (Main.rand.NextBool(5))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.FallenAngel>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Accessory.FallenAngel>());
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 				for (int i = 0; i < 3; ++i)
-					Gore.NewGore(npc.position, npc.velocity, 99);
+					Gore.NewGore(NPC.position, NPC.velocity, 99);
 
 			for (int k = 0; k < 2; k++)
 			{
 				Vector2 vel = Vector2.Normalize(new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101))) * (Main.rand.Next(50, 100) * 0.04f);
-				int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.GoldCoin);
+				int dust = Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.GoldCoin);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].velocity = vel;
-				Main.dust[dust].position = npc.Center - (Vector2.Normalize(vel) * 34f);
+				Main.dust[dust].position = NPC.Center - (Vector2.Normalize(vel) * 34f);
 			}
 		}
 

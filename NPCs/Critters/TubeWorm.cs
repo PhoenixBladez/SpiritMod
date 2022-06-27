@@ -1,5 +1,6 @@
 using SpiritMod.Items.Consumable;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
@@ -15,26 +16,26 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tubeworm");
-			Main.npcFrameCount[npc.type] = 6;
-			Main.npcCatchable[npc.type] = true;
+			Main.npcFrameCount[NPC.type] = 6;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.dontCountMe = true;
-			npc.width = 10;
-			npc.height = 14;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 5;
-			npc.HitSound = SoundID.NPCHit2;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.catchItem = (short)ModContent.ItemType<TubewormItem>();
-			npc.knockBackResist = 0f;
-			npc.aiStyle = 0;
-			npc.npcSlots = 0;
-			npc.alpha = 255;
-			aiType = NPCID.WebbedStylist;
+			NPC.dontCountMe = true;
+			NPC.width = 10;
+			NPC.height = 14;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 5;
+			NPC.HitSound = SoundID.NPCHit2;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.catchItem = (short)ModContent.ItemType<TubewormItem>();
+			NPC.knockBackResist = 0f;
+			NPC.aiStyle = 0;
+			NPC.npcSlots = 0;
+			NPC.alpha = 255;
+			AIType = NPCID.WebbedStylist;
         }
 
 		bool hasPicked = false;
@@ -42,12 +43,12 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void AI()
         {
-			if (npc.alpha > 0)
-				npc.alpha -= 5;
+			if (NPC.alpha > 0)
+				NPC.alpha -= 5;
 
 			if (!hasPicked)
             {
-				npc.scale = Main.rand.NextFloat(.6f, 1.15f);
+				NPC.scale = Main.rand.NextFloat(.6f, 1.15f);
 				pickedType = Main.rand.Next(0, 4);
 				hasPicked = true;
 			}
@@ -55,12 +56,12 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.18f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
-			npc.frame.X = 18 * pickedType;
-			npc.frame.Width = 18;
+			NPC.frameCounter += 0.18f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
+			NPC.frame.X = 18 * pickedType;
+			NPC.frame.Width = 18;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -75,19 +76,19 @@ namespace SpiritMod.NPCs.Critters
 			hasPicked = reader.ReadBoolean();
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-			Vector2 drawPos = npc.Center - Main.screenPosition + drawOrigin + new Vector2(-14, -12);
-			Color color = npc.GetAlpha(lightColor);
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height * 0.5f));
+			Vector2 drawPos = NPC.Center - Main.screenPosition + drawOrigin + new Vector2(-14, -12);
+			Color color = NPC.GetAlpha(lightColor);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			return false;
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-            if (npc.life <= 0)
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/TubewormGore"), 1f);
+            if (NPC.life <= 0)
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/TubewormGore").Type, 1f);
         }
 	}
 }

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,20 +15,20 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.penetrate = 1;
-			projectile.alpha = 255;
-			projectile.timeLeft = 500;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.penetrate = 1;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 500;
 		}
 
 		public override bool PreAI()
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, projectile.velocity.X * .5f, projectile.velocity.Y * .5f);
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Blood, Projectile.velocity.X * .5f, Projectile.velocity.Y * .5f);
 			Main.dust[dust].scale = 2f;
 			Main.dust[dust].noGravity = true;
 
@@ -35,9 +36,9 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
 			for (int k = 0; k < 5; k++) {
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, projectile.oldVelocity.X * .5f, projectile.oldVelocity.Y * .5f);
+				Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Blood, Projectile.oldVelocity.X * .5f, Projectile.oldVelocity.Y * .5f);
 			}
 
 			for (int h = 0; h < 4; h++) {
@@ -45,8 +46,8 @@ namespace SpiritMod.Projectiles.Magic
 				float rand = Main.rand.NextFloat() * 6.283f;
 				vel = vel.RotatedBy(rand);
 				vel *= 5f;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
-					vel.X, vel.Y, ProjectileID.GoldenShowerFriendly, projectile.damage, 0, Main.myPlayer);
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y,
+					vel.X, vel.Y, ProjectileID.GoldenShowerFriendly, Projectile.damage, 0, Main.myPlayer);
 			}
 		}
 

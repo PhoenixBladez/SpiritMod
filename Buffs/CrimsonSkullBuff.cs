@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class CrimsonSkullBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crimson Skull");
 			Description.SetDefault("Flask of gore now deals double damage");

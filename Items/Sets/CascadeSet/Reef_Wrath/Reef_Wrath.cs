@@ -3,6 +3,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Sets.FloatingItems;
+using Terraria.DataStructures;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 {
@@ -10,34 +12,33 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 	{
 		public override void SetDefaults()
 		{
-			item.damage = 18;
-			item.noMelee = true;
-			item.noUseGraphic = false;
-			item.magic = true;
-			item.width = 36;
-			item.height = 40;
-			item.useTime = 36;
-			item.useAnimation = 36;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ModContent.ProjectileType<Reef_Wrath_Projectile_Alt>();
-			item.shootSpeed = 0f;
-			item.knockBack = 2.5f;
-			item.autoReuse = false;
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item109;
-			item.value = Item.sellPrice(silver: 30);
-			item.useTurn = false;
-			item.mana = 8;
+			Item.damage = 18;
+			Item.noMelee = true;
+			Item.noUseGraphic = false;
+			Item.DamageType = DamageClass.Magic;
+			Item.width = 36;
+			Item.height = 40;
+			Item.useTime = 36;
+			Item.useAnimation = 36;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ModContent.ProjectileType<Reef_Wrath_Projectile_Alt>();
+			Item.shootSpeed = 0f;
+			Item.knockBack = 2.5f;
+			Item.autoReuse = false;
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item109;
+			Item.value = Item.sellPrice(silver: 30);
+			Item.useTurn = false;
+			Item.mana = 8;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 11);
 			recipe.AddIngredient(ModContent.ItemType<Kelp>(), 6);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
 		public override void SetStaticDefaults()
@@ -57,7 +58,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 			return player.MountedCenter + player.DirectionTo(Main.MouseWorld) * dist;
 		}
 		
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			for (int i = 0; i < 3; i++)
 			{
@@ -71,7 +72,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 
 				x += randomiseX;
 
-				while (y < Main.maxTilesY - 10 && Main.tile[x, y] != null && !(WorldGen.SolidTile(x, y) || WorldGen.SolidTile2(x, y) || WorldGen.SolidTile3(x, y))) {
+				while (y < Main.maxTilesY - 10 && !(WorldGen.SolidTile(x, y) || WorldGen.SolidTile2(x, y) || WorldGen.SolidTile3(x, y))) {
 					y++;
 				}
 				y--;
@@ -79,10 +80,10 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 				Vector2 pos = new Vector2(x, y).ToWorldCoordinates();
 				Vector2 vel = Vector2.UnitX.RotatedByRandom(MathHelper.Pi / 8);
 
-				if (Framing.GetTileSafely(x, y + 1).halfBrick())
+				if (Framing.GetTileSafely(x, y + 1).IsHalfBlock)
 					pos.Y += 8;
 
-				switch (Framing.GetTileSafely(x, y + 1).slope()) {
+				switch (Framing.GetTileSafely(x, y + 1).Slope) {
 					case 1: vel = vel.RotatedBy(MathHelper.Pi / 4);
 						break;
 					case 2: vel = vel.RotatedBy(-MathHelper.Pi / 4);
@@ -91,7 +92,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 						break;
 				}
 
-				Projectile.NewProjectile(pos, vel, ModContent.ProjectileType<Reef_Wrath_Projectile_Alt>(), 0, 0f, player.whoAmI);
+				Projectile.NewProjectile(Item.GetSource_ItemUse(Item), pos, vel, ModContent.ProjectileType<Reef_Wrath_Projectile_Alt>(), 0, 0f, player.whoAmI);
 			}
 			
 			return false;

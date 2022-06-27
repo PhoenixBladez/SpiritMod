@@ -7,7 +7,7 @@ namespace SpiritMod.World.Sepulchre
 {
 	public class SepulchreWindowTwo : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -27,7 +27,7 @@ namespace SpiritMod.World.Sepulchre
 			TileObjectData.newTile.AnchorTop = default(AnchorData);
 			TileObjectData.newTile.AnchorWall = true;
 			TileObjectData.addTile(Type);
-			dustType = -1;
+			DustType = -1;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Sepulchre Window");
 			AddMapEntry(new Color(100, 100, 100), name);

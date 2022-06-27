@@ -14,33 +14,32 @@ namespace SpiritMod.Items.Sets.MarbleSet
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 38;
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Green;
+			Item.width = 36;
+			Item.height = 38;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Green;
 
-			item.pick = 70;
+			Item.pick = 70;
 
-			item.damage = 16;
-			item.knockBack = 5f;
+			Item.damage = 16;
+			Item.knockBack = 5f;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 19;
-			item.useAnimation = 19;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 19;
+			Item.useAnimation = 19;
 
-			item.melee = true;
-			item.autoReuse = true;
+			Item.DamageType = DamageClass.Melee;
+			Item.autoReuse = true;
 
-			item.UseSound = SoundID.Item1;
+			Item.UseSound = SoundID.Item1;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe();
 			modRecipe.AddIngredient(ModContent.ItemType<MarbleChunk>(), 16);
 			modRecipe.AddTile(TileID.Anvils);
-			modRecipe.SetResult(this);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

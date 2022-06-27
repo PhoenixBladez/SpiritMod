@@ -14,24 +14,24 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.penetrate = 1;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 300;
-			projectile.height = 8;
-			projectile.width = 8;
-			projectile.alpha = 255;
-			aiType = ProjectileID.Bullet;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.penetrate = 1;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 300;
+			Projectile.height = 8;
+			Projectile.width = 8;
+			Projectile.alpha = 255;
+			AIType = ProjectileID.Bullet;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void AI()
 		{
 			float rotationSpeed = (float)Math.PI / 15;
-			projectile.rotation += rotationSpeed;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Asphalt, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Asphalt, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Projectile.rotation += rotationSpeed;
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Asphalt, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+			int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Asphalt, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 			Main.dust[dust].velocity *= 0f;
@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			Player player = Main.player[base.projectile.owner];
+			Player player = Main.player[base.Projectile.owner];
 
 			if (Main.rand.Next(7) == 1) {
 				player.statLife += Main.rand.Next(2, 3);

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,28 +22,28 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 
 		public override void SetDefaults()
 		{
-			item.width = 46;
-			item.height = 34;
-			item.useTime = 20;
-			item.useAnimation = 20;
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.value = Item.buyPrice(gold: 10);
-			item.rare = ItemRarityID.Pink;
-			item.UseSound = SoundID.Item79;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.mountType = ModContent.MountType<AuroraStagMount>();
+			Item.width = 46;
+			Item.height = 34;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.value = Item.buyPrice(gold: 10);
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item79;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.mountType = ModContent.MountType<AuroraStagMount>();
 		}
 
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
-			Texture2D glowmask = ModContent.GetTexture(Texture + "_glow");
-			float Timer = 0.5f + (float)(Math.Sin(Main.GlobalTime * 4) / 2);
-			float BlurTimer = 0.5f + (float)(Math.Sin(Main.GlobalTime * 12) / 2);
+			Texture2D glowmask = ModContent.Request<Texture2D>(Texture + "_glow");
+			float Timer = 0.5f + (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 4) / 2);
+			float BlurTimer = 0.5f + (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 12) / 2);
 
 			Color color = Color.Lerp(new Color(85, 255, 229), new Color(28, 155, 255), Timer);
-			float opacity = MathHelper.Lerp(0.7f, 1f, Timer) * ((255f - item.alpha) / 255f);
-			Vector2 itemCenter = new Vector2(item.position.X - Main.screenPosition.X + item.width / 2, item.position.Y - Main.screenPosition.Y + item.height - (Main.itemTexture[item.type].Height / 2) + 2f);
+			float opacity = MathHelper.Lerp(0.7f, 1f, Timer) * ((255f - Item.alpha) / 255f);
+			Vector2 itemCenter = new Vector2(Item.position.X - Main.screenPosition.X + Item.width / 2, Item.position.Y - Main.screenPosition.Y + Item.height - (TextureAssets.Item[Item.type].Value.Height / 2) + 2f);
 			int numtodraw = 6;
 			for(int i = 0; i < numtodraw; i++) //draw pulsing glowmask effect
 			{
@@ -54,7 +55,7 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 			spriteBatch.Draw(glowmask, itemCenter, null, color * opacity, rotation, glowmask.Size() / 2, scale, SpriteEffects.None, 0f); //draw the glowmask
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
 			Texture2D blurLine = Main.extraTexture[89];
 			Vector2 blurScale = new Vector2(0.3f, MathHelper.Lerp(2.5f, 3f, BlurTimer));
 			float bloomScale = MathHelper.Lerp(0.5f, 0.55f, Timer);
@@ -68,15 +69,15 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 
 		public override void Update(ref float gravity, ref float maxFallSpeed)
 		{
-			float Timer = 0.5f + (float)(Math.Sin(Main.GlobalTime * 4) / 2); 
+			float Timer = 0.5f + (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 4) / 2); 
 			Color color = Color.Lerp(new Color(85, 255, 229), new Color(28, 155, 255), Timer);
-			Lighting.AddLight(item.Center, color.ToVector3());
+			Lighting.AddLight(Item.Center, color.ToVector3());
 		}
 	}
 
 	internal class SaddleBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
@@ -91,31 +92,31 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 		}
 	}
 
-	public class AuroraStagMount : ModMountData 
+	public class AuroraStagMount : ModMount 
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
-			mountData.buff = ModContent.BuffType<SaddleBuff>();
-			mountData.fallDamage = 0f;
-			mountData.runSpeed = 9f;
-			mountData.dashSpeed = 6f;
-			mountData.flightTimeMax = 0;
-			mountData.fatigueMax = 0;
-			mountData.jumpHeight = 14;
-			mountData.acceleration = 0.04f;
-			mountData.jumpSpeed = 12f;
-			mountData.blockExtraJumps = false;
-			mountData.totalFrames = 1;
-			mountData.constantJump = false;
-			mountData.playerYOffsets = new int[] { 42 };
-			mountData.playerHeadOffset = 56;
-			mountData.bodyFrame = 3;
-			mountData.heightBoost = 42;
-			mountData.standingFrameCount = 1;
+			MountData.buff = ModContent.BuffType<SaddleBuff>();
+			MountData.fallDamage = 0f;
+			MountData.runSpeed = 9f;
+			MountData.dashSpeed = 6f;
+			MountData.flightTimeMax = 0;
+			MountData.fatigueMax = 0;
+			MountData.jumpHeight = 14;
+			MountData.acceleration = 0.04f;
+			MountData.jumpSpeed = 12f;
+			MountData.blockExtraJumps = false;
+			MountData.totalFrames = 1;
+			MountData.constantJump = false;
+			MountData.playerYOffsets = new int[] { 42 };
+			MountData.playerHeadOffset = 56;
+			MountData.bodyFrame = 3;
+			MountData.heightBoost = 42;
+			MountData.standingFrameCount = 1;
 			if (Main.netMode != NetmodeID.Server)
 			{
-				mountData.textureWidth = mountData.backTexture.Width/3;
-				mountData.textureHeight = mountData.backTexture.Height/10;
+				MountData.textureWidth = MountData.backTexture.Width/3;
+				MountData.textureHeight = MountData.backTexture.Height/10;
 			}
 		}
 
@@ -166,7 +167,7 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 
 			float velocity = Math.Abs(player.velocity.X);
 
-			mountData.jumpHeight = (int)MathHelper.Clamp(velocity * 2, 3, 14);
+			MountData.jumpHeight = (int)MathHelper.Clamp(velocity * 2, 3, 14);
 
 			if (Main.rand.NextBool(20) && !Main.dedServ)
 				MakeStar(Main.rand.NextFloat(0.1f, 0.2f), player.Center);
@@ -175,7 +176,7 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 			{
 				int direction = (velocity == 0) ? 0 :
 					(player.direction == Math.Sign(player.velocity.X)) ? 1 : -1;
-				player.fullRotation = player.velocity.Y * 0.05f * player.direction * direction * mountData.jumpHeight / 14f;
+				player.fullRotation = player.velocity.Y * 0.05f * player.direction * direction * MountData.jumpHeight / 14f;
 				player.fullRotationOrigin = (player.Hitbox.Size() + new Vector2(0, 42)) / 2;
 			}
 
@@ -242,7 +243,7 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 					Vector2 DrawPos = modplayer.auroraoldposition[i] - Main.screenPosition + new Vector2(0, drawYOffset);
 					AddDrawDataWithMountShader(new DrawData(texture, DrawPos, sourceRectangle, drawColor * opacity, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 
-					AddDrawDataWithMountShader(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), DrawPos, sourceRectangle, Color.White * opacity, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
+					AddDrawDataWithMountShader(new DrawData(Mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), DrawPos, sourceRectangle, Color.White * opacity, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 
 				}
 			}
@@ -250,12 +251,12 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 			
 			for (int i = 0; i < 6; i++)
 			{
-				float glowtimer = (float)(Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f);
+				float glowtimer = (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 2 + 0.5f);
 				Color glowcolor = Color.White * glowtimer;
 				Vector2 pulsedrawpos = drawPosition + new Vector2(0, drawYOffset) + new Vector2(5, 0).RotatedBy(i * MathHelper.TwoPi / 6) * (1.25f - glowtimer);
-				AddDrawDataWithMountShader(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), pulsedrawpos, sourceRectangle, glowcolor * 0.5f, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
+				AddDrawDataWithMountShader(new DrawData(Mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), pulsedrawpos, sourceRectangle, glowcolor * 0.5f, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 			}
-			AddDrawDataWithMountShader(new DrawData(mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), drawPosition + new Vector2(0, drawYOffset), sourceRectangle, Color.White, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
+			AddDrawDataWithMountShader(new DrawData(Mod.GetTexture("Items/Equipment/AuroraSaddle/AuroraStagMount_Glow"), drawPosition + new Vector2(0, drawYOffset), sourceRectangle, Color.White, rotation, sourceRectangle.Size() / 2, drawScale, 1 - spriteEffects, 0));
 			return false;
 		}
 	}

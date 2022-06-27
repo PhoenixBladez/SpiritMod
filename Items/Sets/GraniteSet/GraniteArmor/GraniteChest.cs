@@ -12,17 +12,17 @@ namespace SpiritMod.Items.Sets.GraniteSet.GraniteArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Granite Breastplate");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/GraniteSet/GraniteArmor/GraniteBody_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/GraniteSet/GraniteArmor/GraniteBody_Glow");
 
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 24;
-			item.value = 1100;
-			item.rare = ItemRarityID.Green;
-			item.defense = 9;
+			Item.width = 28;
+			Item.height = 24;
+			Item.value = 1100;
+			Item.rare = ItemRarityID.Green;
+			Item.defense = 9;
 		}
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
 		{
@@ -30,11 +30,10 @@ namespace SpiritMod.Items.Sets.GraniteSet.GraniteArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<GraniteChunk>(), 12);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

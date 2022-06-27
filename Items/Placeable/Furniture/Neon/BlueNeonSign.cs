@@ -1,4 +1,5 @@
 using SpiritMod.Tiles.Furniture.Signs;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Material;
@@ -14,30 +15,29 @@ namespace SpiritMod.Items.Placeable.Furniture.Neon
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 28;
-			item.value = item.value = Terraria.Item.buyPrice(0, 0, 5, 0);
-			item.rare = ItemRarityID.Blue;
+			Item.width = 36;
+			Item.height = 28;
+			Item.value = Item.value = Terraria.Item.buyPrice(0, 0, 5, 0);
+			Item.rare = ItemRarityID.Blue;
 
-			item.maxStack = 99;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<BlueSign>();
+			Item.createTile = ModContent.TileType<BlueSign>();
 		}
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<Items.Material.SynthMaterial>(), 1);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

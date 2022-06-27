@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Sets.FloranSet
 {
 	public class FloranBarTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileSolidTop[Type] = true;
@@ -17,8 +17,8 @@ namespace SpiritMod.Items.Sets.FloranSet
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.addTile(Type);
-			drop = ModContent.ItemType<Items.Sets.FloranSet.FloranBar>();
-			adjTiles = new int[] { TileID.MetalBars };
+			ItemDrop = ModContent.ItemType<Items.Sets.FloranSet.FloranBar>();
+			AdjTiles = new int[] { TileID.MetalBars };
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Bar");
 			AddMapEntry(new Color(200, 200, 200), name);

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,24 +31,24 @@ namespace SpiritMod.Items.Pins
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 32;
-			item.useTime = 25;
-			item.useAnimation = 25;
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.noMelee = true;
-			item.knockBack = 5;
-			item.value = Item.buyPrice(silver: 50);
-			item.rare = ItemRarityID.Green;
-			item.autoReuse = false;
-			item.shootSpeed = 0f;
+			Item.width = 32;
+			Item.height = 32;
+			Item.useTime = 25;
+			Item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.noMelee = true;
+			Item.knockBack = 5;
+			Item.value = Item.buyPrice(silver: 50);
+			Item.rare = ItemRarityID.Green;
+			Item.autoReuse = false;
+			Item.shootSpeed = 0f;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			Main.PlaySound(SoundID.Dig, (int)player.position.X, (int)player.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)player.position.X, (int)player.position.Y);
 			string text;
 			if (player.altFunctionUse != 2) {
 				text = "Location Pinned";

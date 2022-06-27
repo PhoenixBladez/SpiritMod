@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Mount
 {
 	public class TideMountBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crocodrillo Mount");
 			Description.SetDefault("This cute lil' Crocodillo is your new best friend!");

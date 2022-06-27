@@ -17,22 +17,22 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 
 		public override void SetDefaults()
 		{
-			item.damage = 18;
-			item.width = 28;
-			item.height = 14;
-			item.useTime = item.useAnimation = 30;
-			item.knockBack = 2f;
-			item.shootSpeed = 0f;
-			item.noUseGraphic = true;
-			item.noMelee = true;
-			item.melee = true;
-			item.channel = false;
-			item.autoReuse = true;
-			item.rare = ItemRarityID.Blue;
-			item.value = Item.sellPrice(gold: 2);
-			item.UseSound = SoundID.Item1;
-			item.shoot = ModContent.ProjectileType<ReefSpearProjectile>();
-			item.useStyle = ItemUseStyleID.HoldingOut;
+			Item.damage = 18;
+			Item.width = 28;
+			Item.height = 14;
+			Item.useTime = Item.useAnimation = 30;
+			Item.knockBack = 2f;
+			Item.shootSpeed = 0f;
+			Item.noUseGraphic = true;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Melee;
+			Item.channel = false;
+			Item.autoReuse = true;
+			Item.rare = ItemRarityID.Blue;
+			Item.value = Item.sellPrice(gold: 2);
+			Item.UseSound = SoundID.Item1;
+			Item.shoot = ModContent.ProjectileType<ReefSpearProjectile>();
+			Item.useStyle = ItemUseStyleID.Shoot;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-6, 0);
@@ -43,31 +43,31 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			//Commenting out (unintended?)weapon class changes: classes here seem odd(ranged for melee spear), weapon is already constantly melee, and iirc class changes like this are super jank with prefixes and the like
 			if (player.altFunctionUse == 2)
 			{
-				item.shoot = ModContent.ProjectileType<ReefSpearThrown>();
-				//item.thrown = true; 
+				Item.shoot = ModContent.ProjectileType<ReefSpearThrown>();
+				//Item.DamageType = DamageClass.Throwing; 
 				//item.ranged = false;
-				item.damage = 24;
-				item.shootSpeed = 12f;
-				item.channel = false;
-				item.useStyle = ItemUseStyleID.SwingThrow;
-				item.useTime = item.useAnimation = 35;
+				Item.damage = 24;
+				Item.shootSpeed = 12f;
+				Item.channel = false;
+				Item.useStyle = ItemUseStyleID.Swing;
+				Item.useTime = Item.useAnimation = 35;
 
 			}
 			else
 			{
-				item.shoot = ModContent.ProjectileType<ReefSpearProjectile>();
+				Item.shoot = ModContent.ProjectileType<ReefSpearProjectile>();
 				//item.thrown = false;
-				//item.ranged = true;
-				item.damage = 18;
-				item.shootSpeed = 0f;
-				item.channel = true;
-				item.useTime = item.useAnimation = 40;
-				item.useStyle = ItemUseStyleID.HoldingOut;
+				//Item.DamageType = DamageClass.Ranged;
+				Item.damage = 18;
+				Item.shootSpeed = 0f;
+				Item.channel = true;
+				Item.useTime = Item.useAnimation = 40;
+				Item.useStyle = ItemUseStyleID.Shoot;
 			}
 			return true;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (player.altFunctionUse == 2)
 			{
@@ -105,23 +105,22 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 
 				float? cappedSpeed = null;
 				if (tries == maxTries - 1) //If on last try, force velocity to be capped
-					cappedSpeed = item.shootSpeed;
+					cappedSpeed = Item.shootSpeed;
 
-				velocity = ArcVelocityHelper.GetArcVel(position, target, 0.3f, null, 400, cappedSpeed, heightAboveTarget, item.shootSpeed / 3);
+				velocity = ArcVelocityHelper.GetArcVel(position, target, 0.3f, null, 400, cappedSpeed, heightAboveTarget, Item.shootSpeed / 3);
 				tries++;
-			} while (System.Math.Abs(velocity.X) > item.shootSpeed && tries < maxTries); //Repeat if velocity is too high 
+			} while (System.Math.Abs(velocity.X) > Item.shootSpeed && tries < maxTries); //Repeat if velocity is too high 
 
 			return velocity;
 		}
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<IridescentScale>(), 10);
 			recipe.AddIngredient(ModContent.ItemType<SulfurDeposit>(), 2);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

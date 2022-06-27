@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Ammo
@@ -14,29 +15,28 @@ namespace SpiritMod.Items.Ammo
 		public override void SetDefaults()
 		{
 
-			item.width = 28;
-			item.height = 28;
-			item.value = 50;
-			item.rare = ItemRarityID.LightRed;
+			Item.width = 28;
+			Item.height = 28;
+			Item.value = 50;
+			Item.rare = ItemRarityID.LightRed;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.ammo = AmmoID.FallenStar;
+			Item.ammo = AmmoID.FallenStar;
 
-			item.ranged = true;
-			item.consumable = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.consumable = true;
 
-			item.shoot = ModContent.ProjectileType<Projectiles.FaerieStar>();
+			Item.shoot = ModContent.ProjectileType<Projectiles.FaerieStar>();
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(10);
 			recipe.AddIngredient(ItemID.FallenStar, 1);
 			recipe.AddIngredient(ItemID.PixieDust, 2);
 			recipe.AddTile(TileID.CrystalBall);
-			recipe.SetResult(this, 10);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria;
@@ -56,7 +57,7 @@ namespace SpiritMod.UI.Chat
 				Main.LocalPlayer.mouseInterface = true;
 				if (!_prevHover)
 				{
-					Main.PlaySound(Terraria.ID.SoundID.MenuTick);
+					SoundEngine.PlaySound(Terraria.ID.SoundID.MenuTick);
 
 					_hovering = true;
 				}

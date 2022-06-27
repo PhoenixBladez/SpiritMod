@@ -1,4 +1,5 @@
 using SpiritMod.Items.Material;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
@@ -15,7 +16,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops.JellynautHelmet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Jellynaut's Bubble");
-            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/MoonWizardDrops/JellynautHelmet/JellynautBubble_Head_Glow");
+            SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/MoonWizardDrops/JellynautHelmet/JellynautBubble_Head_Glow");
             Tooltip.SetDefault("Increases maximum mana by 20\nIncreases critical strike chance by 10%\nProvides a special set bonus with any magic robes");
         }
         public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
@@ -23,25 +24,25 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops.JellynautHelmet
 
         public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 18;
-			item.value = Item.sellPrice(0, 2, 30, 0);
-			item.rare = ItemRarityID.Green;
-			item.defense = 2;
+			Item.width = 22;
+			Item.height = 18;
+			Item.value = Item.sellPrice(0, 2, 30, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.defense = 2;
 		}
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Lighting.AddLight(item.position, 0.08f, .4f, .28f);
+            Lighting.AddLight(Item.position, 0.08f, .4f, .28f);
             Texture2D texture;
-            texture = Main.itemTexture[item.type];
+            texture = TextureAssets.Item[Item.type].Value;
             spriteBatch.Draw
             (
-                mod.GetTexture("Items/Sets/MoonWizardDrops/JellynautHelmet/JellynautBubble_Glow"),
+                Mod.GetTexture("Items/Sets/MoonWizardDrops/JellynautHelmet/JellynautBubble_Glow"),
                 new Vector2
                 (
-                    item.position.X - Main.screenPosition.X + item.width * 0.5f,
-                    item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+                    Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+                    Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
                 ),
                 new Rectangle(0, 0, texture.Width, texture.Height),
                 Color.White,

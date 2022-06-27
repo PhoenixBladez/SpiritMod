@@ -6,6 +6,7 @@ using SpiritMod.Items.Weapon.Summon.SacrificialDagger;
 using SpiritMod.Items.Weapon.Yoyo;
 using SpiritMod.Utilities;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Accessory.SanguineWardTree;
@@ -19,33 +20,33 @@ namespace SpiritMod.NPCs.Boss.Occultist
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Occultist");
-			NPCID.Sets.TrailCacheLength[npc.type] = 6;
-			NPCID.Sets.TrailingMode[npc.type] = 1;
-			Main.npcFrameCount[npc.type] = 9;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 6;
+			NPCID.Sets.TrailingMode[NPC.type] = 1;
+			Main.npcFrameCount[NPC.type] = 9;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 42;
-			npc.height = 56;
-			npc.lifeMax = 1000;
-			npc.defense = 14;
-			npc.damage = 30;
-			npc.HitSound = SoundID.DD2_SkeletonHurt;
-			npc.DeathSound = SoundID.NPCDeath59;
-			npc.aiStyle = -1;
-			npc.value = 300f;
-			npc.knockBackResist = 0.45f;
-			npc.netAlways = true;
-			npc.lavaImmune = true;
+			NPC.width = 42;
+			NPC.height = 56;
+			NPC.lifeMax = 1000;
+			NPC.defense = 14;
+			NPC.damage = 30;
+			NPC.HitSound = SoundID.DD2_SkeletonHurt;
+			NPC.DeathSound = SoundID.NPCDeath59;
+			NPC.aiStyle = -1;
+			NPC.value = 300f;
+			NPC.knockBackResist = 0.45f;
+			NPC.netAlways = true;
+			NPC.lavaImmune = true;
 			//npc.boss = true;
 
-			banner = npc.type;
-			music = MusicID.Eerie;
-			bannerItem = ModContent.ItemType<Items.Banners.OccultistBanner>();
+			Banner = NPC.type;
+			Music = MusicID.Eerie;
+			BannerItem = ModContent.ItemType<Items.Banners.OccultistBanner>();
 		}
 
-		private ref float AIState => ref npc.ai[0];
+		private ref float AIState => ref NPC.ai[0];
 
 		private const float AISTATE_SPAWN = 0;
 		private const float AISTATE_DESPAWN = 1;
@@ -54,11 +55,11 @@ namespace SpiritMod.NPCs.Boss.Occultist
 		private const float AISTATE_PHASE2 = 4;
 		private const float AISTATE_DEATH = 5;
 
-		private ref float AttackType => ref npc.ai[1];
+		private ref float AttackType => ref NPC.ai[1];
 
-		private ref float AiTimer => ref npc.ai[2];
+		private ref float AiTimer => ref NPC.ai[2];
 
-		private ref float SecondaryCounter => ref npc.ai[3];
+		private ref float SecondaryCounter => ref NPC.ai[3];
 
 		private void UpdateAIState(float State)
 		{
@@ -66,7 +67,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			AiTimer = 0;
 			frame.Y = 0;
 			SecondaryCounter = 0;
-			npc.netUpdate = true;
+			NPC.netUpdate = true;
 
 			if (!Main.dedServ)
 				_rotMan.KillAllObjects();
@@ -76,8 +77,8 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)(npc.Center.Y / 16f), (int)(npc.Center.Y / 16f), 0.46f, 0.12f, .64f);
-			Player target = Main.player[npc.target];
+			Lighting.AddLight((int)(NPC.Center.Y / 16f), (int)(NPC.Center.Y / 16f), 0.46f, 0.12f, .64f);
+			Player target = Main.player[NPC.target];
 
 			if (AIState == AISTATE_PHASE1 || AIState == AISTATE_PHASE2)
 			{
@@ -86,7 +87,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 				if (target.dead || !target.active)
 				{
-					npc.TargetClosest(true); //look for another player
+					NPC.TargetClosest(true); //look for another player
 					if (target.dead || !target.active)
 						UpdateAIState(AISTATE_DESPAWN); //despawn if still none alive
 				}
@@ -98,46 +99,46 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			switch (AIState)
 			{
 				case AISTATE_SPAWN:
-					npc.TargetClosest(true);
-					npc.noGravity = true;
-					npc.noTileCollide = true;
-					npc.dontTakeDamage = true;
+					NPC.TargetClosest(true);
+					NPC.noGravity = true;
+					NPC.noTileCollide = true;
+					NPC.dontTakeDamage = true;
 					SpawnAnimation(target);
 					break;
 
 				case AISTATE_DESPAWN:
-					npc.noGravity = true;
-					npc.noTileCollide = true;
-					npc.dontTakeDamage = true;
+					NPC.noGravity = true;
+					NPC.noTileCollide = true;
+					NPC.dontTakeDamage = true;
 					Despawn();
 					break;
 
 				case AISTATE_PHASE1:
-					npc.noGravity = false;
-					npc.noTileCollide = false;
-					npc.dontTakeDamage = false;
-					npc.velocity.X *= 0.9f;
+					NPC.noGravity = false;
+					NPC.noTileCollide = false;
+					NPC.dontTakeDamage = false;
+					NPC.velocity.X *= 0.9f;
 					Phase1(target);
 					break;
 
 				case AISTATE_PHASETRANSITION:
-					npc.TargetClosest(true);
-					npc.noGravity = true;
-					npc.noTileCollide = true;
-					npc.dontTakeDamage = true;
+					NPC.TargetClosest(true);
+					NPC.noGravity = true;
+					NPC.noTileCollide = true;
+					NPC.dontTakeDamage = true;
 					PhaseTransition();
 					break;
 
 				case AISTATE_PHASE2:
-					npc.noGravity = true;
-					npc.noTileCollide = true;
-					npc.dontTakeDamage = false;
+					NPC.noGravity = true;
+					NPC.noTileCollide = true;
+					NPC.dontTakeDamage = false;
 					Phase2(target);
 					break;
 
 				case AISTATE_DEATH:
-					npc.dontTakeDamage = true;
-					npc.noTileCollide = true;
+					NPC.dontTakeDamage = true;
+					NPC.noTileCollide = true;
 					DeathAnim();
 					break;
 			}
@@ -149,7 +150,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			switch (SecondaryCounter)
 			{
 				case 0:
-					npc.TargetClosest(true);
+					NPC.TargetClosest(true);
 					AiTimer = 0;
 					frame.X = 3;
 					UpdateYFrame(10, 0, 6, delegate (int frameY)
@@ -221,14 +222,14 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			}
 			else
 			{
-				npc.TargetClosest(true);
+				NPC.TargetClosest(true);
 				float RestingTime = 150;
 				float halfRestTime = RestingTime / 2;
 				frame.X = 0;
 				UpdateYFrame(4, 0, 2);
 				_pulseGlowmask = (float)Math.Max(Math.Pow(Math.Abs(halfRestTime - AiTimer) / halfRestTime, 3) - 0.2f, 0);
-				npc.velocity.Y = (float)Math.Sin(MathHelper.TwoPi * AiTimer / halfRestTime) * 0.8f;
-				npc.velocity.X = MathHelper.Lerp(npc.velocity.X, 0, 0.1f);
+				NPC.velocity.Y = (float)Math.Sin(MathHelper.TwoPi * AiTimer / halfRestTime) * 0.8f;
+				NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, 0, 0.1f);
 				if(AiTimer > RestingTime)
 				{
 					ResetAttackP2();
@@ -239,8 +240,8 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.75f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.75f);
+			NPC.lifeMax = (int)(NPC.lifeMax * 0.75f * bossLifeScale);
+			NPC.damage = (int)(NPC.damage * 0.75f);
 		}
 
 		public override bool CheckActive() => false; //uses custom despawn so not needed
@@ -250,8 +251,8 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			if (AIState != AISTATE_DEATH)
 			{
 				UpdateAIState(AISTATE_DEATH);
-				npc.life = 1;
-				npc.dontTakeDamage = true;
+				NPC.life = 1;
+				NPC.dontTakeDamage = true;
 
 				MyWorld.downedOccultist = true;
 				return false;
@@ -259,27 +260,27 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			return true;
 		}
 
-		public override bool PreNPCLoot()
+		public override bool PreKill()
         {
-            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+            SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
             MyWorld.downedOccultist = true;
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);
             return true;
         }
 
-		public override void SafeFindFrame(int frameHeight) => npc.frame.Width = 72;
+		public override void SafeFindFrame(int frameHeight) => NPC.frame.Width = 72;
 		
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			string[] lootTable = { "Handball", "SacrificialDagger", "BloodWard" };
 			int loot = Main.rand.Next(lootTable.Length);
 			{
-				npc.DropItem(mod.ItemType(lootTable[loot]));
+				NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
 			}
 			for(int i = 0; i < 4; i++)
 			{
-				int n = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<DreamstrideWisp>());
+				int n = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<DreamstrideWisp>());
 				if(Main.npc[n].type == ModContent.NPCType<DreamstrideWisp>() && Main.npc[n].active)
 				{
 					Main.npc[n].velocity = Main.rand.NextVector2Circular(3, 3);
@@ -289,7 +290,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			}
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => Main.bloodMoon && spawnInfo.player.Center.Y / 16f < Main.worldSurface ? 0.02f : 0f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => Main.bloodMoon && spawnInfo.Player.Center.Y / 16f < Main.worldSurface ? 0.02f : 0f;
 
 		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
 			out string name, out Func<bool> downedCondition, ref BossChecklistDataHandler.BCIDData identificationData,

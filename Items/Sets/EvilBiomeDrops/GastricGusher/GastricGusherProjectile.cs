@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,33 +25,33 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 
 		public override void SetDefaults()
 		{
-			projectile.width = 42;
-			projectile.height = 24;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.ranged = true;
-			projectile.aiStyle = -1;
+			Projectile.width = 42;
+			Projectile.height = 24;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.aiStyle = -1;
 
-			drawHeldProjInFrontOfHeldItemAndArms = true;
+			DrawHeldProjInFrontOfHeldItemAndArms = true;
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => false;
 
 		public override void AI()
 		{
-			Player p = Main.player[projectile.owner];
-			p.heldProj = projectile.whoAmI;
+			Player p = Main.player[Projectile.owner];
+			p.heldProj = Projectile.whoAmI;
 
 			if (_endCharge == -1) //Wait until the player has fired to let go & set position
 			{
 				p.itemTime = p.HeldItem.useTime;
 				p.itemAnimation = p.HeldItem.useAnimation;
-				projectile.Center = p.Center - (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27) + new Vector2(21, 12);
+				Projectile.Center = p.Center - (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27) + new Vector2(21, 12);
 			}
 			else
-				projectile.Center = p.Center - (new Vector2(1, 0).RotatedBy(_finalRotation) * 27) + new Vector2(21, 12);
+				Projectile.Center = p.Center - (new Vector2(1, 0).RotatedBy(_finalRotation) * 27) + new Vector2(21, 12);
 
 			if (p.whoAmI != Main.myPlayer)
 				return; //mp check (hopefully)
@@ -66,18 +68,18 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 				p.direction = Main.MouseWorld.X >= p.MountedCenter.X ? 1 : -1;
 
 			if (_charge > _endCharge && _endCharge != -1) //Kill projectile when done shooting - does nothing special but allowed for a cooldown timer before polish
-				projectile.active = false;
+				Projectile.active = false;
 
 			_charge++; //Increase charge timer...
-			projectile.timeLeft++; //...and dont die
+			Projectile.timeLeft++; //...and dont die
 
-			projectile.rotation = Vector2.Normalize(p.MountedCenter - Main.MouseWorld).ToRotation() - MathHelper.Pi; //So it looks like the player is holding it properly
+			Projectile.rotation = Vector2.Normalize(p.MountedCenter - Main.MouseWorld).ToRotation() - MathHelper.Pi; //So it looks like the player is holding it properly
 			GItem.ArmsTowardsMouse(p);
 		}
 
 		private void Fire(Player p)
 		{
-			Main.PlaySound(SoundID.NPCDeath13, projectile.Center);
+			SoundEngine.PlaySound(SoundID.NPCDeath13, Projectile.Center);
 
 			Vector2 vel = Vector2.Normalize(Main.MouseWorld - p.Center) * 10f * (ScalingCapped * 0.8f);
 			int inc = 3 + (int)ScalingCapped;
@@ -85,24 +87,24 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 			for (int i = 0; i < inc; i++) //Projectiles
 			{
 				Vector2 velocity = vel.RotatedBy((i - (inc / 2f)) * 0.16f) * Main.rand.NextFloat(0.85f, 1.15f);
-				Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<GastricAcid>(), (int)(p.HeldItem.damage * ScalingCapped), 1f, projectile.owner);
+				Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<GastricAcid>(), (int)(p.HeldItem.damage * ScalingCapped), 1f, Projectile.owner);
 			}
 
 			GItem.UseAmmo(p, AmmoID.Gel);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Player p = Main.player[projectile.owner];
-			Texture2D t = Main.projectileTexture[projectile.type];
+			Player p = Main.player[Projectile.owner];
+			Texture2D t = TextureAssets.Projectile[Projectile.type].Value;
 			SpriteEffects e = Main.MouseWorld.X >= p.MountedCenter.X ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-			float realRot = projectile.rotation; //Rotate towards mouse
+			float realRot = Projectile.rotation; //Rotate towards mouse
 			if (_endCharge != -1) realRot = _finalRotation + MathHelper.Pi;
 			if (e == SpriteEffects.FlipHorizontally)
 				realRot -= MathHelper.Pi;
 
-			Vector2 drawPos = projectile.position - Main.screenPosition; //Draw position + charge shaking
+			Vector2 drawPos = Projectile.position - Main.screenPosition; //Draw position + charge shaking
 			if (_charge > MinimumCharge && _endCharge == -1)
 				drawPos += new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * (ScalingCapped * 0.75f);
 

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,53 +15,53 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			DisplayName.SetDefault("Astral Convergence");
 			Tooltip.SetDefault("Shoots out bursts of electrical stars that reconverge on the player");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/StarplateDrops/AstralLens_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/StarplateDrops/AstralLens_Glow");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 24;
-			item.magic = true;
-			item.mana = 11;
-			item.width = 44;
-			item.height = 46;
-			item.useTime = 21;
-			item.useAnimation = 21;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 3;
-			item.value = Item.sellPrice(0, 01, 10, 0);
-			item.rare = ItemRarityID.Orange;
-			item.UseSound = SoundID.NPCDeath7;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<Starshock1>();
-			item.shootSpeed = 63f;
+			Item.damage = 24;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 11;
+			Item.width = 44;
+			Item.height = 46;
+			Item.useTime = 21;
+			Item.useAnimation = 21;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 3;
+			Item.value = Item.sellPrice(0, 01, 10, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.NPCDeath7;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<Starshock1>();
+			Item.shootSpeed = 63f;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			for (int i = 0; i < 2; i++)
 			{
-				Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-300, 300) / 30), speedY + ((float)Main.rand.Next(-300, 300) / 30), type, damage, knockBack, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-300, 300) / 30), speedY + ((float)Main.rand.Next(-300, 300) / 30), type, damage, knockback, player.whoAmI, 0f, 0f);
 				if (Main.rand.Next(6) == 0)
-					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-300, 300) / 30), speedY + ((float)Main.rand.Next(-300, 300) / 30), type, damage, knockBack, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-300, 300) / 30), speedY + ((float)Main.rand.Next(-300, 300) / 30), type, damage, knockback, player.whoAmI, 0f, 0f);
 			}
 			return false;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.08f, .28f, .38f);
+			Lighting.AddLight(Item.position, 0.08f, .28f, .38f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Sets/StarplateDrops/AstralLens_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/StarplateDrops/AstralLens_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -74,11 +75,10 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 17);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

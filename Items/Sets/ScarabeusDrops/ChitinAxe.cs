@@ -19,29 +19,28 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 46;
-			item.height = 46;
-			item.value = Item.sellPrice(silver: 14);
-			item.rare = ItemRarityID.Blue;
-			item.axe = 11;
-			item.damage = 12;
-			item.knockBack = 6;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 22;
-			item.useAnimation = 22;
-			item.melee = true;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.UseSound = SoundID.Item1;
+			Item.width = 46;
+			Item.height = 46;
+			Item.value = Item.sellPrice(silver: 14);
+			Item.rare = ItemRarityID.Blue;
+			Item.axe = 11;
+			Item.damage = 12;
+			Item.knockBack = 6;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 22;
+			Item.useAnimation = 22;
+			Item.DamageType = DamageClass.Melee;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.UseSound = SoundID.Item1;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<Chitin>(), 10);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
 		public override float UseTimeMultiplier(Player player)
@@ -52,8 +51,8 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 				TileID.Cactus
 			};
 
-			if (SandTiles.Contains(Main.tile[mousetilecoords.X, mousetilecoords.Y].type) && player.WithinPlacementRange(mousetilecoords.X, mousetilecoords.Y) ||
-				Main.SmartCursorEnabled && Main.SmartCursorShowing && SandTiles.Contains(Main.tile[Main.SmartCursorX, Main.SmartCursorY].type)) {
+			if (SandTiles.Contains(Main.tile[mousetilecoords.X, mousetilecoords.Y].TileType) && player.WithinPlacementRange(mousetilecoords.X, mousetilecoords.Y) ||
+				Main.SmartCursorIsUsed && Main.SmartCursorShowing && SandTiles.Contains(Main.tile[Main.SmartCursorX, Main.SmartCursorY].TileType)) {
 				return 2.5f;
 			}
 

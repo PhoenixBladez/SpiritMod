@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using SpiritMod.Dusts;
 using Terraria.ModLoader;
@@ -14,7 +16,7 @@ namespace SpiritMod.Projectiles
 	{
 		public static void HomingAIVanilla(ModProjectile modProj, NPC target, float velocity = 4f, float weight = 0.0333f)
 		{
-			Projectile projectile = modProj.projectile;
+			Projectile projectile = modProj.Projectile;
 			Vector2 pos = new Vector2(projectile.position.X + (float)(projectile.width >> 1), projectile.position.Y + (float)(projectile.height >> 1));
 			Vector2 aim = new Vector2(target.position.X + (float)(target.width >> 1), target.position.Y + (float)(target.height >> 1));
 			float num560 = aim.X - pos.X;
@@ -27,7 +29,7 @@ namespace SpiritMod.Projectiles
 
 		public static void HomingAI(ModProjectile modProj, NPC target, float velocity = 4f, float acceleration = 0.1f)
 		{
-			Projectile projectile = modProj.projectile;
+			Projectile projectile = modProj.Projectile;
 			Vector2 aim = new Vector2(target.position.X + (float)(target.width >> 1), target.position.Y + (float)(target.height >> 1));
 			Vector2 pos = new Vector2(projectile.position.X + (float)(projectile.width >> 1), projectile.position.Y + (float)(projectile.height >> 1));
 			aim -= pos;
@@ -44,7 +46,7 @@ namespace SpiritMod.Projectiles
 
 		public static void HomingAIPredictive(ModProjectile modProj, NPC target, float velocity = 4f, float acceleration = 0.1f)
 		{
-			Projectile projectile = modProj.projectile;
+			Projectile projectile = modProj.Projectile;
 			Vector2 aim = new Vector2(target.position.X + (float)(target.width >> 1), target.position.Y + (float)(target.height >> 1));
 			Vector2 pos = new Vector2(projectile.position.X + (float)(projectile.width >> 1), projectile.position.Y + (float)(projectile.height >> 1));
 			aim -= pos;
@@ -154,20 +156,20 @@ namespace SpiritMod.Projectiles
 
 		public static void LookAlongVelocity(ModProjectile modProj)
 		{
-			Projectile projectile = modProj.projectile;
+			Projectile projectile = modProj.Projectile;
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.X, -projectile.velocity.Y);
 		}
 
 		public static void LookAt(ModProjectile modProj, Vector2 target)
 		{
-			Projectile projectile = modProj.projectile;
+			Projectile projectile = modProj.Projectile;
 			Vector2 delta = target - projectile.position;
 			projectile.rotation = (float)Math.Atan2(delta.X, -delta.Y);
 		}
 
 		public static void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1f)
 		{
-			Projectile projectile = modProj.projectile;
+			Projectile projectile = modProj.Projectile;
 			if (projectile.velocity.X != oldVelocity.X)
 				projectile.velocity.X = -oldVelocity.X * bouncyness;
 
@@ -552,7 +554,7 @@ namespace SpiritMod.Projectiles
 			{
 				projectile.netUpdate = true;
 				Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-				Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
+				SoundEngine.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			}
 			return false;
 		}
@@ -568,7 +570,7 @@ namespace SpiritMod.Projectiles
 			if (projectile.soundDelay == 0)
 			{
 				projectile.soundDelay = 8;
-				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 7);
+				SoundEngine.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 7);
 			}
 
 			if (projectile.ai[0] == 0f)
@@ -642,7 +644,7 @@ namespace SpiritMod.Projectiles
 			projectile.velocity.X = -oldVelocity.X;
 			projectile.velocity.Y = -oldVelocity.Y;
 			projectile.netUpdate = true;
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
+			SoundEngine.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			return false;
 		}
 
@@ -717,10 +719,10 @@ namespace SpiritMod.Projectiles
 				}
 				for (int j = 0; j < 20; j++)
 				{
-					int num2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 3.5f);
+					int num2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Torch, 0f, 0f, 100, default, 3.5f);
 					Main.dust[num2].noGravity = true;
 					Main.dust[num2].velocity *= 7f;
-					num2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 1.5f);
+					num2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Torch, 0f, 0f, 100, default, 1.5f);
 					Main.dust[num2].velocity *= 3f;
 				}
 				for (int k = 0; k < 8; k++)
@@ -893,7 +895,7 @@ namespace SpiritMod.Projectiles
 
 		public static void DrawChain(int index, Vector2 to, string chainPath, bool electric = false, int damage = 0, bool zipline = false, float velocityX = 0, float velocityY = 0, bool white = false)
 		{
-			Texture2D texture = ModContent.GetTexture(chainPath);
+			Texture2D texture = ModContent.Request<Texture2D>(chainPath);
 			Projectile projectile = Main.projectile[index];
 			Vector2 vector = projectile.Center;
 			Rectangle? sourceRectangle = null;
@@ -922,11 +924,11 @@ namespace SpiritMod.Projectiles
 					Main.spriteBatch.Draw(texture, vector - Main.screenPosition, sourceRectangle, color, rotation, origin, 1f, SpriteEffects.None, 0f);
 					if (electric)
 					{
-						Projectile.NewProjectile(vector.X, vector.Y, 0, 0, ModLoader.GetMod("SpiritMod").ProjectileType("ElectricChain"), damage, 0, Main.myPlayer);
+						Projectile.NewProjectile(vector.X, vector.Y, 0, 0, ModLoader.GetMod("SpiritMod").Find<ModProjectile>("ElectricChain").Type, damage, 0, Main.myPlayer);
 					}
 					if (zipline)
 					{
-						Projectile.NewProjectile(vector.X, vector.Y, 0, 0, ModLoader.GetMod("SpiritMod").ProjectileType("ZiplinePiece"), 1, 0, Main.myPlayer, velocityX, velocityY);
+						Projectile.NewProjectile(vector.X, vector.Y, 0, 0, ModLoader.GetMod("SpiritMod").Find<ModProjectile>("ZiplinePiece").Type, 1, 0, Main.myPlayer, velocityX, velocityY);
 					}
 				}
 			}
@@ -934,7 +936,7 @@ namespace SpiritMod.Projectiles
 		public static void DrawAroundOrigin(int index, Color lightColor)
 		{
 			Projectile projectile = Main.projectile[index];
-			Texture2D texture2D = Main.projectileTexture[projectile.type];
+			Texture2D texture2D = TextureAssets.Projectile[projectile.type].Value;
 			Vector2 origin = new Vector2((float)texture2D.Width * 0.5f, (float)(texture2D.Height / Main.projFrames[projectile.type]) * 0.5f);
 			SpriteEffects effects = (projectile.direction == -1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 			Main.spriteBatch.Draw(texture2D, projectile.Center - Main.screenPosition, new Rectangle?(Utils.Frame(texture2D, 1, Main.projFrames[projectile.type], 0, projectile.frame)), lightColor, projectile.rotation, origin, projectile.scale, effects, 0f);
@@ -947,10 +949,10 @@ namespace SpiritMod.Projectiles
 			SpriteEffects effects = SpriteEffects.None;
 			if (projectile.spriteDirection == -1)
 			{
-				zero.X = Main.projectileTexture[projectile.type].Width;
+				zero.X = TextureAssets.Projectile[projectile.type].Value.Width;
 				effects = SpriteEffects.FlipHorizontally;
 			}
-			Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], new Vector2(projectile.position.X - Main.screenPosition.X + (float)(projectile.width / 2), projectile.position.Y - Main.screenPosition.Y + (float)(projectile.height / 2) + projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height)), projectile.GetAlpha(lightColor), projectile.rotation, zero, projectile.scale, effects, 0f);
+			Main.spriteBatch.Draw(TextureAssets.Projectile[projectile.type].Value, new Vector2(projectile.position.X - Main.screenPosition.X + (float)(projectile.width / 2), projectile.position.Y - Main.screenPosition.Y + (float)(projectile.height / 2) + projectile.gfxOffY), new Rectangle?(new Rectangle(0, 0, TextureAssets.Projectile[projectile.type].Value.Width, TextureAssets.Projectile[projectile.type].Value.Height)), projectile.GetAlpha(lightColor), projectile.rotation, zero, projectile.scale, effects, 0f);
 		}
 	}
 }

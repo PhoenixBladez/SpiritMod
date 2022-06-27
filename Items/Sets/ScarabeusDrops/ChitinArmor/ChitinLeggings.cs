@@ -17,11 +17,11 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ChitinArmor
 		}
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 18;
-			item.value = Item.sellPrice(silver: 10);
-			item.rare = ItemRarityID.Blue;
-			item.defense = 3;
+			Item.width = 22;
+			Item.height = 18;
+			Item.value = Item.sellPrice(silver: 10);
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 3;
 		}
 		public override void UpdateEquip(Player player)
 		{
@@ -30,11 +30,10 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ChitinArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<Chitin>(), 12);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

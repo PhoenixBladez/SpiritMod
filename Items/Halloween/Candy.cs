@@ -27,21 +27,21 @@ namespace SpiritMod.Items.Halloween
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 30;
-			item.rare = ItemRarityID.Green;
-			item.maxStack = 1;
+			Item.width = 20;
+			Item.height = 30;
+			Item.rare = ItemRarityID.Green;
+			Item.maxStack = 1;
 
-			item.useStyle = ItemUseStyleID.EatingUsing;
-			item.useTime = item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.EatFood;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.consumable = true;
-			item.autoReuse = false;
+			Item.consumable = true;
+			Item.autoReuse = false;
 
-			item.buffType = ModContent.BuffType<CandyBuff>();
-			item.buffTime = 14400;
+			Item.buffType = ModContent.BuffType<CandyBuff>();
+			Item.buffTime = 14400;
 
-			item.UseSound = SoundID.Item2;
+			Item.UseSound = SoundID.Item2;
 
 			Variant = Main.rand.Next(CandyNames.Count);
 		}
@@ -90,20 +90,20 @@ namespace SpiritMod.Items.Halloween
 			int index = tooltips.FindIndex(tooltip => tooltip.Name.Equals("ItemName"));
 			if (index >= 0) {
 				TooltipLine name = tooltips.ElementAt(index);
-				TooltipLine line = new TooltipLine(mod, "ItemNameSub", "'" + CandyNames[Variant] + "'");
+				TooltipLine line = new TooltipLine(Mod, "ItemNameSub", "'" + CandyNames[Variant] + "'");
 				tooltips.Insert(index + 1, line);
 			}
 		}
 
 
-		public override TagCompound Save()
+		public override void SaveData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
 		{
 			TagCompound tag = new TagCompound();
 			tag.Add("Variant", Variant);
 			return tag;
 		}
 
-		public override void Load(TagCompound tag)
+		public override void LoadData(TagCompound tag)
 		{
 			Variant = tag.GetInt("Variant");
 		}
@@ -113,7 +113,7 @@ namespace SpiritMod.Items.Halloween
 			writer.Write((byte)Variant);
 		}
 
-		public override void NetRecieve(BinaryReader reader)
+		public override void NetReceive(BinaryReader reader)
 		{
 			Variant = reader.ReadByte();
 		}

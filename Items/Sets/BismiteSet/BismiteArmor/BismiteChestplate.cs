@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 20;
-			item.value = Item.buyPrice(silver: 8);
-			item.rare = ItemRarityID.Blue;
-			item.defense = 3;
+			Item.width = 30;
+			Item.height = 20;
+			Item.value = Item.buyPrice(silver: 8);
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 3;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -31,11 +31,10 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 10);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -13,32 +13,32 @@ namespace SpiritMod.Items.Weapon.Magic.LuminanceSeacone
 		{
 			DisplayName.SetDefault("Luminance Seacone");
 			Tooltip.SetDefault("Bursts into a cluster of luminescent bubbles\nLuminescent Bubbles deal increased damage after getting wet");
-			Item.staff[item.type] = true;
+			Item.staff[Item.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
 
-			item.damage = 17;
-			item.noMelee = true;
-			item.noUseGraphic = false;
-			item.magic = true;
-			item.width = 36;
-			item.height = 40;
-			item.useTime = 31;
-			item.useAnimation = 31;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ModContent.ProjectileType<LuminanceSeaconeProjectile>();
-			item.shootSpeed = 9.5f;
-			item.knockBack = 4f;
-			item.autoReuse = false;
-			item.rare = ItemRarityID.Green;
-			item.value = Item.sellPrice(silver: 80);
-			item.useTurn = false;
-			item.mana = 12;
+			Item.damage = 17;
+			Item.noMelee = true;
+			Item.noUseGraphic = false;
+			Item.DamageType = DamageClass.Magic;
+			Item.width = 36;
+			Item.height = 40;
+			Item.useTime = 31;
+			Item.useAnimation = 31;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ModContent.ProjectileType<LuminanceSeaconeProjectile>();
+			Item.shootSpeed = 9.5f;
+			Item.knockBack = 4f;
+			Item.autoReuse = false;
+			Item.rare = ItemRarityID.Green;
+			Item.value = Item.sellPrice(silver: 80);
+			Item.useTurn = false;
+			Item.mana = 12;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 50f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Weapon.Magic.LuminanceSeacone
 			{
 				int spread = Main.rand.Next(-6,6);
 				Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(spread));
-				Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+				Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockback, player.whoAmI, 0.0f, 0.0f);
 			}
 			return false;
 		}

@@ -6,7 +6,7 @@ namespace SpiritMod.Mounts.Minecarts.MarbleMinecart
 {
 	public class MarbleMinecartBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Nemean Chariot"); //name tbd?
 			Description.SetDefault("'You feel powerful!'");

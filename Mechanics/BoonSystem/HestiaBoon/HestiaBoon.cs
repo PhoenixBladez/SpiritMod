@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -50,7 +51,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 
 			for(int i = 0; i < 3; i++) 
 			{ 
-				if (myNPCs[i] != null && myNPCs[i].active && Vector2.DistanceSquared(SigilPosition, myNPCs[i].Center) <= 256 * 256 && (npc.modNPC is IBoonable || npc.type == NPCID.Medusa))
+				if (myNPCs[i] != null && myNPCs[i].active && Vector2.DistanceSquared(SigilPosition, myNPCs[i].Center) <= 256 * 256 && (npc.ModNPC is IBoonable || npc.type == NPCID.Medusa))
 				{
 					DrawBoonBeam(myNPCs[i].Center);
 				} 
@@ -85,7 +86,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 			Effect effect = SpiritMod.Instance.GetEffect("Effects/EmpowermentBeam");
 
 			effect.Parameters["uTexture"].SetValue(SpiritMod.Instance.GetTexture("Textures/Trails/Trail_2"));
-			effect.Parameters["progress"].SetValue(Main.GlobalTime / 3);
+			effect.Parameters["progress"].SetValue(Main.GlobalTimeWrappedHourly / 3);
 			effect.Parameters["uColor"].SetValue(new Color(247, 117, 42, 0).ToVector4());
 			effect.Parameters["uSecondaryColor"].SetValue(new Color(247, 195, 92, 0).ToVector4());
 
@@ -109,7 +110,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 		public bool drawHestiaRunes;
 		public float runeAlpha;
 
-		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if (drawHestiaRunes)
 			{
@@ -121,7 +122,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 
 						if (rune.inFront == true)
 						{
-							Texture2D tex2 = ModContent.GetTexture("SpiritMod/Mechanics/BoonSystem/HestiaBoon/HestiaRune");
+							Texture2D tex2 = ModContent.Request<Texture2D>("SpiritMod/Mechanics/BoonSystem/HestiaBoon/HestiaRune");
 
 							Color color = new Color(247, 117, 42, 0);
 
@@ -147,7 +148,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 
 		public bool setStats = false;
 
-		public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if(!setStats)
 			{
@@ -162,7 +163,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 
 			runeAlpha = MathHelper.Clamp(runeAlpha, 0f, 1f);
 
-			if (npc != null && npc.active && runeAlpha > 0f && (npc.modNPC is IBoonable || npc.type == NPCID.Medusa))
+			if (npc != null && npc.active && runeAlpha > 0f && (npc.ModNPC is IBoonable || npc.type == NPCID.Medusa))
 			{
 				npc.damage = (int)(baseDamage * 1.2f);
 				npc.defense = baseDefense + 15;
@@ -172,7 +173,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 				for (int i = 0; i < 4; i++)
 				{
 					Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * 2;
-					Main.spriteBatch.Draw(Main.npcTexture[npc.type], pos + offsetPositon - Main.screenPosition, npc.frame, new Color(247, 117, 42, 0) * runeAlpha, npc.rotation, npc.frame.Size() * 0.5f, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+					Main.spriteBatch.Draw(TextureAssets.Npc[npc.type].Value, pos + offsetPositon - Main.screenPosition, npc.frame, new Color(247, 117, 42, 0) * runeAlpha, npc.rotation, npc.frame.Size() * 0.5f, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
 				}
 
 				for (int j = 0; j < 3; j++)
@@ -185,7 +186,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 
 					if (rune.inFront == false)
 					{
-						Texture2D tex = ModContent.GetTexture("SpiritMod/Mechanics/BoonSystem/HestiaBoon/HestiaRune");
+						Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Mechanics/BoonSystem/HestiaBoon/HestiaRune");
 
 						Color color = new Color(247, 117, 42, 0);
 

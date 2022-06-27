@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 		}
 		public override void SetDefaults()
 		{
-			item.width = 47;
-			item.height = 37;
-			item.value = 60000;
-			item.accessory = true;
-			item.rare = ItemRarityID.Pink;
+			Item.width = 47;
+			Item.height = 37;
+			Item.value = 60000;
+			Item.accessory = true;
+			Item.rare = ItemRarityID.Pink;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -48,12 +48,11 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe(1);
 			modRecipe.AddIngredient(ModContent.ItemType<NetherCrystal>(), 1);
 			modRecipe.AddIngredient(ItemID.SoulofFlight, 20);
 			modRecipe.AddTile(TileID.MythrilAnvil);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

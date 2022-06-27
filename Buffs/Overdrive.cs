@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class OverDrive : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Overdrive");
 			Description.SetDefault("Your movement speed and melee speed are charged up!");

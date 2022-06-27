@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
@@ -24,74 +25,74 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Meteor");
-			Main.projFrames[projectile.type] = 6;
+			Main.projFrames[Projectile.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(32, 32);
-			projectile.scale = Main.rand.NextFloat(0.9f, 1.1f);
-			projectile.hostile = true;
-			projectile.alpha = 255;
-			projectile.frame = Main.rand.Next(Main.projFrames[projectile.type]);
+			Projectile.Size = new Vector2(32, 32);
+			Projectile.scale = Main.rand.NextFloat(0.9f, 1.1f);
+			Projectile.hostile = true;
+			Projectile.alpha = 255;
+			Projectile.frame = Main.rand.Next(Main.projFrames[Projectile.type]);
 		}
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateCustomTrail(new FlameTrail(projectile, Yellow, Orange, Purple, 40 * projectile.scale, 15));
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, Yellow * 0.33f, Color.Transparent), new RoundCap(), new DefaultTrailPosition(), 80 * projectile.scale, 300, null, TrailLayer.AboveProjectile);
+			tM.CreateCustomTrail(new FlameTrail(Projectile, Yellow, Orange, Purple, 40 * Projectile.scale, 15));
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, Yellow * 0.33f, Color.Transparent), new RoundCap(), new DefaultTrailPosition(), 80 * Projectile.scale, 300, null, TrailLayer.AboveProjectile);
 		}
 
-		private ref float Timer => ref projectile.ai[0];
-		private ref float Delay => ref projectile.ai[1];
+		private ref float Timer => ref Projectile.ai[0];
+		private ref float Delay => ref Projectile.ai[1];
 
 		private int FallStartTime => TELEGRAPH_TIME + (int)Delay; //Time when the projectile becomes active and starts falling
 
-		public override bool CanDamage() => Timer < FallStartTime;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => Timer < FallStartTime;
 
 		public override void AI()
 		{
 			int fadeTime = 60; //Time in ticks to fully fade in
-			projectile.rotation += (Math.Sign(projectile.velocity.X) > 0 ? 1 : -1) * 0.12f;
+			Projectile.rotation += (Math.Sign(Projectile.velocity.X) > 0 ? 1 : -1) * 0.12f;
 
 			if (++Timer >= FallStartTime)
 			{
 				if(!Main.dedServ)
 				{
 					if (Timer == FallStartTime) //Spawn trail on first tick, add sound here later?
-						TrailManager.ManualTrailSpawn(projectile);
+						TrailManager.ManualTrailSpawn(Projectile);
 
-					MakeEmberParticle(projectile.velocity * 0.5f, 0.97f);
+					MakeEmberParticle(Projectile.velocity * 0.5f, 0.97f);
 				}
 
-				projectile.alpha = Math.Max(projectile.alpha - (255 / fadeTime), 0);
+				Projectile.alpha = Math.Max(Projectile.alpha - (255 / fadeTime), 0);
 
 				if ((Timer - FallStartTime) < 90)
-					projectile.velocity *= 1.02f;
+					Projectile.velocity *= 1.02f;
 			}
 			else
-				projectile.position -= projectile.velocity; //Stay in place until falling starts
+				Projectile.position -= Projectile.velocity; //Stay in place until falling starts
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(Timer);
-			writer.Write(projectile.frame);
+			writer.Write(Projectile.frame);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			Timer = reader.ReadSingle();
-			projectile.frame = reader.ReadInt32();
+			Projectile.frame = reader.ReadInt32();
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D Mask = ModContent.GetTexture(Texture + "_Glow");
-			projectile.QuickDraw(spriteBatch);
+			Texture2D Mask = ModContent.Request<Texture2D>(Texture + "_Glow");
+			Projectile.QuickDraw(spriteBatch);
 			void DrawGlow(Vector2 positionOffset, Color Color) => 
-				spriteBatch.Draw(Mask, projectile.Center - Main.screenPosition + positionOffset, projectile.DrawFrame(), Color, projectile.rotation, 
-				projectile.DrawFrame().Size() / 2, projectile.scale, SpriteEffects.None, 0);
+				spriteBatch.Draw(Mask, Projectile.Center - Main.screenPosition + positionOffset, Projectile.DrawFrame(), Color, Projectile.rotation, 
+				Projectile.DrawFrame().Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 
 			Color additiveWhite = Color.White;
 			additiveWhite.A = 0;
@@ -131,19 +132,19 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		{
 			if (Main.netMode != NetmodeID.Server)
 			{
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.65f).WithPitchVariance(0.3f), projectile.Center);
+				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.65f).WithPitchVariance(0.3f), Projectile.Center);
 
 				for (int i = 0; i < 8; i++)
-					MakeEmberParticle(-projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f), 0.96f);
+					MakeEmberParticle(-Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f), 0.96f);
 
 				for (int i = 0; i < 6; i++)
-					MakeEmberParticle(projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.33f), 0.96f);
+					MakeEmberParticle(Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.33f), 0.96f);
 			}
 		}
 
 		private void MakeEmberParticle(Vector2 vel, float velDecayRate)
 		{
-			ParticleHandler.SpawnParticle(new FireParticle(projectile.Center + Main.rand.NextVector2Circular(10, 10) * projectile.scale,
+			ParticleHandler.SpawnParticle(new FireParticle(Projectile.Center + Main.rand.NextVector2Circular(10, 10) * Projectile.scale,
 				vel, Yellow, Orange, Main.rand.NextFloat(0.2f, 0.4f), 35, delegate (Particle p)
 				{
 					p.Velocity *= velDecayRate;

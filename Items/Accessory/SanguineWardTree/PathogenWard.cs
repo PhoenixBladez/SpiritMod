@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 {
 	public class PathogenWard : ModItem
 	{
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pathogen Ward");
@@ -18,11 +18,11 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 18;
-			item.value = Item.buyPrice(0, 1, 50, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.accessory = true;
+			Item.width = 18;
+			Item.height = 18;
+			Item.value = Item.buyPrice(0, 1, 50, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.accessory = true;
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
@@ -31,12 +31,11 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<Bloodstone>(), 1);
 			recipe.AddIngredient(ItemID.Bezoar, 1);
 			recipe.AddTile(TileID.TinkerersWorkbench);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

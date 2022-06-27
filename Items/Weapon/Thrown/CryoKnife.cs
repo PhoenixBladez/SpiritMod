@@ -17,19 +17,19 @@ namespace SpiritMod.Items.Weapon.Thrown
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.Shuriken);
-			item.width = 30;
-			item.height = 30;
-			item.shoot = ModContent.ProjectileType<Projectiles.Thrown.CryoKnife>();
-			item.useAnimation = 55;
-			item.useTime = 55;
-			item.shootSpeed = 10f;
-			item.ranged = true;
-			item.damage = 16;
-			item.autoReuse = true;
-			item.knockBack = 1f;
-			item.value = Item.buyPrice(0, 0, 1, 0);
-			item.rare = ItemRarityID.LightRed;
+			Item.CloneDefaults(ItemID.Shuriken);
+			Item.width = 30;
+			Item.height = 30;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.CryoKnife>();
+			Item.useAnimation = 55;
+			Item.useTime = 55;
+			Item.shootSpeed = 10f;
+			Item.DamageType = DamageClass.Ranged;
+			Item.damage = 16;
+			Item.autoReuse = true;
+			Item.knockBack = 1f;
+			Item.value = Item.buyPrice(0, 0, 1, 0);
+			Item.rare = ItemRarityID.LightRed;
 		}
 	}
 }

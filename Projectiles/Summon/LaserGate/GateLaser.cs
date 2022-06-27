@@ -13,16 +13,16 @@ namespace SpiritMod.Projectiles.Summon.LaserGate
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.width = 1;
-			projectile.height = 1;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.damage = 1;
-			projectile.penetrate = 8;
-			projectile.alpha = 255;
-			projectile.timeLeft = 1;
-			projectile.tileCollide = true;
+			Projectile.hostile = false;
+			Projectile.width = 1;
+			Projectile.height = 1;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.damage = 1;
+			Projectile.penetrate = 8;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 1;
+			Projectile.tileCollide = true;
 		}
 
 	}

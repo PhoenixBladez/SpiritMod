@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,45 +13,45 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Hamaxe");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/CryoliteSet/CryoHamaxe_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/CryoliteSet/CryoHamaxe_Glow");
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.width = 44;
-			item.height = 40;
-			item.value = Item.sellPrice(0, 0, 40, 0);
-			item.rare = ItemRarityID.Orange;
+			Item.width = 44;
+			Item.height = 40;
+			Item.value = Item.sellPrice(0, 0, 40, 0);
+			Item.rare = ItemRarityID.Orange;
 
-			item.axe = 30;
-			item.hammer = 70;
+			Item.axe = 30;
+			Item.hammer = 70;
 
-			item.damage = 18;
-			item.knockBack = 5;
+			Item.damage = 18;
+			Item.knockBack = 5;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 27;
-			item.useAnimation = 27;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 27;
+			Item.useAnimation = 27;
 
-			item.melee = true;
-			item.useTurn = true;
-			item.autoReuse = true;
+			Item.DamageType = DamageClass.Melee;
+			Item.useTurn = true;
+			Item.autoReuse = true;
 
-			item.UseSound = SoundID.Item1;
+			Item.UseSound = SoundID.Item1;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.06f, .16f, .22f);
+			Lighting.AddLight(Item.position, 0.06f, .16f, .22f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/CryoliteSet/CryoHamaxe_Glow"),
+				Mod.GetTexture("Items/Sets/CryoliteSet/CryoHamaxe_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -63,11 +64,10 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe();
 			modRecipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 12);
 			modRecipe.AddTile(TileID.Anvils);
-			modRecipe.SetResult(this);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{

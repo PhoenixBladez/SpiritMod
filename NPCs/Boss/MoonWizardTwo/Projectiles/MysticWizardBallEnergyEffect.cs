@@ -13,15 +13,15 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.aiStyle = -1;
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.friendly = false;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.penetrate = 2;
-            projectile.hide = true;
-			projectile.timeLeft = 300;
+			Projectile.aiStyle = -1;
+			Projectile.width = 8;
+			Projectile.height = 8;
+			Projectile.friendly = false;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.penetrate = 2;
+            Projectile.hide = true;
+			Projectile.timeLeft = 300;
 		}
 
 		public override void AI()
@@ -31,32 +31,32 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 			float x = 0.3f;
 			float y = 0.3f;
 			bool flag2 = false;
-			if ((double)projectile.ai[0] < (double)num2) {
+			if ((double)Projectile.ai[0] < (double)num2) {
 				bool flag4 = true;
-				int index1 = (int)projectile.ai[1];
+				int index1 = (int)Projectile.ai[1];
 				if (Main.projectile[index1].active && Main.projectile[index1].type == num1) {
 					if (!flag2 && Main.projectile[index1].oldPos[1] != Vector2.Zero)
-						projectile.position = projectile.position + Main.projectile[index1].position - Main.projectile[index1].oldPos[1];
+						Projectile.position = Projectile.position + Main.projectile[index1].position - Main.projectile[index1].oldPos[1];
 				}
 				else {
-					projectile.ai[0] = num2;
+					Projectile.ai[0] = num2;
 					flag4 = false;
-                    projectile.Kill();
+                    Projectile.Kill();
 				}
 				if (flag4 && !flag2) {
-                    projectile.velocity += new Vector2((float)Math.Sign(Main.projectile[index1].Center.X - projectile.Center.X), (float)Math.Sign(Main.projectile[index1].Center.Y - projectile.Center.Y)) * new Vector2(x, y);
-                    if (projectile.velocity.Length() > 7f)
-                        projectile.velocity *= 7f / projectile.velocity.Length();
+                    Projectile.velocity += new Vector2((float)Math.Sign(Main.projectile[index1].Center.X - Projectile.Center.X), (float)Math.Sign(Main.projectile[index1].Center.Y - Projectile.Center.Y)) * new Vector2(x, y);
+                    if (Projectile.velocity.Length() > 7f)
+                        Projectile.velocity *= 7f / Projectile.velocity.Length();
                 }
 			}
 			for (int i = 0; i < 5; i++) {
-				if (projectile.width == 8) {
-					float x1 = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-					float y1 = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+				if (Projectile.width == 8) {
+					float x1 = Projectile.Center.X - Projectile.velocity.X / 10f * (float)i;
+					float y1 = Projectile.Center.Y - Projectile.velocity.Y / 10f * (float)i;
 					int num = Dust.NewDust(new Vector2(x1, y1), 2, 2, DustID.DungeonSpirit);
-					Main.dust[num].velocity = projectile.velocity;
+					Main.dust[num].velocity = Projectile.velocity;
 					Main.dust[num].noGravity = true;
-                    Main.dust[num].scale = projectile.scale;
+                    Main.dust[num].scale = Projectile.scale;
                 }
 			}
 

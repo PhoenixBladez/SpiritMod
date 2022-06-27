@@ -5,6 +5,8 @@ using SpiritMod.Items.Sets.MagicMisc.AstralClock;
 using SpiritMod.Items.Weapon.Summon;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
@@ -18,37 +20,37 @@ namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloomshroom");
-			Main.npcFrameCount[npc.type] = 12;
+			Main.npcFrameCount[NPC.type] = 12;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 50;
-			npc.height = 54;
-			npc.damage = 29;
-			npc.defense = 16;
-			npc.lifeMax = 600;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath16;
-			npc.buffImmune[ModContent.BuffType<StarFlame>()] = true;
-			npc.value = 600f;
-			npc.knockBackResist = .35f;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.BloomshroomBanner>();
+			NPC.width = 50;
+			NPC.height = 54;
+			NPC.damage = 29;
+			NPC.defense = 16;
+			NPC.lifeMax = 600;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath16;
+			NPC.buffImmune[ModContent.BuffType<StarFlame>()] = true;
+			NPC.value = 600f;
+			NPC.knockBackResist = .35f;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.BloomshroomBanner>();
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 30; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Obsidian, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.CursedTorch, 2.5f * hitDirection, -2.5f, 0, default, .34f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Obsidian, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CursedTorch, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glumshroom/Glumshroom1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Glumshroom/Glumshroom2"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Glumshroom/Glumshroom1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Glumshroom/Glumshroom2").Type, 1f);
 			}
 		}
 
@@ -58,9 +60,9 @@ namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 
 		public override void AI()
 		{
-			npc.spriteDirection = npc.direction;
-			Player target = Main.player[npc.target];
-			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+			NPC.spriteDirection = NPC.direction;
+			Player target = Main.player[NPC.target];
+			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
 
 			if (distance < 360)
 				attack = true;
@@ -70,18 +72,18 @@ namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 
 			if (attack)
 			{
-				npc.velocity.X = .008f * npc.direction;
+				NPC.velocity.X = .008f * NPC.direction;
 
 				if (frame == 9 && timer == 0)
 				{
-					Main.PlaySound(SoundID.Item, npc.Center, 95);
+					SoundEngine.PlaySound(SoundID.Item, NPC.Center, 95);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, 0, -4, ModContent.ProjectileType<BloomshroomHostile>(), 31, 0);
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, 6f, -4, ModContent.ProjectileType<BloomshroomHostile>(), 31, 0);
+						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y - 10, 0, -4, ModContent.ProjectileType<BloomshroomHostile>(), 31, 0);
+						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y - 10, 6f, -4, ModContent.ProjectileType<BloomshroomHostile>(), 31, 0);
 
 						if (Main.rand.Next(3) == 0)
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 10, -6f, -4, ModContent.ProjectileType<BloomshroomHostile>(), 25, 0);
+							Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y - 10, -6f, -4, ModContent.ProjectileType<BloomshroomHostile>(), 25, 0);
 
 						timer++;
 					}
@@ -100,15 +102,15 @@ namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 
 				if (frame < 7)
 					frame = 7;
-				if (target.position.X > npc.position.X)
-					npc.direction = 1;
+				if (target.position.X > NPC.position.X)
+					NPC.direction = 1;
 				else
-					npc.direction = -1;
+					NPC.direction = -1;
 			}
 			else
 			{
-				npc.aiStyle = 26;
-				aiType = NPCID.Skeleton;
+				NPC.aiStyle = 26;
+				AIType = NPCID.Skeleton;
 				timer++;
 				if (timer >= 4)
 				{
@@ -121,26 +123,26 @@ namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<Bloomshroom>()) < 2 && spawnInfo.player.ZoneOverworldHeight ? 1f : 0f;
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/BlueMoon/Bloomshroom/Bloomshroom_Glow"));
-		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<Bloomshroom>()) < 2 && spawnInfo.Player.ZoneOverworldHeight ? 1f : 0f;
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/BlueMoon/Bloomshroom/Bloomshroom_Glow"));
+		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.NextBool(5))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonStone>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MoonStone>());
 			if (Main.rand.NextBool(100))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StopWatch>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<StopWatch>());
 			if (Main.rand.NextBool(20))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GloomgusStaff>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GloomgusStaff>());
 		}
 	}
 }

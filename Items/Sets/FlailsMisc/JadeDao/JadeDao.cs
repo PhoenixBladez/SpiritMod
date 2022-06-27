@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -19,25 +21,25 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 16;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = item.useAnimation = 18;
-			item.shootSpeed = 1f;
-			item.knockBack = 4f;
-			item.UseSound = SoundID.Item116;
-			item.shoot = ModContent.ProjectileType<JadeDaoProj>();
-			item.value = Item.sellPrice(gold: 10);
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.channel = true;
-			item.autoReuse = true;
-			item.melee = true;
-			item.damage = 95;
-			item.rare = ItemRarityID.LightPurple;
+			Item.width = 16;
+			Item.height = 16;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useTime = Item.useAnimation = 18;
+			Item.shootSpeed = 1f;
+			Item.knockBack = 4f;
+			Item.UseSound = SoundID.Item116;
+			Item.shoot = ModContent.ProjectileType<JadeDaoProj>();
+			Item.value = Item.sellPrice(gold: 10);
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.channel = true;
+			Item.autoReuse = true;
+			Item.DamageType = DamageClass.Melee;
+			Item.damage = 95;
+			Item.rare = ItemRarityID.LightPurple;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			combo++;
 
@@ -46,12 +48,12 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 			bool slam = combo % 5 == 4;
 
-			Vector2 direction = new Vector2(speedX, speedY).RotatedBy(Main.rand.NextFloat(-0.2f, 0.2f));
-			Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
+			Vector2 direction = velocity.RotatedBy(Main.rand.NextFloat(-0.2f, 0.2f));
+			Projectile proj = Projectile.NewProjectileDirect(source, position, direction, type, damage, knockback, player.whoAmI);
 
-			if (proj.modProjectile is JadeDaoProj modProj)
+			if (proj.ModProjectile is JadeDaoProj modProj)
 			{
-				modProj.SwingTime = (int)(item.useTime * UseTimeMultiplier(player) * (slam ? 1.75f : 1));
+				modProj.SwingTime = (int)(Item.useTime * UseTimeMultiplier(player) * (slam ? 1.75f : 1));
 				modProj.SwingDistance = player.Distance(Main.MouseWorld) * distanceMult;
 				modProj.Curvature = 0.33f * curvatureMult;
 				modProj.Flip = combo % 2 == 1;
@@ -61,11 +63,11 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 			if (slam)
 			{
-				Projectile proj2 = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
+				Projectile proj2 = Projectile.NewProjectileDirect(source, position, direction, type, damage, knockback, player.whoAmI);
 
-				if (proj2.modProjectile is JadeDaoProj modProj2)
+				if (proj2.ModProjectile is JadeDaoProj modProj2)
 				{
-					modProj2.SwingTime = (int)(item.useTime * UseTimeMultiplier(player) * (slam ? 1.75f : 1));
+					modProj2.SwingTime = (int)(Item.useTime * UseTimeMultiplier(player) * (slam ? 1.75f : 1));
 					modProj2.SwingDistance = player.Distance(Main.MouseWorld) * distanceMult;
 					modProj2.Curvature = 0.33f * curvatureMult;
 					modProj2.Flip = combo % 2 == 0;
@@ -84,7 +86,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 		public override float UseTimeMultiplier(Player player) => player.meleeSpeed; //Scale with melee speed buffs, like whips
 		public override void NetSend(BinaryWriter writer) => writer.Write(combo);
-		public override void NetRecieve(BinaryReader reader) => combo = reader.ReadInt32();
+		public override void NetReceive(BinaryReader reader) => combo = reader.ReadInt32();
 	}
 
 	public class JadeDaoProj : ModProjectile
@@ -92,29 +94,29 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Jade Daos");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.Size = new Vector2(85, 85);
-			projectile.tileCollide = false;
-			projectile.ownerHitCheck = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
+			Projectile.friendly = true;
+			Projectile.Size = new Vector2(85, 85);
+			Projectile.tileCollide = false;
+			Projectile.ownerHitCheck = true;
+			Projectile.ignoreWater = true;
+			Projectile.penetrate = -1;
+			Projectile.usesLocalNPCImmunity = true;
 		}
 
-		private Player Owner => Main.player[projectile.owner];
+		private Player Owner => Main.player[Projectile.owner];
 
 		public int SwingTime;
 		public float SwingDistance;
 		public float Curvature;
 
-		public ref float Timer => ref projectile.ai[0];
-		public ref float AiState => ref projectile.ai[1];
+		public ref float Timer => ref Projectile.ai[0];
+		public ref float AiState => ref Projectile.ai[1];
 
 
 		private Vector2 returnPosOffset; //The position of the projectile when it starts returning to the player from being hooked
@@ -142,16 +144,16 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 		public override void AI()
 		{
-			if (projectile.timeLeft > 2) //Initialize chain control points on first tick, in case of projectile hooking in on first tick
+			if (Projectile.timeLeft > 2) //Initialize chain control points on first tick, in case of projectile hooking in on first tick
 			{
-				_chainMidA = projectile.Center;
-				_chainMidB = projectile.Center;
+				_chainMidA = Projectile.Center;
+				_chainMidB = Projectile.Center;
 
-				SpiritMod.primitives.CreateTrail(new JadeDaoBasicTrail(projectile));
+				SpiritMod.primitives.CreateTrail(new JadeDaoBasicTrail(Projectile));
 			}
 
 			Lighting.AddLight(CurrentBase, new Color(54, 192, 98).ToVector3());
-			projectile.timeLeft = 2;
+			Projectile.timeLeft = 2;
 
 			if (Slam)
 				Owner.itemTime = Owner.itemAnimation = 40;
@@ -161,7 +163,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			ThrowOutAI();
 
 			if (!Slam)
-				Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(projectile.Center) - (Owner.direction < 0 ? MathHelper.Pi : 0));
+				Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(Projectile.Center) - (Owner.direction < 0 ? MathHelper.Pi : 0));
 			else
 				Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(Main.MouseWorld) - (Owner.direction < 0 ? MathHelper.Pi : 0));
 			_flashTime = Math.Max(_flashTime - 1, 0);
@@ -175,12 +177,12 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 			float angleMaxDeviation = MathHelper.Pi / 1.2f;
 			float angleOffset = Owner.direction * (Flip ? -1 : 1) * MathHelper.Lerp(-angleMaxDeviation, angleMaxDeviation, progress); //Moves clockwise if player is facing right, counterclockwise if facing left
-			return projectile.velocity.RotatedBy(angleOffset) * distance;
+			return Projectile.velocity.RotatedBy(angleOffset) * distance;
 		}
 
 		private void ThrowOutAI()
 		{
-			projectile.rotation = projectile.AngleFrom(Owner.Center);
+			Projectile.rotation = Projectile.AngleFrom(Owner.Center);
 			Vector2 position = Owner.MountedCenter;
 			float progress = ++Timer / SwingTime; //How far the projectile is through its swing
 			if (Slam)
@@ -206,39 +208,38 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 				progress = EaseFunction.EaseQuadOut.Ease(progress);
 
 			if (slamTimer == 5)
-				Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
+				SoundEngine.PlaySound(SoundID.NPCDeath7, Projectile.Center);
 
-			projectile.Center = position + GetSwingPosition(progress);
-			projectile.direction = projectile.spriteDirection = -Owner.direction * (Flip ? -1 : 1);
+			Projectile.Center = position + GetSwingPosition(progress);
+			Projectile.direction = Projectile.spriteDirection = -Owner.direction * (Flip ? -1 : 1);
 
 			if (Timer >= SwingTime)
-				projectile.Kill();
+				Projectile.Kill();
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			if (projectile.timeLeft > 2)
+			if (Projectile.timeLeft > 2)
 				return false;
 
-			Texture2D projTexture = Main.projectileTexture[projectile.type];
-			Texture2D glowTexture = ModContent.GetTexture(Texture + "_Glow");
+			Texture2D projTexture = TextureAssets.Projectile[Projectile.type].Value;
+			Texture2D glowTexture = ModContent.Request<Texture2D>(Texture + "_Glow").Value;
 
 			//End control point for the chain
-			Vector2 projBottom = projectile.Center + new Vector2(0, projTexture.Height / 2).RotatedBy(projectile.rotation + MathHelper.PiOver2) * 0.75f;
-			DrawChainCurve(spriteBatch, projBottom, out Vector2[] chainPositions);
+			Vector2 projBottom = Projectile.Center + new Vector2(0, projTexture.Height / 2).RotatedBy(Projectile.rotation + MathHelper.PiOver2) * 0.75f;
+			DrawChainCurve(Main.spriteBatch, projBottom, out Vector2[] chainPositions);
 
 			//Adjust rotation to face from the last point in the bezier curve
 			float newRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() + MathHelper.PiOver2;
 
 			//Draw from bottom center of texture
 			Vector2 origin = new Vector2(projTexture.Width / 2, projTexture.Height);
-			SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			SpriteEffects flip = (Projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-			lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
+			lightColor = Lighting.GetColor((int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f));
 
-			spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, projectile.scale, flip, 0);
-
-			spriteBatch.Draw(glowTexture, projBottom - Main.screenPosition, null, Color.White, newRotation, origin, projectile.scale, flip, 0);
+			Main.spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, Projectile.scale, flip, 0);
+			Main.spriteBatch.Draw(glowTexture, projBottom - Main.screenPosition, null, Color.White, newRotation, origin, Projectile.scale, flip, 0);
 
 
 			CurrentBase = projBottom + (newRotation - 1.57f).ToRotationVector2() * (projTexture.Height / 2);
@@ -251,13 +252,13 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			if (!Slam)
 				return false;
 
-			Texture2D whiteTexture = ModContent.GetTexture(Texture + "_White");
+			Texture2D whiteTexture = ModContent.Request<Texture2D>(Texture + "_White").Value;
 			if (slamTimer < 20 && slamTimer > 5)
 			{
 				float progress = (slamTimer - 5) / 15f;
 				float transparency = (float)Math.Pow(1 - progress, 2);
 				float scale = 1 + progress;
-				spriteBatch.Draw(whiteTexture, projBottom - Main.screenPosition, null, Color.White * transparency, newRotation, origin, projectile.scale * scale, flip, 0);
+				Main.spriteBatch.Draw(whiteTexture, projBottom - Main.screenPosition, null, Color.White * transparency, newRotation, origin, Projectile.scale * scale, flip, 0);
 			}
 			return false;
 		}
@@ -267,7 +268,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		private Vector2 _chainMidB;
 		private void DrawChainCurve(SpriteBatch spriteBatch, Vector2 projBottom, out Vector2[] chainPositions)
 		{
-			Texture2D chainTex = ModContent.GetTexture(Texture + "_Chain");
+			Texture2D chainTex = ModContent.Request<Texture2D>(Texture + "_Chain").Value;
 
 			float progress = Timer / SwingTime;
 
@@ -304,7 +305,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
-			BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, _chainMidA, _chainMidB, projectile.Center });
+			BezierCurve curve = new BezierCurve(new Vector2[] { Owner.MountedCenter, _chainMidA, _chainMidB, Projectile.Center });
 
 			int numPoints = 32;
 			Vector2[] chainPositions = curve.GetPoints(numPoints).ToArray();
@@ -324,7 +325,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 			{
 				crit = true;
 			}
-			if (Collision.CheckAABBvAABBCollision(target.position, target.Size, projectile.position, projectile.Size))
+			if (Collision.CheckAABBvAABBCollision(target.position, target.Size, Projectile.position, Projectile.Size))
 			{
 				damage = (int)(damage * 1.5f);
 				for (int i = 0; i < 8; i++)

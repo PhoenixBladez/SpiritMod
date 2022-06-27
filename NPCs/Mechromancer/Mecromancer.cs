@@ -8,9 +8,12 @@ using SpiritMod.Items.Sets.LaunchersMisc.Freeman;
 using SpiritMod.Projectiles;
 using SpiritMod.Utilities;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Mechromancer
 {
@@ -20,9 +23,9 @@ namespace SpiritMod.NPCs.Mechromancer
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mechromancer");
-			Main.npcFrameCount[npc.type] = 17;
-			NPCID.Sets.TrailCacheLength[npc.type] = 3;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 17;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 3;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		int moveSpeed = 0;
@@ -31,28 +34,28 @@ namespace SpiritMod.NPCs.Mechromancer
 
 		public override void SetDefaults()
 		{
-			npc.width = 32;
-			npc.height = 48;
-			npc.rarity = 3;
-			npc.damage = 20;
-			npc.defense = 8;
-			npc.lifeMax = 270;
-			npc.HitSound = SoundID.NPCHit40;
-			npc.DeathSound = SoundID.NPCDeath2;
-			npc.buffImmune[BuffID.OnFire] = true;
-			npc.buffImmune[BuffID.Confused] = true;
-			npc.buffImmune[ModContent.BuffType<ElectrifiedV2>()] = true;
-			npc.value = Item.buyPrice(0, 1, 38, 58);
-			npc.knockBackResist = 0.1f;
-			npc.noTileCollide = false;
-			animationType = 471;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.MechromancerBanner>();
+			NPC.width = 32;
+			NPC.height = 48;
+			NPC.rarity = 3;
+			NPC.damage = 20;
+			NPC.defense = 8;
+			NPC.lifeMax = 270;
+			NPC.HitSound = SoundID.NPCHit40;
+			NPC.DeathSound = SoundID.NPCDeath2;
+			NPC.buffImmune[BuffID.OnFire] = true;
+			NPC.buffImmune[BuffID.Confused] = true;
+			NPC.buffImmune[ModContent.BuffType<ElectrifiedV2>()] = true;
+			NPC.value = Item.buyPrice(0, 1, 38, 58);
+			NPC.knockBackResist = 0.1f;
+			NPC.noTileCollide = false;
+			AnimationType = 471;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.MechromancerBanner>();
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => NPC.AnyNPCs(ModContent.NPCType<Mecromancer>()) ? 0 : SpawnCondition.GoblinArmy.Chance * 0.0266f;
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.invasionType == InvasionID.GoblinArmy)
 			{
@@ -66,17 +69,17 @@ namespace SpiritMod.NPCs.Mechromancer
 			}
 
 			if (Main.rand.NextBool(2))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<KnocbackGun>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<KnocbackGun>());
 			else
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.UnstableTeslaCoil.Unstable_Tesla_Coil>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Accessory.UnstableTeslaCoil.Unstable_Tesla_Coil>());
 			
 			if (Main.rand.NextBool(25))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.RocketBoots);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.RocketBoots);
 
 			int[] lootTable = { ModContent.ItemType<CoiledMask>(), ModContent.ItemType<CoiledChestplate>(), ModContent.ItemType<CoiledLeggings>() };
-			npc.DropItem(Main.rand.Next(lootTable));
+			NPC.DropItem(Main.rand.Next(lootTable));
 
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TechDrive>(), Main.rand.Next(7, 12));
+			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<TechDrive>(), Main.rand.Next(7, 12));
 		}
 
 		int timer;
@@ -85,128 +88,128 @@ namespace SpiritMod.NPCs.Mechromancer
 		public override void AI()
 		{
 			if (Main.rand.Next(250) == 2)
-				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
+				SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 7);
 
 			timer++;
 			if (timer == 100 || timer == 300)
 			{
-				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
-				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 92);
-				npc.TargetClosest();
+				SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 7);
+				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 92);
+				NPC.TargetClosest();
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					Vector2 direction = Main.player[npc.target].Center - npc.Center;
+					Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 					direction.Normalize();
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 3, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
+					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
+					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 3, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
 					if (Main.rand.Next(3) == 0)
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -3, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
+						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, -3, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
 				}
 			}
 
 			if (timer > 420 && timer < 840) {
-				npc.noTileCollide = true;
+				NPC.noTileCollide = true;
 				if (Main.rand.Next(60) == 0 && Main.netMode != NetmodeID.MultiplayerClient)
-					Projectile.NewProjectile(npc.position.X, npc.position.Y + 40, 0, 1, ProjectileID.GreekFire1, (int)(npc.damage * 0.5f), 0);
+					Projectile.NewProjectile(NPC.position.X, NPC.position.Y + 40, 0, 1, ProjectileID.GreekFire1, (int)(NPC.damage * 0.5f), 0);
 
-				Player player = Main.player[npc.target];
+				Player player = Main.player[NPC.target];
 				if (Main.rand.Next(20) == 0)
-					Main.PlaySound(SoundID.Item13, npc.position);
+					SoundEngine.PlaySound(SoundID.Item13, NPC.position);
 
-				npc.noGravity = true;
+				NPC.noGravity = true;
 
-				if (npc.Center.X >= player.Center.X && moveSpeed >= -40) // flies to players x position
+				if (NPC.Center.X >= player.Center.X && moveSpeed >= -40) // flies to players x position
 					moveSpeed--;
-				if (npc.Center.X <= player.Center.X && moveSpeed <= 40)
+				if (NPC.Center.X <= player.Center.X && moveSpeed <= 40)
 					moveSpeed++;
 
-				npc.velocity.X = moveSpeed * 0.1f;
+				NPC.velocity.X = moveSpeed * 0.1f;
 
-				if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -30) //Flies to players Y position
+				if (NPC.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -30) //Flies to players Y position
 				{
 					moveSpeedY--;
 					HomeY = 185f;
 				}
-				if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 30)
+				if (NPC.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 30)
 					moveSpeedY++;
 
-				npc.direction = player.Center.X > npc.Center.X ? 1 : -1;
-				npc.spriteDirection = npc.direction;
-				npc.velocity.Y = moveSpeedY * 0.1f;
+				NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
+				NPC.spriteDirection = NPC.direction;
+				NPC.velocity.Y = moveSpeedY * 0.1f;
 				flying = true;
 				
-				int num220 = Dust.NewDust(new Vector2(npc.Center.X + 2f, npc.position.Y + npc.height - 10f), 8, 8, DustID.Fire, 0f, 0f, 100, default, 1.95f);
+				int num220 = Dust.NewDust(new Vector2(NPC.Center.X + 2f, NPC.position.Y + NPC.height - 10f), 8, 8, DustID.Torch, 0f, 0f, 100, default, 1.95f);
 				Main.dust[num220].noGravity = true;
-				Main.dust[num220].velocity.X = Main.dust[num220].velocity.X * 1f - 2f - npc.velocity.X * 0.3f;
-				Main.dust[num220].velocity.Y = Main.dust[num220].velocity.Y * 1f + 2f * -npc.velocity.Y * 0.3f;
-				int num221 = Dust.NewDust(new Vector2(npc.Center.X - 3f, npc.position.Y + npc.height - 10f), 8, 8, DustID.Fire, 0f, 0f, 100, default, 1.95f);
+				Main.dust[num220].velocity.X = Main.dust[num220].velocity.X * 1f - 2f - NPC.velocity.X * 0.3f;
+				Main.dust[num220].velocity.Y = Main.dust[num220].velocity.Y * 1f + 2f * -NPC.velocity.Y * 0.3f;
+				int num221 = Dust.NewDust(new Vector2(NPC.Center.X - 3f, NPC.position.Y + NPC.height - 10f), 8, 8, DustID.Torch, 0f, 0f, 100, default, 1.95f);
 				Main.dust[num221].noGravity = true;
-				Main.dust[num221].velocity.X = Main.dust[num220].velocity.X * 1f - 2f - npc.velocity.X * 0.3f;
-				Main.dust[num221].velocity.Y = Main.dust[num220].velocity.Y * 1f + 2f * -npc.velocity.Y * 0.3f;
+				Main.dust[num221].velocity.X = Main.dust[num220].velocity.X * 1f - 2f - NPC.velocity.X * 0.3f;
+				Main.dust[num221].velocity.Y = Main.dust[num220].velocity.Y * 1f + 2f * -NPC.velocity.Y * 0.3f;
 			}
 			else
 			{
-				npc.noTileCollide = false;
+				NPC.noTileCollide = false;
 				flying = false;
-				npc.rotation = 0f;
-				npc.noGravity = false;
-				npc.aiStyle = 3;
-				aiType = NPCID.GoblinThief;
+				NPC.rotation = 0f;
+				NPC.noGravity = false;
+				NPC.aiStyle = 3;
+				AIType = NPCID.GoblinThief;
 			}
 
 			if (timer >= 840)
 			{
 				int damage = Main.expertMode ? 13 : 22;
 				timer = 0;
-				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/CoilRocket"));
+				SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/CoilRocket"));
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int add = Main.rand.Next(1, 4);
 					for (int i = 0; i < 4 + add; i++)
 					{
-						Vector2 vel = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 2;
+						Vector2 vel = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 2;
 						float xAdj = Main.rand.Next(-50, 50) * 0.23f;
 						float yAdj = Main.rand.Next(-50, 50) * 0.23f;
-						Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-50, 50), npc.Center.Y + Main.rand.Next(-50, 50), vel.X + xAdj, vel.Y + yAdj, ModContent.ProjectileType<CoilRocket>(), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(NPC.Center.X + Main.rand.Next(-50, 50), NPC.Center.Y + Main.rand.Next(-50, 50), vel.X + xAdj, vel.Y + yAdj, ModContent.ProjectileType<CoilRocket>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 				}
 			}
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if (flying)
 			{
-				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-				spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
-				var drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-				for (int k = 0; k < npc.oldPos.Length; k++)
+				var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, lightColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+				var drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
+				for (int k = 0; k < NPC.oldPos.Length; k++)
 				{
-					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-					Color color = npc.GetAlpha(lightColor) * ((npc.oldPos.Length - k) / npc.oldPos.Length / 2f);
-					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, npc.frame, color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+					Color color = NPC.GetAlpha(lightColor) * ((NPC.oldPos.Length - k) / NPC.oldPos.Length / 2f);
+					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 				for (int i = 1; i < 7; ++i)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mech" + i), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Mech" + i).Type, 1f);
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
 			if (flying)
-				npc.frame.Y = frameHeight * 10;
+				NPC.frame.Y = frameHeight * 10;
 		}
 
-        public override bool PreNPCLoot()
+        public override bool PreKill()
         {
             MyWorld.downedMechromancer = true;
-            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+            SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
             return true;
         }
 

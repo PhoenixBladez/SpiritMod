@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,24 +13,24 @@ namespace SpiritMod.NPCs.BlueMoon.MadHatter
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mad Hat");
-			Main.projFrames[base.projectile.type] = 5;
+			Main.projFrames[base.Projectile.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = true;
-			projectile.width = 28;
-			projectile.height = 18;
-			projectile.timeLeft = 225;
-			projectile.light = 0.5f;
-			projectile.tileCollide = false;
-			projectile.friendly = false;
-			projectile.penetrate = 1;
+			Projectile.hostile = true;
+			Projectile.width = 28;
+			Projectile.height = 18;
+			Projectile.timeLeft = 225;
+			Projectile.light = 0.5f;
+			Projectile.tileCollide = false;
+			Projectile.friendly = false;
+			Projectile.penetrate = 1;
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			projectile.Kill();
+			Projectile.Kill();
 		}
 
 		public override Color? GetAlpha(Color lightColor)
@@ -39,9 +40,9 @@ namespace SpiritMod.NPCs.BlueMoon.MadHatter
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 			for (int k = 0; k < 15; k++) {
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple);
+				int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.UnusedWhiteBluePurple);
 				Main.dust[dust].scale = 2f;
 				Main.dust[dust].noGravity = true;
 			}
@@ -49,10 +50,10 @@ namespace SpiritMod.NPCs.BlueMoon.MadHatter
 
 		public override void AI()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 6) {
-				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-				projectile.frameCounter = 0;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 6) {
+				Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
+				Projectile.frameCounter = 0;
 			}
 
 			Vector3 RGB = new Vector3(0f, 0.5f, 1.5f);
@@ -66,7 +67,7 @@ namespace SpiritMod.NPCs.BlueMoon.MadHatter
 			if (RGB.X < min) {
 				multiplier = 1.5f;
 			}
-			Lighting.AddLight(projectile.position, RGB.X, RGB.Y, RGB.Z);
+			Lighting.AddLight(Projectile.position, RGB.X, RGB.Y, RGB.Z);
 
 			timer++;
 			int range = 650;   //How many tiles away the projectile targets NPCs
@@ -77,33 +78,33 @@ namespace SpiritMod.NPCs.BlueMoon.MadHatter
 				//if npc is a valid target (active, not friendly, and not a critter)
 				if (player.active) {
 					//if npc is within 50 blocks
-					float dist = projectile.Distance(player.Center);
+					float dist = Projectile.Distance(player.Center);
 					if (dist / 16 < range) {
 						//if npc is closer than closest found npc
 						if (dist < lowestDist) {
 							lowestDist = dist;
 
 							//target this npc
-							projectile.ai[1] = player.whoAmI;
+							Projectile.ai[1] = player.whoAmI;
 						}
 					}
 				}
 			}
 
 			if (timer < 125) {
-				projectile.velocity.Y *= 0.98f;
+				Projectile.velocity.Y *= 0.98f;
 				if (timer > 100) {
-					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+					int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.UnusedWhiteBluePurple, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 					Main.dust[dust].noGravity = true;
 				}
 			}
-			int index = (int)projectile.ai[1];
+			int index = (int)Projectile.ai[1];
 			if (timer == 125 && index >= 0 && index < Main.maxPlayers && Main.player[index].active) {
-				Vector2 direction9 = Main.player[(int)projectile.ai[1]].Center - projectile.Center;
+				Vector2 direction9 = Main.player[(int)Projectile.ai[1]].Center - Projectile.Center;
 				direction9.Normalize();
 				direction9.X *= 15f;
 				direction9.Y *= 15f;
-				projectile.velocity = direction9;
+				Projectile.velocity = direction9;
 			}
 		}
 

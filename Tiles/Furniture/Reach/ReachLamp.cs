@@ -9,7 +9,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 {
 	public class ReachLamp : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;

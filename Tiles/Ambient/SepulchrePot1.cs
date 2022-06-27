@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Ammo.Arrow;
 using SpiritMod.Items.Ammo.Bullet;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -12,7 +13,7 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class SepulchrePot1 : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -26,10 +27,10 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Pot");
-			dustType = DustID.Wraith;
+			DustType = DustID.Wraith;
 			AddMapEntry(new Color(100, 100, 100), name);
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}
@@ -45,16 +46,16 @@ namespace SpiritMod.Tiles.Ambient
 			var zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
 			if (Main.drawToScreen) 
 				zero = Vector2.Zero;
-			int height = tile.frameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(mod.GetTexture("Tiles/Ambient/SepulchrePot1_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Ambient/SepulchrePot1_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(13, 0));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(13, 0));
 			for (int k = 0; k < 8; k++) {
 				Dust.NewDust(new Vector2(i * 16, j * 16 - 10), 54, 16, DustID.Dirt, 0.0f, -1, 0, new Color(), 0.5f);//Leave this line how it is, it uses int division
 				Dust.NewDust(new Vector2(i * 16, j * 16 - 10), 75, 16, DustID.Dirt, 0.0f, 0, 0, new Color(), 0.5f);//Leave this line how it is, it uses int division		
-				Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-10, 10)), new Vector2(-1, 1), mod.GetGoreSlot("Gores/Pot1"), 1f);
+				Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-10, 10)), new Vector2(-1, 1), Mod.Find<ModGore>("Gores/Pot1").Type, 1f);
 			}
 			int potionitem = Main.rand.Next(new int[] { 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305 });
 			if (Main.rand.Next(10) == 0) {

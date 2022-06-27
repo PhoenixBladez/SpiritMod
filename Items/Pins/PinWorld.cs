@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Pins
 {
 	// This just exists to store the pin locations on the world
 	// There's no data management here - please don't flood with unnecessary bloat
-	public class PinWorld : ModWorld
+	public class PinWorld : ModSystem
 	{
 		public TagCompound pins = new TagCompound();
 
@@ -16,9 +16,9 @@ namespace SpiritMod.Items.Pins
 
 		public void RemovePin(string name) => pins.Remove(name);
 
-		public override TagCompound Save() => pins;
+		public override void SaveWorldData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */ => pins;
 
-		public override void Load(TagCompound tag) => pins = tag;
+		public override void LoadWorldData(TagCompound tag) => pins = tag;
 
 		public override void NetSend(BinaryWriter writer)
 		{

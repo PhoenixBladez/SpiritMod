@@ -16,22 +16,22 @@ namespace SpiritMod.Items.Sets.GunsMisc.PolymorphGun
 
 		public override void SetDefaults()
 		{
-			item.magic = true;
-			item.damage = 35;
-			item.mana = 18;
-			item.width = 54;
-			item.height = 26;
-			item.useTime = 25;
-			item.useAnimation = 25;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 4;
-			item.value = Terraria.Item.buyPrice(0, 60, 0, 0);
-			item.rare = ItemRarityID.LightPurple;
-			item.UseSound = SoundID.DD2_SonicBoomBladeSlash;
-			item.autoReuse = true;
-			item.shootSpeed = 15f;
-			item.shoot = ModContent.ProjectileType<Polyshot>();
+			Item.DamageType = DamageClass.Magic;
+			Item.damage = 35;
+			Item.mana = 18;
+			Item.width = 54;
+			Item.height = 26;
+			Item.useTime = 25;
+			Item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 4;
+			Item.value = Terraria.Item.buyPrice(0, 60, 0, 0);
+			Item.rare = ItemRarityID.LightPurple;
+			Item.UseSound = SoundID.DD2_SonicBoomBladeSlash;
+			Item.autoReuse = true;
+			Item.shootSpeed = 15f;
+			Item.shoot = ModContent.ProjectileType<Polyshot>();
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);

@@ -14,12 +14,12 @@ namespace SpiritMod.Items.Accessory
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 32;
-			item.defense = 1;
-			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Pink;
-			item.accessory = true;
+			Item.width = 32;
+			Item.height = 32;
+			Item.defense = 1;
+			Item.value = Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Pink;
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().manaWings = true;

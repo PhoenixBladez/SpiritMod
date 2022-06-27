@@ -15,31 +15,30 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 
 		public override void SetDefaults()
 		{
-			item.damage = 14;
-			item.magic = true;
-			item.mana = 6;
-			item.width = 36;
-			item.height = 42;
-			item.useTime = 25;
-			item.useAnimation = 25;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 2;
-			item.value = Terraria.Item.sellPrice(0, 0, 8, 0);
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<Projectiles.Magic.Blood>();
-			item.shootSpeed = 7f;
+			Item.damage = 14;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 6;
+			Item.width = 36;
+			Item.height = 42;
+			Item.useTime = 25;
+			Item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 2;
+			Item.value = Terraria.Item.sellPrice(0, 0, 8, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Magic.Blood>();
+			Item.shootSpeed = 7f;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.CrimtaneBar, 12);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

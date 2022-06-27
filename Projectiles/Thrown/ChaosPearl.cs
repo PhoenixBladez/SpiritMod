@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,34 +18,34 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Shuriken);
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.penetrate = 2;
-			projectile.damage = 0;
+			Projectile.CloneDefaults(ProjectileID.Shuriken);
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.penetrate = 2;
+			Projectile.damage = 0;
 			//projectile.thrown = false;
-			projectile.friendly = false;
-			projectile.hostile = false;
+			Projectile.friendly = false;
+			Projectile.hostile = false;
 		}
 
 		public override bool PreAI()
 		{
-			projectile.rotation += 0.1f;
+			Projectile.rotation += 0.1f;
 
 			return true;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Player player = Main.player[projectile.owner];
-			Main.PlaySound((int)projectile.position.X, (int)projectile.position.Y, 27);
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 8);
+			Player player = Main.player[Projectile.owner];
+			SoundEngine.PlaySound((int)Projectile.position.X, (int)Projectile.position.Y, 27);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 8);
 			//Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			for (int num424 = 0; num424 < 10; num424++) {
-				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Firework_Yellow, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default, 0.75f);
+				Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Firework_Yellow, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 0, default, 0.75f);
 			}
-			Main.player[projectile.owner].Teleport(new Vector2(projectile.position.X, projectile.position.Y - 32), 2, 0);
-			if (Main.player[projectile.owner].FindBuffIndex(88) >= 0) {
+			Main.player[Projectile.owner].Teleport(new Vector2(Projectile.position.X, Projectile.position.Y - 32), 2, 0);
+			if (Main.player[Projectile.owner].FindBuffIndex(88) >= 0) {
 				player.statLife -= (player.statLifeMax2 / 7);
 				if (player.statLife <= 0) {
 					player.statLife = 1;
@@ -52,12 +53,12 @@ namespace SpiritMod.Projectiles.Thrown
 					//    player.KillMe(9999, 1, true, "'s head appeared where their legs should be.");
 				}
 			}
-			Main.player[projectile.owner].AddBuff(88, 240);
+			Main.player[Projectile.owner].AddBuff(88, 240);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			ProjectileExtras.DrawAroundOrigin(projectile.whoAmI, lightColor);
+			ProjectileExtras.DrawAroundOrigin(Projectile.whoAmI, lightColor);
 			return false;
 		}
 

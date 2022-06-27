@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,32 +16,32 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Jade Dragon");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.penetrate = 6;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.friendly = true;
-			projectile.timeLeft = 95;
-			projectile.magic = true;
+			Projectile.penetrate = 6;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
+			Projectile.timeLeft = 95;
+			Projectile.DamageType = DamageClass.Magic;
 			//projectile.extraUpdates = 1;
-			projectile.width = projectile.height = 32;
+			Projectile.width = Projectile.height = 32;
 
 		}
 		public override Color? GetAlpha(Color lightColor)
 		{
 			return new Color(66 - (int)(num / 3 * 2), 245 - (int)(num / 3 * 2), 120 - (int)(num / 3 * 2), 255 - num);
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}
@@ -52,19 +53,19 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 		public override void AI()
 		{
 			num += 4;
-			projectile.alpha += 12;
-			projectile.spriteDirection = 1;
-			if (projectile.ai[0] > 0) {
-				projectile.spriteDirection = 0;
+			Projectile.alpha += 12;
+			Projectile.spriteDirection = 1;
+			if (Projectile.ai[0] > 0) {
+				Projectile.spriteDirection = 0;
 			}
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+			Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 			distance += 0.03f;
 			counter += rotationalSpeed;
-			Vector2 initialSpeed = new Vector2(projectile.ai[0], projectile.ai[1]);
+			Vector2 initialSpeed = new Vector2(Projectile.ai[0], Projectile.ai[1]);
 			Vector2 offset = initialSpeed.RotatedBy(Math.PI / 2);
 			offset.Normalize();
 			offset *= (float)(Math.Cos(counter * (Math.PI / 180)) * (distance / 3));
-			projectile.velocity = initialSpeed + offset;
+			Projectile.velocity = initialSpeed + offset;
 		}
 	}
 }

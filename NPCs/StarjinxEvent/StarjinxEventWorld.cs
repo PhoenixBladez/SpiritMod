@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace SpiritMod.NPCs.StarjinxEvent
 {
-    public class StarjinxEventWorld : ModWorld
+    public class StarjinxEventWorld : ModSystem
     {
         public bool StarjinxActive = false;
         public bool SpawnedStarjinx = false;
@@ -18,7 +18,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		public static int KilledEnemies = 0;
 		public static int CometsRemaining = 0;
 
-        public override TagCompound Save()
+        public override void SaveWorldData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
         {
             return new TagCompound
             {
@@ -27,7 +27,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			};
         }
 
-		public override void Load(TagCompound tag)
+		public override void LoadWorldData(TagCompound tag)
 		{
 			if (tag.ContainsKey("Starjinx Active?"))
 				StarjinxActive = tag.GetBool("Starjinx Active?");
@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			SpawnedStarjinx = false;
 		}
 
-		public override void Initialize()
+		public override void OnWorldLoad()
 		{
 			MaxEnemies = 0;
 			KilledEnemies = 0;
@@ -45,7 +45,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			StarjinxUI.Initialize();
 		}
 
-		public override void PostUpdate() => StarjinxUI.Update();
+		public override void PostUpdateWorld() => StarjinxUI.Update();
 
 		public static void SetMaxEnemies(int maxEnemies)
 		{

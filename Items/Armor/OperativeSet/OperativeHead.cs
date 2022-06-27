@@ -15,11 +15,11 @@ namespace SpiritMod.Items.Armor.OperativeSet
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 20;
-			item.value = Terraria.Item.buyPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.vanity = true;
+			Item.width = 30;
+			Item.height = 20;
+			Item.value = Terraria.Item.buyPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.vanity = true;
 		}
 	}
 }

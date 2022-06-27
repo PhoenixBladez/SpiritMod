@@ -17,32 +17,31 @@ namespace SpiritMod.Items.Placeable.Furniture
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 34;
-			item.value = 5000;
+			Item.width = 36;
+			Item.height = 34;
+			Item.value = 5000;
 
-			item.maxStack = 99;
-			item.value = Item.buyPrice(gold: 3);
+			Item.maxStack = 99;
+			Item.value = Item.buyPrice(gold: 3);
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<GiantAnglerStatueTile>();
+			Item.createTile = ModContent.TileType<GiantAnglerStatueTile>();
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<Items.Placeable.FishCrate>(), 3);
 			recipe.AddIngredient(ItemID.IronBar, 20);
 			recipe.anyIronBar = true;
 			recipe.AddTile(TileID.Furnaces);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

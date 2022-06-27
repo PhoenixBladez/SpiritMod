@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
 using SpiritMod.UI.Elements;
@@ -26,10 +27,10 @@ namespace SpiritMod.Utilities
 
         public static void DrawRectangleBorder(SpriteBatch spriteBatch, Rectangle rect, Color colour)
         {
-            spriteBatch.Draw(Main.blackTileTexture, new Rectangle(rect.X, rect.Y, rect.Width, 1), null, colour);
-            spriteBatch.Draw(Main.blackTileTexture, new Rectangle(rect.X, rect.Y + 1, 1, rect.Height - 2), null, colour);
-            spriteBatch.Draw(Main.blackTileTexture, new Rectangle(rect.Right - 1, rect.Y + 1, 1, rect.Height - 2), null, colour);
-            spriteBatch.Draw(Main.blackTileTexture, new Rectangle(rect.X, rect.Bottom - 1, rect.Width, 1), null, colour);
+            spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(rect.X, rect.Y, rect.Width, 1), null, colour);
+            spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(rect.X, rect.Y + 1, 1, rect.Height - 2), null, colour);
+            spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(rect.Right - 1, rect.Y + 1, 1, rect.Height - 2), null, colour);
+            spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(rect.X, rect.Bottom - 1, rect.Width, 1), null, colour);
         }
 
 		public static string GetPluralEnding(int value, string word)

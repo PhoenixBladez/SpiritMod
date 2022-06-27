@@ -16,16 +16,16 @@ namespace SpiritMod.Items.Sets.SlagSet
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 22;
-			item.value = 800;
-			item.rare = ItemRarityID.Orange;
+			Item.width = 22;
+			Item.height = 22;
+			Item.value = 800;
+			Item.rare = ItemRarityID.Orange;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.4f, .12f, .036f);
+			Lighting.AddLight(Item.position, 0.4f, .12f, .036f);
 		}
 	}
 }

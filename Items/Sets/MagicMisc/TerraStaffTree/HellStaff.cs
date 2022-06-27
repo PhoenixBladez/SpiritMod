@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,40 +18,39 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 
 		public override void SetDefaults()
 		{
-			item.damage = 24;
-			item.magic = true;
-			item.mana = 15;
-			item.width = 44;
-			item.height = 44;
-			item.useTime = 38;
-			item.useAnimation = 38;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 2;
-			item.value = 20000;
-			item.rare = ItemRarityID.Orange;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<Firespike>();
-			item.shootSpeed = 16f;
+			Item.damage = 24;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 15;
+			Item.width = 44;
+			Item.height = 44;
+			Item.useTime = 38;
+			Item.useAnimation = 38;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 2;
+			Item.value = 20000;
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<Firespike>();
+			Item.shootSpeed = 16f;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 			Vector2 offset = mouse - player.position;
 			offset.Normalize();
 			offset *= 60f;
-			Projectile.NewProjectile(position + offset, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+			Projectile.NewProjectile(source, position + offset, velocity, type, damage, knockback, player.whoAmI);
 			return false;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.HellstoneBar, 16);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

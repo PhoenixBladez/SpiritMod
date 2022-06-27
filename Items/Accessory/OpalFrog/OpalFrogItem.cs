@@ -17,18 +17,18 @@ namespace SpiritMod.Items.Accessory.OpalFrog
 
 		public override void SetDefaults()
 		{
-			item.Size = new Vector2(40, 34);
-			item.value = Item.sellPrice(gold: 8);
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = 550;
-			item.rare = ItemRarityID.LightRed;
-			item.createTile = ModContent.TileType<OpalFrog_Tile>();
-			item.maxStack = 999;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.accessory = true;
+			Item.Size = new Vector2(40, 34);
+			Item.value = Item.sellPrice(gold: 8);
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.value = 550;
+			Item.rare = ItemRarityID.LightRed;
+			Item.createTile = ModContent.TileType<OpalFrog_Tile>();
+			Item.maxStack = 999;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

@@ -15,11 +15,11 @@ namespace SpiritMod.Items.Sets.HuskstalkSet.ElderbarkArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 24;
-			item.value = Terraria.Item.sellPrice(0, 0, 0, 0);
-			item.rare = ItemRarityID.White;
-			item.defense = 1;
+			Item.width = 28;
+			Item.height = 24;
+			Item.value = Terraria.Item.sellPrice(0, 0, 0, 0);
+			Item.rare = ItemRarityID.White;
+			Item.defense = 1;
 		}
 		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<ElderbarkChest>() && legs.type == ModContent.ItemType<ElderbarkLegs>();
 		public override void UpdateArmorSet(Player player)
@@ -29,11 +29,10 @@ namespace SpiritMod.Items.Sets.HuskstalkSet.ElderbarkArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 20);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

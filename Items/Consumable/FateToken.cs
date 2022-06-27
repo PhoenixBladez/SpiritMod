@@ -14,19 +14,19 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 36;
-			item.maxStack = 999;
-			item.rare = ItemRarityID.Red;
-			item.value = Item.buyPrice(3, 0, 0, 0);
-			item.useAnimation = 45;
-			item.useTime = 45;
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.UseSound = SoundID.Item44;
-			item.consumable = true;
+			Item.width = 36;
+			Item.height = 36;
+			Item.maxStack = 999;
+			Item.rare = ItemRarityID.Red;
+			Item.value = Item.buyPrice(3, 0, 0, 0);
+			Item.useAnimation = 45;
+			Item.useTime = 45;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.UseSound = SoundID.Item44;
+			Item.consumable = true;
 		}
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			player.AddBuff(ModContent.BuffType<Buffs.FateToken>(), 3600);
 			player.GetSpiritPlayer().fateToken = true;

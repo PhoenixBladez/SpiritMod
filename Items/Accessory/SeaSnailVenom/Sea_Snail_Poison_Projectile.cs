@@ -15,20 +15,20 @@ namespace SpiritMod.Items.Accessory.SeaSnailVenom
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sea Snail's Poison");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5; 
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5; 
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.timeLeft = 180;
+			Projectile.width = 8;
+			Projectile.height = 8;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.timeLeft = 180;
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity) => false;
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = 8;
 			height = 8;
@@ -40,10 +40,10 @@ namespace SpiritMod.Items.Accessory.SeaSnailVenom
 
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			for (int index1 = 0; index1 < 2; ++index1)
 			{
-				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + player.height - 34), player.width, 6, DustID.Venom, 0.0f, 0.0f, 220, new Color(), 0.4f);
+				int index2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + player.height - 34), player.width, 6, DustID.Venom, 0.0f, 0.0f, 220, new Color(), 0.4f);
 				Main.dust[index2].fadeIn = 1f;
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.2f;

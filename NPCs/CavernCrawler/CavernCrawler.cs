@@ -5,8 +5,11 @@ using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Accessory.Leather;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.CavernCrawler
 {
@@ -15,28 +18,28 @@ namespace SpiritMod.NPCs.CavernCrawler
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cavern Crawler");
-			Main.npcFrameCount[npc.type] = 18;
-			NPCID.Sets.TrailCacheLength[npc.type] = 5;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 18;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 5;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 46;
-			npc.height = 34;
-			npc.damage = 17;
-			npc.defense = 9;
-			npc.lifeMax = 45;
-			npc.HitSound = SoundID.NPCHit2;
-			npc.DeathSound = SoundID.NPCDeath16;
-			npc.value = 160f;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.CavernCrawlerBanner>();
+			NPC.width = 46;
+			NPC.height = 34;
+			NPC.damage = 17;
+			NPC.defense = 9;
+			NPC.lifeMax = 45;
+			NPC.HitSound = SoundID.NPCHit2;
+			NPC.DeathSound = SoundID.NPCDeath16;
+			NPC.value = 160f;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.CavernCrawlerBanner>();
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe) {
+			if (spawnInfo.PlayerSafe) {
 				return 0f;
 			}
 			if (Main.hardMode)
@@ -45,26 +48,26 @@ namespace SpiritMod.NPCs.CavernCrawler
 			}
 			return SpawnCondition.Cavern.Chance * 0.15f;
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(100) == 4)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (ModContent.ItemType<CrawlerockStaff>()));
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, (ModContent.ItemType<CrawlerockStaff>()));
 
             if (Main.rand.NextBool(60))
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ClatterboneShield>());
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<ClatterboneShield>());
 
             if (Main.rand.Next(80) == 0)
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.DepthMeter);
 
             if (Main.rand.Next(80) == 0)
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Compass);
 
             if (Main.rand.Next(200) == 0)
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Rally);
 
             string[] lootTable = { "ClatterboneBreastplate", "ClatterboneFaceplate", "ClatterboneLeggings" };
             if (Main.rand.Next(55) == 0)
-                npc.DropItem(mod.ItemType(Main.rand.Next(lootTable)));
+                NPC.DropItem(Mod.Find<ModItem>(Main.rand.Next(lootTable)).Type);
         }
         int frame = 0;
 		int timer = 0;
@@ -72,15 +75,15 @@ namespace SpiritMod.NPCs.CavernCrawler
 		bool playsound;
 		public override void AI()
 		{
-			npc.spriteDirection = npc.direction;
-			Player target = Main.player[npc.target];
-			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+			NPC.spriteDirection = NPC.direction;
+			Player target = Main.player[NPC.target];
+			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
             timer++;
             if (distance < 320) {
 				{
-					aiType = NPCID.Unicorn;
-					npc.aiStyle = 26;
-					npc.knockBackResist = 0.15f;
+					AIType = NPCID.Unicorn;
+					NPC.aiStyle = 26;
+					NPC.knockBackResist = 0.15f;
 					trailbehind = true;
 				}
 				if (timer >= 4) {
@@ -97,9 +100,9 @@ namespace SpiritMod.NPCs.CavernCrawler
 			else {
 				trailbehind = false;
 				playsound = false;
-				aiType = NPCID.Snail;
-				npc.aiStyle = 3;
-				npc.knockBackResist = 0.75f;
+				AIType = NPCID.Snail;
+				NPC.aiStyle = 3;
+				NPC.knockBackResist = 0.75f;
 				if (timer >= 4) {
 					frame++;
 					timer = 0;
@@ -109,38 +112,38 @@ namespace SpiritMod.NPCs.CavernCrawler
 				}
 			}
 			if (trailbehind && !playsound) {
-				Main.PlaySound(SoundID.Item9.SoundId, npc.Center, 74);
+				SoundEngine.PlaySound(SoundID.Item9.SoundId, NPC.Center, 74);
 				playsound = true;
 			}
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			if (trailbehind) {
-				Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-				for (int k = 0; k < npc.oldPos.Length; k++) {
-					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-					Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+				Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
+				for (int k = 0; k < NPC.oldPos.Length; k++) {
+					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+					Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
 			return true;
 		}
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frame.Y = frameHeight * frame;
+			NPC.frame.Y = frameHeight * frame;
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, .61f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, .61f);
 			}
-			if (npc.life <= 0) {
-				Main.PlaySound(SoundID.DD2_WitherBeastDeath, npc.Center);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler1"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler2"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler3"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crawler4"));
+			if (NPC.life <= 0) {
+				SoundEngine.PlaySound(SoundID.DD2_WitherBeastDeath, NPC.Center);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crawler1").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crawler2").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crawler3").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crawler4").Type);
 			}
 		}
 	}

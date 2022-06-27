@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using SpiritMod.Items.Material;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,7 +15,7 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class MarbleObelisk : ModTile
 	{
-		public override void SetDefaults() {
+		public override void SetStaticDefaults() {
 			Main.tileFrameImportant[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.Height = 3;
@@ -22,9 +23,9 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.newTile.CoordinateHeights = new[] { 16, 16, 18 };
 			TileObjectData.addTile(Type);
 			AddMapEntry(new Color(75, 139, 166));
-			dustType = DustID.Stone;
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.LunarMonolith };
+			DustType = DustID.Stone;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.LunarMonolith };
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) {
@@ -32,7 +33,7 @@ namespace SpiritMod.Tiles.Ambient
 		}
 
 		public override void NearbyEffects(int i, int j, bool closer) {
-			if (Main.tile[i, j].frameY >= 56) {
+			if (Main.tile[i, j].TileFrameY >= 56) {
                 if (Main.rand.Next(100) == 1)
                 {
                     int glyphnum = Main.rand.Next(10);
@@ -40,8 +41,8 @@ namespace SpiritMod.Tiles.Ambient
                 }
             }
 		}
-		public override bool NewRightClick(int i, int j) {
-			Main.PlaySound(SoundID.Mech, i * 16, j * 16, 0);
+		public override bool RightClick(int i, int j) {
+			SoundEngine.PlaySound(SoundID.Mech, i * 16, j * 16, 0);
 			HitWire(i, j);
 			return true;
 		}
@@ -49,24 +50,24 @@ namespace SpiritMod.Tiles.Ambient
         public override void MouseOver(int i, int j) {
 			Player player = Main.LocalPlayer;
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			player.showItemIcon2 = ItemType<Items.Placeable.Furniture.MarbleObeliskItem>();
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = ItemType<Items.Placeable.Furniture.MarbleObeliskItem>();
 		}
 
         public override void HitWire(int i, int j) {
-			int x = i - Main.tile[i, j].frameX / 18 % 2;
-			int y = j - Main.tile[i, j].frameY / 18 % 3;
+			int x = i - Main.tile[i, j].TileFrameX / 18 % 2;
+			int y = j - Main.tile[i, j].TileFrameY / 18 % 3;
 			for (int l = x; l < x + 2; l++) {
 				for (int m = y; m < y + 3; m++) {
 					if (Main.tile[l, m] == null) {
 						Main.tile[l, m] = new Tile();
 					}
-					if (Main.tile[l, m].active() && Main.tile[l, m].type == Type) {
-						if (Main.tile[l, m].frameY < 56) {
-							Main.tile[l, m].frameY += 56;
+					if (Main.tile[l, m].HasTile && Main.tile[l, m].TileType == Type) {
+						if (Main.tile[l, m].TileFrameY < 56) {
+							Main.tile[l, m].TileFrameY += 56;
 						}
 						else {
-							Main.tile[l, m].frameY -= 56;
+							Main.tile[l, m].TileFrameY -= 56;
 						}
 					}
 				}

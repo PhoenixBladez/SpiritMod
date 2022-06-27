@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.NPCs.Boss.MoonWizard.Projectiles;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,52 +13,52 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tethervolt Jelly");
-			Main.npcFrameCount[npc.type] = 8;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 8;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 36;
-			npc.height = 70;
-			npc.damage = 16;
-			npc.defense = 10;
-			npc.lifeMax = 65;
-			npc.HitSound = SoundID.NPCHit25;
-			npc.DeathSound = SoundID.NPCDeath28;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.buffImmune[BuffID.Venom] = true;
-			npc.value = 250f;
-			npc.knockBackResist = 0f;
-			npc.alpha = 100;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.aiStyle = -1;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.GiantJellyBanner>();
+			NPC.width = 36;
+			NPC.height = 70;
+			NPC.damage = 16;
+			NPC.defense = 10;
+			NPC.lifeMax = 65;
+			NPC.HitSound = SoundID.NPCHit25;
+			NPC.DeathSound = SoundID.NPCDeath28;
+			NPC.buffImmune[BuffID.Poisoned] = true;
+			NPC.buffImmune[BuffID.Venom] = true;
+			NPC.value = 250f;
+			NPC.knockBackResist = 0f;
+			NPC.alpha = 100;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.aiStyle = -1;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.GiantJellyBanner>();
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.08f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.08f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override bool PreAI()
 		{
-			npc.TargetClosest(true);
-			Lighting.AddLight(new Vector2(npc.Center.X, npc.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);
+			NPC.TargetClosest(true);
+			Lighting.AddLight(new Vector2(NPC.Center.X, NPC.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);
 
-			Player target = Main.player[npc.target];
+			Player target = Main.player[NPC.target];
 
-			npc.spriteDirection = npc.direction;
+			NPC.spriteDirection = NPC.direction;
 
-			Vector2 vector2_1 = target.Center - npc.Center + new Vector2(0, -100f);
+			Vector2 vector2_1 = target.Center - NPC.Center + new Vector2(0, -100f);
 			float distance = vector2_1.Length();
 
-			Vector2 desiredVelocity = npc.velocity;
+			Vector2 desiredVelocity = NPC.velocity;
 			if (distance < 20)
 				desiredVelocity.Normalize();
 
@@ -68,52 +69,52 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			else
 				desiredVelocity = vector2_1 * 5f;
 
-			npc.SimpleFlyMovement(desiredVelocity, 0.05f);
-			npc.rotation = npc.velocity.X * 0.1f;
+			NPC.SimpleFlyMovement(desiredVelocity, 0.05f);
+			NPC.rotation = NPC.velocity.X * 0.1f;
 
-			if (npc.ai[0] == 0f)
+			if (NPC.ai[0] == 0f)
 			{
 				for (int i = 0; i < 5; i++)
 				{
 					Vector2 vel = Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * new Vector2(Main.rand.Next(3, 8), Main.rand.Next(3, 8));
-					int p = Projectile.NewProjectile(npc.Center.X + Main.rand.Next(-20, 20), npc.Center.Y + Main.rand.Next(-20, 20), vel.X, vel.Y, ModContent.ProjectileType<ElectricJellyfishOrbiter>(), NPCUtils.ToActualDamage(30, 1.5f), 0.0f, Main.myPlayer, 0.0f, npc.whoAmI);
+					int p = Projectile.NewProjectile(NPC.Center.X + Main.rand.Next(-20, 20), NPC.Center.Y + Main.rand.Next(-20, 20), vel.X, vel.Y, ModContent.ProjectileType<ElectricJellyfishOrbiter>(), NPCUtils.ToActualDamage(30, 1.5f), 0.0f, Main.myPlayer, 0.0f, NPC.whoAmI);
 					Main.projectile[p].scale = Main.rand.NextFloat(.6f, .95f);
-					Main.projectile[p].ai[0] = npc.whoAmI;
+					Main.projectile[p].ai[0] = NPC.whoAmI;
 
-					npc.ai[0] = 1f;
-					npc.netUpdate = true;
+					NPC.ai[0] = 1f;
+					NPC.netUpdate = true;
 				}
 			}
 			return false;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/MoonjellyEvent/MoonjellyGiant_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/MoonjellyEvent/MoonjellyGiant_Glow"));
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 15; k++)
-				Dust.NewDustPerfect(npc.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 0.65f).noGravity = true;
+				Dust.NewDustPerfect(NPC.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 0.65f).noGravity = true;
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 				for (int k = 0; k < 30; k++)
-					Dust.NewDustPerfect(npc.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(7), 0, default, 0.95f).noGravity = true;
+					Dust.NewDustPerfect(NPC.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(7), 0, default, 0.95f).noGravity = true;
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gel, Main.rand.Next(2, 5));
+			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Gel, Main.rand.Next(2, 5));
 
 			if (Main.rand.NextBool(2))
-				npc.DropItem(mod.ItemType("MoonJelly"));
+				NPC.DropItem(Mod.Find<ModItem>("MoonJelly").Type);
 
 			if (Main.rand.NextBool(18))
-				npc.DropItem(mod.ItemType("Moonlight_Sack"));
+				NPC.DropItem(Mod.Find<ModItem>("Moonlight_Sack").Type);
 		}
 	}
 }

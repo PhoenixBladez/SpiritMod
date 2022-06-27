@@ -13,21 +13,21 @@ namespace SpiritMod.Items.Placeable.Furniture
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 28;
-			item.value = Terraria.Item.buyPrice(0, 0, 40, 0);
+			Item.width = 32;
+			Item.height = 28;
+			Item.value = Terraria.Item.buyPrice(0, 0, 40, 0);
 
-			item.maxStack = 99;
-			item.rare = ItemRarityID.Green;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.maxStack = 99;
+			Item.rare = ItemRarityID.Green;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = mod.TileType("SepulchreChestTile1");
+			Item.createTile = Mod.Find<ModTile>("SepulchreChestTile1").Type;
 		}
 	}
 }

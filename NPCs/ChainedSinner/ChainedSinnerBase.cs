@@ -12,32 +12,32 @@ namespace SpiritMod.NPCs.ChainedSinner
 
 		public override void SetDefaults()
 		{
-			npc.width = 24;
-			npc.height = 24;
-			npc.knockBackResist = 0;
-			npc.aiStyle = -1;
-			npc.lifeMax = 50;
-			npc.damage = 10;
-			npc.defense = 4;
-			npc.noTileCollide = true;
-			npc.noGravity = true;
-			npc.dontTakeDamage = true;
+			NPC.width = 24;
+			NPC.height = 24;
+			NPC.knockBackResist = 0;
+			NPC.aiStyle = -1;
+			NPC.lifeMax = 50;
+			NPC.damage = 10;
+			NPC.defense = 4;
+			NPC.noTileCollide = true;
+			NPC.noGravity = true;
+			NPC.dontTakeDamage = true;
 		}
 
 		private bool spawnedHead = false;
 		public override void AI()
 		{
-			npc.velocity = Vector2.Zero;
+			NPC.velocity = Vector2.Zero;
 			if (!spawnedHead && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				spawnedHead = true;
-				int child = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<ChainedSinner>());
-				if (Main.npc[child].modNPC is ChainedSinner head)
+				int child = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ChainedSinner>());
+				if (Main.npc[child].ModNPC is ChainedSinner head)
 				{
-					head.parentid = npc.whoAmI;
-					head.InitializeChain(npc.Center);
+					head.parentid = NPC.whoAmI;
+					head.InitializeChain(NPC.Center);
 				}
-				npc.netUpdate = true;
+				NPC.netUpdate = true;
 			}
 		}
 

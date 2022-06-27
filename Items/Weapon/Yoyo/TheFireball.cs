@@ -16,16 +16,16 @@ namespace SpiritMod.Items.Weapon.Yoyo
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.WoodYoyo);
-			item.damage = 21;
-			item.value = Terraria.Item.sellPrice(0, 0, 90, 0);
-			item.rare = ItemRarityID.Orange;
-			item.knockBack = 1;
-			item.channel = true;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 28;
-			item.useTime = 25;
-			item.shoot = ModContent.ProjectileType<FireballProj>();
+			Item.CloneDefaults(ItemID.WoodYoyo);
+			Item.damage = 21;
+			Item.value = Terraria.Item.sellPrice(0, 0, 90, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.knockBack = 1;
+			Item.channel = true;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useAnimation = 28;
+			Item.useTime = 25;
+			Item.shoot = ModContent.ProjectileType<FireballProj>();
 		}
 	}
 }

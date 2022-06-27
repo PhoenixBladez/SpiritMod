@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,30 +16,30 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 
 		public override void SetDefaults()
 		{
-			item.Size = new Vector2(36, 54);
-			item.damage = 60;
-			item.noMelee = true;
-			item.magic = true;
-			item.useTime = 14;
-			item.useAnimation = 14;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ModContent.ProjectileType<GraveyardPortal>();
-			item.shootSpeed = 18f;
-			item.knockBack = 3f;
-			item.autoReuse = true;
-			item.rare = ItemRarityID.LightRed;
-			item.UseSound = SoundID.Item104;
-			item.value = Item.buyPrice(0, 1, 40, 0);
-			item.mana = 6;
-			item.noUseGraphic = true;
-			item.channel = true;
+			Item.Size = new Vector2(36, 54);
+			Item.damage = 60;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Magic;
+			Item.useTime = 14;
+			Item.useAnimation = 14;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ModContent.ProjectileType<GraveyardPortal>();
+			Item.shootSpeed = 18f;
+			Item.knockBack = 3f;
+			Item.autoReuse = true;
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item104;
+			Item.value = Item.buyPrice(0, 1, 40, 0);
+			Item.mana = 6;
+			Item.noUseGraphic = true;
+			Item.channel = true;
 		}
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] == 0;
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Projectile.NewProjectile(player.Center - new Vector2(50 * player.direction, 50), Vector2.Zero, item.shoot, damage, knockBack, player.whoAmI, player.direction);
+			Projectile.NewProjectile(player.Center - new Vector2(50 * player.direction, 50), Vector2.Zero, Item.shoot, damage, knockback, player.whoAmI, player.direction);
 			return false;
 		}
 
@@ -53,7 +54,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 				if (modplayer.GraveyardFrame > 5 && !Main.dedServ)
 				{
 					modplayer.GraveyardFrame = 0;
-					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/PageFlip").WithPitchVariance(0.3f).WithVolume(0.75f), player.Center);
+					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/PageFlip").WithPitchVariance(0.3f).WithVolume(0.75f), player.Center);
 				}
 
 				if (Main.rand.NextBool(10))
@@ -68,14 +69,13 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<ScreamingTome.ScreamingTome>(), 1);
 			recipe.AddIngredient(ItemID.SoulofNight, 12);
 			recipe.AddIngredient(ItemID.Bone, 40);
 			recipe.AddIngredient(ItemID.DarkShard, 2);
 			recipe.AddTile(TileID.Bookcases);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

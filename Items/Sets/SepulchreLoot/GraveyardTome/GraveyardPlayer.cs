@@ -14,17 +14,17 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		public override void Initialize() => GraveyardFrame = 0;
 		public override void ResetEffects()
 		{
-			if (player.HeldItem.type != ModContent.ItemType<Graveyard>() || player.itemAnimation == 0)
+			if (Player.HeldItem.type != ModContent.ItemType<Graveyard>() || Player.itemAnimation == 0)
 				GraveyardFrame = 0;
 		}
 
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
-			if(player.HeldItem.type == ModContent.ItemType<Graveyard>())
+			if(Player.HeldItem.type == ModContent.ItemType<Graveyard>())
 			{
-				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(mod.Name, "GraveyardHeld",
-					delegate (PlayerDrawInfo info) { DrawItem(mod.GetTexture("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_held"),
-						mod.GetTexture("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_heldGlow"), info); }));
+				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "GraveyardHeld",
+					delegate (PlayerDrawInfo info) { DrawItem(Mod.GetTexture("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_held"),
+						Mod.GetTexture("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_heldGlow"), info); }));
 			}
 		}
 

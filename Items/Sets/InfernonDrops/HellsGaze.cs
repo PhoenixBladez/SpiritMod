@@ -14,15 +14,15 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 28;
-			item.rare = ItemRarityID.LightRed;
-			item.value = Item.buyPrice(gold: 8);
-			item.expert = true;
-			item.melee = true;
-			item.accessory = true;
+			Item.width = 24;
+			Item.height = 28;
+			Item.rare = ItemRarityID.LightRed;
+			Item.value = Item.buyPrice(gold: 8);
+			Item.expert = true;
+			Item.DamageType = DamageClass.Melee;
+			Item.accessory = true;
 
-			item.knockBack = 9f;
+			Item.knockBack = 9f;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Potion
 {
 	public class SoulPotionBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Soul Guard");
 			Description.SetDefault("Reduces damage taken by 5%\nGetting hurt may cause all enemies to suffer 'Soul Burn' for a short time");

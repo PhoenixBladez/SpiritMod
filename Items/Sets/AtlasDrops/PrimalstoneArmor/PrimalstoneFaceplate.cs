@@ -15,11 +15,11 @@ namespace SpiritMod.Items.Sets.AtlasDrops.PrimalstoneArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 40;
-			item.height = 30;
-			item.value = Item.buyPrice(gold: 1);
-			item.rare = ItemRarityID.Cyan;
-			item.defense = 14;
+			Item.width = 40;
+			Item.height = 30;
+			Item.value = Item.buyPrice(gold: 1);
+			Item.rare = ItemRarityID.Cyan;
+			Item.defense = 14;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<PrimalstoneBreastplate>() && legs.type == ModContent.ItemType<PrimalstoneLeggings>();
@@ -43,11 +43,10 @@ namespace SpiritMod.Items.Sets.AtlasDrops.PrimalstoneArmor
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<ArcaneGeyser>(), 10);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

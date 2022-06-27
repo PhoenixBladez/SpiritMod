@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Mount
 {
 	class DiabolicPlatformBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Diabolic Platform");
 			Description.SetDefault("Command the Infernal");

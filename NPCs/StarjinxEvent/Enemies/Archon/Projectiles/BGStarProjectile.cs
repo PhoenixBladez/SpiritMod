@@ -16,47 +16,47 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 
 		public override void SetStaticDefaults()
 		{
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 			DisplayName.SetDefault("Fleeing Star");
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 80;
-			projectile.height = 80;
-			projectile.friendly = false;
-			projectile.hostile = true;
-			projectile.penetrate = 1;
-			projectile.rotation = Main.rand.NextFloat(MathHelper.Pi);
-			projectile.tileCollide = true;
-			projectile.timeLeft = 150;
+			Projectile.width = 80;
+			Projectile.height = 80;
+			Projectile.friendly = false;
+			Projectile.hostile = true;
+			Projectile.penetrate = 1;
+			Projectile.rotation = Main.rand.NextFloat(MathHelper.Pi);
+			Projectile.tileCollide = true;
+			Projectile.timeLeft = 150;
 		}
 
 		public override void AI()
 		{
 			if (Background == null)
 			{
-				Background = new StarProjBGItem(projectile.Center, projectile);
+				Background = new StarProjBGItem(Projectile.Center, Projectile);
 				BackgroundItemManager.AddItem(Background);
 			}
 
-			projectile.position = Background.Center;
+			Projectile.position = Background.Center;
 
 			Z *= 1.15f;
 
 			if (Z > 6.2f)
-				projectile.Kill();
+				Projectile.Kill();
 		}
 
 		public override bool CanHitPlayer(Player target) => Z >= 1f;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			if (Z < 0.5f)
 				return false;
 
-			projectile.scale *= 1.05f;
+			Projectile.scale *= 1.05f;
 			//projectile.width = (int)(22 * projectile.scale);
 			//projectile.height = (int)(22 * projectile.scale);
 			return true;
@@ -66,11 +66,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 	class StarProjBGItem : BaseBGItem
 	{
 		private readonly Projectile Parent;
-		private BGStarProjectile ModParent => Parent.modProjectile as BGStarProjectile;
+		private BGStarProjectile ModParent => Parent.ModProjectile as BGStarProjectile;
 
 		public StarProjBGItem(Vector2 pos, Projectile parent) : base(pos, 0f, new Point(0, 0))
 		{
-			tex = ModContent.GetTexture("SpiritMod/NPCs/StarjinxEvent/Enemies/Archon/Projectiles/BGStarProjectile");
+			tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/StarjinxEvent/Enemies/Archon/Projectiles/BGStarProjectile");
 			source = new Rectangle(0, 0, tex.Width, tex.Height);
 			scale = 1f;
 

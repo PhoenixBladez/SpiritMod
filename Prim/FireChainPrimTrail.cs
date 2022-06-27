@@ -91,7 +91,7 @@ namespace SpiritMod.Prim
 		public void AddPoints()
 		{
 			var proj = Entity as Projectile;
-			var modproj = proj.modProjectile as BetrayersChainsProj;
+			var modproj = proj.ModProjectile as BetrayersChainsProj;
 			Points.Add(modproj.CurrentBase);
 		}
 		public override void OnDestroy()

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,29 +23,29 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 
         public override void SetDefaults()
         {
-            projectile.timeLeft = 4000;
-            projectile.penetrate = 5;
-            projectile.tileCollide = false;
-            projectile.width = projectile.height = 30;
+            Projectile.timeLeft = 4000;
+            Projectile.penetrate = 5;
+            Projectile.tileCollide = false;
+            Projectile.width = Projectile.height = 30;
         }
         float fadeOutNum = 1f;
         public override bool PreAI()
         {
-            if (projectile.ai[0] == 0)
+            if (Projectile.ai[0] == 0)
             {
                 MakeLightning();
             }
-            projectile.ai[0]++;
+            Projectile.ai[0]++;
             fadeOutNum -= .04f;
-            if (projectile.ai[0] > 18)
+            if (Projectile.ai[0] > 18)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             return false;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            if (projectile.ai[0] <= 0f) return false;
+            if (Projectile.ai[0] <= 0f) return false;
             if (lines == null) return false;
 
             spriteBatch.End();
@@ -73,7 +74,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 
         private void MakeLightning()
         {
-            Vector2 start = new Vector2(projectile.Center.X, 0);
+            Vector2 start = new Vector2(Projectile.Center.X, 0);
             Point endTile = start.ToTileCoordinates();
             Tile tile;
             do
@@ -81,7 +82,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 endTile.Y++;
                 tile = Main.tile[endTile.X, endTile.Y];
             }
-            while (tile == null || (Main.tileSolid[tile.type] && !Main.tile[endTile.X, endTile.Y].active()) || TileID.Sets.Platforms[tile.type]);
+            while (tile == null || (Main.tileSolid[tile.TileType] && !Main.tile[endTile.X, endTile.Y].HasTile) || TileID.Sets.Platforms[tile.TileType]);
 
             Vector2 end = endTile.ToVector2() * 16f + Vector2.UnitX * 8f;
             Line line = new Line(start, end);
@@ -141,7 +142,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 midPoint = line.start + ((line.end - line.start) * 0.5f).RotatedBy(Main.rand.NextFloat(-MIN_MAX_ANGLE, MIN_MAX_ANGLE));
                 tile = midPoint.ToTileCoordinates();
                 fails++;
-            } while (fails < 20 && WorldGen.InWorld(tile.X, tile.Y) && Main.tile[tile.X, tile.Y] != null && Main.tile[tile.X, tile.Y].active());
+            } while (fails < 20 && WorldGen.InWorld(tile.X, tile.Y) && Main.tile[tile.X, tile.Y] != null && Main.tile[tile.X, tile.Y].HasTile);
 
             Line newLine1 = new Line(line.start, midPoint);
             Line newLine2 = new Line(midPoint, line.end);
@@ -157,7 +158,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             Vector2 delta = line.end - line.start;
             Vector2 normalised = Vector2.Normalize(delta);
             float length = delta.Length();
-            Texture2D texture = Main.projectileTexture[projectile.type];
+            Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
             float rotation = delta.ToRotation();
 
             //draw main line

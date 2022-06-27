@@ -15,28 +15,28 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 
 		public override void SetDefaults()
 		{
-			item.damage = 10;
-			item.width = 20;
-			item.height = 46;
-			item.useTime = 20;
-			item.useAnimation = 20;
-			item.knockBack = 1;
-			item.crit = 8;
-			item.shootSpeed = 0f;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAmmo = AmmoID.Gel;
-			item.rare = ItemRarityID.Blue;
-			item.shoot = ModContent.ProjectileType<GastricGusherProjectile>();
-			item.value = Item.sellPrice(0, 0, 20, 0);
-			item.channel = true;
-			item.noMelee = true;
-			item.useTurn = false;
-			item.noUseGraphic = true;
-			item.autoReuse = false;
-			item.ranged = true;
+			Item.damage = 10;
+			Item.width = 20;
+			Item.height = 46;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
+			Item.knockBack = 1;
+			Item.crit = 8;
+			Item.shootSpeed = 0f;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useAmmo = AmmoID.Gel;
+			Item.rare = ItemRarityID.Blue;
+			Item.shoot = ModContent.ProjectileType<GastricGusherProjectile>();
+			Item.value = Item.sellPrice(0, 0, 20, 0);
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.useTurn = false;
+			Item.noUseGraphic = true;
+			Item.autoReuse = false;
+			Item.DamageType = DamageClass.Ranged;
 		}
 
-		public override bool ConsumeAmmo(Player player) => false; //So the ammo counter shoots but we don't use double ammo on spam click
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
+		public override bool CanConsumeAmmo(Item item, Player player) => false; //So the ammo counter shoots but we don't use double ammo on spam click
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] == 0;
 	}
 }

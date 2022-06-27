@@ -6,60 +6,60 @@ using Terraria.ID;
 
 namespace SpiritMod.Mounts.Minecarts.MarbleMinecart
 {
-	class MarbleMinecart : ModMountData
+	class MarbleMinecart : ModMount
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			int total_frames = 3;
 			int[] player_y_offsets = new int[total_frames];
 			for (int i = 0; i < player_y_offsets.Length; i++)
 				player_y_offsets[i] = 10;
 
-			mountData.Minecart = true;
-			mountData.MinecartDirectional = true;
-			mountData.MinecartDust = new Action<Vector2>(DelegateMethods.Minecart.Sparks);
+			MountData.Minecart = true;
+			MountData.MinecartDirectional = true;
+			MountData.MinecartDust = new Action<Vector2>(DelegateMethods.Minecart.Sparks);
 
-			mountData.runSpeed = 17;
-			mountData.dashSpeed = 14;
-			mountData.fallDamage = 1f;
-			mountData.jumpHeight = 15;
-			mountData.spawnDust = 174;
-			mountData.jumpSpeed = 5.15f;
-			mountData.flightTimeMax = 0;
-			mountData.acceleration = 0.08f;
-			mountData.blockExtraJumps = true;
-			mountData.buff = ModContent.BuffType<MarbleMinecartBuff>();
+			MountData.runSpeed = 17;
+			MountData.dashSpeed = 14;
+			MountData.fallDamage = 1f;
+			MountData.jumpHeight = 15;
+			MountData.spawnDust = 174;
+			MountData.jumpSpeed = 5.15f;
+			MountData.flightTimeMax = 0;
+			MountData.acceleration = 0.08f;
+			MountData.blockExtraJumps = true;
+			MountData.buff = ModContent.BuffType<MarbleMinecartBuff>();
 
-			mountData.xOffset = 2;
-			mountData.yOffset = 13;
-			mountData.bodyFrame = 3;
-			mountData.heightBoost = 12;
-			mountData.playerHeadOffset = 20;
-			mountData.totalFrames = total_frames;
-			mountData.playerYOffsets = player_y_offsets;
+			MountData.xOffset = 2;
+			MountData.yOffset = 13;
+			MountData.bodyFrame = 3;
+			MountData.heightBoost = 12;
+			MountData.playerHeadOffset = 20;
+			MountData.totalFrames = total_frames;
+			MountData.playerYOffsets = player_y_offsets;
 
-			mountData.standingFrameCount = 1;
-			mountData.standingFrameDelay = 12;
-			mountData.standingFrameStart = 0;
-			mountData.runningFrameCount = 3;
-			mountData.runningFrameDelay = 12;
-			mountData.runningFrameStart = 0;
-			mountData.flyingFrameCount = 0;
-			mountData.flyingFrameDelay = 0;
-			mountData.flyingFrameStart = 0;
-			mountData.inAirFrameCount = 0;
-			mountData.inAirFrameDelay = 0;
-			mountData.inAirFrameStart = 0;
-			mountData.idleFrameCount = 1;
-			mountData.idleFrameDelay = 10;
-			mountData.idleFrameStart = 0;
-			mountData.idleFrameLoop = false;
+			MountData.standingFrameCount = 1;
+			MountData.standingFrameDelay = 12;
+			MountData.standingFrameStart = 0;
+			MountData.runningFrameCount = 3;
+			MountData.runningFrameDelay = 12;
+			MountData.runningFrameStart = 0;
+			MountData.flyingFrameCount = 0;
+			MountData.flyingFrameDelay = 0;
+			MountData.flyingFrameStart = 0;
+			MountData.inAirFrameCount = 0;
+			MountData.inAirFrameDelay = 0;
+			MountData.inAirFrameStart = 0;
+			MountData.idleFrameCount = 1;
+			MountData.idleFrameDelay = 10;
+			MountData.idleFrameStart = 0;
+			MountData.idleFrameLoop = false;
 
 			if (Main.netMode == NetmodeID.Server)
 				return;
 
-			mountData.textureWidth = mountData.backTexture.Width;
-			mountData.textureHeight = mountData.backTexture.Height;
+			MountData.textureWidth = MountData.backTexture.Width;
+			MountData.textureHeight = MountData.backTexture.Height;
 		}
 	}
 }

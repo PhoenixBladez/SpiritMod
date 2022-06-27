@@ -4,6 +4,7 @@ using SpiritMod.Buffs;
 using SpiritMod.Items.Placeable;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
@@ -14,13 +15,13 @@ namespace SpiritMod.Items.Sets.CoilSet
 {
 	public class CoilEnergizerTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLighted[Type] = true;
 			Main.tileLavaDeath[Type] = true;
-			animationFrameHeight = 36;
+			AnimationFrameHeight = 36;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
 			TileObjectData.newTile.CoordinateWidth = 16;
@@ -30,8 +31,8 @@ namespace SpiritMod.Items.Sets.CoilSet
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Coiled Energizer");
 			AddMapEntry(new Color(50, 70, 150), name);
-			disableSmartCursor = true;
-			dustType = DustID.Electric;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType = DustID.Electric;
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -47,22 +48,22 @@ namespace SpiritMod.Items.Sets.CoilSet
 			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
 			if (Main.drawToScreen)
 				zero = Vector2.Zero;
-			int height = tile.frameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(mod.GetTexture("Items/Sets/CoilSet/CoilEnergizerTile_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			Main.spriteBatch.Draw(Mod.GetTexture("Items/Sets/CoilSet/CoilEnergizerTile_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			Tile t = Main.tile[i, j];
-			if (t.frameX % 54 == 0 && t.frameY == 0)
+			if (t.TileFrameX % 54 == 0 && t.TileFrameY == 0)
 				Main.spriteBatch.Draw(Main.extraTexture[60], new Vector2(i * 16 - (int)Main.screenPosition.X - 44, j * 16 - (int)Main.screenPosition.Y - 48) + zero, null, new Color(3, 169, 252, 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-			if (tile.frameX == 18 && tile.frameY == 18)
+			if (tile.TileFrameX == 18 && tile.TileFrameY == 18)
 				DoDustEffect(new Vector2(i * 16f + 8, j * 16f + 8), 74f);
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<CoilEnergizerItem>());
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
 		}
 
 		public override void NearbyEffects(int i, int j, bool closer)

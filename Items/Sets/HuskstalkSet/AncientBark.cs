@@ -1,4 +1,5 @@
 using SpiritMod.Tiles.Block;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,25 +16,24 @@ namespace SpiritMod.Items.Sets.HuskstalkSet
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.maxStack = 999;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 7;
-			item.useAnimation = 15;
-			item.rare = ItemRarityID.White;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.width = Item.height = 16;
+			Item.maxStack = 999;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 7;
+			Item.useAnimation = 15;
+			Item.rare = ItemRarityID.White;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<BarkTileTile>();
+			Item.createTile = ModContent.TileType<BarkTileTile>();
 		}
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe(1);
             recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachPlatformTile>(), 2);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

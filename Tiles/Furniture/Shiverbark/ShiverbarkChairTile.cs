@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 {
 	public class ShiverbarkChairTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -30,8 +30,8 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Shiverbark Chair");
 			AddMapEntry(new Color(118, 155, 163), name);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Chairs };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.Chairs };
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

@@ -17,11 +17,11 @@ namespace SpiritMod.Items.Sets.TideDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 38;
-			item.height = 42;
-			item.value = 2000;
-			item.rare = ItemRarityID.Orange;
-			item.maxStack = 999;
+			Item.width = 38;
+			Item.height = 42;
+			Item.value = 2000;
+			Item.rare = ItemRarityID.Orange;
+			Item.maxStack = 999;
 		}
 	}
 }

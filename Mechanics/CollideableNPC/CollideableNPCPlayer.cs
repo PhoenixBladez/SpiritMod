@@ -14,7 +14,7 @@ namespace SpiritMod.Mechanics.CollideableNPC
 		public override void PreUpdateMovement()
 		{
 			if (platformWhoAmI != -1)
-				player.position.X += Platform.velocity.X;
+				Player.position.X += Platform.velocity.X;
 		}
 	}
 }

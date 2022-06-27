@@ -6,7 +6,7 @@ namespace SpiritMod.Tiles.Walls.Natural
 {
 	public class BarkWallUnsafe : ModWall
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.wallHouse[Type] = false;
 			AddMapEntry(new Color(92, 77, 61));

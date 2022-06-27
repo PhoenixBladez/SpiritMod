@@ -14,88 +14,88 @@ namespace SpiritMod.NPCs.Gloop
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gloop");
-			Main.npcFrameCount[npc.type] = 3;
+			Main.npcFrameCount[NPC.type] = 3;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 32;
-			npc.height = 48;
-			npc.damage = 28;
-			npc.defense = 8;
-			npc.lifeMax = 85;
-			npc.noGravity = true;
-			npc.value = 90f;
-			npc.noTileCollide = true;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.buffImmune[BuffID.Confused] = true;
-			npc.HitSound = SoundID.DD2_GoblinHurt;
-			npc.DeathSound = SoundID.NPCDeath22;
-			npc.noGravity = true;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.GloopBanner>();
+			NPC.width = 32;
+			NPC.height = 48;
+			NPC.damage = 28;
+			NPC.defense = 8;
+			NPC.lifeMax = 85;
+			NPC.noGravity = true;
+			NPC.value = 90f;
+			NPC.noTileCollide = true;
+			NPC.buffImmune[BuffID.Poisoned] = true;
+			NPC.buffImmune[BuffID.Confused] = true;
+			NPC.HitSound = SoundID.DD2_GoblinHurt;
+			NPC.DeathSound = SoundID.NPCDeath22;
+			NPC.noGravity = true;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<Items.Banners.GloopBanner>();
         }
 		int xoffset = 0;
 		public override void AI()
 		{
-			Player player = Main.player[npc.target];
-			npc.ai[0]++;
-			if(player.position.X > npc.position.X) {
+			Player player = Main.player[NPC.target];
+			NPC.ai[0]++;
+			if(player.position.X > NPC.position.X) {
 				xoffset = 16;
 			} else {
 				xoffset = -16;
 			}
-			npc.velocity.X *= 0.99f;
-				if(npc.ai[1] == 0) {
-					if(npc.velocity.Y < 2.5f) {
-						npc.velocity.Y += 0.1f;
+			NPC.velocity.X *= 0.99f;
+				if(NPC.ai[1] == 0) {
+					if(NPC.velocity.Y < 2.5f) {
+						NPC.velocity.Y += 0.1f;
 					}
-					if(player.position.Y < npc.position.Y && npc.ai[0] % 30 == 0) {
-						npc.ai[1] = 1;
-						npc.netUpdate = true;
-						npc.velocity.X = xoffset / 1.25f;
-						npc.velocity.Y = -6;
+					if(player.position.Y < NPC.position.Y && NPC.ai[0] % 30 == 0) {
+						NPC.ai[1] = 1;
+						NPC.netUpdate = true;
+						NPC.velocity.X = xoffset / 1.25f;
+						NPC.velocity.Y = -6;
 					}
 				}
-				if(npc.ai[1] == 1) {
-					npc.velocity *= 0.97f;
-					if(Math.Abs(npc.velocity.X) < 0.125f) {
-						npc.ai[1] = 0;
-						npc.netUpdate = true;
+				if(NPC.ai[1] == 1) {
+					NPC.velocity *= 0.97f;
+					if(Math.Abs(NPC.velocity.X) < 0.125f) {
+						NPC.ai[1] = 0;
+						NPC.netUpdate = true;
 					}
-					npc.rotation = npc.velocity.ToRotation() + 1.57f;
+					NPC.rotation = NPC.velocity.ToRotation() + 1.57f;
 				}
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(1) == 400) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GravityModulator>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GravityModulator>());
 			}
 			string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
 			if (Main.rand.Next(50) == 0) {
 				int loot = Main.rand.Next(lootTable.Length);
 				{
-					npc.DropItem(mod.ItemType(lootTable[loot]));
+					NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
 				}
 			}
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, hitDirection, -1f, 0, default, .61f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Plantera_Green, hitDirection, -1f, 0, default, .61f);
 			}
-			if (npc.life <= 0) {
+			if (NPC.life <= 0) {
 				for (int k = 0; k < 20; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, hitDirection, -1f, 0, default, .91f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Plantera_Green, hitDirection, -1f, 0, default, .91f);
 				}
 			}
 		}
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{

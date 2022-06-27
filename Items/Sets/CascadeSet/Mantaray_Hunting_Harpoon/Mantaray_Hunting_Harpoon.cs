@@ -10,16 +10,16 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
     {
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 30;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item3;
-            item.noMelee = true;
-			item.mountType = mod.MountType("Mantaray_Mount");
-			item.value = Item.sellPrice(gold: 5);
+            Item.width = 20;
+            Item.height = 30;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item3;
+            Item.noMelee = true;
+			Item.mountType = Mod.Find<ModMount>("Mantaray_Mount").Type;
+			Item.value = Item.sellPrice(gold: 5);
         }  
 		public override void SetStaticDefaults()
 		{
@@ -28,12 +28,11 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 14);
 			recipe.AddIngredient(ItemID.SharkFin, 1);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

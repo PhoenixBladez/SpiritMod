@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Potion
 {
 	public class PinkPotionBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Jump Boost");
 			Description.SetDefault("Increases jump height");

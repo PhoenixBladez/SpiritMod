@@ -17,24 +17,24 @@ namespace SpiritMod.Items.Sets.CascadeSet.Coral_Catcher
 		
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.BobberGolden); 
+            Projectile.CloneDefaults(ProjectileID.BobberGolden); 
         }
 
-        public override bool PreDrawExtras(SpriteBatch spriteBatch)     
+        public override bool PreDrawExtras()     
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.bobber && Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].holdStyle > 0)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.bobber && Main.player[Projectile.owner].inventory[Main.player[Projectile.owner].selectedItem].holdStyle > 0)
             {
                 float pPosX = player.MountedCenter.X;
                 float pPosY = player.MountedCenter.Y;
-                pPosY += Main.player[projectile.owner].gfxOffY;
-                int type = Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type;
-                float gravDir = Main.player[projectile.owner].gravDir;
+                pPosY += Main.player[Projectile.owner].gfxOffY;
+                int type = Main.player[Projectile.owner].inventory[Main.player[Projectile.owner].selectedItem].type;
+                float gravDir = Main.player[Projectile.owner].gravDir;
 
-                if (type == mod.ItemType("Coral_Catcher"))
+                if (type == Mod.Find<ModItem>("Coral_Catcher").Type)
                 {
-                    pPosX += (float)(45 * Main.player[projectile.owner].direction);
-                    if (Main.player[projectile.owner].direction < 0)
+                    pPosX += (float)(45 * Main.player[Projectile.owner].direction);
+                    if (Main.player[Projectile.owner].direction < 0)
                     {
                         pPosX -= 13f;
                     }
@@ -46,9 +46,9 @@ namespace SpiritMod.Items.Sets.CascadeSet.Coral_Catcher
                     pPosY -= 12f;
                 }
                 Vector2 value = new Vector2(pPosX, pPosY);
-                value = Main.player[projectile.owner].RotatedRelativePoint(value + new Vector2(8f), true) - new Vector2(8f);
-                float projPosX = projectile.position.X + (float)projectile.width * 0.5f - value.X;
-                float projPosY = projectile.position.Y + (float)projectile.height * 0.5f - value.Y;
+                value = Main.player[Projectile.owner].RotatedRelativePoint(value + new Vector2(8f), true) - new Vector2(8f);
+                float projPosX = Projectile.position.X + (float)Projectile.width * 0.5f - value.X;
+                float projPosY = Projectile.position.Y + (float)Projectile.height * 0.5f - value.Y;
                 Math.Sqrt((double)(projPosX * projPosX + projPosY * projPosY));
                 float rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - 1.57f;
                 bool flag2 = true;
@@ -64,8 +64,8 @@ namespace SpiritMod.Items.Sets.CascadeSet.Coral_Catcher
                     projPosY *= projPosXY;
                     value.X -= projPosX;
                     value.Y -= projPosY;
-                    projPosX = projectile.position.X + (float)projectile.width * 0.5f - value.X;
-                    projPosY = projectile.position.Y + (float)projectile.height * 0.5f - value.Y;
+                    projPosX = Projectile.position.X + (float)Projectile.width * 0.5f - value.X;
+                    projPosY = Projectile.position.Y + (float)Projectile.height * 0.5f - value.Y;
                 }
                 while (flag2)
                 {
@@ -88,12 +88,12 @@ namespace SpiritMod.Items.Sets.CascadeSet.Coral_Catcher
                         projPosY *= num2;
                         value.X += projPosX;
                         value.Y += projPosY;
-                        projPosX = projectile.position.X + (float)projectile.width * 0.5f - value.X;
-                        projPosY = projectile.position.Y + (float)projectile.height * 0.1f - value.Y;
+                        projPosX = Projectile.position.X + (float)Projectile.width * 0.5f - value.X;
+                        projPosY = Projectile.position.Y + (float)Projectile.height * 0.1f - value.Y;
                         if (num3 > 12f)
                         {
                             float num4 = 0.3f;
-                            float num5 = Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y);
+                            float num5 = Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y);
                             if (num5 > 16f)
                             {
                                 num5 = 16f;
@@ -110,7 +110,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Coral_Catcher
                             {
                                 num4 = 0f;
                             }
-                            num5 = 1f - projectile.localAI[0] / 100f;
+                            num5 = 1f - Projectile.localAI[0] / 100f;
                             num4 *= num5;
                             if (projPosY > 0f)
                             {
@@ -119,7 +119,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Coral_Catcher
                             }
                             else
                             {
-                                num5 = Math.Abs(projectile.velocity.X) / 3f;
+                                num5 = Math.Abs(Projectile.velocity.X) / 3f;
                                 if (num5 > 1f)
                                 {
                                     num5 = 1f;

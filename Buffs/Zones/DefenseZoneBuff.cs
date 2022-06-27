@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Zones
 {
 	public class DefenseZoneBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fortification Zone");
 			Description.SetDefault("You feel strong!");

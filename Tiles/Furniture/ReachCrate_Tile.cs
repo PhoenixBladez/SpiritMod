@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class ReachCrate_Tile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileTable[Type] = true;
 			Main.tileSolidTop[Type] = true;

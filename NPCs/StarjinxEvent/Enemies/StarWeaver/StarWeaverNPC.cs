@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
@@ -20,32 +21,32 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star Weaver");
-			Main.npcFrameCount[npc.type] = 6;
+			Main.npcFrameCount[NPC.type] = 6;
 		}
 
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetDefaults()
 		{
-			npc.Size = new Vector2(70, 68);
-			npc.lifeMax = 750;
-			npc.damage = 40;
-			npc.defense = 24;
-			npc.noTileCollide = true;
-			npc.noGravity = true;
-			npc.aiStyle = -1;
-			npc.value = 1100;
-			npc.knockBackResist = .4f;
-			npc.HitSound = new LegacySoundStyle(SoundID.NPCHit, 55).WithPitchVariance(0.2f);
-			npc.DeathSound = SoundID.NPCDeath51;
+			NPC.Size = new Vector2(70, 68);
+			NPC.lifeMax = 750;
+			NPC.damage = 40;
+			NPC.defense = 24;
+			NPC.noTileCollide = true;
+			NPC.noGravity = true;
+			NPC.aiStyle = -1;
+			NPC.value = 1100;
+			NPC.knockBackResist = .4f;
+			NPC.HitSound = new LegacySoundStyle(SoundID.NPCHit, 55).WithPitchVariance(0.2f);
+			NPC.DeathSound = SoundID.NPCDeath51;
 		}
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(npc.lifeMax * 0.66f * bossLifeScale);
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = (int)(NPC.lifeMax * 0.66f * bossLifeScale);
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
 
-		public ref float AiTimer => ref npc.ai[0];
-		public ref float AiState => ref npc.ai[1];
+		public ref float AiTimer => ref NPC.ai[0];
+		public ref float AiState => ref NPC.ai[1];
 
 		private int _headIndex = -1;
 		public Projectile Head => Main.projectile[_headIndex];
@@ -68,9 +69,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 		public override void AI()
 		{
-			Player player = Main.player[npc.target];
-			npc.TargetClosest(true);
-			npc.spriteDirection = npc.direction;
+			Player player = Main.player[NPC.target];
+			NPC.TargetClosest(true);
+			NPC.spriteDirection = NPC.direction;
 
 			if(player.dead || !player.active) //dont attack if no players to attack
 			{
@@ -82,107 +83,107 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			{
 				case STATE_IDLE:
 					frame.X = 0;
-					npc.AccelFlyingMovement(player.Center, 0.02f, 0.1f, 0.33f);
-					npc.position.Y += 0.66f * (float)Math.Sin(Main.GameUpdateCount / 12f);
+					NPC.AccelFlyingMovement(player.Center, 0.02f, 0.1f, 0.33f);
+					NPC.position.Y += 0.66f * (float)Math.Sin(Main.GameUpdateCount / 12f);
 					if (AiTimer > IDLETIME)
 					{
-						bool teleport = !Collision.CanHit(npc.Center, 0, 0, player.Center, 0, 0) || npc.Distance(player.Center) > TELEPORT_DISTANCE;
+						bool teleport = !Collision.CanHit(NPC.Center, 0, 0, player.Center, 0, 0) || NPC.Distance(player.Center) > TELEPORT_DISTANCE;
 						AiState = teleport ? STATE_TELEPORT : Main.rand.NextBool() ? STATE_STARGLOOP : STATE_STARBURST;
 						AiTimer = 0;
-						npc.netUpdate = true;
+						NPC.netUpdate = true;
 					}
 					break;
 				case STATE_TELEPORT:
 					frame.X = 1;
-					npc.velocity = Vector2.Zero;
+					NPC.velocity = Vector2.Zero;
 
 					if(AiTimer == TELEPORT_STARTTIME)
 					{
-						Vector2 desiredPos = player.Center + npc.DirectionTo(player.Center) * (TELEPORT_DISTANCE * 0.75f * Main.rand.NextFloat(0.9f, 1.1f));
-						float displacement = npc.Distance(desiredPos);
+						Vector2 desiredPos = player.Center + NPC.DirectionTo(player.Center) * (TELEPORT_DISTANCE * 0.75f * Main.rand.NextFloat(0.9f, 1.1f));
+						float displacement = NPC.Distance(desiredPos);
 						if (displacement < TELEPORT_DISTANCE)
-							desiredPos += npc.DirectionTo(player.Center) * (TELEPORT_DISTANCE - displacement);
+							desiredPos += NPC.DirectionTo(player.Center) * (TELEPORT_DISTANCE - displacement);
 
-						npc.Center = desiredPos + new Vector2(0, 30);
+						NPC.Center = desiredPos + new Vector2(0, 30);
 
 						if (!Main.dedServ)
 						{
-							ParticleHandler.SpawnParticle(new ImpactLine(npc.Center, Vector2.UnitY * 2, Color.White, new Vector2(0.1f, 1f), 10));
-							ParticleHandler.SpawnParticle(new ImpactLine(npc.Center, -Vector2.UnitY * 2, Color.White, new Vector2(0.1f, 1f), 10));
+							ParticleHandler.SpawnParticle(new ImpactLine(NPC.Center, Vector2.UnitY * 2, Color.White, new Vector2(0.1f, 1f), 10));
+							ParticleHandler.SpawnParticle(new ImpactLine(NPC.Center, -Vector2.UnitY * 2, Color.White, new Vector2(0.1f, 1f), 10));
 						}
 
-						npc.netUpdate = true;
+						NPC.netUpdate = true;
 					}
 
 					if(AiTimer >= TELEPORT_ENDTIME + TELEPORT_STARTTIME)
 					{
-						if (Vector2.DistanceSquared(npc.Center, player.GetModPlayer<StarjinxPlayer>().StarjinxPosition) > StarjinxMeteorite.EVENT_RADIUS * StarjinxMeteorite.EVENT_RADIUS)
+						if (Vector2.DistanceSquared(NPC.Center, player.GetModPlayer<StarjinxPlayer>().StarjinxPosition) > StarjinxMeteorite.EVENT_RADIUS * StarjinxMeteorite.EVENT_RADIUS)
 							AiState = STATE_TELEPORT_OOB;
 						else
 							AiState = Main.rand.NextBool() ? STATE_STARGLOOP : STATE_STARBURST;
 						AiTimer = 0;
-						npc.netUpdate = true;
+						NPC.netUpdate = true;
 					}
 					break;
 				case STATE_TELEPORT_OOB:
 					frame.X = 1;
-					npc.velocity = Vector2.Zero;
+					NPC.velocity = Vector2.Zero;
 
 					if (AiTimer == TELEPORT_STARTTIME / 2)
 					{
-						Vector2 desiredPos = player.Center + npc.DirectionTo(player.Center).RotatedByRandom(MathHelper.PiOver4) * (TELEPORT_DISTANCE * 0.75f * Main.rand.NextFloat(0.9f, 1.1f));
-						float displacement = npc.Distance(desiredPos);
+						Vector2 desiredPos = player.Center + NPC.DirectionTo(player.Center).RotatedByRandom(MathHelper.PiOver4) * (TELEPORT_DISTANCE * 0.75f * Main.rand.NextFloat(0.9f, 1.1f));
+						float displacement = NPC.Distance(desiredPos);
 						if (displacement < TELEPORT_DISTANCE)
-							desiredPos += npc.DirectionTo(player.Center) * (TELEPORT_DISTANCE - displacement);
+							desiredPos += NPC.DirectionTo(player.Center) * (TELEPORT_DISTANCE - displacement);
 
-						npc.Center = desiredPos + new Vector2(0, 30);
+						NPC.Center = desiredPos + new Vector2(0, 30);
 
 						if (!Main.dedServ)
 						{
-							ParticleHandler.SpawnParticle(new ImpactLine(npc.Center, Vector2.UnitY * 2, Color.White, new Vector2(0.1f, 1f), 10));
-							ParticleHandler.SpawnParticle(new ImpactLine(npc.Center, -Vector2.UnitY * 2, Color.White, new Vector2(0.1f, 1f), 10));
+							ParticleHandler.SpawnParticle(new ImpactLine(NPC.Center, Vector2.UnitY * 2, Color.White, new Vector2(0.1f, 1f), 10));
+							ParticleHandler.SpawnParticle(new ImpactLine(NPC.Center, -Vector2.UnitY * 2, Color.White, new Vector2(0.1f, 1f), 10));
 						}
 
-						npc.netUpdate = true;
+						NPC.netUpdate = true;
 					}
 
 					if (AiTimer >= TELEPORT_ENDTIME + (TELEPORT_STARTTIME / 2))
 					{
 						AiState = Main.rand.NextBool() ? STATE_STARGLOOP : STATE_STARBURST;
 						AiTimer = 0;
-						npc.netUpdate = true;
+						NPC.netUpdate = true;
 					}
 					break;
 				case STATE_STARBURST:
 					frame.X = 1;
-					npc.velocity = Vector2.Zero;
+					NPC.velocity = Vector2.Zero;
 
 					if(AiTimer == 1)
 					{
 						if(Main.netMode != NetmodeID.MultiplayerClient)
-							Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<WeaverStarChannel>(), NPCUtils.ToActualDamage(80, 1.5f), 1f, Main.myPlayer, npc.whoAmI);
+							Projectile.NewProjectileDirect(NPC.Center, Vector2.Zero, ModContent.ProjectileType<WeaverStarChannel>(), NPCUtils.ToActualDamage(80, 1.5f), 1f, Main.myPlayer, NPC.whoAmI);
 
 						if (!Main.dedServ)
-							Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/starCast").WithVolume(0.65f).WithPitchVariance(0.3f), npc.Center);
+							SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/starCast").WithVolume(0.65f).WithPitchVariance(0.3f), NPC.Center);
 					}
 
 					if(AiTimer > STARBURST_CHANNELTIME)
 					{
 						AiTimer = -Main.rand.Next(60);
 						AiState = STATE_IDLE;
-						npc.netUpdate = true;
+						NPC.netUpdate = true;
 					}
 					break;
 
 				case STATE_STARGLOOP: //Attack mostly handled by head projectile, this is just for controlling the body and setting back to another state when done
 					frame.X = 1;
-					npc.velocity = Vector2.Zero;
+					NPC.velocity = Vector2.Zero;
 
 					if (AiTimer > STARGLOOP_TIME)
 					{
 						AiTimer = -Main.rand.Next(60);
 						AiState = STATE_IDLE;
-						npc.netUpdate = true;
+						NPC.netUpdate = true;
 					}
 					break;
 			}
@@ -192,12 +193,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 				if (Main.netMode == NetmodeID.MultiplayerClient)
 					return;
 
-				var proj = Projectile.NewProjectileDirect(npc.Top - new Vector2(0, 20), Vector2.Zero, ModContent.ProjectileType<StarWeaverHead>(), NPCUtils.ToActualDamage(npc.damage, 1), 1f, Main.myPlayer, npc.whoAmI);
+				var proj = Projectile.NewProjectileDirect(NPC.Top - new Vector2(0, 20), Vector2.Zero, ModContent.ProjectileType<StarWeaverHead>(), NPCUtils.ToActualDamage(NPC.damage, 1), 1f, Main.myPlayer, NPC.whoAmI);
 				_headIndex = proj.whoAmI;
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, _headIndex);
 
-				npc.netUpdate = true;
+				NPC.netUpdate = true;
 			}
 
 			if (_headIndex < 0)
@@ -238,26 +239,26 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			return width;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			if (npc.frame.Width > 70)
+			if (NPC.frame.Width > 70)
 			{
 				frame = new Point(0, 0);
-				npc.FindFrame();
+				NPC.FindFrame();
 			}
 
-			Vector2 scale = new Vector2(TeleportWidth(), 1) * npc.scale;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, GetAlpha(drawColor).Value, npc.rotation, npc.frame.Size() / 2,
-				scale, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+			Vector2 scale = new Vector2(TeleportWidth(), 1) * NPC.scale;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition, NPC.frame, GetAlpha(drawColor).Value, NPC.rotation, NPC.frame.Size() / 2,
+				scale, (NPC.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
 			return false;
 		}
 
-		public override Color? GetAlpha(Color drawColor) => StarjinxGlobalNPC.GetColorBrightness(drawColor) * npc.Opacity;
+		public override Color? GetAlpha(Color drawColor) => StarjinxGlobalNPC.GetColorBrightness(drawColor) * NPC.Opacity;
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Vector2 scale = new Vector2(TeleportWidth(), 1) * npc.scale;
+			Vector2 scale = new Vector2(TeleportWidth(), 1) * NPC.scale;
 
 			Color bloomColor = Color.White;
 			bloomColor.A = 0;
@@ -265,16 +266,16 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 			PulseDraw.DrawPulseEffect(PulseDraw.BloomConstant, 12, 16, delegate (Vector2 posOffset, float opacityMod)
 			{
-				spriteBatch.Draw(ModContent.GetTexture(Texture + "_glow"), npc.Center + posOffset - Main.screenPosition, npc.frame, npc.GetAlpha(bloomColor) * opacityMod * AttackProgress,
-					npc.rotation, npc.frame.Size() / 2, scale, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+				spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glow"), NPC.Center + posOffset - Main.screenPosition, NPC.frame, NPC.GetAlpha(bloomColor) * opacityMod * AttackProgress,
+					NPC.rotation, NPC.frame.Size() / 2, scale, (NPC.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 			});
 
 			Color glowmaskColor = Color.Lerp(Color.White, bloomColor, AttackProgress);
-			spriteBatch.Draw(ModContent.GetTexture(Texture + "_glow"), npc.Center - Main.screenPosition, npc.frame, npc.GetAlpha(glowmaskColor), npc.rotation, npc.frame.Size() / 2,
-				scale, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+			spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glow"), NPC.Center - Main.screenPosition, NPC.frame, NPC.GetAlpha(glowmaskColor), NPC.rotation, NPC.frame.Size() / 2,
+				scale, (NPC.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
-			spriteBatch.Draw(ModContent.GetTexture(Texture + "_mask"), npc.Center - Main.screenPosition, npc.frame, npc.GetAlpha(Color.White) * TeleportMaskOpacity(), npc.rotation, npc.frame.Size() / 2,
-				scale, (npc.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+			spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_mask"), NPC.Center - Main.screenPosition, NPC.frame, NPC.GetAlpha(Color.White) * TeleportMaskOpacity(), NPC.rotation, NPC.frame.Size() / 2,
+				scale, (NPC.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 		}
 
 		public static float GetBloomIntensity(StarWeaverNPC starWeaver)
@@ -300,29 +301,29 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 		public void DrawPathfinderOutline(SpriteBatch spriteBatch)
 		{
 			//Draw the bloom effect for the head in addition
-			Texture2D headTex = Main.projectileTexture[Head.type];
+			Texture2D headTex = TextureAssets.Projectile[Head.type].Value;
 			PathfinderOutlineDraw.DrawAfterImage(spriteBatch, headTex, Head.Center, Head.DrawFrame(), Vector2.Zero, Head.Opacity, Head.rotation, Head.scale, Head.DrawFrame().Size()/2, 
 				(Head.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
 
-			PathfinderOutlineDraw.DrawAfterImage(spriteBatch, npc, npc.frame, Vector2.Zero, npc.frame.Size() / 2);
+			PathfinderOutlineDraw.DrawAfterImage(spriteBatch, NPC, NPC.frame, Vector2.Zero, NPC.frame.Size() / 2);
 		}
 
 		#endregion
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			float chance = Main.expertMode ? 0.1f : 0.05f;
-			npc.DropItem(ModContent.ItemType<StargloopHead>(), chance);
+			NPC.DropItem(ModContent.ItemType<StargloopHead>(), chance);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int i = 0; i < 12; i++)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.VilePowder, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .75f));
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.VilePowder, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .75f));
 		}
 
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(_headIndex);
 		public override void ReceiveExtraAI(BinaryReader reader) => _headIndex = reader.ReadInt32();
-		public override void SafeFindFrame(int frameHeight) => npc.frame.Width = 70;
+		public override void SafeFindFrame(int frameHeight) => NPC.frame.Width = 70;
 	}
 }

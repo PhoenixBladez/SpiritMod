@@ -14,12 +14,12 @@ namespace SpiritMod.Items.Sets.CoilSet
 
 		public override void SetDefaults()
 		{
-			item.width = 42;
-			item.height = 24;
-			item.value = 100;
-			item.rare = ItemRarityID.Green;
+			Item.width = 42;
+			Item.height = 24;
+			Item.value = 100;
+			Item.rare = ItemRarityID.Green;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 		}
 	}
 }

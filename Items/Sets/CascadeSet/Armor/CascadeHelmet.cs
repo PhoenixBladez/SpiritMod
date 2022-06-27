@@ -15,11 +15,11 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 24;
-			item.value = 4800;
-			item.rare = ItemRarityID.Blue;
-			item.defense = 3;
+			Item.width = 28;
+			Item.height = 24;
+			Item.value = 4800;
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 3;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<CascadeChestplate>() && legs.type == ModContent.ItemType<CascadeLeggings>();
@@ -34,11 +34,10 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 12);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

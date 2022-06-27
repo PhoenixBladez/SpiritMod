@@ -15,7 +15,7 @@ namespace SpiritMod.Dusts
         {
             dust.position += dust.velocity;
             dust.velocity.Y += 0.2f;
-            if (Main.tile[(int)dust.position.X / 16, (int)dust.position.Y / 16].active() && Main.tile[(int)dust.position.X / 16, (int)dust.position.Y / 16].collisionType == 1)
+            if (Main.tile[(int)dust.position.X / 16, (int)dust.position.Y / 16].HasTile && Main.tile[(int)dust.position.X / 16, (int)dust.position.Y / 16].collisionType == 1)
             {
                 dust.velocity *= -0.5f;
             }

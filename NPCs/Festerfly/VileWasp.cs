@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.EvilBiomeDrops.PesterflyCane;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,47 +13,47 @@ namespace SpiritMod.NPCs.Festerfly
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pesterfly");
-			Main.npcFrameCount[npc.type] = 2;
-			NPCID.Sets.TrailCacheLength[npc.type] = 2;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 2;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 2;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 22;
-			npc.height = 20;
-			npc.damage = 20;
-			npc.defense = 0;
-			npc.lifeMax = 10;
-			npc.HitSound = SoundID.NPCHit1; //Dr Man Fly
-			npc.DeathSound = SoundID.NPCDeath16;
-			npc.value = 10f;
-			npc.noGravity = true;
-			npc.noTileCollide = false;
-			npc.knockBackResist = .65f;
-			npc.aiStyle = 44;
-			aiType = NPCID.FlyingAntlion;
+			NPC.width = 22;
+			NPC.height = 20;
+			NPC.damage = 20;
+			NPC.defense = 0;
+			NPC.lifeMax = 10;
+			NPC.HitSound = SoundID.NPCHit1; //Dr Man Fly
+			NPC.DeathSound = SoundID.NPCDeath16;
+			NPC.value = 10f;
+			NPC.noGravity = true;
+			NPC.noTileCollide = false;
+			NPC.knockBackResist = .65f;
+			NPC.aiStyle = 44;
+			AIType = NPCID.FlyingAntlion;
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
-		public override void AI() => npc.spriteDirection = npc.direction;
+		public override void AI() => NPC.spriteDirection = NPC.direction;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-			for (int k = 0; k < npc.oldPos.Length; k++)
+			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
+			for (int k = 0; k < NPC.oldPos.Length; k++)
 			{
-				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-				Color color = npc.GetAlpha(lightColor) * (((npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-				spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+				var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+				Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+				Color color = NPC.GetAlpha(lightColor) * (((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			}
 			return true;
 		}
@@ -60,19 +61,19 @@ namespace SpiritMod.NPCs.Festerfly
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 30; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.3f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Plantera_Green, 2.5f * hitDirection, -2.5f, 0, Color.Purple, 0.3f);
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly5"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pesterfly/Pesterfly6"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pesterfly/Pesterfly5").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pesterfly/Pesterfly6").Type, 1f);
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.NextBool(30))
-				Item.NewItem(npc.getRect(), ModContent.ItemType<PesterflyCane>(), 1);
+				Item.NewItem(NPC.getRect(), ModContent.ItemType<PesterflyCane>(), 1);
 		}
 	}
 }

@@ -13,18 +13,18 @@ namespace SpiritMod.Items.Sets.SeraphSet
 		{
 			DisplayName.SetDefault("Azure Gem");
 			Tooltip.SetDefault("'Holds a far away power'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 3));
+			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 3));
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 26;
-			item.value = 1000;
-			item.rare = ItemRarityID.LightRed;
-			item.scale = .8f;
-			item.maxStack = 999;
+			Item.width = 24;
+			Item.height = 26;
+			Item.value = 1000;
+			Item.rare = ItemRarityID.LightRed;
+			Item.scale = .8f;
+			Item.maxStack = 999;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{

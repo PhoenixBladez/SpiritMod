@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,36 +15,35 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 			Tooltip.SetDefault("Fires three consecutive rounds of bullets\nShoots out a homing chilly blast occasionally");
 		}
 
-
 		int charger;
+
 		public override void SetDefaults()
 		{
-			item.damage = 24;
-			item.ranged = true;
-			item.width = 58;
-			item.height = 32;
-			item.useTime = 9;
-			item.useAnimation = 9;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 1;
-			item.value = 91950;
-			item.rare = ItemRarityID.LightPurple;
-			item.UseSound = SoundID.Item31;
-			item.autoReuse = true;
-			item.shoot = ProjectileID.Bullet;
-			item.shootSpeed = 12f;
-			item.useAmmo = AmmoID.Bullet;
-			item.crit = 6;
+			Item.damage = 24;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 58;
+			Item.height = 32;
+			Item.useTime = 9;
+			Item.useAnimation = 9;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 1;
+			Item.value = 91950;
+			Item.rare = ItemRarityID.LightPurple;
+			Item.UseSound = SoundID.Item31;
+			Item.autoReuse = true;
+			Item.shoot = ProjectileID.Bullet;
+			Item.shootSpeed = 12f;
+			Item.useAmmo = AmmoID.Bullet;
+			Item.crit = 6;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			charger++;
-			if (charger >= 4) {
-				for (int I = 0; I < 1; I++) {
-					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<FrostBolt>(), 64, knockBack, player.whoAmI, 0f, 0f);
-				}
+			if (charger >= 4)
+			{
+				Projectile.NewProjectile(position.X - 8, position.Y + 8, velocity.X + ((float)Main.rand.Next(-230, 230) / 100), velocity.Y + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<FrostBolt>(), 64, knockback, player.whoAmI, 0f, 0f);
 				charger = 0;
 			}
 			return true;

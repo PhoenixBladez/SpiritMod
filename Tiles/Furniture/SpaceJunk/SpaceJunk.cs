@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,26 +15,26 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 		}
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 22;
-			item.value = Item.buyPrice(0, 0, 30, 0);
+			Item.width = 22;
+			Item.height = 22;
+			Item.value = Item.buyPrice(0, 0, 30, 0);
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 15;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = mod.TileType("ScrapTile1");
+			Item.createTile = Mod.Find<ModTile>("ScrapTile1").Type;
 		}
 	}
 	public class ScrapTile1 : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileTable[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -45,7 +46,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 			name.SetDefault("Space Scrap");
 			AddMapEntry(new Color(150, 150, 150), name);
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}
@@ -56,8 +57,8 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("ScrapItem1"));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, Mod.Find<ModItem>("ScrapItem1").Type);
 		}
 	}
 	public class ScrapItem2 : ModItem
@@ -68,26 +69,26 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 		}
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 22;
-			item.value = Item.buyPrice(0, 0, 30, 0);
+			Item.width = 22;
+			Item.height = 22;
+			Item.value = Item.buyPrice(0, 0, 30, 0);
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 15;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = mod.TileType("ScrapTile2");
+			Item.createTile = Mod.Find<ModTile>("ScrapTile2").Type;
 		}
 	}
 	public class ScrapTile2 : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileTable[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -104,14 +105,14 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 		{
 			num = fail ? 1 : 3;
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("ScrapItem2"));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, Mod.Find<ModItem>("ScrapItem2").Type);
 		}
 	}
 
@@ -123,26 +124,26 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 		}
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 22;
-			item.value = Item.buyPrice(0, 0, 30, 0);
+			Item.width = 22;
+			Item.height = 22;
+			Item.value = Item.buyPrice(0, 0, 30, 0);
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 15;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = mod.TileType("ScrapTile3");
+			Item.createTile = Mod.Find<ModTile>("ScrapTile3").Type;
 		}
 	}
 	public class ScrapTile3 : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -168,14 +169,14 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 		{
 			num = fail ? 1 : 3;
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-			Item.NewItem(i * 16, j * 16, 32, 48, mod.ItemType("ScrapItem3"));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Item.NewItem(i * 16, j * 16, 32, 48, Mod.Find<ModItem>("ScrapItem3").Type);
 		}
 	}
 	public class ScrapItem4 : ModItem
@@ -186,26 +187,26 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 		}
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 22;
-			item.value = Item.buyPrice(0, 0, 30, 0);
+			Item.width = 22;
+			Item.height = 22;
+			Item.value = Item.buyPrice(0, 0, 30, 0);
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 15;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = mod.TileType("ScrapTile4");
+			Item.createTile = Mod.Find<ModTile>("ScrapTile4").Type;
 		}
 	}
 	public class ScrapTile4 : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -232,14 +233,14 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 		{
 			num = fail ? 1 : 3;
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-			Item.NewItem(i * 16, j * 16, 32, 48, mod.ItemType("ScrapItem4"));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Item.NewItem(i * 16, j * 16, 32, 48, Mod.Find<ModItem>("ScrapItem4").Type);
 		}
 	}
 	public class ScrapItem5 : ModItem
@@ -250,26 +251,26 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 		}
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 22;
-			item.value = Item.buyPrice(0, 0, 30, 0);
+			Item.width = 22;
+			Item.height = 22;
+			Item.value = Item.buyPrice(0, 0, 30, 0);
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 15;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = mod.TileType("ScrapTile5");
+			Item.createTile = Mod.Find<ModTile>("ScrapTile5").Type;
 		}
 	}
 	public class ScrapTile5 : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileTable[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -286,14 +287,14 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 		{
 			num = fail ? 1 : 3;
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("ScrapItem5"));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, Mod.Find<ModItem>("ScrapItem5").Type);
 		}
 	}
 	public class ScrapItem6 : ModItem
@@ -304,26 +305,26 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 		}
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 22;
-			item.value = Item.buyPrice(0, 0, 30, 0);
+			Item.width = 22;
+			Item.height = 22;
+			Item.value = Item.buyPrice(0, 0, 30, 0);
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 15;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = mod.TileType("ScrapTile6");
+			Item.createTile = Mod.Find<ModTile>("ScrapTile6").Type;
 		}
 	}
 	public class ScrapTile6 : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileTable[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -342,7 +343,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 			};
 			TileObjectData.addTile(Type);
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}
@@ -353,8 +354,8 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("ScrapItem6"));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, Mod.Find<ModItem>("ScrapItem6").Type);
 		}
 	}
 }

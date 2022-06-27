@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.Pet
 {
 	public class SaucerPetBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Support Saucer");
 			Description.SetDefault("'It seems to only provide moral support...'");

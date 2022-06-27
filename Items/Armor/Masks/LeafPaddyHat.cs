@@ -13,12 +13,12 @@ namespace SpiritMod.Items.Armor.Masks
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
+			Item.width = 22;
+			Item.height = 20;
 
-			item.value = 3000;
-			item.rare = ItemRarityID.Blue;
-			item.vanity = true;
+			Item.value = 3000;
+			Item.rare = ItemRarityID.Blue;
+			Item.vanity = true;
 		}
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
             => drawAltHair = true;

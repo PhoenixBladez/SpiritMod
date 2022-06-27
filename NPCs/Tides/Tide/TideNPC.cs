@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ID;
 using SpiritMod;
@@ -76,7 +77,7 @@ namespace SpiritMod.NPCs.Tides.Tide
 
 		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
-			if (TideWorld.TheTide && spawnInfo.player.ZoneBeach)
+			if (TideWorld.TheTide && spawnInfo.Player.ZoneBeach)
 			{
 				pool.Clear();
 				IDictionary<int, float> spawnpool = Spawnpool.ElementAt(TideWorld.TideWave - 1); //find the spawn pool dictionary corresponding to the current tide wave
@@ -87,7 +88,7 @@ namespace SpiritMod.NPCs.Tides.Tide
 			}
 		}
 
-		public override void NPCLoot(NPC npc)
+		public override void OnKill(NPC npc)
 		{
 			if (TideWorld.TheTide)
 			{ //first check if tide is even active
@@ -120,7 +121,7 @@ namespace SpiritMod.NPCs.Tides.Tide
 						DustHelper.DrawDiamond(new Vector2(rylheian.Center.X, rylheian.Center.Y), 173, 8);
 						DustHelper.DrawTriangle(new Vector2(rylheian.Center.X, rylheian.Center.Y), 173, 8);
 						if (Main.netMode != NetmodeID.Server) 
-							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/RlyehianCry").WithVolume(0.5f).WithPitchVariance(0.2f), npc.Center);
+							SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/RlyehianCry").WithVolume(0.5f).WithPitchVariance(0.2f), npc.Center);
 					}
 				}
 

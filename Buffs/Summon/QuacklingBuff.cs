@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Summon
 {
 	public class QuacklingBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Quackling Minion");
 			Description.SetDefault("Born with a bandana!");

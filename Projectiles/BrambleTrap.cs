@@ -15,17 +15,17 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.width = 24;
-			projectile.height = 24;
-			projectile.aiStyle = -1;
-			projectile.friendly = false;
-			projectile.damage = 1;
-			projectile.penetrate = -1;
+			Projectile.hostile = false;
+			Projectile.width = 24;
+			Projectile.height = 24;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = false;
+			Projectile.damage = 1;
+			Projectile.penetrate = -1;
 		//	projectile.alpha = 255;
-			projectile.timeLeft = 5;
-			projectile.tileCollide = true;
-			projectile.extraUpdates = 1;
+			Projectile.timeLeft = 5;
+			Projectile.tileCollide = true;
+			Projectile.extraUpdates = 1;
 		}
 
 		bool activated = false;
@@ -33,31 +33,31 @@ namespace SpiritMod.Projectiles
 		bool stuck = false;
 		public override bool PreAI()
 		{
-			if (projectile.timeLeft == 1 && !stuck)
+			if (Projectile.timeLeft == 1 && !stuck)
 			{
-				projectile.position += projectile.velocity * 8;
-				projectile.velocity = Vector2.Zero;
+				Projectile.position += Projectile.velocity * 8;
+				Projectile.velocity = Vector2.Zero;
 				stuck = true;
-				projectile.timeLeft = 580;
+				Projectile.timeLeft = 580;
 			}
-			if (!activated && projectile.timeLeft > 60)
+			if (!activated && Projectile.timeLeft > 60)
 			{
 				activated = true;
-				groundpos = projectile.Center + new Vector2(0, 40);
-				projectile.friendly = true;
+				groundpos = Projectile.Center + new Vector2(0, 40);
+				Projectile.friendly = true;
 			}
-			projectile.velocity.X = 0;
+			Projectile.velocity.X = 0;
 			if (!activated) {
-				projectile.velocity.Y = 30;
-				projectile.timeLeft += 2;
+				Projectile.velocity.Y = 30;
+				Projectile.timeLeft += 2;
 			}
 			else if (!stuck)
 			{
-				Vector2 mouse = new Vector2(projectile.ai[0], projectile.ai[1]);
-				Vector2 dir9 = mouse - projectile.Center;
+				Vector2 mouse = new Vector2(Projectile.ai[0], Projectile.ai[1]);
+				Vector2 dir9 = mouse - Projectile.Center;
 				dir9.Normalize();
 				dir9 *= 20;
-				projectile.velocity = dir9;
+				Projectile.velocity = dir9;
 			}
 			return false;
 		}
@@ -65,34 +65,34 @@ namespace SpiritMod.Projectiles
 		{
 			if (!stuck)
 			{
-				projectile.timeLeft = (int)(580 * target.knockBackResist);
+				Projectile.timeLeft = (int)(580 * target.knockBackResist);
 			}
 			target.AddBuff(ModContent.BuffType<Stopped>(), (int)(240 * target.knockBackResist * 1.5f));
-			projectile.position += projectile.velocity * 8;
-			projectile.velocity = Vector2.Zero;
+			Projectile.position += Projectile.velocity * 8;
+			Projectile.velocity = Vector2.Zero;
 			stuck = true;
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (oldVelocity.Y != projectile.velocity.Y && !activated) {
+			if (oldVelocity.Y != Projectile.velocity.Y && !activated) {
 				activated = true;
-				groundpos = projectile.Center + new Vector2(0, 40);
-				projectile.friendly = true;
+				groundpos = Projectile.Center + new Vector2(0, 40);
+				Projectile.friendly = true;
 			}
 			return false;
 		}
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			fallThrough = false;
 			return true;
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			if (activated)
 			{
-				ProjectileExtras.DrawChain(projectile.whoAmI, groundpos - new Vector2(30, 0),
+				ProjectileExtras.DrawChain(Projectile.whoAmI, groundpos - new Vector2(30, 0),
 				"SpiritMod/Projectiles/BrambleTrap_Chain");
-				ProjectileExtras.DrawChain(projectile.whoAmI, groundpos + new Vector2(30, 0),
+				ProjectileExtras.DrawChain(Projectile.whoAmI, groundpos + new Vector2(30, 0),
 				"SpiritMod/Projectiles/BrambleTrap_Chain");
 			}
 			return false;

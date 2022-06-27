@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -9,14 +10,14 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class Corpsebloom : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoFail[Type] = true;
 
-			dustType = DustID.Demonite;
+			DustType = DustID.Demonite;
 			soundType = SoundID.Grass;
-			animationFrameHeight = 54;
+			AnimationFrameHeight = 54;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.Height = 3;
 			TileObjectData.newTile.Width = 2;
@@ -50,12 +51,12 @@ namespace SpiritMod.Tiles.Ambient
 			}
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			for(int num = 1; num <= 6; num++)
-				Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), mod.GetGoreSlot("Gores/CorpseBloom/CorpseBloom" + num.ToString()), 1f);
+				Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), Mod.Find<ModGore>("Gores/CorpseBloom/CorpseBloom" + num.ToString()).Type, 1f);
 		}
 
 		public int cloudtimer;
@@ -75,11 +76,11 @@ namespace SpiritMod.Tiles.Ambient
 
 					if (++cloudtimer > 500) {
 						if(!Main.dedServ)
-							Main.PlaySound(SoundID.Item, new Vector2(i * 16, j * 16), 95);
+							SoundEngine.PlaySound(SoundID.Item, new Vector2(i * 16, j * 16), 95);
 
 						cloudtimer = 0;
 						for(int num = 1; num <= 3; num++)
-							Gore.NewGore(new Vector2(num * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), mod.GetGoreSlot("Gores/CorpseBloom/Belch" + num.ToString()), 1f);
+							Gore.NewGore(new Vector2(num * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), Mod.Find<ModGore>("Gores/CorpseBloom/Belch" + num.ToString()).Type, 1f);
 
 						Projectile.NewProjectile(new Vector2(i * 16, j * 16), Vector2.Zero, ModContent.ProjectileType<CorpsebloomExplosion>(), 0, 0f);
 					}

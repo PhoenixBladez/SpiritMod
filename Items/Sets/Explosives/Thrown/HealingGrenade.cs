@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 	[ItemTag(ItemTags.Explosive)]
 	public class HealingGrenade : ModItem
 	{
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetStaticDefaults()
 		{
@@ -18,25 +18,25 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 
 		public override void SetDefaults()
 		{
-			item.damage = 45;
-			item.noMelee = true;
-			item.ranged = true;
-			item.width = 14;
-			item.height = 26;
-			item.useTime = 25;
-			item.useAnimation = 25;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.shoot = ModContent.ProjectileType<HealingGrenadeProj>();
-			item.knockBack = 4;
-			item.useTurn = false;
-			item.value = Item.sellPrice(0, 0, 1, 0);
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item5;
-			item.autoReuse = false;
-			item.shootSpeed = 7.5f;
-			item.noUseGraphic = true;
-			item.consumable = true;
-			item.maxStack = 999;
+			Item.damage = 45;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 14;
+			Item.height = 26;
+			Item.useTime = 25;
+			Item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.shoot = ModContent.ProjectileType<HealingGrenadeProj>();
+			Item.knockBack = 4;
+			Item.useTurn = false;
+			Item.value = Item.sellPrice(0, 0, 1, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item5;
+			Item.autoReuse = false;
+			Item.shootSpeed = 7.5f;
+			Item.noUseGraphic = true;
+			Item.consumable = true;
+			Item.maxStack = 999;
 		}
 
 		//public override void AddRecipes()
@@ -52,24 +52,24 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 
 	public class HealingGrenadeProj : ModProjectile
 	{
-		public override string Texture => mod.Name + "/Items/Sets/Explosives/Thrown/HealingGrenade";
+		public override string Texture => Mod.Name + "/Items/Sets/Explosives/Thrown/HealingGrenade";
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Healing Grenade");
 
 		public override void SetDefaults()
 		{
-			projectile.width = 14;
-			projectile.height = 26;
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.timeLeft = 60 * 5;
-			projectile.penetrate = -1;
+			Projectile.width = 14;
+			Projectile.height = 26;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.timeLeft = 60 * 5;
+			Projectile.penetrate = -1;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation += 0.06f * projectile.velocity.X;
-			projectile.velocity.Y += 0.2f;
+			Projectile.rotation += 0.06f * Projectile.velocity.X;
+			Projectile.velocity.Y += 0.2f;
 
 			if (Main.rand.NextBool(12))
 				SpawnGore();
@@ -80,48 +80,48 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 			for (int i = 0; i < 30; i++)
 				SpawnGore(new Vector2(Main.rand.NextFloat(6, 8), 0).RotatedByRandom(MathHelper.TwoPi));
 
-			Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<HealingSplash>(), 0, 0f);
+			Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HealingSplash>(), 0, 0f);
 		}
 
 		public void SpawnGore(Vector2? overrideVel = null)
 		{
-			var pos = new Vector2(projectile.position.X + Main.rand.Next(projectile.width), projectile.position.Y + Main.rand.Next(projectile.height));
+			var pos = new Vector2(Projectile.position.X + Main.rand.Next(Projectile.width), Projectile.position.Y + Main.rand.Next(Projectile.height));
 			var vel = new Vector2(Main.rand.Next(-10, 11) * 0.1f, Main.rand.Next(-20, -10) * 0.1f);
 			Gore.NewGore(pos, overrideVel ?? vel, 331, Main.rand.Next(80, 120) * 0.01f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (projectile.timeLeft > 4)
-				projectile.timeLeft = 4;
+			if (Projectile.timeLeft > 4)
+				Projectile.timeLeft = 4;
 		}
 
-		public override bool CanHitPlayer(Player target) => target.whoAmI == projectile.owner;
+		public override bool CanHitPlayer(Player target) => target.whoAmI == Projectile.owner;
 	}
 
 	public class HealingSplash : ModProjectile
 	{
-		public ref float Timer => ref projectile.ai[0];
+		public ref float Timer => ref Projectile.ai[0];
 
-		public override string Texture => mod.Name + "/Items/Sets/Explosives/Thrown/HealingGrenade";
+		public override string Texture => Mod.Name + "/Items/Sets/Explosives/Thrown/HealingGrenade";
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Healing Splash");
 
 		public override void SetDefaults()
 		{
-			projectile.width = 14;
-			projectile.height = 26;
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.timeLeft = 180;
-			projectile.penetrate = -1;
-			projectile.hide = true;
-			projectile.tileCollide = false;
+			Projectile.width = 14;
+			Projectile.height = 26;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.timeLeft = 180;
+			Projectile.penetrate = -1;
+			Projectile.hide = true;
+			Projectile.tileCollide = false;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation += 0.06f * projectile.velocity.X;
+			Projectile.rotation += 0.06f * Projectile.velocity.X;
 
 			if (Main.rand.NextBool(6))
 				SpawnGore();
@@ -134,7 +134,7 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 
 		private void TileEffect()
 		{
-			Point tileOrig = (projectile.Center - new Vector2(4) * 16).ToTileCoordinates();
+			Point tileOrig = (Projectile.Center - new Vector2(4) * 16).ToTileCoordinates();
 
 			for (int i = 0; i < 8; ++i)
 			{
@@ -162,7 +162,7 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 			for (int i = 0; i < Main.maxPlayers; ++i)
 			{
 				Player p = Main.player[i];
-				if (p.active && !p.dead && p.DistanceSQ(projectile.Center) < 180 * 180 && p.statLife < p.statLifeMax2)
+				if (p.active && !p.dead && p.DistanceSQ(Projectile.Center) < 180 * 180 && p.statLife < p.statLifeMax2)
 				{
 					if (p.statLife < p.statLifeMax2 - 5)
 					{
@@ -180,17 +180,17 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 
 		public void SpawnGore(Vector2? overrideVel = null)
 		{
-			var pos = new Vector2(projectile.position.X + Main.rand.Next(projectile.width), projectile.position.Y + Main.rand.Next(projectile.height));
+			var pos = new Vector2(Projectile.position.X + Main.rand.Next(Projectile.width), Projectile.position.Y + Main.rand.Next(Projectile.height));
 			var vel = new Vector2(Main.rand.Next(-10, 11) * 0.1f, Main.rand.Next(-20, -10) * 0.1f);
 			Gore.NewGore(pos, overrideVel ?? vel, 331, Main.rand.Next(80, 120) * 0.01f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (projectile.timeLeft > 4)
-				projectile.timeLeft = 4;
+			if (Projectile.timeLeft > 4)
+				Projectile.timeLeft = 4;
 		}
 
-		public override bool CanHitPlayer(Player target) => target.whoAmI == projectile.owner;
+		public override bool CanHitPlayer(Player target) => target.whoAmI == Projectile.owner;
 	}
 }

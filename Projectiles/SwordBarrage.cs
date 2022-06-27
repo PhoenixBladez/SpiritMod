@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,36 +10,36 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sword Barrage");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 48;
-			projectile.aiStyle = 113;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.ranged = true;
-			projectile.penetrate = 5;
-			projectile.timeLeft = 600;
-			projectile.alpha = 255;
-			projectile.extraUpdates = 1;
-			projectile.light = 0;
-			aiType = ProjectileID.ThrowingKnife;
+			Projectile.width = Projectile.height = 48;
+			Projectile.aiStyle = 113;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 5;
+			Projectile.timeLeft = 600;
+			Projectile.alpha = 255;
+			Projectile.extraUpdates = 1;
+			Projectile.light = 0;
+			AIType = ProjectileID.ThrowingKnife;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation += 0.3f;
+			Projectile.rotation += 0.3f;
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Asphalt);
+				int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Asphalt);
 			}
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
 		}
 
 	}

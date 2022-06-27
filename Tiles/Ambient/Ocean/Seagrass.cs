@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
@@ -12,7 +13,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 {
     internal class Seagrass : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
 			Main.tileLavaDeath[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -27,7 +28,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
             TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.addTile(Type);
 
-			dustType = DustID.JungleGrass;
+			DustType = DustID.JungleGrass;
 			soundType = SoundID.Grass;
 
 		}
@@ -39,14 +40,14 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 		{
 			Tile t = Framing.GetTileSafely(i, j);
 			Color col = Lighting.GetColor(i, j);
-			Rectangle source = new Rectangle(t.frameX, t.frameY, 16, 16);
+			Rectangle source = new Rectangle(t.TileFrameX, t.TileFrameY, 16, 16);
 
-			Vector2 TileOffset = Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12; //Draw offset
+			Vector2 TileOffset = Lighting.LegacyEngine.Mode > 1 ? Vector2.Zero : Vector2.One * 12; //Draw offset
 			Vector2 drawPos = ((new Vector2(i + 0.4f, j + 1.15f) + TileOffset) * 16) - Main.screenPosition;
 
-			float rotation = (float)Math.Sin(Main.GlobalTime * 1.2f) * Main.windSpeed * .6f;
+			float rotation = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 1.2f) * Main.windSpeed * .6f;
 
-			spriteBatch.Draw(Main.tileTexture[Type], drawPos, source, col, rotation, new Vector2(8, 16), 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(TextureAssets.Tile[Type].Value, drawPos, source, col, rotation, new Vector2(8, 16), 1f, SpriteEffects.None, 0f);
 			return false;
 		}
     }

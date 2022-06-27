@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 {
 	public class ReachBookcase : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -29,8 +29,8 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			name.SetDefault("Elderbark Bookcase");
 			AddMapEntry(new Color(179, 146, 107), name);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Bookcases };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.Bookcases };
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

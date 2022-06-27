@@ -1,5 +1,6 @@
 ﻿using SpiritMod.Buffs;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,27 +15,27 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
+			Projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (projectile.owner == Main.myPlayer)
+			if (Projectile.owner == Main.myPlayer)
 				Main.LocalPlayer.AddBuff(ModContent.BuffType<BeetleFortitude>(), 180);
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
 		{
-			if (projectile.owner == Main.myPlayer)
+			if (Projectile.owner == Main.myPlayer)
 				Main.LocalPlayer.AddBuff(ModContent.BuffType<BeetleFortitude>(), 180);
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.BubbleBurst_Purple);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.BubbleBurst_Purple);
 			}
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
 		}
 
 	}

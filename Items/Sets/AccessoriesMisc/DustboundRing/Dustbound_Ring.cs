@@ -14,12 +14,12 @@ namespace SpiritMod.Items.Sets.AccessoriesMisc.DustboundRing
 
 		public override void SetDefaults()
 		{
-			item.width = 26;
-			item.height = 26;
-			item.value = Item.sellPrice(silver: 35);
-			item.rare = ItemRarityID.Blue;
-			item.defense = 1;
-			item.accessory = true;
+			Item.width = 26;
+			Item.height = 26;
+			Item.value = Item.sellPrice(silver: 35);
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 1;
+			Item.accessory = true;
 		}
 	}
 }

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,26 +13,26 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starfarer");
-			Main.npcFrameCount[npc.type] = 1;
+			Main.npcFrameCount[NPC.type] = 1;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 56;
-			npc.height = 46;
-			npc.damage = 0;
-			npc.defense = 12;
-			npc.noTileCollide = true;
-			npc.dontTakeDamage = true;
-			npc.lifeMax = 65;
-			npc.HitSound = SoundID.NPCHit4;
-			npc.value = 160f;
-			npc.dontCountMe = true;
+			NPC.width = 56;
+			NPC.height = 46;
+			NPC.damage = 0;
+			NPC.defense = 12;
+			NPC.noTileCollide = true;
+			NPC.dontTakeDamage = true;
+			NPC.lifeMax = 65;
+			NPC.HitSound = SoundID.NPCHit4;
+			NPC.value = 160f;
+			NPC.dontCountMe = true;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			if (npc.alpha != 255) {
-				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/SteamRaider/LaserBase_Glow"));
+			if (NPC.alpha != 255) {
+				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Boss/SteamRaider/LaserBase_Glow"));
 			}
 		}
 		int lifeSpan = 250;
@@ -42,32 +43,32 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public override bool PreAI()
 		{
 
-			npc.TargetClosest(true);
+			NPC.TargetClosest(true);
 			if (lifeSpan <= 0) {
-				npc.life = 0;
-				npc.active = false;
+				NPC.life = 0;
+				NPC.active = false;
 			}
-			Player player = Main.player[npc.target];
+			Player player = Main.player[NPC.target];
 			if (lifeSpan % 250 == 0) {
 				distAbove = 375;
 				if (Main.rand.Next(2) == 0) {
-					npc.position.X = player.Center.X - Main.rand.Next(300, 500);
-					npc.position.Y = player.Center.Y - distAbove;
-					npc.velocity.X = 3f;
+					NPC.position.X = player.Center.X - Main.rand.Next(300, 500);
+					NPC.position.Y = player.Center.Y - distAbove;
+					NPC.velocity.X = 3f;
 				}
 				else {
-					npc.position.X = player.Center.X + Main.rand.Next(300, 500);
-					npc.position.Y = player.Center.Y - distAbove;
-					npc.velocity.X = -3f;
+					NPC.position.X = player.Center.X + Main.rand.Next(300, 500);
+					NPC.position.Y = player.Center.Y - distAbove;
+					NPC.velocity.X = -3f;
 				}
-				npc.rotation = 0f;
-				npc.netUpdate = true;
+				NPC.rotation = 0f;
+				NPC.netUpdate = true;
 			}
-			npc.velocity.Y = 0;
+			NPC.velocity.Y = 0;
 			if (lifeSpan % fireRate == 0) {
-				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 91);
+				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 91);
 				for (int i = 0; i < 16; i++) {
-					int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.GoldCoin);
+					int dust = Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.GoldCoin);
 
 					Main.dust[dust].velocity *= -1f;
 					Main.dust[dust].noGravity = true;
@@ -78,9 +79,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					Main.dust[dust].velocity = vector2_2;
 					vector2_2.Normalize();
 					Vector2 vector2_3 = vector2_2 * 34f;
-					Main.dust[dust].position = (npc.Center) - vector2_3;
+					Main.dust[dust].position = (NPC.Center) - vector2_3;
 				}
-				Projectile.NewProjectile(npc.Center, new Vector2(0, 10), ModContent.ProjectileType<GlitchLaser>(), NPCUtils.ToActualDamage(55, 1.5f), 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(NPC.Center, new Vector2(0, 10), ModContent.ProjectileType<GlitchLaser>(), NPCUtils.ToActualDamage(55, 1.5f), 1, Main.myPlayer, 0, 0);
 			}
 			lifeSpan--;
 			return false;

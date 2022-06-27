@@ -1,6 +1,8 @@
 ﻿using Terraria;
 using System;
+using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -19,14 +21,14 @@ namespace SpiritMod.Items.Accessory.Ukelele
 
 		public override void SetDefaults()
 		{
-			item.width = 50;
-			item.height = 48;
-			item.value = Item.buyPrice(0, 3, 0, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.accessory = true;
+			Item.width = 50;
+			Item.height = 48;
+			Item.value = Item.buyPrice(0, 3, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.accessory = true;
 		}
 
-		public override void Update(ref float gravity, ref float maxFallSpeed) => Lighting.AddLight(item.Center, 0.075f, 0.231f, 0.255f);
+		public override void Update(ref float gravity, ref float maxFallSpeed) => Lighting.AddLight(Item.Center, 0.075f, 0.231f, 0.255f);
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<UkelelePlayer>().active = true;
 	}
@@ -47,9 +49,9 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		{
 			if (active && proj.type != ModContent.ProjectileType<UkeleleProj>() && Main.rand.Next(4) == 0 && overcharge < 30)
 			{
-				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Ukulele").WithPitchVariance(0.8f).WithVolume(0.7f), player.Center);
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 12).WithVolume(0.6f), target.Center);
-				Main.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
+				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Ukulele").WithPitchVariance(0.8f).WithVolume(0.7f), Player.Center);
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 12).WithVolume(0.6f), target.Center);
+				SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
 				DoLightningChain(target, damage);
 			}
 		}
@@ -58,9 +60,9 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		{
 			if (active && Main.rand.Next(4) == 0 && overcharge < 30)
 			{
-				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Ukulele").WithPitchVariance(0.8f).WithVolume(0.7f), player.Center);
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 12).WithVolume(0.6f), target.Center);
-				Main.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
+				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Ukulele").WithPitchVariance(0.8f).WithVolume(0.7f), Player.Center);
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 12).WithVolume(0.6f), target.Center);
+				SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
 	
 				DoLightningChain(target, damage);
 			}
@@ -70,16 +72,16 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		{
 			overcharge += 15;
 
-			ParticleHandler.SpawnParticle(new PulseCircle(player.Center, Color.Cyan * 0.124f, (.75f) * 100, 20, PulseCircle.MovementType.Outwards)
+			ParticleHandler.SpawnParticle(new PulseCircle(Player.Center, Color.Cyan * 0.124f, (.75f) * 100, 20, PulseCircle.MovementType.Outwards)
 			{
 				Angle = 0f,
 				ZRotation = 0,
 				Velocity = Vector2.Zero
 			});
 
-			Projectile.NewProjectile(target.Center + new Vector2(0, 16), Vector2.Zero, ModContent.ProjectileType<UkeleleProjTwo>(), 0, 0, player.whoAmI);
-			int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<UkeleleProj>(), damage / 2, 0, player.whoAmI);
-			if (Main.projectile[proj].modProjectile is UkeleleProj lightning)
+			Projectile.NewProjectile(target.Center + new Vector2(0, 16), Vector2.Zero, ModContent.ProjectileType<UkeleleProjTwo>(), 0, 0, Player.whoAmI);
+			int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<UkeleleProj>(), damage / 2, 0, Player.whoAmI);
+			if (Main.projectile[proj].ModProjectile is UkeleleProj lightning)
 			{
 				lightning.currentEnemy = target;
 				lightning.hit[5] = target;
@@ -96,65 +98,65 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ukulele");
-			Main.projFrames[projectile.type] = 4;
+			Main.projFrames[Projectile.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.ranged = true;
-			projectile.penetrate = 5;
-			projectile.timeLeft = 300;
-			projectile.aiStyle = -1;
-			projectile.height = 10;
-			projectile.width = 10;
-			projectile.alpha = 255;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 5;
+			Projectile.timeLeft = 300;
+			Projectile.aiStyle = -1;
+			Projectile.height = 10;
+			Projectile.width = 10;
+			Projectile.alpha = 255;
 		}
 
 		private int Mode
 		{
-			get => (int)projectile.ai[0];
-			set => projectile.ai[0] = value;
+			get => (int)Projectile.ai[0];
+			set => Projectile.ai[0] = value;
 		}
 
 		private NPC Target
 		{
-			get => Main.npc[(int)projectile.ai[1]];
-			set => projectile.ai[1] = value.whoAmI;
+			get => Main.npc[(int)Projectile.ai[1]];
+			set => Projectile.ai[1] = value.whoAmI;
 		}
 
 		private void SetOrigin(Vector2 value)
 		{
-			projectile.localAI[0] = value.X;
-			projectile.localAI[1] = value.Y;
+			Projectile.localAI[0] = value.X;
+			Projectile.localAI[1] = value.Y;
 		}
 
 		public override void AI()
 		{
 			if (Mode == 0)
 			{
-				SetOrigin(projectile.position);
+				SetOrigin(Projectile.position);
 				Mode = 1;
 			}
 			else
 			{
 				if (Mode == 2)
 				{
-					projectile.extraUpdates = 0;
-					projectile.numUpdates = 0;
+					Projectile.extraUpdates = 0;
+					Projectile.numUpdates = 0;
 				}
-				if (projectile.timeLeft < 300)
+				if (Projectile.timeLeft < 300)
 				{
 					animCounter--;
 					if (animCounter > 0)
-						projectile.Center = currentEnemy.Center;
+						Projectile.Center = currentEnemy.Center;
 					if (animCounter == 1)
 					{
 						NPC target = TargetNext(currentEnemy);
 						if (target != null && !target.friendly && !target.townNPC)
 						{
-							projectile.Center = target.Center;
+							Projectile.Center = target.Center;
 							for (int k = 0; k < 3; k++)
 							{
 								DustHelper.DrawElectricity(currentEnemy.Center, target.Center, 226, 0.5f);
@@ -162,10 +164,10 @@ namespace SpiritMod.Items.Accessory.Ukelele
 							Target = target;
 						}
 						else
-							projectile.Kill();
+							Projectile.Kill();
 					}
 				}
-				SetOrigin(projectile.position);
+				SetOrigin(Projectile.position);
 			}
 		}
 
@@ -184,7 +186,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 			float range = 50 * 14;
 			range *= range;
 			NPC target = null;
-			var center = projectile.Center;
+			var center = Projectile.Center;
 			for (int i = 0; i < 200; ++i)
 			{
 				NPC npc = Main.npc[i];
@@ -206,8 +208,8 @@ namespace SpiritMod.Items.Accessory.Ukelele
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			projectile.velocity = Vector2.Zero;
-			hit[projectile.penetrate - 1] = target;
+			Projectile.velocity = Vector2.Zero;
+			hit[Projectile.penetrate - 1] = target;
 			currentEnemy = target;
 			animCounter = 5;
 			ParticleHandler.SpawnParticle(new PulseCircle(target.Center, Color.Cyan * 0.4f, (.35f) * 100, 20, PulseCircle.MovementType.Outwards)
@@ -217,10 +219,10 @@ namespace SpiritMod.Items.Accessory.Ukelele
 				RingColor = Color.Cyan,
 				Velocity = Vector2.Zero
 			});
-			Projectile.NewProjectile(target.Center + new Vector2(0, 16), Vector2.Zero, ModContent.ProjectileType<UkeleleProjTwo>(), 0, 0, projectile.owner);
-			Main.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
+			Projectile.NewProjectile(target.Center + new Vector2(0, 16), Vector2.Zero, ModContent.ProjectileType<UkeleleProjTwo>(), 0, 0, Projectile.owner);
+			SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
 
-			projectile.netUpdate = true;
+			Projectile.netUpdate = true;
 		}
 	}
 
@@ -229,33 +231,33 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ukelele");
-			Main.projFrames[projectile.type] = 4;
+			Main.projFrames[Projectile.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.ranged = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 16;
-			projectile.aiStyle = -1;
-			projectile.height = 68;
-			projectile.width = 74;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 16;
+			Projectile.aiStyle = -1;
+			Projectile.height = 68;
+			Projectile.width = 74;
 		}
 
 		public override void AI()
 		{
-			projectile.frame = ((16 - projectile.timeLeft) / 4) - 1;
+			Projectile.frame = ((16 - Projectile.timeLeft) / 4) - 1;
 			Color color = Color.Cyan;
-			Lighting.AddLight((int)((projectile.position.X + (projectile.width / 2)) / 16f), (int)((projectile.position.Y + (projectile.height / 2)) / 16f), color.R / 450f, color.G / 450f, color.B / 450f);
+			Lighting.AddLight((int)((Projectile.position.X + (Projectile.width / 2)) / 16f), (int)((Projectile.position.Y + (Projectile.height / 2)) / 16f), color.R / 450f, color.G / 450f, color.B / 450f);
 		}
 
-		public override bool PreDraw(SpriteBatch sb, Color color)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 			int frameHeight = tex.Height / 4;
-			sb.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY), new Rectangle(0, projectile.frame * frameHeight, tex.Width, frameHeight), Color.White, projectile.rotation, new Vector2(tex.Width - (projectile.width / 2), frameHeight), projectile.scale, SpriteEffects.None, 0);
+			sb.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle(0, Projectile.frame * frameHeight, tex.Width, frameHeight), Color.White, Projectile.rotation, new Vector2(tex.Width - (Projectile.width / 2), frameHeight), Projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 	}

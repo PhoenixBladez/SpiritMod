@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Accessory.RabbitFoot
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 30;
-			item.value = Item.sellPrice(copper: 1);
-			item.rare = ItemRarityID.Blue;
-			item.accessory = true;
+			Item.width = 30;
+			Item.height = 30;
+			Item.value = Item.sellPrice(copper: 1);
+			Item.rare = ItemRarityID.Blue;
+			Item.accessory = true;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Accessory.RabbitFoot
 
 		public override void ModifyTooltips(System.Collections.Generic.List<TooltipLine> tooltips) 
 		{
-			var b = new TooltipLine(mod, "SpiritMod:Rabbit_Foot", "'This must be Lucky!'");
+			var b = new TooltipLine(Mod, "SpiritMod:Rabbit_Foot", "'This must be Lucky!'");
 			tooltips.Insert(2, b);
 		}
 	}

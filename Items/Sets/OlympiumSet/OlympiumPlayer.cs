@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet
 				healValue = (int)(healValue * .85f); //We add the buff in OlympiumGlobalItem.UseItem
 		}
 
-		public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
+		public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
 		{
 			if (eleutherios)
 				mult += eleutheoriosStrength + 1;

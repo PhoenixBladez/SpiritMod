@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
 {
 	public class RedNeonCandle : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
             Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -26,13 +26,13 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight; //allows me to place example chairs facing the same way as the player
             TileObjectData.addAlternate(1); //facing right will use the second texture style
             TileObjectData.addTile(Type);
-            drop = ModContent.ItemType<Items.Placeable.Furniture.Neon.NeonCandleRed>();
+            ItemDrop = ModContent.ItemType<Items.Placeable.Furniture.Neon.NeonCandleRed>();
 			ModTranslation name = CreateMapEntryName();
 			Main.tileLighted[Type] = true;
 			name.SetDefault("Fluorescent Candle");
             AddMapEntry(new Color(222, 31, 56), name);
-            adjTiles = new int[] { TileID.Torches };
-            dustType = -1;
+            AdjTiles = new int[] { TileID.Torches };
+            DustType = -1;
         }
 
 
@@ -53,8 +53,8 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/NeonLights/RedNeonCandle_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Furniture/NeonLights/RedNeonCandle_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			Tile t = Main.tile[i, j];
 		}
 	}

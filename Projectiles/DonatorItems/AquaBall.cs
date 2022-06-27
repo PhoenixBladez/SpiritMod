@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,22 +17,22 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.minion = true;
-			projectile.penetrate = 1;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 500;
-			projectile.height = 8;
-			projectile.width = 8;
-			projectile.alpha = 255;
-			aiType = ProjectileID.Bullet;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.minion = true;
+			Projectile.penetrate = 1;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 500;
+			Projectile.height = 8;
+			Projectile.width = 8;
+			Projectile.alpha = 255;
+			AIType = ProjectileID.Bullet;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void AI()
 		{
-			Vector2 targetPos = projectile.Center;
+			Vector2 targetPos = Projectile.Center;
 			float targetDist = 900f;
 			bool targetAcquired = false;
 
@@ -39,9 +40,9 @@ namespace SpiritMod.Projectiles.DonatorItems
 			//this loop finds the closest valid target NPC within the range of targetDist pixels
 			for (int i = 0; i < 200; i++)
 			{
-				if (Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+				if (Main.npc[i].CanBeChasedBy(Projectile) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
 				{
-					float dist = projectile.Distance(Main.npc[i].Center);
+					float dist = Projectile.Distance(Main.npc[i].Center);
 					if (dist < targetDist)
 					{
 						targetDist = dist;
@@ -55,8 +56,8 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 			for (int i = 0; i < 10; i++)
 			{
-				float x = projectile.Center.X - projectile.velocity.X / 10f * i;
-				float y = projectile.Center.Y - projectile.velocity.Y / 10f * i;
+				float x = Projectile.Center.X - Projectile.velocity.X / 10f * i;
+				float y = Projectile.Center.Y - Projectile.velocity.Y / 10f * i;
 				int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.DungeonWater);
 				Main.dust[num].velocity = Vector2.Zero;
 				Main.dust[num].noGravity = true;
@@ -64,16 +65,16 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 			//change trajectory to home in on target
 			if (targetAcquired)
-				projectile.velocity = projectile.DirectionTo(targetPos) * 4;
+				Projectile.velocity = Projectile.DirectionTo(targetPos) * 4;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 10);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 10);
 
 			for (int num623 = 0; num623 < 35; num623++)
 			{
-				int dust = Dust.NewDust(projectile.position - projectile.velocity, projectile.width, projectile.height, DustID.DungeonWater, 0, 0);
+				int dust = Dust.NewDust(Projectile.position - Projectile.velocity, Projectile.width, Projectile.height, DustID.DungeonWater, 0, 0);
 				Main.dust[dust].noGravity = true;
 			}
 		}

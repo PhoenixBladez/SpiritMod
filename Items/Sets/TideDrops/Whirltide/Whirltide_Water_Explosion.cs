@@ -13,17 +13,17 @@ namespace SpiritMod.Items.Sets.TideDrops.Whirltide
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 60;
-			projectile.height = 60;
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.WoodenArrowFriendly;
-			projectile.hide = true;
-			projectile.penetrate = -1;
-			projectile.magic = true;
-			projectile.friendly = true;
-			projectile.scale = 1f;
-			projectile.extraUpdates = 1;
-			projectile.timeLeft = 60;
+			Projectile.width = 60;
+			Projectile.height = 60;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.WoodenArrowFriendly;
+			Projectile.hide = true;
+			Projectile.penetrate = -1;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.friendly = true;
+			Projectile.scale = 1f;
+			Projectile.extraUpdates = 1;
+			Projectile.timeLeft = 60;
 		}
 		public override Color? GetAlpha(Color lightColor)
 		{
@@ -40,11 +40,11 @@ namespace SpiritMod.Items.Sets.TideDrops.Whirltide
 				  4,
 				  157
 					});
-					Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, Type, projectile.velocity.X, projectile.velocity.Y, 100, new Color(), 1f)];
-					dust.velocity = dust.velocity / 4f + projectile.velocity / 2f;
+					Dust dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Type, Projectile.velocity.X, Projectile.velocity.Y, 100, new Color(), 1f)];
+					dust.velocity = dust.velocity / 4f + Projectile.velocity / 2f;
 					dust.scale = (float)(0.800000011920929 + (double)Main.rand.NextFloat() * 0.400000005960464);
-					dust.position = projectile.Center;
-					dust.position += new Vector2((float)(projectile.width / 3), 0.0f).RotatedBy(6.28318548202515 * (double)Main.rand.NextFloat(), new Vector2()) * Main.rand.NextFloat();
+					dust.position = Projectile.Center;
+					dust.position += new Vector2((float)(Projectile.width / 3), 0.0f).RotatedBy(6.28318548202515 * (double)Main.rand.NextFloat(), new Vector2()) * Main.rand.NextFloat();
 					dust.noLight = true;
 					dust.noGravity = true;
 					if (dust.type == 4)
@@ -55,9 +55,9 @@ namespace SpiritMod.Items.Sets.TideDrops.Whirltide
 			}
 			float num2 = 60f;
 
-			++projectile.ai[1];
+			++Projectile.ai[1];
 
-			float num3 = projectile.ai[1] / num2;
+			float num3 = Projectile.ai[1] / num2;
 			Vector2 spinningpoint = new Vector2(0.0f, -30f);
 			spinningpoint = spinningpoint.RotatedBy((double)num3 * 1.5 * 6.28318548202515, new Vector2()) * new Vector2(1f, 0.4f);
 			for (int index1 = 0; index1 < 4; ++index1)
@@ -84,14 +84,14 @@ namespace SpiritMod.Items.Sets.TideDrops.Whirltide
 					vector2 = Vector2.UnitY * 20f;
 					num4 = 0.6f;
 				}
-				int index2 = Dust.NewDust(projectile.Center, 0, 0, DustID.ChlorophyteWeapon, 0.0f, 0.0f, 100, new Color(), 1f);
+				int index2 = Dust.NewDust(Projectile.Center, 0, 0, DustID.ChlorophyteWeapon, 0.0f, 0.0f, 100, new Color(), 1f);
 				Main.dust[index2].noGravity = true;
-				Main.dust[index2].position = projectile.Center + spinningpoint * num4 + vector2;
+				Main.dust[index2].position = Projectile.Center + spinningpoint * num4 + vector2;
 				Main.dust[index2].velocity = Vector2.Zero;
 				spinningpoint *= -1f;
-				int index3 = Dust.NewDust(projectile.Center, 0, 0, DustID.ChlorophyteWeapon, 0.0f, 0.0f, 100, new Color(), 1f);
+				int index3 = Dust.NewDust(Projectile.Center, 0, 0, DustID.ChlorophyteWeapon, 0.0f, 0.0f, 100, new Color(), 1f);
 				Main.dust[index3].noGravity = true;
-				Main.dust[index3].position = projectile.Center + spinningpoint * num4 + vector2;
+				Main.dust[index3].position = Projectile.Center + spinningpoint * num4 + vector2;
 				Main.dust[index3].velocity = Vector2.Zero;
 			}
 		}

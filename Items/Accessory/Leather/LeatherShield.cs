@@ -17,12 +17,12 @@ namespace SpiritMod.Items.Accessory.Leather
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 28;
-			item.rare = ItemRarityID.Blue;
-			item.value = 1900;
-			item.defense = 1;
-			item.accessory = true;
+			Item.width = 24;
+			Item.height = 28;
+			Item.rare = ItemRarityID.Blue;
+			Item.value = 1900;
+			Item.defense = 1;
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -31,12 +31,11 @@ namespace SpiritMod.Items.Accessory.Leather
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 8);
 			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 5);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

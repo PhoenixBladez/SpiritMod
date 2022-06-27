@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Zones
 {
 	public class HealthZoneTimer : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Healing Zone");
 			Description.SetDefault("The Healing Zone is up!");

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using SpiritMod.Buffs;
@@ -19,9 +20,9 @@ namespace SpiritMod.Items.Sets.ClubSubclass.ClubSandwich
 		}
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 16;
-			item.maxStack = 1;
+			Item.width = 16;
+			Item.height = 16;
+			Item.maxStack = 1;
 		}
 
 		public override bool ItemSpace(Player player)
@@ -30,7 +31,7 @@ namespace SpiritMod.Items.Sets.ClubSubclass.ClubSandwich
 		}
 		public override bool OnPickup(Player player)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 2));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 2));
 			{
 				player.AddBuff(BuffID.WellFed, 240);
 			}

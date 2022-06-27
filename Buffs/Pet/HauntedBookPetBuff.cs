@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.Pet
 {
 	public class HauntedBookPetBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Haunted Tome");
 			Description.SetDefault("'Haunted, yet comforting'");

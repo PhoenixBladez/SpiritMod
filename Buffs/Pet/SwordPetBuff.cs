@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.Pet
 {
 	public class SwordPetBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Possessed Blade");
 			Description.SetDefault("'Is this a dagger I see in front of me?'");

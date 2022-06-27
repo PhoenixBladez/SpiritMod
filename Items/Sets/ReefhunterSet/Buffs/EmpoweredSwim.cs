@@ -5,7 +5,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Buffs
 {
 	public class EmpoweredSwim : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Empowered Swim");
 			Description.SetDefault("You feel much faster in water");

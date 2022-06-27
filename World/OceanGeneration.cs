@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using SpiritMod.Tiles.Ambient.Corals;
@@ -14,6 +13,7 @@ using SpiritMod.Items.Sets.PirateStuff.DuelistLegacy;
 using SpiritMod.Items.Sets.GunsMisc.LadyLuck;
 using SpiritMod.Items.Sets.FloatingItems;
 using Terraria.Localization;
+using Terraria.WorldBuilding;
 
 namespace SpiritMod.World
 {
@@ -49,7 +49,7 @@ namespace SpiritMod.World
 				{
 					bool liq = PlaceTileOrLiquid(placeX, placeY, oceanTop, depth);
 
-					if (!passedTile && !Framing.GetTileSafely(placeX, placeY + 1).active())
+					if (!passedTile && !Framing.GetTileSafely(placeX, placeY + 1).HasTile)
 					{
 						if (!liq)
 							thickness++;
@@ -84,7 +84,7 @@ namespace SpiritMod.World
 						initialWidth = 275;
 
 					int oceanTop;
-					for (oceanTop = 0; !Main.tile[initialWidth - 1, oceanTop].active(); oceanTop++)
+					for (oceanTop = 0; !Main.tile[initialWidth - 1, oceanTop].HasTile; oceanTop++)
 					{ } //Get top of ocean
 
 					CheckOceanHeight(ref oceanTop);
@@ -101,7 +101,7 @@ namespace SpiritMod.World
 						worldEdge = Main.maxTilesX - 275;
 
 					int oceanTop;
-					for (oceanTop = 0; !Main.tile[worldEdge - 1, oceanTop].active(); oceanTop++)
+					for (oceanTop = 0; !Main.tile[worldEdge - 1, oceanTop].HasTile; oceanTop++)
 					{ } //Get top of ocean
 
 					CheckOceanHeight(ref oceanTop);
@@ -125,7 +125,7 @@ namespace SpiritMod.World
 				for (int k = i; k < i + width; ++k)
 				{
 					Tile t = Framing.GetTileSafely(k, j);
-					if (!t.active() || t.type != type || t.topSlope() || !Main.tileSolid[t.type])
+					if (!t.HasTile || t.TileType != type || t.TopSlope || !Main.tileSolid[t.TileType])
 						return false;
 				}
 				return true;
@@ -138,7 +138,7 @@ namespace SpiritMod.World
 					for (int l = j; l < j + height; ++l)
 					{
 						Tile t = Framing.GetTileSafely(k, l);
-						if (t.active() || t.liquid < 200)
+						if (t.HasTile || t.LiquidAmount < 200)
 							return false;
 					}
 				}
@@ -217,7 +217,7 @@ namespace SpiritMod.World
 					{
 						int height = WorldGen.genRand.Next(6, 23) + 2;
 						int offset = 1;
-						while (!Framing.GetTileSafely(i, j - offset).active() && Framing.GetTileSafely(i, j - offset).liquid > 155 && height > 0)
+						while (!Framing.GetTileSafely(i, j - offset).HasTile && Framing.GetTileSafely(i, j - offset).LiquidAmount > 155 && height > 0)
 						{
 							WorldGen.PlaceTile(i, j - offset++, ModContent.TileType<OceanKelp>());
 							height--;
@@ -265,7 +265,7 @@ namespace SpiritMod.World
 			{
 				WorldGen.KillTile(chest.X + i, chest.Y, false, false, true);
 				WorldGen.PlaceTile(chest.X + i, chest.Y , TileID.HardenedSand, true, false);
-				Framing.GetTileSafely(chest.X + i, chest.Y).slope(0);
+				Framing.GetTileSafely(chest.X + i, chest.Y).Slope = 0;
 			}
 
 			int BarStack() => WorldGen.genRand.Next(3, 7);
@@ -347,26 +347,26 @@ namespace SpiritMod.World
 		{
 			if (placeY < oceanTop + depth - 3f)
 			{
-				Main.tile[placeX, placeY].active(active: false);
+				Main.tile[placeX, placeY].HasTile = false;
 
 				if (placeY > oceanTop + 5)
-					Main.tile[placeX, placeY].liquid = byte.MaxValue;
+					Main.tile[placeX, placeY].LiquidAmount = byte.MaxValue;
 				else if (placeY == oceanTop + 5)
-					Main.tile[placeX, placeY].liquid = 127;
+					Main.tile[placeX, placeY].LiquidAmount = 127;
 
-				Main.tile[placeX, placeY].wall = 0;
+				Main.tile[placeX, placeY].WallType = 0;
 				return true;
 			}
 			else if (placeY > oceanTop)
 			{
 				if (placeY < oceanTop + depth + 8)
-					Main.tile[placeX, placeY].type = TileID.Sand;
+					Main.tile[placeX, placeY].TileType = TileID.Sand;
 				else
-					Main.tile[placeX, placeY].type = TileID.HardenedSand;
-				Main.tile[placeX, placeY].active(active: true);
+					Main.tile[placeX, placeY].TileType = TileID.HardenedSand;
+				Main.tile[placeX, placeY].HasTile = true;
 			}
 
-			Main.tile[placeX, placeY].wall = 0;
+			Main.tile[placeX, placeY].WallType = 0;
 			return false;
 		}
 

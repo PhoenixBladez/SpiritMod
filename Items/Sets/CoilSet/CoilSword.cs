@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,39 +15,39 @@ namespace SpiritMod.Items.Sets.CoilSet
 		{
 			DisplayName.SetDefault("Coiled Blade");
 			Tooltip.SetDefault("Every six successful hits on an enemy releases an electrical explosion");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/CoilSet/CoilSword_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/CoilSet/CoilSword_Glow");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 22;
-			item.melee = true;
-			item.width = 40;
-			item.height = 40;
-			item.useTime = 23;
-			item.useAnimation = 23;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 5;
-			item.value = Item.sellPrice(0, 0, 40, 0);
-			item.rare = ItemRarityID.Green;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.useTurn = true;
+			Item.damage = 22;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 40;
+			Item.height = 40;
+			Item.useTime = 23;
+			Item.useAnimation = 23;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 5;
+			Item.value = Item.sellPrice(0, 0, 40, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.useTurn = true;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.08f, .12f, .52f);
+			Lighting.AddLight(Item.position, 0.08f, .12f, .52f);
 
-			Texture2D texture = Main.itemTexture[item.type];
+			Texture2D texture = TextureAssets.Item[Item.type].Value;
 
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/CoilSet/CoilSword_Glow"),
+				Mod.GetTexture("Items/Sets/CoilSet/CoilSword_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -59,23 +61,22 @@ namespace SpiritMod.Items.Sets.CoilSet
 
 		int charger;
 
-		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
 			charger++;
 			if (charger >= 6) {
-				Main.PlaySound(SoundID.Item, (int)target.position.X, (int)target.position.Y, 14);
-				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CoiledExplosion>(), damage, knockBack, player.whoAmI);
+				SoundEngine.PlaySound(SoundID.Item, (int)target.position.X, (int)target.position.Y, 14);
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CoiledExplosion>(), damage, knockback, player.whoAmI);
 				charger = 0;
 			}
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe();
 			modRecipe.AddIngredient(ModContent.ItemType<TechDrive>(), 4);
 			modRecipe.AddTile(TileID.Anvils);
-			modRecipe.SetResult(this);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

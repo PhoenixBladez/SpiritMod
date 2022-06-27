@@ -19,29 +19,28 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 36;
-			item.value = Item.sellPrice(silver: 14);
-			item.rare = ItemRarityID.Blue;
-			item.pick = 55;
-			item.damage = 5;
-			item.knockBack = 2;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 15;
-			item.useAnimation = 15;
-			item.melee = true;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.UseSound = SoundID.Item1;
+			Item.width = 36;
+			Item.height = 36;
+			Item.value = Item.sellPrice(silver: 14);
+			Item.rare = ItemRarityID.Blue;
+			Item.pick = 55;
+			Item.damage = 5;
+			Item.knockBack = 2;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
+			Item.DamageType = DamageClass.Melee;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.UseSound = SoundID.Item1;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<Chitin>(), 10);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
 		public override float MeleeSpeedMultiplier(Player player)
@@ -67,8 +66,8 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 				TileID.PalmWood
 			};
 
-			if (SandTiles.Contains(Main.tile[mousetilecoords.X, mousetilecoords.Y].type) && player.WithinPlacementRange(mousetilecoords.X, mousetilecoords.Y) ||
-				Main.SmartCursorEnabled && Main.SmartCursorShowing && SandTiles.Contains(Main.tile[Main.SmartCursorX, Main.SmartCursorY].type)) {
+			if (SandTiles.Contains(Main.tile[mousetilecoords.X, mousetilecoords.Y].TileType) && player.WithinPlacementRange(mousetilecoords.X, mousetilecoords.Y) ||
+				Main.SmartCursorIsUsed && Main.SmartCursorShowing && SandTiles.Contains(Main.tile[Main.SmartCursorX, Main.SmartCursorY].TileType)) {
 				player.pickSpeed *= 0.6f;
 				return 1.2f;
 			}

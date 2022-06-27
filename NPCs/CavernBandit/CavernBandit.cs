@@ -2,10 +2,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using System.IO;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.CavernBandit
 {
@@ -19,28 +22,28 @@ namespace SpiritMod.NPCs.CavernBandit
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cavern Bandit");
-			Main.npcFrameCount[npc.type] = 16;
-			NPCID.Sets.TrailCacheLength[npc.type] = 20;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 16;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 20;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			npc.aiStyle =  3;
-			npc.lifeMax = 45;
-			npc.defense = 6;
-			npc.value = 65f;
-			aiType = NPCID.Skeleton;
-			npc.knockBackResist = 0.7f;
-			npc.width = 30;
-			npc.height = 42;
-			npc.damage = 15;
-			npc.lavaImmune = false;
-			npc.noTileCollide = false;
-			npc.alpha = 0;
-			npc.dontTakeDamage = false;
-			npc.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 1);
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.CavernBanditBanner>();
+			NPC.aiStyle =  3;
+			NPC.lifeMax = 45;
+			NPC.defense = 6;
+			NPC.value = 65f;
+			AIType = NPCID.Skeleton;
+			NPC.knockBackResist = 0.7f;
+			NPC.width = 30;
+			NPC.height = 42;
+			NPC.damage = 15;
+			NPC.lavaImmune = false;
+			NPC.noTileCollide = false;
+			NPC.alpha = 0;
+			NPC.dontTakeDamage = false;
+			NPC.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 1);
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<Items.Banners.CavernBanditBanner>();
 		}
 
 		private const float SWING_RADIUS = 60f; //How far away from the targetted player the npc must be to begin its attack
@@ -48,29 +51,29 @@ namespace SpiritMod.NPCs.CavernBandit
 		public override bool PreAI()
 		{
 			_timer += 0.05;
-			Player player = Main.player[npc.target];
+			Player player = Main.player[NPC.target];
 
-			npc.TargetClosest(true);
+			NPC.TargetClosest(true);
 
 			if (_activated)
 			{
-				if (Vector2.Distance(player.Center, npc.Center) <= SWING_RADIUS)
-					npc.velocity.X = 0f;
+				if (Vector2.Distance(player.Center, NPC.Center) <= SWING_RADIUS)
+					NPC.velocity.X = 0f;
 			}
 
-			else if (Vector2.Distance(player.Center, npc.Center) < AWAKE_RADIUS && !_activated) 
+			else if (Vector2.Distance(player.Center, NPC.Center) < AWAKE_RADIUS && !_activated) 
 				_activated = true;
 
-			if (npc.life < npc.lifeMax)
+			if (NPC.life < NPC.lifeMax)
 				_activated = true;
 
-			Lighting.AddLight(new Vector2(npc.Center.X, npc.Center.Y - 40), 255 * 0.002f, 255 * 0.002f, 0 * 0.001f);
+			Lighting.AddLight(new Vector2(NPC.Center.X, NPC.Center.Y - 40), 255 * 0.002f, 255 * 0.002f, 0 * 0.001f);
 
 
-			if (npc.velocity.X < 0f)
+			if (NPC.velocity.X < 0f)
 				_spriteDirection = 1;
 
-			else if (npc.velocity.X > 0f)
+			else if (NPC.velocity.X > 0f)
 				_spriteDirection = -1;
 
 			if (!_activated) 
@@ -79,25 +82,25 @@ namespace SpiritMod.NPCs.CavernBandit
 			return base.PreAI();
 		}
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (Main.rand.NextBool(24))
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagicLantern);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.MagicLantern);
 			if (Main.rand.NextBool(6))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Hook);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Hook);
 		}
 
         public override void HitEffect(int hitDirection, double damage)
 		{
-			Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 4, 1f, 0f);
-			if (npc.life <= 0) 
+			SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 4, 1f, 0f);
+			if (NPC.life <= 0) 
 				for(int i = 1; i <= 4; i++)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot($"Gores/CavernBanditGore{i}"), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>($"Gores/CavernBanditGore{i}").Type, 1f);
 
 			for (int k = 0; k < 7; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
 			}
 		}
 
@@ -105,69 +108,69 @@ namespace SpiritMod.NPCs.CavernBandit
 
 		public override void FindFrame(int frameHeight)
 		{
-			Player player = Main.player[npc.target];
-			npc.frameCounter++;
+			Player player = Main.player[NPC.target];
+			NPC.frameCounter++;
 
 			//Method to look less repetitive
 			void IncrementFrame(int frameCounterThreshold, int maxFrame, int minFrame = 0)
 			{
-				if(npc.frameCounter >= frameCounterThreshold)
+				if(NPC.frameCounter >= frameCounterThreshold)
 				{
 					_frame++;
-					npc.frameCounter = 0;
-					npc.netUpdate = true;
+					NPC.frameCounter = 0;
+					NPC.netUpdate = true;
 				}
 
 				if(_frame >= maxFrame)
 				{
 					_frame = minFrame;
-					npc.netUpdate = true;
+					NPC.netUpdate = true;
 				}
 
 				if(_frame < minFrame)
 				{
 					_frame = minFrame;
-					npc.netUpdate = true;
+					NPC.netUpdate = true;
 				}
 			}
 
 			if (_activated) {
-				if (Vector2.Distance(player.Center, npc.Center) >= SWING_RADIUS) //Update between first 7 frames when not swinging
+				if (Vector2.Distance(player.Center, NPC.Center) >= SWING_RADIUS) //Update between first 7 frames when not swinging
 					IncrementFrame(7, 7);
 
 				else //Update between the next 5 frames if swinging
 				{
 					IncrementFrame(5, 13, 7);
-					if (_frame == 9 && npc.frameCounter == 4 && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0)) //Damage target on specific frame
-						player.Hurt(PlayerDeathReason.LegacyDefault(), (int)npc.damage * 2, npc.direction * -1, false, false, false, -1);
+					if (_frame == 9 && NPC.frameCounter == 4 && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0)) //Damage target on specific frame
+						player.Hurt(PlayerDeathReason.LegacyDefault(), (int)NPC.damage * 2, NPC.direction * -1, false, false, false, -1);
 				}
 			}
 			else
 				if (!_pickedFrame) { //Choose a random frame if not awakened
 					_frame = Main.rand.Next(13, 16);
 					_pickedFrame = true;
-					npc.netUpdate = true;
+					NPC.netUpdate = true;
 				}
 
-			npc.frame.Y = frameHeight * _frame;
+			NPC.frame.Y = frameHeight * _frame;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (_spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
-			int xpos = (int)((npc.Center.X + 59) - Main.screenPosition.X) - (int)(Main.npcTexture[npc.type].Width / 2);
-			int ypos = (int)((npc.Center.Y - 60) - Main.screenPosition.Y) + (int)(Math.Sin(_timer) * 12);
-			Texture2D ripple = mod.GetTexture("Effects/Ripple");
-			Texture2D lantern = mod.GetTexture("NPCs/CavernBandit/CavernLantern");
-			Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), Color.Yellow, npc.rotation, ripple.Size() / 2f, 1f, spriteEffects, 0);
-			Main.spriteBatch.Draw(lantern, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), Color.White, npc.rotation, lantern.Size() / 2f, 1f, spriteEffects, 0);
+			int xpos = (int)((NPC.Center.X + 59) - Main.screenPosition.X) - (int)(TextureAssets.Npc[NPC.type].Value.Width / 2);
+			int ypos = (int)((NPC.Center.Y - 60) - Main.screenPosition.Y) + (int)(Math.Sin(_timer) * 12);
+			Texture2D ripple = Mod.GetTexture("Effects/Ripple");
+			Texture2D lantern = Mod.GetTexture("NPCs/CavernBandit/CavernLantern");
+			Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), Color.Yellow, NPC.rotation, ripple.Size() / 2f, 1f, spriteEffects, 0);
+			Main.spriteBatch.Draw(lantern, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), Color.White, NPC.rotation, lantern.Size() / 2f, 1f, spriteEffects, 0);
 
-			Texture2D npcTex = Main.npcTexture[npc.type];
-			Vector2 yOffset = new Vector2(0, npc.gfxOffY);
+			Texture2D npcTex = TextureAssets.Npc[NPC.type].Value;
+			Vector2 yOffset = new Vector2(0, NPC.gfxOffY);
 			yOffset.Y += 22; //hardcoded offset so its on ground properly
-			spriteBatch.Draw(npcTex, npc.Center - Main.screenPosition + yOffset, npc.frame, npc.GetAlpha(drawColor), npc.rotation, new Vector2(npc.frame.Width/2f, npc.frame.Height), npc.scale, spriteEffects, 0);
+			spriteBatch.Draw(npcTex, NPC.Center - Main.screenPosition + yOffset, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, new Vector2(NPC.frame.Width/2f, NPC.frame.Height), NPC.scale, spriteEffects, 0);
 			return false;
 		}
 

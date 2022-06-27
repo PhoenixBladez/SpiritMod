@@ -21,36 +21,36 @@ namespace SpiritMod.NPCs.Town
 		public override bool Autoload(ref string name)
 		{
 			name = "Gambler";
-			return mod.Properties.Autoload;
+			return Mod.Properties.Autoload;
 		}
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gambler");
-			Main.npcFrameCount[npc.type] = 26;
-			NPCID.Sets.ExtraFramesCount[npc.type] = 9;
-			NPCID.Sets.AttackFrameCount[npc.type] = 4;
-			NPCID.Sets.DangerDetectRange[npc.type] = 700;
-			NPCID.Sets.AttackType[npc.type] = 0;
-			NPCID.Sets.AttackTime[npc.type] = 90;
-			NPCID.Sets.AttackAverageChance[npc.type] = 30;
-			NPCID.Sets.HatOffsetY[npc.type] = 4;
+			Main.npcFrameCount[NPC.type] = 26;
+			NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
+			NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+			NPCID.Sets.DangerDetectRange[NPC.type] = 700;
+			NPCID.Sets.AttackType[NPC.type] = 0;
+			NPCID.Sets.AttackTime[NPC.type] = 90;
+			NPCID.Sets.AttackAverageChance[NPC.type] = 30;
+			NPCID.Sets.HatOffsetY[NPC.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.townNPC = true;
-			npc.friendly = true;
-			npc.width = 18;
-			npc.height = 40;
-			npc.aiStyle = 7;
-			npc.damage = 10;
-			npc.defense = 15;
-			npc.lifeMax = 250;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = 0.5f;
-			animationType = NPCID.Guide;
+			NPC.townNPC = true;
+			NPC.friendly = true;
+			NPC.width = 18;
+			NPC.height = 40;
+			NPC.aiStyle = 7;
+			NPC.damage = 10;
+			NPC.defense = 15;
+			NPC.lifeMax = 250;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.knockBackResist = 0.5f;
+			AnimationType = NPCID.Guide;
 		}
 
 		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
@@ -191,28 +191,28 @@ namespace SpiritMod.NPCs.Town
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gambler/Gambler1"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gambler/Gambler2"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gambler/Gambler3"));
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gambler/Gambler1").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gambler/Gambler2").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gambler/Gambler3").Type);
 
 				for (int numGore = 0; numGore < 15; numGore++)
 				{
-					int g = Gore.NewGore(npc.position, npc.velocity * Main.rand.NextFloat(0.5f, 1.3f), mod.GetGoreSlot("Gores/GamblerCash"));
+					int g = Gore.NewGore(NPC.position, NPC.velocity * Main.rand.NextFloat(0.5f, 1.3f), Mod.Find<ModGore>("Gores/GamblerCash").Type);
 					Main.gore[g].scale = Main.rand.NextFloat(.5f, 1f);
 				}
 				for (int num621 = 0; num621 < 14; num621++)
 				{
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Dusts.CoinDust>(), 0f, -2f, 0, default, 1.2f);
+					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, ModContent.DustType<Dusts.CoinDust>(), 0f, -2f, 0, default, 1.2f);
 					Main.dust[num].scale = Main.rand.NextFloat(.8f, 1.2f);
 					Main.dust[num].noGravity = true;
 					Dust dust = Main.dust[num];
 					dust.position.X = dust.position.X + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
 					dust.position.Y = dust.position.Y + ((Main.rand.Next(-50, 51) / 20) - 1.5f);
-					if (Main.dust[num].position != npc.Center)
+					if (Main.dust[num].position != NPC.Center)
 					{
-						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 3f;
+						Main.dust[num].velocity = NPC.DirectionTo(Main.dust[num].position) * 3f;
 					}
 				}
 			}

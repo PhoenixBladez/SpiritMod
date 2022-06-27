@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -12,65 +13,65 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Grouper");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[NPC.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 52;
-			npc.height = 22;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 35;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = .35f;
-			npc.aiStyle = 16;
-			npc.noGravity = true;
-			npc.dontCountMe = true;
-			npc.npcSlots = 0;
-			aiType = NPCID.Goldfish;
+			NPC.width = 52;
+			NPC.height = 22;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 35;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.knockBackResist = .35f;
+			NPC.aiStyle = 16;
+			NPC.noGravity = true;
+			NPC.dontCountMe = true;
+			NPC.npcSlots = 0;
+			AIType = NPCID.Goldfish;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 		public override void AI()
         {
-            Player player = Main.player[npc.target];
+            Player player = Main.player[NPC.target];
             {
-                Player target = Main.player[npc.target];
-                int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
-                if (distance < 65 && target.wet && npc.wet)
+                Player target = Main.player[NPC.target];
+                int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
+                if (distance < 65 && target.wet && NPC.wet)
                 {
-                    Vector2 vel = npc.DirectionFrom(target.Center);
+                    Vector2 vel = NPC.DirectionFrom(target.Center);
                     vel.Normalize();
                     vel *= 4.5f;
-                    npc.velocity = vel;
-                    npc.rotation = npc.velocity.X * .06f;
-                    if (target.position.X > npc.position.X)
+                    NPC.velocity = vel;
+                    NPC.rotation = NPC.velocity.X * .06f;
+                    if (target.position.X > NPC.position.X)
                     {
-                        npc.spriteDirection = -1;
-                        npc.direction = -1;
-                        npc.netUpdate = true;
+                        NPC.spriteDirection = -1;
+                        NPC.direction = -1;
+                        NPC.netUpdate = true;
                     }
-                    else if (target.position.X < npc.position.X)
+                    else if (target.position.X < NPC.position.X)
                     {
-                        npc.spriteDirection = 1;
-                        npc.direction = 1;
-                        npc.netUpdate = true;
+                        NPC.spriteDirection = 1;
+                        NPC.direction = 1;
+                        NPC.netUpdate = true;
                     }
                 }
             }
@@ -78,24 +79,24 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
+			if (NPC.life <= 0) {
 
 				for (int num621 = 0; num621 < 40; num621++) {
-					int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood);
+					int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 0.5f;
 					Main.dust[dust].scale *= .6f;
 				}
 			}
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RawFish"), Main.rand.Next(2, 4));
+			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("RawFish").Type, Main.rand.Next(2, 4));
 
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneBeach && spawnInfo.water ? 0.029f : 0f;
+			return spawnInfo.Player.ZoneBeach && spawnInfo.Water ? 0.029f : 0f;
 		}
 	}
 }

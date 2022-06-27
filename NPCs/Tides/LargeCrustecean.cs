@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Sets.TideDrops;
@@ -11,25 +12,25 @@ namespace SpiritMod.NPCs.Tides
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bubble Brute");
-			Main.npcFrameCount[npc.type] = 9;
+			Main.npcFrameCount[NPC.type] = 9;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 80;
-			npc.height = 82;
-			npc.damage = 25;
-			npc.defense = 4;
-			aiType = NPCID.WalkingAntlion;
-			npc.aiStyle = 3;
-			npc.lifeMax = 375;
-			npc.knockBackResist = .2f;
-			npc.value = 200f;
-			npc.noTileCollide = false;
-			npc.HitSound = SoundID.NPCHit18;
-			npc.DeathSound = SoundID.NPCDeath5;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.BubbleBruteBanner>();
+			NPC.width = 80;
+			NPC.height = 82;
+			NPC.damage = 25;
+			NPC.defense = 4;
+			AIType = NPCID.WalkingAntlion;
+			NPC.aiStyle = 3;
+			NPC.lifeMax = 375;
+			NPC.knockBackResist = .2f;
+			NPC.value = 200f;
+			NPC.noTileCollide = false;
+			NPC.HitSound = SoundID.NPCHit18;
+			NPC.DeathSound = SoundID.NPCDeath5;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.BubbleBruteBanner>();
 		}
 
 		bool blocking = false;
@@ -37,24 +38,24 @@ namespace SpiritMod.NPCs.Tides
 
 		public override void AI()
 		{
-			npc.TargetClosest(true);
-			Player player = Main.player[npc.target];
+			NPC.TargetClosest(true);
+			Player player = Main.player[NPC.target];
 			blockTimer++;
-			if (npc.wet)
+			if (NPC.wet)
 			{
-				npc.noGravity = true;
-				if (npc.velocity.Y > -7)
-					npc.velocity.Y -= .085f;
+				NPC.noGravity = true;
+				if (NPC.velocity.Y > -7)
+					NPC.velocity.Y -= .085f;
 				return;
 			}
 			else
-				npc.noGravity = false;
+				NPC.noGravity = false;
 
 			if (blockTimer == 200)
 			{
 				//   Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraThrow"));
-				npc.frameCounter = 0;
-				npc.velocity.X = 0;
+				NPC.frameCounter = 0;
+				NPC.velocity.X = 0;
 			}
 
 			if (blockTimer > 250)
@@ -64,56 +65,56 @@ namespace SpiritMod.NPCs.Tides
 			{
 				blocking = false;
 				blockTimer = 0;
-				npc.frameCounter = 0;
+				NPC.frameCounter = 0;
 			}
 			if (blocking)
 			{
-				npc.aiStyle = 0;
+				NPC.aiStyle = 0;
 
-				if (player.position.X > npc.position.X)
-					npc.spriteDirection = 1;
+				if (player.position.X > NPC.position.X)
+					NPC.spriteDirection = 1;
 				else
-					npc.spriteDirection = -1;
+					NPC.spriteDirection = -1;
 			}
 			else
 			{
-				npc.spriteDirection = npc.direction;
-				npc.aiStyle = 3;
+				NPC.spriteDirection = NPC.direction;
+				NPC.aiStyle = 3;
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.NextBool(15))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PumpBubbleGun>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<PumpBubbleGun>());
 
 			if (Main.rand.Next(3) != 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TribalScale>(), Main.rand.Next(2) + 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<TribalScale>(), Main.rand.Next(2) + 1);
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			if ((npc.collideY || npc.wet) && !blocking)
+			if ((NPC.collideY || NPC.wet) && !blocking)
 			{
-				npc.frameCounter += 0.2f;
-				npc.frameCounter %= 6;
-				int frame = (int)npc.frameCounter;
-				npc.frame.Y = frame * frameHeight;
+				NPC.frameCounter += 0.2f;
+				NPC.frameCounter %= 6;
+				int frame = (int)NPC.frameCounter;
+				NPC.frame.Y = frame * frameHeight;
 			}
 
-			if (npc.wet)
+			if (NPC.wet)
 				return;
 
 			if (blocking)
 			{
-				npc.frameCounter += 0.05f;
-				npc.frameCounter = MathHelper.Clamp((float)npc.frameCounter, 0, 2.9f);
-				int frame = (int)npc.frameCounter;
-				npc.frame.Y = (frame + 6) * frameHeight;
-				if (npc.frameCounter > 2 && blockTimer % 5 == 0)
+				NPC.frameCounter += 0.05f;
+				NPC.frameCounter = MathHelper.Clamp((float)NPC.frameCounter, 0, 2.9f);
+				int frame = (int)NPC.frameCounter;
+				NPC.frame.Y = (frame + 6) * frameHeight;
+				if (NPC.frameCounter > 2 && blockTimer % 5 == 0)
 				{
-					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 85);
-					Projectile.NewProjectile(npc.Center.X + (npc.direction * 34), npc.Center.Y - 4, npc.direction * Main.rand.NextFloat(3, 6), 0 - Main.rand.NextFloat(1), ModContent.ProjectileType<LobsterBubbleSmall>(), npc.damage / 2, 1, Main.myPlayer, 0, 0);
+					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 85);
+					Projectile.NewProjectile(NPC.Center.X + (NPC.direction * 34), NPC.Center.Y - 4, NPC.direction * Main.rand.NextFloat(3, 6), 0 - Main.rand.NextFloat(1), ModContent.ProjectileType<LobsterBubbleSmall>(), NPC.damage / 2, 1, Main.myPlayer, 0, 0);
 				}
 			}
 		}
@@ -122,13 +123,13 @@ namespace SpiritMod.NPCs.Tides
 		{
 			for (int k = 0; k < 30; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 1.14f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 1.14f);
 			}
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 				for (int i = 1; i < 8; ++i)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargeCrustacean/lobster" + i), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/LargeCrustacean/lobster" + i).Type, 1f);
 		}
 	}
 }

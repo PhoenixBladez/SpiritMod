@@ -5,7 +5,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 {
     public class Mantaray_Buff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;

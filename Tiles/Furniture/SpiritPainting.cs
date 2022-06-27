@@ -7,7 +7,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class SpiritPainting : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -20,7 +20,7 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newTile.AnchorTop = default;
 			TileObjectData.newTile.AnchorWall = true;
 			TileObjectData.addTile(Type);
-			dustType = DustID.Flare_Blue;
+			DustType = DustID.Flare_Blue;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;

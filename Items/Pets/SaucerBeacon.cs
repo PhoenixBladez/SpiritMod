@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using SpiritMod.Buffs.Pet;
 using SpiritMod.Projectiles.Pet;
 using Terraria;
@@ -16,17 +17,17 @@ namespace SpiritMod.Items.Pets
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.Fish);
-			item.shoot = ModContent.ProjectileType<SaucerPet>();
-			item.buffType = ModContent.BuffType<SaucerPetBuff>();
-			item.UseSound = SoundID.Item93;
-			item.rare = ItemRarityID.Yellow;
+			Item.CloneDefaults(ItemID.Fish);
+			Item.shoot = ModContent.ProjectileType<SaucerPet>();
+			Item.buffType = ModContent.BuffType<SaucerPetBuff>();
+			Item.UseSound = SoundID.Item93;
+			Item.rare = ItemRarityID.Yellow;
 		}
 
-		public override void UseStyle(Player player)
+		public override void UseStyle(Player player, Rectangle heldItemFrame)
 		{
 			if (player.whoAmI == Main.myPlayer && player.itemTime == 0) {
-				player.AddBuff(item.buffType, 3600, true);
+				player.AddBuff(Item.buffType, 3600, true);
 			}
 		}
 

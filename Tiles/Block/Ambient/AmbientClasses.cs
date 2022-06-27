@@ -13,124 +13,110 @@ namespace SpiritMod.Tiles.Block.Ambient
 	{
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.StoneBlock, 1);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.StoneBlock, 1);
 			recipe1.AddIngredient(this, 1);
 			recipe1.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe1.SetResult(ItemID.StoneBlock, 1);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 	public abstract class AmbientDirtItem : ModItem
 	{
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.DirtBlock, 1);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.DirtBlock, 1);
 			recipe1.AddIngredient(this, 1);
 			recipe1.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe1.SetResult(ItemID.DirtBlock, 1);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 	public abstract class AmbientCorruptItem : ModItem
 	{
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(25);
 			recipe.AddIngredient(ItemID.StoneBlock, 25);
 			recipe.AddIngredient(ItemID.RottenChunk, 1);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 25);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.StoneBlock, 25);
 			recipe1.AddIngredient(this, 25);
 			recipe1.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe1.SetResult(ItemID.StoneBlock, 25);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 	public abstract class AmbientCrimsonItem : ModItem
 	{
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(25);
 			recipe.AddIngredient(ItemID.StoneBlock, 25);
 			recipe.AddIngredient(ItemID.Vertebrae, 1);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 25);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.StoneBlock, 25);
 			recipe1.AddIngredient(this, 25);
 			recipe1.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe1.SetResult(ItemID.StoneBlock, 25);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 	public abstract class AmbientHallowItem : ModItem
 	{
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(25);
 			recipe.AddIngredient(ItemID.StoneBlock, 25);
 			recipe.AddIngredient(ItemID.CrystalShard, 1);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 25);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.StoneBlock, 25);
 			recipe1.AddIngredient(this, 25);
 			recipe1.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe1.SetResult(ItemID.StoneBlock, 25);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 	public abstract class AmbientLeafItem : ModItem
 	{
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(25);
 			recipe.AddIngredient(ItemID.DirtBlock, 25);
 			recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 1);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 25);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ItemID.DirtBlock, 25);
 			recipe1.AddIngredient(this, 25);
 			recipe1.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe1.SetResult(ItemID.DirtBlock, 25);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 	public abstract class AzureGemItem : ModItem
 	{
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(50);
 			recipe.AddIngredient(ItemID.StoneBlock, 50);
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.SeraphSet.MoonStone>(), 1);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 50);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = Mod.CreateRecipe(ModContent.ItemType<Items.Sets.SeraphSet.MoonStone>(),1);
 			recipe1.AddIngredient(this, 50);
 			recipe1.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe1.SetResult(ModContent.ItemType<Items.Sets.SeraphSet.MoonStone>(),1);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 }

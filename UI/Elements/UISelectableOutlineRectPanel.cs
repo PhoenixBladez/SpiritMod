@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -33,7 +35,7 @@ namespace SpiritMod.UI.Elements
 
 		public override void MouseOver(UIMouseEvent evt)
 		{
-			Main.PlaySound(Terraria.ID.SoundID.MenuTick);
+			SoundEngine.PlaySound(Terraria.ID.SoundID.MenuTick);
 			base.MouseOver(evt);
 		}
 
@@ -41,7 +43,7 @@ namespace SpiritMod.UI.Elements
         {
             if (IsMouseHovering || IsSelected)
             {
-				if (DrawFilled) spriteBatch.Draw(Main.blackTileTexture, GetDimensions().ToRectangle(), IsSelected ? SelectedFillColour : HoverFillColour);
+				if (DrawFilled) spriteBatch.Draw(TextureAssets.BlackTile.Value, GetDimensions().ToRectangle(), IsSelected ? SelectedFillColour : HoverFillColour);
 				if (DrawBorder) QuestUtils.DrawRectangleBorder(spriteBatch, GetDimensions().ToRectangle(), IsSelected ? SelectedOutlineColour : HoverOutlineColour);
             }
 			else if (DrawBorder)

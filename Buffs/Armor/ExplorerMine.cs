@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Armor
 {
 	class ExplorerMine : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Explorer's Strength");
 			Description.SetDefault("Keep digging!");

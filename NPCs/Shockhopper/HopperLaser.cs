@@ -13,16 +13,16 @@ namespace SpiritMod.NPCs.Shockhopper
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = true;
-			projectile.width = 2;
-			projectile.height = 2;
-			projectile.aiStyle = -1;
-			projectile.friendly = false;
-			projectile.penetrate = 8;
-			projectile.alpha = 255;
-			projectile.timeLeft = 16;
-			projectile.tileCollide = true;
-			projectile.extraUpdates = 2;
+			Projectile.hostile = true;
+			Projectile.width = 2;
+			Projectile.height = 2;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = false;
+			Projectile.penetrate = 8;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 16;
+			Projectile.tileCollide = true;
+			Projectile.extraUpdates = 2;
 		}
 
 
@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs.Shockhopper
 		}
 		public override bool PreAI()
 		{
-			Trail(projectile.position, projectile.position + projectile.velocity);
+			Trail(Projectile.position, Projectile.position + Projectile.velocity);
 			return true;
 		}
 

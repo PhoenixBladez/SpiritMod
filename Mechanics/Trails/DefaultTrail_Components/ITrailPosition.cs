@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent;
 
 namespace SpiritMod.Mechanics.Trails
 {
@@ -20,7 +21,7 @@ namespace SpiritMod.Mechanics.Trails
 	{
 		public Vector2 GetNextTrailPosition(Projectile projectile)
 		{
-			var drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+			var drawOrigin = new Vector2(TextureAssets.Projectile[projectile.type].Value.Width * 0.5f, projectile.height * 0.5f);
 			return projectile.position + drawOrigin + Vector2.UnitY * projectile.gfxOffY;
 		}
 	}

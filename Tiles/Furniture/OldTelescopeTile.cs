@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.Furniture;
 using Terraria;
+using Terraria.Chat;
 using Terraria.Enums;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -13,12 +14,12 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class OldTelescopeTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
-			animationFrameHeight = 54;
+			AnimationFrameHeight = 54;
 			TileObjectData.newTile.UsesCustomCanPlace = true;
 			TileObjectData.newTile.Width = 3;
 			TileObjectData.newTile.Height = 3;
@@ -35,7 +36,7 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight; //allows me to place example chairs facing the same way as the player
 			TileObjectData.addAlternate(1); //facing right will use the second texture style
 			TileObjectData.addTile(Type);
-			dustType = -1;
+			DustType = -1;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Old Telescope");
 			AddMapEntry(new Color(200, 200, 200), name);
@@ -52,12 +53,12 @@ namespace SpiritMod.Tiles.Furniture
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<OldTelescope>());
 
-		public override bool NewRightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				Main.NewText(GetMoonPhase(), Color.AntiqueWhite);
 			else
-				NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(GetMoonPhase()), Color.AntiqueWhite);
+				ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral(GetMoonPhase()), Color.AntiqueWhite);
 			return true;
 		}
 

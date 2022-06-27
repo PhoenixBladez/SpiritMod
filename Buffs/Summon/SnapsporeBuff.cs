@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Summon
 {
 	public class SnapsporeBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Snapspore");
 			Description.SetDefault("A bouncy Snapspore fights for you!");

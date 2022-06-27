@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs.DoT;
 using SpiritMod.Projectiles.Sword;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,41 +17,41 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 		{
 			DisplayName.SetDefault("Rimehowl");
 			Tooltip.SetDefault("Every 5 swings summon a cryonic wave that inflicts 'Cryo Crush'\nCryo Crush deals more damage the less life enemies have left\nThis does not affect bosses, and deals a flat rate of damage instead");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/CryoliteSet/CryoSword_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/CryoliteSet/CryoSword_Glow");
 		}
 
 		int counter = 5;
 
 		public override void SetDefaults()
 		{
-			item.damage = 33;
-			item.melee = true;
-			item.width = 40;
-			item.height = 40;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 5.5f;
-			item.value = Terraria.Item.sellPrice(0, 0, 70, 0);
-			item.rare = ItemRarityID.Orange;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<CryoPillar>();
-			item.shootSpeed = 8;
+			Item.damage = 33;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 40;
+			Item.height = 40;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 5.5f;
+			Item.value = Terraria.Item.sellPrice(0, 0, 70, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<CryoPillar>();
+			Item.shootSpeed = 8;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.06f, .16f, .22f);
+			Lighting.AddLight(Item.position, 0.06f, .16f, .22f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/CryoliteSet/CryoSword_Glow"),
+				ModContent.Request<Texture2D>("Items/Sets/CryoliteSet/CryoSword_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -60,20 +63,20 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 			);
 		}
 
-		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 				target.AddBuff(ModContent.BuffType<CryoCrush>(), 300);
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			counter--;
 			if (counter <= 0)
 			{
 				counter = 5;
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 73));
-				Projectile.NewProjectile(player.position.X, player.position.Y, 0, 0, type, damage, 7, player.whoAmI, 5, 0);
+				SoundEngine.PlaySound(SoundID.Item73);
+				Projectile.NewProjectile(source, player.position.X, player.position.Y, 0, 0, type, damage, 7, player.whoAmI, 5, 0);
 
 				for (int i = 0; i < 7; i++)
 				{
@@ -99,11 +102,10 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe();
 			modRecipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 15);
 			modRecipe.AddTile(TileID.Anvils);
-			modRecipe.SetResult(this);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

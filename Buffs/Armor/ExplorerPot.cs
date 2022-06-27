@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Armor
 {
 	class ExplorerPot : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Explorer's Vigor");
 			Description.SetDefault("You're eager for more!");

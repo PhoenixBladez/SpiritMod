@@ -15,19 +15,19 @@ namespace SpiritMod.Items.Sets.BriarChestLoot
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTurn = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.autoReuse = true;
-			item.maxStack = 99;
-			item.tileWand = ModContent.ItemType<Items.Sets.HuskstalkSet.AncientBark>();
-			item.consumable = false;
-			item.createTile = ModContent.TileType<LivingBriarWood>();
-			item.width = 36;
-			item.height = 36;
-			item.rare = ItemRarityID.Blue;
-			item.value = Item.buyPrice(silver: 20);
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTurn = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.autoReuse = true;
+			Item.maxStack = 99;
+			Item.tileWand = ModContent.ItemType<Items.Sets.HuskstalkSet.AncientBark>();
+			Item.consumable = false;
+			Item.createTile = ModContent.TileType<LivingBriarWood>();
+			Item.width = 36;
+			Item.height = 36;
+			Item.rare = ItemRarityID.Blue;
+			Item.value = Item.buyPrice(silver: 20);
 		}
 	}
 }

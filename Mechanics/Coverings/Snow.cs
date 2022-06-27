@@ -38,7 +38,7 @@ namespace SpiritMod.Mechanics.Coverings
         public override void Update(GameTime gameTime, int x, int y, int variation, int orientation)
         {
             Tile tile = Framing.GetTileSafely(x, y);
-            bool isSnowTile = TileID.Sets.IcesSnow[tile.type];
+            bool isSnowTile = TileID.Sets.IcesSnow[tile.TileType];
 
             // if we're not in the tundra and this block isn't a snow tile of any kind, randomly remove
             if (!isSnowTile && !Main.LocalPlayer.ZoneSnow && Main.rand.Next(300) == 0)
@@ -62,8 +62,8 @@ namespace SpiritMod.Mechanics.Coverings
             if (orientation == 0) return;
 
             Tile tile = Framing.GetTileSafely(x, y);
-            byte slope = tile.slope();
-            bool hb = tile.halfBrick();
+            byte slope = tile.Slope;
+            bool hb = tile.IsHalfBlock;
 
             Color clr = Lighting.GetColor(x, y, Color);
             clr *= (GetAlphaFromVariation(variation) + 1) / 4f;

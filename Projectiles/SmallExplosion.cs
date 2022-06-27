@@ -13,16 +13,16 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 36;
-			projectile.timeLeft = 10;
-			projectile.height = 36;
-			projectile.magic = true;
-			projectile.penetrate = 3;
-			projectile.ignoreWater = true;
-			projectile.alpha = 255;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.friendly = true;
+			Projectile.width = 36;
+			Projectile.timeLeft = 10;
+			Projectile.height = 36;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = 3;
+			Projectile.ignoreWater = true;
+			Projectile.alpha = 255;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
 		}
 	}
 }

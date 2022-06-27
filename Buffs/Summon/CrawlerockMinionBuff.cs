@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Summon
 {
 	public class CrawlerockMinionBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crawlerock Minion");
 			Description.SetDefault("A baby Cavern Crawler fights for you!");

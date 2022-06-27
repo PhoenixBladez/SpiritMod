@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 
@@ -9,7 +10,7 @@ namespace SpiritMod.Gores
 {
 	public class StarjinxGore : ModGore
 	{
-		public override void OnSpawn(Gore gore) {
+		public override void OnSpawn(Gore gore, IEntitySource source) {
 			gore.numFrames = 3;
 			gore.frame = (byte)Main.rand.Next(3);
 			gore.timeLeft = 10;
@@ -19,7 +20,7 @@ namespace SpiritMod.Gores
 
 		public override Color? GetAlpha(Gore gore, Color lightColor)
 		{
-			Color color = SpiritMod.StarjinxColor(Main.GlobalTime * 0.8f);
+			Color color = SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 0.8f);
 			color.A = (byte)gore.alpha;
 			float lerpamount = gore.alpha / 250f;
 			return Color.Lerp(color, Color.Transparent, lerpamount);

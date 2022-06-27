@@ -1,6 +1,7 @@
 
 using SpiritMod.NPCs.Reach;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,18 +18,18 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.rare = ItemRarityID.Blue;
-			item.maxStack = 99;
+			Item.width = Item.height = 16;
+			Item.rare = ItemRarityID.Blue;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.useTime = item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.noMelee = true;
-			item.consumable = true;
-			item.autoReuse = false;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.autoReuse = false;
 
-			item.UseSound = SoundID.Item43;
+			Item.UseSound = SoundID.Item43;
 		}
 
 		public override bool CanUseItem(Player player)
@@ -37,10 +38,10 @@ namespace SpiritMod.Items.Consumable
 		}
 
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 180, ModContent.NPCType<ForestWraith>());
-			Main.PlaySound(SoundID.Zombie, player.position, 7);
+			SoundEngine.PlaySound(SoundID.Zombie, player.position, 7);
 			return true;
 		}
 	}

@@ -16,16 +16,16 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void SetDefaults()
 		{
-			projectile.width = 17;
-			projectile.height = 17;
+			Projectile.width = 17;
+			Projectile.height = 17;
 
-			projectile.aiStyle = 2;
-			projectile.timeLeft = 180;
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.ranged = true;
-			projectile.alpha = 0;
-			projectile.penetrate = 494;
+			Projectile.aiStyle = 2;
+			Projectile.timeLeft = 180;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.alpha = 0;
+			Projectile.penetrate = 494;
 		}
 		public override bool? CanHitNPC(NPC target)
 		{
@@ -36,22 +36,22 @@ namespace SpiritMod.Projectiles.Thrown
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (!projectile.hostile) {
-				projectile.Kill();
+			if (!Projectile.hostile) {
+				Projectile.Kill();
 			}
 		}
 		public override bool PreAI()
 		{
-			projectile.velocity.X *= 1.015f;
+			Projectile.velocity.X *= 1.015f;
 			return base.PreAI();
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (projectile.velocity.X != oldVelocity.X && Math.Abs(oldVelocity.X) > 1f) {
-				projectile.velocity.X = oldVelocity.X * -0.45f;
+			if (Projectile.velocity.X != oldVelocity.X && Math.Abs(oldVelocity.X) > 1f) {
+				Projectile.velocity.X = oldVelocity.X * -0.45f;
 			}
-			if (projectile.velocity.Y != oldVelocity.Y && Math.Abs(oldVelocity.Y) > 1f) {
-				projectile.velocity.Y = oldVelocity.Y * -0.45f;
+			if (Projectile.velocity.Y != oldVelocity.Y && Math.Abs(oldVelocity.Y) > 1f) {
+				Projectile.velocity.Y = oldVelocity.Y * -0.45f;
 			}
 			return false;
 		}
@@ -59,25 +59,25 @@ namespace SpiritMod.Projectiles.Thrown
 		{
 			int sizeX = 120;
 			int sizeY = 45;
-			projectile.hostile = false;
-			projectile.tileCollide = false;
-			projectile.alpha = 255;
-			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = sizeX;
-			projectile.height = sizeY;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			projectile.Damage();
-			Main.projectileIdentity[projectile.owner, projectile.identity] = -1;
-			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = (int)((float)sizeX / 5.8f);
-			projectile.height = (int)((float)sizeY / 5.8f);
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			Projectile.hostile = false;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 255;
+			Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+			Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+			Projectile.width = sizeX;
+			Projectile.height = sizeY;
+			Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+			Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+			Projectile.Damage();
+			Main.projectileIdentity[Projectile.owner, Projectile.identity] = -1;
+			Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+			Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+			Projectile.width = (int)((float)sizeX / 5.8f);
+			Projectile.height = (int)((float)sizeY / 5.8f);
+			Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+			Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
 
-			DustHelper.DrawDustImage(projectile.position, ModContent.DustType<MarbleDust>(), 0.075f, "SpiritMod/Effects/DustImages/Boom", 1.66f);
+			DustHelper.DrawDustImage(Projectile.position, ModContent.DustType<MarbleDust>(), 0.075f, "SpiritMod/Effects/DustImages/Boom", 1.66f);
 		}
 	}
 }

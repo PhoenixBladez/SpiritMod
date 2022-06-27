@@ -34,7 +34,7 @@ namespace SpiritMod.World
 						float deltaX = Math.Abs((float)x - posX / 16f);
 						float deltaY = Math.Abs((float)y - posY / 16f);
 						double dist = Math.Sqrt((double)(deltaX * deltaX + deltaY * deltaY));
-						if (dist < (double)radius && Main.tile[x, y] != null && Main.tile[x, y].wall == 0) {
+						if (dist < (double)radius && Main.tile[x, y] != null && Main.tile[x, y].WallType == 0) {
 							breakWall = true;
 							break;
 						}
@@ -49,9 +49,9 @@ namespace SpiritMod.World
 					double dist = Math.Sqrt((double)(deltaX * deltaX + deltaY * deltaY));
 					if (dist < (double)radius) {
 						bool destroyTile = true;
-						if (Main.tile[x, y] != null && Main.tile[x, y].active()) {
+						if (Main.tile[x, y] != null && Main.tile[x, y].HasTile) {
 							destroyTile = true;
-							ushort tile = Main.tile[x, y].type;
+							ushort tile = Main.tile[x, y].TileType;
 							if (Main.tileDungeon[(int)tile] || tile == 88 || tile == 21 || tile == 26 || tile == 107 || tile == 108 || tile == 111 || tile == 226 || tile == 237 || tile == 221 || tile == 222 || tile == 223 || tile == 211 || tile == 404) {
 								destroyTile = false;
 							}
@@ -65,7 +65,7 @@ namespace SpiritMod.World
 							}
 							if (destroyTile) {
 								WorldGen.KillTile(x, y, false, false, false);
-								if (!Main.tile[x, y].active() && Main.netMode != NetmodeID.SinglePlayer) {
+								if (!Main.tile[x, y].HasTile && Main.netMode != NetmodeID.SinglePlayer) {
 									NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)x, (float)y, 0f, 0, 0, 0);
 								}
 							}
@@ -73,9 +73,9 @@ namespace SpiritMod.World
 						if (destroyTile && breakWall) {
 							for (int wallX = x - 1; wallX <= x + 1; wallX++) {
 								for (int wallY = y - 1; wallY <= y + 1; wallY++) {
-									if (Main.tile[wallX, wallY] != null && Main.tile[wallX, wallY].wall > 0) {
+									if (Main.tile[wallX, wallY] != null && Main.tile[wallX, wallY].WallType > 0) {
 										WorldGen.KillWall(wallX, wallY, false);
-										if (Main.tile[wallX, wallY].wall == 0 && Main.netMode != NetmodeID.SinglePlayer) {
+										if (Main.tile[wallX, wallY].WallType == 0 && Main.netMode != NetmodeID.SinglePlayer) {
 											NetMessage.SendData(MessageID.TileChange, -1, -1, null, 2, (float)wallX, (float)wallY, 0f, 0, 0, 0);
 										}
 									}
@@ -143,7 +143,7 @@ namespace SpiritMod.World
 								continue;
 							}
 							Tile tile = Main.tile[x, y];
-							if (tile != null && tile.active() && (evenActuated || !tile.inActive()) && Main.tileSolid[tile.type]) {
+							if (tile != null && tile.HasTile && (evenActuated || !tile.IsActuated) && Main.tileSolid[tile.TileType]) {
 								return (xNext - start.X) * xDiv;
 							}
 						}
@@ -154,7 +154,7 @@ namespace SpiritMod.World
 								continue;
 							}
 							Tile tile = Main.tile[x, y];
-							if (tile != null && tile.active() && (evenActuated || !tile.inActive()) && Main.tileSolid[tile.type]) {
+							if (tile != null && tile.HasTile && (evenActuated || !tile.IsActuated) && Main.tileSolid[tile.TileType]) {
 								return (xNext - start.X) * xDiv;
 							}
 						}
@@ -181,7 +181,7 @@ namespace SpiritMod.World
 								continue;
 							}
 							Tile tile = Main.tile[x, y];
-							if (tile != null && tile.active() && (evenActuated || !tile.inActive()) && (Main.tileSolid[tile.type] || movY && Main.tileSolidTop[tile.type])) {
+							if (tile != null && tile.HasTile && (evenActuated || !tile.IsActuated) && (Main.tileSolid[tile.TileType] || movY && Main.tileSolidTop[tile.TileType])) {
 								return (yNext - start.Y) * yDiv;
 							}
 						}
@@ -192,7 +192,7 @@ namespace SpiritMod.World
 								continue;
 							}
 							Tile tile = Main.tile[x, y];
-							if (tile != null && tile.active() && (evenActuated || !tile.inActive()) && (Main.tileSolid[tile.type] || movY && Main.tileSolidTop[tile.type])) {
+							if (tile != null && tile.HasTile && (evenActuated || !tile.IsActuated) && (Main.tileSolid[tile.TileType] || movY && Main.tileSolidTop[tile.TileType])) {
 								return (yNext - start.Y) * yDiv;
 							}
 						}
@@ -219,10 +219,10 @@ namespace SpiritMod.World
 				//Tile tile = Main.tile[tilePlaceX, tilePlaceY];
 				if (!WorldGen.InWorld(tilePlaceX, tilePlaceY)) continue;
 				Tile tile = Framing.GetTileSafely(tilePlaceX, tilePlaceY);
-				tile.active(true);
-				tile.type = (ushort)type;
+				tile.HasTile = true;
+				tile.TileType = (ushort)type;
 				if (i < distance - 1 && placewall) {
-					tile.wall = (ushort)walltype;
+					tile.WallType = (ushort)walltype;
 				}
 			}
 		}

@@ -161,17 +161,17 @@ namespace SpiritMod.World
 				}
 				Tile tile = Main.tile[towerX, towerY];
 				// If the type of the tile we are placing the hideout on doesn't match what we want, try again
-				if (!(tile.type == TileID.Dirt
-					|| tile.type == TileID.Grass
-					|| tile.type == TileID.Stone
-					|| tile.type == TileID.Mud
-					|| tile.type == TileID.FleshGrass
-					|| tile.type == TileID.CorruptGrass
-					|| tile.type == TileID.JungleGrass
-					|| tile.type == TileID.Sand
-					|| tile.type == TileID.Crimsand
-					|| tile.type == TileID.Ebonsand
-					|| tile.type == TileID.SnowBlock)) {
+				if (!(tile.TileType == TileID.Dirt
+					|| tile.TileType == TileID.Grass
+					|| tile.TileType == TileID.Stone
+					|| tile.TileType == TileID.Mud
+					|| tile.TileType == TileID.FleshGrass
+					|| tile.TileType == TileID.CorruptGrass
+					|| tile.TileType == TileID.JungleGrass
+					|| tile.TileType == TileID.Sand
+					|| tile.TileType == TileID.Crimsand
+					|| tile.TileType == TileID.Ebonsand
+					|| tile.TileType == TileID.SnowBlock)) {
 					continue;
 				}
 

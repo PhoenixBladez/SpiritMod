@@ -15,27 +15,27 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.width = 26;
-			item.height = 26;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.ranged = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<StarCutterProj>();
-			item.useAnimation = 25;
-			item.consumable = true;
-			item.maxStack = 999;
-			item.useTime = 25;
-			item.shootSpeed = 14f;
-			item.damage = 39;
-			item.knockBack = 3f;
-			item.value = Item.sellPrice(0, 0, 4, 50);
-			item.rare = ItemRarityID.Pink;
-			item.autoReuse = true;
-			item.maxStack = 999;
-			item.consumable = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.width = 26;
+			Item.height = 26;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.DamageType = DamageClass.Ranged;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.shoot = ModContent.ProjectileType<StarCutterProj>();
+			Item.useAnimation = 25;
+			Item.consumable = true;
+			Item.maxStack = 999;
+			Item.useTime = 25;
+			Item.shootSpeed = 14f;
+			Item.damage = 39;
+			Item.knockBack = 3f;
+			Item.value = Item.sellPrice(0, 0, 4, 50);
+			Item.rare = ItemRarityID.Pink;
+			Item.autoReuse = true;
+			Item.maxStack = 999;
+			Item.consumable = true;
 		}
 	}
 }

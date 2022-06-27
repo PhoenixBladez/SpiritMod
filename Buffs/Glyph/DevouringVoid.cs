@@ -8,7 +8,7 @@ namespace SpiritMod.Buffs.Glyph
 {
 	public class DevouringVoid : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Devouring Void");
 			Main.pvpBuff[Type] = true;

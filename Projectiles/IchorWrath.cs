@@ -11,16 +11,16 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.tileCollide = false;
-			projectile.penetrate = 3;
-			projectile.timeLeft = 500;
-			projectile.height = 12;
-			projectile.width = 12;
-			projectile.alpha = 255;
-			aiType = ProjectileID.Bullet;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = 3;
+			Projectile.timeLeft = 500;
+			Projectile.height = 12;
+			Projectile.width = 12;
+			Projectile.alpha = 255;
+			AIType = ProjectileID.Bullet;
+			Projectile.extraUpdates = 1;
 		}
 
 		int target = -1;
@@ -35,9 +35,9 @@ namespace SpiritMod.Projectiles
 
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
-					if (Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+					if (Main.npc[i].CanBeChasedBy(Projectile) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
 					{
-						float dist = projectile.Distance(Main.npc[i].Center);
+						float dist = Projectile.Distance(Main.npc[i].Center);
 						if (dist < targetDist)
 						{
 							targetDist = dist;
@@ -55,22 +55,22 @@ namespace SpiritMod.Projectiles
 				}
 
 				float homingSpeedFactor = 6f;
-				Vector2 homingVect = Main.npc[target].Center - projectile.Center;
-				float dist = projectile.Distance(Main.npc[target].Center);
+				Vector2 homingVect = Main.npc[target].Center - Projectile.Center;
+				float dist = Projectile.Distance(Main.npc[target].Center);
 				dist = homingSpeedFactor / dist;
 				homingVect *= dist;
 
-				projectile.velocity = (projectile.velocity * 20 + homingVect) / 21f;
+				Projectile.velocity = (Projectile.velocity * 20 + homingVect) / 21f;
 			}
 
 			for (int i = 0; i < 2; ++i)
 			{
-				var offset = new Vector2(Main.rand.Next(projectile.width), Main.rand.Next(projectile.height));
-				var dust = Dust.NewDustPerfect(projectile.position + projectile.velocity + offset, DustID.Blood, Vector2.Zero, 0, default, 0.9f);
+				var offset = new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height));
+				var dust = Dust.NewDustPerfect(Projectile.position + Projectile.velocity + offset, DustID.Blood, Vector2.Zero, 0, default, 0.9f);
 				dust.noGravity = true;
 			}
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, projectile.owner, projectile.owner, 5);
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, Projectile.owner, Projectile.owner, 5);
 	}
 }

@@ -10,15 +10,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.BulletDeadeye);
-			projectile.Size = new Vector2(26, 26);
-			projectile.hostile = true;
-			projectile.timeLeft = 5000;
-			projectile.ignoreWater = true;
-			projectile.aiStyle = 0;
+			Projectile.CloneDefaults(ProjectileID.BulletDeadeye);
+			Projectile.Size = new Vector2(26, 26);
+			Projectile.hostile = true;
+			Projectile.timeLeft = 5000;
+			Projectile.ignoreWater = true;
+			Projectile.aiStyle = 0;
 		}
 
-		public override void AI() => projectile.velocity = projectile.velocity;//.RotatedBy((Math.Sin(projectile.ai[0]++ * 0.1f)) * 0.05f);
+		public override void AI() => Projectile.velocity = Projectile.velocity;//.RotatedBy((Math.Sin(projectile.ai[0]++ * 0.1f)) * 0.05f);
 
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}

@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class FateToken : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fate's Blessing");
 			Description.SetDefault("You are protected by the fates");

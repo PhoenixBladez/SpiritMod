@@ -3,6 +3,7 @@ using SpiritMod.NPCs;
 using SpiritMod.Projectiles;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,7 +11,7 @@ namespace SpiritMod.Buffs
 {
 	public class AngelWrath : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Angel's Wrath");
 		}
@@ -50,7 +51,7 @@ namespace SpiritMod.Buffs
 
 			if (npc.buffTime[buffIndex] == 1)
 			{
-				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
+				SoundEngine.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
 				for (int k = 0; k < lightnum; k++)
 				{
 					float num12 = Main.rand.Next(-10, 10);

@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Summon
 {
 	public class LavaRockSummonBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slagtern");
 			Description.SetDefault("The power of magma flows through this lantern");

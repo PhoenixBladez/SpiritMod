@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs.AuroraStag
 			}
 
 			bool anticipation = false;
-			AuroraStag stag = Parent.modNPC as AuroraStag;
+			AuroraStag stag = Parent.ModNPC as AuroraStag;
 			if (stag.TameAnimationTimer < AuroraStag.ParticleReturnTime)
 				returning = true;
 			else if (stag.TameAnimationTimer < AuroraStag.ParticleAnticipationTime)

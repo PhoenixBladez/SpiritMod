@@ -15,18 +15,18 @@ namespace SpiritMod.Items.Sets.SpiritSet
 
 		public override void SetDefaults()
 		{
-			item.width = 14;
-			item.height = 12;
-			item.value = Item.buyPrice(0, 0, 50, 0);
-			item.maxStack = 999;
-			item.rare = ItemRarityID.Pink;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.createTile = ModContent.TileType<SpiritOreTile>();
+			Item.width = 14;
+			Item.height = 12;
+			Item.value = Item.buyPrice(0, 0, 50, 0);
+			Item.maxStack = 999;
+			Item.rare = ItemRarityID.Pink;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.createTile = ModContent.TileType<SpiritOreTile>();
 		}
 	}
 }

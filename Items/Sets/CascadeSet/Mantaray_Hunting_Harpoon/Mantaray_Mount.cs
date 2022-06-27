@@ -6,62 +6,62 @@ using Microsoft.Xna.Framework;
 
 namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 {
-    public class Mantaray_Mount : ModMountData
+    public class Mantaray_Mount : ModMount
     {
 		protected int circularGlide = 0;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-			mountData.spawnDust = 103;
-			mountData.buff = ModContent.BuffType<Mantaray_Buff>();
-			mountData.heightBoost = 14;
-			mountData.flightTimeMax = 0;
-			mountData.fatigueMax = 0;
-			mountData.fallDamage = 0.0f;
-			mountData.usesHover = true;
-			mountData.runSpeed = 8f;
-			mountData.dashSpeed = 3f;
-			mountData.acceleration = 0.35f;
-			mountData.constantJump = false;
-			mountData.jumpHeight = 10;
-			mountData.jumpSpeed = 3f;
-			mountData.swimSpeed = 95f;
-			mountData.blockExtraJumps = true;
-			mountData.totalFrames = 7;
+			MountData.spawnDust = 103;
+			MountData.buff = ModContent.BuffType<Mantaray_Buff>();
+			MountData.heightBoost = 14;
+			MountData.flightTimeMax = 0;
+			MountData.fatigueMax = 0;
+			MountData.fallDamage = 0.0f;
+			MountData.usesHover = true;
+			MountData.runSpeed = 8f;
+			MountData.dashSpeed = 3f;
+			MountData.acceleration = 0.35f;
+			MountData.constantJump = false;
+			MountData.jumpHeight = 10;
+			MountData.jumpSpeed = 3f;
+			MountData.swimSpeed = 95f;
+			MountData.blockExtraJumps = true;
+			MountData.totalFrames = 7;
 
-			int[] yOffsets = new int[mountData.totalFrames];
+			int[] yOffsets = new int[MountData.totalFrames];
 			for (int index = 0; index < yOffsets.Length; ++index)
 				yOffsets[index] = 12;
-			mountData.playerYOffsets = yOffsets;
+			MountData.playerYOffsets = yOffsets;
 
-			mountData.xOffset = -10;
-			mountData.bodyFrame = 3;
-			mountData.yOffset = 20;
-			mountData.playerHeadOffset = 31;
-			mountData.standingFrameCount = 7;
-			mountData.standingFrameDelay = 4;
-			mountData.standingFrameStart = 0;
-			mountData.runningFrameCount = 7;
-			mountData.runningFrameDelay = 4;
-			mountData.runningFrameStart = 0;
-			mountData.flyingFrameCount = 7;
-			mountData.flyingFrameDelay = 4;
-			mountData.flyingFrameStart = 0;
-			mountData.inAirFrameCount = 7;
-			mountData.inAirFrameDelay = 4;
-			mountData.inAirFrameStart = 0;
-			mountData.idleFrameCount = 0;
-			mountData.idleFrameDelay = 0;
-			mountData.idleFrameStart = 0;
-			mountData.idleFrameLoop = false;
-			mountData.swimFrameCount = 7;
-			mountData.swimFrameDelay = 12;
-			mountData.swimFrameStart = 0;
+			MountData.xOffset = -10;
+			MountData.bodyFrame = 3;
+			MountData.yOffset = 20;
+			MountData.playerHeadOffset = 31;
+			MountData.standingFrameCount = 7;
+			MountData.standingFrameDelay = 4;
+			MountData.standingFrameStart = 0;
+			MountData.runningFrameCount = 7;
+			MountData.runningFrameDelay = 4;
+			MountData.runningFrameStart = 0;
+			MountData.flyingFrameCount = 7;
+			MountData.flyingFrameDelay = 4;
+			MountData.flyingFrameStart = 0;
+			MountData.inAirFrameCount = 7;
+			MountData.inAirFrameDelay = 4;
+			MountData.inAirFrameStart = 0;
+			MountData.idleFrameCount = 0;
+			MountData.idleFrameDelay = 0;
+			MountData.idleFrameStart = 0;
+			MountData.idleFrameLoop = false;
+			MountData.swimFrameCount = 7;
+			MountData.swimFrameDelay = 12;
+			MountData.swimFrameStart = 0;
 
 			if (Main.netMode != NetmodeID.Server)
 			{
-				mountData.textureWidth = mountData.backTexture.Width;
-				mountData.textureHeight = mountData.backTexture.Height;
+				MountData.textureWidth = MountData.backTexture.Width;
+				MountData.textureHeight = MountData.backTexture.Height;
 			}
         }
  
@@ -73,28 +73,28 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 
 			if (!player.wet)
 			{
-				mountData.flightTimeMax = 0;
-				mountData.usesHover = false;
-				mountData.acceleration = 0.05f;
-				mountData.dashSpeed = 0f;
-				mountData.runSpeed = 0.05f;
+				MountData.flightTimeMax = 0;
+				MountData.usesHover = false;
+				MountData.acceleration = 0.05f;
+				MountData.dashSpeed = 0f;
+				MountData.runSpeed = 0.05f;
 
 				if (player.velocity.Y != 0 || player.oldVelocity.Y != 0)
 				{
 					int direction = (Math.Abs(player.velocity.X) == 0) ? 0 :
 						(player.direction == Math.Sign(player.velocity.X)) ? 1 : -1;
-					player.fullRotation = player.velocity.Y * 0.05f * player.direction * direction * mountData.jumpHeight / 14f;
+					player.fullRotation = player.velocity.Y * 0.05f * player.direction * direction * MountData.jumpHeight / 14f;
 					player.fullRotationOrigin = (player.Hitbox.Size() + new Vector2(0, 42)) / 2;
 				}
 			}
 			else
 			{
-				mountData.flightTimeMax = 9999;
-				mountData.fatigueMax = 9999;
-				mountData.acceleration = 0.2f;
-				mountData.dashSpeed = 3f;
-				mountData.runSpeed = 12f;
-				mountData.usesHover = true;
+				MountData.flightTimeMax = 9999;
+				MountData.fatigueMax = 9999;
+				MountData.acceleration = 0.2f;
+				MountData.dashSpeed = 3f;
+				MountData.runSpeed = 12f;
+				MountData.usesHover = true;
 
 				player.gravity = 0f;
 				player.fullRotation = 0f;

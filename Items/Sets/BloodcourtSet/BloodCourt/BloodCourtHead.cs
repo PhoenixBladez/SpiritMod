@@ -22,11 +22,11 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = 3000;
-			item.rare = ItemRarityID.Green;
-			item.defense = 3;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = 3000;
+			Item.rare = ItemRarityID.Green;
+			Item.defense = 3;
 		}
         public override void UpdateEquip(Player player)
 		{
@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 			player.maxMinions += 1;
 		}
 
-		public override void UpdateVanity(Player player, EquipType type) => player.GetSpiritPlayer().bloodCourtHead = true;
+		public override void EquipFrameEffects(Player player, EquipType type) => player.GetSpiritPlayer().bloodCourtHead = true;
 
 		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawHair = true;
 
@@ -53,11 +53,10 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<DreamstrideEssence>(), 6);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
 		public static void DoubleTapEffect(Player player)
@@ -78,7 +77,7 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 					Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 			}
 
-			Main.PlaySound(new LegacySoundStyle(2, 109));
+			SoundEngine.PlaySound(new LegacySoundStyle(2, 109));
 
 			Projectile.NewProjectile(player.Center, dir, ModContent.ProjectileType<DarkAnima>(), 70, 0, player.whoAmI);
 		}

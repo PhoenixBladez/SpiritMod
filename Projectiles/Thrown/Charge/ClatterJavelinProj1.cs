@@ -10,22 +10,22 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 36;
-			projectile.aiStyle = 1;
-			projectile.friendly = false;
-			projectile.thrown = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 600;
-			projectile.extraUpdates = 16;
-			projectile.ignoreWater = true;
-			aiType = ProjectileID.ThrowingKnife;
+			Projectile.width = 8;
+			Projectile.height = 36;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = false;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 600;
+			Projectile.extraUpdates = 16;
+			Projectile.ignoreWater = true;
+			AIType = ProjectileID.ThrowingKnife;
 		}
 
 		public override bool PreAI()
 		{
-			if (projectile.owner != Main.myPlayer) return true;
-			Dust d = Dust.NewDustPerfect(projectile.Center - projectile.velocity / 5, 6, Vector2.Zero, 0, default, 1.3f);
+			if (Projectile.owner != Main.myPlayer) return true;
+			Dust d = Dust.NewDustPerfect(Projectile.Center - Projectile.velocity / 5, 6, Vector2.Zero, 0, default, 1.3f);
 			d.noGravity = true;
 			d.noLight = true;
 			return true;

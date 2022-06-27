@@ -18,25 +18,25 @@ namespace SpiritMod.Items.Weapon.Magic
 
 		public override void SetDefaults()
 		{
-			item.damage = 12;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.summon = true;
-			item.width = 32;
-			item.height = 42;
-			item.useTime = 25;
-			item.mana = 14;
-			item.useAnimation = 25;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.knockBack = 3;
-			item.value = Terraria.Item.sellPrice(0, 0, 65, 0);
-			item.rare = ItemRarityID.Green;
-			item.autoReuse = false;
-			item.shootSpeed = 9;
-			item.UseSound = SoundID.Item20;
-			item.shoot = ModContent.ProjectileType<ShroomSummon>();
+			Item.damage = 12;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Summon;
+			Item.width = 32;
+			Item.height = 42;
+			Item.useTime = 25;
+			Item.mana = 14;
+			Item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 3;
+			Item.value = Terraria.Item.sellPrice(0, 0, 65, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.autoReuse = false;
+			Item.shootSpeed = 9;
+			Item.UseSound = SoundID.Item20;
+			Item.shoot = ModContent.ProjectileType<ShroomSummon>();
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			int dimension = 24;
 			int dimension2 = 90;
@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Weapon.Magic
 						int y = (int)center.Y / 16;
 
 						bool flag = false;
-						if (Main.rand.Next(4) == 0 && Main.tile[x, y] != null && Main.tile[x, y].wall > 0) {
+						if (Main.rand.Next(4) == 0 && Main.tile[x, y] != null && Main.tile[x, y].WallType > 0) {
 							flag = true;
 						}
 						else {
@@ -78,7 +78,7 @@ namespace SpiritMod.Items.Weapon.Magic
 							}
 
 							if (flag && Main.myPlayer == player.whoAmI) {
-								Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<ShroomSummon>(), damage, knockBack, player.whoAmI, 0f, 0f);
+								Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<ShroomSummon>(), damage, knockback, player.whoAmI, 0f, 0f);
 							}
 						}
 					}

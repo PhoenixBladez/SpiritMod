@@ -17,25 +17,25 @@ namespace SpiritMod.Items.Sets.ToolsMisc.OreWarhammersSet
 		int shellCooldown;
 		public override void SetDefaults()
 		{
-			item.width = 60;
-			item.height = 60;
-			item.value = Item.sellPrice(0, 12, 20, 0);
-			item.rare = ItemRarityID.Yellow;
-			item.damage = 67;
-			item.knockBack = 9;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 35;
-			item.useAnimation = 35;
-			item.melee = true;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<ShellHammerProjectile>();
-			item.shootSpeed = 7;
-			item.UseSound = SoundID.Item1;
+			Item.width = 60;
+			Item.height = 60;
+			Item.value = Item.sellPrice(0, 12, 20, 0);
+			Item.rare = ItemRarityID.Yellow;
+			Item.damage = 67;
+			Item.knockBack = 9;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 35;
+			Item.useAnimation = 35;
+			Item.DamageType = DamageClass.Melee;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<ShellHammerProjectile>();
+			Item.shootSpeed = 7;
+			Item.UseSound = SoundID.Item1;
 			this.shellCooldown = 240;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			if (shellCooldown > 0 || Main.tile[Player.tileTargetX, Player.tileTargetY].active() || Main.tile[Player.tileTargetX, Player.tileTargetY].wall > 0)
+			if (shellCooldown > 0 || Main.tile[Player.tileTargetX, Player.tileTargetY].HasTile || Main.tile[Player.tileTargetX, Player.tileTargetY].WallType > 0)
 				return false;
 			return true;
 		}
@@ -45,12 +45,11 @@ namespace SpiritMod.Items.Sets.ToolsMisc.OreWarhammersSet
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.TurtleShell);
 			recipe.AddIngredient(ItemID.ChlorophyteBar, 18);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

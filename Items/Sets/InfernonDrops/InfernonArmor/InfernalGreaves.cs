@@ -16,12 +16,12 @@ namespace SpiritMod.Items.Sets.InfernonDrops.InfernonArmor
 		}
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 20;
-			item.rare = ItemRarityID.Pink;
-			item.value = 42000;
+			Item.width = 28;
+			Item.height = 20;
+			Item.rare = ItemRarityID.Pink;
+			Item.value = 42000;
 
-			item.defense = 9;
+			Item.defense = 9;
 		}
 		public override void UpdateEquip(Player player)
 		{
@@ -30,11 +30,10 @@ namespace SpiritMod.Items.Sets.InfernonDrops.InfernonArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<InfernalAppendage>(), 10);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
 	}

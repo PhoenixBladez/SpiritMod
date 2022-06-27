@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,41 +14,36 @@ namespace SpiritMod.Items.Sets.BriarChestLoot
 			Tooltip.SetDefault("Shoots out two boomerangs on use");
 		}
 
-
 		public override void SetDefaults()
 		{
-			item.damage = 12;
-			item.melee = true;
-			item.width = 40;
-			item.height = 40;
-			item.useTime = 37;
-			item.useAnimation = 37;
-			item.noUseGraphic = true;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 3;
-			item.value = Terraria.Item.sellPrice(0, 0, 4, 0);
-			item.rare = ItemRarityID.Blue;
-			item.shootSpeed = 8f;
-			item.shoot = ModContent.ProjectileType<Projectiles.Returning.ReachBoomerang>();
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = false;
+			Item.damage = 12;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 40;
+			Item.height = 40;
+			Item.useTime = 37;
+			Item.useAnimation = 37;
+			Item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 3;
+			Item.value = Item.sellPrice(0, 0, 4, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.shootSpeed = 8f;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Returning.ReachBoomerang>();
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = false;
 		}
+
         public override bool CanUseItem(Player player)
         {
-            for (int i = 0; i < 1000; ++i)
-            {
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                {
+            for (int i = 0; i < Main.maxProjectiles; ++i)
+                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == Item.shoot)
                     return false;
-                }
-            }
             return true;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			{
-				Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-200, 200) / 100), speedY + ((float)Main.rand.Next(-200, 200) / 100), type, damage, knockBack, player.whoAmI, 0f, 0f);
-			}
+			Projectile.NewProjectile(Item.GetSource_ItemUse(Item), position.X, position.Y, velocity.X + ((float)Main.rand.Next(-200, 200) / 100), velocity.Y + ((float)Main.rand.Next(-200, 200) / 100), type, damage, knockback, player.whoAmI, 0f, 0f);
 			return true;
 		}
 	}

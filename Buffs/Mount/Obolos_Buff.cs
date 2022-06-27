@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Mount
 {
     public class Obolos_Buff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
@@ -15,7 +15,7 @@ namespace SpiritMod.Buffs.Mount
  
         public override void Update(Player player, ref int buffIndex)
         {
-            player.mount.SetMount(mod.MountType("Obolos_Mount"), player);
+            player.mount.SetMount(Mod.Find<ModMount>("Obolos_Mount").Type, player);
             player.buffTime[buffIndex] = 10;
         }
     }

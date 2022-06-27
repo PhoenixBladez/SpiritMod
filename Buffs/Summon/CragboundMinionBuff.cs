@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Summon
 {
 	public class CragboundMinionBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cragbound Minion");
 			Description.SetDefault("The sentinel will protect you");

@@ -13,12 +13,12 @@ namespace SpiritMod.Items.Armor.OperativeSet
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 30;
-			item.value = Item.buyPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.LightRed;
+			Item.width = 30;
+			Item.height = 30;
+			Item.value = Item.buyPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
 
-			item.vanity = true;
+			Item.vanity = true;
 		}
     }
 }

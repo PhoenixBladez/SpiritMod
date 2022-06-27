@@ -13,7 +13,7 @@ namespace SpiritMod.Tiles
 {
 	public class BloodBlossom : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = false;
@@ -24,7 +24,7 @@ namespace SpiritMod.Tiles
 			TileObjectData.newTile.Origin = new Point16(1, 1);
 			TileObjectData.addTile(Type);
 
-			disableSmartCursor = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Blood Blossom");
 			AddMapEntry(new Color(234, 0, 0), name);
@@ -42,7 +42,7 @@ namespace SpiritMod.Tiles
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
-			if (tile.frameY <= 18 && (tile.frameX <= 36 || tile.frameX >= 72))
+			if (tile.TileFrameY <= 18 && (tile.TileFrameX <= 36 || tile.TileFrameX >= 72))
 			{
 				r = 0.301f * 1.5f;
 				g = 0.110f * 1.5f;
@@ -51,16 +51,16 @@ namespace SpiritMod.Tiles
 		}
 		public override void MouseOver(int i, int j)
 		{
-			Main.LocalPlayer.showItemIcon = true; //Show text when hovering over this tile
-			Main.LocalPlayer.showItemIcon2 = -1;// mod.ItemType("VinewrathBox");
+			Main.LocalPlayer.cursorItemIconEnabled = true; //Show text when hovering over this tile
+			Main.LocalPlayer.cursorItemIconID = -1;// mod.ItemType("VinewrathBox");
 
 			if (NPC.AnyNPCs(ModContent.NPCType<ReachBoss>()) || NPC.AnyNPCs(ModContent.NPCType<ReachBoss1>()))
-				Main.LocalPlayer.showItemIconText = "";
+				Main.LocalPlayer.cursorItemIconText = "";
 			else
-				Main.LocalPlayer.showItemIconText = "Disturbing this flower surely isn't a good idea...";
+				Main.LocalPlayer.cursorItemIconText = "Disturbing this flower surely isn't a good idea...";
 		}
 
-		public override bool NewRightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			if (NPC.AnyNPCs(ModContent.NPCType<ReachBoss>()) || NPC.AnyNPCs(ModContent.NPCType<ReachBoss1>())) //Do nothing if the boss is alive
 				return false;
@@ -81,27 +81,27 @@ namespace SpiritMod.Tiles
 			return true;
 		}
 
-		private float GetOffset() => (float)Math.Sin(Main.GlobalTime * 1.2f) * 8f;
+		private float GetOffset() => (float)Math.Sin(Main.GlobalTimeWrappedHourly * 1.2f) * 8f;
 
 		public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
-			Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/BloodBlossom");
+			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/BloodBlossom");
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
 
-			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero + (Vector2.UnitY * GetOffset()), new Rectangle(tile.frameX, tile.frameY, 16, 16), Lighting.GetColor(i, j));
+			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero + (Vector2.UnitY * GetOffset()), new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Lighting.GetColor(i, j));
 			return false;
 		}
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
-			Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
+			Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
 
-			Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/BloodBlossom_Glow");
+			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/BloodBlossom_Glow");
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
 
-			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero + (Vector2.UnitY * GetOffset()), new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
+			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero + (Vector2.UnitY * GetOffset()), new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), colour);
 		}
 	}
 }

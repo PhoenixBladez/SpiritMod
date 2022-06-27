@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 {
 	public class Mussel : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			const int StyleRange = 3;
 			const bool StyleHori = true;
@@ -51,8 +51,8 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			TileObjectData.addTile(Type);
 
 			AddMapEntry(new Color(200, 200, 200));
-			dustType = DustID.Stone;
-			drop = ModContent.ItemType<MusselItem>();
+			DustType = DustID.Stone;
+			ItemDrop = ModContent.ItemType<MusselItem>();
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = Main.rand.Next(1, 3);
@@ -64,27 +64,26 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 24;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = 0;
-			item.rare = ItemRarityID.Blue;
-			item.createTile = ModContent.TileType<Mussel>();
-			item.maxStack = 999;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
+			Item.width = 30;
+			Item.height = 24;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.value = 0;
+			Item.rare = ItemRarityID.Blue;
+			Item.createTile = ModContent.TileType<Mussel>();
+			Item.maxStack = 999;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(5);
 			recipe.AddIngredient(ItemID.Coral, 2);
 			recipe.AddIngredient(ItemID.Wood, 1);
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe.SetResult(this, 5);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

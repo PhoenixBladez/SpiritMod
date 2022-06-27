@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,19 +13,19 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Jade Dragon");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.penetrate = 600;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.friendly = true;
-			projectile.timeLeft = 95;
-			projectile.magic = true;
+			Projectile.penetrate = 600;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
+			Projectile.timeLeft = 95;
+			Projectile.DamageType = DamageClass.Magic;
 			//projectile.extraUpdates = 1;
-			projectile.width = projectile.height = 32;
+			Projectile.width = Projectile.height = 32;
 
 		}
 		int num;
@@ -32,45 +33,45 @@ namespace SpiritMod.Projectiles.Summon.Dragon
 		{
 			return new Color(66 - (int)(num / 3 * 2), 245 - (int)(num / 3 * 2), 120 - (int)(num / 3 * 2), 255 - num);
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}
 		public override bool PreAI()
 		{
 			num += 4;
-			projectile.alpha += 6;
-			projectile.spriteDirection = 1;
-			if (projectile.ai[0] > 0) {
-				projectile.spriteDirection = 0;
+			Projectile.alpha += 6;
+			Projectile.spriteDirection = 1;
+			if (Projectile.ai[0] > 0) {
+				Projectile.spriteDirection = 0;
 			}
 
-			if (projectile.ai[1] < (double)Main.projectile.Length) {
+			if (Projectile.ai[1] < (double)Main.projectile.Length) {
 				// We're getting the center of this projectile.
-				Vector2 projectileCenter = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+				Vector2 projectileCenter = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
 				// Then using that center, we calculate the direction towards the 'parent projectile' of this projectile.
-				float dirX = Main.projectile[(int)projectile.ai[1]].position.X + (float)(Main.projectile[(int)projectile.ai[1]].width / 2) - projectileCenter.X;
-				float dirY = Main.projectile[(int)projectile.ai[1]].position.Y + (float)(Main.projectile[(int)projectile.ai[1]].height / 2) - projectileCenter.Y;
+				float dirX = Main.projectile[(int)Projectile.ai[1]].position.X + (float)(Main.projectile[(int)Projectile.ai[1]].width / 2) - projectileCenter.X;
+				float dirY = Main.projectile[(int)Projectile.ai[1]].position.Y + (float)(Main.projectile[(int)Projectile.ai[1]].height / 2) - projectileCenter.Y;
 				// We then use Atan2 to get a correct rotation towards that parent projectile.
-				projectile.rotation = (float)Math.Atan2(dirY, dirX) + 1.57f;
+				Projectile.rotation = (float)Math.Atan2(dirY, dirX) + 1.57f;
 				// We also get the length of the direction vector.
 				float length = (float)Math.Sqrt(dirX * dirX + dirY * dirY);
 				// We calculate a new, correct distance.
-				float dist = (length - (float)projectile.width) / length;
+				float dist = (length - (float)Projectile.width) / length;
 				float posX = dirX * dist;
 				float posY = dirY * dist;
 
 				// Reset the velocity of this projectile, because we don't want it to move on its own
-				projectile.velocity = Vector2.Zero;
+				Projectile.velocity = Vector2.Zero;
 				// And set this projectiles position accordingly to that of this projectiles parent projectile.
-				projectile.position.X = projectile.position.X + posX;
-				projectile.position.Y = projectile.position.Y + posY;
+				Projectile.position.X = Projectile.position.X + posX;
+				Projectile.position.Y = Projectile.position.Y + posY;
 			}
 
 			return false;

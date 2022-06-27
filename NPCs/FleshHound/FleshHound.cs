@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.DoT;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,68 +15,68 @@ namespace SpiritMod.NPCs.FleshHound
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flesh Hound");
-			Main.npcFrameCount[npc.type] = 6;
-			NPCID.Sets.TrailCacheLength[npc.type] = 3;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 6;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 3;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 60;
-			npc.height = 36;
-			npc.damage = 28;
-			npc.defense = 7;
-			npc.lifeMax = 85;
-			npc.HitSound = SoundID.NPCHit6;
-			npc.DeathSound = SoundID.NPCDeath5;
-			npc.value = 180f;
-			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
-			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
-			npc.knockBackResist = .2f;
-			npc.aiStyle = 3;
-			aiType = NPCID.WalkingAntlion;
+			NPC.width = 60;
+			NPC.height = 36;
+			NPC.damage = 28;
+			NPC.defense = 7;
+			NPC.lifeMax = 85;
+			NPC.HitSound = SoundID.NPCHit6;
+			NPC.DeathSound = SoundID.NPCDeath5;
+			NPC.value = 180f;
+			NPC.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
+			NPC.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+			NPC.knockBackResist = .2f;
+			NPC.aiStyle = 3;
+			AIType = NPCID.WalkingAntlion;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.spawnTileY < Main.rockLayer && (Main.bloodMoon) && NPC.downedBoss1 ? 0.12f : 0f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.SpawnTileY < Main.rockLayer && (Main.bloodMoon) && NPC.downedBoss1 ? 0.12f : 0f;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 40; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hound1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hound2"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hound1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hound2").Type, 1f);
 
 				for (int k = 0; k < 40; k++)
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection * 2.5f, -1f, 0, default, Main.rand.NextFloat(.45f, 1.15f));
 			}
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, lightColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, lightColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 
 			if (trailbehind)
 			{
-				Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-				for (int k = 0; k < npc.oldPos.Length; k++)
+				Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
+				for (int k = 0; k < NPC.oldPos.Length; k++)
 				{
-					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-					Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+					Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += num34616;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += num34616;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		int timer;
@@ -83,29 +85,29 @@ namespace SpiritMod.NPCs.FleshHound
 
 		public override void AI()
 		{
-			npc.spriteDirection = npc.direction;
+			NPC.spriteDirection = NPC.direction;
 			timer++;
 
 			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7);
-				npc.netUpdate = true;
+				SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 7);
+				NPC.netUpdate = true;
 			}
 
 			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				num34616 = .55f;
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
+				Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 				direction.Normalize();
 				direction.X = direction.X * Main.rand.Next(7, 9);
 				direction.Y = direction.Y * Main.rand.Next(2, 4);
-				npc.velocity.X = direction.X;
-				npc.velocity.Y = direction.Y;
-				npc.velocity.Y *= 0.98f;
-				npc.velocity.X *= 0.995f;
-				npc.netUpdate = true;
+				NPC.velocity.X = direction.X;
+				NPC.velocity.Y = direction.Y;
+				NPC.velocity.Y *= 0.98f;
+				NPC.velocity.X *= 0.995f;
+				NPC.netUpdate = true;
 				trailbehind = true;
-				npc.knockBackResist = 0f;
+				NPC.knockBackResist = 0f;
 			}
 			else
 				num34616 = .25f;
@@ -113,9 +115,9 @@ namespace SpiritMod.NPCs.FleshHound
 			if (timer >= 551)
 			{
 				timer = 0;
-				npc.netUpdate = true;
+				NPC.netUpdate = true;
 				trailbehind = false;
-				npc.knockBackResist = .2f;
+				NPC.knockBackResist = .2f;
 			}
 		}
 

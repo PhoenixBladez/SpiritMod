@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Summon
 {
 	public class MiniorBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mini Meteor");
 			Description.SetDefault("A mini meteor fights for you!");

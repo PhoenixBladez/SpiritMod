@@ -1,4 +1,6 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria.Audio;
+using Terraria.GameContent;
+using Terraria.ModLoader;
 using Terraria;
 using System;
 using Microsoft.Xna.Framework;
@@ -12,31 +14,31 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bubble");
-			Main.projFrames[projectile.type] = 5;
+			Main.projFrames[Projectile.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.aiStyle = -1;
-			projectile.width = 18;
-			projectile.height = 18;
-			projectile.friendly = false;
-			projectile.tileCollide = false;
-			projectile.hostile = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 150;
+			Projectile.aiStyle = -1;
+			Projectile.width = 18;
+			Projectile.height = 18;
+			Projectile.friendly = false;
+			Projectile.tileCollide = false;
+			Projectile.hostile = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 150;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == 1)
+            if (Projectile.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            int xpos = (int)((projectile.Center.X + 10) - Main.screenPosition.X) - (Main.projectileTexture[projectile.type].Width / 2);
-            int ypos = (int)((projectile.Center.Y + 10) - Main.screenPosition.Y) - (Main.projectileTexture[projectile.type].Width / 2);
-            Texture2D ripple = mod.GetTexture("Effects/Masks/Extra_49");
-            Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), projectile.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);
+            int xpos = (int)((Projectile.Center.X + 10) - Main.screenPosition.X) - (TextureAssets.Projectile[Projectile.type].Value.Width / 2);
+            int ypos = (int)((Projectile.Center.Y + 10) - Main.screenPosition.Y) - (TextureAssets.Projectile[Projectile.type].Value.Width / 2);
+            Texture2D ripple = Mod.GetTexture("Effects/Masks/Extra_49");
+            Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), Projectile.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);
             return true;
         }
 		public override Color? GetAlpha(Color lightColor) => Color.White;
@@ -45,38 +47,38 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 		public override void AI()
         {
             alphaCounter += 0.04f;
-            Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y), 0.075f, 0.231f, 0.255f);
-			if (projectile.timeLeft == 150) {
-				projectile.scale *= Main.rand.NextFloat(0.6f, 1.1f);
+            Lighting.AddLight(new Vector2(Projectile.Center.X, Projectile.Center.Y), 0.075f, 0.231f, 0.255f);
+			if (Projectile.timeLeft == 150) {
+				Projectile.scale *= Main.rand.NextFloat(0.6f, 1.1f);
 			}
-			if (projectile.ai[0] == 0) 
+			if (Projectile.ai[0] == 0) 
 			{
-				projectile.velocity.X *= 0.98f;
-				projectile.velocity.Y -= 0.08f;
+				Projectile.velocity.X *= 0.98f;
+				Projectile.velocity.Y -= 0.08f;
 			}
 			else
 			{
-				projectile.velocity *= 0.98f;
-				projectile.timeLeft--;
+				Projectile.velocity *= 0.98f;
+				Projectile.timeLeft--;
 			}
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 6)
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 6)
 			{
-				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % 5;
+				Projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % 5;
 			}
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 54);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 54);
 			for (int i = 0; i < 20; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.DungeonSpirit, 0f, -2f, 0, default, 2f);
+				int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.DungeonSpirit, 0f, -2f, 0, default, 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].scale *= .1825f;
-				if (Main.dust[num].position != projectile.Center)
-					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 2f;
+				if (Main.dust[num].position != Projectile.Center)
+					Main.dust[num].velocity = Projectile.DirectionTo(Main.dust[num].position) * 2f;
 			}
 		}
 	}

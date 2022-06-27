@@ -12,46 +12,46 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rune");
-			Main.projFrames[projectile.type] = 4;
+			Main.projFrames[Projectile.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 3600;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 3600;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
 		}
 
 		public override bool PreAI()
 		{
-			float num = 1f - (float)projectile.alpha / 255f;
-			num *= projectile.scale;
-			Lighting.AddLight(projectile.Center, 0.5f * num, 0.5f * num, 0.9f * num);
-			projectile.frameCounter++;
-			if ((float)projectile.frameCounter >= 8f) {
-				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-				projectile.frameCounter = 0;
+			float num = 1f - (float)Projectile.alpha / 255f;
+			num *= Projectile.scale;
+			Lighting.AddLight(Projectile.Center, 0.5f * num, 0.5f * num, 0.9f * num);
+			Projectile.frameCounter++;
+			if ((float)Projectile.frameCounter >= 8f) {
+				Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
+				Projectile.frameCounter = 0;
 			}
 
-			projectile.localAI[0]++;
-			if (projectile.localAI[0] >= 90f) {
-				projectile.localAI[0] *= -1f;
+			Projectile.localAI[0]++;
+			if (Projectile.localAI[0] >= 90f) {
+				Projectile.localAI[0] *= -1f;
 			}
-			if (projectile.localAI[0] >= 0f) {
-				projectile.scale += 0.003f;
+			if (Projectile.localAI[0] >= 0f) {
+				Projectile.scale += 0.003f;
 			}
 			else {
-				projectile.scale -= 0.003f;
+				Projectile.scale -= 0.003f;
 			}
 
 			float num2 = 1f;
 			float num3 = 1f;
-			int identity = projectile.identity % 6;
+			int identity = Projectile.identity % 6;
 			if (identity == 0) {
 				num3 *= -1f;
 			}
@@ -69,33 +69,33 @@ namespace SpiritMod.Projectiles
 				num2 = 0f;
 			}
 
-			projectile.localAI[1]++;
-			if (projectile.localAI[1] > 60f) {
-				projectile.localAI[1] = -180f;
+			Projectile.localAI[1]++;
+			if (Projectile.localAI[1] > 60f) {
+				Projectile.localAI[1] = -180f;
 			}
-			if (projectile.localAI[1] >= -60f) {
-				projectile.velocity.X = projectile.velocity.X + 0.002f * num3;
-				projectile.velocity.Y = projectile.velocity.Y + 0.002f * num2;
+			if (Projectile.localAI[1] >= -60f) {
+				Projectile.velocity.X = Projectile.velocity.X + 0.002f * num3;
+				Projectile.velocity.Y = Projectile.velocity.Y + 0.002f * num2;
 			}
 			else {
-				projectile.velocity.X = projectile.velocity.X - 0.002f * num3;
-				projectile.velocity.Y = projectile.velocity.Y - 0.002f * num2;
+				Projectile.velocity.X = Projectile.velocity.X - 0.002f * num3;
+				Projectile.velocity.Y = Projectile.velocity.Y - 0.002f * num2;
 			}
 
-			projectile.ai[0]++;
-			if (projectile.ai[0] > 5400f) {
-				projectile.damage = 0;
-				projectile.ai[1] = 1f;
-				if (projectile.alpha < 255) {
-					projectile.alpha += 5;
-					if (projectile.alpha > 255)
-						projectile.alpha = 255;
+			Projectile.ai[0]++;
+			if (Projectile.ai[0] > 5400f) {
+				Projectile.damage = 0;
+				Projectile.ai[1] = 1f;
+				if (Projectile.alpha < 255) {
+					Projectile.alpha += 5;
+					if (Projectile.alpha > 255)
+						Projectile.alpha = 255;
 				}
-				else if (projectile.owner == Main.myPlayer)
-					projectile.Kill();
+				else if (Projectile.owner == Main.myPlayer)
+					Projectile.Kill();
 			}
 			else {
-				float num4 = (projectile.Center - Main.player[projectile.owner].Center).Length() / 100f;
+				float num4 = (Projectile.Center - Main.player[Projectile.owner].Center).Length() / 100f;
 				if (num4 > 4f) {
 					num4 *= 1.1f;
 				}
@@ -117,15 +117,15 @@ namespace SpiritMod.Projectiles
 				if (num4 > 10f) {
 					num4 *= 1.7f;
 				}
-				if (!Main.player[projectile.owner].GetSpiritPlayer().runicSet) {
+				if (!Main.player[Projectile.owner].GetSpiritPlayer().runicSet) {
 					num4 += 100f;
 				}
-				projectile.ai[0] += num4;
+				Projectile.ai[0] += num4;
 
-				if (projectile.alpha > 50) {
-					projectile.alpha -= 10;
-					if (projectile.alpha < 50) {
-						projectile.alpha = 50;
+				if (Projectile.alpha > 50) {
+					Projectile.alpha -= 10;
+					if (Projectile.alpha < 50) {
+						Projectile.alpha = 50;
 					}
 				}
 			}
@@ -137,7 +137,7 @@ namespace SpiritMod.Projectiles
 				if (Main.npc[i].CanBeChasedBy(this, false)) {
 					float num6 = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
 					float num7 = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
-					float num8 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num6) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num7);
+					float num8 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num6) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num7);
 					if (num8 < num5) {
 						num5 = num8;
 						value = Main.npc[i].Center;
@@ -146,45 +146,45 @@ namespace SpiritMod.Projectiles
 				}
 			}
 			if (flag) {
-				Vector2 vector = value - projectile.Center;
+				Vector2 vector = value - Projectile.Center;
 				vector.Normalize();
 				vector *= 0.75f;
-				projectile.velocity = (projectile.velocity * 10f + vector) / 11f;
+				Projectile.velocity = (Projectile.velocity * 10f + vector) / 11f;
 				return false;
 			}
 
-			if (projectile.velocity.Length() > 0.2f) {
-				projectile.velocity *= 0.98f;
+			if (Projectile.velocity.Length() > 0.2f) {
+				Projectile.velocity *= 0.98f;
 			}
 			return false;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			projectile.velocity *= 0f;
-			projectile.alpha = 255;
-			projectile.timeLeft = 3;
+			Projectile.velocity *= 0f;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 3;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
+			ProjectileExtras.Explode(Projectile.whoAmI, 120, 120,
 				delegate {
 					for (int i = 0; i < 40; i++) {
-						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.BlueCrystalShard, 0f, -2f, 0, default, 2f);
+						int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.BlueCrystalShard, 0f, -2f, 0, default, 2f);
 						Main.dust[num].noGravity = true;
 						Dust dust = Main.dust[num];
 						dust.position.X += (Main.rand.Next(-30, 31) / 20) - 1.5f;
 						dust.position.Y += (Main.rand.Next(-30, 31) / 20) - 1.5f;
-						if (dust.position != projectile.Center)
-							dust.velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
+						if (dust.position != Projectile.Center)
+							dust.velocity = Projectile.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				});
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			ProjectileExtras.DrawAroundOrigin(projectile.whoAmI, lightColor);
+			ProjectileExtras.DrawAroundOrigin(Projectile.whoAmI, lightColor);
 			return false;
 		}
 	}

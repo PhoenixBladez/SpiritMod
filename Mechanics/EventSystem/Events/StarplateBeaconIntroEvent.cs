@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Utilities;
 using SpiritMod.Mechanics.EventSystem.Controllers;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
@@ -104,7 +106,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			AddToQueue(new ExpressionController(0, (int frame) =>
 			{
 				if(Main.netMode != NetmodeID.Server)
-					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/StarplateBlast"), center);
+					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/StarplateBlast"), center);
 			}));
 
 			// add a screen shake event to the queue
@@ -234,7 +236,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 					for (int i = 0; i < _particles.Count; i++)
 					{
 						Vector2 scale = _particles[i].Size * new Vector2(0.0625f);
-						spriteBatch.Draw(Main.blackTileTexture, _particles[i].Position - Main.screenPosition, null, Color.White * _particles[i].Lifetime * _particles[i].Opacity * overlayOpacity, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+						spriteBatch.Draw(TextureAssets.BlackTile.Value, _particles[i].Position - Main.screenPosition, null, Color.White * _particles[i].Lifetime * _particles[i].Opacity * overlayOpacity, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 					}
 				}
 
@@ -246,7 +248,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			{
 				if (beginSB) spriteBatch.Begin();
 
-				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), null, Color.White * _flashOpacity.Ease(_currentTime));
+				spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), null, Color.White * _flashOpacity.Ease(_currentTime));
 
 				if (beginSB) spriteBatch.End();
 			}

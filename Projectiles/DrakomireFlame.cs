@@ -14,40 +14,40 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.timeLeft = 60;
-			projectile.penetrate = -1;
-			projectile.hostile = false;
-			projectile.melee = true;
-			projectile.friendly = true;
-			projectile.tileCollide = true;
-			projectile.hide = true;
+			Projectile.width = 8;
+			Projectile.height = 8;
+			Projectile.timeLeft = 60;
+			Projectile.penetrate = -1;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.friendly = true;
+			Projectile.tileCollide = true;
+			Projectile.hide = true;
 		}
 
 		public override bool PreAI()
 		{
-			if (projectile.velocity.Y < 8f)
-				projectile.velocity.Y += 0.1f;
+			if (Projectile.velocity.Y < 8f)
+				Projectile.velocity.Y += 0.1f;
 
 
-			Vector2 next = projectile.position + projectile.velocity;
-			Tile inside = Main.tile[((int)projectile.position.X + (projectile.width >> 1)) >> 4, ((int)projectile.position.Y + (projectile.height >> 1)) >> 4];
-			if (inside.active() && Main.tileSolid[inside.type]) {
-				projectile.position.Y -= 16f;
+			Vector2 next = Projectile.position + Projectile.velocity;
+			Tile inside = Main.tile[((int)Projectile.position.X + (Projectile.width >> 1)) >> 4, ((int)Projectile.position.Y + (Projectile.height >> 1)) >> 4];
+			if (inside.HasTile && Main.tileSolid[inside.TileType]) {
+				Projectile.position.Y -= 16f;
 				return false;
 			}
 
-			if (Collision.WetCollision(next, projectile.width, projectile.height)) {
-				if (Main.player[projectile.owner].waterWalk) {
-					projectile.velocity.Y = 0f;
+			if (Collision.WetCollision(next, Projectile.width, Projectile.height)) {
+				if (Main.player[Projectile.owner].waterWalk) {
+					Projectile.velocity.Y = 0f;
 				}
 				else {
-					projectile.timeLeft = 0;
+					Projectile.timeLeft = 0;
 				}
 			}
 
-			int num = Dust.NewDust(projectile.position, projectile.width * 2, projectile.height, DustID.Fire, (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-3, 4), 100, default, 1f);
+			int num = Dust.NewDust(Projectile.position, Projectile.width * 2, Projectile.height, DustID.Torch, (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-3, 4), 100, default, 1f);
 			Dust dust = Main.dust[num];
 			dust.position.X = dust.position.X - 2f;
 			dust.position.Y = dust.position.Y + 2f;

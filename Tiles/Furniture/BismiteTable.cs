@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class BismiteTable : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -22,8 +22,8 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Bismite Table");
 			AddMapEntry(new Color(100, 100, 100), name);
-			disableSmartCursor = true;
-			dustType = -1;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType = -1;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

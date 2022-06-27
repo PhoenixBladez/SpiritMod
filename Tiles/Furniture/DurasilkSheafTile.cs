@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class DurasilkSheafTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -40,7 +40,7 @@ namespace SpiritMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Durasilk Sheaf");
 			AddMapEntry(new Color(100, 100, 100), name);
-			dustType = -1;
+			DustType = -1;
 		}
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{

@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Ambient.Pillars
 {
 	public class Pillar1Tile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -34,8 +34,8 @@ namespace SpiritMod.Tiles.Ambient.Pillars
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Pillar");
 			AddMapEntry(new Color(179, 174, 161), name);
-			dustType = -1;
-			disableSmartCursor = true;
+			DustType = -1;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{

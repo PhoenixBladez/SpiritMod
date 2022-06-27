@@ -14,16 +14,16 @@ namespace SpiritMod.Items.Placeable.Tiles
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
-			item.maxStack = 999;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.createTile = ModContent.TileType<CreepingIceTile>();
+			Item.width = 16;
+			Item.height = 14;
+			Item.maxStack = 999;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.createTile = ModContent.TileType<CreepingIceTile>();
 		}
 	}
 }

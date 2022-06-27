@@ -14,11 +14,11 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.rare = -2;
-			item.maxStack = 30;
-			item.expert = true;
+			Item.width = 20;
+			Item.height = 20;
+			Item.rare = -2;
+			Item.maxStack = 30;
+			Item.expert = true;
 		}
 
 		public override bool CanRightClick() => true;

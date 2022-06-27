@@ -15,20 +15,19 @@ namespace SpiritMod.Items.Accessory
 
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 18;
-			item.value = Item.buyPrice(0, 15, 0, 0);
-			item.rare = ItemRarityID.Yellow;
-			item.accessory = true;
+			Item.width = 18;
+			Item.height = 18;
+			Item.value = Item.buyPrice(0, 15, 0, 0);
+			Item.rare = ItemRarityID.Yellow;
+			Item.accessory = true;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.SpectreBar, 10);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

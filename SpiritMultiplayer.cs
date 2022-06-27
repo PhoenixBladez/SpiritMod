@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Chat;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
@@ -169,7 +170,7 @@ namespace SpiritMod
 
 						int npcID = NPC.NewNPC(npcCenterX, npcCenterY, bossType);
 						Main.npc[npcID].netUpdate2 = true;
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", Main.npc[npcID].GetTypeNetName()), new Color(175, 75, 255));
+						ChatHelper.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", Main.npc[npcID].GetTypeNetName()), new Color(175, 75, 255));
 					}
 					break;
 				case MessageType.StartTide:
@@ -185,7 +186,7 @@ namespace SpiritMod
 					if (Main.netMode == NetmodeID.Server)
 						WriteToPacket(SpiritMod.Instance.GetPacket(4), (byte)MessageType.TameAuroraStag, stagWhoAmI).Send();
 
-					(Main.npc[stagWhoAmI].modNPC as AuroraStag).TameAnimationTimer = AuroraStag.TameAnimationLength;
+					(Main.npc[stagWhoAmI].ModNPC as AuroraStag).TameAnimationTimer = AuroraStag.TameAnimationLength;
 					break;
 				case MessageType.SpawnTrail:
 					int projindex = reader.ReadInt32();
@@ -197,7 +198,7 @@ namespace SpiritMod
 						break;
 					}
 
-					if (Main.projectile[projindex].modProjectile is IManualTrailProjectile trailProj)
+					if (Main.projectile[projindex].ModProjectile is IManualTrailProjectile trailProj)
 						trailProj.DoTrailCreation(SpiritMod.TrailManager);
 					break;
 				case MessageType.PlaceSuperSunFlower:

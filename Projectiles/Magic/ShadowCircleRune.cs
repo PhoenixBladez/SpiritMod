@@ -16,54 +16,54 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.width = 86;
-			projectile.height = 80;
-			projectile.hostile = false;
-			projectile.friendly = true;
-			projectile.alpha = 255;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
-			projectile.aiStyle = -1;
-			projectile.timeLeft = 3600;
-            projectile.minionSlots = 1;
-			projectile.sentry = true;
+			Projectile.width = 86;
+			Projectile.height = 80;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
+			Projectile.alpha = 255;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = -1;
+			Projectile.aiStyle = -1;
+			Projectile.timeLeft = 3600;
+            Projectile.minionSlots = 1;
+			Projectile.sentry = true;
 		}
 
 		public override bool PreAI()
 		{
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Shadowflame, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Shadowflame, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 
-			projectile.rotation += 0.05f * projectile.direction;
+			Projectile.rotation += 0.05f * Projectile.direction;
 			return true;
 		}
 
 		public override void AI()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 30) {
-				projectile.frameCounter = 0;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 30) {
+				Projectile.frameCounter = 0;
 				float num = 8000f;
 				int num2 = -1;
 				for (int i = 0; i < 200; i++) {
-					float num3 = Vector2.Distance(projectile.Center, Main.npc[i].Center);
-					if (num3 < num && num3 < 1640f && Main.npc[i].CanBeChasedBy(projectile, false)) {
+					float num3 = Vector2.Distance(Projectile.Center, Main.npc[i].Center);
+					if (num3 < num && num3 < 1640f && Main.npc[i].CanBeChasedBy(Projectile, false)) {
 						num2 = i;
 						num = num3;
 					}
 				}
 
 				if (num2 != -1) {
-					bool flag = Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num2].position, Main.npc[num2].width, Main.npc[num2].height);
+					bool flag = Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[num2].position, Main.npc[num2].width, Main.npc[num2].height);
 					if (flag) {
-						Vector2 value = Main.npc[num2].Center - projectile.Center;
+						Vector2 value = Main.npc[num2].Center - Projectile.Center;
 						float num4 = 9f;
 						float num5 = (float)Math.Sqrt((double)(value.X * value.X + value.Y * value.Y));
 						if (num5 > num4)
 							num5 = num4 / num5;
 
 						value *= num5;
-						int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value.X, value.Y, ModContent.ProjectileType<NPCs.Boss.Dusking.CrystalShadow>(), projectile.damage, projectile.knockBack / 2f, projectile.owner, 0f, 0f);
+						int p = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, value.X, value.Y, ModContent.ProjectileType<NPCs.Boss.Dusking.CrystalShadow>(), Projectile.damage, Projectile.knockBack / 2f, Projectile.owner, 0f, 0f);
 						Main.projectile[p].friendly = true;
 						Main.projectile[p].hostile = false;
 					}
@@ -71,9 +71,9 @@ namespace SpiritMod.Projectiles.Magic
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			ProjectileExtras.DrawAroundOrigin(projectile.whoAmI, lightColor);
+			ProjectileExtras.DrawAroundOrigin(Projectile.whoAmI, lightColor);
 			return false;
 		}
 

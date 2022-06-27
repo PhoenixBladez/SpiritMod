@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,11 +30,11 @@ namespace SpiritMod.Mechanics.AutoSell.Sell_Weapons
 			if (!player.GetModPlayer<AutoSellPlayer>().sell_Weapons)
 			{
 				player.GetModPlayer<AutoSellPlayer>().sell_Weapons = true;
-				Main.PlaySound(SoundID.MenuOpen);
+				SoundEngine.PlaySound(SoundID.MenuOpen);
 			}
 			else
 			{
-				Main.PlaySound(SoundID.MenuClose);
+				SoundEngine.PlaySound(SoundID.MenuClose);
 				player.GetModPlayer<AutoSellPlayer>().sell_Weapons = false;
 			}
 		}

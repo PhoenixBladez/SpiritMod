@@ -17,17 +17,17 @@ namespace SpiritMod.Items.Sets.AvianDrops.ApostleArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 22;
-			item.value = 10000;
-			item.rare = ItemRarityID.Orange;
-			item.defense = 5;
+			Item.width = 32;
+			Item.height = 22;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.Orange;
+			Item.defense = 5;
 		}
 		public override void SetMatch(bool male, ref int equipSlot, ref bool robes)
 		{
 			robes = true;
 			// The equipSlot is added in ExampleMod.cs --> Load hook
-			equipSlot = mod.GetEquipSlot("TalonGarb_Legs", EquipType.Legs);
+			equipSlot = Mod.GetEquipSlot("TalonGarb_Legs", EquipType.Legs);
 		}
 
 		public override void DrawHands(ref bool drawHands, ref bool drawArms)

@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs
 {
 	public class DrainLife : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Drain Life");
 			Description.SetDefault("Your life energy becomes theirs.");

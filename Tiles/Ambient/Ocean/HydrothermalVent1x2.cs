@@ -15,40 +15,39 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 24;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = 0;
-			item.rare = ItemRarityID.Blue;
-			item.createTile = ModContent.TileType<Breakable1x2Vent>();
-			item.maxStack = 999;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
+			Item.width = 30;
+			Item.height = 24;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.value = 0;
+			Item.rare = ItemRarityID.Blue;
+			Item.createTile = ModContent.TileType<Breakable1x2Vent>();
+			Item.maxStack = 999;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
 		}
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.placeStyle = Main.rand.Next(0, 2);
+			Item.placeStyle = Main.rand.Next(0, 2);
 			return false;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.AshBlock, 10);
 			recipe.AddIngredient(ItemID.Obsidian, 1);
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 
 	[TileTag(TileTags.Indestructible)]
 	public class HydrothermalVent1x2 : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -64,15 +63,15 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			TileObjectData.newTile.RandomStyleRange = 1;
 			TileObjectData.addTile(Type);
 
-			disableSmartCursor = true;
-			dustType = DustID.Stone;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType = DustID.Stone;
 
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Hydrothermal Vent");
 			AddMapEntry(new Color(64, 54, 66), name);
 		}
 
-		public override bool NewRightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			if (player.ZoneBeach && player.GetSpiritPlayer().isFullySubmerged)
@@ -96,8 +95,8 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 		{
 			Player player = Main.LocalPlayer;
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			player.showItemIcon2 = ModContent.ItemType<SmallVentItem>();
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = ModContent.ItemType<SmallVentItem>();
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
@@ -109,12 +108,12 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 
 			Tile t = Framing.GetTileSafely(i, j);
 
-			if (t.frameY == 0)
+			if (t.TileFrameY == 0)
 				SpawnSmoke(new Vector2(i - 0.75f, j) * 16);
 
 			if (config.VentCritters)
 			{
-				if (t.liquid > 155)
+				if (t.LiquidAmount > 155)
 				{
 					int npcIndex = -1;
 					if (Main.rand.NextBool(2200))
@@ -129,7 +128,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 
 					}
 					int npcIndex1 = -1;
-					if (!Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i - 1, j).active() && !Framing.GetTileSafely(i + 2, j).active() && !Framing.GetTileSafely(i - 2, j).active())
+					if (!Framing.GetTileSafely(i + 1, j).HasTile && !Framing.GetTileSafely(i - 1, j).HasTile && !Framing.GetTileSafely(i + 2, j).HasTile && !Framing.GetTileSafely(i - 2, j).HasTile)
 					{
 						if (Main.rand.NextBool(300))
 						{
@@ -144,7 +143,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 
 					}
 					int npcIndex2 = -1;
-					if (!Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i - 1, j).active())
+					if (!Framing.GetTileSafely(i + 1, j).HasTile && !Framing.GetTileSafely(i - 1, j).HasTile)
 					{
 						if (Main.rand.NextBool(85))
 							if (NPC.MechSpawn((float)i * 16, (float)j * 16, ModContent.NPCType<NPCs.Critters.TubeWorm>()))

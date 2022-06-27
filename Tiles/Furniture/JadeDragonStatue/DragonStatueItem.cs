@@ -13,23 +13,23 @@ namespace SpiritMod.Tiles.Furniture.JadeDragonStatue
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 34;
+			Item.width = 32;
+			Item.height = 34;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
-			item.value = Item.buyPrice(gold: 1);
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
+			Item.value = Item.buyPrice(gold: 1);
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.rare = ItemRarityID.Blue;
+			Item.rare = ItemRarityID.Blue;
 
-			item.createTile = ModContent.TileType<DragonStatue>();
+			Item.createTile = ModContent.TileType<DragonStatue>();
 		}
 	}
 }

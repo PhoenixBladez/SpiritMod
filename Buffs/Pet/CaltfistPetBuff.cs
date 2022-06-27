@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.Pet
 {
 	public class CaltfistPetBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cultfish");
 			Description.SetDefault("This little bugger lights the way!");

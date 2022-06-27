@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,23 +21,23 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 30;
-			item.useTime = 20;
-			item.useAnimation = 20;
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.value = Item.buyPrice(gold: 1);
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item80;
-			item.noMelee = true;
-			item.mountType = mod.MountType("ScarabMount");
-			item.expert = true;
+			Item.width = 20;
+			Item.height = 30;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.value = Item.buyPrice(gold: 1);
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item80;
+			Item.noMelee = true;
+			Item.mountType = Mod.Find<ModMount>("ScarabMount").Type;
+			Item.expert = true;
 		}
 	}
 
 	internal class PendantBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
@@ -46,37 +47,37 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.mount.SetMount(mod.MountType("ScarabMount"), player);
+			player.mount.SetMount(Mod.Find<ModMount>("ScarabMount").Type, player);
 			player.buffTime[buffIndex] = 10;
 		}
 	}
 
-	internal class ScarabMount : ModMountData
+	internal class ScarabMount : ModMount
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
-			mountData.buff = ModContent.BuffType<PendantBuff>();
-			mountData.fallDamage = 0f;
-			mountData.runSpeed = 9f;
-			mountData.dashSpeed = 3f;
-			mountData.flightTimeMax = 0;
-			mountData.fatigueMax = 0;
-			mountData.jumpHeight = 1;
-			mountData.acceleration = 0.04f;
-			mountData.jumpSpeed = 8f;
-			mountData.blockExtraJumps = false;
-			mountData.totalFrames = 1;
-			mountData.constantJump = false;
-			mountData.playerYOffsets = new int[] { 26 };
-			mountData.playerHeadOffset = 30;
-			mountData.bodyFrame = 3;
-			mountData.heightBoost = 26;
-			mountData.standingFrameCount = 1;
-			mountData.spawnDust = mod.DustType("SandDust");
+			MountData.buff = ModContent.BuffType<PendantBuff>();
+			MountData.fallDamage = 0f;
+			MountData.runSpeed = 9f;
+			MountData.dashSpeed = 3f;
+			MountData.flightTimeMax = 0;
+			MountData.fatigueMax = 0;
+			MountData.jumpHeight = 1;
+			MountData.acceleration = 0.04f;
+			MountData.jumpSpeed = 8f;
+			MountData.blockExtraJumps = false;
+			MountData.totalFrames = 1;
+			MountData.constantJump = false;
+			MountData.playerYOffsets = new int[] { 26 };
+			MountData.playerHeadOffset = 30;
+			MountData.bodyFrame = 3;
+			MountData.heightBoost = 26;
+			MountData.standingFrameCount = 1;
+			MountData.spawnDust = Mod.Find<ModDust>("SandDust").Type;
 			if (Main.netMode != NetmodeID.Server)
 			{
-				mountData.textureWidth = mountData.backTexture.Width;
-				mountData.textureHeight = mountData.backTexture.Height;
+				MountData.textureWidth = MountData.backTexture.Width;
+				MountData.textureHeight = MountData.backTexture.Height;
 			}
 		}
 
@@ -96,11 +97,11 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 			if (Math.Abs(player.velocity.X) > 3 && player.velocity.Y == 0)
 			{
 				if (modplayer.scarabtimer % 20 <= 1)
-					Main.PlaySound(SoundID.Roar, player.Center, 1);
+					SoundEngine.PlaySound(SoundID.Roar, player.Center, 1);
 
 				for (int j = 0; j < Math.Abs(player.velocity.X) / 3; j++)
 				{
-					Dust.NewDustPerfect(player.Center + new Vector2(0, player.height / 2) + Main.rand.NextVector2Circular(6, 6), mountData.spawnDust,
+					Dust.NewDustPerfect(player.Center + new Vector2(0, player.height / 2) + Main.rand.NextVector2Circular(6, 6), MountData.spawnDust,
 						-player.velocity.RotatedBy(MathHelper.PiOver4 * Math.Sign(player.velocity.X)).RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(0.5f, 1),
 						Scale: Main.rand.NextFloat(0.9f, 1.5f));
 				}
@@ -133,8 +134,8 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 		{
 			ScarabMountPlayer modplayer = drawPlayer.GetModPlayer<ScarabMountPlayer>();
 			rotation = modplayer.scarabrotation;
-			glowTexture = mod.GetTexture("Items/Sets/ScarabeusDrops/ScarabExpertDrop/ScarabMount_Glow");
-			Vector2 heightoffset = new Vector2(0, mountData.heightBoost - 16);
+			glowTexture = Mod.GetTexture("Items/Sets/ScarabeusDrops/ScarabExpertDrop/ScarabMount_Glow");
+			Vector2 heightoffset = new Vector2(0, MountData.heightBoost - 16);
 			drawPosition += heightoffset;
 			if (Math.Abs(drawPlayer.velocity.X) > 6)
 			{
@@ -166,7 +167,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 
 		public override bool CanBeHitByNPC(NPC npc, ref int cooldownSlot)
 		{
-			if (player.mount.Type == mod.MountType("ScarabMount") && Math.Abs(player.velocity.X) > 6)
+			if (Player.mount.Type == Mod.Find<ModMount>("ScarabMount").Type && Math.Abs(Player.velocity.X) > 6)
 				return false;
 
 			return base.CanBeHitByNPC(npc, ref cooldownSlot);

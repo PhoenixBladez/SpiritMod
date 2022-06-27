@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 {
 	public class MJWTrophyTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = true;
@@ -15,8 +15,8 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.StyleWrapLimit = 36;
 			TileObjectData.addTile(Type);
-			dustType = 7;
-			disableSmartCursor = true;
+			DustType = 7;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Moon Jelly Wizard Trophy");
 			AddMapEntry(new Color(120, 85, 60), name);
@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 			int item = 0;
 			switch (frameX / 54) {
 				case 0:
-					item = mod.ItemType("MJWTrophy");
+					item = Mod.Find<ModItem>("MJWTrophy").Type;
 					break;
 			}
 			if (item > 0) {

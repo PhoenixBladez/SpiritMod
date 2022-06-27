@@ -15,20 +15,20 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = 10000;
-			item.rare = ItemRarityID.Pink;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.Pink;
 
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.useTime = 20;
-			item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
 
-			item.noMelee = true;
+			Item.noMelee = true;
 
-			item.mountType = ModContent.MountType<DiabolicPlatform>();
+			Item.mountType = ModContent.MountType<DiabolicPlatform>();
 
-			item.UseSound = SoundID.Item25;
+			Item.UseSound = SoundID.Item25;
 		}
 	}
 }

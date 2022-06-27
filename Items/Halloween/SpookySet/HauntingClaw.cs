@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Halloween.SpookySet
 {
@@ -16,23 +17,23 @@ namespace SpiritMod.Items.Halloween.SpookySet
 
 		public override void SetDefaults()
 		{
-			item.damage = 50;
-			item.magic = true;
-			item.mana = 25;
-			item.width = 34;
-			item.height = 34;
-			item.useTime = 20;
-			item.useAnimation = 20;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 2;
-			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Yellow;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.shoot = ProjectileID.GreekFire2;
-			item.shootSpeed = 11f;
+			Item.damage = 50;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 25;
+			Item.width = 34;
+			Item.height = 34;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 2;
+			Item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Yellow;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = false;
+			Item.shoot = ProjectileID.GreekFire2;
+			Item.shootSpeed = 11f;
 		}
 
 		public static Vector2[] randomSpread(float speedX, float speedY, int angle, int num)
@@ -49,11 +50,11 @@ namespace SpiritMod.Items.Halloween.SpookySet
 			return (Vector2[])posArray;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2[] speeds = randomSpread(speedX, speedY, 8, 3);
 			for (int i = 0; i < 3; ++i) {
-				int newProj = Projectile.NewProjectile(position.X, position.Y, speeds[i].X, speeds[i].Y, type, damage, knockBack, player.whoAmI);
+				int newProj = Projectile.NewProjectile(position.X, position.Y, speeds[i].X, speeds[i].Y, type, damage, knockback, player.whoAmI);
 				Main.projectile[newProj].hostile = false;
 				Main.projectile[newProj].friendly = true;
 			}
@@ -62,11 +63,10 @@ namespace SpiritMod.Items.Halloween.SpookySet
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.SpookyWood, 14);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

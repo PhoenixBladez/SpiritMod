@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,20 +23,20 @@ namespace SpiritMod.Items.Consumable.Potion
 
 		public override void SetDefaults()
 		{
-			item.width = 34;
-			item.height = 26;
-			item.rare = ItemRarityID.Green;
-			item.maxStack = 30;
+			Item.width = 34;
+			Item.height = 26;
+			Item.rare = ItemRarityID.Green;
+			Item.maxStack = 30;
 
-			item.useStyle = ItemUseStyleID.EatingUsing;
-			item.useTime = item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.EatFood;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.consumable = true;
-			item.autoReuse = false;
-			ItemID.Sets.ItemNoGravity[item.type] = true;
-			item.potion = true;
-			item.healLife = 120;
-			item.UseSound = SoundID.Item3;
+			Item.consumable = true;
+			Item.autoReuse = false;
+			ItemID.Sets.ItemNoGravity[Item.type] = true;
+			Item.potion = true;
+			Item.healLife = 120;
+			Item.UseSound = SoundID.Item3;
 		}
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 		public override bool CanUseItem(Player player)
@@ -48,19 +49,19 @@ namespace SpiritMod.Items.Consumable.Potion
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) //pulsating glow effect in world
 		{
-			spriteBatch.Draw(Main.itemTexture[item.type], 
-				item.Center - Main.screenPosition,
+			spriteBatch.Draw(TextureAssets.Item[Item.type].Value, 
+				Item.Center - Main.screenPosition,
 				null, 
 				Color.Lerp(Color.White, Color.Transparent, 0.75f), 
 				rotation, 
-				item.Size / 2, 
-				MathHelper.Lerp(1f, 1.3f, (float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f), 
+				Item.Size / 2, 
+				MathHelper.Lerp(1f, 1.3f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 2 + 0.5f), 
 				SpriteEffects.None, 
 				0);
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			item.healLife = 0; //set item's heal life to 0 when actually used, so it doesnt heal player
+			Item.healLife = 0; //set item's heal life to 0 when actually used, so it doesnt heal player
 			if (!player.pStone)
 				player.AddBuff(BuffID.PotionSickness, 3600);
 			else
@@ -70,12 +71,12 @@ namespace SpiritMod.Items.Consumable.Potion
 			return true;
 		}
 
-		public override void UpdateInventory(Player player) => item.healLife = 120; //update the heal life back to 120 for tooltip and quick heal purposes
+		public override void UpdateInventory(Player player) => Item.healLife = 120; //update the heal life back to 120 for tooltip and quick heal purposes
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			foreach(TooltipLine line in tooltips.Where(x => x.mod == "Terraria" && x.Name == "HealLife")) {
-				line.text = "Restores 150 life over 10 seconds\nCauses Potion Sickness";
+			foreach(TooltipLine line in tooltips.Where(x => x.Mod == "Terraria" && x.Name == "HealLife")) {
+				line.Text = "Restores 150 life over 10 seconds\nCauses Potion Sickness";
 			}
 		}
 	}

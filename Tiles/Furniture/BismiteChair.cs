@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class BismiteChair : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -30,11 +30,11 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Bismite Chair");
 			AddMapEntry(new Color(100, 100, 100), name);
-			disableSmartCursor = true;
-			dustType = -1;
-			adjTiles = new int[] { TileID.Chairs };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType = -1;
+			AdjTiles = new int[] { TileID.Chairs };
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}

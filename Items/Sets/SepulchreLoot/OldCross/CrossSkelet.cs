@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,25 +13,25 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("AngrySkeleton");
-			Main.projFrames[projectile.type] = 5;
-			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-			ProjectileID.Sets.Homing[projectile.type] = true;
+			Main.projFrames[Projectile.type] = 5;
+			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 42;
-			projectile.height = 42;
-			projectile.scale = Main.rand.NextFloat(.7f, 1.1f);
-			ProjectileID.Sets.SentryShot[projectile.type] = true;
-			projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = true;
-			projectile.minionSlots = 0;
-			projectile.netImportant = true;
-			projectile.alpha = 0;
-			projectile.timeLeft = 360;
-			projectile.penetrate = 1;
+			Projectile.width = 42;
+			Projectile.height = 42;
+			Projectile.scale = Main.rand.NextFloat(.7f, 1.1f);
+			ProjectileID.Sets.SentryShot[Projectile.type] = true;
+			Projectile.friendly = true;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = true;
+			Projectile.minionSlots = 0;
+			Projectile.netImportant = true;
+			Projectile.alpha = 0;
+			Projectile.timeLeft = 360;
+			Projectile.penetrate = 1;
 		}
 
 		Vector2 hometarget;
@@ -50,98 +51,98 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 
 		public override void AI()
 		{
-			projectile.spriteDirection = -projectile.direction;
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 6)
+			Projectile.spriteDirection = -Projectile.direction;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 6)
 			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
+				Projectile.frame++;
+				Projectile.frameCounter = 0;
 
 			}
-			if (projectile.frame >= 4)
-				projectile.frame = 0;
+			if (Projectile.frame >= 4)
+				Projectile.frame = 0;
 
-			Projectile coffin = Main.projectile[(int)projectile.ai[0]];
+			Projectile coffin = Main.projectile[(int)Projectile.ai[0]];
 
-			if (!coffin.active || coffin.type != ModContent.ProjectileType<CrossCoffin>() || coffin.owner != projectile.owner)
-				projectile.Kill();
+			if (!coffin.active || coffin.type != ModContent.ProjectileType<CrossCoffin>() || coffin.owner != Projectile.owner)
+				Projectile.Kill();
 
 			for (int index = 0; index < 1000; ++index)
 			{
-				if (index != projectile.whoAmI && Main.projectile[index].active && (Main.projectile[index].owner == projectile.owner && Main.projectile[index].type == projectile.type) && (double)Math.Abs((float)(projectile.position.X - Main.projectile[index].position.X)) + (double)Math.Abs((float)(projectile.position.Y - Main.projectile[index].position.Y)) < (double)projectile.width)
+				if (index != Projectile.whoAmI && Main.projectile[index].active && (Main.projectile[index].owner == Projectile.owner && Main.projectile[index].type == Projectile.type) && (double)Math.Abs((float)(Projectile.position.X - Main.projectile[index].position.X)) + (double)Math.Abs((float)(Projectile.position.Y - Main.projectile[index].position.Y)) < (double)Projectile.width)
 				{
-					if (projectile.position.X < Main.projectile[index].position.X)
-						projectile.velocity.X -= 0.05f;
+					if (Projectile.position.X < Main.projectile[index].position.X)
+						Projectile.velocity.X -= 0.05f;
 					else
-						projectile.velocity.X += 0.05f;
+						Projectile.velocity.X += 0.05f;
 
-					if (projectile.position.Y < Main.projectile[index].position.Y)
-						projectile.velocity.Y -= 0.05f;
+					if (Projectile.position.Y < Main.projectile[index].position.Y)
+						Projectile.velocity.Y -= 0.05f;
 					else
-						projectile.velocity.Y += 0.05f;
+						Projectile.velocity.Y += 0.05f;
 				}
 			}
 
-			if (Main.npc[(int)projectile.ai[1]].CanBeChasedBy(projectile))
-				hometarget = Main.npc[(int)projectile.ai[1]].Center;
+			if (Main.npc[(int)Projectile.ai[1]].CanBeChasedBy(Projectile))
+				hometarget = Main.npc[(int)Projectile.ai[1]].Center;
 			else
 			{
 				hometarget = coffin.Center;
 
-				NPC miniontarget = projectile.OwnerMinionAttackTargetNPC;
+				NPC miniontarget = Projectile.OwnerMinionAttackTargetNPC;
 				float maxdist = 900f;
-				if (miniontarget != null && projectile.Distance(miniontarget.Center) < maxdist && miniontarget.CanBeChasedBy(projectile))
+				if (miniontarget != null && Projectile.Distance(miniontarget.Center) < maxdist && miniontarget.CanBeChasedBy(Projectile))
 				{
-					projectile.ai[1] = miniontarget.whoAmI;
+					Projectile.ai[1] = miniontarget.whoAmI;
 				}
 				else for (int i = 0; i < Main.npc.Length; i++)
 				{
 					NPC potentialtarget = Main.npc[i];
-					if (potentialtarget != null && projectile.Distance(potentialtarget.Center) < maxdist && potentialtarget.CanBeChasedBy(projectile))
+					if (potentialtarget != null && Projectile.Distance(potentialtarget.Center) < maxdist && potentialtarget.CanBeChasedBy(Projectile))
 					{
-						maxdist = projectile.Distance(potentialtarget.Center);
-						projectile.ai[1] = potentialtarget.whoAmI;
+						maxdist = Projectile.Distance(potentialtarget.Center);
+						Projectile.ai[1] = potentialtarget.whoAmI;
 					}
 				}
 			}
 
 			if (onground)
 			{
-				projectile.velocity.X = MathHelper.Lerp(projectile.velocity.X, Math.Sign(projectile.DirectionTo(hometarget).X) * 8, 0.05f);
+				Projectile.velocity.X = MathHelper.Lerp(Projectile.velocity.X, Math.Sign(Projectile.DirectionTo(hometarget).X) * 8, 0.05f);
 
-				if(projectile.Center.Y > hometarget.Y + 20 && Math.Abs(projectile.Center.X - hometarget.X) < 100) {
+				if(Projectile.Center.Y > hometarget.Y + 20 && Math.Abs(Projectile.Center.X - hometarget.X) < 100) {
 
-					projectile.velocity.Y = MathHelper.Clamp((hometarget.Y - projectile.Center.Y) / 10, -16, -6); 
-					projectile.velocity.X = MathHelper.Clamp((hometarget.X - projectile.Center.X) / 12, -8, 8);
+					Projectile.velocity.Y = MathHelper.Clamp((hometarget.Y - Projectile.Center.Y) / 10, -16, -6); 
+					Projectile.velocity.X = MathHelper.Clamp((hometarget.X - Projectile.Center.X) / 12, -8, 8);
 				}
 			}
-			if (projectile.velocity.Y < 16)
-				projectile.velocity.Y += 0.4f;
+			if (Projectile.velocity.Y < 16)
+				Projectile.velocity.Y += 0.4f;
 
-			Collision.StepUp(ref projectile.position, ref projectile.velocity, projectile.width, projectile.height, ref projectile.stepSpeed, ref projectile.gfxOffY);
+			Collision.StepUp(ref Projectile.position, ref Projectile.velocity, Projectile.width, Projectile.height, ref Projectile.stepSpeed, ref Projectile.gfxOffY);
 			onground = false;
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++)
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Poisoned);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Poisoned);
 			for(int i = 1; i <= Main.rand.Next(2, 5); i++)
 			{
-				Gore gore = Gore.NewGoreDirect(projectile.position, projectile.velocity / 2, mod.GetGoreSlot("Gores/Skelet/skeler" + i));
+				Gore gore = Gore.NewGoreDirect(Projectile.position, Projectile.velocity / 2, Mod.Find<ModGore>("Gores/Skelet/skeler" + i).Type);
 				gore.timeLeft = 40;
 			}
-			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 2, 0.75f, 0.25f);
+			SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 2, 0.75f, 0.25f);
 		}
 		public override bool MinionContactDamage() => true;
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
-			fallThrough = (projectile.Center.Y < hometarget.Y - 20);
+			fallThrough = (Projectile.Center.Y < hometarget.Y - 20);
 			return true;
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			onground = (projectile.velocity.Y == 0);
+			onground = (Projectile.velocity.Y == 0);
 			return false;
 		}
 	}

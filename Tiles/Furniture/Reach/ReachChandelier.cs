@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 {
 	public class ReachChandelier : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -32,7 +32,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Elderbark Chandelier");
 			AddMapEntry(new Color(179, 146, 107), name);
-			adjTiles = new int[] { TileID.Chandeliers };
+			AdjTiles = new int[] { TileID.Chandeliers };
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

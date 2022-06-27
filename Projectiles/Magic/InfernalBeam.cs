@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Magic
@@ -12,72 +13,72 @@ namespace SpiritMod.Projectiles.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Infernal Beam");
-			Main.projFrames[projectile.type] = 3;
+			Main.projFrames[Projectile.type] = 3;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 18;
-			projectile.height = 18;
-			projectile.alpha = 255;
+			Projectile.width = 18;
+			Projectile.height = 18;
+			Projectile.alpha = 255;
 
-			projectile.penetrate = -1;
+			Projectile.penetrate = -1;
 
-			projectile.friendly = true;
-			projectile.tileCollide = false;
+			Projectile.friendly = true;
+			Projectile.tileCollide = false;
 			//projectile.updatedNPCImmunity = true;
 		}
 
 		public override bool PreAI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 
-			if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
-				projectile.velocity = -Vector2.UnitY;
+			if (Projectile.velocity.HasNaNs() || Projectile.velocity == Vector2.Zero)
+				Projectile.velocity = -Vector2.UnitY;
 
 			if (player.active && !player.dead && player.channel && !player.CCed && !player.noItems) {
-				projectile.Center = player.Center;
-				projectile.velocity = Vector2.Normalize(Main.MouseWorld - player.Center);
-				projectile.timeLeft = 2;
+				Projectile.Center = player.Center;
+				Projectile.velocity = Vector2.Normalize(Main.MouseWorld - player.Center);
+				Projectile.timeLeft = 2;
 
-				player.ChangeDir(projectile.direction);
-				player.heldProj = projectile.whoAmI;
+				player.ChangeDir(Projectile.direction);
+				player.heldProj = Projectile.whoAmI;
 				player.itemTime = 2;
 				player.itemAnimation = 2;
-				player.itemRotation = (float)Math.Atan2((projectile.velocity.Y * projectile.direction), (projectile.velocity.X * projectile.direction));
+				player.itemRotation = (float)Math.Atan2((Projectile.velocity.Y * Projectile.direction), (Projectile.velocity.X * Projectile.direction));
 
-				projectile.ai[0]++;
-				if (projectile.ai[0] >= 10) {
+				Projectile.ai[0]++;
+				if (Projectile.ai[0] >= 10) {
 					if (!player.CheckMana(player.inventory[player.selectedItem].mana, true, false)) {
-						projectile.Kill();
+						Projectile.Kill();
 						return false;
 					}
-					projectile.ai[0] = 0;
+					Projectile.ai[0] = 0;
 				}
 			}
 			else {
-				projectile.Kill();
+				Projectile.Kill();
 				return false;
 			}
 
-			if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
-				projectile.velocity = -Vector2.UnitY;
+			if (Projectile.velocity.HasNaNs() || Projectile.velocity == Vector2.Zero)
+				Projectile.velocity = -Vector2.UnitY;
 
-			float rot = projectile.velocity.ToRotation();
-			projectile.rotation = rot + 1.57F;
-			projectile.velocity = rot.ToRotationVector2();
+			float rot = Projectile.velocity.ToRotation();
+			Projectile.rotation = rot + 1.57F;
+			Projectile.velocity = rot.ToRotationVector2();
 			int num811 = 2;
 			float scaleFactor7 = 0f;
-			Vector2 value37 = projectile.Center;
+			Vector2 value37 = Projectile.Center;
 
 			float[] array3 = new float[num811];
 			int num812 = 0;
 			while ((float)num812 < num811) {
 				float num813 = (float)num812 / (num811 - 1);
-				Vector2 value38 = value37 + projectile.velocity.RotatedBy(Math.PI / 2, default) * (num813 - 0.5f) * scaleFactor7 * projectile.scale;
+				Vector2 value38 = value37 + Projectile.velocity.RotatedBy(Math.PI / 2, default) * (num813 - 0.5f) * scaleFactor7 * Projectile.scale;
 				int num814 = (int)value38.X / 16;
 				int num815 = (int)value38.Y / 16;
-				Vector2 vector69 = value38 + projectile.velocity * 16f * 150f;
+				Vector2 vector69 = value38 + Projectile.velocity * 16f * 150f;
 				int num816 = (int)vector69.X / 16;
 				int num817 = (int)vector69.Y / 16;
 				Tuple<int, int> tuple;
@@ -101,9 +102,9 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			num819 /= num811;
 			float amount = 0.5f;
-			projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num819, amount);
+			Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], num819, amount);
 
-			Vector2 vector72 = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
+			Vector2 vector72 = Projectile.Center + Projectile.velocity * (Projectile.localAI[1] - 14f);
 			/*for (int num826 = 0; num826 < 2; num826++)
             {
                 float num827 = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * 1.57079637f;
@@ -128,7 +129,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
 			float tmp = 0f;
-			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], 30f * projectile.scale, ref tmp)) {
+			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], 30f * Projectile.scale, ref tmp)) {
 				return true;
 			}
 			return false;
@@ -137,26 +138,26 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			//projectile.npcImmune[target.whoAmI] = 10;
-			target.immune[projectile.owner] = 0;
+			target.immune[Projectile.owner] = 0;
 		}
 
-		public override bool PreDraw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			if (projectile.velocity == Vector2.Zero)
+			if (Projectile.velocity == Vector2.Zero)
 				return false;
 
-			Texture2D tex2 = Main.projectileTexture[projectile.type];
-			float num210 = projectile.localAI[1];
+			Texture2D tex2 = TextureAssets.Projectile[Projectile.type].Value;
+			float num210 = Projectile.localAI[1];
 			Microsoft.Xna.Framework.Color c_ = new Microsoft.Xna.Framework.Color(255, 255, 255, 127);
-			Vector2 value20 = projectile.Center.Floor();
-			num210 -= projectile.scale * 10.5f;
-			Vector2 vector41 = new Vector2(projectile.scale);
+			Vector2 value20 = Projectile.Center.Floor();
+			num210 -= Projectile.scale * 10.5f;
+			Vector2 vector41 = new Vector2(Projectile.scale);
 			DelegateMethods.f_1 = 1f;
 			DelegateMethods.c_1 = c_;
 			DelegateMethods.i_1 = 54000 - (int)Main.time / 2;
-			Utils.DrawLaser(Main.spriteBatch, tex2, value20 - Main.screenPosition, value20 + projectile.velocity * num210 - Main.screenPosition, vector41, new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw));
-			DelegateMethods.c_1 = new Color(255, 255, 255, 127) * 0.75f * projectile.Opacity;
-			Utils.DrawLaser(Main.spriteBatch, tex2, value20 - Main.screenPosition, value20 + projectile.velocity * num210 - Main.screenPosition, vector41 / 2f, new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw));
+			Utils.DrawLaser(Main.spriteBatch, tex2, value20 - Main.screenPosition, value20 + Projectile.velocity * num210 - Main.screenPosition, vector41, new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw));
+			DelegateMethods.c_1 = new Color(255, 255, 255, 127) * 0.75f * Projectile.Opacity;
+			Utils.DrawLaser(Main.spriteBatch, tex2, value20 - Main.screenPosition, value20 + Projectile.velocity * num210 - Main.screenPosition, vector41 / 2f, new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw));
 
 			return false;
 		}

@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.Pet
 {
 	public class LanternBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lantern Power Battery");
 			Description.SetDefault("'It illuminates the way!'");

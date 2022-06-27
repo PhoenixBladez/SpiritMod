@@ -18,22 +18,22 @@ namespace SpiritMod.Items.Sets.TideDrops
 
 		public override void SetDefaults()
 		{
-			item.damage = 26;
-			item.ranged = true;
-			item.width = 65;
-			item.height = 21;
-			item.useTime = 46;
-			item.useAnimation = 46;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 7.5f;
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Orange;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<CoconutSpurt>();
-			item.shootSpeed = 1.5f;
-			item.crit = 2;
-			item.UseSound = SoundID.Item61;
+			Item.damage = 26;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 65;
+			Item.height = 21;
+			Item.useTime = 46;
+			Item.useAnimation = 46;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 7.5f;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<CoconutSpurt>();
+			Item.shootSpeed = 1.5f;
+			Item.crit = 2;
+			Item.UseSound = SoundID.Item61;
 			// item.useAmmo = AmmoID.Bullet;
 		}
 
@@ -41,10 +41,10 @@ namespace SpiritMod.Items.Sets.TideDrops
 		{
 			return new Vector2(-7, 0);
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			for (int i = 0; i < 3; i++) {
-				Projectile.NewProjectile(position.X, position.Y, (speedX * Main.rand.NextFloat(25, 30) / 4) + (Main.rand.NextFloat(-1, 2) * .66f), (speedY * Main.rand.Next(25, 30) / 4) + (Main.rand.Next(-1, 2) * .66f), ModContent.ProjectileType<CoconutSpurt>(), damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position.X, position.Y, (speedX * Main.rand.NextFloat(25, 30) / 4) + (Main.rand.NextFloat(-1, 2) * .66f), (speedY * Main.rand.Next(25, 30) / 4) + (Main.rand.Next(-1, 2) * .66f), ModContent.ProjectileType<CoconutSpurt>(), damage, knockback, player.whoAmI);
 			}
 			return false;
 		}

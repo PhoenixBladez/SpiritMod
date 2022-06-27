@@ -8,7 +8,7 @@ namespace SpiritMod.World.Sepulchre
 {
 	public class SepulchreMirror : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -21,7 +21,7 @@ namespace SpiritMod.World.Sepulchre
 			TileObjectData.newTile.AnchorTop = default;
 			TileObjectData.newTile.AnchorWall = true;
 			TileObjectData.addTile(Type);
-			dustType = -1;
+			DustType = -1;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Sepulchre Mirror");
 			AddMapEntry(new Color(100, 100, 100), name);
@@ -37,30 +37,29 @@ namespace SpiritMod.World.Sepulchre
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 30;
+			Item.width = 20;
+			Item.height = 30;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<SepulchreMirror>();
+			Item.createTile = ModContent.TileType<SepulchreMirror>();
 		}
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Tiles.SepulchreBrickTwoItem>(), 10);
 			recipe.AddIngredient(ItemID.Glass, 5);
 			recipe.AddTile(TileID.HeavyWorkBench);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

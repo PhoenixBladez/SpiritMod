@@ -15,22 +15,22 @@ namespace SpiritMod.Items.Equipment
 
 		public override void SetDefaults()
 		{
-			item.width = 44;
-			item.height = 48;
-			item.useTime = 60;
-			item.useAnimation = 60;
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.noMelee = true;
-			item.value = Item.sellPrice(gold: 1);
-			item.rare = ItemRarityID.Blue;
-			item.mana = 20;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
+			Item.width = 44;
+			Item.height = 48;
+			Item.useTime = 60;
+			Item.useAnimation = 60;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.noMelee = true;
+			Item.value = Item.sellPrice(gold: 1);
+			Item.rare = ItemRarityID.Blue;
+			Item.mana = 20;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = false;
 		}
 
 		public override bool CanUseItem(Player player) => player.ZoneDesert;
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			if(Sandstorm.Happening) {
 				Sandstorm.Happening = false;

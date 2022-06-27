@@ -12,16 +12,16 @@ namespace SpiritMod.Items.Armor.OperativeSet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Operative's Jacket");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/OperativeSet/OperativeBody_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Armor/OperativeSet/OperativeBody_Glow");
 
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 20;
-			item.value = Terraria.Item.buyPrice(0, 1, 50, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.vanity = true;
+			Item.width = 30;
+			Item.height = 20;
+			Item.value = Terraria.Item.buyPrice(0, 1, 50, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.vanity = true;
 		}
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
 		{

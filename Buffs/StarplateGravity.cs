@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class StarplateGravity : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starplate Gravity");
 			Description.SetDefault("The Starplate Voyager pulls you toward the earth...");

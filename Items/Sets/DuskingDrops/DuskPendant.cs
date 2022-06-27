@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,34 +13,34 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 		{
 			DisplayName.SetDefault("Dusk Pendant");
 			Tooltip.SetDefault("13% increased magic and ranged critical strike chance at night");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/DuskingDrops/DuskPendant_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/DuskingDrops/DuskPendant_Glow");
 		}
 
 
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 28;
-			item.rare = ItemRarityID.LightRed;
-			item.value = 80000;
-			item.expert = true;
-			item.melee = true;
-			item.accessory = true;
+			Item.width = 24;
+			Item.height = 28;
+			Item.rare = ItemRarityID.LightRed;
+			Item.value = 80000;
+			Item.expert = true;
+			Item.DamageType = DamageClass.Melee;
+			Item.accessory = true;
 
-			item.knockBack = 9f;
+			Item.knockBack = 9f;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Sets/DuskingDrops/DuskPendant_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/DuskingDrops/DuskPendant_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,

@@ -15,38 +15,37 @@ namespace SpiritMod.Items.Sets.SpearsMisc.DuskLance
 		}
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.width = 24;
-			item.height = 24;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.melee = true;
-			item.autoReuse = true;
-			item.noMelee = true;
-			item.useAnimation = 28;
-			item.useTime = 28;
-			item.shootSpeed = 5.5f;
-			item.knockBack = 6f;
-			item.damage = 38;
-			item.value = Item.sellPrice(0, 3, 60, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.shoot = ModContent.ProjectileType<DuskLanceProj>();
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.width = 24;
+			Item.height = 24;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.DamageType = DamageClass.Melee;
+			Item.autoReuse = true;
+			Item.noMelee = true;
+			Item.useAnimation = 28;
+			Item.useTime = 28;
+			Item.shootSpeed = 5.5f;
+			Item.knockBack = 6f;
+			Item.damage = 38;
+			Item.value = Item.sellPrice(0, 3, 60, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.shoot = ModContent.ProjectileType<DuskLanceProj>();
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if (player.ownedProjectileCounts[item.shoot] > 0)
+			if (player.ownedProjectileCounts[Item.shoot] > 0)
 				return false;
 			return true;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.DarkLance, 1);
 			recipe.AddIngredient(ModContent.ItemType<DuskStone>(), 4);
 			recipe.AddIngredient(ItemID.SoulofNight, 5);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

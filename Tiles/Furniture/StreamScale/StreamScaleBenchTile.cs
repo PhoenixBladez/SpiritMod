@@ -9,7 +9,7 @@ namespace SpiritMod.Tiles.Furniture.StreamScale
 {
 	public class StreamScaleBenchTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -23,9 +23,9 @@ namespace SpiritMod.Tiles.Furniture.StreamScale
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Stream Work Bench");
 			AddMapEntry(new Color(56, 181, 203), name);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.WorkBenches };
-			dustType = -1;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.WorkBenches };
+			DustType = -1;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

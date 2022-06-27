@@ -7,11 +7,11 @@ namespace SpiritMod.Tiles.Walls.Natural
 {
 	public class GlowplateWall : ModWall
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.wallHouse[Type] = true;
 			AddMapEntry(new Color(40, 40, 40));
-			drop = ModContent.ItemType<GlowplateWallItem>();
+			ItemDrop = ModContent.ItemType<GlowplateWallItem>();
 		}
 
 		/*	public override void NumDust(int i, int j, bool fail, ref int num)

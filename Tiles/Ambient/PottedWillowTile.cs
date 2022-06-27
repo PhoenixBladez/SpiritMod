@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class PottedWillowTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -29,10 +29,10 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Yellow Willow Bonsai");
-			dustType = -1;
+			DustType = -1;
 			AddMapEntry(new Color(217, 171, 63), name);
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}

@@ -14,12 +14,12 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 		}
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 18;
-			item.value = Item.buyPrice(0, 51, 0, 0);
-			item.rare = ItemRarityID.Cyan;
-			item.accessory = true;
-			item.defense = 2;
+			Item.width = 18;
+			Item.height = 18;
+			Item.value = Item.buyPrice(0, 51, 0, 0);
+			Item.rare = ItemRarityID.Cyan;
+			Item.accessory = true;
+			Item.defense = 2;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

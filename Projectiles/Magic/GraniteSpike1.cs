@@ -15,54 +15,54 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.penetrate = 3;
-			projectile.timeLeft = 120;
-			projectile.alpha = 255;
+			Projectile.friendly = true;
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.penetrate = 3;
+			Projectile.timeLeft = 120;
+			Projectile.alpha = 255;
 		}
 
 		public override bool PreAI()
 		{
 			for (int index1 = 0; index1 < 9; ++index1) {
-				float num1 = projectile.velocity.X * 0.2f * (float)index1;
-				float num2 = projectile.velocity.Y * -0.200000002980232f * index1;
-				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Electric, 0.0f, 0.0f, 100, new Color(), 1.3f);
+				float num1 = Projectile.velocity.X * 0.2f * (float)index1;
+				float num2 = Projectile.velocity.Y * -0.200000002980232f * index1;
+				int index2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Electric, 0.0f, 0.0f, 100, new Color(), 1.3f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.0f;
 				Main.dust[index2].scale = .425f;
 				Main.dust[index2].position.X -= num1;
 				Main.dust[index2].position.Y -= num2;
 			}
-			projectile.velocity.Y += projectile.ai[0];
-			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+			Projectile.velocity.Y += Projectile.ai[0];
+			Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
 
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 4) {
-				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % 2;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 4) {
+				Projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % 2;
 			}
 			return false;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.Kill();
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Flare_Blue);
+			Projectile.Kill();
+			Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Flare_Blue);
 			return false;
 		}
 		public override void Kill(int timeLeft)
 		{
-			Dust.NewDust(projectile.position + projectile.velocity,
-				projectile.width, projectile.height,
-				DustID.Flare_Blue, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+			Dust.NewDust(Projectile.position + Projectile.velocity,
+				Projectile.width, Projectile.height,
+				DustID.Flare_Blue, Projectile.oldVelocity.X * 0.2f, Projectile.oldVelocity.Y * 0.2f);
 
 			for (int i = 0; i < 4; i++) {
 				float rotation = (float)(Main.rand.Next(180, 361) * (Math.PI / 180));
 				Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
-					velocity.X, velocity.Y, ModContent.ProjectileType<GraniteShard1>(), projectile.damage/2, projectile.knockBack, projectile.owner);
+				int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y,
+					velocity.X, velocity.Y, ModContent.ProjectileType<GraniteShard1>(), Projectile.damage/2, Projectile.knockBack, Projectile.owner);
 				Main.projectile[proj].friendly = true;
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].velocity *= 4f;

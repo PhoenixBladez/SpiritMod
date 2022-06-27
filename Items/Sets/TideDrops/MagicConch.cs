@@ -17,29 +17,29 @@ namespace SpiritMod.Items.Sets.TideDrops
 
 		public override void SetDefaults()
 		{
-			item.damage = 19;
-			item.magic = true;
-			item.mana = 20;
-			item.width = 40;
-			item.height = 40;
-			item.useTime = 60;
-			item.useAnimation = 60;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 0f;
-			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 0, 50, 0);
-			item.rare = ItemRarityID.Orange;
-			item.UseSound = SoundID.Item21;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<MagicConchProj>();
-			item.shootSpeed = 0f;
+			Item.damage = 19;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 20;
+			Item.width = 40;
+			Item.height = 40;
+			Item.useTime = 60;
+			Item.useAnimation = 60;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 0f;
+			Item.useTurn = false;
+			Item.value = Terraria.Item.sellPrice(0, 0, 50, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item21;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<MagicConchProj>();
+			Item.shootSpeed = 0f;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
-			Terraria.Projectile.NewProjectile(mouse.X, mouse.Y, 0f, 0f, type, damage, knockBack, player.whoAmI);
+			Terraria.Projectile.NewProjectile(mouse.X, mouse.Y, 0f, 0f, type, damage, knockback, player.whoAmI);
 			return false;
 		}
 	}

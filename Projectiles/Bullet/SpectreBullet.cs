@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -9,7 +8,6 @@ namespace SpiritMod.Projectiles.Bullet
 {
 	class SpectreBullet : ModProjectile
 	{
-
 		public override string Texture => SpiritMod.EMPTY_TEXTURE;
 
 		public const float MAX_ANGLE_CHANGE = (float)Math.PI / 12;
@@ -22,42 +20,42 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.ranged = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 300;
-			projectile.height = 6;
-			projectile.width = 6;
-			projectile.alpha = 255;
-			aiType = ProjectileID.Bullet;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 300;
+			Projectile.height = 6;
+			Projectile.width = 6;
+			Projectile.alpha = 255;
+			AIType = ProjectileID.Bullet;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void AI()
 		{
-			if (projectile.ai[1] == 0) {
-				projectile.ai[0] = -1;
-				projectile.ai[1] = projectile.velocity.Length();
+			if (Projectile.ai[1] == 0) {
+				Projectile.ai[0] = -1;
+				Projectile.ai[1] = Projectile.velocity.Length();
 			}
 
 			NPC target = null;
-			if (projectile.ai[0] < 0 || projectile.ai[0] >= Main.maxNPCs) {
-				target = ProjectileExtras.FindCheapestNPC(projectile.Center, projectile.velocity, ACCELERATION, MAX_ANGLE_CHANGE);
+			if (Projectile.ai[0] < 0 || Projectile.ai[0] >= Main.maxNPCs) {
+				target = ProjectileExtras.FindCheapestNPC(Projectile.Center, Projectile.velocity, ACCELERATION, MAX_ANGLE_CHANGE);
 			}
 			else {
-				target = Main.npc[(int)projectile.ai[0]];
+				target = Main.npc[(int)Projectile.ai[0]];
 				if (!target.active || !target.CanBeChasedBy()) {
-					target = ProjectileExtras.FindCheapestNPC(projectile.Center, projectile.velocity, ACCELERATION, MAX_ANGLE_CHANGE);
+					target = ProjectileExtras.FindCheapestNPC(Projectile.Center, Projectile.velocity, ACCELERATION, MAX_ANGLE_CHANGE);
 				}
 			}
 
 			if (target == null) {
-				projectile.ai[0] = -1f;
+				Projectile.ai[0] = -1f;
 			}
 			else {
-				projectile.ai[0] = (float)target.whoAmI;
-				ProjectileExtras.HomingAI(this, target, projectile.ai[1], ACCELERATION);
+				Projectile.ai[0] = (float)target.whoAmI;
+				ProjectileExtras.HomingAI(this, target, Projectile.ai[1], ACCELERATION);
 			}
 		}
 
@@ -67,18 +65,18 @@ namespace SpiritMod.Projectiles.Bullet
 				return;
 
 			if (Main.rand.Next(100) <= 35) {
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, projectile.owner, projectile.owner, 1);
+				Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, Projectile.owner, Projectile.owner, 1);
 			}
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(Color lightColor)
 		{
-			int max = (int)(projectile.ai[1] * .4f);
-			Vector2 offset = projectile.velocity * ((projectile.extraUpdates + 1f) / max);
-			float vX = projectile.velocity.X * (projectile.extraUpdates + 1);
-			float vY = projectile.velocity.Y * (projectile.extraUpdates + 1);
+			int max = (int)(Projectile.ai[1] * .4f);
+			Vector2 offset = Projectile.velocity * ((Projectile.extraUpdates + 1f) / max);
+			float vX = Projectile.velocity.X * (Projectile.extraUpdates + 1);
+			float vY = Projectile.velocity.Y * (Projectile.extraUpdates + 1);
 			for (int i = 0; i < max; i++) {
-				Vector2 position = projectile.Center - offset * i;
+				Vector2 position = Projectile.Center - offset * i;
 				int dust = Dust.NewDust(position, 0, 0, DustID.Flare_Blue, vX * .25f - vY * .08f, vY * .25f + vX * .08f);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].scale = 0.9f;

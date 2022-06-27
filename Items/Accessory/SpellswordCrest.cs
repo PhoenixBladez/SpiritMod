@@ -15,27 +15,26 @@ namespace SpiritMod.Items.Accessory
 
 		public override void SetDefaults()
 		{
-            item.damage = 32;
-            item.summon = true;
-			item.width = 48;
-			item.height = 49;
-            item.knockBack = 1.25f;
-			item.value = Item.sellPrice(0, 1, 50, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.defense = 1;
-			item.accessory = true;
+            Item.damage = 32;
+            Item.DamageType = DamageClass.Summon;
+			Item.width = 48;
+			Item.height = 49;
+            Item.knockBack = 1.25f;
+			Item.value = Item.sellPrice(0, 1, 50, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.defense = 1;
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().spellswordCrest = true;
 		public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe(1);
             recipe.AddIngredient(ModContent.ItemType<RogueCrest>(), 1);
             recipe.AddIngredient(ItemID.CrystalShard, 8);
             recipe.AddIngredient(ItemID.SoulofLight, 15);
             recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

@@ -15,19 +15,19 @@ namespace SpiritMod.Projectiles.Held
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Trident);
-			aiType = ProjectileID.Trident;
+			Projectile.CloneDefaults(ProjectileID.Trident);
+			AIType = ProjectileID.Trident;
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			damage /= 3;
-			Player owner = Main.player[projectile.owner];
+			Player owner = Main.player[Projectile.owner];
 			int manaleech = Math.Min(Main.rand.Next(2, 5), owner.statManaMax - owner.statMana);
 			if (manaleech > 0) {
 				owner.ManaEffect(manaleech);
 				owner.statMana += manaleech;
-				Main.PlaySound(new LegacySoundStyle(SoundID.Item, 15).WithVolume(0.3f).WithPitchVariance(0.1f), owner.Center);
+				SoundEngine.PlaySound(SoundID.Item15 with { Volume = 0.3f, PitchVariance = 0.1f }, owner.Center);
 				if (Main.netMode == NetmodeID.MultiplayerClient && owner.whoAmI == Main.myPlayer) {
 					NetMessage.SendData(MessageID.PlayerMana, -1, -1, null, owner.whoAmI, owner.statMana, owner.statManaMax);
 					NetMessage.SendData(MessageID.ManaEffect, -1, -1, null, owner.whoAmI, manaleech);

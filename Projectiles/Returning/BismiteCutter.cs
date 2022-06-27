@@ -15,23 +15,23 @@ namespace SpiritMod.Projectiles.Returning
 
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 30;
-			projectile.aiStyle = 3;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.magic = false;
-			projectile.penetrate = 3;
-			projectile.timeLeft = 600;
-			projectile.extraUpdates = 1;
+			Projectile.width = 30;
+			Projectile.height = 30;
+			Projectile.aiStyle = 3;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.magic = false;
+			Projectile.penetrate = 3;
+			Projectile.timeLeft = 600;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation += 0.1f;
+			Projectile.rotation += 0.1f;
 			{
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Plantera_Green, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Plantera_Green, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Plantera_Green, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+				int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Plantera_Green, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust2].noGravity = true;
 				Main.dust[dust2].velocity *= 0f;

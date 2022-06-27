@@ -17,12 +17,12 @@ namespace SpiritMod.Items.Sets.DonatorVanity
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
+			Item.width = 22;
+			Item.height = 20;
 
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Cyan;
-			item.vanity = true;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Cyan;
+			Item.vanity = true;
 		}
 	}
 }

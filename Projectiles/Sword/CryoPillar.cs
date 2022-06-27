@@ -16,17 +16,17 @@ namespace SpiritMod.Projectiles.Sword
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.width = 24;
-			projectile.height = 24;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.damage = 1;
-			projectile.penetrate = -1;
-			projectile.alpha = 255;
-			projectile.timeLeft = 9999;
-			projectile.tileCollide = true;
-			projectile.extraUpdates = 1;
+			Projectile.hostile = false;
+			Projectile.width = 24;
+			Projectile.height = 24;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.damage = 1;
+			Projectile.penetrate = -1;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 9999;
+			Projectile.tileCollide = true;
+			Projectile.extraUpdates = 1;
 		}
 
 		private void Trail(Vector2 from, Vector2 to)
@@ -44,25 +44,25 @@ namespace SpiritMod.Projectiles.Sword
 		public override bool PreAI()
 		{
 			if (startposY == 0) {
-				startposY = projectile.position.Y;
+				startposY = Projectile.position.Y;
 			}
-			projectile.velocity.X = 0;
+			Projectile.velocity.X = 0;
 			if (!activated) {
-				projectile.velocity.Y = 24;
+				Projectile.velocity.Y = 24;
 			}
 			else {
-				projectile.velocity.Y = -6;
+				Projectile.velocity.Y = -6;
 				for (int i = 0; i < 10; i++) {
-					int dust = Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.BlueCrystalShard);
+					int dust = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.BlueCrystalShard);
 					Main.dust[dust].velocity = Vector2.Zero;
 					Main.dust[dust].noGravity = true;
 				}
-				if (projectile.timeLeft == 10 && projectile.ai[0] > 0) {
-					if (projectile.ai[1] == 1 || projectile.ai[1] == 0) {
-						Projectile.NewProjectile(projectile.Center.X - projectile.width, startposY, 0, 0, ModContent.ProjectileType<CryoPillar>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0] - 1, 1);
+				if (Projectile.timeLeft == 10 && Projectile.ai[0] > 0) {
+					if (Projectile.ai[1] == 1 || Projectile.ai[1] == 0) {
+						Projectile.NewProjectile(Projectile.Center.X - Projectile.width, startposY, 0, 0, ModContent.ProjectileType<CryoPillar>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] - 1, 1);
 					}
-					if (projectile.ai[1] == 2 || projectile.ai[1] == 0) {
-						Projectile.NewProjectile(projectile.Center.X + projectile.width, startposY, 0, 0, ModContent.ProjectileType<CryoPillar>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0] - 1, 2);
+					if (Projectile.ai[1] == 2 || Projectile.ai[1] == 0) {
+						Projectile.NewProjectile(Projectile.Center.X + Projectile.width, startposY, 0, 0, ModContent.ProjectileType<CryoPillar>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] - 1, 2);
 					}
 				}
 			}
@@ -75,15 +75,15 @@ namespace SpiritMod.Projectiles.Sword
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (oldVelocity.Y != projectile.velocity.Y && !activated) {
-				startposY = projectile.position.Y;
-				projectile.velocity.Y = -6;
+			if (oldVelocity.Y != Projectile.velocity.Y && !activated) {
+				startposY = Projectile.position.Y;
+				Projectile.velocity.Y = -6;
 				activated = true;
-				projectile.timeLeft = 30;
+				Projectile.timeLeft = 30;
 			}
 			return false;
 		}
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			fallThrough = false;
 			return true;

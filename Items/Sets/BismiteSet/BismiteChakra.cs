@@ -16,27 +16,27 @@ namespace SpiritMod.Items.Sets.BismiteSet
 
 		public override void SetDefaults()
 		{
-			item.damage = 9;
-			item.melee = true;
-			item.width = 30;
-			item.height = 28;
-			item.useTime = 28;
-			item.useAnimation = 25;
-			item.noUseGraphic = true;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 2;
-			item.value = Terraria.Item.sellPrice(0, 0, 12, 0);
-			item.rare = ItemRarityID.Blue;
-			item.shootSpeed = 11f;
-			item.shoot = ModContent.ProjectileType<BismiteCutter>();
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = false;
+			Item.damage = 9;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 30;
+			Item.height = 28;
+			Item.useTime = 28;
+			Item.useAnimation = 25;
+			Item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 2;
+			Item.value = Terraria.Item.sellPrice(0, 0, 12, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.shootSpeed = 11f;
+			Item.shoot = ModContent.ProjectileType<BismiteCutter>();
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = false;
 		}
 
 		public override bool CanUseItem(Player player)       //this make that you can shoot only 1 boomerang at once
 		{
 			for (int i = 0; i < Main.maxProjectiles; ++i) {
-				if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
+				if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == Item.shoot)
 					return false;
 			}
 			return true;
@@ -44,11 +44,10 @@ namespace SpiritMod.Items.Sets.BismiteSet
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 10);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

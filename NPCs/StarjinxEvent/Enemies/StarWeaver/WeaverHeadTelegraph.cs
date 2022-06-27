@@ -15,27 +15,27 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star Weaver");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = TrailLength;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
-			Main.projFrames[projectile.type] = 6;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = TrailLength;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+			Main.projFrames[Projectile.type] = 6;
 		}
 
-		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new StandardColorTrail(Color.Red * 0.66f), new RoundCap(), new DefaultTrailPosition(), 100f, 4000f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.2f, 1f, 1f));
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new StandardColorTrail(Color.Red * 0.66f), new RoundCap(), new DefaultTrailPosition(), 100f, 4000f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_4"), 0.2f, 1f, 1f));
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(10, 10);
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 21;
+			Projectile.Size = new Vector2(10, 10);
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 21;
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => false;
 
 		public override void AI()
 		{
 			if (!Main.dedServ)
-				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, Vector2.Normalize(projectile.velocity.RotatedByRandom(MathHelper.PiOver4)) * Main.rand.NextFloat(0.3f), Color.Pink, Color.Red, Main.rand.NextFloat(0.1f, 0.2f) * projectile.scale, 25));
+				ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Vector2.Normalize(Projectile.velocity.RotatedByRandom(MathHelper.PiOver4)) * Main.rand.NextFloat(0.3f), Color.Pink, Color.Red, Main.rand.NextFloat(0.1f, 0.2f) * Projectile.scale, 25));
 		}
 	}
 }

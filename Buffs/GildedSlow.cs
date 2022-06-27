@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class GildedSlow : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slow");
 			Main.debuff[Type] = true;

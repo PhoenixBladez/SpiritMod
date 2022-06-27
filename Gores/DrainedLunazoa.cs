@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +10,7 @@ namespace SpiritMod.Gores
 {
 	public class DrainedLunazoa : ModGore
 	{
-		public override void OnSpawn(Gore gore)
+		public override void OnSpawn(Gore gore, IEntitySource source)
 		{
 			gore.timeLeft = 60;
 			gore.numFrames = 5;

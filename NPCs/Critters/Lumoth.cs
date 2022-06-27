@@ -3,8 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Material;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -13,57 +15,57 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lumoth");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[NPC.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 32;
-			npc.height = 32;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 5;
-			npc.dontCountMe = true;
-			npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = SoundID.NPCDeath4;
-			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)ModContent.ItemType<LumothItem>();
-			npc.knockBackResist = .45f;
-			npc.aiStyle = 64;
-			npc.npcSlots = 0;
-			npc.noGravity = true;
-			aiType = NPCID.Firefly;
-			Main.npcFrameCount[npc.type] = 4;
-			npc.dontTakeDamageFromHostiles = false;
+			NPC.width = 32;
+			NPC.height = 32;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 5;
+			NPC.dontCountMe = true;
+			NPC.HitSound = SoundID.NPCHit4;
+			NPC.DeathSound = SoundID.NPCDeath4;
+			Main.npcCatchable[NPC.type] = true;
+			NPC.catchItem = (short)ModContent.ItemType<LumothItem>();
+			NPC.knockBackResist = .45f;
+			NPC.aiStyle = 64;
+			NPC.npcSlots = 0;
+			NPC.noGravity = true;
+			AIType = NPCID.Firefly;
+			Main.npcFrameCount[NPC.type] = 4;
+			NPC.dontTakeDamageFromHostiles = false;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, ModContent.GetTexture("SpiritMod/NPCs/Critters/Lumoth_Glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/Critters/Lumoth_Glow"));
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumoth/Lumoth1"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumoth/Lumoth2"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumoth/Lumoth3"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumoth/Lumoth4"));
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-				npc.width = 32;
-				npc.height = 32;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth1").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth2").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth3").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth4").Type);
+				NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
+				NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
+				NPC.width = 32;
+				NPC.height = 32;
+				NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
+				NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
 				for (int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.GoldCoin, 0f, 0f, 100, default, 1f);
+					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.GoldCoin, 0f, 0f, 100, default, 1f);
 					Main.dust[num622].velocity *= .1f;
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.9f;
@@ -73,7 +75,7 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe) {
+			if (spawnInfo.PlayerSafe) {
 				return 0f;
 			}
 			return SpawnCondition.Cavern.Chance * 0.0323f;
@@ -81,20 +83,20 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .4f, .4f, .4f);
+			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), .4f, .4f, .4f);
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(3) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Brightbulb>(), 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Brightbulb>(), 1);
 			}
 		}
 	}

@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.PulseOrbs
 		{
 			item.damage = 41;
 			item.knockBack = 3.3f;
-			item.magic = true;
+			Item.DamageType = DamageClass.Magic;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.useAnimation = 25;
 			item.useTime = 25;
@@ -92,7 +92,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.PulseOrbs
 			projectile.scale = 1f;
 			projectile.tileCollide = false;
 			projectile.friendly = true;
-			projectile.magic = true;
+			Projectile.DamageType = DamageClass.Magic;
 			projectile.timeLeft = 2;
 			projectile.ignoreWater = true;
 			projectile.penetrate = -1;

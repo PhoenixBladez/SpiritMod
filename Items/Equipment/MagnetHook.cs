@@ -17,8 +17,8 @@ namespace SpiritMod.Items.Equipment
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.AmethystHook);
-			item.shoot = ModContent.ProjectileType<MagnetHookProjectile>();
+			Item.CloneDefaults(ItemID.AmethystHook);
+			Item.shoot = ModContent.ProjectileType<MagnetHookProjectile>();
 		}
 	}
 
@@ -28,11 +28,11 @@ namespace SpiritMod.Items.Equipment
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
-			projectile.timeLeft = 1200;
+			Projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
+			Projectile.timeLeft = 1200;
 		}
 
-		public override bool? CanUseGrapple(Player player) => player.ownedProjectileCounts[projectile.type] == 0;
+		public override bool? CanUseGrapple(Player player) => player.ownedProjectileCounts[Projectile.type] == 0;
 
 		int extendlength = 450;
 		public override float GrappleRange() => extendlength;
@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Equipment
 
 		public override void GrapplePullSpeed(Player player, ref float speed) => speed = 12;
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor) => ProjectileExtras.DrawChain(projectile.whoAmI, Main.player[projectile.owner].MountedCenter, "SpiritMod/Items/Equipment/MagnetHookChain");
+		public override void PostDraw(Color lightColor) => ProjectileExtras.DrawChain(Projectile.whoAmI, Main.player[Projectile.owner].MountedCenter, "SpiritMod/Items/Equipment/MagnetHookChain");
 
 		Point targetPos = new Point();
 		bool homing = false;
@@ -58,17 +58,17 @@ namespace SpiritMod.Items.Equipment
 		{
 			for (int k = 0; k < 2; k++)
 			{
-				int index2 = Dust.NewDust(new Vector2(projectile.Center.X + 15, projectile.Center.Y), 1, 1, k == 0 ? DustID.DungeonSpirit : DustID.Firework_Red, 0.0f, 0.0f, 0, default, 1f);
-				Main.dust[index2].position = projectile.Center - projectile.velocity / 5 * k;
+				int index2 = Dust.NewDust(new Vector2(Projectile.Center.X + 15, Projectile.Center.Y), 1, 1, k == 0 ? DustID.DungeonSpirit : DustID.Firework_Red, 0.0f, 0.0f, 0, default, 1f);
+				Main.dust[index2].position = Projectile.Center - Projectile.velocity / 5 * k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].noLight = false;
 			}
 
-			if (projectile.timeLeft < 1180)
+			if (Projectile.timeLeft < 1180)
 			{
-				Point tPos = projectile.position.ToTileCoordinates();
+				Point tPos = Projectile.position.ToTileCoordinates();
 
 				if (!homing)
 				{
@@ -78,9 +78,9 @@ namespace SpiritMod.Items.Equipment
 						for (int j = tPos.Y - 5; j < tPos.Y + 5; j++)
 						{
 							Tile tile = Framing.GetTileSafely(i, j);
-							if (tile.nactive() && Main.tileSolid[tile.type])
+							if (tile.HasUnactuatedTile && Main.tileSolid[tile.TileType])
 							{
-								float dist = projectile.Distance(new Vector2(i * 16, j * 16));
+								float dist = Projectile.Distance(new Vector2(i * 16, j * 16));
 								if (dist < lowestDist + 32)
 								{
 									lowestDist = dist;
@@ -93,7 +93,7 @@ namespace SpiritMod.Items.Equipment
 
 				if (lowestDist < 113.137085 && !retracting)
 				{
-					projectile.velocity = projectile.DirectionTo(new Vector2(targetPos.X, targetPos.Y) * 16) * projectile.velocity.Length();
+					Projectile.velocity = Projectile.DirectionTo(new Vector2(targetPos.X, targetPos.Y) * 16) * Projectile.velocity.Length();
 					homing = true;
 					extendlength++;
 				}

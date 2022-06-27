@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class KoiTotemBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spirit of the Koi");
 			Description.SetDefault("Increased fishing skill");

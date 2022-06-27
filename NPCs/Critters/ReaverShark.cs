@@ -11,47 +11,47 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Reaver Shark");
-			Main.npcFrameCount[npc.type] = 6;
+			Main.npcFrameCount[NPC.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 54;
-			npc.height = 24;
-			npc.damage = 36;
-			npc.defense = 0;
-			npc.lifeMax = 320;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = 0.2f;
-			npc.aiStyle = 16;
-			npc.dontCountMe = true;
-			npc.noGravity = true;
-			npc.npcSlots = 0;
-			aiType = NPCID.Shark;
+			NPC.width = 54;
+			NPC.height = 24;
+			NPC.damage = 36;
+			NPC.defense = 0;
+			NPC.lifeMax = 320;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.knockBackResist = 0.2f;
+			NPC.aiStyle = 16;
+			NPC.dontCountMe = true;
+			NPC.noGravity = true;
+			NPC.npcSlots = 0;
+			AIType = NPCID.Shark;
 		}
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
         public override void AI()
         {
-            npc.spriteDirection = npc.direction;
+            NPC.spriteDirection = NPC.direction;
         }
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ReaverSharkGore"), 1f);
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReaverSharkGore").Type, 1f);
 			}
 			for (int k = 0; k < 11; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, npc.direction, -1f, 1, default, .61f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, NPC.direction, -1f, 1, default, .61f);
 				}
 			for (int k = 0; k < 5; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, npc.direction, -1f, 1, default, .91f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, NPC.direction, -1f, 1, default, .91f);
 				}
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -60,20 +60,20 @@ namespace SpiritMod.NPCs.Critters
 				target.AddBuff(BuffID.Bleeding, 200);
 			}
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(2) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
 			}
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SharkFin, 1);
+			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.SharkFin, 1);
 			
 			if (Main.rand.Next(2) == 1) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ReaverShark, 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.ReaverShark, 1);
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneBeach && spawnInfo.water ? 0.0035f : 0f;
+			return spawnInfo.Player.ZoneBeach && spawnInfo.Water ? 0.0035f : 0f;
 		}
 
 	}

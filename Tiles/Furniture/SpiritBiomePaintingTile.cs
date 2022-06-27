@@ -7,7 +7,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class SpiritBiomePaintingTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -27,7 +27,7 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newTile.AnchorTop = default(AnchorData);
 			TileObjectData.newTile.AnchorWall = true;
 			TileObjectData.addTile(Type);
-			dustType = -1;
+			DustType = -1;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Painting");
 			AddMapEntry(new Color(150, 150, 150), name);

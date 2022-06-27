@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 {
 	public class ReachCandelabra : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileTable[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -21,7 +21,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Elderbark Candelabra");
 			AddMapEntry(new Color(179, 146, 107), name);
-			adjTiles = new int[] { TileID.Torches };
+			AdjTiles = new int[] { TileID.Torches };
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
@@ -35,7 +35,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			g = 0.8f;
 			b = 0.5f;
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 6;
 		}

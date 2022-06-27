@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class TrueMarksman : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("True Marksman");
 			Description.SetDefault("Gun damage is increased dramatically");

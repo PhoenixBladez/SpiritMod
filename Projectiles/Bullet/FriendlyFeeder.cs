@@ -11,39 +11,39 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.penetrate = 1;
-			projectile.ranged = true;
+			Projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.penetrate = 1;
+			Projectile.DamageType = DamageClass.Ranged;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation += .1f;
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 7200f)
+			Projectile.rotation += .1f;
+			Projectile.ai[1] += 1f;
+			if (Projectile.ai[1] >= 7200f)
 			{
-				projectile.alpha += 5;
-				if (projectile.alpha > 255)
+				Projectile.alpha += 5;
+				if (Projectile.alpha > 255)
 				{
-					projectile.alpha = 255;
-					projectile.Kill();
+					Projectile.alpha = 255;
+					Projectile.Kill();
 				}
 			}
 
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] >= 10f)
+			Projectile.localAI[0] += 1f;
+			if (Projectile.localAI[0] >= 10f)
 			{
-				projectile.localAI[0] = 0f;
+				Projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
 				for (int i = 0; i < Main.maxProjectiles; i++)
 				{
-					if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner && Main.projectile[i].type == projectile.type && Main.projectile[i].ai[1] < 3600f)
+					if (Main.projectile[i].active && Main.projectile[i].owner == Projectile.owner && Main.projectile[i].type == Projectile.type && Main.projectile[i].ai[1] < 3600f)
 					{
 						num416++;
 						if (Main.projectile[i].ai[1] > num418)
@@ -63,8 +63,8 @@ namespace SpiritMod.Projectiles.Bullet
 			int num = 5;
 			for (int k = 0; k < 2; k++)
 			{
-				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Blood, 0.0f, 0.0f, 0, new Color(), 1f);
-				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+				int index2 = Dust.NewDust(Projectile.position, 1, 1, DustID.Blood, 0.0f, 0.0f, 0, new Color(), 1f);
+				Main.dust[index2].position = Projectile.Center - Projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;
 				Main.dust[index2].noGravity = true;
@@ -75,7 +75,7 @@ namespace SpiritMod.Projectiles.Bullet
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			for (int k = 0; k < 16; k++)
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Blood, 2.5f * 1, -2.5f, 0, Color.White, 0.7f);
 			return true;
 		}
 

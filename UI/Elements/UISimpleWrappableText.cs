@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Localization;
 using Terraria.UI;
 using Terraria.UI.Chat;
@@ -43,7 +44,7 @@ namespace SpiritMod.UI.Elements
 		public int MaxPage { get; protected set; }
 		public bool Wrappable { get => _wrappable; set { _wrappable = value; UpdateText(); } }
 		public Color BorderColour { get; set; }
-		public DynamicSpriteFont Font => Large ? Main.fontDeathText : Main.fontMouseText;
+		public DynamicSpriteFont Font => Large ? FontAssets.DeathText.Value : FontAssets.MouseText.Value;
 		private float _drawOffsetX;
 		private int page = 0;
 		private float scale;

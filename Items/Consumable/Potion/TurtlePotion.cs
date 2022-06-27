@@ -1,5 +1,6 @@
 using SpiritMod.Buffs.Potion;
 using SpiritMod.Items.Material;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,34 +17,33 @@ namespace SpiritMod.Items.Consumable.Potion
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 30;
-			item.rare = ItemRarityID.Lime;
-			item.maxStack = 30;
+			Item.width = 20;
+			Item.height = 30;
+			Item.rare = ItemRarityID.Lime;
+			Item.maxStack = 30;
 
-			item.useStyle = ItemUseStyleID.EatingUsing;
-			item.useTime = item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.EatFood;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.consumable = true;
-			item.autoReuse = false;
+			Item.consumable = true;
+			Item.autoReuse = false;
 
-			item.buffType = ModContent.BuffType<TurtlePotionBuff>();
-			item.buffTime = 14400;
+			Item.buffType = ModContent.BuffType<TurtlePotionBuff>();
+			Item.buffTime = 14400;
 
-			item.UseSound = SoundID.Item3;
+			Item.UseSound = SoundID.Item3;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<SoulBloom>(), 1);
 			recipe.AddIngredient(ItemID.Shiverthorn, 1);
 			recipe.AddIngredient(ItemID.TurtleShell, 1);
 			recipe.AddIngredient(ItemID.IronOre, 1);
 			recipe.AddIngredient(ItemID.BottledWater, 1);
 			recipe.AddTile(TileID.Bottles);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

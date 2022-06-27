@@ -15,11 +15,11 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 16;
-			item.rare = ItemRarityID.Yellow;
-			item.value = Item.buyPrice(gold: 15);
-			item.accessory = true;
+			Item.width = 16;
+			Item.height = 16;
+			Item.rare = ItemRarityID.Yellow;
+			Item.value = Item.buyPrice(gold: 15);
+			Item.accessory = true;
 		}
 
 		public override void SafeUpdateAccessory(Player player, bool hideVisual)
@@ -31,12 +31,11 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.FireGauntlet);
 			recipe.AddIngredient(ModContent.ItemType<DuskStone>(), 18);
 			recipe.AddTile(TileID.TinkerersWorkbench);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -16,10 +16,10 @@ namespace SpiritMod.Utilities
 			for (int i = 0; i < numRays; i++)
 			{
 				Texture2D ray = SpiritMod.Instance.GetTexture("Textures/Ray");
-				float rotation = i * (MathHelper.TwoPi / numRays) + (Main.GlobalTime * (((i % 3) + 1f) / 3)); //Half of rays rotate faster, so it looks less like a rotating static image
+				float rotation = i * (MathHelper.TwoPi / numRays) + (Main.GlobalTimeWrappedHourly * (((i % 3) + 1f) / 3)); //Half of rays rotate faster, so it looks less like a rotating static image
 				rotation -= MathHelper.PiOver2;
 
-				float length = baseLength * (float)(Math.Sin((Main.GlobalTime + i) * 2) / 5 + 1); //arbitrary sine function to fluctuate length between rays over time, change later to be less bad?
+				float length = baseLength * (float)(Math.Sin((Main.GlobalTimeWrappedHourly + i) * 2) / 5 + 1); //arbitrary sine function to fluctuate length between rays over time, change later to be less bad?
 				Vector2 rayscale = new Vector2(width / ray.Width, length / ray.Height);
 				spriteBatch.Draw(ray, position, null, rayColor, rotation,
 					new Vector2(ray.Width / 2, 0), rayscale, SpriteEffects.None, 0);

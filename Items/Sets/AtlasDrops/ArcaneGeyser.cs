@@ -15,10 +15,10 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.maxStack = 999;
-			item.rare = ItemRarityID.Cyan;
-			item.value = Item.sellPrice(0, 0, 15, 0);
+			Item.width = Item.height = 16;
+			Item.maxStack = 999;
+			Item.rare = ItemRarityID.Cyan;
+			Item.value = Item.sellPrice(0, 0, 15, 0);
 		}
 	}
 }

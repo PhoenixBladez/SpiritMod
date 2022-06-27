@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -47,7 +48,7 @@ namespace SpiritMod.Projectiles
 
 		float alphaCounter;
 
-		public override bool PreDraw(Projectile projectile, SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(Projectile projectile, ref Color lightColor)
 		{
 			Player player = Main.player[projectile.owner];
 			MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
@@ -55,17 +56,17 @@ namespace SpiritMod.Projectiles
 			if (projectile.minion && modPlayer.stellarSet && player.HasBuff(ModContent.BuffType<StellarMinionBonus>()))
 			{
 				float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-				Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(20f * sineAdd), (int)(16f * sineAdd), (int)(4f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .25f), SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Extra[49].Value, projectile.Center - Main.screenPosition, null, new Color((int)(20f * sineAdd), (int)(16f * sineAdd), (int)(4f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .25f), SpriteEffects.None, 0f);
 			}
 
 			if (throwerGloveBoost && projectile.thrown)
 			{
-				Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+				Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[projectile.type].Value.Width * 0.5f, projectile.height * 0.5f);
 				for (int k = 0; k < projectile.oldPos.Length; k++)
 				{
 					Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
 					Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / projectile.oldPos.Length);
-					spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(TextureAssets.Projectile[projectile.type].Value, drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
 				}
 			}
 			return true;
@@ -99,7 +100,7 @@ namespace SpiritMod.Projectiles
 
 			if (projectile.friendly && !runOnce)
 			{
-				if (projectile.ranged && modPlayer.throwerGlove && modPlayer.throwerStacks >= 7) //Thrower glove functionality
+				if (projectile.IsRanged() && modPlayer.throwerGlove && modPlayer.throwerStacks >= 7) //Thrower glove functionality
 				{
 					modPlayer.firedSharpshooter = true;
 					projectile.extraUpdates += 1;
@@ -163,7 +164,7 @@ namespace SpiritMod.Projectiles
 			else if (shotFromGeodeBow)
 			{
 				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, Scale: 1.2f);
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Torch, Scale: 1.2f);
 				int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.IceTorch, Scale: 1.2f);
 				int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch, Scale: 1.2f);
 				Main.dust[dust].noGravity = true;
@@ -268,7 +269,7 @@ namespace SpiritMod.Projectiles
 				if (Main.rand.Next(6) == 0)
 				{
 					target.AddBuff(BuffID.OnFire, Main.rand.Next(120, 180));
-					SpamDust(target, DustID.Fire);
+					SpamDust(target, DustID.Torch);
 				}
 			}
 

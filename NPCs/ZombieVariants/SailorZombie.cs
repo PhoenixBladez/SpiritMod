@@ -10,50 +10,50 @@ namespace SpiritMod.NPCs.ZombieVariants
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Zombie");
-			Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.Zombie];
+			Main.npcFrameCount[NPC.type] = Main.npcFrameCount[NPCID.Zombie];
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 28;
-			npc.height = 42;
-			npc.damage = 14;
-			npc.defense = 6;
-			npc.lifeMax = 45;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath2;
-			npc.value = 90f;
-			npc.knockBackResist = .5f;
-			npc.aiStyle = 3;
-			aiType = NPCID.Zombie;
-			animationType = NPCID.Zombie;
+			NPC.width = 28;
+			NPC.height = 42;
+			NPC.damage = 14;
+			NPC.defense = 6;
+			NPC.lifeMax = 45;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath2;
+			NPC.value = 90f;
+			NPC.knockBackResist = .5f;
+			NPC.aiStyle = 3;
+			AIType = NPCID.Zombie;
+			AnimationType = NPCID.Zombie;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 20; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.78f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, .54f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.78f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, .54f);
 			}
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SailorZombie/SailorZombie1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SailorZombie/SailorZombie2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SailorZombie/SailorZombie3"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SailorZombie/SailorZombie1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SailorZombie/SailorZombie2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SailorZombie/SailorZombie3").Type, 1f);
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(10) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.FloatingItems.Kelp>(), Main.rand.Next(1, 3));
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.FloatingItems.Kelp>(), Main.rand.Next(1, 3));
 			if (Main.rand.Next(50) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Armor.Masks.SailorCap>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Armor.Masks.SailorCap>());
 			if (Main.rand.Next(50) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Shackle);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Shackle);
 			if (Main.rand.Next(250) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ZombieArm);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.ZombieArm);
 		}
 	}
 }

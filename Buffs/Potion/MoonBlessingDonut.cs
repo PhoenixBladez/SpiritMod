@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Potion
 {
 	public class MoonBlessingDonut : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moon Jelly Donut");
 			Description.SetDefault("Extreme regeneration and a sugar high!");

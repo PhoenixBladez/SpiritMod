@@ -16,26 +16,25 @@ namespace SpiritMod.Items.Sets.HuskstalkSet
 
 		public override void SetDefaults()
 		{
-			item.damage = 10;
-			item.melee = true;
-			item.width = 32;
-			item.height = 32;
-			item.useTime = 25;
-			item.useAnimation = 25;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 5;
-			item.rare = ItemRarityID.White;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.value = Item.sellPrice(0, 0, 0, 20);
+			Item.damage = 10;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 32;
+			Item.height = 32;
+			Item.useTime = 25;
+			Item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 5;
+			Item.rare = ItemRarityID.White;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.value = Item.sellPrice(0, 0, 0, 20);
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 7);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

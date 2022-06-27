@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,22 +16,22 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.FunnyFirework
 
 		public override void SetDefaults()
 		{
-			item.width = 44;
-			item.height = 40;
-			item.useTime = 61;
-			item.useAnimation = 61;
-			item.noUseGraphic = true;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 0;
-			item.damage = 4;
-			item.value = Item.sellPrice(0, 0, 0, 0);
-			item.rare = ItemRarityID.Blue;
-			item.shootSpeed = 10f;
-			item.shoot = ModContent.ProjectileType<FunnyFireworkProj>();
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = false;
-			item.consumable = true;
-			item.maxStack = 999;
+			Item.width = 44;
+			Item.height = 40;
+			Item.useTime = 61;
+			Item.useAnimation = 61;
+			Item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 0;
+			Item.damage = 4;
+			Item.value = Item.sellPrice(0, 0, 0, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.shootSpeed = 10f;
+			Item.shoot = ModContent.ProjectileType<FunnyFireworkProj>();
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = false;
+			Item.consumable = true;
+			Item.maxStack = 999;
 		}
 	}
 
@@ -39,22 +40,22 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.FunnyFirework
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Funny Firework");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 24;
-			projectile.height = 24;
-			projectile.friendly = false;
-			projectile.ranged = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 90;
+			Projectile.width = 24;
+			Projectile.height = 24;
+			Projectile.friendly = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 90;
 		}
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+			Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 		}
 		
 		public override void Kill(int timeLeft)
@@ -62,19 +63,19 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.FunnyFirework
 			switch (Main.rand.Next(4))
 			{
 				case 0:
-					DustHelper.DrawDustImageRainbow(projectile.Center, 0.125f, "SpiritMod/Effects/DustImages/GarfieldFirework", 1f);
+					DustHelper.DrawDustImageRainbow(Projectile.Center, 0.125f, "SpiritMod/Effects/DustImages/GarfieldFirework", 1f);
 					break;
 				case 1:
-					DustHelper.DrawDustImageRainbow(projectile.Center, 0.125f, "SpiritMod/Effects/DustImages/GladeFirework", 1f);
+					DustHelper.DrawDustImageRainbow(Projectile.Center, 0.125f, "SpiritMod/Effects/DustImages/GladeFirework", 1f);
 					break;
 				case 2:
-					DustHelper.DrawDustImageRainbow(projectile.Center, 0.125f, "SpiritMod/Effects/DustImages/TrollFirework", 1f);
+					DustHelper.DrawDustImageRainbow(Projectile.Center, 0.125f, "SpiritMod/Effects/DustImages/TrollFirework", 1f);
 					break;
 				case 3:
-					DustHelper.DrawDustImageRainbow(projectile.Center, 0.125f, "SpiritMod/Effects/DustImages/AmogusFirework", 1f);
+					DustHelper.DrawDustImageRainbow(Projectile.Center, 0.125f, "SpiritMod/Effects/DustImages/AmogusFirework", 1f);
 					break;
 			}
-			Main.PlaySound(SoundID.Item14, projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
 		}
 	}
 }

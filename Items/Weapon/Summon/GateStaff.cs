@@ -17,32 +17,32 @@ namespace SpiritMod.Items.Weapon.Summon
 			DisplayName.SetDefault("Gate Staff");
 			Tooltip.SetDefault("Left click and right click to summon an electric field");
 
-			Item.staff[item.type] = true;
+			Item.staff[Item.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 14;
-			item.summon = true;
-			item.mana = 16;
-			item.width = 44;
-			item.height = 48;
-			item.useTime = 55;
-			item.useAnimation = 55;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 5;
-			item.value = 20000;
-			item.rare = ItemRarityID.Green;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<RightHopper>();
-			item.shootSpeed = 0f;
+			Item.damage = 14;
+			Item.DamageType = DamageClass.Summon;
+			Item.mana = 16;
+			Item.width = 44;
+			Item.height = 48;
+			Item.useTime = 55;
+			Item.useAnimation = 55;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 5;
+			Item.value = 20000;
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<RightHopper>();
+			Item.shootSpeed = 0f;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			type = (player.altFunctionUse == 2) ? RightHopper : LeftHopper;
 			float[] scanarray = new float[3];
@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Weapon.Summon
 				dist += array / (scanarray.Length);
 
 			Vector2 spawnpos = player.Center + player.DirectionTo(Main.MouseWorld) * dist;
-			Projectile.NewProjectileDirect(spawnpos, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0, -1);
+			Projectile.NewProjectileDirect(spawnpos, Vector2.Zero, type, damage, knockback, player.whoAmI, 0, -1);
 			return false;
 		}
 

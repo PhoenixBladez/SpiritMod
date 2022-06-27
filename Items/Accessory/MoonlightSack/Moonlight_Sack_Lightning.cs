@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -15,38 +16,38 @@ namespace SpiritMod.Items.Accessory.MoonlightSack
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 4;
-			projectile.height = 4;
-			projectile.hide = true;
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.aiStyle = 0;
-			projectile.localNPCHitCooldown = 240;
-			projectile.penetrate = 2;
-			projectile.minion = true;
-			projectile.MaxUpdates = 15;
-			projectile.timeLeft = 66;
-			projectile.tileCollide = false;
+			Projectile.width = 4;
+			Projectile.height = 4;
+			Projectile.hide = true;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.aiStyle = 0;
+			Projectile.localNPCHitCooldown = 240;
+			Projectile.penetrate = 2;
+			Projectile.minion = true;
+			Projectile.MaxUpdates = 15;
+			Projectile.timeLeft = 66;
+			Projectile.tileCollide = false;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => Main.PlaySound(SoundID.Trackable, (int)target.position.X, (int)target.position.Y, 20, 1f, 0.0f);
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => SoundEngine.PlaySound(SoundID.Trackable, (int)target.position.X, (int)target.position.Y, 20, 1f, 0.0f);
 
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
-			projectile.localAI[0] += 1f;
+			Player player = Main.player[Projectile.owner];
+			Projectile.localAI[0] += 1f;
 			
-			if (projectile.localAI[0] > -1f)
-				x = projectile.Center.Y + 50;
+			if (Projectile.localAI[0] > -1f)
+				x = Projectile.Center.Y + 50;
 
-			if (projectile.localAI[0] > -1f)
+			if (Projectile.localAI[0] > -1f)
             {
 				for (int i = 0; i < 10; i++)
 				{
-					float PosX = projectile.Center.X - projectile.velocity.X / 10f * i;
-					float PosY = projectile.Center.Y - projectile.velocity.Y / 10f * i;
+					float PosX = Projectile.Center.X - Projectile.velocity.X / 10f * i;
+					float PosY = Projectile.Center.Y - Projectile.velocity.Y / 10f * i;
 					
-					if (Vector2.Distance(player.Center, projectile.Center) > 20f)
+					if (Vector2.Distance(player.Center, Projectile.Center) > 20f)
 					{
 						int dustIndex = Dust.NewDust(new Vector2(PosX, PosY), 0, 0, DustID.Frost, 0f, 0f, 180, default, 0.5f);
 						
@@ -59,15 +60,15 @@ namespace SpiritMod.Items.Accessory.MoonlightSack
 				}
             }
 			
-			if (Vector2.Distance(projectile.Center, Main.projectile[(int)projectile.ai[0]].Center) <= 20f)
+			if (Vector2.Distance(Projectile.Center, Main.projectile[(int)Projectile.ai[0]].Center) <= 20f)
 			{
-				projectile.Kill();
+				Projectile.Kill();
 			}
 			
-			Vector2 vector2_1 = new Vector2(Main.projectile[(int)projectile.ai[0]].Center.X, Main.projectile[(int)projectile.ai[0]].Center.Y);
+			Vector2 vector2_1 = new Vector2(Main.projectile[(int)Projectile.ai[0]].Center.X, Main.projectile[(int)Projectile.ai[0]].Center.Y);
 			float speed = 16f;
-			float dX = vector2_1.X - projectile.Center.X;
-			float dY = vector2_1.Y - projectile.Center.Y;
+			float dX = vector2_1.X - Projectile.Center.X;
+			float dY = vector2_1.Y - Projectile.Center.Y;
 			
 			float dist = (float)Math.Sqrt((dX * dX + dY * dY));
 			
@@ -75,8 +76,8 @@ namespace SpiritMod.Items.Accessory.MoonlightSack
 			
 			Vector2 randomSpeed = new Vector2(dX, dY).RotatedByRandom(MathHelper.ToRadians(-90));
 			
-			if (projectile.localAI[0] > 1f)
-				projectile.velocity = new Vector2(randomSpeed.X * speed, randomSpeed.Y * speed);
+			if (Projectile.localAI[0] > 1f)
+				Projectile.velocity = new Vector2(randomSpeed.X * speed, randomSpeed.Y * speed);
 		}
 	}
 }

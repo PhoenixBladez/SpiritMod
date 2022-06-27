@@ -15,20 +15,20 @@ namespace SpiritMod.Items.Sets.BriarDrops
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.Stabbing;
-			item.useTurn = false;
-			item.useAnimation = 6;
-			item.useTime = 18;
-			item.width = 24;
-			item.rare = ItemRarityID.Blue;
-			item.height = 28;
-			item.damage = 11;
-			item.knockBack = 3f;
-			item.scale = 0.9f;
-			item.UseSound = SoundID.Item1;
-			item.useTurn = true;
-			item.value = 3000;
-			item.melee = true;
+			Item.useStyle = ItemUseStyleID.Thrust;
+			Item.useTurn = false;
+			Item.useAnimation = 6;
+			Item.useTime = 18;
+			Item.width = 24;
+			Item.rare = ItemRarityID.Blue;
+			Item.height = 28;
+			Item.damage = 11;
+			Item.knockBack = 3f;
+			Item.scale = 0.9f;
+			Item.UseSound = SoundID.Item1;
+			Item.useTurn = true;
+			Item.value = 3000;
+			Item.DamageType = DamageClass.Melee;
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{

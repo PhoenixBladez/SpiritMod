@@ -18,11 +18,11 @@ namespace SpiritMod.Items.Sets.FloranSet.FloranArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 34;
-			item.height = 18;
-			item.value = Terraria.Item.sellPrice(0, 0, 11, 0);
-			item.rare = ItemRarityID.Green;
-			item.defense = 4;
+			Item.width = 34;
+			Item.height = 18;
+			Item.value = Terraria.Item.sellPrice(0, 0, 11, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.defense = 4;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -32,12 +32,11 @@ namespace SpiritMod.Items.Sets.FloranSet.FloranArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<FloranBar>(), 12);
 			recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 6);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -14,12 +14,12 @@ namespace SpiritMod.Items.Sets.BismiteSet
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 28;
-			item.value = 100;
-			item.rare = ItemRarityID.Blue;
+			Item.width = 24;
+			Item.height = 28;
+			Item.value = 100;
+			Item.rare = ItemRarityID.Blue;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 		}
 	}
 }

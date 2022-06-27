@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,11 +19,11 @@ namespace SpiritMod.Items.Accessory
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 30;
-			item.value = Item.buyPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Orange;
-			item.accessory = true;
+			Item.width = 28;
+			Item.height = 30;
+			Item.value = Item.buyPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.accessory = true;
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
@@ -31,14 +32,14 @@ namespace SpiritMod.Items.Accessory
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Accessory/ForbiddenKnowledgeTome_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Accessory/ForbiddenKnowledgeTome_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,

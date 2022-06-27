@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -13,60 +15,60 @@ namespace SpiritMod.NPCs.MycelialBotanist
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mycelial Botanist");
-			Main.projFrames[base.projectile.type] = 3;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			Main.projFrames[base.Projectile.type] = 3;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 32;
-			projectile.height = 16;
-			projectile.friendly = false;
-			projectile.hostile = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 900;
-			projectile.melee = true;
-			projectile.ignoreWater = true;
+			Projectile.width = 32;
+			Projectile.height = 16;
+			Projectile.friendly = false;
+			Projectile.hostile = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 900;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.ignoreWater = true;
 		}
 		//  bool comingHome = false;
 
 		public override bool PreAI()
 		{
 
-			if (projectile.soundDelay > 8) {
-				projectile.soundDelay = 0;
-				Main.PlaySound(SoundID.Item7, projectile.position);
+			if (Projectile.soundDelay > 8) {
+				Projectile.soundDelay = 0;
+				SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
 			}
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 6) {
-				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-				projectile.frameCounter = 0;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 6) {
+				Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
+				Projectile.frameCounter = 0;
 			}
-			NPC npc = Main.npc[(int)projectile.ai[0]];
+			NPC npc = Main.npc[(int)Projectile.ai[0]];
 			if (!initialized) {
 				initialized = true;
-				Xint = projectile.velocity.X;
-				Yint = projectile.velocity.Y;
+				Xint = Projectile.velocity.X;
+				Yint = Projectile.velocity.Y;
 			}
 			// projectile.velocity.Y += .0625f;
-			if (projectile.Hitbox.Intersects(npc.Hitbox) && projectile.timeLeft < 855) {
-				projectile.active = false;
+			if (Projectile.Hitbox.Intersects(npc.Hitbox) && Projectile.timeLeft < 855) {
+				Projectile.active = false;
 			}
-			if (projectile.timeLeft < 854) {
-				Vector2 direction9 = npc.Center - projectile.position;
-				projectile.velocity = projectile.velocity.RotatedBy(direction9.ToRotation() - projectile.velocity.ToRotation());
-				if (projectile.velocity.Length() < 0.5f) {
+			if (Projectile.timeLeft < 854) {
+				Vector2 direction9 = npc.Center - Projectile.position;
+				Projectile.velocity = Projectile.velocity.RotatedBy(direction9.ToRotation() - Projectile.velocity.ToRotation());
+				if (Projectile.velocity.Length() < 0.5f) {
 					direction9.Normalize();
-					projectile.velocity = direction9 * 0.8f;
+					Projectile.velocity = direction9 * 0.8f;
 				}
-				if (Math.Sqrt((projectile.velocity.X * projectile.velocity.X) + (projectile.velocity.Y * projectile.velocity.Y)) < 18) {
-					projectile.velocity *= 1.075f;
+				if (Math.Sqrt((Projectile.velocity.X * Projectile.velocity.X) + (Projectile.velocity.Y * Projectile.velocity.Y)) < 18) {
+					Projectile.velocity *= 1.075f;
 				}
-				projectile.tileCollide = false;
+				Projectile.tileCollide = false;
 			}
 			else {
-				projectile.velocity -= new Vector2(Xint, Yint) / 45f;
+				Projectile.velocity -= new Vector2(Xint, Yint) / 45f;
 			}
 			return false;
 		}
@@ -87,14 +89,14 @@ namespace SpiritMod.NPCs.MycelialBotanist
 					Main.dust[num].velocity = target.DirectionTo(Main.dust[num].position) * 5f;
 			}
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height / Main.projFrames[projectile.type]) * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				var effects = projectile.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) / 2);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, (Projectile.height / Main.projFrames[Projectile.type]) * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				var effects = Projectile.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * (float)(((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) / 2);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(TextureAssets.Projectile[Projectile.type].Value.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
 			}
 			return true;
 		}
@@ -108,13 +110,13 @@ namespace SpiritMod.NPCs.MycelialBotanist
 				float B = (float)Main.rand.Next(-60, -40) * 0.1f;
 				//int p = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, A, B, ModContent.ProjectileType<MyceliumSporeHostile>(), damage, 1);
 				for (int k = 0; k < 11; k++) {
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Harpy, A, B, 0, default, .61f);
+					Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Harpy, A, B, 0, default, .61f);
 				}
 				//Main.projectile[p].hostile = true;
 			}
 			return true;
 		}
 
-		public override void Kill(int timeLeft) => Main.PlaySound(SoundID.Dig, projectile.Center);
+		public override void Kill(int timeLeft) => SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 	}
 }

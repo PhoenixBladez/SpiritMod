@@ -32,12 +32,12 @@ namespace SpiritMod.Items.Glyphs
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 28;
-			item.value = Item.buyPrice(0, 5, 0, 0);
-			item.rare = ItemRarityID.Blue;
+			Item.width = 28;
+			Item.height = 28;
+			Item.value = Item.buyPrice(0, 5, 0, 0);
+			Item.rare = ItemRarityID.Blue;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 		}
 
 
@@ -60,15 +60,15 @@ namespace SpiritMod.Items.Glyphs
 				Color color = glyph.Color;
 				color *= Main.mouseTextColor / 255f;
 				Color itemColor = held.RarityColor(Main.mouseTextColor / 255f);
-				line = new TooltipLine(mod, "GlyphHint", "Right-click to wipe the [c/" +
+				line = new TooltipLine(Mod, "GlyphHint", "Right-click to wipe the [c/" +
 					string.Format("{0:X2}{1:X2}{2:X2}:", color.R, color.G, color.B) +
-					glyph.item.Name + "] of [i:" + player.HeldItem.type + "] [c/" +
+					glyph.Item.Name + "] of [i:" + player.HeldItem.type + "] [c/" +
 					string.Format("{0:X2}{1:X2}{2:X2}:", itemColor.R, itemColor.G, itemColor.B) +
 					held.Name + "]");
 			}
 			else
-				line = new TooltipLine(mod, "GlyphHint", "Equip the item whose glyph you want to remove, then right-click on this glyph");
-			line.overrideColor = new Color(120, 190, 120);
+				line = new TooltipLine(Mod, "GlyphHint", "Equip the item whose glyph you want to remove, then right-click on this glyph");
+			line.OverrideColor = new Color(120, 190, 120);
 			tooltips.Insert(index + 1, line);
 		}
 	}

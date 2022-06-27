@@ -14,77 +14,77 @@ namespace SpiritMod.NPCs.BlizzardNimbus
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blizzard Nimbus");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[NPC.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.damage = 48;
-			npc.width = 40; //324
-			npc.height = 54; //216
-			npc.defense = 18;
-			npc.lifeMax = 220;
-			npc.knockBackResist = 0.3f;
-			npc.noGravity = true;
-			npc.buffImmune[BuffID.Frostburn] = true;
-			npc.buffImmune[ModContent.BuffType<MageFreeze>()] = true;
-			npc.buffImmune[ModContent.BuffType<CryoCrush>()] = true;
-			npc.buffImmune[BuffID.Confused] = true;
-			npc.value = Item.buyPrice(0, 0, 4, 0);
-			npc.HitSound = SoundID.NPCHit30;
-			npc.DeathSound = SoundID.NPCDeath49;
+			NPC.damage = 48;
+			NPC.width = 40; //324
+			NPC.height = 54; //216
+			NPC.defense = 18;
+			NPC.lifeMax = 220;
+			NPC.knockBackResist = 0.3f;
+			NPC.noGravity = true;
+			NPC.buffImmune[BuffID.Frostburn] = true;
+			NPC.buffImmune[ModContent.BuffType<MageFreeze>()] = true;
+			NPC.buffImmune[ModContent.BuffType<CryoCrush>()] = true;
+			NPC.buffImmune[BuffID.Confused] = true;
+			NPC.value = Item.buyPrice(0, 0, 4, 0);
+			NPC.HitSound = SoundID.NPCHit30;
+			NPC.DeathSound = SoundID.NPCDeath49;
 		}
 
 		public override void AI()
 		{
-			npc.TargetClosest(true);
+			NPC.TargetClosest(true);
 			float num1164 = 4f;
 			float num1165 = 0.75f;
-			Vector2 vector133 = new Vector2(npc.Center.X, npc.Center.Y);
-			float num1166 = Main.player[npc.target].Center.X - vector133.X;
-			float num1167 = Main.player[npc.target].Center.Y - vector133.Y - 200f;
+			Vector2 vector133 = new Vector2(NPC.Center.X, NPC.Center.Y);
+			float num1166 = Main.player[NPC.target].Center.X - vector133.X;
+			float num1167 = Main.player[NPC.target].Center.Y - vector133.Y - 200f;
 			float num1168 = (float)Math.Sqrt((double)(num1166 * num1166 + num1167 * num1167));
 			if (num1168 < 20f) {
-				num1166 = npc.velocity.X;
-				num1167 = npc.velocity.Y;
+				num1166 = NPC.velocity.X;
+				num1167 = NPC.velocity.Y;
 			}
 			else {
 				num1168 = num1164 / num1168;
 				num1166 *= num1168;
 				num1167 *= num1168;
 			}
-			if (npc.velocity.X < num1166) {
-				npc.velocity.X = npc.velocity.X + num1165;
-				if (npc.velocity.X < 0f && num1166 > 0f) {
-					npc.velocity.X = npc.velocity.X + num1165 * 2f;
+			if (NPC.velocity.X < num1166) {
+				NPC.velocity.X = NPC.velocity.X + num1165;
+				if (NPC.velocity.X < 0f && num1166 > 0f) {
+					NPC.velocity.X = NPC.velocity.X + num1165 * 2f;
 				}
 			}
-			else if (npc.velocity.X > num1166) {
-				npc.velocity.X = npc.velocity.X - num1165;
-				if (npc.velocity.X > 0f && num1166 < 0f) {
-					npc.velocity.X = npc.velocity.X - num1165 * 2f;
+			else if (NPC.velocity.X > num1166) {
+				NPC.velocity.X = NPC.velocity.X - num1165;
+				if (NPC.velocity.X > 0f && num1166 < 0f) {
+					NPC.velocity.X = NPC.velocity.X - num1165 * 2f;
 				}
 			}
-			if (npc.velocity.Y < num1167) {
-				npc.velocity.Y = npc.velocity.Y + num1165;
-				if (npc.velocity.Y < 0f && num1167 > 0f) {
-					npc.velocity.Y = npc.velocity.Y + num1165 * 2f;
+			if (NPC.velocity.Y < num1167) {
+				NPC.velocity.Y = NPC.velocity.Y + num1165;
+				if (NPC.velocity.Y < 0f && num1167 > 0f) {
+					NPC.velocity.Y = NPC.velocity.Y + num1165 * 2f;
 				}
 			}
-			else if (npc.velocity.Y > num1167) {
-				npc.velocity.Y = npc.velocity.Y - num1165;
-				if (npc.velocity.Y > 0f && num1167 < 0f) {
-					npc.velocity.Y = npc.velocity.Y - num1165 * 2f;
+			else if (NPC.velocity.Y > num1167) {
+				NPC.velocity.Y = NPC.velocity.Y - num1165;
+				if (NPC.velocity.Y > 0f && num1167 < 0f) {
+					NPC.velocity.Y = NPC.velocity.Y - num1165 * 2f;
 				}
 			}
-			if (npc.position.X + (float)npc.width > Main.player[npc.target].position.X && npc.position.X < Main.player[npc.target].position.X + (float)Main.player[npc.target].width && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && Main.netMode != NetmodeID.MultiplayerClient) {
-				npc.ai[0] += 4f;
-				if (npc.ai[0] > 32f) {
+			if (NPC.position.X + (float)NPC.width > Main.player[NPC.target].position.X && NPC.position.X < Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width && NPC.position.Y + (float)NPC.height < Main.player[NPC.target].position.Y && Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height) && Main.netMode != NetmodeID.MultiplayerClient) {
+				NPC.ai[0] += 4f;
+				if (NPC.ai[0] > 32f) {
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						npc.ai[0] = 0f;
-						int num1169 = (int)(npc.position.X + 10f + (float)Main.rand.Next(npc.width - 20));
-						int num1170 = (int)(npc.position.Y + (float)npc.height + 4f);
+						NPC.ai[0] = 0f;
+						int num1169 = (int)(NPC.position.X + 10f + (float)Main.rand.Next(NPC.width - 20));
+						int num1170 = (int)(NPC.position.Y + (float)NPC.height + 4f);
 						int num184 = 26;
 						if (Main.expertMode)
 						{
@@ -99,39 +99,39 @@ namespace SpiritMod.NPCs.BlizzardNimbus
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.6f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.6f);
+			NPC.lifeMax = (int)(NPC.lifeMax * 0.6f * bossLifeScale);
+			NPC.damage = (int)(NPC.damage * 0.6f);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Demonite, hitDirection, -1f, 0, default, 1f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Demonite, hitDirection, -1f, 0, default, 1f);
 			}
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, 13);
-				Gore.NewGore(npc.position, npc.velocity, 12);
-				Gore.NewGore(npc.position, npc.velocity, 11);
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, 13);
+				Gore.NewGore(NPC.position, NPC.velocity, 12);
+				Gore.NewGore(NPC.position, NPC.velocity, 11);
 			}
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.NextBool(50))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FrostStaff);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.FrostStaff);
 			if (Main.rand.NextBool(178))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.IceSickle);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.IceSickle);
 		}
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneSnow && spawnInfo.player.ZoneOverworldHeight && Main.dayTime && Main.hardMode ? 0.0595f : 0f;
+			return spawnInfo.Player.ZoneSnow && spawnInfo.Player.ZoneOverworldHeight && Main.dayTime && Main.hardMode ? 0.0595f : 0f;
 		}
 	}
 }

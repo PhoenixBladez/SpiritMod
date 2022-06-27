@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 		public override void SetDefaults()
 		{
 			item.damage = 24;
-			item.magic = true;
+			Item.DamageType = DamageClass.Magic;
 			item.mana = 40;
 			item.width = 40;
 			item.height = 40;
@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 			base.ModifyManaCost(player, ref reduce, ref mult);
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			return false;
 		}

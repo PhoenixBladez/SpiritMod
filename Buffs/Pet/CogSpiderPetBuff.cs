@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.Pet
 {
 	public class CogSpiderPetBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star Spider");
 			Description.SetDefault("'The stars will give you solace'");

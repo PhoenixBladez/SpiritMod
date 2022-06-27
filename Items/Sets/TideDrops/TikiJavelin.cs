@@ -16,25 +16,25 @@ namespace SpiritMod.Items.Sets.TideDrops
 
 		public override void SetDefaults()
 		{
-			item.damage = 25;
-			item.noMelee = true;
-			item.channel = true; //Channel so that you can held the weapon [Important]
-			item.rare = ItemRarityID.Orange;
-			item.width = 18;
-			item.height = 18;
-			item.useTime = 15;
-			item.useAnimation = 45;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = item.useAnimation = 24;
-			item.knockBack = 8;
-			item.melee = true;
-			item.noMelee = true;
+			Item.damage = 25;
+			Item.noMelee = true;
+			Item.channel = true; //Channel so that you can held the weapon [Important]
+			Item.rare = ItemRarityID.Orange;
+			Item.width = 18;
+			Item.height = 18;
+			Item.useTime = 15;
+			Item.useAnimation = 45;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = Item.useAnimation = 24;
+			Item.knockBack = 8;
+			Item.DamageType = DamageClass.Melee;
+			Item.noMelee = true;
 			//   item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.noUseGraphic = true;
-			item.shoot = ModContent.ProjectileType<TikiJavelinProj>();
-			item.shootSpeed = 0f;
-			item.value = Item.sellPrice(0, 0, 60, 0);
+			Item.autoReuse = false;
+			Item.noUseGraphic = true;
+			Item.shoot = ModContent.ProjectileType<TikiJavelinProj>();
+			Item.shootSpeed = 0f;
+			Item.value = Item.sellPrice(0, 0, 60, 0);
 		}
 
 		/*   public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Sets.TideDrops
                texture = Main.itemTexture[item.type];
                spriteBatch.Draw
                (
-                   ModContent.GetTexture("SpiritMod/Items/Equipment/StarMap_Glow"),
+                   ModContent.Request<Texture2D>("SpiritMod/Items/Equipment/StarMap_Glow"),
                    new Vector2
                    (
                        item.position.X - Main.screenPosition.X + item.width * 0.5f,

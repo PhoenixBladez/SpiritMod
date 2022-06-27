@@ -11,6 +11,7 @@ using SpiritMod.Mechanics.EventSystem.Controllers;
 
 using Terraria;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 
 namespace SpiritMod.Mechanics.EventSystem.Events
@@ -43,7 +44,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			{
 				if (beginSB) spriteBatch.Begin();
 
-				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), null, _color * _opacity.Ease(_currentTime));
+				spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), null, _color * _opacity.Ease(_currentTime));
 
 				if (beginSB) spriteBatch.End();
 			}

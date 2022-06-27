@@ -66,10 +66,10 @@ namespace SpiritMod.Items.Halloween
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 30;
-			item.rare = ItemRarityID.Orange;
-			item.maxStack = 1;
+			Item.width = 20;
+			Item.height = 30;
+			Item.rare = ItemRarityID.Orange;
+			Item.maxStack = 1;
 		}
 
 		//public override bool CanUseItem(Player player)
@@ -101,7 +101,7 @@ namespace SpiritMod.Items.Halloween
 			if (Full)
 				return false;
 
-			int slot = TypeToSlot(item.item.type);
+			int slot = TypeToSlot(item.Item.type);
 			if (slot < 0)
 				return false;
 			if (slot == 0)
@@ -130,7 +130,7 @@ namespace SpiritMod.Items.Halloween
 		public override void RightClick(Player player)
 		{
 			//Needed to counter the default consuption.
-			this.item.stack++;
+			this.Item.stack++;
 
 			if (!ContainsCandy)
 				return;
@@ -150,7 +150,7 @@ namespace SpiritMod.Items.Halloween
 				for (; v >= 0; v--) {
 					if (remove < variants[v]) {
 						variants[v]--;
-						((Candy)item.modItem).Variant = v;
+						((Candy)item.ModItem).Variant = v;
 						break;
 					}
 					remove -= variants[v];
@@ -180,13 +180,13 @@ namespace SpiritMod.Items.Halloween
 			if (!ContainsCandy)
 				return;
 
-			TooltipLine line = new TooltipLine(mod, "BagContents", "Contains " + pieces + (pieces == 1 ? " piece" : " pieces") + " of Candy");
+			TooltipLine line = new TooltipLine(Mod, "BagContents", "Contains " + pieces + (pieces == 1 ? " piece" : " pieces") + " of Candy");
 			tooltips.Add(line);
-			line = new TooltipLine(mod, "RightclickHint", "Right click to take a piece of Candy");
+			line = new TooltipLine(Mod, "RightclickHint", "Right click to take a piece of Candy");
 			tooltips.Add(line);
 		}
 
-		public override TagCompound Save()
+		public override void SaveData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
 		{
 			TagCompound tag = new TagCompound();
 			tag.Add("candy", candy);
@@ -194,7 +194,7 @@ namespace SpiritMod.Items.Halloween
 			return tag;
 		}
 
-		public override void Load(TagCompound tag)
+		public override void LoadData(TagCompound tag)
 		{
 			pieces = 0;
 			byte[] arr = tag.GetByteArray("candy");
@@ -213,7 +213,7 @@ namespace SpiritMod.Items.Halloween
 				writer.Write(variants[i]);
 		}
 
-		public override void NetRecieve(BinaryReader reader)
+		public override void NetReceive(BinaryReader reader)
 		{
 			pieces = 0;
 			for (int i = candy.Length - 1; i >= 0; i--)

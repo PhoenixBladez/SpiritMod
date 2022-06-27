@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs
 {
 	public class IceBerryBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ice Berries");
 			Description.SetDefault("You are immune to being on fire");

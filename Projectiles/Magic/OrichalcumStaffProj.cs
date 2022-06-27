@@ -14,16 +14,16 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.penetrate = 5;
-			projectile.alpha = 255;
-			projectile.timeLeft = 20;
-			projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.penetrate = 5;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 20;
+			Projectile.tileCollide = false;
 
 		}
 
@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Magic
 				Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 				targetDir.Normalize();
 				targetDir *= 4;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<OrichHoming>(), projectile.damage, projectile.knockBack, Main.myPlayer);
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<OrichHoming>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
 			}
 		}
 

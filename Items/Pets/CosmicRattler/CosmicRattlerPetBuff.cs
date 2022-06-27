@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 {
 	public class CosmicRattlerPetBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starachnid");
 			Description.SetDefault("'Inside it you can see the depths of space'");

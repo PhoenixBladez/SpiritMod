@@ -29,20 +29,20 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(64, 64);
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 20;
-			projectile.netUpdate = true;
-			projectile.ownerHitCheck = true;
+			Projectile.Size = new Vector2(64, 64);
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = -1;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 20;
+			Projectile.netUpdate = true;
+			Projectile.ownerHitCheck = true;
 		}
 
-		private float Combo => projectile.ai[0];
-		private ref float Timer => ref projectile.ai[1];
+		private float Combo => Projectile.ai[0];
+		private ref float Timer => ref Projectile.ai[1];
 		private float SwingDirection => Combo % 2 == 1 ? -1 : 1;
 		private float UseProgress => Timer / maxTime;
 		private int _hitPause = 0;
@@ -55,12 +55,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 			else
 				_hitPause--;
 
-			bool firstTick = projectile.timeLeft > 2; //Set to 2 on first tick of normal ai
+			bool firstTick = Projectile.timeLeft > 2; //Set to 2 on first tick of normal ai
 			if (firstTick) //Initialize total swing time and initial direction
 			{
-				initialVelocity = projectile.velocity;
+				initialVelocity = Projectile.velocity;
 				maxTime = Owner.HeldItem.useTime;
-				projectile.netUpdate = true;
+				Projectile.netUpdate = true;
 			}
 
 
@@ -73,7 +73,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 
 				float desiredAngle = TOTAL_RADIANS / 2 * SwingDirection;
 				float curAngle = MathHelper.Lerp(START_OFFSET * SwingDirection, desiredAngle, newProgress);
-				projectile.velocity = initialVelocity.RotatedBy(curAngle);
+				Projectile.velocity = initialVelocity.RotatedBy(curAngle);
 			}
 			else //Sword position while swinging
 			{
@@ -81,7 +81,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 
 				float startAngle = TOTAL_RADIANS / 2 * SwingDirection;
 				float curAngle = MathHelper.Lerp(startAngle, -startAngle, newProgress);
-				projectile.velocity = initialVelocity.RotatedBy(curAngle);
+				Projectile.velocity = initialVelocity.RotatedBy(curAngle);
 			}
 
 			return true;
@@ -89,35 +89,35 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 
 		public override void AbstractAI()
 		{
-			projectile.rotation += MathHelper.PiOver4 * Owner.direction;
+			Projectile.rotation += MathHelper.PiOver4 * Owner.direction;
 			if (SwingDirection == Owner.direction)
 			{
-				projectile.rotation += MathHelper.PiOver2 * Owner.direction;
-				projectile.direction = projectile.spriteDirection *= -1;
+				Projectile.rotation += MathHelper.PiOver2 * Owner.direction;
+				Projectile.direction = Projectile.spriteDirection *= -1;
 			}
 
 			float noParticleTheshold = 0.1f;
 			if(Main.rand.NextBool() && !Main.dedServ && UseProgress > SWING_TIME + noParticleTheshold && UseProgress < (1 - noParticleTheshold) && _hitPause == 0)
 			{
-				Vector2 directionUnit = Owner.DirectionTo(projectile.Center);
-				Vector2 spawnPos = Owner.MountedCenter + directionUnit * projectile.Size.Length();
-				Vector2 vel = Owner.DirectionTo(projectile.Center).RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.75f, 1.25f);
+				Vector2 directionUnit = Owner.DirectionTo(Projectile.Center);
+				Vector2 spawnPos = Owner.MountedCenter + directionUnit * Projectile.Size.Length();
+				Vector2 vel = Owner.DirectionTo(Projectile.Center).RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.75f, 1.25f);
 				ParticleHandler.SpawnParticle(new StarParticle(spawnPos, vel, Color.White, Main.rand.NextFloat(0.1f, 0.12f), 25));
 			}
 
 			Owner.reuseDelay = Owner.HeldItem.reuseDelay;
 
 			if (Timer > maxTime)
-				projectile.Kill();
+				Projectile.Kill();
 		}
 
-		public override Vector2 HoldoutOffset() => projectile.velocity * projectile.Size.Length() / 2;
+		public override Vector2 HoldoutOffset() => Projectile.velocity * Projectile.Size.Length() / 2;
 		public override bool AutoAimCursor() => false; //Only aim when first used
 
 		//Uses a line longer than the actual size of the sprite, for a more generous hitbox
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter, Owner.MountedCenter + projectile.velocity * projectile.Size.Length() * 1.5f);
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter, Owner.MountedCenter + Projectile.velocity * Projectile.Size.Length() * 1.5f);
 
-		public override bool CanDamage() => UseProgress > DRAWBACK_TIME && _hitPause == 0; //Only do damage when swinging
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => UseProgress > DRAWBACK_TIME && _hitPause == 0; //Only do damage when swinging
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
@@ -126,11 +126,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 				_hitPause = 6; //6 frame pause when hitting enemies
 				Owner.GetModPlayer<MyPlayer>().Shake = _hitPause;
 				_hasHit = true;
-				projectile.netUpdate = true;
+				Projectile.netUpdate = true;
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			float glowStrength = 0;
 			float glowStrengthMin = 0.1f;
@@ -147,12 +147,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 				glowStrength = Math.Max(glowStrength, glowStrengthMin); //Finally, if too low, increase it
 			}
 
-			Texture2D projGlow = ModContent.GetTexture(Texture + "_glow");
-			Texture2D projMask = ModContent.GetTexture(Texture + "_mask");
+			Texture2D projGlow = ModContent.Request<Texture2D>(Texture + "_glow");
+			Texture2D projMask = ModContent.Request<Texture2D>(Texture + "_mask");
 			Color additiveWhite = new Color(255, 255, 255, 0) * glowStrength;
 			void DrawGlow(Texture2D tex, Vector2? offset = null, float opacityMod = 1f) => //Use a method for a bit less copy paste
-				spriteBatch.Draw(tex, projectile.Center + (offset ?? Vector2.Zero) - Main.screenPosition, null, additiveWhite * opacityMod, projectile.rotation,
-				tex.Size() / 2, projectile.scale, projectile.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+				spriteBatch.Draw(tex, Projectile.Center + (offset ?? Vector2.Zero) - Main.screenPosition, null, additiveWhite * opacityMod, Projectile.rotation,
+				tex.Size() / 2, Projectile.scale, Projectile.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
 			//Draw mask behind the sword
 			PulseDraw.DrawPulseEffect(PulseDraw.BloomConstant, 6, 10, delegate (Vector2 offset, float opacityMod)
@@ -161,7 +161,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 			});
 			DrawGlow(projMask);
 
-			projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDraw(spriteBatch);
 
 			//Draw glowmask above the sword
 			PulseDraw.DrawPulseEffect(PulseDraw.BloomConstant, 6, 6, delegate (Vector2 offset, float opacityMod)
@@ -178,26 +178,26 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 		{
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
-			Effect effect = mod.GetEffect("Effects/AstralSpellblade");
-			effect.Parameters["baseTexture"].SetValue(mod.GetTexture("Textures/noise"));
+			Effect effect = Mod.GetEffect("Effects/AstralSpellblade");
+			effect.Parameters["baseTexture"].SetValue(Mod.GetTexture("Textures/noise"));
 			effect.Parameters["baseColorDark"].SetValue(new Color(67, 37, 143).ToVector4());
 			effect.Parameters["baseColorLight"].SetValue(new Color(230, 55, 166).ToVector4());
-			effect.Parameters["overlayTexture"].SetValue(mod.GetTexture("Textures/voronoiLooping"));
+			effect.Parameters["overlayTexture"].SetValue(Mod.GetTexture("Textures/voronoiLooping"));
 			effect.Parameters["overlayColor"].SetValue(new Color(255, 245, 245).ToVector4() * 3);
 
 			effect.Parameters["xMod"].SetValue(0.5f);
 			effect.Parameters["yMod"].SetValue(0.6f);
 			effect.Parameters["overlayCoordMods"].SetValue(new Vector2(1f, 0.2f));
 
-			effect.Parameters["timer"].SetValue(-Main.GlobalTime * 1.5f);
+			effect.Parameters["timer"].SetValue(-Main.GlobalTimeWrappedHourly * 1.5f);
 			effect.Parameters["progress"].SetValue(progress);
 
 			Vector2 pos = Owner.MountedCenter - Main.screenPosition;
 			PrimitiveSlashArc slash = new PrimitiveSlashArc
 			{
 				BasePosition = pos,
-				StartDistance = projectile.Size.Length() * 0.33f,
-				EndDistance = projectile.Size.Length() * 0.95f,
+				StartDistance = Projectile.Size.Length() * 0.33f,
+				EndDistance = Projectile.Size.Length() * 0.95f,
 				AngleRange = new Vector2(TOTAL_RADIANS / 2 * SwingDirection, -TOTAL_RADIANS / 2 * SwingDirection),
 				DirectionUnit = initialVelocity,
 				Color = Color.White * opacity,

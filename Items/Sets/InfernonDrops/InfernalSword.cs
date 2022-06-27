@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using SpiritMod.Projectiles;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,37 +19,37 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 52;
-			item.height = 64;
-			item.rare = ItemRarityID.Pink;
-			item.damage = 43;
-			item.knockBack = 5;
-			item.value = Item.sellPrice(0, 3, 0, 0);
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = item.useAnimation = 25;
-			item.melee = true;
-			item.shoot = ModContent.ProjectileType<CombustionBlaze>();
-			item.shootSpeed = 3f;
-			item.autoReuse = true;
-			item.UseSound = SoundID.Item1;
+			Item.width = 52;
+			Item.height = 64;
+			Item.rare = ItemRarityID.Pink;
+			Item.damage = 43;
+			Item.knockBack = 5;
+			Item.value = Item.sellPrice(0, 3, 0, 0);
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = Item.useAnimation = 25;
+			Item.DamageType = DamageClass.Melee;
+			Item.shoot = ModContent.ProjectileType<CombustionBlaze>();
+			Item.shootSpeed = 3f;
+			Item.autoReuse = true;
+			Item.UseSound = SoundID.Item1;
 		}
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
 			if (Main.rand.Next(2) == 0)
-				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Fire);
+				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Torch);
 		}
 
-		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(2) == 0)
 				target.AddBuff(ModContent.BuffType<StackingFireBuff>(), 300);
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			for (int I = 0; I < 2; I++) {
-				Projectile.NewProjectile(position.X, position.Y, speedX * (Main.rand.Next(500, 900) / 100), speedY * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<CombustionBlaze>(), item.damage / 6 * 5, item.knockBack, player.whoAmI);
+				Projectile.NewProjectile(source, position.X, position.Y, velocity.X * (Main.rand.Next(500, 900) / 100), velocity.Y * (Main.rand.Next(500, 900) / 100), ModContent.ProjectileType<CombustionBlaze>(), Item.damage / 6 * 5, Item.knockBack, player.whoAmI);
 			}
 			return false;
 		}

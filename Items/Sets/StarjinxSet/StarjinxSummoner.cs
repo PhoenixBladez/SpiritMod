@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 {
 	public class StarjinxSummoner : ModItem
 	{
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetStaticDefaults()
 		{
@@ -18,22 +18,22 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 
 		public override void SetDefaults()
 		{
-			item.maxStack = 99;
-			item.width = item.height = 16;
-			item.useTime = item.useAnimation = 20;
+			Item.maxStack = 99;
+			Item.width = Item.height = 16;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.rare = ItemRarityID.LightRed;
-			item.UseSound = SoundID.Item43;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item43;
 
-			item.noMelee = true;
-			item.consumable = true;
-			item.autoReuse = false;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.autoReuse = false;
 		}
 
 		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<StarjinxMeteorite>());
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			int centreX = Main.rand.Next(Main.maxTilesX * 6, Main.maxTilesX * 10);
 			Vector2 finalPos = GetOpenSpace(centreX, (int)(Main.worldSurface * 0.35f) + 1000);

@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -21,24 +23,24 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		public override void SetDefaults()
 		{
-			projectile.width = 56;
-			projectile.height = 36;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.ranged = true;
-			projectile.aiStyle = -1;
+			Projectile.width = 56;
+			Projectile.height = 36;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.aiStyle = -1;
 
-			drawHeldProjInFrontOfHeldItemAndArms = false;
+			DrawHeldProjInFrontOfHeldItemAndArms = false;
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => false;
 
 		public override void AI()
 		{
-			Player p = Main.player[projectile.owner];
-			p.heldProj = projectile.whoAmI;
+			Player p = Main.player[Projectile.owner];
+			p.heldProj = Projectile.whoAmI;
 			GItem.ArmsTowardsMouse(p);
 
 			if (p.whoAmI != Main.myPlayer) return; //mp check (hopefully)
@@ -46,19 +48,19 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			if (p.channel) //Use turn functionality
 				p.direction = Main.MouseWorld.X >= p.MountedCenter.X ? 1 : -1;
 
-			projectile.rotation = Vector2.Normalize(p.MountedCenter - Main.MouseWorld).ToRotation() - MathHelper.Pi; //So it looks like the player is holding it properly
+			Projectile.rotation = Vector2.Normalize(p.MountedCenter - Main.MouseWorld).ToRotation() - MathHelper.Pi; //So it looks like the player is holding it properly
 
 			_charge++; //Increase charge timer...
-			projectile.timeLeft++; //...and dont die
+			Projectile.timeLeft++; //...and dont die
 
 			if (_endCharge == -1) //Wait until the player has fired to let go & set position
 			{
 				p.itemTime = p.HeldItem.useTime;
 				p.itemAnimation = p.HeldItem.useAnimation;
-				projectile.Center = p.Center - (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27) + new Vector2(21, 18 + p.gfxOffY);
+				Projectile.Center = p.Center - (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27) + new Vector2(21, 18 + p.gfxOffY);
 			}
 			else
-				projectile.Center = p.Center - (new Vector2(1, 0).RotatedBy(_finalRotation) * 27) + new Vector2(21, 18 + p.gfxOffY);
+				Projectile.Center = p.Center - (new Vector2(1, 0).RotatedBy(_finalRotation) * 27) + new Vector2(21, 18 + p.gfxOffY);
 
 			if (!p.channel && _endCharge == -1) //the player has stopped shooting
 			{
@@ -69,7 +71,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			}
 
 			if (_charge > _endCharge && _endCharge != -1) //Kill projectile when done shooting
-				projectile.Kill();
+				Projectile.Kill();
 
 			if (_charge > ChargeUp && (_charge - ChargeUp) % p.HeldItem.useTime == 1)
 				Fire(p);
@@ -87,19 +89,19 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 					pos += muzzleOffset;
 
 				var p = Projectile.NewProjectileDirect(pos, baseVel, ModContent.ProjectileType<GranitechGunBullet>(), player.HeldItem.damage, 0f, player.whoAmI);
-				if (p.modProjectile is GranitechGunBullet bullet)
+				if (p.ModProjectile is GranitechGunBullet bullet)
 					bullet.spawnRings = true;
 
 				//Main.PlaySound(Terraria.ID.SoundID.Item11, projectile.Center);
 				if (!Main.dedServ)
-					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/EnergyShoot").WithPitchVariance(0.1f).WithVolume(0.25f), pos);
+					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/EnergyShoot").WithPitchVariance(0.1f).WithVolume(0.25f), pos);
 
 				VFX(pos + muzzleOffset, baseVel * 0.2f);
 			}
 			else
 			{
 				player.channel = false;
-				projectile.Kill();
+				Projectile.Kill();
 			}
 		}
 
@@ -112,16 +114,16 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Player p = Main.player[projectile.owner];
-			Texture2D t = Main.projectileTexture[projectile.type];
+			Player p = Main.player[Projectile.owner];
+			Texture2D t = TextureAssets.Projectile[Projectile.type].Value;
 
 			_effect = Main.MouseWorld.X >= p.MountedCenter.X ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
 			float realRot = GetRotation();
 
-			Vector2 drawPos = projectile.position - Main.screenPosition; //Draw position + charge shaking
+			Vector2 drawPos = Projectile.position - Main.screenPosition; //Draw position + charge shaking
 
 			const int Width = 82;
 			const int Height = 38;
@@ -155,7 +157,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 			spriteBatch.Draw(t, drawPos, frame, lightColor, realRot, new Vector2(42, 22), 1f, _effect, 1f);
 
-			Texture2D glowmask = ModContent.GetTexture(Texture + "_glow");
+			Texture2D glowmask = ModContent.Request<Texture2D>(Texture + "_glow");
 			spriteBatch.Draw(glowmask, drawPos, frame, Color.White, realRot, new Vector2(42, 22), 1f, _effect, 1f);
 
 			return false;
@@ -163,7 +165,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		private float GetRotation()
 		{
-			float rot = projectile.rotation; //Rotate towards mouse
+			float rot = Projectile.rotation; //Rotate towards mouse
 			if (_endCharge != -1) rot = _finalRotation + MathHelper.Pi;
 			if (_effect == SpriteEffects.FlipHorizontally)
 				rot -= MathHelper.Pi;

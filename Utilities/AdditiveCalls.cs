@@ -20,14 +20,14 @@ namespace SpiritMod
 
 			foreach (Projectile p in Main.projectile)
 			{
-				var mP = p.modProjectile;
+				var mP = p.ModProjectile;
 				if (mP is IDrawAdditive && p.active)
 					CallList.Add(mP as IDrawAdditive);
 			}
 
 			foreach (NPC n in Main.npc)
 			{
-				var nP = n.modNPC;
+				var nP = n.ModNPC;
 				if (nP is IDrawAdditive && n.active)
 					CallList.Add(nP as IDrawAdditive);
 			}

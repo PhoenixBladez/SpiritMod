@@ -7,7 +7,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class FloppaPainting_Tile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -26,8 +26,8 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newTile.AnchorTop = default;
 			TileObjectData.newTile.AnchorWall = true;
 			TileObjectData.addTile(Type);
-			disableSmartCursor = true;
-			dustType -= 1;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType -= 1;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Painting");
 			AddMapEntry(new Color(150, 150, 150), name);

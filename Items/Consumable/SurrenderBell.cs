@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.Chat;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -12,23 +14,23 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 30;
-			item.rare = ItemRarityID.Cyan;
-			item.maxStack = 99;
-			item.value = Item.buyPrice(gold: 25);
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.useTime = item.useAnimation = 20;
-			item.noMelee = true;
-			item.consumable = true;
-			item.autoReuse = false;
+			Item.width = 36;
+			Item.height = 30;
+			Item.rare = ItemRarityID.Cyan;
+			Item.maxStack = 99;
+			Item.value = Item.buyPrice(gold: 25);
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.useTime = Item.useAnimation = 20;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.autoReuse = false;
 		}
 
 		public override bool CanUseItem(Player player) => Main.invasionType != 0;
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			Main.PlaySound(SoundID.CoinPickup, (int)player.Center.X, (int)player.Center.Y, 2);
+			SoundEngine.PlaySound(SoundID.CoinPickup, (int)player.Center.X, (int)player.Center.Y, 2);
 			Main.invasionType = 0;
 			Main.invasionSize = 0;
 
@@ -37,7 +39,7 @@ namespace SpiritMod.Items.Consumable
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				Main.NewText("The invaders have called off their attack!", Color.MediumPurple);
 			else if (Main.netMode == NetmodeID.Server)
-				NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("The invaders have called off their attack!"), Color.MediumPurple, -1);
+				ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral("The invaders have called off their attack!"), Color.MediumPurple, -1);
 			return true;
 		}
 	}

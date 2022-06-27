@@ -28,8 +28,8 @@ namespace SpiritMod.Items.Accessory.OpalFrog
 		public override void PreUpdate()
 		{
 			//No tmod hook for updating misc equips for some reason, manual iteration necessary
-			foreach (Item item in player.miscEquips)
-				OpalFrogGItem.UpdateItem(item, player);
+			foreach (Item item in Player.miscEquips)
+				OpalFrogGItem.UpdateItem(item, Player);
 		}
 	}
 }

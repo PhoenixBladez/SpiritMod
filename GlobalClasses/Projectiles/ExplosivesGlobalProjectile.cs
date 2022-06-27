@@ -36,7 +36,7 @@ namespace SpiritMod.GlobalClasses.Projectiles
 					if (tag.Tags.Contains(ItemTags.Explosive))
 					{
 						var item = new Item();
-						item.SetDefaults(mod.ItemType(type.Name));
+						item.SetDefaults(mod.Find<ModItem>(type.Name).Type);
 						LoadedExplosives.Add(item.shoot);
 					}
 				}

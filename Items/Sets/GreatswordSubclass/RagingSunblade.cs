@@ -1,4 +1,6 @@
 ﻿using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -19,29 +21,29 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
         {
             DisplayName.SetDefault("Helios");
 			Tooltip.SetDefault("Hold and release to throw \nRight click to dash to it, destroying everything in your path");
-			SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
+			SpiritGlowmask.AddGlowMask(Item.type, Texture + "_glow");
         }
 
         public override void SetDefaults()
         {
-            item.channel = true;
-            item.damage = 180;
-            item.width = 60;
-            item.height = 60;
-            item.useTime = 320;
-            item.useAnimation = 320;
-            item.crit = 4;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.melee = true;
-            item.noMelee = true;
-            item.knockBack = 8;
-            item.useTurn = false;
-            item.value = Item.sellPrice(0, 10, 0, 0);
-            item.rare = ItemRarityID.Red;
-            item.autoReuse = false;
-            item.shoot = ModContent.ProjectileType<RagingSunbladeProj>();
-            item.shootSpeed = 6f;
-            item.noUseGraphic = true;
+            Item.channel = true;
+            Item.damage = 180;
+            Item.width = 60;
+            Item.height = 60;
+            Item.useTime = 320;
+            Item.useAnimation = 320;
+            Item.crit = 4;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.knockBack = 8;
+            Item.useTurn = false;
+            Item.value = Item.sellPrice(0, 10, 0, 0);
+            Item.rare = ItemRarityID.Red;
+            Item.autoReuse = false;
+            Item.shoot = ModContent.ProjectileType<RagingSunbladeProj>();
+            Item.shootSpeed = 6f;
+            Item.noUseGraphic = true;
         }
 
 		public override bool CanUseItem(Player player)
@@ -56,7 +58,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			return true;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => 
-            GlowmaskUtils.DrawItemGlowMaskWorld(Main.spriteBatch, item, mod.GetTexture(Texture.Remove(0, "SpiritMod/".Length) + "_glow"), rotation, scale);
+            GlowmaskUtils.DrawItemGlowMaskWorld(Main.spriteBatch, Item, Mod.GetTexture(Texture.Remove(0, "SpiritMod/".Length) + "_glow"), rotation, scale);
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-10, 0);
@@ -64,11 +66,10 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.FragmentSolar, 18);
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 
@@ -81,13 +82,13 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 
         public override void SetDefaults()
 		{
-			projectile.width = 45;
-			projectile.height = 45;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.aiStyle = -1;
+			Projectile.width = 45;
+			Projectile.height = 45;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.aiStyle = -1;
 		}
         float growCounter = 20;
         double radians = 0;
@@ -104,19 +105,19 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 		public Vector2 primCenter = Vector2.Zero;
         public override void AI()
         {
-			projectile.timeLeft = 2;
-            Player player = Main.player[projectile.owner];
-            player.heldProj = projectile.whoAmI;
+			Projectile.timeLeft = 2;
+            Player player = Main.player[Projectile.owner];
+            player.heldProj = Projectile.whoAmI;
             if (!primsCreated)
             {
-                trail = new SolarSwordPrimTrail(projectile);
+                trail = new SolarSwordPrimTrail(Projectile);
                 SpiritMod.primitives.CreateTrail(trail);
                 primsCreated = true;
 			}
 			if (charge >= 60)
 			{
 				if (flickerTime == 0)
-					Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
+					SoundEngine.PlaySound(SoundID.NPCDeath7, Projectile.Center);
 				flickerTime += 0.05f;
 				flickerTime = Math.Min(flickerTime, 1);
 			}
@@ -132,9 +133,9 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 				if (charge > 60)
 				{
 					if (phantomProj == null)
-						phantomProj = Projectile.NewProjectileDirect(player.Center, player.DirectionTo(Main.MouseWorld) * 15, ModContent.ProjectileType<HeliosPhantomProj>(), projectile.damage, 0, player.whoAmI);
+						phantomProj = Projectile.NewProjectileDirect(player.Center, player.DirectionTo(Main.MouseWorld) * 15, ModContent.ProjectileType<HeliosPhantomProj>(), Projectile.damage, 0, player.whoAmI);
 					primCenter = phantomProj.Center;
-					if (!phantomProj.active || !(phantomProj.modProjectile is HeliosPhantomProj))
+					if (!phantomProj.active || !(phantomProj.ModProjectile is HeliosPhantomProj))
 						returned = true;
 				}
 				else
@@ -155,7 +156,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			}
             Vector2 direction = Main.MouseWorld - player.position;
             direction.Normalize();
-            projectile.scale = MathHelper.Clamp((growCounter - 20) / 30f, 0, 1);
+            Projectile.scale = MathHelper.Clamp((growCounter - 20) / 30f, 0, 1);
 
             SpinBlade(0.3, 0.1);
 
@@ -165,7 +166,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 
 				while (player.itemAnimation < 3)
 				{
-					Main.PlaySound(SoundID.Item, (int)player.MountedCenter.X, (int)player.MountedCenter.Y, 105, 0.5f, 0.5f);
+					SoundEngine.PlaySound(SoundID.Item, (int)player.MountedCenter.X, (int)player.MountedCenter.Y, 105, 0.5f, 0.5f);
 					player.itemAnimation += 320;
 				}
 			}
@@ -179,7 +180,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 
 			if (growCounter <= 0)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 player.itemTime = player.itemAnimation = 2;
             }
 
@@ -198,7 +199,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
                 for (int j = pY - 10; j < pY + 10; ++j)
                 {
                     float dist = Vector2.Distance((new Vector2(i, j) * 16) + new Vector2(8), primCenter);
-                    if (dist < 150 * (growCounter / 60f) && Framing.GetTileSafely(i, j).active() && Main.tileSolid[Framing.GetTileSafely(i, j).type])
+                    if (dist < 150 * (growCounter / 60f) && Framing.GetTileSafely(i, j).HasTile && Main.tileSolid[Framing.GetTileSafely(i, j).TileType])
                         collectedAngles.Add((Vector2.Normalize(primCenter - (new Vector2(i, j) * 16)).ToRotation(), dist)); //collects angles
                 }
             }
@@ -229,7 +230,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 
         private void SpinBlade(double d1, double adder, bool grow = true)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             for (double i = 0; i < d1; i+= adder)
             {
 				if (player.direction == 1)
@@ -250,19 +251,19 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 						growCounter -= (float)(adder / d1);
 				}
 				if (player.channel)
-					projectile.Center = primCenter + ((float)radians + 3.14f).ToRotationVector2() * 110;
+					Projectile.Center = primCenter + ((float)radians + 3.14f).ToRotationVector2() * 110;
 				else
-					projectile.Center = primCenter + ((float)radians + 3.14f).ToRotationVector2() * 11 * growCounter / 6f;
-				trail.Points.Add(projectile.Center - primCenter);
+					Projectile.Center = primCenter + ((float)radians + 3.14f).ToRotationVector2() * 11 * growCounter / 6f;
+				trail.Points.Add(Projectile.Center - primCenter);
 
 				if (grow)
 				{
 					if (Main.rand.Next(4) == 0)
 					{
-						Dust dust = Dust.NewDustDirect(projectile.Center - new Vector2(projectile.width / 4, projectile.height / 4), projectile.width / 2, projectile.height / 2, DustID.Fire, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / 6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / 6f);
+						Dust dust = Dust.NewDustDirect(Projectile.Center - new Vector2(Projectile.width / 4, Projectile.height / 4), Projectile.width / 2, Projectile.height / 2, DustID.Torch, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / 6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / 6f);
 						dust.scale = 1.5f;
 						dust.noGravity = true;
-						dust = Dust.NewDustDirect(primCenter - (((float)radians + 3.14f).ToRotationVector2() * 10 * growCounter / 6f) - new Vector2(projectile.width / 4, projectile.height / 4), projectile.width / 2, projectile.height / 2, DustID.Fire, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / -6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / -2f);
+						dust = Dust.NewDustDirect(primCenter - (((float)radians + 3.14f).ToRotationVector2() * 10 * growCounter / 6f) - new Vector2(Projectile.width / 4, Projectile.height / 4), Projectile.width / 2, Projectile.height / 2, DustID.Torch, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / -6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / -2f);
 						dust.scale = 1.5f;
 						dust.noGravity = true;
 					}
@@ -270,7 +271,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
             }
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockBack, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			target.AddBuff(189, 180);
 			hitDirection = Math.Sign(target.Center.X - primCenter.X);
@@ -278,23 +279,23 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 			float collisionPoint = 0f;
 			for (float i = 0; i < 6.28f; i++)
 			{
-				if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), projectile.width, ref collisionPoint))
+				if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), Projectile.width, ref collisionPoint))
 				{
 					Vector2 position = Vector2.Lerp(primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), collisionPoint / 110.0f);
-					Main.PlaySound(SoundID.Item, position, 14);
-					Projectile.NewProjectile(position, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+					SoundEngine.PlaySound(SoundID.Item, position, 14);
+					Projectile.NewProjectile(position, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 					return true;
 				}
 			}
 			if (projHitbox.Intersects(targetHitbox))
 			{
-				Vector2 position = projectile.Center;
-				Main.PlaySound(SoundID.Item, position, 14);
-				Projectile.NewProjectile(position, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				Vector2 position = Projectile.Center;
+				SoundEngine.PlaySound(SoundID.Item, position, 14);
+				Projectile.NewProjectile(position, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 				return true;
 			}
 			return false;
@@ -308,20 +309,20 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
 			for (float i = 0; i < 6.28f; i++)
 			{
-				Utils.PlotTileLine(primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), projectile.width, DelegateMethods.CutTiles);
+				Utils.PlotTileLine(primCenter, primCenter + (((float)radians - i).ToRotationVector2() * 110), Projectile.width, DelegateMethods.CutTiles);
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			Color color = lightColor;
-            Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], primCenter - Main.screenPosition, null, Color.White, (float)radians + 3.9f, new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 2), projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, primCenter - Main.screenPosition, null, Color.White, (float)radians + 3.9f, new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width / 2, TextureAssets.Projectile[Projectile.type].Value.Height / 2), Projectile.scale, SpriteEffects.None, 0);
 			if (charge >= 60)
 			{
 				float transparency = (float)Math.Pow(1 - flickerTime, 2);
 				float scale = 1 + (flickerTime / 2.0f);
-				Texture2D whiteTex = ModContent.GetTexture(Texture + "_White");
-				Main.spriteBatch.Draw(whiteTex, primCenter - Main.screenPosition, null, Color.White * transparency, (float)radians + 3.9f, new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 2), projectile.scale * scale, SpriteEffects.None, 0);
+				Texture2D whiteTex = ModContent.Request<Texture2D>(Texture + "_White");
+				Main.spriteBatch.Draw(whiteTex, primCenter - Main.screenPosition, null, Color.White * transparency, (float)radians + 3.9f, new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width / 2, TextureAssets.Projectile[Projectile.type].Value.Height / 2), Projectile.scale * scale, SpriteEffects.None, 0);
 			}
 			return false;
 		}
@@ -337,67 +338,67 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 
 		Vector2 oldVel = Vector2.Zero;
 
-		Player player => Main.player[projectile.owner];
+		Player player => Main.player[Projectile.owner];
 
 		private bool dashing = false;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Helios");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 30;
-			projectile.aiStyle = 3;
-			projectile.friendly = false;
-			projectile.melee = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 700;
-			projectile.tileCollide = false;
-			projectile.extraUpdates = 2;
-			projectile.hide = true;
+			Projectile.width = 30;
+			Projectile.height = 30;
+			Projectile.aiStyle = 3;
+			Projectile.friendly = false;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 700;
+			Projectile.tileCollide = false;
+			Projectile.extraUpdates = 2;
+			Projectile.hide = true;
 		}
 
 		public override bool PreAI()
 		{
 			if (Main.mouseRight && !dashing && player == Main.LocalPlayer)
 			{
-				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), player.Center);
+				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), player.Center);
 				dashing = true;
 				player.GetModPlayer<MyPlayer>().AnimeSword = true;
-				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HeliosDash>(), projectile.damage * 3, 0, player.whoAmI);
+				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HeliosDash>(), Projectile.damage * 3, 0, player.whoAmI);
 			}
 
 			if (dashing)
 			{
-				player.velocity = player.DirectionTo(projectile.Center) * 80;
-				if (player.Distance(projectile.Center) < 100 && ClearPath(projectile.Center, player.Center))
+				player.velocity = player.DirectionTo(Projectile.Center) * 80;
+				if (player.Distance(Projectile.Center) < 100 && ClearPath(Projectile.Center, player.Center))
 				{
-					player.Center = projectile.Center;
+					player.Center = Projectile.Center;
 					player.velocity = Vector2.Zero;
 					player.GetModPlayer<MyPlayer>().AnimeSword = false;
 				}
 			}
 
-			if (!paused && projectile.velocity.Length() <= 3 && !pausedBefore)
+			if (!paused && Projectile.velocity.Length() <= 3 && !pausedBefore)
 			{
 				paused = true;
-				oldVel = projectile.velocity;
+				oldVel = Projectile.velocity;
 			}
 
 			if (paused)
 			{
 				pausedBefore = true;
-				projectile.velocity *= 0.99f;
+				Projectile.velocity *= 0.99f;
 				pauseTimer--;
 
 				if (pauseTimer <= 0)
 				{
-					projectile.velocity = oldVel;
+					Projectile.velocity = oldVel;
 					paused = false;
 				}
 				return false;
@@ -412,7 +413,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 			{
 				Vector2 positionToCheck = point2 + (distance * i);
 				Point tPos = positionToCheck.ToTileCoordinates();
-				if (WorldGen.InWorld(tPos.X, tPos.Y, 2) && Framing.GetTileSafely(tPos.X, tPos.Y).active() && Main.tileSolid[Framing.GetTileSafely((int)(positionToCheck.X / 16f), (int)(positionToCheck.Y / 16f)).type])
+				if (WorldGen.InWorld(tPos.X, tPos.Y, 2) && Framing.GetTileSafely(tPos.X, tPos.Y).HasTile && Main.tileSolid[Framing.GetTileSafely((int)(positionToCheck.X / 16f), (int)(positionToCheck.Y / 16f)).TileType])
 					return false;
 			}
 			return true;
@@ -421,33 +422,33 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 
 	public class HeliosDash : ModProjectile
 	{
-		private Player player => Main.player[projectile.owner];
+		private Player player => Main.player[Projectile.owner];
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Helios");
 
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 180;
-			projectile.hostile = false;
-			projectile.melee = true;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.hide = true;
+			Projectile.width = Projectile.height = 180;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.hide = true;
 		}
 
 		public override void AI()
 		{
-			projectile.Center = player.Center;
+			Projectile.Center = player.Center;
 
 			if (!player.GetModPlayer<MyPlayer>().AnimeSword)
-				projectile.active = false;
+				Projectile.active = false;
 			else
 			{
 				for (int i = 0; i < 3; i++)
 				{
-					ImpactLine line = new ImpactLine(projectile.Center + Main.rand.NextVector2Circular(90, 90), Vector2.Normalize(player.velocity) * 0.5f, Color.Lerp(Color.Orange, Color.OrangeRed, Main.rand.NextFloat()), new Vector2(0.25f, Main.rand.NextFloat(0.5f, 1.5f)) * 5, 60);
+					ImpactLine line = new ImpactLine(Projectile.Center + Main.rand.NextVector2Circular(90, 90), Vector2.Normalize(player.velocity) * 0.5f, Color.Lerp(Color.Orange, Color.OrangeRed, Main.rand.NextFloat()), new Vector2(0.25f, Main.rand.NextFloat(0.5f, 1.5f)) * 5, 60);
 					line.TimeActive = 30;
 					ParticleHandler.SpawnParticle(line);
 				}

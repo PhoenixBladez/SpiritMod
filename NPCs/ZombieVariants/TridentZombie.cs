@@ -10,49 +10,49 @@ namespace SpiritMod.NPCs.ZombieVariants
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Zombie");
-			Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.ArmedZombie];
+			Main.npcFrameCount[NPC.type] = Main.npcFrameCount[NPCID.ArmedZombie];
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 40;
-			npc.height = 42;
-			npc.damage = 30;
-			npc.defense = 5;
-			npc.lifeMax = 80;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath2;
-			npc.value = 160f;
-			npc.knockBackResist = .5f;
-			npc.aiStyle = 3;
-			aiType = NPCID.ArmedZombie;
-			animationType = NPCID.ArmedZombie;
+			NPC.width = 40;
+			NPC.height = 42;
+			NPC.damage = 30;
+			NPC.defense = 5;
+			NPC.lifeMax = 80;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath2;
+			NPC.value = 160f;
+			NPC.knockBackResist = .5f;
+			NPC.aiStyle = 3;
+			AIType = NPCID.ArmedZombie;
+			AnimationType = NPCID.ArmedZombie;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 20; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.78f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.Green, .54f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.78f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.Green, .54f);
 			}
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/KelpZombie/KelpZombie1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/KelpZombie/KelpZombie2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/KelpZombie/KelpZombie3"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/KelpZombie/KelpZombie1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/KelpZombie/KelpZombie2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/KelpZombie/KelpZombie3").Type, 1f);
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(5) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.FloatingItems.Kelp>(), Main.rand.Next(2) + 3);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.FloatingItems.Kelp>(), Main.rand.Next(2) + 3);
 			if (Main.rand.Next(50) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Shackle);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Shackle);
 			if (Main.rand.Next(250) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Trident);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Trident);
 		}
 	}
 }

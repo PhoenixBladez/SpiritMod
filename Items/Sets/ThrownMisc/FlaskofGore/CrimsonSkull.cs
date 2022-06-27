@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using SpiritMod.Buffs;
@@ -16,15 +17,15 @@ namespace SpiritMod.Items.Sets.ThrownMisc.FlaskofGore
 		{
 			DisplayName.SetDefault("Crimson Skull");
 			Tooltip.SetDefault("You shouldn't see this");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 7));
+			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 7));
 		}
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 32;
-			item.maxStack = 1;
-			item.alpha = 50;
-			ItemID.Sets.ItemNoGravity[item.type] = true;
+			Item.width = 36;
+			Item.height = 32;
+			Item.maxStack = 1;
+			Item.alpha = 50;
+			ItemID.Sets.ItemNoGravity[Item.type] = true;
 		}
 
 		public override bool ItemSpace(Player player) => true;
@@ -32,8 +33,8 @@ namespace SpiritMod.Items.Sets.ThrownMisc.FlaskofGore
 
 		public override bool OnPickup(Player player)
 		{
-			player.AddBuff(mod.BuffType("CrimsonSkullBuff"), 240);
-			Main.PlaySound(SoundID.Trackable, (int)player.position.X, (int)player.position.Y, 139, 1f, -0.9f);
+			player.AddBuff(Mod.Find<ModBuff>("CrimsonSkullBuff").Type, 240);
+			SoundEngine.PlaySound(SoundID.Trackable, (int)player.position.X, (int)player.position.Y, 139, 1f, -0.9f);
 			return false;
 		}
 	}

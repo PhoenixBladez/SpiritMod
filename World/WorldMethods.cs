@@ -40,12 +40,12 @@ namespace SpiritMod.World
 			int Xstray = length / 2;
 			for (int level = 0; level <= height; level++)
 			{
-				Main.tile[X, (int)(Y + level - (slope / 2))].active(true);
-				Main.tile[X, (int)(Y + level - (slope / 2))].type = type2;
+				Main.tile[X, (int)(Y + level - (slope / 2))].HasTile = true;
+				Main.tile[X, (int)(Y + level - (slope / 2))].TileType = type2;
 				for (int I = X - (int)(length + (level * trueslope)); I < X + (int)(length + (level * truesloperight)); I++)
 				{
-					Main.tile[I, (Y + level)].active(true);
-					Main.tile[I, (Y + level)].type = type2;
+					Main.tile[I, (Y + level)].HasTile = true;
+					Main.tile[I, (Y + level)].TileType = type2;
 				}
 			}
 		}
@@ -125,27 +125,27 @@ namespace SpiritMod.World
 
 							if (type < 0)
 							{
-								if (type == -2 && Main.tile[k, l].active() && (l < WorldGen.waterLine || l > WorldGen.lavaLine))
+								if (type == -2 && Main.tile[k, l].HasTile && (l < WorldGen.waterLine || l > WorldGen.lavaLine))
 								{
-									Main.tile[k, l].liquid = 255;
+									Main.tile[k, l].LiquidAmount = 255;
 									if (l > WorldGen.lavaLine)
 									{
-										Main.tile[k, l].lava(true);
+										Main.tile[k, l].LiquidType = LiquidID.Lava;
 									}
 								}
-								Main.tile[k, l].active(false);
+								Main.tile[k, l].HasTile = false;
 							}
 							else
 							{
-								if (overRide || !Main.tile[k, l].active())
+								if (overRide || !Main.tile[k, l].HasTile)
 								{
 									Tile tile = Main.tile[k, l];
-									bool flag3 = Main.tileStone[type] && tile.type != 1;
-									if (!TileID.Sets.CanBeClearedDuringGeneration[(int)tile.type])
+									bool flag3 = Main.tileStone[type] && tile.TileType != 1;
+									if (!TileID.Sets.CanBeClearedDuringGeneration[(int)tile.TileType])
 									{
 										flag3 = true;
 									}
-									ushort type2 = tile.type;
+									ushort type2 = tile.TileType;
 									if (type2 <= 147)
 									{
 										if (type2 <= 45)
@@ -221,7 +221,7 @@ namespace SpiritMod.World
 								IL_5B7:
 									if (!flag3)
 									{
-										tile.type = (ushort)type;
+										tile.TileType = (ushort)type;
 										goto IL_5C5;
 									}
 									goto IL_5C5;
@@ -232,14 +232,14 @@ namespace SpiritMod.World
 							IL_5C5:
 								if (addTile)
 								{
-									Main.tile[k, l].active(true);
-									Main.tile[k, l].liquid = 0;
-									Main.tile[k, l].lava(false);
+									Main.tile[k, l].HasTile = true;
+									Main.tile[k, l].LiquidAmount = 0;
+									Main.tile[k, l].lava/* tModPorter Suggestion: LiquidType = ... */(false);
 								}
-								if (type == 59 && l > WorldGen.waterLine && Main.tile[k, l].liquid > 0)
+								if (type == 59 && l > WorldGen.waterLine && Main.tile[k, l].LiquidAmount > 0)
 								{
-									Main.tile[k, l].lava(false);
-									Main.tile[k, l].liquid = 0;
+									Main.tile[k, l].lava/* tModPorter Suggestion: LiquidType = ... */(false);
+									Main.tile[k, l].LiquidAmount = 0;
 								}
 							}
 						}
@@ -393,7 +393,7 @@ namespace SpiritMod.World
 				for (int y = j; y < j + height; ++y)
 				{
 					Tile tile = Framing.GetTileSafely(x, y);
-					if (tile.active() && Main.tileSolid[tile.type])
+					if (tile.HasTile && Main.tileSolid[tile.TileType])
 						count++;
 				}
 			}

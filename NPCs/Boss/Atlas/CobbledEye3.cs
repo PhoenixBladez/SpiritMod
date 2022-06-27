@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.ID;
 using SpiritMod.Buffs;
@@ -20,19 +21,19 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 		public override void SetDefaults()
 		{
-			npc.width = 42;
-			npc.height = 42;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.damage = 80;
-			npc.lifeMax = 1000;
+			NPC.width = 42;
+			NPC.height = 42;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.damage = 80;
+			NPC.lifeMax = 1000;
 
-			npc.buffImmune[BuffID.Confused] = true;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.buffImmune[BuffID.Venom] = true;
-			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
-			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
-			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+			NPC.buffImmune[BuffID.Confused] = true;
+			NPC.buffImmune[BuffID.Poisoned] = true;
+			NPC.buffImmune[BuffID.Venom] = true;
+			NPC.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
+			NPC.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
+			NPC.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
 		}
 
 		public override bool PreAI()
@@ -40,53 +41,53 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			bool expertMode = Main.expertMode;
 			if (start) {
 				for (int num621 = 0; num621 < 15; num621++)
-					Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 2f);
+					Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 2f);
 				start = false;
 			}
 
-			npc.TargetClosest(true);
-			Vector2 direction = Main.player[npc.target].Center - npc.Center;
+			NPC.TargetClosest(true);
+			Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 			direction.Normalize();
 			direction *= 9f;
-			npc.rotation = direction.ToRotation();
+			NPC.rotation = direction.ToRotation();
 			timer++;
 			if (timer > 60) {
 				if (Main.rand.Next(8) == 0) {
 					for (int num621 = 0; num621 < 5; num621++) {
-						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Electric, 0f, 0f, 100, default, 2f);
+						int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Electric, 0f, 0f, 100, default, 2f);
 					}
 					int damage = expertMode ? 24 : 35;
-					int proj2 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<MiracleBeam>(), damage, 1f, npc.target);
+					int proj2 = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<MiracleBeam>(), damage, 1f, NPC.target);
 				}
 				timer = 0;
 			}
 
-			int parent = (int)npc.ai[0];
+			int parent = (int)NPC.ai[0];
 			if (parent < 0 || parent >= Main.maxNPCs || !Main.npc[parent].active || Main.npc[parent].type != ModContent.NPCType<Atlas>()) {
-				npc.active = false;
+				NPC.active = false;
 				return false;
 			}
 
-			npc.Center = Main.npc[parent].Center + npc.ai[2] * npc.ai[1].ToRotationVector2();
+			NPC.Center = Main.npc[parent].Center + NPC.ai[2] * NPC.ai[1].ToRotationVector2();
 
-			npc.ai[1] += .03f;
+			NPC.ai[1] += .03f;
 			return false;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Stone, hitDirection, -1f, 0, default, 1f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, hitDirection, -1f, 0, default, 1f);
 			}
-			if (npc.life <= 0) {
-				npc.position.X = npc.position.X + (npc.width / 2);
-				npc.position.Y = npc.position.Y + (npc.height / 2);
-				npc.width = 50;
-				npc.height = 50;
-				npc.position.X = npc.position.X - (npc.width / 2);
-				npc.position.Y = npc.position.Y - (npc.height / 2);
+			if (NPC.life <= 0) {
+				NPC.position.X = NPC.position.X + (NPC.width / 2);
+				NPC.position.Y = NPC.position.Y + (NPC.height / 2);
+				NPC.width = 50;
+				NPC.height = 50;
+				NPC.position.X = NPC.position.X - (NPC.width / 2);
+				NPC.position.Y = NPC.position.Y - (NPC.height / 2);
 				for (int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 2f);
+					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
@@ -94,43 +95,43 @@ namespace SpiritMod.NPCs.Boss.Atlas
 					}
 				}
 				for (int num623 = 0; num623 < 40; num623++) {
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 3f);
+					int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Stone, 0f, 0f, 100, default, 2f);
+					num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}
 		}
 
 		public override bool CheckActive() => false;
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Boss/Atlas/CobbledEye_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Boss/Atlas/CobbledEye_Glow"));
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.55f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.75f);
+			NPC.lifeMax = (int)(NPC.lifeMax * 0.55f * bossLifeScale);
+			NPC.damage = (int)(NPC.damage * 0.75f);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			if (npc.velocity != Vector2.Zero) {
-				Texture2D texture = Main.npcTexture[npc.type];
+			if (NPC.velocity != Vector2.Zero) {
+				Texture2D texture = TextureAssets.Npc[NPC.type].Value;
 				Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
-				for (int i = 1; i < npc.oldPos.Length; ++i) {
-					Vector2 vector2_2 = npc.oldPos[i];
-					Microsoft.Xna.Framework.Color color2 = Color.White * npc.Opacity;
+				for (int i = 1; i < NPC.oldPos.Length; ++i) {
+					Vector2 vector2_2 = NPC.oldPos[i];
+					Microsoft.Xna.Framework.Color color2 = Color.White * NPC.Opacity;
 					color2.R = (byte)(0.5 * color2.R * (10 - i) / 20.0);
 					color2.G = (byte)(0.5 * color2.G * (10 - i) / 20.0);
 					color2.B = (byte)(0.5 * color2.B * (10 - i) / 20.0);
 					color2.A = (byte)(0.5 * color2.A * (10 - i) / 20.0);
-					Main.spriteBatch.Draw(Main.npcTexture[npc.type], new Vector2(npc.oldPos[i].X - Main.screenPosition.X + (npc.width / 2),
-						npc.oldPos[i].Y - Main.screenPosition.Y + npc.height / 2), new Rectangle?(npc.frame), color2, npc.oldRot[i], origin, npc.scale, SpriteEffects.None, 0.0f);
+					Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, new Vector2(NPC.oldPos[i].X - Main.screenPosition.X + (NPC.width / 2),
+						NPC.oldPos[i].Y - Main.screenPosition.Y + NPC.height / 2), new Rectangle?(NPC.frame), color2, NPC.oldRot[i], origin, NPC.scale, SpriteEffects.None, 0.0f);
 				}
 
 			}
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 	}

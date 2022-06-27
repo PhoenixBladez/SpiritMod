@@ -3,6 +3,7 @@ using SpiritMod.NPCs.Putroma;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,26 +14,26 @@ namespace SpiritMod.NPCs.Masticator
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Masticator");
-			Main.npcFrameCount[npc.type] = 11;
-			NPCID.Sets.TrailCacheLength[npc.type] = 2;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 11;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 2;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.damage = 24;
-			npc.width = 36; //324
-			npc.height = 42; //216
-			npc.defense = 6;
-			npc.lifeMax = 80;
-			npc.knockBackResist = 0.75f;
-			npc.noGravity = true;
-			npc.value = Item.buyPrice(0, 0, 0, 80);
-			npc.HitSound = SoundID.NPCHit19;
-			npc.DeathSound = SoundID.NPCDeath49;
-			npc.buffImmune[BuffID.Confused] = true;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.MasticatorBanner>();
+			NPC.damage = 24;
+			NPC.width = 36; //324
+			NPC.height = 42; //216
+			NPC.defense = 6;
+			NPC.lifeMax = 80;
+			NPC.knockBackResist = 0.75f;
+			NPC.noGravity = true;
+			NPC.value = Item.buyPrice(0, 0, 0, 80);
+			NPC.HitSound = SoundID.NPCHit19;
+			NPC.DeathSound = SoundID.NPCDeath49;
+			NPC.buffImmune[BuffID.Confused] = true;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.MasticatorBanner>();
 		}
 
 		int frame;
@@ -45,29 +46,29 @@ namespace SpiritMod.NPCs.Masticator
 		{
 			if (!vomitPhase)
 			{
-				npc.rotation = npc.velocity.X * .06f;
-				++npc.ai[2];
-				if (npc.ai[2] >= 6)
+				NPC.rotation = NPC.velocity.X * .06f;
+				++NPC.ai[2];
+				if (NPC.ai[2] >= 6)
 				{
 					frame++;
-					npc.ai[2] = 0;
+					NPC.ai[2] = 0;
 				}
 
 				if (frame >= 4)
 					frame = 0;
 
-				npc.TargetClosest(true);
+				NPC.TargetClosest(true);
 				float num1164 = 4f;
 				float num1165 = 0.35f;
-				Vector2 vector133 = new Vector2(npc.Center.X, npc.Center.Y);
-				float num1166 = Main.player[npc.target].Center.X - vector133.X;
-				float num1167 = Main.player[npc.target].Center.Y - vector133.Y - 120f;
+				Vector2 vector133 = new Vector2(NPC.Center.X, NPC.Center.Y);
+				float num1166 = Main.player[NPC.target].Center.X - vector133.X;
+				float num1167 = Main.player[NPC.target].Center.Y - vector133.Y - 120f;
 				float num1168 = (float)Math.Sqrt((double)(num1166 * num1166 + num1167 * num1167));
 
 				if (num1168 < 6f)
 				{
-					num1166 = npc.velocity.X;
-					num1167 = npc.velocity.Y;
+					num1166 = NPC.velocity.X;
+					num1167 = NPC.velocity.Y;
 				}
 				else
 				{
@@ -76,41 +77,41 @@ namespace SpiritMod.NPCs.Masticator
 					num1167 *= num1168;
 				}
 
-				if (npc.velocity.X < num1166)
+				if (NPC.velocity.X < num1166)
 				{
-					npc.velocity.X = npc.velocity.X + num1165;
-					if (npc.velocity.X < 0f && num1166 > 0f)
-						npc.velocity.X = npc.velocity.X + num1165 * .35f;
+					NPC.velocity.X = NPC.velocity.X + num1165;
+					if (NPC.velocity.X < 0f && num1166 > 0f)
+						NPC.velocity.X = NPC.velocity.X + num1165 * .35f;
 				}
-				else if (npc.velocity.X > num1166)
+				else if (NPC.velocity.X > num1166)
 				{
-					npc.velocity.X = npc.velocity.X - num1165;
-					if (npc.velocity.X > 0f && num1166 < 0f)
-						npc.velocity.X = npc.velocity.X - num1165 * .35f;
-				}
-
-				if (npc.velocity.Y < num1167)
-				{
-					npc.velocity.Y = npc.velocity.Y + num1165;
-					if (npc.velocity.Y < 0f && num1167 > 0f)
-						npc.velocity.Y = npc.velocity.Y + num1165 * .35f;
-				}
-				else if (npc.velocity.Y > num1167)
-				{
-					npc.velocity.Y = npc.velocity.Y - num1165;
-
-					if (npc.velocity.Y > 0f && num1167 < 0f)
-						npc.velocity.Y = npc.velocity.Y - num1165 * .35f;
+					NPC.velocity.X = NPC.velocity.X - num1165;
+					if (NPC.velocity.X > 0f && num1166 < 0f)
+						NPC.velocity.X = NPC.velocity.X - num1165 * .35f;
 				}
 
-				if (npc.position.X + (float)npc.width > Main.player[npc.target].position.X && npc.position.X < Main.player[npc.target].position.X + (float)Main.player[npc.target].width && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && Main.netMode != NetmodeID.MultiplayerClient)
+				if (NPC.velocity.Y < num1167)
 				{
-					npc.ai[0] += 1f;
-					npc.rotation = 0f;
-					if (npc.ai[0] > 90f)
+					NPC.velocity.Y = NPC.velocity.Y + num1165;
+					if (NPC.velocity.Y < 0f && num1167 > 0f)
+						NPC.velocity.Y = NPC.velocity.Y + num1165 * .35f;
+				}
+				else if (NPC.velocity.Y > num1167)
+				{
+					NPC.velocity.Y = NPC.velocity.Y - num1165;
+
+					if (NPC.velocity.Y > 0f && num1167 < 0f)
+						NPC.velocity.Y = NPC.velocity.Y - num1165 * .35f;
+				}
+
+				if (NPC.position.X + (float)NPC.width > Main.player[NPC.target].position.X && NPC.position.X < Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width && NPC.position.Y + (float)NPC.height < Main.player[NPC.target].position.Y && Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height) && Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					NPC.ai[0] += 1f;
+					NPC.rotation = 0f;
+					if (NPC.ai[0] > 90f)
 					{
 						vomitPhase = true;
-						npc.netUpdate = true;
+						NPC.netUpdate = true;
 					}
 				}
 			}
@@ -118,46 +119,46 @@ namespace SpiritMod.NPCs.Masticator
 			{
 				if (Main.rand.NextFloat() < 0.331579f)
 				{
-						Vector2 position = npc.Center;
-						int d = Dust.NewDust(npc.position, npc.width, npc.height + 10, DustID.Plantera_Green, 0, 1f, 0, Color.Purple, 0.7f);
+						Vector2 position = NPC.Center;
+						int d = Dust.NewDust(NPC.position, NPC.width, NPC.height + 10, DustID.Plantera_Green, 0, 1f, 0, Color.Purple, 0.7f);
 						Main.dust[d].velocity *= .1f;
 				}
-				npc.rotation = 0f;
-				npc.velocity.X = .001f * npc.direction;
-				npc.velocity.Y = 0f;
-				++npc.ai[3];
-				if (npc.ai[3] >= 210)
+				NPC.rotation = 0f;
+				NPC.velocity.X = .001f * NPC.direction;
+				NPC.velocity.Y = 0f;
+				++NPC.ai[3];
+				if (NPC.ai[3] >= 210)
 				{
-					npc.ai[3] = 0;
-					npc.netUpdate = true;
+					NPC.ai[3] = 0;
+					NPC.netUpdate = true;
 					vomitPhase = false;
-					npc.netUpdate = true;
+					NPC.netUpdate = true;
 				}
 
-				if (npc.ai[3] > 50 && npc.ai[3] < 180)
+				if (NPC.ai[3] > 50 && NPC.ai[3] < 180)
 				{
-					++npc.ai[2];
-					if (npc.ai[2] >= 6)
+					++NPC.ai[2];
+					if (NPC.ai[2] >= 6)
 					{
 						frame++;
-						npc.ai[2] = 0;
+						NPC.ai[2] = 0;
 					}
 
 					if (frame >= 10)
 						frame = 5;
 
-					npc.rotation = 0f;
+					NPC.rotation = 0f;
 					float num395 = Main.mouseTextColor / 200f - 0.25f;
 					num395 *= 0.2f;
-					npc.scale = num395 + 0.95f;
+					NPC.scale = num395 + 0.95f;
 
 					if (Main.rand.NextBool(12) && Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						npc.velocity.Y -= .1f;
+						NPC.velocity.Y -= .1f;
 						bool expertMode = Main.expertMode;
 						int damage = expertMode ? 12 : 15;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 4, Main.rand.NextFloat(-.85f, .85f), Main.rand.NextFloat(4f, 6f), ModContent.ProjectileType<CorruptVomitProj>(), damage, 1, Main.myPlayer, 0, 0);
-						npc.netUpdate = true;
+						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y + 4, Main.rand.NextFloat(-.85f, .85f), Main.rand.NextFloat(4f, 6f), ModContent.ProjectileType<CorruptVomitProj>(), damage, 1, Main.myPlayer, 0, 0);
+						NPC.netUpdate = true;
 					}
 
 					if (Main.rand.NextBool(16))
@@ -166,65 +167,65 @@ namespace SpiritMod.NPCs.Masticator
 						int tomaProj;
 						tomaProj = Main.rand.Next(new int[] { ModContent.ProjectileType<Teratoma1>(), ModContent.ProjectileType<Teratoma2>(), ModContent.ProjectileType<Teratoma3>() });
 						bool expertMode = Main.expertMode;
-						Main.PlaySound(SoundID.Item20, npc.Center);
+						SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
 						int damagenumber = expertMode ? 12 : 17;
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 6, Main.rand.Next(-3, 3), Main.rand.NextFloat(1f, 3f), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
+							int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y + 6, Main.rand.Next(-3, 3), Main.rand.NextFloat(1f, 3f), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
 							Main.projectile[p].penetrate = 1;
 						}
 					}
 				}
 				else
 				{
-					++npc.ai[2];
-					if (npc.ai[2] >= 6)
+					++NPC.ai[2];
+					if (NPC.ai[2] >= 6)
 					{
 						frame++;
-						npc.ai[2] = 0;
+						NPC.ai[2] = 0;
 					}
 					if (frame >= 4)
 						frame = 0;
 				}
 
-				if (npc.ai[3] == 180)
-					Main.PlaySound(SoundID.NPCKilled, npc.Center, 13);
+				if (NPC.ai[3] == 180)
+					SoundEngine.PlaySound(SoundID.NPCKilled, NPC.Center, 13);
 			}
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.ZoneCorrupt && spawnInfo.player.ZoneOverworldHeight && NPC.CountNPCS(ModContent.NPCType<Masticator>()) < 2 ? .2f : 0f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneCorrupt && spawnInfo.Player.ZoneOverworldHeight && NPC.CountNPCS(ModContent.NPCType<Masticator>()) < 2 ? .2f : 0f;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 30; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Pot, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.ScourgeOfTheCorruptor, 2.5f * hitDirection, -2.5f, 0, Color.White, .34f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Pot, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ScourgeOfTheCorruptor, 2.5f * hitDirection, -2.5f, 0, Color.White, .34f);
 			}
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma1"), Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma2"), Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma3"), Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma4"), Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma5"), Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma6"), Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma7"), Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma5"), Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma6"), Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Teratoma/Teratoma7"), Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma1").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma2").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma3").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma4").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma5").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma6").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma7").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma5").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma6").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma7").Type, Main.rand.NextFloat(.85f, 1.1f));
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.NextBool(3))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.RottenChunk);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.RottenChunk);
 
 			if (Main.rand.NextBool(5))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WormTooth);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.WormTooth);
 		}
 
-		public override void FindFrame(int frameHeight) => npc.frame.Y = frame * frameHeight;
+		public override void FindFrame(int frameHeight) => NPC.frame.Y = frame * frameHeight;
 	}
 }

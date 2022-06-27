@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Sets.BismiteSet
 {
 	public class BismiteCrystalTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileSolid[Type] = false;
@@ -20,8 +20,8 @@ namespace SpiritMod.Items.Sets.BismiteSet
 				16,
 			};
 			TileObjectData.addTile(Type);
-			drop = ModContent.ItemType<BismiteCrystal>();
-			dustType = DustID.Plantera_Green;
+			ItemDrop = ModContent.ItemType<BismiteCrystal>();
+			DustType = DustID.Plantera_Green;
 			soundType = SoundID.Tink;
 		}
 

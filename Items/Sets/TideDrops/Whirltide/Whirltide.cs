@@ -15,35 +15,34 @@ namespace SpiritMod.Items.Sets.TideDrops.Whirltide
 		public override void SetDefaults()
 		{
 
-			item.damage = 25;
-			item.noMelee = true;
-			item.noUseGraphic = false;
-			item.magic = true;
-			item.width = 30;
-			item.height = 30;
-			item.useTime = 25;
-			item.useAnimation = 12;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ModContent.ProjectileType<Whirltide_Bullet>();
-			item.knockBack = 10f;
-			item.shootSpeed = 7f;
-			Item.staff[item.type] = true;
-			item.autoReuse = true;
-			item.rare = ItemRarityID.Green;
-			item.value = Item.sellPrice(silver: 50);
-			item.useTurn = true;
-			item.mana = 5;
+			Item.damage = 25;
+			Item.noMelee = true;
+			Item.noUseGraphic = false;
+			Item.DamageType = DamageClass.Magic;
+			Item.width = 30;
+			Item.height = 30;
+			Item.useTime = 25;
+			Item.useAnimation = 12;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ModContent.ProjectileType<Whirltide_Bullet>();
+			Item.knockBack = 10f;
+			Item.shootSpeed = 7f;
+			Item.staff[Item.type] = true;
+			Item.autoReuse = true;
+			Item.rare = ItemRarityID.Green;
+			Item.value = Item.sellPrice(silver: 50);
+			Item.useTurn = true;
+			Item.mana = 5;
 		}
 
 		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<Whirltide_Water_Explosion>()] < 1;
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(null, "TribalScale", 5);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

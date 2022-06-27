@@ -9,32 +9,32 @@ namespace SpiritMod.NPCs.Wheezer
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gas Cloud");
-			Main.projFrames[projectile.type] = 8;
+			Main.projFrames[Projectile.type] = 8;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Bullet);
-			projectile.extraUpdates = 1;
-			projectile.light = 0;
-			projectile.timeLeft = 255;
-			aiType = ProjectileID.Bullet;
-			projectile.friendly = false;
-			projectile.hostile = true;
-			projectile.scale *= .8f;
+			Projectile.CloneDefaults(ProjectileID.Bullet);
+			Projectile.extraUpdates = 1;
+			Projectile.light = 0;
+			Projectile.timeLeft = 255;
+			AIType = ProjectileID.Bullet;
+			Projectile.friendly = false;
+			Projectile.hostile = true;
+			Projectile.scale *= .8f;
 		}
 
 		public override void AI()
 		{
-			projectile.velocity *= .98f;
+			Projectile.velocity *= .98f;
 
-			projectile.spriteDirection = projectile.direction;
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 6) {
-				projectile.frame++;
-				projectile.frameCounter = 0;
-				if (projectile.frame >= 8)
-					projectile.frame = 0;
+			Projectile.spriteDirection = Projectile.direction;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 6) {
+				Projectile.frame++;
+				Projectile.frameCounter = 0;
+				if (Projectile.frame >= 8)
+					Projectile.frame = 0;
 			}
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)

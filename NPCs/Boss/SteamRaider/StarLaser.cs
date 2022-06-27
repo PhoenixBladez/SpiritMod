@@ -15,36 +15,36 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = true;
-			projectile.width = 2;
-			projectile.height = 2;
-			projectile.aiStyle = -1;
-			projectile.friendly = false;
-			projectile.penetrate = 8;
-			projectile.alpha = 255;
-			projectile.timeLeft = 90;
-			projectile.tileCollide = false;
-			projectile.extraUpdates = 5;
+			Projectile.hostile = true;
+			Projectile.width = 2;
+			Projectile.height = 2;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = false;
+			Projectile.penetrate = 8;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 90;
+			Projectile.tileCollide = false;
+			Projectile.extraUpdates = 5;
 		}
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Collision.CheckAABBvLineCollision(targetHitbox.Center.ToVector2() - targetHitbox.Size() / 2,
 																													 targetHitbox.Size(),
 																													 startingpoint,
-																													 projectile.Center);
+																													 Projectile.Center);
 
-		public void DoTrailCreation(TrailManager tManager) => tManager.CreateTrail(projectile, new StandardColorTrail(new Color(66, 239, 245)), new RoundCap(), new DefaultTrailPosition(), 10f, 1950f);
+		public void DoTrailCreation(TrailManager tManager) => tManager.CreateTrail(Projectile, new StandardColorTrail(new Color(66, 239, 245)), new RoundCap(), new DefaultTrailPosition(), 10f, 1950f);
 
 		public override bool PreAI()
 		{
-			if(projectile.ai[0] == 0) {
-				startingpoint = projectile.Center;
-				projectile.ai[0]++;
+			if(Projectile.ai[0] == 0) {
+				startingpoint = Projectile.Center;
+				Projectile.ai[0]++;
 			}
 			return true;
 		}
 
 		public override void AI()
 		{
-			Dust dust = Dust.NewDustPerfect(projectile.Center, 226);
+			Dust dust = Dust.NewDustPerfect(Projectile.Center, 226);
 			dust.velocity = Vector2.Zero;
 			dust.noLight = true;
 			dust.noGravity = true;

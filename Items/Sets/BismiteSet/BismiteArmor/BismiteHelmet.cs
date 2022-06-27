@@ -4,6 +4,7 @@ using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,11 +26,11 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = Item.buyPrice(silver: 10);
-			item.rare = ItemRarityID.Blue;
-			item.defense = 2;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = Item.buyPrice(silver: 10);
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 2;
 		}
 
 		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawAltHair = true;
@@ -45,11 +46,10 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 6);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 
@@ -66,7 +66,7 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 			if (player.HasBuff(ModContent.BuffType<VirulenceCooldown>()) || virulence >= 0)
 				virulence--;
 			if (virulence == 0f)
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
 		}
 		public override void PlayerHurt(Player player, bool pvp, bool quiet, double damage, int hitDirection, bool crit) => virulence = 600f;
 

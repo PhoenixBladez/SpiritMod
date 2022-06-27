@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -21,32 +22,32 @@ namespace SpiritMod.NPCs.BloodGazer
 		public override void SetDefaults()
 		{
 			//projectile.CloneDefaults(ProjectileID.WoodenArrowHostile);
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.hostile = true;
-			projectile.alpha = 255;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 180;
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.hostile = true;
+			Projectile.alpha = 255;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 180;
 		}
 
 		bool primsCreated = false;
 		public override void AI()
 		{
 
-			if (projectile.velocity.Length() < 22)
-				projectile.velocity *= 1.02f;
+			if (Projectile.velocity.Length() < 22)
+				Projectile.velocity *= 1.02f;
 
 			if (!primsCreated && !Main.dedServ) {
 				primsCreated = true;
-				SpiritMod.primitives.CreateTrail(new RipperPrimTrail(projectile));
+				SpiritMod.primitives.CreateTrail(new RipperPrimTrail(Projectile));
 			}
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(new LegacySoundStyle(SoundID.NPCHit, 8).WithPitchVariance(0.2f).WithVolume(0.3f), projectile.Center);
+			SoundEngine.PlaySound(new LegacySoundStyle(SoundID.NPCHit, 8).WithPitchVariance(0.2f).WithVolume(0.3f), Projectile.Center);
 			for (int i = 0; i < 20; i++) {
-				Dust.NewDustPerfect(projectile.Center, 5, Main.rand.NextFloat(0.25f, 0.5f) * projectile.velocity.RotatedBy(3.14f + Main.rand.NextFloat(-0.4f, 0.4f)));
+				Dust.NewDustPerfect(Projectile.Center, 5, Main.rand.NextFloat(0.25f, 0.5f) * Projectile.velocity.RotatedBy(3.14f + Main.rand.NextFloat(-0.4f, 0.4f)));
 			}
 		}
 	}
@@ -58,8 +59,8 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		public override bool PreAI()
 		{
-			projectile.position -= projectile.velocity;
-			projectile.position += projectile.velocity.RotatedBy(Math.Sin(projectile.timeLeft/6f) * MathHelper.PiOver4 * projectile.ai[0]);
+			Projectile.position -= Projectile.velocity;
+			Projectile.position += Projectile.velocity.RotatedBy(Math.Sin(Projectile.timeLeft/6f) * MathHelper.PiOver4 * Projectile.ai[0]);
 			return true;
 		}
 	}
@@ -69,55 +70,55 @@ namespace SpiritMod.NPCs.BloodGazer
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Runic Eye");
-			Main.projFrames[projectile.type] = 5;
+			Main.projFrames[Projectile.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.Size = Vector2.One * 10;
-			projectile.tileCollide = false;
-			projectile.friendly = projectile.hostile = false;
-			projectile.alpha = 255;
-			projectile.scale = 1.5f;
+			Projectile.Size = Vector2.One * 10;
+			Projectile.tileCollide = false;
+			Projectile.friendly = Projectile.hostile = false;
+			Projectile.alpha = 255;
+			Projectile.scale = 1.5f;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			Texture2D pupiltex = ModContent.GetTexture(Texture + "_pupil");
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			Texture2D pupiltex = ModContent.Request<Texture2D>(Texture + "_pupil");
 			void DrawEye(Vector2 position, float Opacity)
 			{
-				spriteBatch.Draw(tex, position - Main.screenPosition, projectile.DrawFrame(), Color.White * Opacity, 0, projectile.DrawFrame().Size() / 2, projectile.scale, SpriteEffects.None, 0);
-				spriteBatch.Draw(pupiltex, position + (Vector2.UnitY * 8) + (Vector2.UnitX.RotatedBy(projectile.rotation) * projectile.localAI[0]) - Main.screenPosition, null, Color.White * Opacity,
-					0, pupiltex.Size() / 2, projectile.scale * 0.75f, SpriteEffects.None, 0);
+				spriteBatch.Draw(tex, position - Main.screenPosition, Projectile.DrawFrame(), Color.White * Opacity, 0, Projectile.DrawFrame().Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+				spriteBatch.Draw(pupiltex, position + (Vector2.UnitY * 8) + (Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.localAI[0]) - Main.screenPosition, null, Color.White * Opacity,
+					0, pupiltex.Size() / 2, Projectile.scale * 0.75f, SpriteEffects.None, 0);
 			}
 
-			switch (projectile.ai[0])
+			switch (Projectile.ai[0])
 			{
 				case 0://fade in
 				case 3:
 					for (int i = 0; i < 4; i++)
 					{
-						Vector2 pos = new Vector2(0, projectile.alpha / 3f);
-						pos = pos.RotatedBy((i / 4f * MathHelper.TwoPi) + MathHelper.ToRadians(projectile.alpha * 0.2f));
-						DrawEye(pos + projectile.Center, projectile.Opacity / 2);
+						Vector2 pos = new Vector2(0, Projectile.alpha / 3f);
+						pos = pos.RotatedBy((i / 4f * MathHelper.TwoPi) + MathHelper.ToRadians(Projectile.alpha * 0.2f));
+						DrawEye(pos + Projectile.Center, Projectile.Opacity / 2);
 					}
 					break;
 				case 1:
 				case 2:
-					DrawEye(projectile.Center, projectile.Opacity);
+					DrawEye(Projectile.Center, Projectile.Opacity);
 					for (int i = 0; i < 3; i++)
 					{
-						Vector2 pos = new Vector2(0, 5) * (float)(Math.Sin(Main.GlobalTime * 6) / 4 + 0.75);
+						Vector2 pos = new Vector2(0, 5) * (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 6) / 4 + 0.75);
 						pos = pos.RotatedBy(i / 3f * MathHelper.TwoPi);
-						DrawEye(pos + projectile.Center, projectile.Opacity / 2);
+						DrawEye(pos + Projectile.Center, Projectile.Opacity / 2);
 					}
-					if (projectile.localAI[1] < 30f)
+					if (Projectile.localAI[1] < 30f)
 					{
-						Texture2D raytelegraph = mod.GetTexture("Textures/Medusa_Ray");
-						float Opacity = Math.Min((projectile.localAI[1] + projectile.localAI[0]) / 25f, 0.5f);
-						spriteBatch.Draw(raytelegraph, projectile.Center + (Vector2.UnitX.RotatedBy(projectile.rotation) * projectile.localAI[0]) - Main.screenPosition, null, Color.Red * Opacity,
-							projectile.rotation, new Vector2(0, raytelegraph.Height / 2), new Vector2(24f, 0.5f * projectile.scale), SpriteEffects.None, 0);
+						Texture2D raytelegraph = Mod.GetTexture("Textures/Medusa_Ray");
+						float Opacity = Math.Min((Projectile.localAI[1] + Projectile.localAI[0]) / 25f, 0.5f);
+						spriteBatch.Draw(raytelegraph, Projectile.Center + (Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.localAI[0]) - Main.screenPosition, null, Color.Red * Opacity,
+							Projectile.rotation, new Vector2(0, raytelegraph.Height / 2), new Vector2(24f, 0.5f * Projectile.scale), SpriteEffects.None, 0);
 					}
 					break;
 			}
@@ -126,13 +127,13 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
-			spriteBatch.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.Red * projectile.Opacity * 0.5f, 0, bloom.Size() / 2, new Vector2(1, 0.75f) * projectile.scale / 2, SpriteEffects.None, 0);
+			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.Opacity * 0.5f, 0, bloom.Size() / 2, new Vector2(1, 0.75f) * Projectile.scale / 2, SpriteEffects.None, 0);
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => false;
 
-		public NPC Parent => Main.npc[(int)projectile.ai[1]];
+		public NPC Parent => Main.npc[(int)Projectile.ai[1]];
 
 		public Player Target => Main.player[Parent.target];
 
@@ -141,56 +142,56 @@ namespace SpiritMod.NPCs.BloodGazer
 		public override void AI()
 		{
 			if(Parent.type != ModContent.NPCType<BloodGazer>() || !Parent.active || Target.dead || !Target.active) {
-				projectile.Kill();
+				Projectile.Kill();
 				return;
 			}
 
-			projectile.frameCounter++;
-			if(projectile.frameCounter > 10)
+			Projectile.frameCounter++;
+			if(Projectile.frameCounter > 10)
 			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
-				if (projectile.frame >= Main.projFrames[projectile.type])
-					projectile.frame = 0;
+				Projectile.frame++;
+				Projectile.frameCounter = 0;
+				if (Projectile.frame >= Main.projFrames[Projectile.type])
+					Projectile.frame = 0;
 			}
 
-			switch (projectile.ai[0])
+			switch (Projectile.ai[0])
 			{
 				case 0://fade in
-					projectile.rotation = projectile.AngleTo(Target.Center);
-					projectile.alpha = (int)MathHelper.Lerp(projectile.alpha, 0, 0.06f);
-					if (projectile.alpha <= 1){
-						projectile.ai[0]++;
-						projectile.alpha = 0;
+					Projectile.rotation = Projectile.AngleTo(Target.Center);
+					Projectile.alpha = (int)MathHelper.Lerp(Projectile.alpha, 0, 0.06f);
+					if (Projectile.alpha <= 1){
+						Projectile.ai[0]++;
+						Projectile.alpha = 0;
 					}
 					break;
 				case 1: //aim at player
-					projectile.rotation = Utils.AngleLerp(projectile.rotation, projectile.AngleTo(Target.Center), 0.12f);
-					projectile.localAI[0] = MathHelper.Lerp(projectile.localAI[0], 10f, 0.07f);
-					if(projectile.localAI[0] > 7.5){ //move from center to edge
-						projectile.localAI[0] = 10f;
-						projectile.ai[0]++;
+					Projectile.rotation = Utils.AngleLerp(Projectile.rotation, Projectile.AngleTo(Target.Center), 0.12f);
+					Projectile.localAI[0] = MathHelper.Lerp(Projectile.localAI[0], 10f, 0.07f);
+					if(Projectile.localAI[0] > 7.5){ //move from center to edge
+						Projectile.localAI[0] = 10f;
+						Projectile.ai[0]++;
 					}
 					break;
 				case 2: //shoot projectile
-					if(++projectile.localAI[1] == 30 && ShootProj)
+					if(++Projectile.localAI[1] == 30 && ShootProj)
 					{
 						if (Main.netMode != NetmodeID.Server)
-							Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 12, 1, -1f);
+							SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 12, 1, -1f);
 						if(Main.netMode != NetmodeID.MultiplayerClient)
-							Projectile.NewProjectileDirect(projectile.Center + (Vector2.UnitX.RotatedBy(projectile.rotation) * projectile.localAI[0]),
-								Vector2.UnitX.RotatedBy(projectile.rotation) * 10, ModContent.ProjectileType<BrimstoneLaser>(), projectile.damage, 1f, Main.myPlayer).netUpdate = true;
+							Projectile.NewProjectileDirect(Projectile.Center + (Vector2.UnitX.RotatedBy(Projectile.rotation) * Projectile.localAI[0]),
+								Vector2.UnitX.RotatedBy(Projectile.rotation) * 10, ModContent.ProjectileType<BrimstoneLaser>(), Projectile.damage, 1f, Main.myPlayer).netUpdate = true;
 					}
 
-					if (projectile.localAI[1] == 40)
-						projectile.ai[0]++;
+					if (Projectile.localAI[1] == 40)
+						Projectile.ai[0]++;
 
 					break;
 				case 3: //fade out
-					projectile.localAI[0] = MathHelper.Lerp(projectile.localAI[0], 0, 0.12f);
-					projectile.alpha = (int)MathHelper.Lerp(projectile.alpha, 255, 0.06f);
-					if (projectile.alpha >= 230)
-						projectile.Kill();
+					Projectile.localAI[0] = MathHelper.Lerp(Projectile.localAI[0], 0, 0.12f);
+					Projectile.alpha = (int)MathHelper.Lerp(Projectile.alpha, 255, 0.06f);
+					if (Projectile.alpha >= 230)
+						Projectile.Kill();
 
 					break;
 			}
@@ -206,18 +207,18 @@ namespace SpiritMod.NPCs.BloodGazer
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			projectile.timeLeft *= 2;
+			Projectile.timeLeft *= 2;
 		}
 
 		public override void AI()
 		{
-			projectile.ai[0]++;
+			Projectile.ai[0]++;
 		}
 
 		new public void DoTrailCreation(TrailManager tManager)
 		{
-			tManager.CreateTrail(projectile, new StandardColorTrail(Color.Red * 0.8f), new RoundCap(), new DefaultTrailPosition(), 15f, 1950f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), Vector2.One));
-			tManager.CreateTrail(projectile, new StandardColorTrail(Color.Red * 0.5f), new RoundCap(), new DefaultTrailPosition(), 30f, 1950f);
+			tManager.CreateTrail(Projectile, new StandardColorTrail(Color.Red * 0.8f), new RoundCap(), new DefaultTrailPosition(), 15f, 1950f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_2"), Vector2.One));
+			tManager.CreateTrail(Projectile, new StandardColorTrail(Color.Red * 0.5f), new RoundCap(), new DefaultTrailPosition(), 30f, 1950f);
 		}
 	}
 
@@ -229,51 +230,51 @@ namespace SpiritMod.NPCs.BloodGazer
 
 		public override void SetDefaults()
 		{
-			projectile.Size = Vector2.One * 30;
-			projectile.hostile = true;
+			Projectile.Size = Vector2.One * 30;
+			Projectile.hostile = true;
 		}
 
 		public override void AI()
 		{
-			if (projectile.localAI[0] == 0)
+			if (Projectile.localAI[0] == 0)
 			{
-				projectile.localAI[0]++;
-				InitializeChain(Main.npc[(int)projectile.ai[0]].Center);
+				Projectile.localAI[0]++;
+				InitializeChain(Main.npc[(int)Projectile.ai[0]].Center);
 			}
-			projectile.velocity.Y += 0.35f;
+			Projectile.velocity.Y += 0.35f;
 
-			NPC parent = Main.npc[(int)projectile.ai[0]];
+			NPC parent = Main.npc[(int)Projectile.ai[0]];
 			if(!parent.active || parent.type != ModContent.NPCType<BloodGazer>())
 			{
-				projectile.Kill();
+				Projectile.Kill();
 				return;
 			}
-			chain.Update(Main.npc[(int)projectile.ai[0]].Center, projectile.Center);
+			chain.Update(Main.npc[(int)Projectile.ai[0]].Center, Projectile.Center);
 		}
 
 		private Chain chain;
 		public void InitializeChain(Vector2 position) => chain = new Chain(8, 8, position, new ChainPhysics(0.9f, 0.5f, 0f), false, true); 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			if (chain == null)
 				return false;
 
-			Texture2D chaintex = ModContent.GetTexture(Texture + "_chain");
+			Texture2D chaintex = ModContent.Request<Texture2D>(Texture + "_chain");
 			chain.Draw(spriteBatch, chaintex);
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 
-			spriteBatch.Draw(tex, chain.EndPosition - new Vector2(chaintex.Height / 2, -chaintex.Width / 2).RotatedBy(chain.EndRotation) - Main.screenPosition, tex.Bounds, drawColor, chain.EndRotation, tex.Bounds.Size() / 2, projectile.scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(tex, chain.EndPosition - new Vector2(chaintex.Height / 2, -chaintex.Width / 2).RotatedBy(chain.EndRotation) - Main.screenPosition, tex.Bounds, drawColor, chain.EndRotation, tex.Bounds.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			if (Main.netMode != NetmodeID.Server)
-				Main.PlaySound(SoundID.NPCDeath22, projectile.Center);
+				SoundEngine.PlaySound(SoundID.NPCDeath22, Projectile.Center);
 
-			Gore.NewGoreDirect(projectile.position, projectile.velocity / 2, mod.GetGoreSlot("Gores/Gazer/GazerEye"), 1f).timeLeft = 10;
+			Gore.NewGoreDirect(Projectile.position, Projectile.velocity / 2, Mod.Find<ModGore>("Gores/Gazer/GazerEye").Type, 1f).timeLeft = 10;
 			foreach (var segment in chain.Segments)
-				Gore.NewGoreDirect(segment.Vertex2.Position, projectile.velocity / 2, mod.GetGoreSlot("Gores/Gazer/GazerChain"), 1f).timeLeft = 10;
+				Gore.NewGoreDirect(segment.Vertex2.Position, Projectile.velocity / 2, Mod.Find<ModGore>("Gores/Gazer/GazerChain").Type, 1f).timeLeft = 10;
 		}
 	}
 }

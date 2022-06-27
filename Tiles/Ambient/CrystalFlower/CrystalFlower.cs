@@ -9,7 +9,7 @@ namespace SpiritMod.Tiles.Ambient.CrystalFlower
 {
 	public class CrystalFlower : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -26,8 +26,8 @@ namespace SpiritMod.Tiles.Ambient.CrystalFlower
 			name.SetDefault("Crystal Flower");
 			AddMapEntry(new Color(9, 170, 219), name);
 
-			mineResist = 1.2f;
-			drop = ModContent.ItemType<CrystalFlowerItem>();
+			MineResist = 1.2f;
+			ItemDrop = ModContent.ItemType<CrystalFlowerItem>();
 		}
 	}
 }

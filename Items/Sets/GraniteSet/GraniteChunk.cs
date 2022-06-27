@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Tiles.Block;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,16 +16,16 @@ namespace SpiritMod.Items.Sets.GraniteSet
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.08f, .4f, .28f);
+			Lighting.AddLight(Item.position, 0.08f, .4f, .28f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/GraniteSet/GraniteChunk_Glow"),
+				Mod.GetTexture("Items/Sets/GraniteSet/GraniteChunk_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -38,21 +39,21 @@ namespace SpiritMod.Items.Sets.GraniteSet
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 36;
-			item.value = 5000;
+			Item.width = 22;
+			Item.height = 36;
+			Item.value = 5000;
 
-			item.maxStack = 999;
-			item.rare = ItemRarityID.Green;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.maxStack = 999;
+			Item.rare = ItemRarityID.Green;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
 
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<GraniteOre>();
+			Item.createTile = ModContent.TileType<GraniteOre>();
 		}
 	}
 }

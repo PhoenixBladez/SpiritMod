@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.DoT
 {
 	public class FesteringWounds : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Festering Wounds");
 			Description.SetDefault("Deals more damage if the player is under half health");

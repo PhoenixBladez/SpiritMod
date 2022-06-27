@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,58 +12,58 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Holy Star");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.ranged = true;
-			projectile.timeLeft = 300;
-			projectile.height = 28;
-			projectile.alpha = 30;
-			projectile.width = 18;
-			projectile.penetrate = 5;
-			aiType = ProjectileID.Bullet;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.timeLeft = 300;
+			Projectile.height = 28;
+			Projectile.alpha = 30;
+			Projectile.width = 18;
+			Projectile.penetrate = 5;
+			AIType = ProjectileID.Bullet;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 20; i++) {
-				int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Clentaminator_Purple, 0f, -2f, 0, default, 2f);
+				int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Clentaminator_Purple, 0f, -2f, 0, default, 2f);
 				Main.dust[num].noGravity = true;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-				if (Main.dust[num].position != projectile.Center) {
-					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
+				if (Main.dust[num].position != Projectile.Center) {
+					Main.dust[num].velocity = Projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor * 2) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor * 2) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return true;
 		}
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.2f, 0.06f, 0.14f);
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+			Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, 0.2f, 0.06f, 0.14f);
+			Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 			for (int i = 0; i < 8; i++) {
-				float x = projectile.Center.X - projectile.velocity.X / 10f * i;
-				float y = projectile.Center.Y - projectile.velocity.Y / 10f * i;
+				float x = Projectile.Center.X - Projectile.velocity.X / 10f * i;
+				float y = Projectile.Center.Y - Projectile.velocity.Y / 10f * i;
 				int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.Clentaminator_Purple);
 				Main.dust[num].scale *= .8f;
-				Main.dust[num].alpha = projectile.alpha;
+				Main.dust[num].alpha = Projectile.alpha;
 				Main.dust[num].velocity = Vector2.Zero;
 				Main.dust[num].noGravity = true;
 			}

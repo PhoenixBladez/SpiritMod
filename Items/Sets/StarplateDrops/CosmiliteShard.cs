@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Tiles.Block;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -20,29 +21,29 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		public override void SetDefaults()
 		{
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
-			item.width = 24;
-			item.height = 26;
-			item.value = 100;
-			item.rare = ItemRarityID.Orange;
-			item.maxStack = 999;
-			item.consumable = true;
-			item.autoReuse = true;
-			item.createTile = ModContent.TileType<Glowstone>();
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
+			Item.width = 24;
+			Item.height = 26;
+			Item.value = 100;
+			Item.rare = ItemRarityID.Orange;
+			Item.maxStack = 999;
+			Item.consumable = true;
+			Item.autoReuse = true;
+			Item.createTile = ModContent.TileType<Glowstone>();
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Sets/StarplateDrops/CosmiliteShard_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/StarplateDrops/CosmiliteShard_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,

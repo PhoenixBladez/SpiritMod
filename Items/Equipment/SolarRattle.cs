@@ -16,20 +16,20 @@ namespace SpiritMod.Items.Equipment
 
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 18;
-			item.value = Item.buyPrice(0, 30, 0, 0);
-			item.rare = ItemRarityID.Cyan;
+			Item.width = 18;
+			Item.height = 18;
+			Item.value = Item.buyPrice(0, 30, 0, 0);
+			Item.rare = ItemRarityID.Cyan;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 20;
-			item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
 
-			item.noMelee = true;
+			Item.noMelee = true;
 
-			item.mountType = ModContent.MountType<Drakomire>();
+			Item.mountType = ModContent.MountType<Drakomire>();
 
-			item.UseSound = SoundID.Item25;
+			Item.UseSound = SoundID.Item25;
 		}
 	}
 }

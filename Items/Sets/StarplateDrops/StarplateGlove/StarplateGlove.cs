@@ -17,34 +17,33 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 
 		public override void SetDefaults()
 		{
-			item.shootSpeed = 10f;
-			item.damage = 31;
-			item.knockBack = 3.3f;
-			item.magic = true;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 7;
-			item.useTime = 7;
-			item.channel = true;
-			item.width = 26;
-			item.height = 26;
-			item.mana = 6;
-			item.noUseGraphic = true;
-			item.noMelee = true;
-			item.autoReuse = true;
-			item.value = Item.sellPrice(silver: 55);
-			item.rare = ItemRarityID.Orange;
-			item.shoot = ModContent.ProjectileType<StargloveChargeOrange>();
+			Item.shootSpeed = 10f;
+			Item.damage = 31;
+			Item.knockBack = 3.3f;
+			Item.DamageType = DamageClass.Magic;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useAnimation = 7;
+			Item.useTime = 7;
+			Item.channel = true;
+			Item.width = 26;
+			Item.height = 26;
+			Item.mana = 6;
+			Item.noUseGraphic = true;
+			Item.noMelee = true;
+			Item.autoReuse = true;
+			Item.value = Item.sellPrice(silver: 55);
+			Item.rare = ItemRarityID.Orange;
+			Item.shoot = ModContent.ProjectileType<StargloveChargeOrange>();
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 17);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
 		public override bool CanUseItem(Player player)
@@ -56,13 +55,13 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 					if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == ModContent.ProjectileType<StarplateGloveProj>())
 						return false;
 				}
-				item.useTime = 7;
-				item.useAnimation = 7;
+				Item.useTime = 7;
+				Item.useAnimation = 7;
 			}
 			else
 			{
-				item.useTime = 40;
-				item.useAnimation = 40;
+				Item.useTime = 40;
+				Item.useAnimation = 40;
 			}
 
 			return true;
@@ -102,14 +101,14 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 			}
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (player.ownedProjectileCounts[ModContent.ProjectileType<StarplateGloveProj>()] != 0)
 				return false;
 
 			if (player.altFunctionUse == 2)
 			{
-				Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<StarplateGloveProj>(), damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<StarplateGloveProj>(), damage, knockback, player.whoAmI);
 			}
 			else
 			{
@@ -118,7 +117,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 				//speed *= Main.rand.NextFloat(0.9f, 1.1f);
 				position += speed * 8;
 				type = Main.rand.Next(2) == 0 ? ModContent.ProjectileType<StargloveChargeOrange>() : ModContent.ProjectileType<StargloveChargePurple>();
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockback, player.whoAmI);
 
 				if (type == ModContent.ProjectileType<StargloveChargePurple>())
 				{
@@ -135,7 +134,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 				{
 					for (float num2 = 0.0f; (double)num2 < 10; ++num2)
 					{
-						int dustIndex = Dust.NewDust(position - speed * 3, 2, 2, DustID.Fire, 0f, 0f, 0, default, 2f);
+						int dustIndex = Dust.NewDust(position - speed * 3, 2, 2, DustID.Torch, 0f, 0f, 0, default, 2f);
 						Main.dust[dustIndex].noGravity = true;
 						Main.dust[dustIndex].velocity = Vector2.Normalize((speed * 8).RotatedBy(Main.rand.NextFloat(6.28f))) * 2.5f;
 					}

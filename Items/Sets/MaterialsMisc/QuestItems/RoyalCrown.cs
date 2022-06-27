@@ -16,9 +16,9 @@ namespace SpiritMod.Items.Sets.MaterialsMisc.QuestItems
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.rare = -11;
-			item.maxStack = 99;
+			Item.width = Item.height = 16;
+			Item.rare = -11;
+			Item.maxStack = 99;
 		}
 
 		public override bool OnPickup(Player player) => !player.HasItem(ModContent.ItemType<RoyalCrown>());
@@ -27,13 +27,13 @@ namespace SpiritMod.Items.Sets.MaterialsMisc.QuestItems
 		{
 			if (!QuestManager.GetQuest<StylistQuestSeafoam>().IsCompleted)
 			{
-				TooltipLine line = new TooltipLine(mod, "FavoriteDesc", "Quest Item") {
-					overrideColor = new Color(100, 222, 122)
+				TooltipLine line = new TooltipLine(Mod, "FavoriteDesc", "Quest Item") {
+					OverrideColor = new Color(100, 222, 122)
 				};
 				tooltips.Add(line);
 			}
-			TooltipLine line1 = new TooltipLine(mod, "FavoriteDesc", "'Stunningly ornate despite centuries of weathering'") {
-				overrideColor = new Color(255, 255, 255)
+			TooltipLine line1 = new TooltipLine(Mod, "FavoriteDesc", "'Stunningly ornate despite centuries of weathering'") {
+				OverrideColor = new Color(255, 255, 255)
 			};
 			tooltips.Add(line1);
 		}
@@ -42,13 +42,13 @@ namespace SpiritMod.Items.Sets.MaterialsMisc.QuestItems
 			if (line.Name == "ItemName")
 			{
 				Vector2 lineposition = new Vector2(line.OriginalX, line.OriginalY);
-				Utils.DrawBorderString(Main.spriteBatch, line.text, lineposition, Color.LightGoldenrodYellow);
+				Utils.DrawBorderString(Main.spriteBatch, line.Text, lineposition, Color.LightGoldenrodYellow);
 				Main.spriteBatch.End();
 				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.UIScaleMatrix); //starting a new spritebatch here, since additive blend mode seems to be the only way to make the line transparent?
 				for (int i = 0; i < 4; i++)
 				{
-					Vector2 drawpos = lineposition + new Vector2(0, 2 * (((float)Math.Sin(Main.GlobalTime * 4) / 2) + 0.5f)).RotatedBy(i * MathHelper.PiOver2);
-					Utils.DrawBorderString(Main.spriteBatch, line.text, drawpos, Color.Goldenrod);
+					Vector2 drawpos = lineposition + new Vector2(0, 2 * (((float)Math.Sin(Main.GlobalTimeWrappedHourly * 4) / 2) + 0.5f)).RotatedBy(i * MathHelper.PiOver2);
+					Utils.DrawBorderString(Main.spriteBatch, line.Text, drawpos, Color.Goldenrod);
 				}
 				Main.spriteBatch.End();
 				Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);

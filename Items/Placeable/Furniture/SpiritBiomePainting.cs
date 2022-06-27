@@ -1,4 +1,5 @@
 using SpiritMod.Tiles.Furniture;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Sets.SpiritSet;
@@ -16,31 +17,30 @@ namespace SpiritMod.Items.Placeable.Furniture
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 28;
-			item.value = item.value = Terraria.Item.buyPrice(0, 0, 40, 10);
-			item.rare = ItemRarityID.White;
+			Item.width = 36;
+			Item.height = 28;
+			Item.value = Item.value = Terraria.Item.buyPrice(0, 0, 40, 10);
+			Item.rare = ItemRarityID.White;
 
-			item.maxStack = 99;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<SpiritBiomePaintingTile>();
+			Item.createTile = ModContent.TileType<SpiritBiomePaintingTile>();
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<Canvas>());
 			recipe.AddIngredient(ModContent.ItemType<SoulShred>());
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

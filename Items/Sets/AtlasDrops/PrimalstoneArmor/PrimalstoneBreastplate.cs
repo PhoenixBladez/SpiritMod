@@ -15,11 +15,11 @@ namespace SpiritMod.Items.Sets.AtlasDrops.PrimalstoneArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 34;
-			item.height = 30;
-			item.value = Item.buyPrice(gold: 1);
-			item.rare = ItemRarityID.Cyan;
-			item.defense = 19;
+			Item.width = 34;
+			Item.height = 30;
+			Item.value = Item.buyPrice(gold: 1);
+			Item.rare = ItemRarityID.Cyan;
+			Item.defense = 19;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -32,11 +32,10 @@ namespace SpiritMod.Items.Sets.AtlasDrops.PrimalstoneArmor
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<ArcaneGeyser>(), 14);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

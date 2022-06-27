@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Ambient.Corals
 {
 	public class Coral1x2 : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -28,8 +28,8 @@ namespace SpiritMod.Tiles.Ambient.Corals
 			TileObjectData.newTile.RandomStyleRange = 1;
 			TileObjectData.addTile(Type);
 
-			disableSmartCursor = true;
-			dustType = DustID.Coralstone;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType = DustID.Coralstone;
 
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Coral");

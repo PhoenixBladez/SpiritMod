@@ -18,22 +18,22 @@ namespace SpiritMod.Items.Sets.TideDrops
 
 		public override void SetDefaults()
 		{
-			item.channel = true;
-			item.damage = 30;
-			item.magic = true;
-			item.width = 24;
-			item.height = 24;
-			item.useTime = 24;
-			item.useAnimation = 24;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 3;
-			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 1, 42, 0);
-			item.rare = ItemRarityID.Orange;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<BubblePumpProj>();
-			item.shootSpeed = 6f;
+			Item.channel = true;
+			Item.damage = 30;
+			Item.DamageType = DamageClass.Magic;
+			Item.width = 24;
+			Item.height = 24;
+			Item.useTime = 24;
+			Item.useAnimation = 24;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 3;
+			Item.useTurn = false;
+			Item.value = Terraria.Item.sellPrice(0, 1, 42, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<BubblePumpProj>();
+			Item.shootSpeed = 6f;
 		}
 		public override Vector2? HoldoutOffset()
 		{

@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.DoT
 {
 	public class BloodCorrupt : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blood Corruption");
 			Description.SetDefault("Your blood burns...");

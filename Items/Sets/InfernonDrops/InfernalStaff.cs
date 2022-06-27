@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.InfernonDrops
@@ -16,20 +17,20 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 42;
-			item.height = 42;
-			item.rare = ItemRarityID.Pink;
-			item.mana = 12;
-			item.damage = 55;
-			item.knockBack = 5F;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.value = Terraria.Item.sellPrice(0, 2, 50, 0);
-			item.useTime = 24;
-			item.useAnimation = 24;
-			item.magic = true;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<FireSoul>();
-			item.shootSpeed = 12f;
+			Item.width = 42;
+			Item.height = 42;
+			Item.rare = ItemRarityID.Pink;
+			Item.mana = 12;
+			Item.damage = 55;
+			Item.knockBack = 5F;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.value = Terraria.Item.sellPrice(0, 2, 50, 0);
+			Item.useTime = 24;
+			Item.useAnimation = 24;
+			Item.DamageType = DamageClass.Magic;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<FireSoul>();
+			Item.shootSpeed = 12f;
 		}
 
 		public static Vector2[] randomSpread(float speedX, float speedY, int angle, int num)
@@ -45,13 +46,13 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 			}
 			return (Vector2[])posArray;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			modPlayer.shootDelay = 180;
-			Vector2[] speeds = randomSpread(speedX, speedY, 8, 3);
+			Vector2[] speeds = randomSpread(velocity.X, velocity.Y, 8, 3);
 			for (int i = 0; i < 2; ++i) {
-				Projectile.NewProjectile(position.X, position.Y, speeds[i].X, speeds[i].Y, type, damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(source, position.X, position.Y, speeds[i].X, speeds[i].Y, type, damage, knockback, player.whoAmI);
 			}
 			return true;
 		}

@@ -10,12 +10,12 @@ namespace SpiritMod.Tiles.Furniture.Reach
 {
 	public class TreemanStatue : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileSolid[Type] = false;
 			Main.tileMergeDirt[Type] = true;
-			this.minPick = 15;
+			this.MinPick = 15;
 			TileObjectData.newTile.Height = 9;
 			TileObjectData.newTile.Width = 9;
 			TileObjectData.newTile.Origin = new Point16(3, 8);
@@ -26,9 +26,9 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
 			TileObjectData.addTile(Type);
-			adjTiles = new int[] { TileID.WorkBenches };
-			adjTiles = new int[] { TileID.Bookcases };
-			adjTiles = new int[] { TileID.Bottles };
+			AdjTiles = new int[] { TileID.WorkBenches };
+			AdjTiles = new int[] { TileID.Bookcases };
+			AdjTiles = new int[] { TileID.Bottles };
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Statue of the Old Gods");
 			AddMapEntry(new Color(179, 146, 107), name);

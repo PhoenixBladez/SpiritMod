@@ -17,16 +17,16 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 14;
-			projectile.height = 26;
-			projectile.hide = true;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 40;
-			projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 14;
+			Projectile.height = 26;
+			Projectile.hide = true;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 40;
+			Projectile.tileCollide = false;
 		}
 		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
 		{
@@ -34,25 +34,25 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void AI()
 		{
-			if (projectile.timeLeft >= 35) {
-				projectile.alpha = 255;
+			if (Projectile.timeLeft >= 35) {
+				Projectile.alpha = 255;
 			}
 			else {
-				projectile.alpha = 0 + (40 - projectile.timeLeft) * 6;
+				Projectile.alpha = 0 + (40 - Projectile.timeLeft) * 6;
 			}
-			if (projectile.ai[0] > 7) {
-				projectile.velocity = Vector2.Zero;
+			if (Projectile.ai[0] > 7) {
+				Projectile.velocity = Vector2.Zero;
 			}
 			else {
-				projectile.ai[0]++;
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+				Projectile.ai[0]++;
+				Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 			}
-			if (projectile.velocity != Vector2.Zero) {
+			if (Projectile.velocity != Vector2.Zero) {
 				for (int i = 0; i < 4; i++) {
-					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height * 2, DustID.Butterfly, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+					int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height * 2, DustID.Butterfly, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 					Main.dust[dust].scale = Main.rand.NextFloat(.9f, 1.75f);
 					Main.dust[dust].noGravity = true;
-					int dust1 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height * 2, DustID.ShadowbeamStaff, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+					int dust1 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height * 2, DustID.ShadowbeamStaff, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 					Main.dust[dust1].scale = Main.rand.NextFloat(.9f, 1.75f);
 					Main.dust[dust1].noGravity = true;
 					Main.dust[dust1].noLight = true;

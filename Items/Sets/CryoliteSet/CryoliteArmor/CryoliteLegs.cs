@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Sets.CryoliteSet.CryoliteArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 38;
-			item.height = 26;
-			item.value = Terraria.Item.sellPrice(0, 0, 80, 0);
-			item.rare = ItemRarityID.Orange;
-			item.defense = 10;
+			Item.width = 38;
+			Item.height = 26;
+			Item.value = Terraria.Item.sellPrice(0, 0, 80, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.defense = 10;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -29,11 +29,10 @@ namespace SpiritMod.Items.Sets.CryoliteSet.CryoliteArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 18);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Bullet.Crimbine;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
@@ -17,23 +18,23 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 
 		public override void SetDefaults()
 		{
-			item.damage = 14;
-			item.ranged = true;
-			item.width = 58;
-			item.height = 32;
-			item.useTime = 9;
-			item.useAnimation = 9;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 0;
-			item.useTurn = false;
-			item.shoot = ModContent.ProjectileType<CrimbineBone>();
-			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.shootSpeed = 10f;
-			item.autoReuse = true;
-			item.useAmmo = AmmoID.Bullet;
-			item.crit = 6;
+			Item.damage = 14;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 58;
+			Item.height = 32;
+			Item.useTime = 9;
+			Item.useAnimation = 9;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 0;
+			Item.useTurn = false;
+			Item.shoot = ModContent.ProjectileType<CrimbineBone>();
+			Item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.shootSpeed = 10f;
+			Item.autoReuse = true;
+			Item.useAmmo = AmmoID.Bullet;
+			Item.crit = 6;
 		}
 		public override bool AltFunctionUse(Player player)
 		{
@@ -56,7 +57,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (modPlayer.shootDelay2 == 1) {
-				Main.PlaySound(SoundID.MaxMana, -1, -1, 1, 1f, 0.0f);
+				SoundEngine.PlaySound(SoundID.MaxMana, -1, -1, 1, 1f, 0.0f);
 				for (int index1 = 0; index1 < 5; ++index1) {
 					int index2 = Dust.NewDust(player.position, player.width, player.height, DustID.Blood, 0.0f, 0.0f, (int)byte.MaxValue, new Color(), (float)Main.rand.Next(20, 26) * 0.1f);
 					Main.dust[index2].noLight = false;
@@ -72,7 +73,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 				position += muzzleOffset;
 			}
 			if (player.altFunctionUse == 2) {
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 95));
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 95));
 				MyPlayer modPlayer = player.GetSpiritPlayer();
 				modPlayer.shootDelay2 = 300;
 				type = ModContent.ProjectileType<CrimbineAmalgam>();
@@ -80,8 +81,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 				speedY /= 4;
 			}
 			else {
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 11));
-				item.shootSpeed = 10f;
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 11));
+				Item.shootSpeed = 10f;
 				float spread = 8 * 0.0174f;//45 degrees converted to radians
 				float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
 				double baseAngle = Math.Atan2(speedX, speedY);
@@ -96,14 +97,13 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.Boomstick);
 			recipe.AddIngredient(ItemID.TheUndertaker);
 			recipe.AddIngredient(ItemID.Handgun, 1);
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.CoilSet.CoilPistol>(), 1);
 			recipe.AddTile(TileID.DemonAltar);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 		public override Vector2? HoldoutOffset()
 		{

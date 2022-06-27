@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,14 +14,14 @@ namespace SpiritMod.Projectiles.Thrown
 		}
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Shuriken);
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.penetrate = 1;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.tileCollide = true;
-			projectile.hostile = false;
+			Projectile.CloneDefaults(ProjectileID.Shuriken);
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.penetrate = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.tileCollide = true;
+			Projectile.hostile = false;
 		}
 		int sync;
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -32,9 +33,9 @@ namespace SpiritMod.Projectiles.Thrown
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
 			for (int i = 0; i < 10; i++) 
-				Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.Dirt, (float)(Main.rand.Next(5) - 2), (float)(Main.rand.Next(5) - 2), 133);
+				Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Dirt, (float)(Main.rand.Next(5) - 2), (float)(Main.rand.Next(5) - 2), 133);
 		}
 	}
 }

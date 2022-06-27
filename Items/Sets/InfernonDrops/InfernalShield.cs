@@ -15,16 +15,16 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 28;
-			item.rare = ItemRarityID.Pink;
-			item.value = 80000;
-			item.damage = 36;
-			item.defense = 3;
-			item.melee = true;
-			item.accessory = true;
+			Item.width = 24;
+			Item.height = 28;
+			Item.rare = ItemRarityID.Pink;
+			Item.value = 80000;
+			Item.damage = 36;
+			Item.defense = 3;
+			Item.DamageType = DamageClass.Melee;
+			Item.accessory = true;
 
-			item.knockBack = 5f;
+			Item.knockBack = 5f;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

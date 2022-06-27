@@ -12,11 +12,11 @@ namespace SpiritMod.Items.Armor
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 18;
-			item.value = Terraria.Item.buyPrice(0, 0, 20, 0);
-			item.rare = ItemRarityID.Blue;
-			item.defense = 2;
+			Item.width = 30;
+			Item.height = 18;
+			Item.value = Terraria.Item.buyPrice(0, 0, 20, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 2;
 		}
 		public override void DrawHands(ref bool drawHands, ref bool drawArms)
 		{

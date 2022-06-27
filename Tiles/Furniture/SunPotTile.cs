@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class SunPotTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
         {
             Main.tileTable[Type] = true;
             Main.tileSolidTop[Type] = false;
@@ -32,14 +32,14 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Sun in a Pot");
 			AddMapEntry(new Color(28, 138, 72), name);
-			dustType = -1;
+			DustType = -1;
 		}
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<SunPot>());
 
 		}
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
         {
             offsetY = 2;
         }

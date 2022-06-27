@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 {
 	public class CryoliteOreTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSpelunker[Type] = true;
 			Main.tileSolid[Type] = true;
@@ -19,13 +19,13 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 
 			TileID.Sets.Ore[Type] = true;
 
-			drop = ModContent.ItemType<CryoliteOre>();   //put your CustomBlock name
+			ItemDrop = ModContent.ItemType<CryoliteOre>();   //put your CustomBlock name
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Cryolite Ore");
 			AddMapEntry(new Color(40, 0, 205), name);
 			soundType = SoundID.Tink;
-			minPick = 65;
-			dustType = DustID.BlueCrystalShard;
+			MinPick = 65;
+			DustType = DustID.BlueCrystalShard;
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

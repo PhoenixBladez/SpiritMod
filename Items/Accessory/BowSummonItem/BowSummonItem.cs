@@ -14,14 +14,14 @@ namespace SpiritMod.Items.Accessory.BowSummonItem
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 40;
-			item.value = Item.sellPrice(0, 0, 55, 0);
-			item.rare = ItemRarityID.Green;
-			item.damage = 16;
-			item.knockBack = 2;
-			item.summon = true;
-			item.accessory = true;
+			Item.width = 20;
+			Item.height = 40;
+			Item.value = Item.sellPrice(0, 0, 55, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.damage = 16;
+			Item.knockBack = 2;
+			Item.DamageType = DamageClass.Summon;
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().bowSummon = true;

@@ -11,26 +11,26 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = 2;
-			projectile.alpha = 255;
-			projectile.extraUpdates = 1;
-			projectile.timeLeft = 80;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = 2;
+			Projectile.alpha = 255;
+			Projectile.extraUpdates = 1;
+			Projectile.timeLeft = 80;
 		}
 
 		public void DoTrailCreation(TrailManager tManager)
 		{
 			float trailwidth = 20;
 			float traillength = 150;
-			tManager.CreateTrail(projectile, new StandardColorTrail(new Color(252, 3, 57) * 0.9f), new RoundCap(), new DefaultTrailPosition(), trailwidth / 2, traillength * 0.8f);
-			tManager.CreateTrail(projectile, new StandardColorTrail(new Color(255, 255, 255)), new RoundCap(), new DefaultTrailPosition(), trailwidth / 3, traillength * 0.75f);
-			tManager.CreateTrail(projectile, new GradientTrail(new Color(252, 3, 57) * 0.75f, new Color(255, 201, 213) * 0.75f), new RoundCap(), new DefaultTrailPosition(), trailwidth, traillength);
+			tManager.CreateTrail(Projectile, new StandardColorTrail(new Color(252, 3, 57) * 0.9f), new RoundCap(), new DefaultTrailPosition(), trailwidth / 2, traillength * 0.8f);
+			tManager.CreateTrail(Projectile, new StandardColorTrail(new Color(255, 255, 255)), new RoundCap(), new DefaultTrailPosition(), trailwidth / 3, traillength * 0.75f);
+			tManager.CreateTrail(Projectile, new GradientTrail(new Color(252, 3, 57) * 0.75f, new Color(255, 201, 213) * 0.75f), new RoundCap(), new DefaultTrailPosition(), trailwidth, traillength);
 		}
 
 		public override bool PreAI()
@@ -44,7 +44,7 @@ namespace SpiritMod.Projectiles.Magic
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].noLight = true;
 			}*/
-			projectile.velocity = projectile.velocity.RotatedBy(System.Math.PI / 40);
+			Projectile.velocity = Projectile.velocity.RotatedBy(System.Math.PI / 40);
 			return true;
 		}
 

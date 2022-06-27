@@ -12,10 +12,10 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 42;
-			item.maxStack = 999;
-			item.rare = -11;
+			Item.width = 36;
+			Item.height = 42;
+			Item.maxStack = 999;
+			Item.rare = -11;
 		}
 
 		public override void GrabRange(Player player, ref int grabRange) => grabRange = 0;
@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch
 
 		public override bool OnPickup(Player player)
 		{
-			for (int i = 0; i < item.stack; i++)
+			for (int i = 0; i < Item.stack; i++)
 			{
 				if (Main.rand.Next(5) == 0)
 					player.QuickSpawnItem(ModContent.ItemType<HourglassItem>(), 1);
@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch
 		{
 			if (Main.rand.Next(20) == 0)
 			{
-				int index3 = Dust.NewDust(new Vector2(item.position.X, item.position.Y), item.width, item.height, DustID.GoldFlame, 0.0f, 0.0f, 150, default, 0.3f);
+				int index3 = Dust.NewDust(new Vector2(Item.position.X, Item.position.Y), Item.width, Item.height, DustID.GoldFlame, 0.0f, 0.0f, 150, default, 0.3f);
 				Dust dust = Main.dust[index3];
 				dust.fadeIn = 0.75f;
 				dust.velocity *= 0.1f;

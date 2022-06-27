@@ -15,33 +15,33 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
 		{
 			DisplayName.SetDefault("Jinxbow");
 
-			Main.projPet[projectile.type] = true;
-			Main.projFrames[projectile.type] = 4;
+			Main.projPet[Projectile.type] = true;
+			Main.projFrames[Projectile.type] = 4;
 
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 1;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-			ProjectileID.Sets.Homing[projectile.type] = true;
-			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 1;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.netImportant = true;
-			projectile.width = 20;
-			projectile.height = 40;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 18000;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
+			Projectile.netImportant = true;
+			Projectile.width = 20;
+			Projectile.height = 40;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 18000;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
 		}
 
 		public override void AI()
 		{
-			bool flag64 = projectile.type == ModContent.ProjectileType<BowSummon>();
-			Player player = Main.player[projectile.owner];
+			bool flag64 = Projectile.type == ModContent.ProjectileType<BowSummon>();
+			Player player = Main.player[Projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 
 			if (flag64)
@@ -50,38 +50,38 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
 					modPlayer.bowSummon = false;
 
 				if (modPlayer.bowSummon)
-					projectile.timeLeft = 2;
+					Projectile.timeLeft = 2;
 			}
 
 			for (int i = 0; i < Main.maxProjectiles; i++)
 			{
-				if (i != projectile.whoAmI && Main.projectile[i].active && Main.projectile[i].owner == projectile.owner && Main.projectile[i].type == projectile.type && Math.Abs(projectile.position.X - Main.projectile[i].position.X) + Math.Abs(projectile.position.Y - Main.projectile[i].position.Y) < (float)projectile.width)
+				if (i != Projectile.whoAmI && Main.projectile[i].active && Main.projectile[i].owner == Projectile.owner && Main.projectile[i].type == Projectile.type && Math.Abs(Projectile.position.X - Main.projectile[i].position.X) + Math.Abs(Projectile.position.Y - Main.projectile[i].position.Y) < (float)Projectile.width)
 				{
-					if (projectile.position.X < Main.projectile[i].position.X)
-						projectile.velocity.X = projectile.velocity.X - 0.05f;
+					if (Projectile.position.X < Main.projectile[i].position.X)
+						Projectile.velocity.X = Projectile.velocity.X - 0.05f;
 					else
-						projectile.velocity.X = projectile.velocity.X + 0.05f;
+						Projectile.velocity.X = Projectile.velocity.X + 0.05f;
 
-					if (projectile.position.Y < Main.projectile[i].position.Y)
-						projectile.velocity.Y = projectile.velocity.Y - 0.05f;
+					if (Projectile.position.Y < Main.projectile[i].position.Y)
+						Projectile.velocity.Y = Projectile.velocity.Y - 0.05f;
 					else
-						projectile.velocity.Y = projectile.velocity.Y + 0.05f;
+						Projectile.velocity.Y = Projectile.velocity.Y + 0.05f;
 				}
 			}
 
 			float num529 = 900f;
 			bool flag19 = false;
 
-			if (projectile.ai[0] == 0f)
+			if (Projectile.ai[0] == 0f)
 			{
 				for (int num531 = 0; num531 < 200; num531++)
 				{
-					if (Main.npc[num531].CanBeChasedBy(projectile, false))
+					if (Main.npc[num531].CanBeChasedBy(Projectile, false))
 					{
 						float num532 = Main.npc[num531].position.X + 40 + (Main.npc[num531].width / 2);
 						float num533 = Main.npc[num531].position.Y - 90 + (Main.npc[num531].height / 2);
-						float num534 = Math.Abs(projectile.position.X + (projectile.width / 2) - num532) + Math.Abs(projectile.position.Y + (projectile.height / 2) - num533);
-						if (num534 < num529 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num531].position, Main.npc[num531].width, Main.npc[num531].height))
+						float num534 = Math.Abs(Projectile.position.X + (Projectile.width / 2) - num532) + Math.Abs(Projectile.position.Y + (Projectile.height / 2) - num533);
+						if (num534 < num529 && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[num531].position, Main.npc[num531].width, Main.npc[num531].height))
 						{
 							num529 = num534;
 							flag19 = true;
@@ -90,21 +90,21 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
 				}
 			}
 			else
-				projectile.tileCollide = false;
+				Projectile.tileCollide = false;
 
 			if (!flag19)
 			{
-				projectile.friendly = true;
-				projectile.position.X = Main.player[projectile.owner].Center.X - (projectile.width * .5f);
-				projectile.position.Y = Main.player[projectile.owner].Center.Y - (projectile.width * .5f) - 40;
-				projectile.rotation = Main.player[projectile.owner].velocity.X * 0.085f;
-				projectile.spriteDirection = Main.player[projectile.owner].direction;
-				projectile.frame = 0;
+				Projectile.friendly = true;
+				Projectile.position.X = Main.player[Projectile.owner].Center.X - (Projectile.width * .5f);
+				Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (Projectile.width * .5f) - 40;
+				Projectile.rotation = Main.player[Projectile.owner].velocity.X * 0.085f;
+				Projectile.spriteDirection = Main.player[Projectile.owner].direction;
+				Projectile.frame = 0;
 			}
 
 			else
 			{
-				projectile.spriteDirection = 1;
+				Projectile.spriteDirection = 1;
 				timer++;
 				if (timer >= 70)
 				{
@@ -117,10 +117,10 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
 					{
 						NPC npc = Main.npc[i];
 						//if npc is a valid target (active, not friendly, and not a critter)
-						if (npc.active && npc.CanBeChasedBy(projectile) && !npc.friendly)
+						if (npc.active && npc.CanBeChasedBy(Projectile) && !npc.friendly)
 						{
 							//if npc is within 50 blocks
-							float dist = projectile.Distance(npc.Center);
+							float dist = Projectile.Distance(npc.Center);
 							if (dist / 16 < range)
 							{
 								//if npc is closer than closest found npc
@@ -129,27 +129,27 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
 									lowestDist = dist;
 
 									//target this npc
-									projectile.ai[1] = npc.whoAmI;
-									projectile.netUpdate = true;
+									Projectile.ai[1] = npc.whoAmI;
+									Projectile.netUpdate = true;
 								}
 							}
 						}
 					}
 
-					NPC target = Main.npc[(int)projectile.ai[1]];
+					NPC target = Main.npc[(int)Projectile.ai[1]];
 
-					if (target.CanBeChasedBy(projectile, false))
-						projectile.rotation = projectile.DirectionTo(target.Center).ToRotation();
+					if (target.CanBeChasedBy(Projectile, false))
+						Projectile.rotation = Projectile.DirectionTo(target.Center).ToRotation();
 
-					if (++projectile.frameCounter >= 5)
+					if (++Projectile.frameCounter >= 5)
 					{
-						projectile.frameCounter = 0;
-						projectile.frame++;
+						Projectile.frameCounter = 0;
+						Projectile.frame++;
 					}
 
-					if (projectile.frame > 3)
+					if (Projectile.frame > 3)
 					{
-						Vector2 ShootArea = new Vector2(projectile.Center.X, projectile.Center.Y - 13);
+						Vector2 ShootArea = new Vector2(Projectile.Center.X, Projectile.Center.Y - 13);
 						Vector2 direction = Vector2.Normalize(target.Center - ShootArea) * shootVelocity;
 
 						int selectedIndex = 0;
@@ -164,20 +164,20 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
 
 						Item selectedItem = player.inventory[selectedIndex];
 						int shootType = selectedItem.shoot;
-						int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, direction.X, direction.Y, shootType, projectile.damage, projectile.knockBack, Main.myPlayer);
+						int proj2 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, direction.X, direction.Y, shootType, Projectile.damage, Projectile.knockBack, Main.myPlayer);
 						Main.projectile[proj2].minion = true;
 						Main.projectile[proj2].ranged = false;
 						Main.projectile[proj2].netUpdate = true;
 
-						GItem.UseAmmoDirect(Main.player[projectile.owner], selectedIndex);
+						GItem.UseAmmoDirect(Main.player[Projectile.owner], selectedIndex);
 
-						projectile.frame = 0;
+						Projectile.frame = 0;
 						timer = 0;
 					}
 				}
 
-				projectile.position.X = Main.player[projectile.owner].Center.X - (projectile.width * .5f);
-				projectile.position.Y = Main.player[projectile.owner].Center.Y - (projectile.width * .5f) - 40;
+				Projectile.position.X = Main.player[Projectile.owner].Center.X - (Projectile.width * .5f);
+				Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (Projectile.width * .5f) - 40;
 			}
 		}
 

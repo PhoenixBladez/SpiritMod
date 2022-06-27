@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 
 		public override void SetDefaults()
 		{
-			item.width = 38;
-			item.height = 26;
-			item.value = 4000;
-			item.rare = ItemRarityID.Blue;
-			item.defense = 3;
+			Item.width = 38;
+			Item.height = 26;
+			Item.value = 4000;
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 3;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -30,11 +30,10 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 		}
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 10);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

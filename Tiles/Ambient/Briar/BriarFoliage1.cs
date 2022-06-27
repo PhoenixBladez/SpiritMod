@@ -11,14 +11,14 @@ namespace SpiritMod.Tiles.Ambient.Briar
 {
 	public class BriarFoliage1 : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileCut[Type] = true;
 			Main.tileNoFail[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 
-			dustType = DustID.Plantera_Green;
+			DustType = DustID.Plantera_Green;
 			soundType = SoundID.Grass;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
             TileObjectData.newTile.Height = 2;
@@ -56,7 +56,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			num = 2;
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}
@@ -64,7 +64,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 		public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
 		{
 			Tile tileBelow = Framing.GetTileSafely(i, j + 2);
-			if (!tileBelow.active() || tileBelow.halfBrick() || tileBelow.topSlope()) {
+			if (!tileBelow.HasTile || tileBelow.IsHalfBlock || tileBelow.TopSlope) {
 				WorldGen.KillTile(i, j);
 			}
 
@@ -89,12 +89,12 @@ namespace SpiritMod.Tiles.Ambient.Briar
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
 
-			if (tile.frameX >= 108) {
-				Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
+			if (tile.TileFrameX >= 108) {
+				Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
 
-				Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/Ambient/Briar/BriarFoliage1Glow");
+				Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/Briar/BriarFoliage1Glow");
 				Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
-				spriteBatch.Draw(glow, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.frameX - 108, 0, 16, 16), colour);
+				spriteBatch.Draw(glow, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX - 108, 0, 16, 16), colour);
 			}
 		}
 	}

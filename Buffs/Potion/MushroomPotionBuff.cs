@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Potion
 {
 	public class MushroomPotionBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spore Release");
 			Description.SetDefault("Leave behind a trail of damaging mushrooms");

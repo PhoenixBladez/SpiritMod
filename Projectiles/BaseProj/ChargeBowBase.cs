@@ -17,16 +17,16 @@ namespace SpiritMod.Projectiles.BaseProj
 	{
 		public sealed override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = -1;
-			projectile.friendly = false;
-			projectile.penetrate = 1;
-			projectile.tileCollide = false;
-			projectile.alpha = 255;
-			projectile.timeLeft = 999999;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = false;
+			Projectile.penetrate = 1;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 999999;
 			SafeSetDefaults();
 			SetBowDefaults();
 		}
@@ -35,11 +35,11 @@ namespace SpiritMod.Projectiles.BaseProj
 		{
 			get
 			{
-				return (int)projectile.ai[0];
+				return (int)Projectile.ai[0];
 			}
 			set
 			{
-				projectile.ai[0] = value;
+				Projectile.ai[0] = value;
 			}
 		}
 		protected virtual void SafeSetDefaults(){}
@@ -68,31 +68,31 @@ namespace SpiritMod.Projectiles.BaseProj
 
 		public sealed override void AI()
 		{
-			projectile.velocity = Vector2.Zero;
+			Projectile.velocity = Vector2.Zero;
 			counter++;
 			SafeAI();
 			AdjustDirection();
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			player.ChangeDir(Main.MouseWorld.X > player.position.X ? 1 : -1);
-			player.heldProj = projectile.whoAmI;
+			player.heldProj = Projectile.whoAmI;
 			player.itemTime = 2;
 			player.itemAnimation = 2;
-			projectile.timeLeft = Math.Min(projectile.timeLeft, player.HeldItem.useAnimation);
-			projectile.position = player.MountedCenter;
+			Projectile.timeLeft = Math.Min(Projectile.timeLeft, player.HeldItem.useAnimation);
+			Projectile.position = player.MountedCenter;
 			if (player.channel && !firing) 
 			{
-				projectile.timeLeft = Math.Max(projectile.timeLeft, 2);
+				Projectile.timeLeft = Math.Max(Projectile.timeLeft, 2);
 				if (charge < 1)
 				{
 					if ((charge + chargeRate) >= 1)
-						Main.PlaySound(SoundID.MaxMana, (int)projectile.Center.X, (int)projectile.Center.Y, 1, 1, -0.25f);
+						SoundEngine.PlaySound(SoundID.MaxMana, (int)Projectile.Center.X, (int)Projectile.Center.Y, 1, 1, -0.25f);
 					charge+=chargeRate;
 				}
 				Charging();
 				if (predictor != -1 && counter % 5 == 0)
 				{
 					float velocity = LerpFloat(minVelocity, maxVelocity, charge);
-					Projectile.NewProjectile(player.Center, direction * velocity, predictor, 0, 0, projectile.owner);
+					Projectile.NewProjectile(player.Center, direction * velocity, predictor, 0, 0, Projectile.owner);
 				}
 			}
 			else
@@ -105,12 +105,12 @@ namespace SpiritMod.Projectiles.BaseProj
 		//helpers
 		protected void AdjustDirection(float deviation = 0f)
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			if (Main.myPlayer == player.whoAmI) {
 				direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
 				direction.Normalize();
 				direction = direction.RotatedBy(deviation);
-				projectile.netUpdate = true;
+				Projectile.netUpdate = true;
 			}
 			player.itemRotation = direction.ToRotation();
 			if (player.direction != 1)
@@ -122,11 +122,11 @@ namespace SpiritMod.Projectiles.BaseProj
 
 		protected int CreateArrow()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			float velocity = LerpFloat(minVelocity, maxVelocity, charge);
-			int damage = (int)(LerpFloat(minDamage, maxDamage, charge) * player.rangedDamage) + projectile.damage;
-			Main.PlaySound(soundtype, projectile.Center);
-			return Projectile.NewProjectile(player.Center, direction * velocity, AmmoType, damage, projectile.knockBack, projectile.owner, (charge >= 1) ? 1 : 0);
+			int damage = (int)(LerpFloat(minDamage, maxDamage, charge) * player.rangedDamage) + Projectile.damage;
+			SoundEngine.PlaySound(soundtype, Projectile.Center);
+			return Projectile.NewProjectile(player.Center, direction * velocity, AmmoType, damage, Projectile.knockBack, Projectile.owner, (charge >= 1) ? 1 : 0);
 		}
 		protected static float LerpFloat(float min, float max, float val)
 		{

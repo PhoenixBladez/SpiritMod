@@ -13,20 +13,20 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void SetDefaults()
 		{
-			projectile.width = 66;
-			projectile.height = 66;
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.penetrate = 3;
-			projectile.timeLeft = 60;
-			projectile.magic = true;
-			projectile.tileCollide = false;
-			aiType = ProjectileID.Mushroom;
+			Projectile.width = 66;
+			Projectile.height = 66;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.penetrate = 3;
+			Projectile.timeLeft = 60;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.tileCollide = false;
+			AIType = ProjectileID.Mushroom;
 		}
 
 		public override bool PreAI()
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare_Blue, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			Main.dust[dust].scale = 1f;
 			Main.dust[dust].noGravity = true;
 
@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 20; i++) {
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare_Blue, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void AI()
 		{
-			projectile.rotation += 0.1f;
+			Projectile.rotation += 0.1f;
 		}
 
 	}

@@ -12,9 +12,9 @@ namespace SpiritMod.Projectiles.Held
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Trident);
+			Projectile.CloneDefaults(ProjectileID.Trident);
 
-			aiType = ProjectileID.Trident;
+			AIType = ProjectileID.Trident;
 		}
 	}
 }

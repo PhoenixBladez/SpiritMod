@@ -13,11 +13,11 @@ namespace SpiritMod.Items.Accessory.SeaSnailVenom
 		}
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 42;
-			item.value = Item.sellPrice(gold: 1, silver: 20);
-			item.rare = ItemRarityID.Green;
-			item.accessory = true;
+			Item.width = 36;
+			Item.height = 42;
+			Item.value = Item.sellPrice(gold: 1, silver: 20);
+			Item.rare = ItemRarityID.Green;
+			Item.accessory = true;
 		}
 
 		public override void UpdateEquip(Player player)

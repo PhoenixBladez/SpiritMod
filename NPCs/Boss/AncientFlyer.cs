@@ -5,6 +5,8 @@ using SpiritMod.Items.Sets.AvianDrops.ApostleArmor;
 using SpiritMod.Items.Sets.AvianDrops;
 using SpiritMod.Utilities;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -28,36 +30,36 @@ namespace SpiritMod.NPCs.Boss
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ancient Avian");
-			Main.npcFrameCount[npc.type] = 6;
-			NPCID.Sets.TrailCacheLength[npc.type] = 3;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 6;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 3;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 148;
-			npc.height = 120;
-			npc.damage = 23;
-			npc.defense = 14;
-			npc.value = 33000;
-			npc.lifeMax = 3100;
-			npc.knockBackResist = 0;
-			npc.boss = true;
+			NPC.width = 148;
+			NPC.height = 120;
+			NPC.damage = 23;
+			NPC.defense = 14;
+			NPC.value = 33000;
+			NPC.lifeMax = 3100;
+			NPC.knockBackResist = 0;
+			NPC.boss = true;
 
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.buffImmune[BuffID.Confused] = true;
-			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
-			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
-			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+			NPC.buffImmune[BuffID.Poisoned] = true;
+			NPC.buffImmune[BuffID.Confused] = true;
+			NPC.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
+			NPC.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
+			NPC.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
 
-			npc.noGravity = true;
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AncientAvian");
-			npc.noTileCollide = true;
-			npc.npcSlots = 15;
+			NPC.noGravity = true;
+			Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AncientAvian");
+			NPC.noTileCollide = true;
+			NPC.npcSlots = 15;
 			bossBag = ModContent.ItemType<FlyerBag>();
-			npc.HitSound = SoundID.NPCHit2;
-			npc.DeathSound = SoundID.NPCDeath5;
-			npc.scale = 1.1f;
+			NPC.HitSound = SoundID.NPCHit2;
+			NPC.DeathSound = SoundID.NPCDeath5;
+			NPC.scale = 1.1f;
 		}
 
 		bool displayCircle = false;
@@ -65,39 +67,39 @@ namespace SpiritMod.NPCs.Boss
 
 		public override void AI()
 		{
-			npc.spriteDirection = -npc.direction;
-			npc.rotation = npc.velocity.X * 0.07f;
+			NPC.spriteDirection = -NPC.direction;
+			NPC.rotation = NPC.velocity.X * 0.07f;
 
-			Player player = Main.player[npc.target];
+			Player player = Main.player[NPC.target];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 
-			if (npc.Center.X >= player.Center.X && moveSpeed >= -120) // flies to players x position
+			if (NPC.Center.X >= player.Center.X && moveSpeed >= -120) // flies to players x position
 				moveSpeed--;
-			else if (npc.Center.X <= player.Center.X && moveSpeed <= 120)
+			else if (NPC.Center.X <= player.Center.X && moveSpeed <= 120)
 				moveSpeed++;
 
-			npc.velocity.X = moveSpeed * 0.10f;
+			NPC.velocity.X = moveSpeed * 0.10f;
 
-			if (npc.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -30) //Flies to players Y position
+			if (NPC.Center.Y >= player.Center.Y - HomeY && moveSpeedY >= -30) //Flies to players Y position
 			{
 				moveSpeedY--;
 				HomeY = 350f;
 			}
-			else if (npc.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 30)
+			else if (NPC.Center.Y <= player.Center.Y - HomeY && moveSpeedY <= 30)
 				moveSpeedY++;
 
-			npc.velocity.Y = moveSpeedY * 0.13f;
+			NPC.velocity.Y = moveSpeedY * 0.13f;
 
 			timer++;
 
-			if (timer == 200 || timer == 400 && npc.life >= (npc.lifeMax / 2)) //Fires desert feathers like a shotgun
+			if (timer == 200 || timer == 400 && NPC.life >= (NPC.lifeMax / 2)) //Fires desert feathers like a shotgun
 			{
-				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 73);
+				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 73);
 
-				Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 2);
-				Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
+				SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 2);
+				SoundEngine.PlaySound(SoundID.DD2_LightningBugZap, NPC.position);
 
-				Vector2 direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 8.5f;
+				Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 8.5f;
 				int amountOfProjectiles = Main.rand.Next(8, 11);
 
 				for (int i = 0; i < amountOfProjectiles; ++i)
@@ -106,19 +108,19 @@ namespace SpiritMod.NPCs.Boss
 					float offsetY = Main.rand.Next(-200, 200) * 0.01f;
 					int damage = Main.expertMode ? 15 : 17;
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + offsetX, direction.Y + offsetY, ModContent.ProjectileType<DesertFeather>(), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + offsetX, direction.Y + offsetY, ModContent.ProjectileType<DesertFeather>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
 			else if (timer == 300 || timer == 400 || timer == 500 || timer == 550)
 			{
-				if (Main.expertMode && npc.life >= (npc.lifeMax / 2))
+				if (Main.expertMode && NPC.life >= (NPC.lifeMax / 2))
 				{
-					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
+					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 8);
 
-					Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 2);
-					Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
+					SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 2);
+					SoundEngine.PlaySound(SoundID.DD2_LightningBugZap, NPC.position);
 
-					Vector2 direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 11.5f;
+					Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 11.5f;
 
 					int amountOfProjectiles = Main.rand.Next(5, 9);
 					for (int i = 0; i < amountOfProjectiles; ++i)
@@ -127,30 +129,30 @@ namespace SpiritMod.NPCs.Boss
 						float offsetY = Main.rand.Next(-300, 300) * 0.01f;
 						int damage = Main.expertMode ? 18 : 20;
 						if (Main.netMode != NetmodeID.MultiplayerClient)
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + offsetX, direction.Y + offsetY, ModContent.ProjectileType<ExplodingFeather>(), damage, 1, Main.myPlayer, 0, 0);
+							Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + offsetX, direction.Y + offsetY, ModContent.ProjectileType<ExplodingFeather>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 				}
 			}
 			else if (timer == 600 || timer == 650 || timer == 700 || timer == 800 || timer == 850 || timer == 880) // Fires bone waves
 			{
-				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-				Main.PlayTrackedSound(SoundID.DD2_EtherianPortalSpawnEnemy, npc.Center);
+				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 8);
+				Main.PlayTrackedSound(SoundID.DD2_EtherianPortalSpawnEnemy, NPC.Center);
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					Vector2 direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 14;
+					Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 14;
 					int damage = Main.expertMode ? 15 : 19;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<BoneWave>(), damage, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<BoneWave>(), damage, 1, Main.myPlayer, 0, 0);
 				}
 			}
 
 			if (timer == 500 || timer == 700)
 				HomeY = -35f;
 			else if (timer == 900)
-				Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/AvianScreech"));
+				SoundEngine.PlaySound(SoundLoader.customSoundType, player.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/AvianScreech"));
 			else if ((timer >= 900 && timer <= 1400)) //Rains red comets
 			{
-				npc.defense = 26;
+				NPC.defense = 26;
 
 				if (Main.expertMode)
 				{
@@ -159,9 +161,9 @@ namespace SpiritMod.NPCs.Boss
 				}
 
 				frameNum = .4f;
-				npc.velocity = Vector2.Zero;
+				NPC.velocity = Vector2.Zero;
 
-				if (npc.life >= 1000)
+				if (NPC.life >= 1000)
 				{
 					if (Main.rand.Next(8) == 0 && Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -184,7 +186,7 @@ namespace SpiritMod.NPCs.Boss
 			}
 			else
 			{
-				npc.defense = 14;
+				NPC.defense = 14;
 				frameNum = .2f;
 				displayCircle = false;
 				modPlayer.windEffect = false;
@@ -193,7 +195,7 @@ namespace SpiritMod.NPCs.Boss
 			if (timer >= 1400)
 				timer = 0;
 
-			if (npc.life <= npc.lifeMax * .6f) //Fires comets when low on health in expert
+			if (NPC.life <= NPC.lifeMax * .6f) //Fires comets when low on health in expert
 			{
 				if (Main.expertMode)
 				{
@@ -219,7 +221,7 @@ namespace SpiritMod.NPCs.Boss
 						SilverDust(player, new Vector2(360, 250));
 						SilverDust(player, new Vector2(300, 250));
 
-						if (npc.life <= 1000)
+						if (NPC.life <= 1000)
 						{
 							SilverDust(player, new Vector2(500, 10));
 							SilverDust(player, new Vector2(500, 10));
@@ -228,9 +230,9 @@ namespace SpiritMod.NPCs.Boss
 				}
 				if (timer == 120)
 				{
-					Main.PlaySound(SoundID.Item82, new Vector2(tornado.X, tornado.Y));
-					Main.PlaySound(SoundID.Item82, new Vector2(tornado.X - 260, tornado.Y - 400));
-					Main.PlaySound(SoundID.Item82, new Vector2(tornado.X + 200, tornado.Y - 400));
+					SoundEngine.PlaySound(SoundID.Item82, new Vector2(tornado.X, tornado.Y));
+					SoundEngine.PlaySound(SoundID.Item82, new Vector2(tornado.X - 260, tornado.Y - 400));
+					SoundEngine.PlaySound(SoundID.Item82, new Vector2(tornado.X + 200, tornado.Y - 400));
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -238,7 +240,7 @@ namespace SpiritMod.NPCs.Boss
 						Projectile.NewProjectile(tornado.X, tornado.Y - 32, 0f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
 						Projectile.NewProjectile(tornado.X - 360, tornado.Y - 400, -5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
 						Projectile.NewProjectile(tornado.X + 300, tornado.Y - 400, 5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
-						if (npc.life <= 1000)
+						if (NPC.life <= 1000)
 						{
 							Projectile.NewProjectile(tornado.X - 500, tornado.Y - 32, -5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
 							Projectile.NewProjectile(tornado.X + 500, tornado.Y - 32, 5f, 0f, ModContent.ProjectileType<AvianNado>(), damage, 1, Main.myPlayer, 0, 0);
@@ -249,8 +251,8 @@ namespace SpiritMod.NPCs.Boss
 
 			if (!player.active || player.dead) //despawns when player is ded
 			{
-				npc.TargetClosest(false);
-				npc.velocity.Y = -50;
+				NPC.TargetClosest(false);
+				NPC.velocity.Y = -50;
 				timer = 0;
 			}
 		}
@@ -263,29 +265,29 @@ namespace SpiritMod.NPCs.Boss
 			Main.dust[dust].scale = .85f;
 		}
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
 
-		public override bool PreNPCLoot()
+		public override bool PreKill()
 		{
 			MyWorld.downedAncientFlier = true;
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);
 
-			npc.PlayDeathSound("AvianDeathSound");
+			NPC.PlayDeathSound("AvianDeathSound");
 			return true;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			var drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height / Main.npcFrameCount[npc.type]) * 0.5f);
-			if (npc.velocity != Vector2.Zero)
+			var effects = NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			var drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
+			if (NPC.velocity != Vector2.Zero)
 			{
-				for (int k = 0; k < npc.oldPos.Length; k++)
+				for (int k = 0; k < NPC.oldPos.Length; k++)
 				{
-					Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-					Color color = npc.GetAlpha(lightColor) * ((npc.oldPos.Length - k) / (float)npc.oldPos.Length / 2);
-					spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+					Color color = NPC.GetAlpha(lightColor) * ((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length / 2);
+					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
 
@@ -295,9 +297,9 @@ namespace SpiritMod.NPCs.Boss
 				drawOrigin.Y += 8f;
 				--drawOrigin.X;
 
-				Vector2 position1 = npc.Bottom - Main.screenPosition;
+				Vector2 position1 = NPC.Bottom - Main.screenPosition;
 
-				Texture2D glowMask = Main.glowMaskTexture[239];
+				Texture2D glowMask = TextureAssets.GlowMask[239].Value;
 				Rectangle r2 = glowMask.Frame(1, 1, 0, 0);
 				drawOrigin = r2.Size() / 2f;
 				Vector2 position3 = position1 + new Vector2(0.0f, -40f);
@@ -305,16 +307,16 @@ namespace SpiritMod.NPCs.Boss
 				Color drawColor = new Color(252, 3, 50) * 1.6f;
 
 				for (int i = 0; i < 3; ++i)
-					Main.spriteBatch.Draw(glowMask, position3, r2, drawColor, npc.rotation, drawOrigin, npc.scale * 0.75f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+					Main.spriteBatch.Draw(glowMask, position3, r2, drawColor, NPC.rotation, drawOrigin, NPC.scale * 0.75f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 			}
 			return true;
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.expertMode)
 			{
-				npc.DropBossBags();
+				NPC.DropBossBags();
 				return;
 			}
 
@@ -333,11 +335,11 @@ namespace SpiritMod.NPCs.Boss
 				ModContent.ItemType<TalonGarb>()
 			};
 
-			npc.DropItem(lootTable[Main.rand.Next(lootTable.Length)]);
-			npc.DropItem(lootTable2[Main.rand.Next(lootTable2.Length)]);
+			NPC.DropItem(lootTable[Main.rand.Next(lootTable.Length)]);
+			NPC.DropItem(lootTable2[Main.rand.Next(lootTable2.Length)]);
 
-			npc.DropItem(ModContent.ItemType<FlierMask>(), 1f / 7);
-			npc.DropItem(ModContent.ItemType<Trophy2>(), 1f / 10);
+			NPC.DropItem(ModContent.ItemType<FlierMask>(), 1f / 7);
+			NPC.DropItem(ModContent.ItemType<Trophy2>(), 1f / 10);
 		}
 
 
@@ -345,24 +347,24 @@ namespace SpiritMod.NPCs.Boss
 		{
 			for (int k = 0; k < 30; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Stone, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Stone, 2.5f * hitDirection, -2.5f, 0, default, .34f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 39));
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 39));
 
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AncientAvianGore" + i), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AncientAvianGore" + i).Type, 1f);
 			}
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += frameNum;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			npc.frame.Y = (int)npc.frameCounter * frameHeight;
+			NPC.frameCounter += frameNum;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			NPC.frame.Y = (int)NPC.frameCounter * frameHeight;
 		}
 
 		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,

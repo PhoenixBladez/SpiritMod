@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using SpiritMod.Utilities;
 using Terraria;
+using Terraria.Audio;
+using Terraria.Chat;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
@@ -25,12 +28,12 @@ namespace SpiritMod.NPCs.Boss.Occultist
 		public override void PostAI()
 		{
 			if (Main.rand.NextBool(5) && !Main.dedServ)
-				ParticleHandler.SpawnParticle(new GlowParticle(npc.Center + Main.rand.NextVector2Circular(15, 20), -Vector2.UnitY * Main.rand.NextFloat(), Color.Red * 0.75f, Main.rand.NextFloat(0.02f, 0.04f), 60));
+				ParticleHandler.SpawnParticle(new GlowParticle(NPC.Center + Main.rand.NextVector2Circular(15, 20), -Vector2.UnitY * Main.rand.NextFloat(), Color.Red * 0.75f, Main.rand.NextFloat(0.02f, 0.04f), 60));
 
 			if (!Main.dedServ)
 			{
 				if (_runeCircle != null)
-					_runeCircle.Update(npc.velocity.Length(), npc.direction, 1f);
+					_runeCircle.Update(NPC.velocity.Length(), NPC.direction, 1f);
 
 				_rotMan.UpdateObjects();
 			}
@@ -55,33 +58,33 @@ namespace SpiritMod.NPCs.Boss.Occultist
 					{
 						frame = new Point(1, 0);
 						SecondaryCounter++;
-						npc.netUpdate = true;
+						NPC.netUpdate = true;
 					}
 				});
 			}
 			else if (AiTimer <= animtime)
 			{
-				npc.velocity.Y = (float)Math.Sin(AiTimer / 12f);
+				NPC.velocity.Y = (float)Math.Sin(AiTimer / 12f);
 				_pulseGlowmask = _ritualCircle = (halfanimtime - Math.Abs(halfanimtime - AiTimer)) / halfanimtime;
 
 				if (Main.rand.NextBool(3) && !Main.dedServ)
 				{
 					Vector2 offset = Main.rand.NextVector2CircularEdge(200, 200) * _ritualCircle;
-					ParticleHandler.SpawnParticle(new GlowParticle(npc.Center + offset, -offset / 30f, Color.Magenta * 0.75f, Main.rand.NextFloat(0.06f, 0.12f) * _ritualCircle, 30));
+					ParticleHandler.SpawnParticle(new GlowParticle(NPC.Center + offset, -offset / 30f, Color.Magenta * 0.75f, Main.rand.NextFloat(0.06f, 0.12f) * _ritualCircle, 30));
 				}
 
 				UpdateYFrame(8, 0, 8, null, 4);
 				if (AiTimer == animtime)
 				{
 					frame = new Point(2, 0);
-					npc.netUpdate = true;
+					NPC.netUpdate = true;
 				}
 			}
 			else
 			{
 				_pulseGlowmask = _ritualCircle = 0;
 
-				npc.velocity.Y = 0;
+				NPC.velocity.Y = 0;
 				UpdateYFrame(12, 0, 7, delegate (int frameY)
 				{
 					if (frameY == 7)
@@ -105,11 +108,11 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			if (AiTimer <= RiseTime)
 			{
 				if (!EventManager.IsPlaying<FollowNPCThenReturn>() && !Main.dedServ)
-					EventManager.PlayEvent(new FollowNPCThenReturn(npc, 1.5f, (RiseTime + ChargeTime + EndTime / 2) / 60, 1.5f));
+					EventManager.PlayEvent(new FollowNPCThenReturn(NPC, 1.5f, (RiseTime + ChargeTime + EndTime / 2) / 60, 1.5f));
 
 				frame.X = 1;
 				UpdateYFrame(4, 0, 8, null, 4);
-				npc.velocity = new Vector2(0, (float)-Math.Cos((AiTimer / RiseTime) * MathHelper.PiOver2) * 0.75f);
+				NPC.velocity = new Vector2(0, (float)-Math.Cos((AiTimer / RiseTime) * MathHelper.PiOver2) * 0.75f);
 				_pulseGlowmask = MathHelper.Lerp(_pulseGlowmask, 1, 0.1f);
 			}
 
@@ -133,10 +136,10 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				{
 					_rotMan.KillAllObjects();
 					for (int i = 0; i < 30; i++)
-						ParticleHandler.SpawnParticle(new GlowParticle(npc.Center, Main.rand.NextVector2Circular(12, 12), new Color(99, 23, 51), Main.rand.NextFloat(0.04f, 0.08f), 40));
+						ParticleHandler.SpawnParticle(new GlowParticle(NPC.Center, Main.rand.NextVector2Circular(12, 12), new Color(99, 23, 51), Main.rand.NextFloat(0.04f, 0.08f), 40));
 
 					for (int i = 0; i < 3; i++)
-						ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(255, 33, 66) * 0.7f, 200 * i, 20) {RingColor = new Color(255, 115, 239) });
+						ParticleHandler.SpawnParticle(new PulseCircle(NPC.Center, new Color(255, 33, 66) * 0.7f, 200 * i, 20) {RingColor = new Color(255, 115, 239) });
 
 					_runeCircle = new RuneCircle(80, 50, 10, 8);
 
@@ -153,7 +156,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				_whiteGlow = 0;
 
 				if (Main.rand.NextBool() && !Main.dedServ)
-					ParticleHandler.SpawnParticle(new GlowParticle(npc.Center + Main.rand.NextVector2Circular(15, 20), -Vector2.UnitY * Main.rand.NextFloat(), Color.Red * 0.75f * npc.Opacity, Main.rand.NextFloat(0.02f, 0.04f), 60));
+					ParticleHandler.SpawnParticle(new GlowParticle(NPC.Center + Main.rand.NextVector2Circular(15, 20), -Vector2.UnitY * Main.rand.NextFloat(), Color.Red * 0.75f * NPC.Opacity, Main.rand.NextFloat(0.02f, 0.04f), 60));
 
 				if (AiTimer > RiseTime + ChargeTime + EndTime)
 				{
@@ -172,7 +175,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			{
 				frame.X = 0;
 				UpdateYFrame(3, 0, 2);
-				npc.velocity = new Vector2(0, (float)-Math.Cos((AiTimer / RiseTime) * MathHelper.PiOver2) * 0.75f);
+				NPC.velocity = new Vector2(0, (float)-Math.Cos((AiTimer / RiseTime) * MathHelper.PiOver2) * 0.75f);
 			}
 
 			else
@@ -181,7 +184,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				UpdateYFrame(12, 0, 7, delegate (int frameY)
 				{
 					if (frameY == 7)
-						npc.active = false;
+						NPC.active = false;
 				});
 			}
 		}
@@ -196,11 +199,11 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				//if (!EventManager.IsPlaying<FollowNPCThenReturn>() && !Main.dedServ) //Starts real death anim
 				//	EventManager.PlayEvent(new FollowNPCThenReturn(npc, 1.5f, (ChargeTime) / 60, 1.5f));
 
-				npc.noGravity = true;
-				npc.velocity.X = 0;
+				NPC.noGravity = true;
+				NPC.velocity.X = 0;
 				_pulseGlowmask = Math.Max(_pulseGlowmask - 0.1f, 0);
 				float halftime = ChargeTime / 2f;
-				npc.velocity.Y = -(float)Math.Pow((halftime - Math.Abs(halftime - AiTimer)) / halftime, 2);
+				NPC.velocity.Y = -(float)Math.Pow((halftime - Math.Abs(halftime - AiTimer)) / halftime, 2);
 
 				float speedMod = MathHelper.Lerp(1, 0.5f, AiTimer / ChargeTime);
 				if (AiTimer % (int)(20 * speedMod) == 0)
@@ -208,8 +211,8 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 				if (AiTimer % (int)(30 * speedMod) == 0 && !Main.dedServ)
 				{
-					ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(255, 33, 66) * 0.4f, 120, 12) { RingColor = new Color(255, 115, 239) * 0.4f});
-					ParticleHandler.SpawnParticle(new OccultistDeathBoom(npc.Center + Main.rand.NextVector2Circular(50, 60), Main.rand.NextFloat(0.2f, 0.3f), Main.rand.NextFloat(-0.1f, 0.1f)));
+					ParticleHandler.SpawnParticle(new PulseCircle(NPC.Center, new Color(255, 33, 66) * 0.4f, 120, 12) { RingColor = new Color(255, 115, 239) * 0.4f});
+					ParticleHandler.SpawnParticle(new OccultistDeathBoom(NPC.Center + Main.rand.NextVector2Circular(50, 60), Main.rand.NextFloat(0.2f, 0.3f), Main.rand.NextFloat(-0.1f, 0.1f)));
 				}
 
 				_whiteGlow = (float)Math.Pow(AiTimer / ChargeTime, 2);
@@ -221,49 +224,49 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				frame.X = 4;
 				frame.Y = 0;
 				_whiteGlow = 0;
-				npc.velocity = new Vector2(-npc.direction * 6, -6);
+				NPC.velocity = new Vector2(-NPC.direction * 6, -6);
 
 				for (int i = 0; i < 12; i++)
 					VisualSoul(6f);
 
 				if (!Main.dedServ)
 				{
-					CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height), CombatText.DamagedHostileCrit, 9999, true);
-					Main.PlaySound(npc.DeathSound, npc.Center);
-					ParticleHandler.SpawnParticle(new OccultistDeathBoom(npc.Center, 0.8f));
+					CombatText.NewText(new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height), CombatText.DamagedHostileCrit, 9999, true);
+					SoundEngine.PlaySound(NPC.DeathSound, NPC.Center);
+					ParticleHandler.SpawnParticle(new OccultistDeathBoom(NPC.Center, 0.8f));
 
 					//omnidirectional particle burst
 					for (int i = 0; i < 30; i++)
-						ParticleHandler.SpawnParticle(new GlowParticle(npc.Center, Main.rand.NextVector2Circular(12, 12), new Color(99, 23, 51), Main.rand.NextFloat(0.04f, 0.08f), 40));
+						ParticleHandler.SpawnParticle(new GlowParticle(NPC.Center, Main.rand.NextVector2Circular(12, 12), new Color(99, 23, 51), Main.rand.NextFloat(0.04f, 0.08f), 40));
 
 					//vertical upwards particle burst
 					for (int i = 0; i < 20; i++)
-						ParticleHandler.SpawnParticle(new GlowParticle(npc.Center + Main.rand.NextVector2Circular(10, 20), -Vector2.UnitY * Main.rand.NextFloat(12), new Color(99, 23, 51), Main.rand.NextFloat(0.04f, 0.08f), 40));
+						ParticleHandler.SpawnParticle(new GlowParticle(NPC.Center + Main.rand.NextVector2Circular(10, 20), -Vector2.UnitY * Main.rand.NextFloat(12), new Color(99, 23, 51), Main.rand.NextFloat(0.04f, 0.08f), 40));
 
 					//pulsing circles
 					for (int i = 0; i < 4; i++)
-						ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(255, 33, 66) * 0.7f, 150 * i, 20) { RingColor = new Color(255, 115, 239) });
+						ParticleHandler.SpawnParticle(new PulseCircle(NPC.Center, new Color(255, 33, 66) * 0.7f, 150 * i, 20) { RingColor = new Color(255, 115, 239) });
 
 					EventManager.PlayEvent(new ScreenShake(30f, 0.33f));
 					EventManager.PlayEvent(new ScreenFlash(new Color(255, 99, 161), 0.1f, 0.23f, 0.3f));
 				}
 
 				if (Main.netMode != NetmodeID.Server)
-					Main.NewText(Language.GetTextValue("Announcement.HasBeenDefeated_Single", Lang.GetNPCNameValue(npc.type)), 175, 75);
+					Main.NewText(Language.GetTextValue("Announcement.HasBeenDefeated_Single", Lang.GetNPCNameValue(NPC.type)), 175, 75);
 				else
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasBeenDefeated_Single", Lang.GetNPCNameValue(npc.type)), new Color(175, 75, 0));
+					ChatHelper.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasBeenDefeated_Single", Lang.GetNPCNameValue(NPC.type)), new Color(175, 75, 0));
 			}
 			else
 			{
-				npc.noGravity = false;
+				NPC.noGravity = false;
 				if (frame.Y != 5)
 					UpdateYFrame(5 * (60 / FallTime), 0, 5);
 
-				npc.alpha += 255 / FallTime;
+				NPC.alpha += 255 / FallTime;
 				if (AiTimer > ChargeTime + FallTime)
 				{
-					npc.life = 0;
-					npc.active = false;
+					NPC.life = 0;
+					NPC.active = false;
 				}
 			}
 		}
@@ -274,7 +277,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 		{
 			if (!Main.dedServ)
 			{
-				Texture2D rune = mod.GetTexture("Textures/Runes");
+				Texture2D rune = Mod.GetTexture("Textures/Runes");
 				int framenum = Main.rand.Next(4);
 				Rectangle frame = new Rectangle(0, framenum * (int)(rune.Height / 4f), rune.Width, (int)(rune.Height / 4f));
 				float Scale = Main.rand.NextFloat(0.4f, 0.6f);
@@ -291,7 +294,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			{
 				Vector2 vel = Main.rand.NextVector2CircularEdge(Velocity, Velocity) * Main.rand.NextFloat(0.8f, 1.2f);
 
-				ParticleHandler.SpawnParticle(new OccultistSoulVisual(npc.Center + vel * Main.rand.NextFloat(4, 6), vel, Main.rand.NextFloat(0.4f, 0.5f), 60));
+				ParticleHandler.SpawnParticle(new OccultistSoulVisual(NPC.Center + vel * Main.rand.NextFloat(4, 6), vel, Main.rand.NextFloat(0.4f, 0.5f), 60));
 			}
 		}
 
@@ -300,9 +303,9 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			if (Main.dedServ)
 				return;
 
-			Main.PlaySound(SoundID.NPCHit, npc.Center, 2);
+			SoundEngine.PlaySound(SoundID.NPCHit, NPC.Center, 2);
 			for (int i = 0; i < 3; i++)
-				ParticleHandler.SpawnParticle(new GlowParticle(npc.Center + Main.rand.NextVector2Circular(15, 20),
+				ParticleHandler.SpawnParticle(new GlowParticle(NPC.Center + Main.rand.NextVector2Circular(15, 20),
 					(Vector2.UnitX * hitDirection).RotatedByRandom(MathHelper.Pi / 3) * Main.rand.NextFloat(2, 3), Color.Red, Main.rand.NextFloat(0.02f, 0.04f), 30));
 		}
 
@@ -312,7 +315,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				return;
 
 			for (int i = 0; i < 30; i++)
-				ParticleHandler.SpawnParticle(new GlowParticle(npc.Center + Main.rand.NextVector2Circular(15, 20),
+				ParticleHandler.SpawnParticle(new GlowParticle(NPC.Center + Main.rand.NextVector2Circular(15, 20),
 					Main.rand.NextVector2Unit() * Main.rand.NextFloat(4), Color.Red, Main.rand.NextFloat(0.03f, 0.05f), 30));
 
 			//for (int j = 0; j < 12; j++)
@@ -321,83 +324,83 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 		#region Drawing
 
-		private float DrawTimer => (float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f;
+		private float DrawTimer => (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 2 + 0.5f;
 
 		private void DrawTex(SpriteBatch sB, Texture2D tex, Color color, float scale = 1f, Vector2? position = null)
 		{
-			var effects = npc.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			sB.Draw(tex, (position ?? npc.Center) - Main.screenPosition + new Vector2(0, npc.gfxOffY),
-				npc.frame, color * npc.Opacity, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			sB.Draw(tex, (position ?? NPC.Center) - Main.screenPosition + new Vector2(0, NPC.gfxOffY),
+				NPC.frame, color * NPC.Opacity, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			Color glowColor = Color.Lerp(Color.Red, Color.Magenta, DrawTimer);
 
-			if (npc.frame.Width > 72) //workaround for framing not working properly on first tick
+			if (NPC.frame.Width > 72) //workaround for framing not working properly on first tick
 			{
 				frame = new Point(3, 0);
-				npc.FindFrame();
+				NPC.FindFrame();
 			}
 
 			//draw ritual circle and a bloom
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
-			spriteBatch.Draw(bloom, npc.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.66f, 0, bloom.Size() / 2, _ritualCircle * 1.25f, SpriteEffects.None, 0);
+			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			spriteBatch.Draw(bloom, NPC.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.66f, 0, bloom.Size() / 2, _ritualCircle * 1.25f, SpriteEffects.None, 0);
 
-			Texture2D circle = ModContent.GetTexture(Texture + "_circle");
-			spriteBatch.Draw(circle, npc.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.75f, Main.GlobalTime * 2, circle.Size() / 2, _ritualCircle, SpriteEffects.None, 0);
-			spriteBatch.Draw(circle, npc.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.75f, Main.GlobalTime * -2, circle.Size() / 2, _ritualCircle, SpriteEffects.None, 0);
+			Texture2D circle = ModContent.Request<Texture2D>(Texture + "_circle");
+			spriteBatch.Draw(circle, NPC.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.75f, Main.GlobalTimeWrappedHourly * 2, circle.Size() / 2, _ritualCircle, SpriteEffects.None, 0);
+			spriteBatch.Draw(circle, NPC.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.75f, Main.GlobalTimeWrappedHourly * -2, circle.Size() / 2, _ritualCircle, SpriteEffects.None, 0);
 
 			//bloom for phase transition/death anim glow
-			spriteBatch.Draw(bloom, npc.Center - Main.screenPosition, null, Color.White * _whiteGlow * 0.8f, 0, bloom.Size() / 2, 0.5f, SpriteEffects.None, 0);
+			spriteBatch.Draw(bloom, NPC.Center - Main.screenPosition, null, Color.White * _whiteGlow * 0.8f, 0, bloom.Size() / 2, 0.5f, SpriteEffects.None, 0);
 
 			if (_rotMan != null)
-				_rotMan.DrawBack(spriteBatch, npc.Center);
+				_rotMan.DrawBack(spriteBatch, NPC.Center);
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
 
 
 
-			Texture2D mask = ModContent.GetTexture(Texture + "_mask");
+			Texture2D mask = ModContent.Request<Texture2D>(Texture + "_mask");
 
-			for (int j = 0; j < NPCID.Sets.TrailCacheLength[npc.type]; j++)
+			for (int j = 0; j < NPCID.Sets.TrailCacheLength[NPC.type]; j++)
 			{
-				float Opacity = (NPCID.Sets.TrailCacheLength[npc.type] - j) / (float)NPCID.Sets.TrailCacheLength[npc.type];
-				DrawTex(spriteBatch, Main.npcTexture[npc.type], glowColor * _pulseGlowmask * Opacity, 1f, npc.oldPos[j] + npc.Size / 2);
+				float Opacity = (NPCID.Sets.TrailCacheLength[NPC.type] - j) / (float)NPCID.Sets.TrailCacheLength[NPC.type];
+				DrawTex(spriteBatch, TextureAssets.Npc[NPC.type].Value, glowColor * _pulseGlowmask * Opacity, 1f, NPC.oldPos[j] + NPC.Size / 2);
 			}
 
 			//pulse glowmask effect
 			for (int i = 0; i < 6; i++)
 			{
 				Vector2 offset = Vector2.UnitX.RotatedBy((i / 6f) * MathHelper.TwoPi) * DrawTimer * 8;
-				DrawTex(spriteBatch, mask, glowColor * (1 - DrawTimer) * _pulseGlowmask, 1f, npc.Center + offset);
+				DrawTex(spriteBatch, mask, glowColor * (1 - DrawTimer) * _pulseGlowmask, 1f, NPC.Center + offset);
 			}
 			DrawTex(spriteBatch, mask, glowColor * _pulseGlowmask, 1.1f);
 
 			//normal drawing replacement
-			DrawTex(spriteBatch, Main.npcTexture[npc.type], drawColor);
+			DrawTex(spriteBatch, TextureAssets.Npc[NPC.type].Value, drawColor);
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Texture2D glow = ModContent.GetTexture(Texture + "_glow");
+			Texture2D glow = ModContent.Request<Texture2D>(Texture + "_glow");
 			for (int i = 0; i < 6; i++)
 			{
 				Vector2 offset = Vector2.UnitX.RotatedBy((i / 6f) * MathHelper.TwoPi) * DrawTimer * 2;
-				DrawTex(spriteBatch, glow, Color.White * 0.5f * (1.5f - DrawTimer), 1f, npc.Center + offset);
+				DrawTex(spriteBatch, glow, Color.White * 0.5f * (1.5f - DrawTimer), 1f, NPC.Center + offset);
 			}
 			DrawTex(spriteBatch, glow, Color.White);
 
-			Texture2D mask = ModContent.GetTexture(Texture + "_mask");
+			Texture2D mask = ModContent.Request<Texture2D>(Texture + "_mask");
 			DrawTex(spriteBatch, mask, Color.Black * _whiteGlow);
 		}
 
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			if (_rotMan != null)
-				_rotMan.DrawFront(spriteBatch, npc.Center);
+				_rotMan.DrawFront(spriteBatch, NPC.Center);
 
 			if (_runeCircle != null)
 			{
@@ -411,7 +414,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 						runeColor *= Math.Max(frame.Y / 7f, 0);
 						break;
 				}
-				_runeCircle.Draw(spriteBatch, npc.Center, runeColor);
+				_runeCircle.Draw(spriteBatch, NPC.Center, runeColor);
 			}
 		}
 

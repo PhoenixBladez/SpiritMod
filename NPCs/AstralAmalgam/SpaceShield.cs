@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,29 +17,29 @@ namespace SpiritMod.NPCs.AstralAmalgam
 
 		public override void SetDefaults()
 		{
-			npc.noTileCollide = true;
-			npc.width = 32;
-			npc.height = 32;
-			npc.netAlways = true;
-			npc.damage = 15;
-			npc.defense = 9999;
-			npc.alpha = 255;
-			npc.npcSlots = 0;
-			npc.dontTakeDamage = true;
-			npc.lifeMax = 100;
-			npc.friendly = false;
-			npc.chaseable = false;
-			npc.noGravity = true;
-			npc.knockBackResist = 0f;
-			for (int k = 0; k < npc.buffImmune.Length; k++) {
-				npc.buffImmune[k] = true;
+			NPC.noTileCollide = true;
+			NPC.width = 32;
+			NPC.height = 32;
+			NPC.netAlways = true;
+			NPC.damage = 15;
+			NPC.defense = 9999;
+			NPC.alpha = 255;
+			NPC.npcSlots = 0;
+			NPC.dontTakeDamage = true;
+			NPC.lifeMax = 100;
+			NPC.friendly = false;
+			NPC.chaseable = false;
+			NPC.noGravity = true;
+			NPC.knockBackResist = 0f;
+			for (int k = 0; k < NPC.buffImmune.Length; k++) {
+				NPC.buffImmune[k] = true;
 			}
-			npc.dontCountMe = true;
+			NPC.dontCountMe = true;
 		}
 
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
-			npc.dontTakeDamage = true;
+			NPC.dontTakeDamage = true;
 			if (!projectile.minion && !projectile.sentry && !Main.player[projectile.owner].channel) {
 				projectile.hostile = true;
 				projectile.friendly = false;
@@ -46,27 +47,27 @@ namespace SpiritMod.NPCs.AstralAmalgam
 				projectile.velocity.X = projectile.velocity.X * -1f;
 			}
 			damage = 0;
-			npc.life = 100;
+			NPC.life = 100;
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			npc.dontTakeDamage = true;
+			NPC.dontTakeDamage = true;
 			damage = 0;
-			npc.life = 100;
-			if (!npc.active)
+			NPC.life = 100;
+			if (!NPC.active)
 				for (int i = 0; i < 20; i++) {
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedWhiteBluePurple, 0f, -2f, 0, default, 1f);
+					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.UnusedWhiteBluePurple, 0f, -2f, 0, default, 1f);
 					Main.dust[num].noGravity = true;
 					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-					if (Main.dust[num].position != npc.Center)
-						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
+					if (Main.dust[num].position != NPC.Center)
+						Main.dust[num].velocity = NPC.DirectionTo(Main.dust[num].position) * 6f;
 				}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
-			Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
+			SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 14);
 		}
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -76,10 +77,10 @@ namespace SpiritMod.NPCs.AstralAmalgam
 
 		public override bool PreAI()
 		{
-			npc.life = 100;
-			npc.dontTakeDamage = false;
+			NPC.life = 100;
+			NPC.dontTakeDamage = false;
 			Player player = Main.LocalPlayer;
-			Vector2 center = npc.Center;
+			Vector2 center = NPC.Center;
 			float num8 = (float)player.miscCounter / 60f;
 			float num7 = 1.0471975512f;
 			for (int i = 0; i < 6; i++) {
@@ -89,26 +90,26 @@ namespace SpiritMod.NPCs.AstralAmalgam
 				Main.dust[num6].noLight = true;
 				Main.dust[num6].position = center + (num8 * 6.28318548f + num7 * (float)i).ToRotationVector2() * 12f;
 			}
-			npc.rotation = npc.rotation + 3f;
+			NPC.rotation = NPC.rotation + 3f;
 			//npc.rotation = npc.rotation + 3f;
 			//float lowestDist = float.MaxValue;
-			if (npc.ai[3] < (double)Main.npc.Length) {
-				NPC parent = Main.npc[(int)npc.ai[3]];
+			if (NPC.ai[3] < (double)Main.npc.Length) {
+				NPC parent = Main.npc[(int)NPC.ai[3]];
 				//Factors for calculations
-				double deg = (double)npc.ai[1]; //The degrees, you can multiply npc.ai[1] to make it orbit faster, may be choppy depending on the value
+				double deg = (double)NPC.ai[1]; //The degrees, you can multiply npc.ai[1] to make it orbit faster, may be choppy depending on the value
 				double rad = deg * (Math.PI / 180); //Convert degrees to radians
 				double dist = 60; //Distance away from the npc
 
 
 				//Increase the counter/angle in degrees by 1 point, you can change the rate here too, but the orbit may look choppy depending on the value
-				npc.ai[1] += 1.2f;
+				NPC.ai[1] += 1.2f;
 
-				npc.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;
-				npc.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - npc.height / 2;
+				NPC.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - NPC.width / 2;
+				NPC.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - NPC.height / 2;
 				if (!parent.active) {
-					npc.life = 0;
-					npc.HitEffect(0, 10.0);
-					npc.active = false;
+					NPC.life = 0;
+					NPC.HitEffect(0, 10.0);
+					NPC.active = false;
 				}
 			}
 			return false;

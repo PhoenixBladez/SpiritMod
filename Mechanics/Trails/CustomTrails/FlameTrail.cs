@@ -59,14 +59,14 @@ namespace SpiritMod.Mechanics.Trails.CustomTrails
 			Effect flametrailEffect = SpiritMod.Instance.GetEffect("Effects/FlameTrail");
 			flametrailEffect.Parameters["uTexture"].SetValue(SpiritMod.Instance.GetTexture("Textures/Trails/Trail_3"));
 			flametrailEffect.Parameters["uTexture2"].SetValue(SpiritMod.Instance.GetTexture("Textures/Trails/Trail_4"));
-			flametrailEffect.Parameters["Progress"].SetValue(Main.GlobalTime * -1f);
+			flametrailEffect.Parameters["Progress"].SetValue(Main.GlobalTimeWrappedHourly * -1f);
 			flametrailEffect.Parameters["xMod"].SetValue(1.5f);
 			flametrailEffect.Parameters["StartColor"].SetValue(_startColor.ToVector4());
 			flametrailEffect.Parameters["MidColor"].SetValue(_midColor.ToVector4());
 			flametrailEffect.Parameters["EndColor"].SetValue(_endColor.ToVector4());
 
 
-			float getWidthMod(float progress = 0) => ((float)Math.Sin((Main.GlobalTime - progress) * MathHelper.TwoPi * 1.5f) * 0.33f + 1.33f) / (float)Math.Pow(1 - progress, 0.1f);
+			float getWidthMod(float progress = 0) => ((float)Math.Sin((Main.GlobalTimeWrappedHourly - progress) * MathHelper.TwoPi * 1.5f) * 0.33f + 1.33f) / (float)Math.Pow(1 - progress, 0.1f);
 			IPrimitiveShape[] shapesToDraw = new IPrimitiveShape[]
 			{
 				new CirclePrimitive

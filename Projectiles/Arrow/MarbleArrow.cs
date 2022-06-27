@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,12 +14,12 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
-			projectile.damage = 14;
-			projectile.extraUpdates = 1;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			aiType = ProjectileID.BoneArrow;
+			Projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
+			Projectile.damage = 14;
+			Projectile.extraUpdates = 1;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+			AIType = ProjectileID.BoneArrow;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -29,9 +30,9 @@ namespace SpiritMod.Projectiles.Arrow
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Marble);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Marble);
 			}
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
 		}
 	}
 }

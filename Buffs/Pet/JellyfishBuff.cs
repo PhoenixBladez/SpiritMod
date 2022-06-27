@@ -8,7 +8,7 @@ namespace SpiritMod.Buffs.Pet
 {
 	public class JellyfishBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Boop");
 			Description.SetDefault("'The Jellyfish is helping you relax'");

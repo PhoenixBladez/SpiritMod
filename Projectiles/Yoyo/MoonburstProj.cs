@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Dusts;
@@ -13,83 +14,83 @@ namespace SpiritMod.Projectiles.Yoyo
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moonburst");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 1;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 1;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 
 		}
 		
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Valor);
-			aiType = ProjectileID.Code1;
-            projectile.width = projectile.height = 14;
+			Projectile.CloneDefaults(ProjectileID.Valor);
+			AIType = ProjectileID.Code1;
+            Projectile.width = Projectile.height = 14;
 
         }
         float alphaCounter;
         public override void AI()
         {
-            Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y), 0.075f * .75f, 0.231f * .75f, 0.255f * .75f);
+            Lighting.AddLight(new Vector2(Projectile.Center.X, Projectile.Center.Y), 0.075f * .75f, 0.231f * .75f, 0.255f * .75f);
             alphaCounter += .04f;
-            if (projectile.frameCounter >= 10)
+            if (Projectile.frameCounter >= 10)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            projectile.frameCounter++;
+            Projectile.frameCounter++;
         }
         public void AdditiveCall(SpriteBatch spriteBatch)
         {
-            if (projectile.frameCounter >= 1)
+            if (Projectile.frameCounter >= 1)
             {
-                for (int k = 0; k < projectile.oldPos.Length; k++)
+                for (int k = 0; k < Projectile.oldPos.Length; k++)
                 {
-                    Color color = new Color(255, 255, 255) * 0.95f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+                    Color color = new Color(255, 255, 255) * 0.95f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 
-                    float scale = (projectile.frameCounter * .13f) + .09f;
-                    Texture2D tex = ModContent.GetTexture("SpiritMod/Projectiles/Yoyo/MoonburstBubble");
-                    Texture2D tex1 = ModContent.GetTexture("SpiritMod/Projectiles/Yoyo/MoonburstBubble_Glow");
+                    float scale = (Projectile.frameCounter * .13f) + .09f;
+                    Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Yoyo/MoonburstBubble");
+                    Texture2D tex1 = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Yoyo/MoonburstBubble_Glow");
 
-                    spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, 0f, tex.Size() / 2, scale, default, default);
-                    spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color * .4f, 0f, tex.Size() / 2, scale, default, default);
+                    spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, 0f, tex.Size() / 2, scale, default, default);
+                    spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color * .4f, 0f, tex.Size() / 2, scale, default, default);
                 }
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            for (int k = 0; k < projectile.oldPos.Length; k++)
+            for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
                 float sineAdd = (float)Math.Sin(alphaCounter) + 3;
                 SpriteEffects spriteEffects = SpriteEffects.None;
-                if (projectile.spriteDirection == 1)
+                if (Projectile.spriteDirection == 1)
                     spriteEffects = SpriteEffects.FlipHorizontally;
-                Texture2D ripple = mod.GetTexture("Effects/Masks/Extra_49");
-                Main.spriteBatch.Draw(ripple, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0) * .65f, projectile.rotation, ripple.Size() / 2f, projectile.frameCounter * .15f, spriteEffects, 0);
+                Texture2D ripple = Mod.GetTexture("Effects/Masks/Extra_49");
+                Main.spriteBatch.Draw(ripple, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0) * .65f, Projectile.rotation, ripple.Size() / 2f, Projectile.frameCounter * .15f, spriteEffects, 0);
             }
             return true;
         }
 		public override void Kill(int timeLeft)
         {
-            ProjectileExtras.Explode(projectile.whoAmI, 150, 150, delegate
+            ProjectileExtras.Explode(Projectile.whoAmI, 150, 150, delegate
             {
-                if (projectile.frameCounter >= 8)
+                if (Projectile.frameCounter >= 8)
                 {
-                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 54));
-                    Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 118));
+                    SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 54));
+                    SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 118));
                     {
                         for (int i = 0; i < 15; i++)
                         {
-                            int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default, 2f);
+                            int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Electric, 0f, -2f, 0, default, 2f);
                             Main.dust[num].noGravity = true;
                             Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
                             Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
                             Main.dust[num].scale *= .25f;
-                            if (Main.dust[num].position != projectile.Center)
-                                Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
+                            if (Main.dust[num].position != Projectile.Center)
+                                Main.dust[num].velocity = Projectile.DirectionTo(Main.dust[num].position) * 6f;
                         }
                     }
-                    DustHelper.DrawDustImage(projectile.Center, 226, 0.29f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
+                    DustHelper.DrawDustImage(Projectile.Center, 226, 0.29f, "SpiritMod/Effects/DustImages/MoonSigil", 1f);
                 }
             });
         }

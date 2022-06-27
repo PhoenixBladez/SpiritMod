@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Material;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.CryoliteSet
@@ -12,41 +12,46 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 		{
 			DisplayName.SetDefault("Winter's Wake");
 			Tooltip.SetDefault("Converts rockets into flake rockets");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/CryoliteSet/CryoGun_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/CryoliteSet/CryoGun_Glow");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 42;
-			item.ranged = true;
-			item.noMelee = true;
-			item.rare = ItemRarityID.Orange;
-			item.width = 50;
-            item.height = 26;
-            item.value = Item.sellPrice(0, 0, 70, 0);
-            item.useAnimation = 60;
-			item.useTime = 60;
-			item.knockBack = 2.5f;
-			item.crit = 6;
-			item.UseSound = SoundID.Item96;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.autoReuse = true;
-			item.shoot = ProjectileID.RocketI;
-			item.shootSpeed = 10f;
-			item.useAmmo = AmmoID.Rocket;
+			Item.damage = 42;
+			Item.DamageType = DamageClass.Ranged;
+			Item.noMelee = true;
+			Item.rare = ItemRarityID.Orange;
+			Item.width = 50;
+            Item.height = 26;
+            Item.value = Item.sellPrice(0, 0, 70, 0);
+            Item.useAnimation = 60;
+			Item.useTime = 60;
+			Item.knockBack = 2.5f;
+			Item.crit = 6;
+			Item.UseSound = SoundID.Item96;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.autoReuse = true;
+			Item.shoot = ProjectileID.RocketI;
+			Item.shootSpeed = 10f;
+			Item.useAmmo = AmmoID.Rocket;
 		}
+
+		public override Vector2? HoldoutOffset() => new Vector2(-8, 0);
+
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) => type = ModContent.ProjectileType<Projectiles.Bullet.FlakeRocketProj>();
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.06f, .16f, .22f);
+			Lighting.AddLight(Item.position, 0.06f, .16f, .22f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/CryoliteSet/CryoGun_Glow"),
+				Mod.GetTexture("Items/Sets/CryoliteSet/CryoGun_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -57,22 +62,14 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 				0f
 			);
 		}
-		public override Vector2? HoldoutOffset() => new Vector2(-8, 0);
-
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			type = ModContent.ProjectileType<Projectiles.Bullet.FlakeRocketProj>();
-			return true;
-		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Handgun);
 			recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 15);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

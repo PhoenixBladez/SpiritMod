@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,33 +14,32 @@ namespace SpiritMod.Items.Sets.ToolsMisc.OreWarhammersSet
 
 		public override void SetDefaults()
 		{
-			item.width = 38;
-			item.height = 38;
-			item.value = 10000;
-			item.rare = ItemRarityID.LightRed;
+			Item.width = 38;
+			Item.height = 38;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.LightRed;
 
-			item.hammer = 83;
+			Item.hammer = 83;
 
-			item.damage = 44;
-			item.knockBack = 6f;
+			Item.damage = 44;
+			Item.knockBack = 6f;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 30;
-			item.useAnimation = 30;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
 
-			item.melee = true;
-			item.useTurn = true;
-			item.autoReuse = true;
+			Item.DamageType = DamageClass.Melee;
+			Item.useTurn = true;
+			Item.autoReuse = true;
 
-			item.UseSound = SoundID.Item1;
+			Item.UseSound = SoundID.Item1;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.MythrilBar, 10);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

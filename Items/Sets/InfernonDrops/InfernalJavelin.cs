@@ -13,20 +13,20 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 46;
-			item.rare = ItemRarityID.Pink;
-			item.value = Terraria.Item.sellPrice(0, 3, 70, 0);
-			item.damage = 42;
-			item.knockBack = 6;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = item.useAnimation = 25;
-			item.melee = true;
-			item.noMelee = true;
-			item.autoReuse = true;
-			item.noUseGraphic = true;
-			item.shoot = ModContent.ProjectileType<Projectiles.Thrown.InfernalJavelin>();
-			item.shootSpeed = 14;
-			item.UseSound = SoundID.Item1;
+			Item.width = Item.height = 46;
+			Item.rare = ItemRarityID.Pink;
+			Item.value = Terraria.Item.sellPrice(0, 3, 70, 0);
+			Item.damage = 42;
+			Item.knockBack = 6;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = Item.useAnimation = 25;
+			Item.DamageType = DamageClass.Melee;
+			Item.noMelee = true;
+			Item.autoReuse = true;
+			Item.noUseGraphic = true;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.InfernalJavelin>();
+			Item.shootSpeed = 14;
+			Item.UseSound = SoundID.Item1;
 		}
 	}
 }

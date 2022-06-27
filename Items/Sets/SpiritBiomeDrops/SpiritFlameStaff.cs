@@ -16,24 +16,24 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 
 		public override void SetDefaults()
 		{
-			item.damage = 49;
-			item.magic = true;
-			item.mana = 14;
-			item.width = 40;
-			item.height = 40;
-			item.useTime = 32;
-			item.useAnimation = 32;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 0;
-			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
-			item.rare = ItemRarityID.LightPurple;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<SpiritBolt>();
-			item.shootSpeed = 5f;
+			Item.damage = 49;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 14;
+			Item.width = 40;
+			Item.height = 40;
+			Item.useTime = 32;
+			Item.useAnimation = 32;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 0;
+			Item.useTurn = false;
+			Item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
+			Item.rare = ItemRarityID.LightPurple;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<SpiritBolt>();
+			Item.shootSpeed = 5f;
 		}
 
 

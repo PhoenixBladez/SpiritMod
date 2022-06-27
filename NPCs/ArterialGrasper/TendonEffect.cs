@@ -15,41 +15,41 @@ namespace SpiritMod.NPCs.ArterialGrasper
 
 		public override void SetDefaults()
 		{
-			projectile.width = 2;
-			projectile.height = 2;
-			projectile.aiStyle = -1;
-			projectile.penetrate = -1;
-			projectile.tileCollide = true;
-			projectile.alpha = 0;
-			projectile.extraUpdates = 1;
+			Projectile.width = 2;
+			Projectile.height = 2;
+			Projectile.aiStyle = -1;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = true;
+			Projectile.alpha = 0;
+			Projectile.extraUpdates = 1;
 		}
 
 		bool stuck = false;
 
 		public override void AI()
 		{
-			if (!Main.npc[(int)projectile.ai[1]].active || Main.npc[(int)projectile.ai[1]].type != TrapperID)
+			if (!Main.npc[(int)Projectile.ai[1]].active || Main.npc[(int)Projectile.ai[1]].type != TrapperID)
 			{
-				projectile.Kill();
+				Projectile.Kill();
 				return;
 			}
 
-			projectile.timeLeft++;
+			Projectile.timeLeft++;
 
 			if (!stuck)
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+				Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 
 			else
-				projectile.velocity = Vector2.Zero;
+				Projectile.velocity = Vector2.Zero;
 
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			NPC parent = Main.npc[(int)projectile.ai[1]];
-			if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == TrapperID)
+			NPC parent = Main.npc[(int)Projectile.ai[1]];
+			if (Main.npc[(int)Projectile.ai[1]].active && Main.npc[(int)Projectile.ai[1]].type == TrapperID)
 			{
-				Vector2 direction9 = Vector2.Normalize(parent.Center - projectile.Center);
-				ProjectileExtras.DrawChain(projectile.whoAmI, parent.Center,
+				Vector2 direction9 = Vector2.Normalize(parent.Center - Projectile.Center);
+				ProjectileExtras.DrawChain(Projectile.whoAmI, parent.Center,
 				"SpiritMod/NPCs/ArterialGrasper/" + Name + "_Chain");
 			}
 			return false;
@@ -61,19 +61,19 @@ namespace SpiritMod.NPCs.ArterialGrasper
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			stuck = true;
-			if (oldVelocity.X != projectile.velocity.X) //if its an X axis collision
+			if (oldVelocity.X != Projectile.velocity.X) //if its an X axis collision
 			{
-				if (projectile.velocity.X > 0)
-					projectile.rotation = 1.57f;
+				if (Projectile.velocity.X > 0)
+					Projectile.rotation = 1.57f;
 				else
-					projectile.rotation = 4.71f;
+					Projectile.rotation = 4.71f;
 			}
-			if (oldVelocity.Y != projectile.velocity.Y) //if its a Y axis collision
+			if (oldVelocity.Y != Projectile.velocity.Y) //if its a Y axis collision
 			{
-				if (projectile.velocity.Y > 0)
-					projectile.rotation = 3.14f;
+				if (Projectile.velocity.Y > 0)
+					Projectile.rotation = 3.14f;
 				else
-					projectile.rotation = 0f;
+					Projectile.rotation = 0f;
 			}
 			return false;
 		}

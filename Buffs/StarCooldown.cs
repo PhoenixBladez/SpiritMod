@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class StarCooldown : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cosmic Cooldown");
 			Description.SetDefault("The cosmic energies must stabilize...");

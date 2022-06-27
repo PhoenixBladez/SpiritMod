@@ -13,11 +13,11 @@ namespace SpiritMod.Items.Material
 		}
 		public override void SetDefaults()
 		{
-			item.width = 14;
-			item.height = 20;
-			item.rare = ItemRarityID.Green;
-			item.maxStack = 99;
-			item.autoReuse = false;
+			Item.width = 14;
+			Item.height = 20;
+			Item.rare = ItemRarityID.Green;
+			Item.maxStack = 99;
+			Item.autoReuse = false;
 
 		}
 		public override Color? GetAlpha(Color lightColor)

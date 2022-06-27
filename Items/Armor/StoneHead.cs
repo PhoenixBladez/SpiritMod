@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Armor
 
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 22;
-			item.value = 0;
-			item.rare = ItemRarityID.White;
-			item.defense = 2;
+			Item.width = 18;
+			Item.height = 22;
+			Item.value = 0;
+			Item.rare = ItemRarityID.White;
+			Item.defense = 2;
 		}
 		public override void UpdateEquip(Player player) => player.GetSpiritPlayer().stoneHead = true;
 
@@ -39,11 +39,10 @@ namespace SpiritMod.Items.Armor
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.StoneBlock, 35);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

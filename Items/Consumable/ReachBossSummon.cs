@@ -1,5 +1,6 @@
 using SpiritMod.NPCs.Boss.ReachBoss;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,38 +16,37 @@ namespace SpiritMod.Items.Consumable
 
         public override void SetDefaults()
         {
-            item.width = item.height = 16;
-            item.rare = ItemRarityID.Green;
-            item.maxStack = 99;
+            Item.width = Item.height = 16;
+            Item.rare = ItemRarityID.Green;
+            Item.maxStack = 99;
 
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.useTime = item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.useTime = Item.useAnimation = 20;
 
-            item.noMelee = true;
-            item.consumable = true;
-            item.autoReuse = false;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.autoReuse = false;
 
-            item.UseSound = SoundID.Item43;
+            Item.UseSound = SoundID.Item43;
         }
 
 		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<ReachBoss>()) && player.GetSpiritPlayer().ZoneReach && !player.ZoneOverworldHeight;
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
         {
             NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ReachBoss>());
-            Main.PlaySound(SoundID.Roar, player.position, 0);
+            SoundEngine.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(null, "BismiteCrystal", 2);
             recipe.AddIngredient(null, "EnchantedLeaf", 2);
             recipe.AddRecipeGroup("SpiritMod:PHMEvilMaterial", 2);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

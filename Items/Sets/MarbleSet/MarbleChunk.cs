@@ -14,18 +14,18 @@ namespace SpiritMod.Items.Sets.MarbleSet
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 36;
-			item.maxStack = 999;
-			item.rare = ItemRarityID.Green;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.width = 22;
+			Item.height = 36;
+			Item.maxStack = 999;
+			Item.rare = ItemRarityID.Green;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<MarbleOre>();
+			Item.createTile = ModContent.TileType<MarbleOre>();
 		}
 	}
 }

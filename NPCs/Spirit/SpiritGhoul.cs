@@ -3,8 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Tiles.Block;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Spirit
 {
@@ -13,56 +15,56 @@ namespace SpiritMod.NPCs.Spirit
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shadow Ghoul");
-			Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.DesertGhoul];
+			Main.npcFrameCount[NPC.type] = Main.npcFrameCount[NPCID.DesertGhoul];
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 34;
-			npc.height = 48;
-			npc.damage = 55;
-			npc.defense = 38;
-			npc.lifeMax = 220;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath6;
-			npc.value = 360f;
-			npc.knockBackResist = .16f;
-			npc.aiStyle = 3;
-			aiType = NPCID.DesertGhoul;
-			animationType = NPCID.DesertGhoul;
+			NPC.width = 34;
+			NPC.height = 48;
+			NPC.damage = 55;
+			NPC.defense = 38;
+			NPC.lifeMax = 220;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath6;
+			NPC.value = 360f;
+			NPC.knockBackResist = .16f;
+			NPC.aiStyle = 3;
+			AIType = NPCID.DesertGhoul;
+			AnimationType = NPCID.DesertGhoul;
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Spirit/SpiritGhoul_Glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Spirit/SpiritGhoul_Glow"));
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			Player player = spawnInfo.player;
-			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
+			Player player = spawnInfo.Player;
+			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.SpawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.SpawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
 				int[] TileArray2 = { ModContent.TileType<Spiritsand>(), };
-				return TileArray2.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && NPC.downedMechBossAny && spawnInfo.spawnTileY > Main.rockLayer ? 4f : 0f;
+				return TileArray2.Contains(Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY].TileType) && NPC.downedMechBossAny && spawnInfo.SpawnTileY > Main.rockLayer ? 4f : 0f;
 			}
 			return 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0) {
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-				npc.width = 30;
-				npc.height = 30;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+			if (Main.netMode != NetmodeID.MultiplayerClient && NPC.life <= 0) {
+				NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
+				NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
+				NPC.width = 30;
+				NPC.height = 30;
+				NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
+				NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
 				for (int num621 = 0; num621 < 20; num621++) {
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default, 2f);
+					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0) {
 						Main.dust[num622].scale = 0.5f;
@@ -82,13 +84,13 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.675f, 2.50f);
+			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0f, 0.675f, 2.50f);
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(3) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.RunicSet.Rune>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.RunicSet.Rune>());
 		}
 
 	}

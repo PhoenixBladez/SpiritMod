@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class GlowplateTable : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -25,8 +25,8 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Glowplate Table");
 			AddMapEntry(new Color(50, 50, 50), name);
-			disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Tables };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Tables };
         }
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
@@ -45,8 +45,8 @@ namespace SpiritMod.Tiles.Furniture
             {
                 zero = Vector2.Zero;
             }
-            int height = tile.frameY == 36 ? 18 : 16;
-            Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/GlowplateTable_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), new Color(150, 150, 150, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            int height = tile.TileFrameY == 36 ? 18 : 16;
+            Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Furniture/GlowplateTable_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(150, 150, 150, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             Tile t = Main.tile[i, j];
         }
 	}
@@ -59,31 +59,30 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 28;
-			item.value = item.value = Terraria.Item.buyPrice(0, 0, 5, 0);
-			item.rare = ItemRarityID.Blue;
+			Item.width = 36;
+			Item.height = 28;
+			Item.value = Item.value = Terraria.Item.buyPrice(0, 0, 5, 0);
+			Item.rare = ItemRarityID.Blue;
 
-			item.maxStack = 99;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<GlowplateTable>();
+			Item.createTile = ModContent.TileType<GlowplateTable>();
 		}
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<TechBlockItem>(), 8);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

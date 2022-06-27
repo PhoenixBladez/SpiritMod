@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -14,36 +16,38 @@ namespace SpiritMod.Projectiles.Clubs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blasphemer");
-			Main.projFrames[projectile.type] = 3;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			Main.projFrames[Projectile.type] = 3;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
+
 		public override void Smash(Vector2 position)
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			for (int k = 0; k <= 100; k++) {
-				Dust.NewDustPerfect(projectile.oldPosition + new Vector2(projectile.width / 2, projectile.height / 2), DustType<Dusts.BoneDust>(), new Vector2(0, 1).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1) * projectile.ai[0] / 10f);
+				Dust.NewDustPerfect(Projectile.oldPosition + new Vector2(Projectile.width / 2, Projectile.height / 2), DustType<Dusts.BoneDust>(), new Vector2(0, 1).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1) * Projectile.ai[0] / 10f);
 			}
             for (int k = 0; k <= 100; k++)
             {
-                Dust.NewDustPerfect(projectile.oldPosition + new Vector2(projectile.width / 2, projectile.height / 2), DustType<Dusts.FireClubDust>(), new Vector2(0, 1).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1) * projectile.ai[0] / 10f);
+                Dust.NewDustPerfect(Projectile.oldPosition + new Vector2(Projectile.width / 2, Projectile.height / 2), DustType<Dusts.FireClubDust>(), new Vector2(0, 1).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1) * Projectile.ai[0] / 10f);
             }
-			int a = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0, -12, ModContent.ProjectileType<Projectiles.Magic.Firespike>(), projectile.damage/3, projectile.knockBack / 2, projectile.owner, 0, player.direction);
-            Main.projectile[a].melee = true;
-            Main.PlaySound(SoundID.Item, projectile.Center, 20);
+			int a = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0, -12, ModContent.ProjectileType<Projectiles.Magic.Firespike>(), Projectile.damage/3, Projectile.knockBack / 2, Projectile.owner, 0, player.direction);
+            Main.projectile[a].DamageType = DamageClass.Melee;
+            SoundEngine.PlaySound(SoundID.NPCHit20, Projectile.position);
         }
+
         public override void SafeDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			int size = 84;
-			if (projectile.ai[0] >= ChargeTime) {
+			if (Projectile.ai[0] >= ChargeTime) {
 
-				Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, size * 2, size, size), Color.White * 0.9f, TrueRotation, Origin, projectile.scale, Effects, 1);
-                Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-				for (int k = 0; k < projectile.oldPos.Length; k++)
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Main.player[Projectile.owner].Center - Main.screenPosition, new Rectangle(0, size * 2, size, size), Color.White * 0.9f, TrueRotation, Origin, Projectile.scale, Effects, 1);
+                Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+				for (int k = 0; k < Projectile.oldPos.Length; k++)
                 {
-                    Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                    Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                    spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, TrueRotation, drawOrigin, projectile.scale, Effects, 0f);
+                    Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                    Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+                    spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, TrueRotation, drawOrigin, Projectile.scale, Effects, 0f);
                 }
             }
 		}

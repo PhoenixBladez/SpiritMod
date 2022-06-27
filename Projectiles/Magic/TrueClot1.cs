@@ -13,23 +13,23 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 60;
-			projectile.height = 60;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.alpha = 255;
-			projectile.timeLeft = 540;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 60;
+			Projectile.height = 60;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 540;
 		}
 
 		public override bool PreAI()
 		{
-			projectile.tileCollide = false;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, 0f, 0f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, 0f, 0f);
-			int dust3 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, 0f, 0f);
+			Projectile.tileCollide = false;
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Blood, 0f, 0f);
+			int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Blood, 0f, 0f);
+			int dust3 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Blood, 0f, 0f);
 			Main.dust[dust].scale = 1.5f;
 			Main.dust[dust].noGravity = true;
 			return true;
@@ -43,41 +43,41 @@ namespace SpiritMod.Projectiles.Magic
 
 			if (timer == 0)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.GoldenShowerFriendly, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ProjectileID.GoldenShowerFriendly, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
 				timer = 20;
 			}
 
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 8)
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter > 8)
 			{
-				projectile.frameCounter = 0;
-				projectile.frame++;
-				if (projectile.frame > 5)
-					projectile.frame = 0;
+				Projectile.frameCounter = 0;
+				Projectile.frame++;
+				if (Projectile.frame > 5)
+					Projectile.frame = 0;
 
 			}
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 7200f)
+			Projectile.ai[1] += 1f;
+			if (Projectile.ai[1] >= 7200f)
 			{
-				projectile.alpha += 5;
-				if (projectile.alpha > 255)
+				Projectile.alpha += 5;
+				if (Projectile.alpha > 255)
 				{
-					projectile.alpha = 255;
-					projectile.Kill();
+					Projectile.alpha = 255;
+					Projectile.Kill();
 				}
 			}
 
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] >= 10f)
+			Projectile.localAI[0] += 1f;
+			if (Projectile.localAI[0] >= 10f)
 			{
-				projectile.localAI[0] = 0f;
+				Projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
-				int num419 = projectile.type;
+				int num419 = Projectile.type;
 				for (int num420 = 0; num420 < 1000; num420++)
 				{
-					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f)
+					if (Main.projectile[num420].active && Main.projectile[num420].owner == Projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f)
 					{
 						num416++;
 						if (Main.projectile[num420].ai[1] > num418)
@@ -95,18 +95,18 @@ namespace SpiritMod.Projectiles.Magic
 				}
 			}
 
-			++projectile.localAI[1];
+			++Projectile.localAI[1];
 			int minRadius = 1;
 			int minSpeed = 1;
 
-			if (projectile.localAI[1] <= 1.0)
+			if (Projectile.localAI[1] <= 1.0)
 			{
-				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, minRadius, minSpeed, ModContent.ProjectileType<TrueClot2>(), projectile.damage, projectile.knockBack, projectile.owner, 0.0f, 0.0f);
-				Main.projectile[proj].localAI[0] = projectile.whoAmI;
+				int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, minRadius, minSpeed, ModContent.ProjectileType<TrueClot2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0.0f, 0.0f);
+				Main.projectile[proj].localAI[0] = Projectile.whoAmI;
 			}
 			else
 			{
-				switch ((int)projectile.localAI[1])
+				switch ((int)Projectile.localAI[1])
 				{
 					case 10:
 						minSpeed -= 1;
@@ -122,28 +122,28 @@ namespace SpiritMod.Projectiles.Magic
 						break;
 				}
 
-				if ((int)projectile.localAI[1] == 120)
+				if ((int)Projectile.localAI[1] == 120)
 				{
-					int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, minRadius, minSpeed, ModContent.ProjectileType<TrueClot2>(), projectile.damage, projectile.knockBack, projectile.owner, 0.0f, 0.0f);
-					Main.projectile[proj].localAI[0] = projectile.whoAmI;
+					int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, minRadius, minSpeed, ModContent.ProjectileType<TrueClot2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0.0f, 0.0f);
+					Main.projectile[proj].localAI[0] = Projectile.whoAmI;
 				}
 
-				if ((int)projectile.localAI[1] == 180)
+				if ((int)Projectile.localAI[1] == 180)
 				{
-					int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, minRadius, minSpeed, ModContent.ProjectileType<TrueClot2>(), projectile.damage, projectile.knockBack, projectile.owner, 0.0f, 0.0f);
-					Main.projectile[proj].localAI[0] = projectile.whoAmI;
+					int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, minRadius, minSpeed, ModContent.ProjectileType<TrueClot2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0.0f, 0.0f);
+					Main.projectile[proj].localAI[0] = Projectile.whoAmI;
 				}
 
-				if ((int)projectile.localAI[1] == 240)
+				if ((int)Projectile.localAI[1] == 240)
 				{
-					int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, minRadius, minSpeed, ModContent.ProjectileType<TrueClot2>(), projectile.damage, projectile.knockBack, projectile.owner, 0.0f, 0.0f);
-					Main.projectile[proj].localAI[0] = projectile.whoAmI;
+					int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, minRadius, minSpeed, ModContent.ProjectileType<TrueClot2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0.0f, 0.0f);
+					Main.projectile[proj].localAI[0] = Projectile.whoAmI;
 				}
 
-				if ((int)projectile.localAI[1] == 300)
+				if ((int)Projectile.localAI[1] == 300)
 				{
-					int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, minRadius, minSpeed, ModContent.ProjectileType<TrueClot2>(), projectile.damage, projectile.knockBack, projectile.owner, 0.0f, 0.0f);
-					Main.projectile[proj].localAI[0] = projectile.whoAmI;
+					int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, minRadius, minSpeed, ModContent.ProjectileType<TrueClot2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0.0f, 0.0f);
+					Main.projectile[proj].localAI[0] = Projectile.whoAmI;
 				}
 			}
 		}
@@ -151,7 +151,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(10) <= 1)
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, projectile.owner, projectile.owner, Main.rand.Next(1, 2));
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, Projectile.owner, Projectile.owner, Main.rand.Next(1, 2));
 
 			if (Main.rand.Next(3) == 0)
 				target.AddBuff(BuffID.Ichor, 300, true);
@@ -159,14 +159,14 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 30f, 0f, ModContent.ProjectileType<Blood3>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -30f, 0f, ModContent.ProjectileType<Blood3>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, -30f, ModContent.ProjectileType<Blood3>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 10f, 30f, ModContent.ProjectileType<Blood3>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y, -10f, 30f, ModContent.ProjectileType<Blood3>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 30f, 0f, ModContent.ProjectileType<Blood3>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, -30f, 0f, ModContent.ProjectileType<Blood3>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 0f, -30f, ModContent.ProjectileType<Blood3>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 10f, 30f, ModContent.ProjectileType<Blood3>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, -10f, 30f, ModContent.ProjectileType<Blood3>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
 
-			Projectile.NewProjectile(projectile.position.X - 100, projectile.position.Y - 100, 0f, 30f, ModContent.ProjectileType<Blood3>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.position.X - -100, projectile.position.Y - 100, 0f, 30f, ModContent.ProjectileType<Blood3>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.position.X - 100, Projectile.position.Y - 100, 0f, 30f, ModContent.ProjectileType<Blood3>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.position.X - -100, Projectile.position.Y - 100, 0f, 30f, ModContent.ProjectileType<Blood3>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
 		}
 
 	}

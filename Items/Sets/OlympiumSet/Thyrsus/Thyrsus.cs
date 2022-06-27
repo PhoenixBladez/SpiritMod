@@ -24,24 +24,24 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 
 		public override void SetDefaults()
 		{
-			item.damage = 50;
-			item.noMelee = true;
-			item.rare = ItemRarityID.LightRed;
-			item.width = 18;
-			item.height = 18;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = item.useAnimation = 24;
-			item.knockBack = 8;
-			item.magic = true;
-			item.noMelee = true;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.noUseGraphic = true;
-			item.shoot = ModContent.ProjectileType<ThyrsusProj>();
-			item.shootSpeed = 10f;
-			item.value = Item.sellPrice(0, 2, 0, 0);
+			Item.damage = 50;
+			Item.noMelee = true;
+			Item.rare = ItemRarityID.LightRed;
+			Item.width = 18;
+			Item.height = 18;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = Item.useAnimation = 24;
+			Item.knockBack = 8;
+			Item.DamageType = DamageClass.Magic;
+			Item.noMelee = true;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = false;
+			Item.noUseGraphic = true;
+			Item.shoot = ModContent.ProjectileType<ThyrsusProj>();
+			Item.shootSpeed = 10f;
+			Item.value = Item.sellPrice(0, 2, 0, 0);
 		}
 	}
 	public class ThyrsusProj : ModProjectile
@@ -51,35 +51,35 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Thyrsus");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.aiStyle = 1;
-			projectile.friendly = false;
-			projectile.minion = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			aiType = ProjectileID.ThrowingKnife;
+			Projectile.width = 8;
+			Projectile.height = 8;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = false;
+			Projectile.minion = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			AIType = ProjectileID.ThrowingKnife;
 		}
 		public override bool PreAI()
 		{
 			if (stuck)
 			{
-				projectile.velocity = Vector2.Zero;
-				if (projectile.timeLeft < 40)
+				Projectile.velocity = Vector2.Zero;
+				if (Projectile.timeLeft < 40)
 				{
 					shrinkCounter += 0.1f;
-					projectile.scale = 0.75f + (float)(Math.Sin(shrinkCounter));
-					if (projectile.scale < 0.3f)
+					Projectile.scale = 0.75f + (float)(Math.Sin(shrinkCounter));
+					if (Projectile.scale < 0.3f)
 					{
-						projectile.active = false;
+						Projectile.active = false;
 					}
-					if (projectile.scale > 1)
-						projectile.scale = ((projectile.scale - 1) / 2f) + 1;
+					if (Projectile.scale > 1)
+						Projectile.scale = ((Projectile.scale - 1) / 2f) + 1;
 				}
 				return false;
 			}
@@ -92,21 +92,21 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 			if (!stuck)
 			{
 				stuck = true;
-				projectile.tileCollide = false;
-				projectile.timeLeft = 900;
-				Vector2 direction = new Vector2(oldVelocity.X == projectile.velocity.X ? 0 : 0 - Math.Sign(oldVelocity.X), oldVelocity.Y == projectile.velocity.Y ? 0 : 0 - Math.Sign(oldVelocity.Y));
+				Projectile.tileCollide = false;
+				Projectile.timeLeft = 900;
+				Vector2 direction = new Vector2(oldVelocity.X == Projectile.velocity.X ? 0 : 0 - Math.Sign(oldVelocity.X), oldVelocity.Y == Projectile.velocity.Y ? 0 : 0 - Math.Sign(oldVelocity.Y));
 				direction.Normalize();
 				for (int i = 0; i < 3; i++)
 				{
-					Projectile proj = Projectile.NewProjectileDirect(projectile.Center, direction.RotatedBy(Main.rand.NextFloat(-1f, 1f)) * 5, ModContent.ProjectileType<ThyrsusProjTwo>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.whoAmI);
-					if (proj.modProjectile is ThyrsusProjTwo modProj)
+					Projectile proj = Projectile.NewProjectileDirect(Projectile.Center, direction.RotatedBy(Main.rand.NextFloat(-1f, 1f)) * 5, ModContent.ProjectileType<ThyrsusProjTwo>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.whoAmI);
+					if (proj.ModProjectile is ThyrsusProjTwo modProj)
 					{
-						modProj.InitializeChain(projectile.Center);
+						modProj.InitializeChain(Projectile.Center);
 						modProj.initialVelocity = proj.velocity;
 						modProj.sinMult = Main.rand.NextFloat(0.03f, 0.1f);
 					}
 				}
-				projectile.velocity = Vector2.Zero;
+				Projectile.velocity = Vector2.Zero;
 			}
 			return false;
 		}
@@ -120,28 +120,28 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 
 		private int chainSegments = 10;
 
-		private Projectile Parent => Main.projectile[(int)projectile.ai[0]];
+		private Projectile Parent => Main.projectile[(int)Projectile.ai[0]];
 
-		private float Distance => (Parent.Center - projectile.Center).Length();
+		private float Distance => (Parent.Center - Projectile.Center).Length();
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vine");
-			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-			ProjectileID.Sets.Homing[projectile.type] = true;
-			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 		}
 		public override void SetDefaults()
 		{
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.friendly = true;
-			projectile.minion = true;
-			projectile.minionSlots = 0;
-			projectile.width = projectile.height = 8;
-			projectile.timeLeft = 750;
-			projectile.ignoreWater = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
+			Projectile.minion = true;
+			Projectile.minionSlots = 0;
+			Projectile.width = Projectile.height = 8;
+			Projectile.timeLeft = 750;
+			Projectile.ignoreWater = true;
 		}
 		public void InitializeChain(Vector2 position) => _chain = new Chain(8, chainSegments, position, new ChainPhysics(0.9f, 0.5f, 0f), true, true, 2);
 
@@ -149,24 +149,24 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 		{
 			if (!Parent.active)
 			{
-				projectile.active = false;
+				Projectile.active = false;
 				return;
 			}
 			else
-				projectile.timeLeft = 2;
+				Projectile.timeLeft = 2;
 			float ChainLength = 26 * chainSegments;
-			NPC target = Main.npc.Where(n => n.CanBeChasedBy(projectile, false) && Vector2.Distance(n.Center, Parent.Center) < ChainLength).OrderBy(n => Vector2.Distance(n.Center, Parent.Center)).FirstOrDefault();
+			NPC target = Main.npc.Where(n => n.CanBeChasedBy(Projectile, false) && Vector2.Distance(n.Center, Parent.Center) < ChainLength).OrderBy(n => Vector2.Distance(n.Center, Parent.Center)).FirstOrDefault();
 
 			if (Main.netMode != NetmodeID.Server)
-				_chain.Update(Parent.Center, projectile.position);
+				_chain.Update(Parent.Center, Projectile.position);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			if (_chain == null)
 				return false;
 
-			_chain.Draw(spriteBatch, ModContent.GetTexture(Texture + "_chain"));
+			_chain.Draw(spriteBatch, ModContent.Request<Texture2D>(Texture + "_chain"));
 			return false;
 		}
 	}

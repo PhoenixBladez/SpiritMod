@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,54 +15,53 @@ namespace SpiritMod.Items.Sets.ClubSubclass
         {
             DisplayName.SetDefault("The Blasphemer");
             Tooltip.SetDefault("Charged strikes create a fiery geyser");
-            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/ClubSubclass/Blasphemer_Glow");
+            SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/ClubSubclass/Blasphemer_Glow");
         }
 
         public override void SetDefaults()
         {
-            item.channel = true;
-            item.damage = 35;
-            item.width = 60;
-            item.height = 60;
-            item.useTime = 320;
-            item.useAnimation = 320;
-            item.crit = 4;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.melee = true;
-            item.noMelee = true;
-            item.knockBack = 10;
-            item.useTurn = true;
-            item.value = Item.sellPrice(0, 0, 90, 0);
-            item.rare = ItemRarityID.Orange;
-            item.autoReuse = false;
-            item.shoot = ModContent.ProjectileType<Projectiles.Clubs.BlasphemerProj>();
-            item.shootSpeed = 6f;
-            item.noUseGraphic = true;
+            Item.channel = true;
+            Item.damage = 35;
+            Item.width = 60;
+            Item.height = 60;
+            Item.useTime = 320;
+            Item.useAnimation = 320;
+            Item.crit = 4;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.knockBack = 10;
+            Item.useTurn = true;
+            Item.value = Item.sellPrice(0, 0, 90, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.autoReuse = false;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Clubs.BlasphemerProj>();
+            Item.shootSpeed = 6f;
+            Item.noUseGraphic = true;
         }
 
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
 		public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<Items.Sets.SlagSet.CarvedRock>(), 25);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Lighting.AddLight(item.position, 0.245f, .126f, .066f);
+            Lighting.AddLight(Item.position, 0.245f, .126f, .066f);
             Texture2D texture;
-            texture = Main.itemTexture[item.type];
+            texture = TextureAssets.Item[Item.type].Value;
             spriteBatch.Draw
             (
-                mod.GetTexture("Items/Sets/ClubSubclass/Blasphemer_Glow"),
+                Mod.GetTexture("Items/Sets/ClubSubclass/Blasphemer_Glow"),
                 new Vector2
                 (
-                    item.position.X - Main.screenPosition.X + item.width * 0.5f,
-                    item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+                    Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+                    Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
                 ),
                 new Rectangle(0, 0, texture.Width, texture.Height),
                 Color.White,

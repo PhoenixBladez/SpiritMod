@@ -18,25 +18,24 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 24;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = 0;
-			item.rare = ItemRarityID.Blue;
-			item.createTile = ModContent.TileType<Kelp2x2>();
-			item.maxStack = 999;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
+			Item.width = 30;
+			Item.height = 24;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.value = 0;
+			Item.rare = ItemRarityID.Blue;
+			Item.createTile = ModContent.TileType<Kelp2x2>();
+			Item.maxStack = 999;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.FloatingItems.Kelp>(), 12);
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 	public class Kelp2x2 : ModTile
@@ -45,10 +44,10 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 
 		public Kelp2x2()
 		{
-			glowmask = ModContent.GetTexture("SpiritMod/Tiles/Ambient/Kelp/Kelp2x2_Glow");
+			glowmask = ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/Kelp/Kelp2x2_Glow");
 		}
 
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -67,8 +66,8 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 			TileObjectData.newTile.RandomStyleRange = 1;
 			TileObjectData.addTile(Type);
 
-			disableSmartCursor = true;
-			dustType = DustID.Grass;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType = DustID.Grass;
 
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Kelp");
@@ -79,7 +78,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
-			if (Framing.GetTileSafely(i, j).frameY == 0) {
+			if (Framing.GetTileSafely(i, j).TileFrameY == 0) {
 				r = 0.28f * 1.5f;
 				g = 0.28f * 1.5f;
 				b = 0;
@@ -90,7 +89,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 		{
 			Tile t = Framing.GetTileSafely(i, j);
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
-			spriteBatch.Draw(glowmask, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(t.frameX, t.frameY, 16, 16), Color.LightYellow);
+			spriteBatch.Draw(glowmask, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(t.TileFrameX, t.TileFrameY, 16, 16), Color.LightYellow);
 		}
 	}
 }

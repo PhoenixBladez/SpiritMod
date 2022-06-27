@@ -2,8 +2,10 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Items.Accessory;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Wheezer
 {
@@ -12,31 +14,31 @@ namespace SpiritMod.NPCs.Wheezer
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wheezer");
-			Main.npcFrameCount[npc.type] = 16;
+			Main.npcFrameCount[NPC.type] = 16;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 40;
-			npc.height = 36;
-			npc.damage = 18;
-			npc.defense = 9;
-			npc.lifeMax = 50;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath53;
-			npc.value = 120f;
-			npc.knockBackResist = .35f;
-			npc.aiStyle = 3;
-			npc.buffImmune[BuffID.Poisoned] = true;
+			NPC.width = 40;
+			NPC.height = 36;
+			NPC.damage = 18;
+			NPC.defense = 9;
+			NPC.lifeMax = 50;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath53;
+			NPC.value = 120f;
+			NPC.knockBackResist = .35f;
+			NPC.aiStyle = 3;
+			NPC.buffImmune[BuffID.Poisoned] = true;
 
-			aiType = NPCID.Skeleton;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.WheezerBanner>();
+			AIType = NPCID.Skeleton;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.WheezerBanner>();
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || !NPC.downedBoss1)
+			if (spawnInfo.PlayerSafe || !NPC.downedBoss1)
 				return 0f;
 			if (Main.hardMode)
 				return SpawnCondition.Cavern.Chance * 0.03f;				
@@ -46,36 +48,36 @@ namespace SpiritMod.NPCs.Wheezer
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 11; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, .61f);
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WheezerGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WheezerGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WheezerGore3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WheezerGore4"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WheezerGore4"), 1f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, .61f);
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/WheezerGore1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/WheezerGore2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/WheezerGore3").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/WheezerGore4").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/WheezerGore4").Type, 1f);
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
             if (Main.rand.Next(15) == 0)
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WheezerScale>());
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<WheezerScale>());
             if (Main.rand.Next(80) == 0)
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.DepthMeter);
             if (Main.rand.NextBool(60))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.FlailsMisc.ClatterMace.ClatterMace>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.FlailsMisc.ClatterMace.ClatterMace>());
 			if (Main.rand.Next(80) == 0)
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Compass);
             if (Main.rand.Next(200) == 0)
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Rally);
             if (Main.rand.NextBool(100))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Bezoar);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Bezoar);
 
             string[] lootTable = { "ClatterboneBreastplate", "ClatterboneFaceplate", "ClatterboneLeggings" };
             if (Main.rand.Next(55) == 0)
             {
                 int loot = Main.rand.Next(lootTable.Length);
-                npc.DropItem(mod.ItemType(lootTable[loot]));
+                NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
             }
         }
 
@@ -85,30 +87,30 @@ namespace SpiritMod.NPCs.Wheezer
 
 		public override void AI()
 		{
-			npc.spriteDirection = npc.direction;
-			Player target = Main.player[npc.target];
-			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+			NPC.spriteDirection = NPC.direction;
+			Player target = Main.player[NPC.target];
+			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
 			if (distance < 200) {
-				npc.velocity = Vector2.Zero;
-				if (npc.velocity == Vector2.Zero) {
-					npc.velocity.X = .008f * npc.direction;
-					npc.velocity.Y = 12f;
+				NPC.velocity = Vector2.Zero;
+				if (NPC.velocity == Vector2.Zero) {
+					NPC.velocity.X = .008f * NPC.direction;
+					NPC.velocity.Y = 12f;
 				}
 				shootTimer++;
 				if (shootTimer >= 80) {
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 95);
-						Vector2 direction = Main.player[npc.target].Center - npc.Center;
+						SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 95);
+						Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 						direction.Normalize();
 						direction.X *= 5f;
 						direction.Y *= 5f;
 
 						float A = Main.rand.Next(-50, 50) * 0.02f;
 						float B = Main.rand.Next(-50, 50) * 0.02f;
-						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 20), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<WheezerCloud>(), npc.damage / 3, 1, Main.myPlayer, 0, 0);
+						int p = Projectile.NewProjectile(NPC.Center.X + (NPC.direction * 20), NPC.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<WheezerCloud>(), NPC.damage / 3, 1, Main.myPlayer, 0, 0);
 						for (int k = 0; k < 11; k++)
-							Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, direction.X + A, direction.Y + B, 0, default, .61f);
+							Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, direction.X + A, direction.Y + B, 0, default, .61f);
 						Main.projectile[p].hostile = true;
 					}
 					shootTimer = 0;
@@ -139,6 +141,6 @@ namespace SpiritMod.NPCs.Wheezer
 			}
 		}
 
-		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 	}
 }

@@ -4,6 +4,8 @@ using SpiritMod.Buffs;
 using SpiritMod.Mechanics.Trails;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,25 +16,25 @@ namespace SpiritMod.Projectiles.Arrow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sleeping Star");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		private bool purple; //just used for client end things, shouldnt matter if synced or not
 
 		public override void SetDefaults()
 		{
-			projectile.penetrate = 1;
-			projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.ranged = true;
-			projectile.Size = new Vector2(10, 10);
+			Projectile.penetrate = 1;
+			Projectile.friendly = true;
+			Projectile.ignoreWater = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.Size = new Vector2(10, 10);
 			purple = Main.rand.NextBool();
 		}
 
 		public void DoTrailCreation(TrailManager tManager)
 		{
-			tManager.CreateTrail(projectile, new StandardColorTrail(purple ? new Color(218, 94, 255) : new Color(120, 217, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
+			tManager.CreateTrail(Projectile, new StandardColorTrail(purple ? new Color(218, 94, 255) : new Color(120, 217, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -43,21 +45,21 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
+			SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 3);
 			int dusttype = purple ? 223 : 180;
 			float dustscale = purple ? 0.6f : 1.2f;
 			{
 				for (int i = 0; i < 40; i++)
 				{
-					int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, dusttype, 0f, -2f, 0, default, dustscale);
+					int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dusttype, 0f, -2f, 0, default, dustscale);
 					Main.dust[num].noGravity = true;
 					Dust dust = Main.dust[num];
 					dust.position.X = dust.position.X + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 					Dust expr_92_cp_0 = Main.dust[num];
 					expr_92_cp_0.position.Y = expr_92_cp_0.position.Y + ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-					if (Main.dust[num].position != projectile.Center)
+					if (Main.dust[num].position != Projectile.Center)
 					{
-						Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 2f;
+						Main.dust[num].velocity = Projectile.DirectionTo(Main.dust[num].position) * 2f;
 					}
 				}
 			}
@@ -68,12 +70,12 @@ namespace SpiritMod.Projectiles.Arrow
 		private int loopSize = 9;
 		public override void AI()
 		{
-			Lighting.AddLight((int)(projectile.position.X / 16f), (int)(projectile.position.Y / 16f), 0.396f, 0.170588235f, 0.564705882f);
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+			Lighting.AddLight((int)(Projectile.position.X / 16f), (int)(Projectile.position.Y / 16f), 0.396f, 0.170588235f, 0.564705882f);
+			Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 			if (!looping) //change direction slightly
 			{
-				Vector2 currentSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y);
-				projectile.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 2) * (Math.PI / 40));
+				Vector2 currentSpeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y);
+				Projectile.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 2) * (Math.PI / 40));
 			}
 			if (Main.rand.Next(100) == 1 && !looping)
 			{
@@ -83,8 +85,8 @@ namespace SpiritMod.Projectiles.Arrow
 			}
 			if (looping)
 			{
-				Vector2 currentSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y);
-				projectile.velocity = currentSpeed.RotatedBy(Math.PI / loopSize);
+				Vector2 currentSpeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y);
+				Projectile.velocity = currentSpeed.RotatedBy(Math.PI / loopSize);
 				loopCounter++;
 				if (loopCounter >= loopSize * 2)
 				{
@@ -94,14 +96,14 @@ namespace SpiritMod.Projectiles.Arrow
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++)
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++)
 			{
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

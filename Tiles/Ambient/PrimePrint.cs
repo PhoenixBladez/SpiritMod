@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class PrimePrint : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = true;
@@ -16,8 +16,8 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.StyleWrapLimit = 36;
 			TileObjectData.addTile(Type);
-			dustType = 7;
-			disableSmartCursor = true;
+			DustType = 7;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Blueprint");
 			AddMapEntry(new Color(0, 80, 252), name);

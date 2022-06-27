@@ -20,11 +20,11 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 18;
-			item.value = Item.buyPrice(0, 3, 0, 0);
-			item.rare = ItemRarityID.Green;
-			item.accessory = true;
+			Item.width = 18;
+			Item.height = 18;
+			Item.value = Item.buyPrice(0, 3, 0, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<BloodWardPlayer>().HasRuneCircle = true;
@@ -51,13 +51,13 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 			if (_combatTime > 300)
 				_combatTime = 300;
 
-			float rotSpeed = player.velocity.Length() * 0.15f * (Math.Max(60, _combatTime) / 6f);
+			float rotSpeed = Player.velocity.Length() * 0.15f * (Math.Max(60, _combatTime) / 6f);
 
 			if (!HasRuneCircle && _circle != null)
 			{
-				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawBloom(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
-				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawRuneCircle(sB); }, ExtraDrawOnPlayer.DrawType.AlphaBlend);
-				_circle.Update(rotSpeed, player.direction, 0.2f, true);
+				Player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawBloom(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
+				Player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawRuneCircle(sB); }, ExtraDrawOnPlayer.DrawType.AlphaBlend);
+				_circle.Update(rotSpeed, Player.direction, 0.2f, true);
 
 				if (_circle.Dead)
 					_circle = null;
@@ -65,19 +65,19 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 
 			if (HasRuneCircle)
 			{
-				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawBloom(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
-				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawRuneCircle(sB); }, ExtraDrawOnPlayer.DrawType.AlphaBlend);
+				Player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawBloom(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
+				Player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawRuneCircle(sB); }, ExtraDrawOnPlayer.DrawType.AlphaBlend);
 
 				float opacity = Math.Min(((_combatTime + 50) / 250f) + 0.05f, 0.7f);
 				if (_circle == null)
 					_circle = new RuneCircle(MAXRADIUS, MAXRADIUS * 0.8f, 12, 8);
 				else
-					_circle.Update(rotSpeed, player.direction, opacity);
+					_circle.Update(rotSpeed, Player.direction, opacity);
 
 				for (int i = 0; i < Main.maxNPCs; ++i)
 				{
 					NPC npc = Main.npc[i];
-					if (npc != null && npc.active && npc.CanBeChasedBy(this) && npc.Distance(player.MountedCenter) < MAXRADIUS)
+					if (npc != null && npc.active && npc.CanBeChasedBy(this) && npc.Distance(Player.MountedCenter) < MAXRADIUS)
 					{
 						_combatTime++;
 
@@ -85,7 +85,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 
 						if (Main.rand.NextBool(10))
 						{
-							Vector2 position = Main.rand.NextVector2CircularEdge(2.5f, 2.5f) + (npc.DirectionTo(player.MountedCenter) * npc.Distance(player.MountedCenter) / 60f);
+							Vector2 position = Main.rand.NextVector2CircularEdge(2.5f, 2.5f) + (npc.DirectionTo(Player.MountedCenter) * npc.Distance(Player.MountedCenter) / 60f);
 							ParticleHandler.SpawnParticle(new GlowParticle(npc.Center, position, new Color(252, 3, 102), Main.rand.NextFloat(0.08f, 0.1f), 60));
 						}
 					}
@@ -97,14 +97,14 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 
 		public void DrawBloom(SpriteBatch spriteBatch)
 		{
-			if (_circle == null || player.dead || player.frozen)
+			if (_circle == null || Player.dead || Player.frozen)
 				return;
 
 			float flashprogress = (float)Math.Sin((_flashTime / (float)MAXFLASHTIME) * MathHelper.Pi) / 2;
 			Color color = Color.Lerp(new Color(252, 3, 98), Color.White, flashprogress);
-			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
 
-			_circle.DelegateDraw(spriteBatch, player.MountedCenter, 0.3f, delegate (int runeNumber)
+			_circle.DelegateDraw(spriteBatch, Player.MountedCenter, 0.3f, delegate (int runeNumber)
 			{
 				return new RuneCircle.RuneDrawInfo(bloom, color, bloom.Bounds);
 			});
@@ -112,7 +112,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 
 		public void DrawRuneCircle(SpriteBatch spriteBatch)
 		{
-			if (_circle == null || player.dead || player.frozen || player.stoned)
+			if (_circle == null || Player.dead || Player.frozen || Player.stoned)
 				return;
 
 			const float Scale = 1f;
@@ -125,30 +125,30 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 			for (int i = 0; i < Repeats; i++)
 			{
 				Vector2 drawPos = Vector2.UnitX.RotatedBy(MathHelper.TwoPi * i / Repeats) * timer * 8;
-				_circle.DelegateDraw(spriteBatch, player.MountedCenter + drawPos, Scale, delegate(int runeNumber) 
+				_circle.DelegateDraw(spriteBatch, Player.MountedCenter + drawPos, Scale, delegate(int runeNumber) 
 				{ 
-					return new RuneCircle.RuneDrawInfo(mod.GetTexture("Textures/Runes_outline"), color * (1 - timer)); 
+					return new RuneCircle.RuneDrawInfo(Mod.GetTexture("Textures/Runes_outline"), color * (1 - timer)); 
 				});
 			}
 
-			_circle.Draw(spriteBatch, player.MountedCenter, color, Scale);
+			_circle.Draw(spriteBatch, Player.MountedCenter, color, Scale);
 
-			_circle.DelegateDraw(spriteBatch, player.MountedCenter, Scale, delegate (int runeNumber)
+			_circle.DelegateDraw(spriteBatch, Player.MountedCenter, Scale, delegate (int runeNumber)
 			{
-				return new RuneCircle.RuneDrawInfo(mod.GetTexture("Textures/Runes_mask"), Color.White * flashprogress);
+				return new RuneCircle.RuneDrawInfo(Mod.GetTexture("Textures/Runes_mask"), Color.White * flashprogress);
 			});
 		}
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
-			if (target.life <= 0 && target.Distance(player.Center) < MAXRADIUS && !target.SpawnedFromStatue && player.statLife < player.statLifeMax2 && HasRuneCircle)
+			if (target.life <= 0 && target.Distance(Player.Center) < MAXRADIUS && !target.SpawnedFromStatue && Player.statLife < Player.statLifeMax2 && HasRuneCircle)
 				MakeRunicHeart(target.Center, Main.rand.Next(14, 17));
 			_combatTime = 180;
 		}
 
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
 		{
-			if (target.life <= 0 && target.Distance(player.Center) < MAXRADIUS && !target.SpawnedFromStatue && player.statLife < player.statLifeMax2 && HasRuneCircle)
+			if (target.life <= 0 && target.Distance(Player.Center) < MAXRADIUS && !target.SpawnedFromStatue && Player.statLife < Player.statLifeMax2 && HasRuneCircle)
 				MakeRunicHeart(target.Center, Main.rand.Next(9, 12));
 			_combatTime = 180;
 		}
@@ -156,7 +156,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 		private void MakeRunicHeart(Vector2 position, int healAmount)
 		{
 			_flashTime = MAXFLASHTIME;
-			Projectile.NewProjectileDirect(position, player.DirectionTo(position).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(2, 3), ModContent.ProjectileType<RuneHeart>(), healAmount, 0f, player.whoAmI).netUpdate = true;
+			Projectile.NewProjectileDirect(position, Player.DirectionTo(position).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(2, 3), ModContent.ProjectileType<RuneHeart>(), healAmount, 0f, Player.whoAmI).netUpdate = true;
 		}
 
 		public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit) => _combatTime = 300;

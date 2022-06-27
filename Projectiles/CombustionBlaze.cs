@@ -14,22 +14,22 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 12;
-			projectile.height = 12;
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 360;
-			projectile.alpha = 255;
-			projectile.tileCollide = true;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 12;
+			Projectile.height = 12;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 360;
+			Projectile.alpha = 255;
+			Projectile.tileCollide = true;
+			AIType = ProjectileID.Bullet;
 		}
 
 		public override bool PreAI()
 		{
 			for (int i = 0; i < 4; ++i)
 			{
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 				Main.dust[dust].scale *= 1.6f;
 				Main.dust[dust].noGravity = true;
 			}
@@ -44,7 +44,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 		}
 
 	}

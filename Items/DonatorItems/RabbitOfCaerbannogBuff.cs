@@ -7,7 +7,7 @@ namespace SpiritMod.Items.DonatorItems
 {
 	public class RabbitOfCaerbannogBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rabbit of Caerbannog");
 			Description.SetDefault("'It's just a harmless little bunny, isn't it?'");

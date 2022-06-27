@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,26 +13,26 @@ namespace SpiritMod.Items.Sets.SeraphSet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Seraph's Light");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/SeraphSet/WayfinderTorch_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/SeraphSet/WayfinderTorch_Glow");
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.Shuriken);
-			item.width = 32;
-			item.height = 32;
-			item.shoot = ModContent.ProjectileType<Projectiles.Thrown.WayfinderTorch>();
-			item.useAnimation = 21;
-			item.useTime = 21;
-			item.mana = 4;
-			item.shootSpeed = 12f;
-			item.damage = 43;
-			item.knockBack = 1f;
-			item.value = Terraria.Item.buyPrice(0, 0, 0, 50);
-			item.rare = ItemRarityID.LightRed;
-			item.magic = true;
-			item.autoReuse = true;
+			Item.CloneDefaults(ItemID.Shuriken);
+			Item.width = 32;
+			Item.height = 32;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.WayfinderTorch>();
+			Item.useAnimation = 21;
+			Item.useTime = 21;
+			Item.mana = 4;
+			Item.shootSpeed = 12f;
+			Item.damage = 43;
+			Item.knockBack = 1f;
+			Item.value = Terraria.Item.buyPrice(0, 0, 0, 50);
+			Item.rare = ItemRarityID.LightRed;
+			Item.DamageType = DamageClass.Magic;
+			Item.autoReuse = true;
 		}
 		public override void HoldItem(Player player)
 		{
@@ -45,14 +46,14 @@ namespace SpiritMod.Items.Sets.SeraphSet
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Sets/SeraphSet/WayfinderTorch_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/SeraphSet/WayfinderTorch_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -65,11 +66,10 @@ namespace SpiritMod.Items.Sets.SeraphSet
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(55);
 			recipe.AddIngredient(ModContent.ItemType<MoonStone>(), 2);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 55);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

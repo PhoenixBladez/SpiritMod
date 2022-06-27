@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Armor
 {
 	public class MarbleDivineWinds : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.buffNoTimeDisplay[Type] = false;
 			DisplayName.SetDefault("Divine Winds");

@@ -32,7 +32,6 @@ using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.World.Generation;
 using SpiritMod.World.Sepulchre;
 using SpiritMod.Tiles;
 using Terraria.DataStructures;
@@ -45,10 +44,11 @@ using static Terraria.ModLoader.ModContent;
 using static SpiritMod.Utilities.ChestPoolUtils;
 using SpiritMod.Effects.SurfaceWaterModifications;
 using SpiritMod.Mechanics.QuestSystem;
+using Terraria.WorldBuilding;
 
 namespace SpiritMod
 {
-	public class MyWorld : ModWorld
+	public class MyWorld : ModSystem
 	{
 		public static float rottime = 0;
 		private static bool dayTimeLast;
@@ -122,7 +122,7 @@ namespace SpiritMod
 		//bool night = false;
 		public bool txt = false;
 
-		public override void TileCountsAvailable(int[] tileCounts)
+		public override void TileCountsAvailable(ReadOnlySpan<int> tileCounts)
 		{
 			SpiritTiles = tileCounts[TileType<SpiritDirt>()] + tileCounts[TileType<SpiritStone>()]
 			+ tileCounts[TileType<Spiritsand>()] + tileCounts[TileType<SpiritIce>()] + tileCounts[TileType<SpiritGrass>()];
@@ -136,7 +136,7 @@ namespace SpiritMod
 			HiveTiles = tileCounts[TileID.Hive];
 		}
 
-		public override TagCompound Save()
+		public override void SaveWorldData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
 		{
 			var data = new TagCompound();
 			var downed = new List<string>();
@@ -211,7 +211,7 @@ namespace SpiritMod
 			return data;
 		}
 
-		public override void Load(TagCompound tag)
+		public override void LoadWorldData(TagCompound tag)
 		{
 			var downed = tag.GetList<string>("downed");
 			downedScarabeus = downed.Contains("scarabeus");
@@ -252,7 +252,7 @@ namespace SpiritMod
 			superSunFlowerPositions = new HashSet<Point16>(tag.GetList<Point16>("superSunFlowerPositions"));
 			// verify that there are super sunflowers at the loaded positions
 			foreach (Point16 point in superSunFlowerPositions.ToList())
-				if (Framing.GetTileSafely(point).type != TileType<SuperSunFlower>())
+				if (Framing.GetTileSafely(point).TileType != TileType<SuperSunFlower>())
 					superSunFlowerPositions.Remove(point);
 
 			var bgItems = tag.GetList<TagCompound>("backgroundItems");
@@ -299,7 +299,7 @@ namespace SpiritMod
 			}
 			else
 			{
-				mod.Logger.Error("Unknown loadVersion: " + loadVersion);
+				Mod.Logger.Error("Unknown loadVersion: " + loadVersion);
 			}
 		}
 
@@ -349,13 +349,13 @@ namespace SpiritMod
 			gennedTower = worldgen[1];
 		}
 
-		public override void PreUpdate()
+		public override void PreUpdateWorld()
 		{
 			rottime += (float)Math.PI / 60;
 			if (rottime >= Math.PI * 2) rottime = 0;
 		}
 
-		public override void Initialize()
+		public override void OnWorldLoad()
 		{
 			BlueMoon = false;
 			jellySky = false;
@@ -462,7 +462,7 @@ namespace SpiritMod
 							case 4:
 								Framing.GetTileSafely(k, l).ClearTile();
 								WorldGen.PlaceTile(k, l, TileID.WoodenBeam, mute: true); // Platforms
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 							case 5:
 								Framing.GetTileSafely(k, l).ClearTile();
@@ -509,7 +509,7 @@ namespace SpiritMod
 								break;
 							case 8:
 								WorldGen.PlaceTile(k, l, 0, mute: true);
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 						}
 					}
@@ -530,19 +530,19 @@ namespace SpiritMod
 						{
 							case 1:
 								WorldGen.PlaceTile(k, l, TileID.StoneSlab, mute: true); // Stone Slab
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 							case 2:
 								WorldGen.PlaceTile(k, l, TileID.Platforms, mute: true); // Platforms
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 							case 3:
 								WorldGen.PlaceTile(k, l, TileID.WoodBlock, mute: true); // Wood
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 							case 6:
 								WorldGen.PlaceTile(k, l, shingleColor, mute: true); // Roofing
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 						}
 					}
@@ -561,7 +561,7 @@ namespace SpiritMod
 						{
 							case 1:
 								WorldGen.PlaceTile(k, l, TileID.Pots, mute: true);  // Pot
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 							case 2:
 								WorldGen.PlaceObject(k, l, TileType<GoblinStatueTile>(), mute: true);
@@ -597,7 +597,7 @@ namespace SpiritMod
 					if (WorldGen.InWorld(k, l, 30))
 					{
 						WorldGen.SlopeTile(k, l, HammerArray[y, x]);
-						if (TileID.Sets.Platforms[Main.tile[k, l].type])
+						if (TileID.Sets.Platforms[Main.tile[k, l].TileType])
 						{
 							WorldGen.SquareTileFrame(k, l);
 						}
@@ -834,16 +834,16 @@ namespace SpiritMod
 				}
 				Tile tile = Main.tile[towerX, towerY];
 				// If the type of the tile we are placing the tower on doesn't match what we want, try again
-				if (!(tile.type == TileID.Dirt
-					|| tile.type == TileID.Grass
-					|| tile.type == TileID.Stone
-					|| tile.type == TileID.Mud
-					|| tile.type == TileID.FleshGrass
-					|| tile.type == TileID.CorruptGrass
-					|| tile.type == TileID.JungleGrass
-					|| tile.type == TileID.Sand
-					|| tile.type == TileID.Crimsand
-					|| tile.type == TileID.Ebonsand))
+				if (!(tile.TileType == TileID.Dirt
+					|| tile.TileType == TileID.Grass
+					|| tile.TileType == TileID.Stone
+					|| tile.TileType == TileID.Mud
+					|| tile.TileType == TileID.FleshGrass
+					|| tile.TileType == TileID.CorruptGrass
+					|| tile.TileType == TileID.JungleGrass
+					|| tile.TileType == TileID.Sand
+					|| tile.TileType == TileID.Crimsand
+					|| tile.TileType == TileID.Ebonsand))
 				{
 					continue;
 				}
@@ -871,7 +871,7 @@ namespace SpiritMod
 				Main.npc[num].homeless = true;
 				placed = true;
 			}
-			if (!placed) mod.Logger.Error("Worldgen: FAILED to place Goblin Tower, ground not flat enough?");
+			if (!placed) Mod.Logger.Error("Worldgen: FAILED to place Goblin Tower, ground not flat enough?");
 			return placed;
 		}
 		#endregion
@@ -1059,30 +1059,30 @@ namespace SpiritMod
 								break;
 							case 1:
 								WorldGen.PlaceTile(k, l, 30);
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 							case 2:
 								WorldGen.PlaceTile(k, l, 38);
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 							case 3:
 								WorldGen.PlaceTile(k, l, 124);
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 							case 4:
 								WorldGen.PlaceTile(k, l, 213);
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 							case 5:
 								WorldGen.PlaceTile(k, l, 19, true, false, -1, 12);
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 							case 6:
 								WorldGen.PlaceWall(k, l, 106);
 								break;
 							case 7:
 								WorldGen.PlaceTile(k, l, 19, true, false, -1, 0);
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 
 						}
@@ -1265,7 +1265,7 @@ namespace SpiritMod
 				}
 				Tile tile = Main.tile[towerX, towerY];
 				// If the type of the tile we are placing the tower on doesn't match what we want, try again
-				if (tile.type != TileID.Dirt && tile.type != TileID.Grass && tile.type != TileID.Stone && tile.type != TileID.SnowBlock)
+				if (tile.TileType != TileID.Dirt && tile.TileType != TileID.Grass && tile.TileType != TileID.Stone && tile.TileType != TileID.SnowBlock)
 				{
 					continue;
 				}
@@ -1334,7 +1334,7 @@ namespace SpiritMod
 				int x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
 				int y = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
 				Tile t = Framing.GetTileSafely(x, y);
-				if (t.active() && t.type == TileID.IceBlock || t.type == TileID.CorruptIce || t.type == TileID.HallowedIce || t.type == TileID.FleshIce)
+				if (t.HasTile && t.TileType == TileID.IceBlock || t.TileType == TileID.CorruptIce || t.TileType == TileID.HallowedIce || t.TileType == TileID.FleshIce)
 					WorldGen.OreRunner(x, y, WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<Items.Sets.CryoliteSet.CryoliteOreTile>());
 			}
 			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 5.5f) * 15E-05); k++)
@@ -1342,7 +1342,7 @@ namespace SpiritMod
 				int x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
 				int y = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
 				Tile t = Framing.GetTileSafely(x, y);
-				if (t.active() && t.type == TileID.IceBlock || t.type == TileID.CorruptIce || t.type == TileID.HallowedIce || t.type == TileID.FleshIce)
+				if (t.HasTile && t.TileType == TileID.IceBlock || t.TileType == TileID.CorruptIce || t.TileType == TileID.HallowedIce || t.TileType == TileID.FleshIce)
 					WorldGen.OreRunner(x, y, WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)TileType<CreepingIceTile>());
 			}
 
@@ -1475,7 +1475,7 @@ namespace SpiritMod
 			AddToModdedChest(briarPool, TileType<ReachChest>());
 		}
 
-		public override void PostUpdate()
+		public override void PostUpdateWorld()
 		{
 			Player player = Main.LocalPlayer;
 			MyPlayer modPlayer = player.GetSpiritPlayer();
@@ -1618,7 +1618,7 @@ namespace SpiritMod
 				{
 					int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
 					int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-					if (Main.tile[X, Y].type == TileID.Stone)
+					if (Main.tile[X, Y].TileType == TileID.Stone)
 					{
 						WorldGen.PlaceObject(X, Y, TileType<GreenShardBig>());
 						NetMessage.SendObjectPlacment(-1, X, Y, TileType<GreenShardBig>(), 0, 0, -1, -1);
@@ -1628,7 +1628,7 @@ namespace SpiritMod
 				{
 					int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
 					int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-					if (Main.tile[X, Y].type == TileID.Stone)
+					if (Main.tile[X, Y].TileType == TileID.Stone)
 					{
 						WorldGen.PlaceObject(X, Y, TileType<PurpleShardBig>());
 						NetMessage.SendObjectPlacment(-1, X, Y, TileType<PurpleShardBig>(), 0, 0, -1, -1);

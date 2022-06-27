@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class DeathRoseCooldown : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Death Rose Cooldown");
 			Description.SetDefault("The bramble needs time to regrow...");

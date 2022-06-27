@@ -18,11 +18,11 @@ namespace SpiritMod.Items.Sets.AvianDrops
 
 		public override void SetDefaults()
 		{
-			item.expert = true;
-			item.CloneDefaults(ItemID.AmethystHook);
-			item.shootSpeed = 14f;
-			item.expert = true;
-			item.shoot = ProjectileType<AvianHookProjectile>();
+			Item.expert = true;
+			Item.CloneDefaults(ItemID.AmethystHook);
+			Item.shootSpeed = 14f;
+			Item.expert = true;
+			Item.shoot = ProjectileType<AvianHookProjectile>();
 		}
 	}
 
@@ -30,14 +30,14 @@ namespace SpiritMod.Items.Sets.AvianDrops
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("${ProjectileName.GemHookAmethyst}");
 
-		public override void SetDefaults() => projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
+		public override void SetDefaults() => Projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
 
 		public override bool? CanUseGrapple(Player player)
 		{
 			int hooksOut = 0;
 			for (int l = 0; l < Main.maxProjectiles; l++)
 			{
-				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type)
+				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == Projectile.type)
 					hooksOut++;
 			}
 			return hooksOut <= 3;
@@ -56,15 +56,15 @@ namespace SpiritMod.Items.Sets.AvianDrops
 			speed = 13;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(Color lightColor)
 		{
 			Texture2D texture = GetTexture("SpiritMod/Items/Sets/AvianDrops/AvianHookChain");
-			Vector2 center = projectile.Center;
+			Vector2 center = Projectile.Center;
 
-			Vector2 offset = Main.player[projectile.owner].MountedCenter - center;
+			Vector2 offset = Main.player[Projectile.owner].MountedCenter - center;
 			bool doDraw = true;
 
-			if (projectile.Center.HasNaNs() || offset.HasNaNs())
+			if (Projectile.Center.HasNaNs() || offset.HasNaNs())
 				doDraw = false;
 
 			while (doDraw)
@@ -74,8 +74,8 @@ namespace SpiritMod.Items.Sets.AvianDrops
 				else
 				{
 					center += Vector2.Normalize(offset) * texture.Height;
-					offset = Main.player[projectile.owner].MountedCenter - center;
-					Color color = projectile.GetAlpha(Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16.0)));
+					offset = Main.player[Projectile.owner].MountedCenter - center;
+					Color color = Projectile.GetAlpha(Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16.0)));
 					Main.spriteBatch.Draw(texture, center - Main.screenPosition, null, color, (float)Math.Atan2(offset.Y, offset.X) - 1.57f, texture.Size() / 2, 1f, SpriteEffects.None, 0f);
 				}
 			}

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,38 +13,37 @@ namespace SpiritMod.Items.Sets.BriarChestLoot
 		{
 			DisplayName.SetDefault("Leafstrike Staff");
 			Tooltip.SetDefault("Summons a sharp leaf that can be controlled with the cursor");
+			Item.staff[Item.type] = true;
 		}
-		public override bool CloneNewInstances => true;
 
+		protected override bool CloneNewInstances => true;
 
 		public override void SetDefaults()
 		{
-			item.damage = 10;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.magic = true;
-			item.channel = true;
-			item.width = 26;
-			item.height = 26;
-			item.useTime = 34;
-			item.mana = 8;
-			item.useAnimation = 34;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.knockBack = 2f;
-			item.value = Terraria.Item.sellPrice(0, 0, 15, 0);
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item8;
-			item.autoReuse = false;
-			item.shootSpeed = 6;
-			item.shoot = ModContent.ProjectileType<LeafProjReachChest>();
+			Item.damage = 10;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Magic;
+			Item.channel = true;
+			Item.width = 26;
+			Item.height = 26;
+			Item.useTime = 34;
+			Item.mana = 8;
+			Item.useAnimation = 34;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 2f;
+			Item.value = Item.sellPrice(0, 0, 15, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item8;
+			Item.autoReuse = false;
+			Item.shootSpeed = 6;
+			Item.shoot = ModContent.ProjectileType<LeafProjReachChest>();
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 50f;
-			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
+			Vector2 muzzleOffset = Vector2.Normalize(velocity) * 50f;
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
 				position += muzzleOffset;
-			}
-			return true;
 		}
 	}
 }

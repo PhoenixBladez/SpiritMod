@@ -1,11 +1,12 @@
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Glyph
 {
 	public class DivineStrike : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Divine Strike");
 			Description.SetDefault("Your next attack will deal ");
@@ -27,9 +28,9 @@ namespace SpiritMod.Buffs.Glyph
 			if (player.whoAmI == Main.myPlayer && !Main.dedServ)
 			{
 				if (modPlayer.divineStacks == 1)
-					Main.buffTexture[Type] = mod.GetTexture("Buffs/Glyph/DivineStrike");
+					TextureAssets.Buff[Type].Value = Mod.GetTexture("Buffs/Glyph/DivineStrike");
 				else
-					Main.buffTexture[Type] = mod.GetTexture("Buffs/Glyph/DivineStrike_" + (modPlayer.divineStacks - 1).ToString());
+					TextureAssets.Buff[Type].Value = Mod.GetTexture("Buffs/Glyph/DivineStrike_" + (modPlayer.divineStacks - 1).ToString());
 			}
 
 			if (modPlayer.glyph == GlyphType.Radiant)

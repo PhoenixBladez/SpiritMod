@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,29 +14,29 @@ namespace SpiritMod.Items.Sets.CascadeSet.Basking_Shark
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.Bullet;
-			projectile.hide = false;
-			projectile.ranged = true;
-			projectile.friendly = true;
-			projectile.tileCollide = true;
-			projectile.scale = 1f;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.Bullet;
+			Projectile.hide = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.friendly = true;
+			Projectile.tileCollide = true;
+			Projectile.scale = 1f;
 		}
 		public override void AI()
 		{
-			projectile.velocity.Y += 0.2f;
-			Player player = Main.player[projectile.owner];
-			if ((double)projectile.ai[0] == 0.0)
+			Projectile.velocity.Y += 0.2f;
+			Player player = Main.player[Projectile.owner];
+			if ((double)Projectile.ai[0] == 0.0)
 			{
-				projectile.ai[0] = 1f;
-				Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0.4f);
+				Projectile.ai[0] = 1f;
+				SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 1, 1f, 0.4f);
 				for (int index = 0; index < 8; ++index)
 				{
-					Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, DustID.Blood, 0.0f, 0.0f, 0, Color.Pink, 1f);
+					Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Blood, 0.0f, 0.0f, 0, Color.Pink, 1f);
 					dust.velocity *= 1f;
-					dust.velocity += projectile.velocity * 0.65f;
+					dust.velocity += Projectile.velocity * 0.65f;
 					dust.scale = 0.8f;
 					dust.fadeIn = 1.1f;
 					dust.noGravity = true;
@@ -46,16 +47,16 @@ namespace SpiritMod.Items.Sets.CascadeSet.Basking_Shark
 
 			for (int index1 = 0; index1 < 4; ++index1)
 			{
-				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 16, 16, DustID.Blood, projectile.velocity.X, projectile.velocity.Y, 50, Color.Pink, 0.7f);
-				Main.dust[index2].position = (Main.dust[index2].position + projectile.Center) / 2f;
+				int index2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), 16, 16, DustID.Blood, Projectile.velocity.X, Projectile.velocity.Y, 50, Color.Pink, 0.7f);
+				Main.dust[index2].position = (Main.dust[index2].position + Projectile.Center) / 2f;
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.3f;
 				Main.dust[index2].scale *= 1f;
 			}
 			for (int index1 = 0; index1 < 2; ++index1)
 			{
-				int index2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 16, 16, DustID.Blood, projectile.velocity.X, projectile.velocity.Y, 50, Color.Pink, 0.4f);
-				Main.dust[index2].position = (Main.dust[index2].position + projectile.Center * 5f) / 6f;
+				int index2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), 16, 16, DustID.Blood, Projectile.velocity.X, Projectile.velocity.Y, 50, Color.Pink, 0.4f);
+				Main.dust[index2].position = (Main.dust[index2].position + Projectile.Center * 5f) / 6f;
 				Main.dust[index2].velocity *= 0.1f;
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].fadeIn = 0.9f;

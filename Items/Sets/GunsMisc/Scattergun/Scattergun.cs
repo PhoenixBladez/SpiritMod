@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Bullet;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.GunsMisc.Scattergun
@@ -13,21 +15,21 @@ namespace SpiritMod.Items.Sets.GunsMisc.Scattergun
 		{
 			DisplayName.SetDefault("Scattergun");
 			Tooltip.SetDefault("Converts regular bullets into neon pellets");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/GunsMisc/Scattergun/Scattergun_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/GunsMisc/Scattergun/Scattergun_Glow");
 
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Sets/GunsMisc/Scattergun/Scattergun_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/GunsMisc/Scattergun/Scattergun_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -40,27 +42,27 @@ namespace SpiritMod.Items.Sets.GunsMisc.Scattergun
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 11;
-			item.ranged = true;
-			item.width = 24;
-			item.height = 24;
-			item.useTime = 36;
-			item.useAnimation = 36;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 4;
-			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Orange;
-			item.UseSound = SoundID.Item36;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<ScattergunPellet>();
-			item.shootSpeed = 3.2f;
-			item.useAmmo = AmmoID.Bullet;
+			Item.damage = 11;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 24;
+			Item.height = 24;
+			Item.useTime = 36;
+			Item.useAnimation = 36;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 4;
+			Item.useTurn = false;
+			Item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item36;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<ScattergunPellet>();
+			Item.shootSpeed = 3.2f;
+			Item.useAmmo = AmmoID.Bullet;
 		}
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-            Main.PlaySound(SoundID.Item, player.Center, 12);
+            SoundEngine.PlaySound(SoundID.Item, player.Center, 12);
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY - 1)) * 45f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;
@@ -71,7 +73,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Scattergun
             }
             for (int I = 0; I < 3; I++)
             {
-                Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-250, 250) / 150), speedY + ((float)Main.rand.Next(-250, 250) / 100), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-250, 250) / 150), speedY + ((float)Main.rand.Next(-250, 250) / 100), type, damage, knockback, player.whoAmI, 0f, 0f);
             }
 			return false;
 		}
@@ -80,13 +82,12 @@ namespace SpiritMod.Items.Sets.GunsMisc.Scattergun
 
 		public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe(1);
             recipe.AddIngredient(ItemID.Sapphire, 1);
             recipe.AddIngredient(ItemID.Amethyst, 1);
             recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Tiles.SpaceJunkItem>(), 35);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 	}
 }

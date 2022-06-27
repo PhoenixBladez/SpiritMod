@@ -1,8 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.PirateLobber
 {
@@ -11,25 +14,25 @@ namespace SpiritMod.NPCs.PirateLobber
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pirate Lobber");
-			Main.npcFrameCount[npc.type] = 8;
+			Main.npcFrameCount[NPC.type] = 8;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 34;
-			npc.height = 48;
-			npc.damage = 29;
-			npc.defense = 16;
-			npc.lifeMax = 140;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.value = Item.buyPrice(0, 0, 20, 0);
-			npc.knockBackResist = 0.35f;
+			NPC.width = 34;
+			NPC.height = 48;
+			NPC.damage = 29;
+			NPC.defense = 16;
+			NPC.lifeMax = 140;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.value = Item.buyPrice(0, 0, 20, 0);
+			NPC.knockBackResist = 0.35f;
 
-			npc.buffImmune[20] = true;
-			npc.buffImmune[31] = false;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.PirateLobberBanner>();
+			NPC.buffImmune[20] = true;
+			NPC.buffImmune[31] = false;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.PirateLobberBanner>();
 		}
 
 		int frame = 0;
@@ -37,9 +40,9 @@ namespace SpiritMod.NPCs.PirateLobber
 
 		public override void AI()
 		{
-			npc.spriteDirection = npc.direction;
-			Player target = Main.player[npc.target];
-			int distance = (int)Vector2.Distance(npc.Center, target.Center);
+			NPC.spriteDirection = NPC.direction;
+			Player target = Main.player[NPC.target];
+			int distance = (int)Vector2.Distance(NPC.Center, target.Center);
 
 			if (distance < 400)
 			{
@@ -57,20 +60,20 @@ namespace SpiritMod.NPCs.PirateLobber
 
 			if (attack)
 			{
-				npc.velocity.X = .008f * npc.direction;
-				if (frame == 5 && npc.frameCounter == 0)
+				NPC.velocity.X = .008f * NPC.direction;
+				if (frame == 5 && NPC.frameCounter == 0)
 					Attack();
 			}
 			else
 			{
-				npc.aiStyle = 3;
-				aiType = NPCID.AngryBones;
+				NPC.aiStyle = 3;
+				AIType = NPCID.AngryBones;
 			}
 		}
 
 		private void ResetFrame()
 		{
-			npc.frameCounter = 0;
+			NPC.frameCounter = 0;
 			frame = 0;
 		}
 
@@ -78,43 +81,43 @@ namespace SpiritMod.NPCs.PirateLobber
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				var vel = new Vector2(npc.direction * 5, 0);
-				Projectile.NewProjectile(npc.Center - vel, vel, ModContent.ProjectileType<PirateLobberBarrel>(), NPCUtils.ToActualDamage(60, 1.3f), 5);
+				var vel = new Vector2(NPC.direction * 5, 0);
+				Projectile.NewProjectile(NPC.Center - vel, vel, ModContent.ProjectileType<PirateLobberBarrel>(), NPCUtils.ToActualDamage(60, 1.3f), 5);
 			}
-			Main.PlaySound(SoundID.Item, npc.Center, 1);
+			SoundEngine.PlaySound(SoundID.Item, NPC.Center, 1);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frame.Width = 60;
-			npc.frame.X = attack ? npc.frame.Width : 0;
+			NPC.frame.Width = 60;
+			NPC.frame.X = attack ? NPC.frame.Width : 0;
 			int numFrames = attack ? 8 : 6;
 			int frameDuation = attack ? 7 : 4;
-			npc.frameCounter++;
-			if (npc.frameCounter >= frameDuation)
+			NPC.frameCounter++;
+			if (NPC.frameCounter >= frameDuation)
 			{
-				npc.frameCounter = 0;
+				NPC.frameCounter = 0;
 				frame++;
 			}
 			frame %= numFrames;
-			npc.frame.Y = frameHeight * frame;
+			NPC.frame.Y = frameHeight * frame;
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
-			if (Main.rand.NextBool(8000)) npc.DropItem(ItemID.CoinGun);
-			if (Main.rand.NextBool(4000)) npc.DropItem(ItemID.LuckyCoin);
-			if (Main.rand.NextBool(2000)) npc.DropItem(ItemID.DiscountCard);
-			if (Main.rand.NextBool(1500)) npc.DropItem(ItemID.PirateStaff);
-			if (Main.rand.NextBool(200)) npc.DropItem(ItemID.Cutlass);
-			if (Main.rand.NextBool(100)) npc.DropItem(ItemID.GoldRing);
+			if (Main.rand.NextBool(8000)) NPC.DropItem(ItemID.CoinGun);
+			if (Main.rand.NextBool(4000)) NPC.DropItem(ItemID.LuckyCoin);
+			if (Main.rand.NextBool(2000)) NPC.DropItem(ItemID.DiscountCard);
+			if (Main.rand.NextBool(1500)) NPC.DropItem(ItemID.PirateStaff);
+			if (Main.rand.NextBool(200)) NPC.DropItem(ItemID.Cutlass);
+			if (Main.rand.NextBool(100)) NPC.DropItem(ItemID.GoldRing);
 
 			if (Main.rand.NextBool(333))
 			{
@@ -123,24 +126,24 @@ namespace SpiritMod.NPCs.PirateLobber
 					ItemID.GoldenSofa, ItemID.GoldenTable, ItemID.GoldenToilet, ItemID.GoldenWorkbench };
 
 				if (Main.rand.NextBool(GoldFurniture.Length + 1))
-					npc.DropItem(ItemID.GoldenPlatform, Main.rand.Next(20, 40));
+					NPC.DropItem(ItemID.GoldenPlatform, Main.rand.Next(20, 40));
 				else
-					npc.DropItem(Main.rand.Next(GoldFurniture));
+					NPC.DropItem(Main.rand.Next(GoldFurniture));
 			}
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
 				for (int i = 0; i < 3; ++i)
-					Gore.NewGore(npc.position + new Vector2(Main.rand.Next(npc.width), Main.rand.Next(npc.height)), Vector2.UnitX * hitDirection * Main.rand.NextFloat(0.9f, 1f), mod.GetGoreSlot("Gores/PirateLobber/PirateLobber" + i));
-				Gore.NewGore(npc.position + new Vector2(Main.rand.Next(npc.width), Main.rand.Next(npc.height)), Vector2.UnitX * hitDirection * Main.rand.NextFloat(0.9f, 1f), mod.GetGoreSlot("Gores/PirateLobber/PirateLobber1"));
+					Gore.NewGore(NPC.position + new Vector2(Main.rand.Next(NPC.width), Main.rand.Next(NPC.height)), Vector2.UnitX * hitDirection * Main.rand.NextFloat(0.9f, 1f), Mod.Find<ModGore>("Gores/PirateLobber/PirateLobber" + i).Type);
+				Gore.NewGore(NPC.position + new Vector2(Main.rand.Next(NPC.width), Main.rand.Next(NPC.height)), Vector2.UnitX * hitDirection * Main.rand.NextFloat(0.9f, 1f), Mod.Find<ModGore>("Gores/PirateLobber/PirateLobber1").Type);
 			}
 
 			int dustCount = Main.rand.Next(2, 5);
 			for (int i = 0; i < dustCount; ++i)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2 * hitDirection, Main.rand.NextFloat(-0.8f, 0), 0, default, Main.rand.NextFloat(0.9f, 1.4f));
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2 * hitDirection, Main.rand.NextFloat(-0.8f, 0), 0, default, Main.rand.NextFloat(0.9f, 1.4f));
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.Pirates.Chance * 0.1f;
@@ -151,18 +154,18 @@ namespace SpiritMod.NPCs.PirateLobber
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pirate Barrel");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 30;
-			projectile.friendly = false;
-			projectile.hostile = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 300;
+			Projectile.width = 30;
+			Projectile.height = 30;
+			Projectile.friendly = false;
+			Projectile.hostile = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 300;
 		}
 
 		int direction = 0; //0 is left, 1 is right
@@ -173,16 +176,16 @@ namespace SpiritMod.NPCs.PirateLobber
 		{
 			jumpCounter++;
 			rotation *= 1.005f;
-			projectile.velocity.Y += 0.4F;
-			if (projectile.velocity.X > 0)
+			Projectile.velocity.Y += 0.4F;
+			if (Projectile.velocity.X > 0)
 				direction = 1;
-			if (projectile.velocity.X < 0)
+			if (Projectile.velocity.X < 0)
 				direction = 0;
 			if (direction == 0)
-				projectile.rotation -= rotation / 25f;
+				Projectile.rotation -= rotation / 25f;
 			else
-				projectile.rotation += rotation / 25f;
-			projectile.spriteDirection = projectile.direction;
+				Projectile.rotation += rotation / 25f;
+			Projectile.spriteDirection = Projectile.direction;
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
@@ -190,24 +193,24 @@ namespace SpiritMod.NPCs.PirateLobber
 			if (oldVelocity.Y >= 10f)
 				return true;
 
-			if (oldVelocity.X != projectile.velocity.X)
+			if (oldVelocity.X != Projectile.velocity.X)
 			{
 				if (jumpCounter > 5)
 				{
 					jumpCounter = 0;
 
-					Collision.StepUp(ref projectile.position, ref projectile.velocity, projectile.width, projectile.height, ref projectile.stepSpeed, ref projectile.gfxOffY);
+					Collision.StepUp(ref Projectile.position, ref Projectile.velocity, Projectile.width, Projectile.height, ref Projectile.stepSpeed, ref Projectile.gfxOffY);
 
-					if (projectile.velocity.X < 2f)
-						projectile.timeLeft = 2;
+					if (Projectile.velocity.X < 2f)
+						Projectile.timeLeft = 2;
 				}
-				else if (projectile.timeLeft > 2)
-					projectile.timeLeft = 2;
+				else if (Projectile.timeLeft > 2)
+					Projectile.timeLeft = 2;
 			}
 			return false;
 		}
 
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			fallThrough = false;
 			return true;
@@ -215,16 +218,16 @@ namespace SpiritMod.NPCs.PirateLobber
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Dig, projectile.Center);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 
 			for (int i = 0; i < 5; ++i)
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.BorealWood, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 0));
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.BorealWood, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 0));
 			for (int i = 0; i < 2; ++i)
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Iron, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 0));
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Iron, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 0));
 
 			int goreCount = Main.rand.Next(1, 4);
 			for (int i = 0; i < goreCount; ++i)
-				Gore.NewGore(projectile.position + new Vector2(Main.rand.Next(projectile.width), Main.rand.Next(projectile.height)), projectile.velocity, mod.GetGoreSlot("Gores/PirateLobber/Barrel" + Main.rand.Next(3)));
+				Gore.NewGore(Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)), Projectile.velocity, Mod.Find<ModGore>("Gores/PirateLobber/Barrel" + Main.rand.Next(3)).Type);
 		}
 	}
 }

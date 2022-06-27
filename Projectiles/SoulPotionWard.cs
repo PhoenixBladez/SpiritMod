@@ -15,23 +15,23 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 300;       //projectile width
-			projectile.height = 300;  //projectile height
-			projectile.friendly = true;      //make that the projectile will not damage you
-			projectile.melee = true;         // 
-			projectile.tileCollide = false;   //make that the projectile will be destroed if it hits the terrain
-			projectile.penetrate = 1;      //how many npc will penetrate
-			projectile.timeLeft = 120;   //how many time projectile projectile has before disepire
-			projectile.light = 0.75f;    // projectile light
-			projectile.extraUpdates = 1;
-			projectile.alpha = 255;
-			projectile.ignoreWater = true;
-			projectile.aiStyle = -1;
+			Projectile.width = 300;       //projectile width
+			Projectile.height = 300;  //projectile height
+			Projectile.friendly = true;      //make that the projectile will not damage you
+			Projectile.DamageType = DamageClass.Melee;         // 
+			Projectile.tileCollide = false;   //make that the projectile will be destroed if it hits the terrain
+			Projectile.penetrate = 1;      //how many npc will penetrate
+			Projectile.timeLeft = 120;   //how many time projectile projectile has before disepire
+			Projectile.light = 0.75f;    // projectile light
+			Projectile.extraUpdates = 1;
+			Projectile.alpha = 255;
+			Projectile.ignoreWater = true;
+			Projectile.aiStyle = -1;
 		}
 
 		public override void AI()
 		{
-			Rectangle rect = new Rectangle((int)projectile.Center.X, (int)projectile.position.Y, 300, 300);
+			Rectangle rect = new Rectangle((int)Projectile.Center.X, (int)Projectile.position.Y, 300, 300);
 			for (int index1 = 0; index1 < 200; index1++) {
 				if (rect.Contains(Main.npc[index1].Center.ToPoint()))
 					Main.npc[index1].AddBuff(ModContent.BuffType<SoulBurn>(), 240);

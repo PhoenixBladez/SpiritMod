@@ -13,12 +13,12 @@ namespace SpiritMod.Items.Armor.HunterArmor
 		}
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 20;
-			item.value = Item.sellPrice(0, 0, 50, 0);
-			item.rare = ItemRarityID.Green;
+			Item.width = 18;
+			Item.height = 20;
+			Item.value = Item.sellPrice(0, 0, 50, 0);
+			Item.rare = ItemRarityID.Green;
 
-			item.vanity = true;
+			Item.vanity = true;
 		}
 	}
 }

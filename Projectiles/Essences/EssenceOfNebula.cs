@@ -11,17 +11,17 @@ namespace SpiritMod.Projectiles.Essences
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.melee = true;
-			projectile.penetrate = 15;
-			projectile.timeLeft = 500;
-			projectile.height = 6;
-			projectile.width = 6;
-			projectile.alpha = 255;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = 15;
+			Projectile.timeLeft = 500;
+			Projectile.height = 6;
+			Projectile.width = 6;
+			Projectile.alpha = 255;
+			Projectile.extraUpdates = 1;
 
-			aiType = ProjectileID.Bullet;
+			AIType = ProjectileID.Bullet;
 		}
 
 		int target = -1;
@@ -36,9 +36,9 @@ namespace SpiritMod.Projectiles.Essences
 
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
-					if (Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+					if (Main.npc[i].CanBeChasedBy(Projectile) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
 					{
-						float dist = projectile.Distance(Main.npc[i].Center);
+						float dist = Projectile.Distance(Main.npc[i].Center);
 						if (dist < targetDist)
 						{
 							targetDist = dist;
@@ -56,17 +56,17 @@ namespace SpiritMod.Projectiles.Essences
 				}
 
 				float homingSpeedFactor = 6f;
-				Vector2 homingVect = Main.npc[target].Center - projectile.Center;
-				float dist = projectile.Distance(Main.npc[target].Center);
+				Vector2 homingVect = Main.npc[target].Center - Projectile.Center;
+				float dist = Projectile.Distance(Main.npc[target].Center);
 				dist = homingSpeedFactor / dist;
 				homingVect *= dist;
 
-				projectile.velocity = (projectile.velocity * 20 + homingVect) / 21f;
+				Projectile.velocity = (Projectile.velocity * 20 + homingVect) / 21f;
 			}
 
 			for (int i = 0; i < 2; ++i)
 			{
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.PinkFlame);
+				int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.PinkFlame);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].velocity = Vector2.Zero;
 				Main.dust[dust].scale = 0.9f;

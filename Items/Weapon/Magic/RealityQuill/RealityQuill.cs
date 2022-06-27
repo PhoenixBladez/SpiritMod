@@ -16,48 +16,47 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 		{
 			DisplayName.SetDefault("Void Quill");
 			Tooltip.SetDefault("Creates a tear in reality, damaging enemies \n Write faster to deal more damage\n'Write your own destiny'");
-			SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
+			SpiritGlowmask.AddGlowMask(Item.type, Texture + "_glow");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 50;
-			item.knockBack = 0.1f;
-			item.magic = true;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 30;
-			item.useTime = 30;
-			item.channel = true;
-			item.width = 40;
-			item.height = 60;
-			item.mana = 1;
-			item.noMelee = true;
-			item.autoReuse = false;
-			item.channel = true;
-			item.value = Item.sellPrice(0, 10, 0, 0);
-			item.rare = ItemRarityID.Red;
-			item.shoot = ModContent.ProjectileType<RealityQuillProjectileTwo>();
+			Item.damage = 50;
+			Item.knockBack = 0.1f;
+			Item.DamageType = DamageClass.Magic;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useAnimation = 30;
+			Item.useTime = 30;
+			Item.channel = true;
+			Item.width = 40;
+			Item.height = 60;
+			Item.mana = 1;
+			Item.noMelee = true;
+			Item.autoReuse = false;
+			Item.channel = true;
+			Item.value = Item.sellPrice(0, 10, 0, 0);
+			Item.rare = ItemRarityID.Red;
+			Item.shoot = ModContent.ProjectileType<RealityQuillProjectileTwo>();
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 mouseDelta = Main.MouseWorld;
-			Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+			Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
 			return false;
 		}
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, ModContent.GetTexture(Texture + "_glow"), rotation, scale);
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, ModContent.Request<Texture2D>(Texture + "_glow"), rotation, scale);
 
 		public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ItemID.FragmentNebula, 18);
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
-        /*public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        /*public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 mouseDelta = Main.MouseWorld - lastSpawnPos;
 			float mouseDeltaLength = mouseDelta.Length();
@@ -72,7 +71,7 @@ namespace SpiritMod.Items.Weapon.Magic.RealityQuill
 			{
 				Vector2 delta = mouseDelta * (float)Math.Sqrt(mouseDeltaLength) * 0.1f;
 				delta = delta.RotatedBy(Main.rand.NextFloat(-0.2f, 0.2f));
-				Projectile.NewProjectile(Main.MouseWorld - mouseDelta * i * 16f, delta, type, damage, knockBack, player.whoAmI, Main.rand.NextFloat(0.125f, 0.5f));
+				Projectile.NewProjectile(Main.MouseWorld - mouseDelta * i * 16f, delta, type, damage, knockback, player.whoAmI, Main.rand.NextFloat(0.125f, 0.5f));
 			}
 			lastTimeSpawned = Main.GlobalTime;
 

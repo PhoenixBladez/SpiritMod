@@ -16,24 +16,24 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(80, 200);
-			projectile.hostile = true;
-			projectile.timeLeft = 60;
-			projectile.ignoreWater = true;
+			Projectile.Size = new Vector2(80, 200);
+			Projectile.hostile = true;
+			Projectile.timeLeft = 60;
+			Projectile.ignoreWater = true;
 		}
 
 		public override void AI()
 		{
-			projectile.velocity.Y = (float)Math.Sin(projectile.ai[0]++ * 0.005f) * 0.02f;
+			Projectile.velocity.Y = (float)Math.Sin(Projectile.ai[0]++ * 0.005f) * 0.02f;
 
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
 				Projectile proj = Main.projectile[i];
 
-				bool validProj = i != projectile.whoAmI && proj.active && (proj.friendly || proj.type == ModContent.ProjectileType<VoidProjectile>());
+				bool validProj = i != Projectile.whoAmI && proj.active && (proj.friendly || proj.type == ModContent.ProjectileType<VoidProjectile>());
 				if (validProj)
 				{
-					if (projectile.DistanceSQ(proj.Center) < 80 * 80 && !proj.GetGlobalProjectile<VoidGlobalProjectile>().hasTeleported)
+					if (Projectile.DistanceSQ(proj.Center) < 80 * 80 && !proj.GetGlobalProjectile<VoidGlobalProjectile>().hasTeleported)
 					{
 						TeleportProjectile(i);
 						teleported = 10;
@@ -46,7 +46,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden.Projectiles
 		{
 			Projectile teleported = Main.projectile[ind];
 			Projectile other = Main.projectile[connectedWhoAmI];
-			var otherPortal = other.modProjectile as VoidPortal;
+			var otherPortal = other.ModProjectile as VoidPortal;
 
 			otherPortal.teleported = 10; //Set the tp timer
 			teleported.Center = other.Center; //Teleport the projectile
@@ -55,12 +55,12 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden.Projectiles
 			teleported.GetGlobalProjectile<VoidGlobalProjectile>().OnTeleport(teleported); //And run teleport code.
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDraw(spriteBatch);
 			return false;
 		}
 
-		public override Color? GetAlpha(Color lightColor) => Color.White * projectile.Opacity;
+		public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.Opacity;
 	}
 }

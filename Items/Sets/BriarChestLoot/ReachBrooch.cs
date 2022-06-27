@@ -12,18 +12,18 @@ namespace SpiritMod.Items.Sets.BriarChestLoot
 		{
 			DisplayName.SetDefault("Forsworn Pendant");	
 			Tooltip.SetDefault("Generates a bright glow around the player\nGives increased vision in the Briar at night or underground");	
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/BriarChestLoot/ReachBrooch");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/BriarChestLoot/ReachBrooch");
 		}
 
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) => glowMaskColor = Color.White;
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 24;
-			item.value = Item.buyPrice(silver: 2);
-			item.rare = ItemRarityID.Blue;
-			item.accessory = true;
+			Item.width = 24;
+			Item.height = 24;
+			Item.value = Item.buyPrice(silver: 2);
+			Item.rare = ItemRarityID.Blue;
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

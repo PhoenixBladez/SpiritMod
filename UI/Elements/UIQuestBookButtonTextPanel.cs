@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Terraria;
+using Terraria.GameContent;
 using Terraria.UI;
 using Terraria.UI.Chat;
 using Terraria.GameContent.UI.Elements;
@@ -53,7 +54,7 @@ namespace SpiritMod.UI.Elements
 		{
 			base.DrawSelf(spriteBatch);
 
-			DynamicSpriteFont font = _isLarge ? Main.fontDeathText : Main.fontMouseText;
+			DynamicSpriteFont font = _isLarge ? FontAssets.DeathText.Value : FontAssets.MouseText.Value;
 			DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, font, Text, base.GetDimensions().Center() - TextSize * 0.5f, new Color(43, 28, 17), 0f, Vector2.Zero, TextScale, SpriteEffects.None, 0f);
 		}
 
@@ -70,7 +71,7 @@ namespace SpiritMod.UI.Elements
 
 		public virtual void SetText(object text, float textScale, bool large)
 		{
-			Vector2 stringSize = ChatManager.GetStringSize((large ? Main.fontDeathText : Main.fontMouseText), text.ToString(), new Vector2(textScale), -1f);
+			Vector2 stringSize = ChatManager.GetStringSize((large ? FontAssets.DeathText.Value : FontAssets.MouseText.Value), text.ToString(), new Vector2(textScale), -1f);
 			stringSize.Y = (large ? 32f : 16f) * textScale;
 			this._text = text;
 			TextScale = textScale;

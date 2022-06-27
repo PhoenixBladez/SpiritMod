@@ -14,13 +14,13 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(326);
-			projectile.hostile = false;
-			projectile.thrown = true;
-			projectile.width = 14;
-			projectile.height = 14;
-			projectile.friendly = true;
-			projectile.timeLeft = 30;
+			Projectile.CloneDefaults(326);
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.width = 14;
+			Projectile.height = 14;
+			Projectile.friendly = true;
+			Projectile.timeLeft = 30;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool PreAI()
 		{
 			if (Main.rand.Next(2) == 1) {
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.UnusedWhiteBluePurple, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 				Main.dust[dust].scale = 2f;
 				Main.dust[dust].noGravity = true;
 			}

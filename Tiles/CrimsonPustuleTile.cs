@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -13,7 +14,7 @@ namespace SpiritMod.Tiles
 {
 	public class CrimsonPustuleTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileLighted[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -30,32 +31,32 @@ namespace SpiritMod.Tiles
 			name.SetDefault("Crimson Pustule");
 			AddMapEntry(new Color(242, 90, 60), name);
 
-			disableSmartCursor = true;
-			dustType = DustID.Blood;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType = DustID.Blood;
 			soundType = SoundID.NPCDeath12.SoundId;
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) => ModContent.GetInstance<CrimsonPustuleTileEntity>().Kill(i, j);
 
-		public override bool Dangersense(int i, int j, Player player) => true;
+		public override bool IsTileDangerous(int i, int j, Player player) => true;
 
 		public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
-			Point16 tileEntityPos = new Point16(i - tile.frameX / 18 % 2, j - tile.frameY / 18 % 2);
+			Point16 tileEntityPos = new Point16(i - tile.TileFrameX / 18 % 2, j - tile.TileFrameY / 18 % 2);
 
 			var tileEntity = TileEntity.ByPosition[tileEntityPos] as CrimsonPustuleTileEntity;
 
 			Color color = Main.LocalPlayer.dangerSense ? new Color(255, 50, 50, Main.mouseTextColor) : Lighting.GetColor(i, j);
 			Vector2 offScreenRange = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
-			Vector2 origin = new Vector2(tile.frameX % 18 == 0 ? 18 : -18, 0);
+			Vector2 origin = new Vector2(tile.TileFrameX % 18 == 0 ? 18 : -18, 0);
 			Vector2 drawPos = new Vector2(i * 16 + origin.X, j * 16) - Main.screenPosition + offScreenRange + Vector2.UnitY * 2;
-			Texture2D tileTexture = Main.tileTexture[Type];
-			Texture2D flashTexture = mod.GetTexture("Tiles/CrimsonPustuleTile_Flash");
+			Texture2D tileTexture = TextureAssets.Tile[Type].Value;
+			Texture2D flashTexture = Mod.GetTexture("Tiles/CrimsonPustuleTile_Flash");
 			float scale = 1f + tileEntity.Pulse * 0.08f;
 
-			spriteBatch.Draw(tileTexture, drawPos, new Rectangle(tile.frameX, tile.frameY, 16, 16), color, 0f, origin, scale, SpriteEffects.None, 0);
-			spriteBatch.Draw(flashTexture, drawPos, new Rectangle(tile.frameX, tile.frameY, 16, 16), color * tileEntity.Pulse, 0f, origin, scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(tileTexture, drawPos, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, origin, scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(flashTexture, drawPos, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color * tileEntity.Pulse, 0f, origin, scale, SpriteEffects.None, 0);
 			return false;
 		}
 
@@ -90,10 +91,10 @@ namespace SpiritMod.Tiles
 		public float Pulse => Math.Abs((float)Math.Sin(0.0018 * (StartingCountdown - explodeCountdown) * (StartingCountdown - explodeCountdown)));
 		public Vector2 PustuleWorldCenter => Position.ToWorldCoordinates(16, 16);
 
-		public override bool ValidTile(int i, int j)
+		public override bool IsTileValidForEntity(int i, int j)
 		{
 			Tile tile = Main.tile[i, j];
-			return tile.active() && tile.type == ModContent.TileType<CrimsonPustuleTile>() && tile.frameY % 36 == 0 && tile.frameY == 0;
+			return tile.HasTile && tile.TileType == ModContent.TileType<CrimsonPustuleTile>() && tile.TileFrameY % 36 == 0 && tile.TileFrameY == 0;
 		}
 
 		public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction) => Place(i, j);
@@ -168,16 +169,16 @@ namespace SpiritMod.Tiles
 			if (MyWorld.CrimHazards >= 20) //There shouldn't be too many in the world
 				return;
 
-			if (tile.type != TileID.Crimstone) //I should be crimstone
+			if (tile.TileType != TileID.Crimstone) //I should be crimstone
 				return;
 
 			Tile rightTile = Framing.GetTileSafely(i + 1, j);
-			if (!rightTile.active() || rightTile.type != TileID.Crimstone) //And my friend should be too
+			if (!rightTile.HasTile || rightTile.TileType != TileID.Crimstone) //And my friend should be too
 				return;
 
 			for (int x = i; x <= i + 1; x++) //And we should have space to breathe
 				for (int y = j - 2; y <= j - 1; y++)
-					if (Framing.GetTileSafely(x, y).active())
+					if (Framing.GetTileSafely(x, y).HasTile)
 						return;
 
 			if (Main.rand.NextBool(120))

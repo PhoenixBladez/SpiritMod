@@ -20,17 +20,17 @@ namespace SpiritMod.Items.Sets.FloatingItems
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 24;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = 0;
-			item.rare = ItemRarityID.Blue;
-			item.createTile = ModContent.TileType<OceanKelp>();
-			item.maxStack = 999;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
+			Item.width = 30;
+			Item.height = 24;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.value = 0;
+			Item.rare = ItemRarityID.Blue;
+			Item.createTile = ModContent.TileType<OceanKelp>();
+			Item.maxStack = 999;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
 		}
 	}
 }

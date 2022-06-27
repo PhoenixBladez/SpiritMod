@@ -9,7 +9,7 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class Shrine3_Tile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -23,13 +23,13 @@ namespace SpiritMod.Tiles.Ambient
 			name.SetDefault("Ancient Shrine");
 			AddMapEntry(new Color(200, 200, 200), name);
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 48, 48, mod.ItemType("Shrine3"));
+			Item.NewItem(i * 16, j * 16, 48, 48, Mod.Find<ModItem>("Shrine3").Type);
 		}
 	}
 }

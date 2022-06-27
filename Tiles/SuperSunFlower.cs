@@ -17,7 +17,7 @@ namespace SpiritMod.Tiles
 	{
 		public static readonly int Range = 5; // Used in the detours
 
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = false;
 			Main.tileBlockLight[Type] = false;
@@ -37,7 +37,7 @@ namespace SpiritMod.Tiles
 
 			AddMapEntry(new Color(196, 101, 223));
 
-			dustType = DustID.Grass;
+			DustType = DustID.Grass;
 		}
 
 		public override void PlaceInWorld(int i, int j, Item item)
@@ -60,9 +60,9 @@ namespace SpiritMod.Tiles
 			Tile tile = Framing.GetTileSafely(i, j);
 
 			b = 0.15f;
-			r = g = (float)Math.Sin(Main.GlobalTime) * 0.1f + 0.4f;
+			r = g = (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.1f + 0.4f;
 
-			if (tile.frameY > 54 || Main.dayTime)
+			if (tile.TileFrameY > 54 || Main.dayTime)
 				return;
 
 			if (Main.rand.NextBool(180) && !Main.gamePaused) {
@@ -80,14 +80,14 @@ namespace SpiritMod.Tiles
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
 			Color colour = Color.White;
-			Color sinColor = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
+			Color sinColor = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
 
-			Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/SuperSunFlower_Glow");
-			Texture2D mask = ModContent.GetTexture("SpiritMod/Tiles/SuperSunFlower_Mask");
+			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/SuperSunFlower_Glow");
+			Texture2D mask = ModContent.Request<Texture2D>("SpiritMod/Tiles/SuperSunFlower_Mask");
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
 
-			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
-			spriteBatch.Draw(mask, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), sinColor);
+			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), colour);
+			spriteBatch.Draw(mask, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), sinColor);
 		}
 	}
 }

@@ -14,9 +14,9 @@ namespace SpiritMod.Projectiles.Held
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Trident);
+			Projectile.CloneDefaults(ProjectileID.Trident);
 
-			aiType = ProjectileID.Trident;
+			AIType = ProjectileID.Trident;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Held
 			timer--;
 
 			if (timer == 0) {
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X + 10, projectile.velocity.Y, ModContent.ProjectileType<SoulSpirit>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X + 10, Projectile.velocity.Y, ModContent.ProjectileType<SoulSpirit>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
 				timer = 60;
 			}
 		}

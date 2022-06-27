@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.CryoliteSet;
 using SpiritMod.Items.Consumable.Food;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs.DoT;
@@ -15,57 +16,57 @@ namespace SpiritMod.NPCs.Winterborn
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Winterborn");
-			Main.npcFrameCount[npc.type] = 6;
+			Main.npcFrameCount[NPC.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 24;
-			npc.height = 46;
-			npc.damage = 30;
-			npc.defense = 11;
-			npc.lifeMax = 250;
-			npc.HitSound = SoundID.NPCDeath15;
-			npc.DeathSound = SoundID.NPCDeath6;
-			npc.value = 189f;
-			npc.buffImmune[BuffID.OnFire] = true;
-			npc.buffImmune[BuffID.Frostburn] = true;
-			npc.buffImmune[ModContent.BuffType<CryoCrush>()] = true;
-			npc.knockBackResist = .07f;
-			npc.aiStyle = 3;
-			aiType = NPCID.ArmoredViking;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.WinterbornBanner>();
+			NPC.width = 24;
+			NPC.height = 46;
+			NPC.damage = 30;
+			NPC.defense = 11;
+			NPC.lifeMax = 250;
+			NPC.HitSound = SoundID.NPCDeath15;
+			NPC.DeathSound = SoundID.NPCDeath6;
+			NPC.value = 189f;
+			NPC.buffImmune[BuffID.OnFire] = true;
+			NPC.buffImmune[BuffID.Frostburn] = true;
+			NPC.buffImmune[ModContent.BuffType<CryoCrush>()] = true;
+			NPC.knockBackResist = .07f;
+			NPC.aiStyle = 3;
+			AIType = NPCID.ArmoredViking;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.WinterbornBanner>();
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => NPC.downedBoss3 && ((spawnInfo.spawnTileY > Main.rockLayer && spawnInfo.player.ZoneSnow) || (spawnInfo.player.ZoneSnow && Main.raining && spawnInfo.player.ZoneOverworldHeight)) ? 0.12f : 0f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => NPC.downedBoss3 && ((spawnInfo.SpawnTileY > Main.rockLayer && spawnInfo.Player.ZoneSnow) || (spawnInfo.Player.ZoneSnow && Main.raining && spawnInfo.Player.ZoneOverworldHeight)) ? 0.12f : 0f;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
 			{
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.UnusedWhiteBluePurple, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Flare_Blue, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.UnusedWhiteBluePurple, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Flare_Blue, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
 				}
 			}
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Winterborn/WinterbornGore3"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore3").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore3").Type, 1f);
 
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-				npc.width = 30;
-				npc.height = 30;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+				NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
+				NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
+				NPC.width = 30;
+				NPC.height = 30;
+				NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
+				NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
 				for (int num621 = 0; num621 < 20; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Flare_Blue, 0f, 0f, 100, default, .8f);
+					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Flare_Blue, 0f, 0f, 100, default, .8f);
 					if (Main.rand.Next(2) == 0)
 					{
 						Main.dust[num622].scale = 0.35f;
@@ -73,27 +74,27 @@ namespace SpiritMod.NPCs.Winterborn
 				}
 				for (int num623 = 0; num623 < 40; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.BlueCrystalShard, 0f, 0f, 100, default, .43f);
+					int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.BlueCrystalShard, 0f, 0f, 100, default, .43f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 3f;
 				}
 			}
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Winterborn/WinterbornMelee_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Winterborn/WinterbornMelee_Glow"));
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.25f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.25f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -106,19 +107,19 @@ namespace SpiritMod.NPCs.Winterborn
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0.079f, 0.132f, .2f);
-			npc.spriteDirection = npc.direction;
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.079f, 0.132f, .2f);
+			NPC.spriteDirection = NPC.direction;
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CryoliteOre>(), 2 + Main.rand.Next(3, 7));
+			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<CryoliteOre>(), 2 + Main.rand.Next(3, 7));
 
 			if (Main.rand.NextBool(16))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Popsicle>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Popsicle>());
 
 			if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.IceDeityQuest>().IsActive && Main.rand.NextBool(5))
-				Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.IceDeityShard1>());
+				Item.NewItem(NPC.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.IceDeityShard1>());
 		}
 	}
 }

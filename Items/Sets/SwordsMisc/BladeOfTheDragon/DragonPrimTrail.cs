@@ -103,7 +103,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
             {
                 Points.RemoveAt(0);
             }
-            if ((!Entity.active && Entity != null) || Destroyed || (Entity is Projectile x && x.modProjectile is BladeOfTheDragonProj proj && proj.charge > proj.MAXCHARGE))
+            if ((!Entity.active && Entity != null) || Destroyed || (Entity is Projectile x && x.ModProjectile is BladeOfTheDragonProj proj && proj.charge > proj.MAXCHARGE))
             {
                 OnDestroy();
             }

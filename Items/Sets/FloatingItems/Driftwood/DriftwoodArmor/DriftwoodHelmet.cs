@@ -11,11 +11,11 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood.DriftwoodArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 24;
-			item.value = 0;
-			item.rare = ItemRarityID.Blue;
-			item.defense = 2;
+			Item.width = 28;
+			Item.height = 24;
+			Item.value = 0;
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 2;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<DriftwoodChestplate>() && legs.type == ModContent.ItemType<DriftwoodLeggings>();
@@ -31,11 +31,10 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood.DriftwoodArmor
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<DriftwoodTileItem>(), 15);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

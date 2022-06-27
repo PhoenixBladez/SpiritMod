@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs.DoT;
@@ -21,39 +22,39 @@ namespace SpiritMod.NPCs.HauntedTome
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Haunted Tome");
-			Main.npcFrameCount[npc.type] = 19;
+			Main.npcFrameCount[NPC.type] = 19;
 		}
 
 		private int frame = 0;
 
 		public override void SetDefaults()
 		{
-			npc.Size = new Vector2(34, 34);
-			npc.lifeMax = 600;
-			npc.damage = 20;
-			npc.defense = 8;
-			npc.noTileCollide = true;
-			npc.noGravity = true;
-			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
-			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
-			npc.buffImmune[BuffID.Confused] = true;
-			npc.buffImmune[BuffID.OnFire] = true;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.lavaImmune = true;
-			npc.aiStyle = -1;
-			npc.value = 600;
-			npc.knockBackResist = 1f;
-			npc.HitSound = new LegacySoundStyle(SoundID.NPCHit, 15).WithPitchVariance(0.2f);
-			npc.DeathSound = SoundID.NPCDeath6;
+			NPC.Size = new Vector2(34, 34);
+			NPC.lifeMax = 600;
+			NPC.damage = 20;
+			NPC.defense = 8;
+			NPC.noTileCollide = true;
+			NPC.noGravity = true;
+			NPC.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
+			NPC.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+			NPC.buffImmune[BuffID.Confused] = true;
+			NPC.buffImmune[BuffID.OnFire] = true;
+			NPC.buffImmune[BuffID.Poisoned] = true;
+			NPC.lavaImmune = true;
+			NPC.aiStyle = -1;
+			NPC.value = 600;
+			NPC.knockBackResist = 1f;
+			NPC.HitSound = new LegacySoundStyle(SoundID.NPCHit, 15).WithPitchVariance(0.2f);
+			NPC.DeathSound = SoundID.NPCDeath6;
 		}
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(npc.lifeMax * 0.66f * bossLifeScale);
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = (int)(NPC.lifeMax * 0.66f * bossLifeScale);
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
 
-		ref float AiTimer => ref npc.ai[0];
+		ref float AiTimer => ref NPC.ai[0];
 
-		ref float AttackType => ref npc.ai[1];
+		ref float AttackType => ref NPC.ai[1];
 
 		private delegate void Attack(Player player, NPC npc);
 
@@ -84,24 +85,24 @@ namespace SpiritMod.NPCs.HauntedTome
 
 		public override void AI()
 		{
-			Player player = Main.player[npc.target];
-			npc.TargetClosest(true);
-			npc.spriteDirection = npc.direction;
+			Player player = Main.player[NPC.target];
+			NPC.TargetClosest(true);
+			NPC.spriteDirection = NPC.direction;
 
 			if (++AiTimer < 180) {
 				Vector2 homeCenter = player.Center;
 				homeCenter.Y -= 100;
 
-				npc.velocity = new Vector2(MathHelper.Clamp(npc.velocity.X + (0.2f * npc.DirectionTo(homeCenter).X), -6, 6), MathHelper.Clamp(npc.velocity.Y + (0.1f * npc.DirectionTo(homeCenter).Y), -2, 2));
+				NPC.velocity = new Vector2(MathHelper.Clamp(NPC.velocity.X + (0.2f * NPC.DirectionTo(homeCenter).X), -6, 6), MathHelper.Clamp(NPC.velocity.Y + (0.1f * NPC.DirectionTo(homeCenter).Y), -2, 2));
 			}
 			if (AiTimer == 180)
-				npc.velocity = -npc.DirectionTo(player.Center) * 6;
+				NPC.velocity = -NPC.DirectionTo(player.Center) * 6;
 
 			if (AiTimer > 180) {
-				AttackDict[Pattern[(int)AttackType]].Invoke(Main.player[npc.target], npc);
+				AttackDict[Pattern[(int)AttackType]].Invoke(Main.player[NPC.target], NPC);
 
 				if (AiTimer % 30 == 0 && Main.netMode != NetmodeID.Server)
-						Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PageFlip").WithPitchVariance(0.2f), npc.Center);
+						SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PageFlip").WithPitchVariance(0.2f), NPC.Center);
 
 				if (frame < 9)
 					UpdateFrame(12, 0, 9);
@@ -115,7 +116,7 @@ namespace SpiritMod.NPCs.HauntedTome
 					UpdateFrame(10, 0, 4);
 			}
 
-			npc.localAI[0] = Math.Max(npc.localAI[0] - 0.05f, 0);
+			NPC.localAI[0] = Math.Max(NPC.localAI[0] - 0.05f, 0);
 		}
 
 		private void ResetPattern()
@@ -126,7 +127,7 @@ namespace SpiritMod.NPCs.HauntedTome
 				AttackType = 0;
 				Pattern.Randomize();
 			}
-			npc.netUpdate = true;
+			NPC.netUpdate = true;
 		}
 
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => knockback = (AiTimer < 180) ? knockback : 0;
@@ -135,12 +136,12 @@ namespace SpiritMod.NPCs.HauntedTome
 
 		private static void Skulls(Player player, NPC npc)
 		{
-			HauntedTome modnpc = npc.modNPC as HauntedTome;
+			HauntedTome modnpc = npc.ModNPC as HauntedTome;
 			npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
 
 			if(modnpc.AiTimer % 20 == 0) {
 				if (Main.netMode != NetmodeID.Server)
-					Main.PlaySound(new LegacySoundStyle(SoundID.Item, 104).WithPitchVariance(0.2f), npc.Center);
+					SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 104).WithPitchVariance(0.2f), npc.Center);
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 					Projectile.NewProjectileDirect(npc.Center,
@@ -162,12 +163,12 @@ namespace SpiritMod.NPCs.HauntedTome
 
 		private static void Planes(Player player, NPC npc)
 		{
-			HauntedTome modnpc = npc.modNPC as HauntedTome;
+			HauntedTome modnpc = npc.ModNPC as HauntedTome;
 			npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
 
 				if (modnpc.AiTimer % 45 == 0) {
 				if (Main.netMode != NetmodeID.Server)
-					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PaperRip"), npc.Center);
+					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PaperRip"), npc.Center);
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 					Projectile.NewProjectileDirect(npc.Center,
 									-Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 4) * 3,
@@ -185,10 +186,10 @@ namespace SpiritMod.NPCs.HauntedTome
 
 		private void UpdateFrame(int framespersecond, int minframe, int maxframe)
 		{
-			npc.frameCounter++;
-			if (npc.frameCounter >= (60 / framespersecond)) {
+			NPC.frameCounter++;
+			if (NPC.frameCounter >= (60 / framespersecond)) {
 				frame++;
-				npc.frameCounter = 0;
+				NPC.frameCounter = 0;
 			}
 			if (frame > maxframe || frame < minframe)
 				frame = minframe;
@@ -196,35 +197,35 @@ namespace SpiritMod.NPCs.HauntedTome
 		
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HauntedTomeGore1"), 1f);
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore3").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore1").Type, 1f);
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
-			npc.DropItem(ModContent.ItemType<Items.Sets.SepulchreLoot.ScreamingTome.ScreamingTome>());
+			NPC.DropItem(ModContent.ItemType<Items.Sets.SepulchreLoot.ScreamingTome.ScreamingTome>());
 			MyWorld.downedTome = true;
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);
 
 			for (int i = 0; i < 8; i++)
-				Gore.NewGore(npc.Center, Main.rand.NextVector2Circular(0.5f, 0.5f), 99, Main.rand.NextFloat(0.6f, 1.2f));
+				Gore.NewGore(NPC.Center, Main.rand.NextVector2Circular(0.5f, 0.5f), 99, Main.rand.NextFloat(0.6f, 1.2f));
 
 			if (Main.netMode != NetmodeID.Server)
-				Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/DownedMiniboss"));
+				SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/DownedMiniboss"));
 		}
 
-		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_glow"));
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture(Texture.Remove(0, mod.Name.Length + 1) + "_mask"), Color.White * npc.localAI[0]);
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture(Texture.Remove(0, Mod.Name.Length + 1) + "_glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture(Texture.Remove(0, Mod.Name.Length + 1) + "_mask"), Color.White * NPC.localAI[0]);
 		}
 
 		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
@@ -257,99 +258,99 @@ namespace SpiritMod.NPCs.HauntedTome
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Haunted Skull");
-			Main.projFrames[projectile.type] = 6;
+			Main.projFrames[Projectile.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(32, 42);
-			projectile.scale = Main.rand.NextFloat(0.4f, 0.8f);
-			projectile.hostile = true;
-			projectile.tileCollide = false;
-			projectile.alpha = 255;
+			Projectile.Size = new Vector2(32, 42);
+			Projectile.scale = Main.rand.NextFloat(0.4f, 0.8f);
+			Projectile.hostile = true;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 255;
 		}
 
 		public override void AI()
 		{
-			projectile.alpha = (int)MathHelper.Max(projectile.alpha - 10, 0);
-			NPC npc = Main.npc[(int)projectile.ai[0]];
-			Player player = Main.player[(int)projectile.ai[1]];
+			Projectile.alpha = (int)MathHelper.Max(Projectile.alpha - 10, 0);
+			NPC npc = Main.npc[(int)Projectile.ai[0]];
+			Player player = Main.player[(int)Projectile.ai[1]];
 			if(!npc.active || npc.type != ModContent.NPCType<HauntedTome>() || !player.active || player.dead) {
-				projectile.Kill();
+				Projectile.Kill();
 				return;
 			}
 
-			if (npc.ai[0] < 180 && projectile.localAI[0] == 0) {
-				projectile.velocity = projectile.DirectionTo(player.Center) * 14;
-				projectile.localAI[0]++;
-				projectile.timeLeft = 180;
+			if (npc.ai[0] < 180 && Projectile.localAI[0] == 0) {
+				Projectile.velocity = Projectile.DirectionTo(player.Center) * 14;
+				Projectile.localAI[0]++;
+				Projectile.timeLeft = 180;
 				if (Main.netMode != NetmodeID.Server)
-					Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f).WithVolume(0.33f), projectile.Center);
+					SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f).WithVolume(0.33f), Projectile.Center);
 			}
 
-			if(projectile.localAI[1] == 0 && Main.netMode != NetmodeID.Server) {
-				SpiritMod.primitives.CreateTrail(new SkullPrimTrail(projectile, Color.DarkGreen, (int)(30 * projectile.scale), (int)(20 * projectile.scale)));
-				projectile.localAI[1]++;
+			if(Projectile.localAI[1] == 0 && Main.netMode != NetmodeID.Server) {
+				SpiritMod.primitives.CreateTrail(new SkullPrimTrail(Projectile, Color.DarkGreen, (int)(30 * Projectile.scale), (int)(20 * Projectile.scale)));
+				Projectile.localAI[1]++;
 			}
 
-			projectile.frameCounter++;
+			Projectile.frameCounter++;
 			//projectile.rotation = projectile.velocity.ToRotation() - ((projectile.spriteDirection > 0) ? MathHelper.Pi : 0);
-			switch (projectile.localAI[0]) {
+			switch (Projectile.localAI[0]) {
 				case 0: Vector2 homepos = npc.Center;
 					homepos.Y -= 90;
 
-					projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(homepos) * 3, 0.02f);
-					if (projectile.frameCounter % 16 == 0) {
-						if ((npc.Center.X > projectile.Center.X && projectile.spriteDirection == 1) || (npc.Center.X <= projectile.Center.X && projectile.spriteDirection == -1)) {
-							projectile.frame++;
+					Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(homepos) * 3, 0.02f);
+					if (Projectile.frameCounter % 16 == 0) {
+						if ((npc.Center.X > Projectile.Center.X && Projectile.spriteDirection == 1) || (npc.Center.X <= Projectile.Center.X && Projectile.spriteDirection == -1)) {
+							Projectile.frame++;
 						}
 					}
-					if (projectile.frame >= 4) {
-						projectile.spriteDirection = 0 - Math.Sign(projectile.spriteDirection);
-						projectile.frame = 0;
+					if (Projectile.frame >= 4) {
+						Projectile.spriteDirection = 0 - Math.Sign(Projectile.spriteDirection);
+						Projectile.frame = 0;
 					}
 					break;
 
 				case 1:
-					if (projectile.frameCounter % 8 == 0 && projectile.frame < 5) {
-						projectile.frame++;
+					if (Projectile.frameCounter % 8 == 0 && Projectile.frame < 5) {
+						Projectile.frame++;
 					}
 
-					projectile.spriteDirection = Math.Sign(-projectile.velocity.X);
+					Projectile.spriteDirection = Math.Sign(-Projectile.velocity.X);
 
-					projectile.tileCollide = (projectile.timeLeft <= 150);
-					if (projectile.velocity.Length() < 16)
-						projectile.velocity *= 1.01f;
+					Projectile.tileCollide = (Projectile.timeLeft <= 150);
+					if (Projectile.velocity.Length() < 16)
+						Projectile.velocity *= 1.01f;
 
 					break;
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			Rectangle drawFrame = new Rectangle(0, projectile.frame * tex.Height / Main.projFrames[projectile.type], tex.Width, tex.Height / Main.projFrames[projectile.type]);
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			Rectangle drawFrame = new Rectangle(0, Projectile.frame * tex.Height / Main.projFrames[Projectile.type], tex.Width, tex.Height / Main.projFrames[Projectile.type]);
 			spriteBatch.Draw(tex,
-					projectile.Center - Main.screenPosition,
+					Projectile.Center - Main.screenPosition,
 					drawFrame,
-					projectile.GetAlpha(lightColor),
-					projectile.rotation,
+					Projectile.GetAlpha(lightColor),
+					Projectile.rotation,
 					drawFrame.Size() / 2,
-					projectile.scale,
-					(projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+					Projectile.scale,
+					(Projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
 					0);
 			return false;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 3, 1f, 0f); 
+			SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 3, 1f, 0f); 
 
 			for (int i = 0; i <= 3; i++) {
-				Gore gore = Gore.NewGoreDirect(projectile.position + new Vector2(Main.rand.Next(projectile.width), Main.rand.Next(projectile.height)),
+				Gore gore = Gore.NewGoreDirect(Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)),
 					Main.rand.NextVector2Circular(-1, 1),
-					mod.GetGoreSlot("Gores/Skelet/bonger" + Main.rand.Next(1, 5)),
-					projectile.scale);
+					Mod.Find<ModGore>("Gores/Skelet/bonger" + Main.rand.Next(1, 5)).Type,
+					Projectile.scale);
 				gore.timeLeft = 20;
 			}
 		}
@@ -360,112 +361,112 @@ namespace SpiritMod.NPCs.HauntedTome
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Paper Plane");
-			Main.projFrames[projectile.type] = 9;
+			Main.projFrames[Projectile.type] = 9;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(26, 26);
-			projectile.scale = Main.rand.NextFloat(0.9f, 1.1f);
-			projectile.hostile = true;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 180;
-			projectile.spriteDirection = Main.rand.NextBool() ? -1 : 1;
+			Projectile.Size = new Vector2(26, 26);
+			Projectile.scale = Main.rand.NextFloat(0.9f, 1.1f);
+			Projectile.hostile = true;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 180;
+			Projectile.spriteDirection = Main.rand.NextBool() ? -1 : 1;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
-			foreach (float fl in projectile.localAI)
+			foreach (float fl in Projectile.localAI)
 				writer.Write(fl);
 		}
 
-		public override void ReceiveExtraAI(BinaryReader reader) => projectile.localAI = projectile.localAI.Select(i => reader.ReadSingle()).ToArray();
+		public override void ReceiveExtraAI(BinaryReader reader) => Projectile.localAI = Projectile.localAI.Select(i => reader.ReadSingle()).ToArray();
 
 		public override void AI()
 		{
-			NPC npc = Main.npc[(int)projectile.ai[0]];
-			Player player = Main.player[(int)projectile.ai[1]];
+			NPC npc = Main.npc[(int)Projectile.ai[0]];
+			Player player = Main.player[(int)Projectile.ai[1]];
 			if (!npc.active || npc.type != ModContent.NPCType<HauntedTome>() || !player.active || player.dead) {
-				projectile.Kill();
+				Projectile.Kill();
 				return;
 			}
 
-			switch (projectile.localAI[0]) {
-				case 0: projectile.alpha = Math.Min(projectile.alpha + 16, 255); //fade out after emerging from tome
-					projectile.velocity *= 0.98f;
-					if(projectile.alpha >= 255) {//teleport to player's sides
-						projectile.localAI[0]++;
-						projectile.velocity = Vector2.Zero;
+			switch (Projectile.localAI[0]) {
+				case 0: Projectile.alpha = Math.Min(Projectile.alpha + 16, 255); //fade out after emerging from tome
+					Projectile.velocity *= 0.98f;
+					if(Projectile.alpha >= 255) {//teleport to player's sides
+						Projectile.localAI[0]++;
+						Projectile.velocity = Vector2.Zero;
 						float X = 250 * Main.rand.NextFloat(0.9f, 1.2f);
 						float Y = -100 * Main.rand.NextFloat(0.9f, 1.2f);
-						projectile.position = player.position + new Vector2(Main.rand.NextBool() ? -X : X, Y);
-						projectile.netUpdate = true;
-						projectile.localAI[1] = 1;
+						Projectile.position = player.position + new Vector2(Main.rand.NextBool() ? -X : X, Y);
+						Projectile.netUpdate = true;
+						Projectile.localAI[1] = 1;
 					}
 					break;
-				case 1: projectile.alpha = Math.Max(projectile.alpha - 18, 0); //fade in and animate
-					projectile.localAI[1] = Math.Max(projectile.localAI[1] - 0.03f, 0);
-					projectile.spriteDirection = Math.Sign(-projectile.DirectionTo(player.Center).X);
-					projectile.rotation = Utils.AngleLerp(projectile.rotation, projectile.AngleTo(player.Center), 0.08f);
-					if (projectile.alpha <= 0) {
-						projectile.frameCounter++;
-						if(projectile.frameCounter % 6 == 0) {
-							projectile.frame++;
-							if(projectile.frame >= Main.projFrames[projectile.type]) { //swoop in on the player
-								projectile.frame = Main.projFrames[projectile.type] - 1;
-								projectile.localAI[0]++;
-								projectile.velocity = projectile.DirectionTo(player.Center) * 12;
+				case 1: Projectile.alpha = Math.Max(Projectile.alpha - 18, 0); //fade in and animate
+					Projectile.localAI[1] = Math.Max(Projectile.localAI[1] - 0.03f, 0);
+					Projectile.spriteDirection = Math.Sign(-Projectile.DirectionTo(player.Center).X);
+					Projectile.rotation = Utils.AngleLerp(Projectile.rotation, Projectile.AngleTo(player.Center), 0.08f);
+					if (Projectile.alpha <= 0) {
+						Projectile.frameCounter++;
+						if(Projectile.frameCounter % 6 == 0) {
+							Projectile.frame++;
+							if(Projectile.frame >= Main.projFrames[Projectile.type]) { //swoop in on the player
+								Projectile.frame = Main.projFrames[Projectile.type] - 1;
+								Projectile.localAI[0]++;
+								Projectile.velocity = Projectile.DirectionTo(player.Center) * 12;
 								if (Main.netMode != NetmodeID.Server)
-									Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 1, 0.6f, 0.5f);
+									SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 1, 0.6f, 0.5f);
 
-								projectile.netUpdate = true;
+								Projectile.netUpdate = true;
 							}
 						}
 					}
 					break;
 				default:
-					projectile.rotation = projectile.velocity.ToRotation();
-					if (++projectile.localAI[0] > 20) //move upwards after a delay
-						projectile.velocity = Vector2.Lerp(projectile.velocity, -Vector2.UnitY * 8, 0.01f);
+					Projectile.rotation = Projectile.velocity.ToRotation();
+					if (++Projectile.localAI[0] > 20) //move upwards after a delay
+						Projectile.velocity = Vector2.Lerp(Projectile.velocity, -Vector2.UnitY * 8, 0.01f);
 
-					if (projectile.velocity.Length() < 8)
-						projectile.velocity = Vector2.Normalize(projectile.velocity) * 8;
+					if (Projectile.velocity.Length() < 8)
+						Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 8;
 
 					break;
 			}
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			float scalemod = (projectile.localAI[0] == 0) ? 0.5f : 1;
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			Rectangle drawFrame = new Rectangle(0, projectile.frame * tex.Height / Main.projFrames[projectile.type], tex.Width, tex.Height / Main.projFrames[projectile.type]);
+			float scalemod = (Projectile.localAI[0] == 0) ? 0.5f : 1;
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			Rectangle drawFrame = new Rectangle(0, Projectile.frame * tex.Height / Main.projFrames[Projectile.type], tex.Width, tex.Height / Main.projFrames[Projectile.type]);
 			spriteBatch.Draw(tex,
-					projectile.Center - Main.screenPosition,
+					Projectile.Center - Main.screenPosition,
 					drawFrame,
-					projectile.GetAlpha(lightColor),
-					projectile.rotation - ((projectile.spriteDirection > 0) ? MathHelper.Pi : 0),
+					Projectile.GetAlpha(lightColor),
+					Projectile.rotation - ((Projectile.spriteDirection > 0) ? MathHelper.Pi : 0),
 					drawFrame.Size() / 2,
-					projectile.scale * scalemod,
-					(projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+					Projectile.scale * scalemod,
+					(Projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
 					0);
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(Color lightColor)
 		{
-			Texture2D tex = mod.GetTexture("NPCs/HauntedTome/HauntedPaperPlane_mask");
-			Rectangle drawFrame = new Rectangle(0, projectile.frame * tex.Height / Main.projFrames[projectile.type], tex.Width, tex.Height / Main.projFrames[projectile.type]);
+			Texture2D tex = Mod.GetTexture("NPCs/HauntedTome/HauntedPaperPlane_mask");
+			Rectangle drawFrame = new Rectangle(0, Projectile.frame * tex.Height / Main.projFrames[Projectile.type], tex.Width, tex.Height / Main.projFrames[Projectile.type]);
 			spriteBatch.Draw(tex,
-					projectile.Center - Main.screenPosition,
+					Projectile.Center - Main.screenPosition,
 					drawFrame,
-					projectile.GetAlpha(Color.White) * projectile.localAI[1],
-					projectile.rotation - ((projectile.spriteDirection > 0) ? MathHelper.Pi : 0),
+					Projectile.GetAlpha(Color.White) * Projectile.localAI[1],
+					Projectile.rotation - ((Projectile.spriteDirection > 0) ? MathHelper.Pi : 0),
 					drawFrame.Size() / 2,
-					projectile.scale,
-					(projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+					Projectile.scale,
+					(Projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
 					0);
 		}
 
-		public override void Kill(int timeLeft) => Gore.NewGore(projectile.position, projectile.velocity, mod.GetGoreSlot("Gores/HauntedPaperPlane_gore"));
+		public override void Kill(int timeLeft) => Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/HauntedPaperPlane_gore").Type);
 	}
 }

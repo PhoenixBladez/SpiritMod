@@ -13,15 +13,15 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void SetDefaults()
 		{
-			projectile.width = 150;
-			projectile.timeLeft = 10;
-			projectile.height = 150;
-			projectile.penetrate = 3;
-			projectile.ignoreWater = true;
-			projectile.alpha = 255;
-			projectile.tileCollide = false;
-			projectile.hostile = true;
-			projectile.friendly = false;
+			Projectile.width = 150;
+			Projectile.timeLeft = 10;
+			Projectile.height = 150;
+			Projectile.penetrate = 3;
+			Projectile.ignoreWater = true;
+			Projectile.alpha = 255;
+			Projectile.tileCollide = false;
+			Projectile.hostile = true;
+			Projectile.friendly = false;
 		}
 	}
 }

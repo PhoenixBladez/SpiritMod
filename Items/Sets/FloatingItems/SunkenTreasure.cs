@@ -21,17 +21,17 @@ namespace SpiritMod.Items.Sets.FloatingItems
 		}
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.rare = ItemRarityID.LightRed;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.consumable = true;
-			item.maxStack = 99;
-			item.createTile = ModContent.TileType<SunkenTreasureTile>();
-			item.useTime = item.useAnimation = 20;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.noMelee = true;
-			item.autoReuse = false;
+			Item.width = Item.height = 16;
+			Item.rare = ItemRarityID.LightRed;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.maxStack = 99;
+			Item.createTile = ModContent.TileType<SunkenTreasureTile>();
+			Item.useTime = Item.useAnimation = 20;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.noMelee = true;
+			Item.autoReuse = false;
 		}
 
 		public override bool CanRightClick() => true;
@@ -108,7 +108,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 
 	public class SunkenTreasureTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -124,11 +124,11 @@ namespace SpiritMod.Items.Sets.FloatingItems
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Sunken Treasure");
-			dustType = -1;
+			DustType = -1;
 			AddMapEntry(new Color(133, 106, 56), name);
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<SunkenTreasure>());
 	}
 }

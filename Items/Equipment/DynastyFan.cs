@@ -3,6 +3,7 @@ using SpiritMod.Projectiles.Summon.LaserGate;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Equipment
 {
@@ -16,21 +17,21 @@ namespace SpiritMod.Items.Equipment
 
 		public override void SetDefaults()
 		{
-			item.width = 44;
-			item.height = 48;
-			item.useTime = 100;
-			item.useAnimation = 100;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.value = 20000;
-			item.rare = ItemRarityID.Orange;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.shoot = ProjectileID.WoodenArrowFriendly;
-			item.shootSpeed = 12f;
+			Item.width = 44;
+			Item.height = 48;
+			Item.useTime = 100;
+			Item.useAnimation = 100;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.value = 20000;
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = false;
+			Item.shoot = ProjectileID.WoodenArrowFriendly;
+			Item.shootSpeed = 12f;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (!player.HasBuff(BuffID.Featherfall)) {
                 player.AddBuff(ModContent.BuffType<Buffs.DynastyFanBuff>(), 120);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,36 +16,36 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = 1;
-			projectile.alpha = 255;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = 1;
+			Projectile.alpha = 255;
 		}
 
 		public override bool PreAI()
 		{
 			if (Main.rand.Next(2) == 0) {
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 				Main.dust[dust].scale *= 1.5f;
 				Main.dust[dust].noGravity = true;
 			}
 
-			if (projectile.alpha > 0)
-				projectile.alpha -= 25;
+			if (Projectile.alpha > 0)
+				Projectile.alpha -= 25;
 
-			if (projectile.alpha < 0)
-				projectile.alpha = 0;
+			if (Projectile.alpha < 0)
+				Projectile.alpha = 0;
 
 
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 45f) {
-				projectile.ai[1] = 45f;
-				projectile.velocity.X = projectile.velocity.X * 0.98F;
-				projectile.velocity.Y = projectile.velocity.Y + 0.35F;
+			Projectile.ai[1] += 1f;
+			if (Projectile.ai[1] >= 45f) {
+				Projectile.ai[1] = 45f;
+				Projectile.velocity.X = Projectile.velocity.X * 0.98F;
+				Projectile.velocity.Y = Projectile.velocity.Y + 0.35F;
 			}
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
+			Projectile.rotation = Projectile.velocity.ToRotation() + 1.57079637f;
 
 			return false;
 		}
@@ -64,14 +65,14 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
-			Vector2 vector9 = projectile.position;
-			Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y, 1);
+			Vector2 vector9 = Projectile.position;
+			Vector2 value19 = (Projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
 
 			for (int num257 = 0; num257 < 20; num257++) {
-				int newDust = Dust.NewDust(vector9, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 0, default, 1f);
-				Main.dust[newDust].position = (Main.dust[newDust].position + projectile.Center) / 2f;
+				int newDust = Dust.NewDust(vector9, Projectile.width, Projectile.height, DustID.Torch, 0f, 0f, 0, default, 1f);
+				Main.dust[newDust].position = (Main.dust[newDust].position + Projectile.Center) / 2f;
 				Main.dust[newDust].velocity += value19 * 2f;
 				Main.dust[newDust].velocity *= 0.5f;
 				Main.dust[newDust].noGravity = true;
@@ -79,9 +80,9 @@ namespace SpiritMod.Projectiles.Thrown
 			}
 			for (int i = 0; i < 2; ++i) {
 				int randFire = Main.rand.Next(3);
-				int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
+				int newProj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y,
 					Main.rand.Next(-1000, 1000) / 100, Main.rand.Next(-8, 8),
-					ProjectileID.GreekFire1 + randFire, 20, 0, projectile.owner);
+					ProjectileID.GreekFire1 + randFire, 20, 0, Projectile.owner);
 				Main.projectile[newProj].hostile = false;
 				Main.projectile[newProj].friendly = true;
 			}

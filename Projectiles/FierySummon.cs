@@ -16,31 +16,31 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 3;
-			projectile.tileCollide = false;
-			projectile.alpha = 255;
-			projectile.timeLeft = 120;
-			projectile.extraUpdates = 1;
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = 3;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 120;
+			Projectile.extraUpdates = 1;
 		}
 
 		Vector2 offset = new Vector2(60, 60);
 		public override void AI()
 		{
-			var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
+			var list = Main.projectile.Where(x => x.Hitbox.Intersects(Projectile.Hitbox));
 			foreach (var proj in list) {
-				if (projectile != proj && proj.hostile)
+				if (Projectile != proj && proj.hostile)
 					proj.Kill();
 
-				Player player = Main.player[projectile.owner];
-				projectile.ai[0] += .02f;
-				projectile.Center = player.Center + offset.RotatedBy(projectile.ai[0] + projectile.ai[1] * (Math.PI * 10 / 1));
+				Player player = Main.player[Projectile.owner];
+				Projectile.ai[0] += .02f;
+				Projectile.Center = player.Center + offset.RotatedBy(Projectile.ai[0] + Projectile.ai[1] * (Math.PI * 10 / 1));
 
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+				int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust2].noGravity = true;
 				Main.dust[dust2].velocity *= 0f;
@@ -48,14 +48,14 @@ namespace SpiritMod.Projectiles
 				Main.dust[dust2].scale = 0.9f;
 				Main.dust[dust].scale = 0.9f;
 
-				projectile.rotation = projectile.velocity.ToRotation() + (float)(Math.PI / 2);
+				Projectile.rotation = Projectile.velocity.ToRotation() + (float)(Math.PI / 2);
 			}
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++) {
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch);
 			}
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

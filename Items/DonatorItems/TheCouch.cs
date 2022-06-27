@@ -15,21 +15,21 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override void SetDefaults()
 		{
-			item.width = 52;
-			item.height = 30;
-			item.value = 50000;
+			Item.width = 52;
+			Item.height = 30;
+			Item.value = 50000;
 
-			item.maxStack = 99;
-			item.rare = ItemRarityID.LightRed;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.maxStack = 99;
+			Item.rare = ItemRarityID.LightRed;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<Tiles.Furniture.Donator.TheCouch>();
+			Item.createTile = ModContent.TileType<Tiles.Furniture.Donator.TheCouch>();
 		}
 
 	}

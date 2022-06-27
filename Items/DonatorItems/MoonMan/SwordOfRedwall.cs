@@ -16,33 +16,32 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 
 		public override void SetDefaults()
 		{
-			item.width = 42;
-			item.height = 42;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.UseSound = SoundID.Item1;
+			Item.width = 42;
+			Item.height = 42;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.UseSound = SoundID.Item1;
 
-			item.value = 150000;
-			item.rare = ItemRarityID.Orange;
-			item.value = Item.sellPrice(0, 0, 50, 0);
-			item.damage = 28;
-			item.knockBack = 5.8f;
-			item.melee = true;
+			Item.value = 150000;
+			Item.rare = ItemRarityID.Orange;
+			Item.value = Item.sellPrice(0, 0, 50, 0);
+			Item.damage = 28;
+			Item.knockBack = 5.8f;
+			Item.DamageType = DamageClass.Melee;
 
-			item.useTime = 26;
-			item.useAnimation = 26;
+			Item.useTime = 26;
+			Item.useAnimation = 26;
 		}
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 12);
 			recipe.AddRecipeGroup("SpiritMod:SilverBars", 12);
 			recipe.AddIngredient(ItemID.MeteoriteBar, 12);
 			recipe.AddIngredient(ItemID.Ruby, 1);
 			recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 10);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -1,5 +1,6 @@
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Thrown.Charge;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,33 +17,32 @@ namespace SpiritMod.Items.Sets.FrigidSet
 
 		public override void SetDefaults()
 		{
-			item.damage = 9;
-			item.noMelee = true;
-			item.channel = true; //Channel so that you can held the weapon [Important]
-			item.rare = ItemRarityID.Blue;
-			item.width = 18;
-			item.height = 18;
-			item.useTime = 15;
-			item.useAnimation = 45;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = item.useAnimation = 24;
-			item.knockBack = 2.5f;
-			item.melee = true;
-			item.noMelee = true;
+			Item.damage = 9;
+			Item.noMelee = true;
+			Item.channel = true; //Channel so that you can held the weapon [Important]
+			Item.rare = ItemRarityID.Blue;
+			Item.width = 18;
+			Item.height = 18;
+			Item.useTime = 15;
+			Item.useAnimation = 45;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = Item.useAnimation = 24;
+			Item.knockBack = 2.5f;
+			Item.DamageType = DamageClass.Melee;
+			Item.noMelee = true;
 			//   item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.noUseGraphic = true;
-			item.shoot = ModContent.ProjectileType<FrigidJavelinProj>();
-			item.shootSpeed = 0f;
+			Item.autoReuse = false;
+			Item.noUseGraphic = true;
+			Item.shoot = ModContent.ProjectileType<FrigidJavelinProj>();
+			Item.shootSpeed = 0f;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<FrigidFragment>(), 9);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

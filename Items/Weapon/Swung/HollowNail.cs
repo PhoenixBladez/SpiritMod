@@ -16,33 +16,33 @@ namespace SpiritMod.Items.Weapon.Swung
 
 		public override void SetDefaults()
 		{
-			item.damage = 15;
-			item.melee = true;
-			item.noMelee = true;
-			item.width = 32;
-			item.height = 32;
-			item.useTime = 23;
-			item.useAnimation = 23;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.knockBack = 5;
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = false;
-			item.noUseGraphic = true;
-			item.value = Item.sellPrice(0, 0, 0, 20);
-			item.shoot = ModContent.ProjectileType<NailProj>();
-			item.shootSpeed = 30f;
+			Item.damage = 15;
+			Item.DamageType = DamageClass.Melee;
+			Item.noMelee = true;
+			Item.width = 32;
+			Item.height = 32;
+			Item.useTime = 23;
+			Item.useAnimation = 23;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 5;
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = false;
+			Item.noUseGraphic = true;
+			Item.value = Item.sellPrice(0, 0, 0, 20);
+			Item.shoot = ModContent.ProjectileType<NailProj>();
+			Item.shootSpeed = 30f;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			position += new Vector2(speedX, speedY);
-			Projectile.NewProjectile(position.X, position.Y, speedX / 30, speedY / 30, type, damage, knockBack, player.whoAmI, speedX, speedY);
+			Projectile.NewProjectile(position.X, position.Y, speedX / 30, speedY / 30, type, damage, knockback, player.whoAmI, speedX, speedY);
 
-			if (item.shoot == ModContent.ProjectileType<NailProj>())
-				item.shoot = ModContent.ProjectileType<NailProj2>();
+			if (Item.shoot == ModContent.ProjectileType<NailProj>())
+				Item.shoot = ModContent.ProjectileType<NailProj2>();
 			else
-				item.shoot = ModContent.ProjectileType<NailProj>();
+				Item.shoot = ModContent.ProjectileType<NailProj>();
 			return false;
 		}
 	}

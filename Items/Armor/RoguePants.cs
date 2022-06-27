@@ -15,11 +15,11 @@ namespace SpiritMod.Items.Armor
 		}
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 18;
-			item.value = Terraria.Item.buyPrice(0, 0, 40, 0);
-			item.rare = ItemRarityID.Blue;
-			item.defense = 3;
+			Item.width = 22;
+			Item.height = 18;
+			Item.value = Terraria.Item.buyPrice(0, 0, 40, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 3;
 		}
 
 		public override void UpdateEquip(Player player)

@@ -13,11 +13,11 @@ namespace SpiritMod.Items.Armor.Masks
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = 5000;
-			item.rare = ItemRarityID.Blue;
-			item.vanity = true;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = 5000;
+			Item.rare = ItemRarityID.Blue;
+			Item.vanity = true;
 		}
 	}
 	[AutoloadEquip(EquipType.Head)]
@@ -30,11 +30,11 @@ namespace SpiritMod.Items.Armor.Masks
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = 5000;
-			item.rare = ItemRarityID.Blue;
-			item.vanity = true;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = 5000;
+			Item.rare = ItemRarityID.Blue;
+			Item.vanity = true;
 		}
 	}
 	[AutoloadEquip(EquipType.Head)]
@@ -47,11 +47,11 @@ namespace SpiritMod.Items.Armor.Masks
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = 5000;
-			item.rare = ItemRarityID.Blue;
-			item.vanity = true;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = 5000;
+			Item.rare = ItemRarityID.Blue;
+			Item.vanity = true;
 		}
 	}
 }

@@ -7,7 +7,7 @@ namespace SpiritMod.Tiles.Walls.Natural
 {
 	public class ReachWallNatural : ModWall
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.wallHouse[Type] = false;
 			WallID.Sets.Conversion.Grass[Type] = true;

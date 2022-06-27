@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -29,21 +30,21 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 		public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.timeLeft = MAXTIMELEFT;
-            projectile.ranged = true;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.ignoreWater = true;
-			projectile.alpha = 0;
-			projectile.scale = Main.rand.NextFloat(0.85f, 1.1f);
-			projectile.hide = true;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.timeLeft = MAXTIMELEFT;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.ignoreWater = true;
+			Projectile.alpha = 0;
+			Projectile.scale = Main.rand.NextFloat(0.85f, 1.1f);
+			Projectile.hide = true;
 		}
 
-		public void DoTrailCreation(TrailManager tM) => tM.CreateCustomTrail(new FlameTrail(projectile, Yellow, Orange, Purple, 28 * projectile.scale, 14));
+		public void DoTrailCreation(TrailManager tM) => tM.CreateCustomTrail(new FlameTrail(Projectile, Yellow, Orange, Purple, 28 * Projectile.scale, 14));
 
 		private float CircleOffset;
 		private float CirclingSpeed;
@@ -51,82 +52,82 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 		public override void AI()
         {
-			if (projectile.timeLeft == MAXTIMELEFT)
+			if (Projectile.timeLeft == MAXTIMELEFT)
 			{
 				CircleOffset = Main.rand.Next(360);
 				CirclingSpeed = Main.rand.NextFloat(4, 5) * (Main.rand.NextBool() ? -1 : 1);
 				CircleSize = Main.rand.NextFloat(8, 9);
 
-				projectile.netUpdate = true;
+				Projectile.netUpdate = true;
 			}
 
 			int fadeOutTime = 20;
 
-			if (projectile.timeLeft <= fadeOutTime)
-				projectile.alpha = Math.Min(projectile.alpha + (255 / fadeOutTime), 255);
+			if (Projectile.timeLeft <= fadeOutTime)
+				Projectile.alpha = Math.Min(Projectile.alpha + (255 / fadeOutTime), 255);
 
 			//If projectile is above the medium speed, slow down more harshly, and slow down constantly while above the minimum speed
-			if (projectile.velocity.Length() > MED_SPEED)
-				projectile.velocity *= 0.98f;
+			if (Projectile.velocity.Length() > MED_SPEED)
+				Projectile.velocity *= 0.98f;
 
-			if (projectile.velocity.Length() > MIN_SPEED)
-				projectile.velocity *= 0.985f;
+			if (Projectile.velocity.Length() > MIN_SPEED)
+				Projectile.velocity *= 0.985f;
 
 			//Add circular movement to the projectiles, based on how slowly they're moving
-			Vector2 circularVelocity = Vector2.UnitX.RotatedBy(MathHelper.ToRadians((projectile.timeLeft + CircleOffset) * CirclingSpeed)) * CircleSize;
-			projectile.position += circularVelocity * (float)Math.Pow(1 - (projectile.velocity.Length() / MAX_SPEED), 2f);
+			Vector2 circularVelocity = Vector2.UnitX.RotatedBy(MathHelper.ToRadians((Projectile.timeLeft + CircleOffset) * CirclingSpeed)) * CircleSize;
+			Projectile.position += circularVelocity * (float)Math.Pow(1 - (Projectile.velocity.Length() / MAX_SPEED), 2f);
 
-			projectile.rotation += 0.15f * (Math.Sign(projectile.velocity.X) > 0 ? 1 : -1);
+			Projectile.rotation += 0.15f * (Math.Sign(Projectile.velocity.X) > 0 ? 1 : -1);
 
 			if (!Main.dedServ)
 			{
 				if(Main.rand.NextBool(8))
-					ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, projectile.velocity * Main.rand.NextFloat(0.75f),
+					ParticleHandler.SpawnParticle(new FireParticle(Projectile.Center, Projectile.velocity * Main.rand.NextFloat(0.75f),
 						Yellow, Orange, Main.rand.NextFloat(0.25f, 0.3f), 30, delegate (Particle p)
 						{
 							p.Velocity *= 0.93f;
 						}));
 
 				if(Main.rand.NextBool(6))
-					ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, projectile.velocity * Main.rand.NextFloat(0.75f),
+					ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Projectile.velocity * Main.rand.NextFloat(0.75f),
 						Main.rand.NextBool(3) ? Orange : Yellow, Main.rand.NextFloat(0.15f, 0.2f), 25));
 			}
 		}
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
-			float blurLength = 180 * projectile.scale;
-			float blurWidth = 8 * projectile.scale;
-			float flickerStrength = (((float)Math.Sin(Main.GlobalTime * 12) % 1) * 0.1f) + 1f;
-			Effect blurEffect = mod.GetEffect("Effects/BlurLine");
+			float blurLength = 180 * Projectile.scale;
+			float blurWidth = 8 * Projectile.scale;
+			float flickerStrength = (((float)Math.Sin(Main.GlobalTimeWrappedHourly * 12) % 1) * 0.1f) + 1f;
+			Effect blurEffect = Mod.GetEffect("Effects/BlurLine");
 
 			IPrimitiveShape[] blurLines = new IPrimitiveShape[]
 			{
 				//Horizontal
 				new SquarePrimitive()
 				{
-					Position = projectile.Center - Main.screenPosition,
+					Position = Projectile.Center - Main.screenPosition,
 					Height = blurWidth * flickerStrength,
 					Length = blurLength * flickerStrength,
 					Rotation = 0,
-					Color = Color.White * flickerStrength * projectile.Opacity
+					Color = Color.White * flickerStrength * Projectile.Opacity
 				},
 
 				//Vertical, lower length
 				new SquarePrimitive()
 				{
-					Position = projectile.Center - Main.screenPosition,
+					Position = Projectile.Center - Main.screenPosition,
 					Height = blurWidth * flickerStrength,
 					Length = blurLength * flickerStrength * 0.75f,
 					Rotation = MathHelper.PiOver2,
-					Color = Color.White * flickerStrength * projectile.Opacity
+					Color = Color.White * flickerStrength * Projectile.Opacity
 				},
 			};
 
 			PrimitiveRenderer.DrawPrimitiveShapeBatched(blurLines, blurEffect);
 
-			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
-			sB.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.White * projectile.Opacity, 0, bloom.Size() / 2, 0.25f * projectile.scale, SpriteEffects.None, 0);
+			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			sB.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.Opacity, 0, bloom.Size() / 2, 0.25f * Projectile.scale, SpriteEffects.None, 0);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => HitEffects();
@@ -139,8 +140,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			{
 				for (int i = 0; i < 6; i++)
 				{
-					ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, 
-						Main.rand.NextVector2Unit() * Main.rand.NextFloat(5) + projectile.velocity/7,
+					ParticleHandler.SpawnParticle(new FireParticle(Projectile.Center, 
+						Main.rand.NextVector2Unit() * Main.rand.NextFloat(5) + Projectile.velocity/7,
 						Yellow, Orange, Main.rand.NextFloat(0.4f, 0.6f), 25, delegate (Particle p)
 						{
 							p.Velocity.X *= 0.95f;
@@ -149,11 +150,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 				}
 
 				for(int i = 0; i < 4; i++)
-					ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(3),
+					ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(3),
 						Main.rand.NextBool(3) ? Orange : Yellow, Main.rand.NextFloat(0.2f, 0.3f), 25));
 
 				for (int i = 0; i < 3; i++)
-					ParticleHandler.SpawnParticle(new ImpactLine(projectile.Center, Main.rand.NextVector2Unit(), Orange * 0.75f, new Vector2(0.5f, Main.rand.NextFloat(1f, 1.4f)), 15));
+					ParticleHandler.SpawnParticle(new ImpactLine(Projectile.Center, Main.rand.NextVector2Unit(), Orange * 0.75f, new Vector2(0.5f, Main.rand.NextFloat(1f, 1.4f)), 15));
 			}
 		}
 
@@ -161,18 +162,18 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		{
 			if (!Main.dedServ)
 			{
-				Vector2 velnormal = Vector2.Normalize(projectile.velocity);
+				Vector2 velnormal = Vector2.Normalize(Projectile.velocity);
 				velnormal *= 4;
 
 				for (int i = 0; i < 2; i++) //weak burst of particles in direction of movement
-					ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, velnormal.RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(1f, 2f),
+					ParticleHandler.SpawnParticle(new FireParticle(Projectile.Center, velnormal.RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(1f, 2f),
 						Yellow, Orange, Main.rand.NextFloat(0.5f, 0.7f), 25, delegate (Particle p)
 						{
 							p.Velocity = p.Velocity.RotatedByRandom(0.1f) * 0.98f;
 						}));
 
 				for (int i = 0; i < 3; i++) //wide burst of slower moving particles in opposite direction
-					ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, -velnormal.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(1f, 1.5f),
+					ParticleHandler.SpawnParticle(new FireParticle(Projectile.Center, -velnormal.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(1f, 1.5f),
 						Yellow, Orange, Main.rand.NextFloat(0.5f, 0.7f), 25, delegate (Particle p)
 						{
 							p.Velocity = p.Velocity.RotatedByRandom(0.1f) * 0.98f;
@@ -180,7 +181,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 
 				for (int i = 0; i < 2; i++) //narrow burst of faster, bigger particles
-					ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, -velnormal.RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(1f, 2.5f),
+					ParticleHandler.SpawnParticle(new FireParticle(Projectile.Center, -velnormal.RotatedByRandom(MathHelper.Pi / 6) * Main.rand.NextFloat(1f, 2.5f),
 						Yellow, Orange, Main.rand.NextFloat(0.5f, 0.7f), 25, delegate (Particle p)
 						{
 							p.Velocity = p.Velocity.RotatedByRandom(0.15f) * 0.98f;
@@ -188,15 +189,15 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 						}));
 
 				for (int i = 0; i < 4; i++)
-					ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(3),
+					ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(3),
 						Main.rand.NextBool(3) ? Orange : Yellow, Main.rand.NextFloat(0.2f, 0.3f), 25));
 
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.35f).WithPitchVariance(0.3f), projectile.Center);
+				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.35f).WithPitchVariance(0.3f), Projectile.Center);
 			}
 
 			//Make projectile stop moving and begin fadeout
-			projectile.velocity = Vector2.Zero;
-			projectile.netUpdate = true;
+			Projectile.velocity = Vector2.Zero;
+			Projectile.netUpdate = true;
 
 			return true;
 		}

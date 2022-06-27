@@ -15,33 +15,32 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 
 		public override void SetDefaults()
 		{
-			item.damage = 62;
-			item.magic = true;
-			item.mana = 15;
-			item.width = 66;
-			item.height = 68;
-			item.useTime = 34;
-			item.useAnimation = 34;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 5;
-			item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
-			item.rare = ItemRarityID.Yellow;
-			item.UseSound = SoundID.Item92;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<Projectiles.Magic.CursedFire>();
-			item.shootSpeed = 16f;
+			Item.damage = 62;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 15;
+			Item.width = 66;
+			Item.height = 68;
+			Item.useTime = 34;
+			Item.useAnimation = 34;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 5;
+			Item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
+			Item.rare = ItemRarityID.Yellow;
+			Item.UseSound = SoundID.Item92;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Magic.CursedFire>();
+			Item.shootSpeed = 16f;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
             recipe.AddIngredient(ItemID.BrokenHeroSword, 1);
             recipe.AddIngredient(ModContent.ItemType<NightStaff>(), 1);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

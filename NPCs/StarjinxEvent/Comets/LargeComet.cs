@@ -20,9 +20,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 		public override void SetDefaults()
         {
             base.SetDefaults();
-            npc.lifeMax = 800;
-            npc.width = 62;
-            npc.height = 58;
+            NPC.lifeMax = 800;
+            NPC.width = 62;
+            NPC.height = 58;
         }
 
 		public override void SpawnWave()
@@ -33,8 +33,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			switch (choice)
 			{
 				case 0: //circle of 5 empowered starweavers
-					npc.TargetClosest(false);
-					Player target = Main.player[npc.target];
+					NPC.TargetClosest(false);
+					Player target = Main.player[NPC.target];
 					numEnemies = 10;
 					for (int i = 0; i < 5; ++i)
 					{

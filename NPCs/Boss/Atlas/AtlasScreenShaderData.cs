@@ -15,7 +15,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 		private void UpdateAtlasIndex()
 		{
-			int AtlasType = ModLoader.GetMod("SpiritMod").NPCType("Atlas");
+			int AtlasType = ModLoader.GetMod("SpiritMod").Find<ModNPC>("Atlas").Type;
 			if (AtlasIndex >= 0 && Main.npc[AtlasIndex].active && Main.npc[AtlasIndex].type == AtlasType)
 				return;
 

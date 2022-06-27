@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -8,7 +9,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 {
 	public class AcidTableTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -23,13 +24,13 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrosive Table");
 			AddMapEntry(new Color(100, 122, 111), name);
-			disableSmartCursor = true;
-			dustType = -1;
-			adjTiles = new int[]{ TileID.Tables };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType = -1;
+			AdjTiles = new int[]{ TileID.Tables };
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
 			Terraria.Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidTable>());
 		}
 	}

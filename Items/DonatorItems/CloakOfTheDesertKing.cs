@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,37 +17,36 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override void SetDefaults()
 		{
-			item.damage = 36;
-			item.knockBack = 1;
-			item.mana = 8;
-			item.width = 26;
-			item.height = 28;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.summon = true;
-			item.noMelee = true;
-			item.buffType = ModContent.BuffType<RabbitOfCaerbannogBuff>();
-			item.shoot = ModContent.ProjectileType<RabbitOfCaerbannog>();
-			item.value = Item.sellPrice(0, 1, 50, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.UseSound = SoundID.Item44;
+			Item.damage = 36;
+			Item.knockBack = 1;
+			Item.mana = 8;
+			Item.width = 26;
+			Item.height = 28;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.DamageType = DamageClass.Summon;
+			Item.noMelee = true;
+			Item.buffType = ModContent.BuffType<RabbitOfCaerbannogBuff>();
+			Item.shoot = ModContent.ProjectileType<RabbitOfCaerbannog>();
+			Item.value = Item.sellPrice(0, 1, 50, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item44;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
-			player.AddBuff(item.buffType, 2);
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)  {
+			player.AddBuff(Item.buffType, 2);
 			position = Main.MouseWorld;
 			return true;
 		}
 		
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.CrimsonCloak);
 			recipe.AddIngredient(ItemID.SoulofNight, 10);
 			recipe.AddTile(TileID.Loom);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

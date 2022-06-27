@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -76,7 +77,7 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 
 							ParticleHandler.SpawnParticle(particle);
 						}
-						Main.PlaySound(SoundID.DD2_DarkMageCastHeal, npc.Center);
+						SoundEngine.PlaySound(SoundID.DD2_DarkMageCastHeal, npc.Center);
 					}
 
 					for (int i = 0; i < 3; i++)

@@ -7,7 +7,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 {
 	public class ReachPotTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileTable[Type] = true;
 			Main.tileFrameImportant[Type] = true;

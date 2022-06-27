@@ -15,20 +15,20 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 32;
-			item.rare = ItemRarityID.White;
-			item.maxStack = 99;
-			item.noUseGraphic = true;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = Item.sellPrice(0, 0, 7, 0);
-			item.useTime = item.useAnimation = 20;
+			Item.width = Item.height = 32;
+			Item.rare = ItemRarityID.White;
+			Item.maxStack = 99;
+			Item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.value = Item.sellPrice(0, 0, 7, 0);
+			Item.useTime = Item.useAnimation = 20;
 
-			item.noMelee = true;
-			item.consumable = true;
-			item.autoReuse = true;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.autoReuse = true;
 
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Vibeshroom>());
 			return true;

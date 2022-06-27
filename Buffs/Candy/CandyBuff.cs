@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Candy
 {
 	public class CandyBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sugar Rush");
 			Description.SetDefault("Increased stats");

@@ -19,38 +19,38 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 12;
+			Projectile.width = Projectile.height = 12;
 
-			projectile.hostile = true;
-			projectile.friendly = false;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.alpha = 255;
-			projectile.penetrate = 1;
+			Projectile.hostile = true;
+			Projectile.friendly = false;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 255;
+			Projectile.penetrate = 1;
 
-			projectile.timeLeft = 120;
+			Projectile.timeLeft = 120;
 		}
 
 		public override bool PreAI()
 		{
 			for (int i = 0; i < 16; i++) {
-				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
-				int num = Dust.NewDust(new Vector2(x, y), 26, 26, DustID.Fire, 0f, 0f, 0, default, 1f);
-				Main.dust[num].alpha = projectile.alpha;
+				float x = Projectile.Center.X - Projectile.velocity.X / 10f * (float)i;
+				float y = Projectile.Center.Y - Projectile.velocity.Y / 10f * (float)i;
+				int num = Dust.NewDust(new Vector2(x, y), 26, 26, DustID.Torch, 0f, 0f, 0, default, 1f);
+				Main.dust[num].alpha = Projectile.alpha;
 				Main.dust[num].position.X = x;
 				Main.dust[num].position.Y = y;
 				Main.dust[num].velocity *= 0f;
 				Main.dust[num].noGravity = true;
 			}
 
-			if (projectile.ai[0] == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
+			if (Projectile.ai[0] == 0 && Main.netMode != NetmodeID.MultiplayerClient) {
 				target = -1;
 				float distance = 2000f;
 				for (int k = 0; k < 255; k++) {
 					if (Main.player[k].active && !Main.player[k].dead) {
 						Vector2 center = Main.player[k].Center;
-						float currentDistance = Vector2.Distance(center, projectile.Center);
+						float currentDistance = Vector2.Distance(center, Projectile.Center);
 						if (currentDistance < distance || target == -1) {
 							distance = currentDistance;
 							target = k;
@@ -58,27 +58,27 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					}
 				}
 				if (target != -1) {
-					projectile.ai[0] = 1;
-					projectile.netUpdate = true;
+					Projectile.ai[0] = 1;
+					Projectile.netUpdate = true;
 				}
 			}
 			else if (target >= 0 && target < Main.maxPlayers) {
 				Player targetPlayer = Main.player[target];
 				if (!targetPlayer.active || targetPlayer.dead) {
 					target = -1;
-					projectile.ai[0] = 0;
-					projectile.netUpdate = true;
+					Projectile.ai[0] = 0;
+					Projectile.netUpdate = true;
 				}
 				else {
-					float currentRot = projectile.velocity.ToRotation();
-					Vector2 direction = targetPlayer.Center - projectile.Center;
+					float currentRot = Projectile.velocity.ToRotation();
+					Vector2 direction = targetPlayer.Center - Projectile.Center;
 					float targetAngle = direction.ToRotation();
 					if (direction == Vector2.Zero) {
 						targetAngle = currentRot;
 					}
 
 					float desiredRot = currentRot.AngleLerp(targetAngle, 0.1f);
-					projectile.velocity = new Vector2(projectile.velocity.Length(), 0f).RotatedBy(desiredRot, default);
+					Projectile.velocity = new Vector2(Projectile.velocity.Length(), 0f).RotatedBy(desiredRot, default);
 				}
 			}
 			return true;
@@ -86,32 +86,32 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override void AI()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 8) {
-				projectile.frameCounter = 0;
-				projectile.frame++;
-				if (projectile.frame > 5)
-					projectile.frame = 0;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter > 8) {
+				Projectile.frameCounter = 0;
+				Projectile.frame++;
+				if (Projectile.frame > 5)
+					Projectile.frame = 0;
 			}
 
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 7200f) {
-				projectile.alpha += 5;
-				if (projectile.alpha > 255) {
-					projectile.alpha = 255;
-					projectile.Kill();
+			Projectile.ai[1] += 1f;
+			if (Projectile.ai[1] >= 7200f) {
+				Projectile.alpha += 5;
+				if (Projectile.alpha > 255) {
+					Projectile.alpha = 255;
+					Projectile.Kill();
 				}
 			}
 
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] >= 10f) {
-				projectile.localAI[0] = 0f;
+			Projectile.localAI[0] += 1f;
+			if (Projectile.localAI[0] >= 10f) {
+				Projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
-				int num419 = projectile.type;
+				int num419 = Projectile.type;
 				for (int num420 = 0; num420 < 1000; num420++) {
-					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
+					if (Main.projectile[num420].active && Main.projectile[num420].owner == Projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
 						num416++;
 						if (Main.projectile[num420].ai[1] > num418) {
 							num417 = num420;
@@ -130,9 +130,9 @@ namespace SpiritMod.NPCs.Boss.Infernon
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 4; i < 31; i++) {
-				float x = projectile.oldVelocity.X * (30f / i);
-				float y = projectile.oldVelocity.Y * (30f / i);
-				int newDust = Dust.NewDust(new Vector2(projectile.oldPosition.X - x, projectile.oldPosition.Y - y), 8, 8, DustID.Fire, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.8f);
+				float x = Projectile.oldVelocity.X * (30f / i);
+				float y = Projectile.oldVelocity.Y * (30f / i);
+				int newDust = Dust.NewDust(new Vector2(Projectile.oldPosition.X - x, Projectile.oldPosition.Y - y), 8, 8, DustID.Torch, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);
 				Main.dust[newDust].noGravity = true;
 				Main.dust[newDust].velocity *= 0.5f;
 			}
@@ -143,7 +143,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			if (Main.rand.Next(4) == 0)
 				target.AddBuff(BuffID.OnFire, 180, true);
 
-			projectile.Kill();
+			Projectile.Kill();
 		}
 
 		public override void SendExtraAI(System.IO.BinaryWriter writer)

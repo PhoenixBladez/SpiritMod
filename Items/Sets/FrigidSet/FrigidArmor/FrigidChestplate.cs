@@ -17,11 +17,11 @@ namespace SpiritMod.Items.Sets.FrigidSet.FrigidArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 24;
-			item.value = Item.buyPrice(silver: 11);
-			item.rare = ItemRarityID.Blue;
-			item.defense = 4;
+			Item.width = 28;
+			Item.height = 24;
+			Item.value = Item.buyPrice(silver: 11);
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 4;
 		}
 		public override void UpdateEquip(Player player)
 		{
@@ -31,11 +31,10 @@ namespace SpiritMod.Items.Sets.FrigidSet.FrigidArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<FrigidFragment>(), 9);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

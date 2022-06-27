@@ -7,7 +7,7 @@ namespace SpiritMod.Tiles.Block
 {
 	public class ReachGrassTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			SetModTree(new ReachTree());
@@ -17,7 +17,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlockLight[Type] = true;
 			//Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(104, 156, 70));
-			drop = ModContent.ItemType<ReachGrass>();
+			ItemDrop = ModContent.ItemType<ReachGrass>();
 		}
 
 		public static bool PlaceObject(int x, int y, int type, bool mute = false, int style = 0, int alternate = 0, int random = -1, int direction = -1)

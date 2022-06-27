@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -37,12 +38,12 @@ namespace SpiritMod.Items.Glyphs
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 28;
-			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Green;
+			Item.width = 28;
+			Item.height = 28;
+			Item.value = Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Green;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 		}
 
 
@@ -51,31 +52,31 @@ namespace SpiritMod.Items.Glyphs
 			if (!target.CanLeech())
 				return;
 
-			if (target.FindBuffIndex(SpiritMod.Instance.BuffType("SanguineBleed")) > -1
+			if (target.FindBuffIndex(SpiritMod.Instance.Find<ModBuff>("SanguineBleed").Type) > -1
 				&& Main.rand.Next(8) == 0) {
 				Leech(player);
 			}
 
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(SpiritMod.Instance.BuffType("SanguineBleed"), 600);
+				target.AddBuff(SpiritMod.Instance.Find<ModBuff>("SanguineBleed").Type, 600);
 		}
 
 		public static void BloodCorruption(Player player, Player target, int damage)
 		{
-			if (target.FindBuffIndex(SpiritMod.Instance.BuffType("SanguineBleed")) > -1
+			if (target.FindBuffIndex(SpiritMod.Instance.Find<ModBuff>("SanguineBleed").Type) > -1
 				&& Main.rand.Next(8) == 0) {
 				Leech(player);
 			}
 
 			if (Main.rand.Next(5) == 0)
-				target.AddBuff(SpiritMod.Instance.BuffType("SanguineBleed"), 600, false);
+				target.AddBuff(SpiritMod.Instance.Find<ModBuff>("SanguineBleed").Type, 600, false);
 		}
 
 		private static void Leech(Player player)
 		{
-			player.AddBuff(SpiritMod.Instance.BuffType("SanguineRegen"), Main.rand.Next(2, 4) * 60);
+			player.AddBuff(SpiritMod.Instance.Find<ModBuff>("SanguineRegen").Type, Main.rand.Next(2, 4) * 60);
 			DustHelper.DrawDiamond(player.Center, ModContent.DustType<Dusts.Blood>(), 3);
-			Main.PlaySound(SoundID.Item, (int)player.Center.X, (int)player.Center.Y, 3, 0.75f, -0.5f);
+			SoundEngine.PlaySound(SoundID.Item, (int)player.Center.X, (int)player.Center.Y, 3, 0.75f, -0.5f);
 		}
 	}
 }

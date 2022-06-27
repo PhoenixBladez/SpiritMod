@@ -14,14 +14,14 @@ namespace SpiritMod.Items.Weapon.Thrown
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.Grenade);
-			item.shoot = ModContent.ProjectileType<ElectrosphereGrenade>();
-			item.useAnimation = 30;
-			item.rare = ItemRarityID.Yellow;
-			item.ranged = true;
-			item.useTime = 34;
-			item.damage = 110;
-			item.value = 1900;
+			Item.CloneDefaults(ItemID.Grenade);
+			Item.shoot = ModContent.ProjectileType<ElectrosphereGrenade>();
+			Item.useAnimation = 30;
+			Item.rare = ItemRarityID.Yellow;
+			Item.DamageType = DamageClass.Ranged;
+			Item.useTime = 34;
+			Item.damage = 110;
+			Item.value = 1900;
 		}
 	}
 }

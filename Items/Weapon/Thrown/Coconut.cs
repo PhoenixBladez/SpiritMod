@@ -14,28 +14,28 @@ namespace SpiritMod.Items.Weapon.Thrown
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.width = 9;
-			item.height = 15;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.ranged = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.consumable = true;
-			item.maxStack = 999;
-			item.shoot = ModContent.ProjectileType<CoconutP>();
-			item.useAnimation = 60;
-			item.useTime = 60;
-			item.shootSpeed = 4f;
-			item.damage = 21;
-			item.knockBack = 3.5f;
-			item.value = Terraria.Item.sellPrice(0, 0, 3, 0);
-			item.crit = 8;
-			item.rare = ItemRarityID.Green;
-			item.autoReuse = true;
-			item.maxStack = 999;
-			item.consumable = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.width = 9;
+			Item.height = 15;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.DamageType = DamageClass.Ranged;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.maxStack = 999;
+			Item.shoot = ModContent.ProjectileType<CoconutP>();
+			Item.useAnimation = 60;
+			Item.useTime = 60;
+			Item.shootSpeed = 4f;
+			Item.damage = 21;
+			Item.knockBack = 3.5f;
+			Item.value = Terraria.Item.sellPrice(0, 0, 3, 0);
+			Item.crit = 8;
+			Item.rare = ItemRarityID.Green;
+			Item.autoReuse = true;
+			Item.maxStack = 999;
+			Item.consumable = true;
 		}
 	}
 }

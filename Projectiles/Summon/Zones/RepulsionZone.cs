@@ -13,22 +13,22 @@ namespace SpiritMod.Projectiles.Summon.Zones
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Repulsion Zone");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-            projectile.tileCollide = false;
-			projectile.penetrate = 4;
-            projectile.timeLeft = Projectile.SentryLifeTime;
-            projectile.height = 110;
-            projectile.sentry = true;
-            projectile.width = 110;
-            projectile.aiStyle = -1;
-            projectile.scale = 1.2f;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+            Projectile.tileCollide = false;
+			Projectile.penetrate = 4;
+            Projectile.timeLeft = Projectile.SentryLifeTime;
+            Projectile.height = 110;
+            Projectile.sentry = true;
+            Projectile.width = 110;
+            Projectile.aiStyle = -1;
+            Projectile.scale = 1.2f;
         }
 
         public override void AI()
@@ -36,37 +36,37 @@ namespace SpiritMod.Projectiles.Summon.Zones
             for (int i = 0; i < 200; i++)
             {
                 NPC npc = Main.npc[i];
-                int distance = (int)Vector2.Distance(npc.Center, projectile.Center);
+                int distance = (int)Vector2.Distance(npc.Center, Projectile.Center);
 
                 if (npc.active && distance < 70 && !npc.boss && !npc.friendly && npc.knockBackResist != 0f && !npc.dontTakeDamage)
                 {
-					float dist = npc.Distance(projectile.Center);
+					float dist = npc.Distance(Projectile.Center);
                     dist = 8f / dist;
 					npc.velocity.X = dist * -.8f;
                     npc.velocity.Y = dist * -.8f;
 
-                    projectile.ai[1]++;
+                    Projectile.ai[1]++;
                     for (int k = 0; k < 10; k++)
                     {
-                        Dust d = Dust.NewDustPerfect(projectile.Center, 131, Vector2.One.RotatedByRandom(7.28f) * Main.rand.NextFloat(5), 0, default, 0.5f);
+                        Dust d = Dust.NewDustPerfect(Projectile.Center, 131, Vector2.One.RotatedByRandom(7.28f) * Main.rand.NextFloat(5), 0, default, 0.5f);
                         d.noGravity = true;
                         d.shader = GameShaders.Armor.GetSecondaryShader(38, Main.LocalPlayer);
                     }
                 }
             }
 
-            if (projectile.ai[1] >= 28 || !Main.player[projectile.owner].HasBuff(ModContent.BuffType<RepulsionZoneTimer>()))
-                projectile.Kill();
+            if (Projectile.ai[1] >= 28 || !Main.player[Projectile.owner].HasBuff(ModContent.BuffType<RepulsionZoneTimer>()))
+                Projectile.Kill();
         }
 
-		public void AdditiveCall(SpriteBatch spriteBatch) => ZoneHelper.ZoneAdditiveDraw(spriteBatch, projectile, new Color(97, 46, 163), "SpiritMod/Projectiles/Summon/Zones/RepulsionZone");
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => ZoneHelper.ZonePreDraw(projectile, mod.GetTexture("Projectiles/Summon/Zones/RepulsionZone_Glow"));
+		public void AdditiveCall(SpriteBatch spriteBatch) => ZoneHelper.ZoneAdditiveDraw(spriteBatch, Projectile, new Color(97, 46, 163), "SpiritMod/Projectiles/Summon/Zones/RepulsionZone");
+        public override bool PreDraw(ref Color lightColor) => ZoneHelper.ZonePreDraw(Projectile, Mod.GetTexture("Projectiles/Summon/Zones/RepulsionZone_Glow"));
 
 		public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 30; k++)
             {
-                Dust d = Dust.NewDustPerfect(projectile.Center, 131, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(6), 0, default, 0.5f);
+                Dust d = Dust.NewDustPerfect(Projectile.Center, 131, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(6), 0, default, 0.5f);
                 d.noGravity = true;
                 d.shader = GameShaders.Armor.GetSecondaryShader(38, Main.LocalPlayer);
             }

@@ -17,42 +17,42 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 300;
-			projectile.height = 12;
-			projectile.width = 12;
-			projectile.tileCollide = false;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 300;
+			Projectile.height = 12;
+			Projectile.width = 12;
+			Projectile.tileCollide = false;
 		}
 
 		public float Offset {
-			get { return projectile.ai[0]; }
-			set { projectile.ai[0] = value; }
+			get { return Projectile.ai[0]; }
+			set { Projectile.ai[0] = value; }
 		}
 
 		public Vector2 Target =>
-			new Vector2(-projectile.ai[0], -projectile.ai[1]);
+			new Vector2(-Projectile.ai[0], -Projectile.ai[1]);
 
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			if (player.active && Offset >= 0) {
-				projectile.penetrate = 1;
+				Projectile.penetrate = 1;
 				MyPlayer modPlayer = player.GetModPlayer<MyPlayer>();
 				if (player.whoAmI == Main.myPlayer && modPlayer.glyph != GlyphType.Frost) {
-					projectile.Kill();
+					Projectile.Kill();
 					return;
 				}
 
-				projectile.timeLeft = 300;
+				Projectile.timeLeft = 300;
 				modPlayer.frostTally++;
 				int count = modPlayer.frostCount;
 				float sector = MathHelper.TwoPi / (count > 0 ? count : 1);
 				float rotation = modPlayer.frostRotation + Offset * sector;
 				if (rotation > MathHelper.TwoPi)
 					rotation -= MathHelper.TwoPi;
-				float delta = projectile.rotation;
+				float delta = Projectile.rotation;
 				if (delta > MathHelper.Pi)
 					delta -= MathHelper.TwoPi;
 				else if (delta < -MathHelper.Pi)
@@ -63,12 +63,12 @@ namespace SpiritMod.Projectiles
 				else if (delta < -MathHelper.Pi)
 					delta += MathHelper.TwoPi;
 				if (delta > 1.5 * TURNRATE)
-					projectile.rotation += 1.5f * TURNRATE;
+					Projectile.rotation += 1.5f * TURNRATE;
 				else if (delta < .5 * TURNRATE)
-					projectile.rotation += 0.5f * TURNRATE;
+					Projectile.rotation += 0.5f * TURNRATE;
 				else
-					projectile.rotation = rotation;
-				projectile.Center = player.MountedCenter + new Vector2(0, -OFFSET).RotatedBy(projectile.rotation);
+					Projectile.rotation = rotation;
+				Projectile.Center = player.MountedCenter + new Vector2(0, -OFFSET).RotatedBy(Projectile.rotation);
 				return;
 			}
 			//else if (Offset < 0)
@@ -81,25 +81,25 @@ namespace SpiritMod.Projectiles
 			//	}
 			//}
 
-			if (projectile.localAI[1] == 0) {
-				projectile.localAI[1] = 1;
+			if (Projectile.localAI[1] == 0) {
+				Projectile.localAI[1] = 1;
 				ProjectileExtras.LookAlongVelocity(this);
-				projectile.penetrate = -1;
-				projectile.extraUpdates = 1;
-				projectile.tileCollide = true;
+				Projectile.penetrate = -1;
+				Projectile.extraUpdates = 1;
+				Projectile.tileCollide = true;
 			}
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			if (player.active && Offset >= 0)
 				player.GetModPlayer<MyPlayer>().frostUpdate = true;
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			if (player.active && Offset >= 0)
 				hitDirection = target.position.X + (target.width >> 1) - player.position.X - (player.width >> 1) > 0 ? 1 : -1;
 		}

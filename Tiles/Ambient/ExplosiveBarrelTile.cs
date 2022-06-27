@@ -9,12 +9,12 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class ExplosiveBarrelTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoFail[Type] = true;
             Main.tileLighted[Type] = true;
-            animationFrameHeight = 54;
+            AnimationFrameHeight = 54;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.Height = 3;
 			TileObjectData.newTile.Width = 2;
@@ -25,7 +25,7 @@ namespace SpiritMod.Tiles.Ambient
 			16
 			};
 			TileObjectData.addTile(Type);
-            dustType = -1;
+            DustType = -1;
             soundType = -1;
 
 			AddMapEntry(new Color(219, 31, 31));
@@ -45,7 +45,7 @@ namespace SpiritMod.Tiles.Ambient
             g = .132f * .5f;
             b = .068f * .5f;
         }
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}

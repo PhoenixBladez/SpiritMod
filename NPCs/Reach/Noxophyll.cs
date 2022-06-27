@@ -11,52 +11,52 @@ namespace SpiritMod.NPCs.Reach
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Noxophyll");
-			Main.npcFrameCount[npc.type] = 8;
-			Main.npcCatchable[npc.type] = true;
+			Main.npcFrameCount[NPC.type] = 8;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 34;
-			npc.height = 24;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 5;
-			npc.catchItem = (short)ModContent.ItemType<Items.Sets.BriarDrops.ReachFishingCatch>();
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = .35f;
-			npc.aiStyle = 16;
-			npc.noGravity = true;
-			npc.npcSlots = 0;
-			aiType = NPCID.Goldfish;
-			npc.dontCountMe = true;
+			NPC.width = 34;
+			NPC.height = 24;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 5;
+			NPC.catchItem = (short)ModContent.ItemType<Items.Sets.BriarDrops.ReachFishingCatch>();
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.knockBackResist = .35f;
+			NPC.aiStyle = 16;
+			NPC.noGravity = true;
+			NPC.npcSlots = 0;
+			AIType = NPCID.Goldfish;
+			NPC.dontCountMe = true;
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 30; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.GrassBlades, 1.5f * hitDirection, -1.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 7, 1.5f * hitDirection, -1.5f, 0, default, .34f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GrassBlades, 1.5f * hitDirection, -1.5f, 0, Color.White, 0.7f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, 7, 1.5f * hitDirection, -1.5f, 0, default, .34f);
 			}
 		}
 
-		public override void AI() => npc.spriteDirection = npc.direction;
+		public override void AI() => NPC.spriteDirection = NPC.direction;
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
 		}
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.GetSpiritPlayer().ZoneReach && spawnInfo.water ? 0.511f : 0f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.GetSpiritPlayer().ZoneReach && spawnInfo.Water ? 0.511f : 0f;
 	}
 }

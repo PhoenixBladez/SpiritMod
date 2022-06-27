@@ -10,8 +10,8 @@ namespace SpiritMod.Tiles.Ambient.CrystalFlower
 		{
 			Tile t = Framing.GetTileSafely(i, j);
 
-			bool validFrameX = t.frameX <= 18 && t.frameX >= 72 && t.frameX < 108;
-			if (type == TileID.Cactus && validFrameX && t.frameY == 108 && Main.rand.NextBool(8))
+			bool validFrameX = t.TileFrameX <= 18 && t.TileFrameX >= 72 && t.TileFrameX < 108;
+			if (type == TileID.Cactus && validFrameX && t.TileFrameY == 108 && Main.rand.NextBool(8))
 			{
 				WorldGen.PlaceTile(i, j - 1, ModContent.TileType<CrystalFlower>(), false, true, -1, 0);
 			}

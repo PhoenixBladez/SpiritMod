@@ -35,9 +35,9 @@ namespace SpiritMod.Items.Sets.BriarChestLoot
 				this.value = 20000;
 			*/
 			// Instead of copying these values, we can clone and modify the ones we want to copy
-			item.CloneDefaults(ItemID.AmethystHook);
-			item.shootSpeed = 16f; // how quickly the hook is shot.
-			item.shoot = ProjectileType<ThornHookProj>();
+			Item.CloneDefaults(ItemID.AmethystHook);
+			Item.shootSpeed = 16f; // how quickly the hook is shot.
+			Item.shoot = ProjectileType<ThornHookProj>();
 		}
 	}
 
@@ -60,7 +60,7 @@ namespace SpiritMod.Items.Sets.BriarChestLoot
 				this.tileCollide = false;
 				this.timeLeft *= 10;
 			*/
-			projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
+			Projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
 		}
 
 		// Use this hook for hooks that can have multiple hooks mid-flight: Dual Hook, Web Slinger, Fish Hook, Static Hook, Lunar Hook
@@ -68,7 +68,7 @@ namespace SpiritMod.Items.Sets.BriarChestLoot
 		{
 			int hooksOut = 0;
 			for (int l = 0; l < 1000; l++) {
-				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type) {
+				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == Projectile.type) {
 					hooksOut++;
 				}
 			}
@@ -132,11 +132,11 @@ namespace SpiritMod.Items.Sets.BriarChestLoot
 			speed = 9.6f;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(Color lightColor)
 		{
-			Texture2D texture = ModContent.GetTexture("SpiritMod/Items/Sets/BriarChestLoot/ThornHook_Chain");
-			Vector2 vector = projectile.Center;
-			Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
+			Texture2D texture = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/BriarChestLoot/ThornHook_Chain");
+			Vector2 vector = Projectile.Center;
+			Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
 			Rectangle? sourceRectangle = null;
 			Vector2 origin = new Vector2((float)texture.Width * 0.5f, (float)texture.Height * 0.5f);
 			float num = (float)texture.Height;
@@ -159,7 +159,7 @@ namespace SpiritMod.Items.Sets.BriarChestLoot
 					vector += value * num;
 					vector2 = mountedCenter - vector;
 					Color color = Lighting.GetColor((int)vector.X / 16, (int)((double)vector.Y / 16.0));
-					color = projectile.GetAlpha(color);
+					color = Projectile.GetAlpha(color);
 					Main.spriteBatch.Draw(texture, vector - Main.screenPosition, sourceRectangle, color, rotation, origin, 1f, SpriteEffects.None, 0f);
 				}
 			}

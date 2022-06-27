@@ -3,12 +3,12 @@ using SpiritMod.Projectiles.Bullet;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Halloween.SpookySet
 {
 	public class BatBlaster : ModItem
 	{
-		private Vector2 newVect;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bat Blaster");
@@ -18,28 +18,28 @@ namespace SpiritMod.Items.Halloween.SpookySet
 
 		public override void SetDefaults()
 		{
-			item.damage = 55;
-			item.ranged = true;
-			item.width = 65;
-			item.height = 21;
-			item.useTime = 10;
-			item.useAnimation = 10;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 6;
-			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Yellow;
-			item.UseSound = SoundID.Item36;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<BatBullet>();
-			item.shootSpeed = 6.8f;
-			item.useAmmo = AmmoID.Bullet;
+			Item.damage = 55;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 65;
+			Item.height = 21;
+			Item.useTime = 10;
+			Item.useAnimation = 10;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 6;
+			Item.useTurn = false;
+			Item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Yellow;
+			Item.UseSound = SoundID.Item36;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<BatBullet>();
+			Item.shootSpeed = 6.8f;
+			Item.useAmmo = AmmoID.Bullet;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-
-			Vector2 origVect = new Vector2(speedX, speedY);
+			Vector2 origVect = velocity;
+			Vector2 newVect;
 
 			if (Main.rand.Next(2) == 1) {
 				newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(150, 1800) / 10));
@@ -47,23 +47,22 @@ namespace SpiritMod.Items.Halloween.SpookySet
 			else {
 				newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(150, 1800) / 10));
 			}
-			int proj2 = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, ModContent.ProjectileType<BatBullet>(), damage, knockBack, player.whoAmI);
-
-
+			
+			Projectile.NewProjectile(source, position.X, position.Y, newVect.X, newVect.Y, ModContent.ProjectileType<BatBullet>(), damage, knockback, player.whoAmI);
 			return false;
 		}
+
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.SpookyWood, 14);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
+
 		public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-10, 0);
 		}
-
 	}
 }

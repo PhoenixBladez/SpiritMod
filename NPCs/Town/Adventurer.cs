@@ -24,45 +24,45 @@ namespace SpiritMod.NPCs.Town
 		public override bool Autoload(ref string name)
 		{
 			name = "Adventurer";
-			return mod.Properties.Autoload;
+			return Mod.Properties.Autoload;
 		}
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Adventurer");
-			Main.npcFrameCount[npc.type] = 26;
-			NPCID.Sets.ExtraFramesCount[npc.type] = 9;
-			NPCID.Sets.AttackFrameCount[npc.type] = 4;
-			NPCID.Sets.DangerDetectRange[npc.type] = 500;
-			NPCID.Sets.AttackType[npc.type] = 0;
-			NPCID.Sets.AttackTime[npc.type] = 16;
-			NPCID.Sets.AttackAverageChance[npc.type] = 30;
+			Main.npcFrameCount[NPC.type] = 26;
+			NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
+			NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+			NPCID.Sets.DangerDetectRange[NPC.type] = 500;
+			NPCID.Sets.AttackType[NPC.type] = 0;
+			NPCID.Sets.AttackTime[NPC.type] = 16;
+			NPCID.Sets.AttackAverageChance[NPC.type] = 30;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.CloneDefaults(NPCID.Guide);
-			npc.townNPC = true;
-			npc.friendly = true;
-			npc.aiStyle = 7;
-			npc.damage = 30;
-			npc.defense = 30;
-			npc.lifeMax = 250;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = 0.4f;
-			animationType = NPCID.Guide;
+			NPC.CloneDefaults(NPCID.Guide);
+			NPC.townNPC = true;
+			NPC.friendly = true;
+			NPC.aiStyle = 7;
+			NPC.damage = 30;
+			NPC.defense = 30;
+			NPC.lifeMax = 250;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.knockBackResist = 0.4f;
+			AnimationType = NPCID.Guide;
 		}
 
 		public override bool CanTownNPCSpawn(int numTownNPCs, int money) => Main.player.Any(x => x.active) && !NPC.AnyNPCs(NPCType<BoundAdventurer>()) && !NPC.AnyNPCs(NPCType<Adventurer>());
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Adventurer/Adventurer1"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Adventurer/Adventurer2"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Adventurer/Adventurer3"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Adventurer/Adventurer4"));
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer1").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer2").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer3").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer4").Type);
 			}
 		}
 
@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.Town
 			return Main.rand.Next(names);
 		}
 
-		public override void NPCLoot() => npc.DropItem(ItemType<AdventurerMap>());
+		public override void OnKill() => NPC.DropItem(ItemType<AdventurerMap>());
 
 		public override string GetChat()
 		{

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,29 +15,29 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 80;
-			projectile.height = 80;
-			projectile.timeLeft = 10;
-			projectile.alpha = 255;
-			projectile.maxPenetrate = 1;
-			projectile.hostile = false;
-			projectile.melee = true;
-			projectile.friendly = true;
+			Projectile.width = 80;
+			Projectile.height = 80;
+			Projectile.timeLeft = 10;
+			Projectile.alpha = 255;
+			Projectile.maxPenetrate = 1;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.friendly = true;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			ProjectileExtras.Explode(projectile.whoAmI, 120, 120,
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+			ProjectileExtras.Explode(Projectile.whoAmI, 120, 120,
 				delegate {
 					for (int i = 0; i < 40; i++) {
-						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Electric, 0f, -2f, 0, default, .8f);
+						int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Electric, 0f, -2f, 0, default, .8f);
 						Main.dust[num].noGravity = true;
 						Dust dust = Main.dust[num];
 						dust.position.X += ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
 						dust.position.Y += ((float)(Main.rand.Next(-50, 51) / 20) - 1.5f);
-						if (Main.dust[num].position != projectile.Center) {
-							Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 6f;
+						if (Main.dust[num].position != Projectile.Center) {
+							Main.dust[num].velocity = Projectile.DirectionTo(Main.dust[num].position) * 6f;
 						}
 					}
 				});
@@ -48,25 +49,25 @@ namespace SpiritMod.Projectiles
 				if (num625 == 2)
 					scaleFactor10 = 1f;
 
-				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+				int num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13AB6_cp_0 = Main.gore[num626];
 				expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
 				Gore expr_13AD6_cp_0 = Main.gore[num626];
 				expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13B79_cp_0 = Main.gore[num626];
 				expr_13B79_cp_0.velocity.X = expr_13B79_cp_0.velocity.X - 1f;
 				Gore expr_13B99_cp_0 = Main.gore[num626];
 				expr_13B99_cp_0.velocity.Y = expr_13B99_cp_0.velocity.Y + 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13C3C_cp_0 = Main.gore[num626];
 				expr_13C3C_cp_0.velocity.X = expr_13C3C_cp_0.velocity.X + 1f;
 				Gore expr_13C5C_cp_0 = Main.gore[num626];
 				expr_13C5C_cp_0.velocity.Y = expr_13C5C_cp_0.velocity.Y - 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Gore expr_13CFF_cp_0 = Main.gore[num626];
 				expr_13CFF_cp_0.velocity.X = expr_13CFF_cp_0.velocity.X - 1f;
@@ -76,7 +77,7 @@ namespace SpiritMod.Projectiles
 		}
 		public override void AI()
 		{
-			projectile.Kill();
+			Projectile.Kill();
 		}
 	}
 }

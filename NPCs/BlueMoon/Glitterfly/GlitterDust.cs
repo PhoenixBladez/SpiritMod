@@ -14,19 +14,19 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 45;
-			projectile.height = 8;
-			projectile.alpha = 255;
-			projectile.width = 8;
+			Projectile.friendly = true;
+			Projectile.hostile = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 45;
+			Projectile.height = 8;
+			Projectile.alpha = 255;
+			Projectile.width = 8;
 		}
 
 		public override void AI()
 		{
 			Player player = Main.LocalPlayer;
-			int distance1 = (int)Vector2.Distance(projectile.Center, player.Center);
+			int distance1 = (int)Vector2.Distance(Projectile.Center, player.Center);
 			if (distance1 < 26)
 			{
 				player.AddBuff(BuffID.Confused, 180);

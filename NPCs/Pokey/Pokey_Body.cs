@@ -3,8 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Pokey
 {
@@ -14,45 +16,45 @@ namespace SpiritMod.NPCs.Pokey
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pokey");
-            Main.npcFrameCount[npc.type] = 3;
+            Main.npcFrameCount[NPC.type] = 3;
         }
         public override void SetDefaults()
         {
-            npc.width = 24;
-            npc.height = 16;
-            npc.knockBackResist = 0;
-            npc.aiStyle = -1;
-            npc.lifeMax = 70;
-            npc.damage = 10;
-            npc.defense = 4;
-            npc.noTileCollide = false;
-            npc.dontCountMe = true;
+            NPC.width = 24;
+            NPC.height = 16;
+            NPC.knockBackResist = 0;
+            NPC.aiStyle = -1;
+            NPC.lifeMax = 70;
+            NPC.damage = 10;
+            NPC.defense = 4;
+            NPC.noTileCollide = false;
+            NPC.dontCountMe = true;
             segments = Main.rand.Next(5, 8) + (Main.expertMode ? 2 : 0);
 
             if (Main.rand.Next(2) == 0)
             {
-                npc.frame.Y = 32;
+                NPC.frame.Y = 32;
             }
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.PokeyBanner>();
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.PokeyBanner>();
 		}
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = 95;
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = 95;
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 
-			if (Main.tileSand[spawnInfo.spawnTileType])
+			if (Main.tileSand[spawnInfo.SpawnTileType])
 				return SpawnCondition.OverworldDayDesert.Chance * 0.38f;
 			return 0;
 		}
         private int UpperChain {
-			get => (int)npc.ai[0];
-			set => npc.ai[0] = value;
+			get => (int)NPC.ai[0];
+			set => NPC.ai[0] = value;
 		}
 		private int LowerChain {
-			get => (int)npc.ai[1];
-			set => npc.ai[1] = value;
+			get => (int)NPC.ai[1];
+			set => NPC.ai[1] = value;
 		}
 		private int QueueFromBottom()
         {
@@ -85,7 +87,7 @@ namespace SpiritMod.NPCs.Pokey
             get
             {
                 int tries = 0;
-                int bottomChain = npc.whoAmI;
+                int bottomChain = NPC.whoAmI;
                 while (Main.npc[bottomChain].ai[1] != -1)
                 {
                     if (!Main.npc[bottomChain].active)
@@ -118,7 +120,7 @@ namespace SpiritMod.NPCs.Pokey
             get
             {
                 int tries = 0;
-                int topChain = npc.whoAmI;
+                int topChain = NPC.whoAmI;
                 while (Main.npc[topChain].ai[0] != -1)
                 {
                     if (!Main.npc[topChain].active)
@@ -145,46 +147,46 @@ namespace SpiritMod.NPCs.Pokey
         }
         public override void AI()
         {
-            npc.TargetClosest(true);
+            NPC.TargetClosest(true);
             if (LowerChain == 0 && UpperChain == 0)   
             {
                 LowerChain = -1;
-                int latestSegment = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y - npc.height, ModContent.NPCType<Pokey_Body>(), 0, -1, npc.whoAmI);
+                int latestSegment = NPC.NewNPC((int)NPC.position.X, (int)NPC.position.Y - NPC.height, ModContent.NPCType<Pokey_Body>(), 0, -1, NPC.whoAmI);
                 UpperChain = latestSegment;
                 for (int i = 2; i < segments; i++)
                 {
 
-                    Main.npc[latestSegment].ai[0] = NPC.NewNPC((int)npc.position.X, (int)npc.position.Y - (i * npc.height), ModContent.NPCType<Pokey_Body>(), 0,-1, latestSegment);
+                    Main.npc[latestSegment].ai[0] = NPC.NewNPC((int)NPC.position.X, (int)NPC.position.Y - (i * NPC.height), ModContent.NPCType<Pokey_Body>(), 0,-1, latestSegment);
                     latestSegment = (int)Main.npc[latestSegment].ai[0];
                 }
             }
             if (!Head.active || Head.life <= 0)
             {
-                npc.life = 0;
+                NPC.life = 0;
 				NPCLoot();
                 return;
             }
             int queue = QueueFromBottom();
             if (queue == 0)
             {
-                npc.noGravity = false;
+                NPC.noGravity = false;
                 //ai stuff for base goes here
-                npc.velocity.X += Math.Sign(Main.player[npc.target].Center.X - npc.Center.X) / 10f;
-                npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -2, 2);
-                npc.spriteDirection = -npc.direction;
-                Collision.StepUp(ref npc.position, ref npc.velocity, npc.width, npc.height, ref npc.stepSpeed, ref npc.gfxOffY);
-                CheckPlatform(Main.player[npc.target]);
+                NPC.velocity.X += Math.Sign(Main.player[NPC.target].Center.X - NPC.Center.X) / 10f;
+                NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -2, 2);
+                NPC.spriteDirection = -NPC.direction;
+                Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY);
+                CheckPlatform(Main.player[NPC.target]);
                 CheckPit();
             }
             else
             {
-                npc.ai[2] += 0.15f;
-                npc.noGravity = true;
-                npc.aiStyle = -1;
-                npc.direction = Tail.direction;
-                npc.spriteDirection = -npc.direction;
-                npc.position.X = Tail.position.X + ((float)Math.Sin(queue + npc.ai[2]) * 3);
-                float posToBe = Main.npc[LowerChain].position.Y - (npc.height);
+                NPC.ai[2] += 0.15f;
+                NPC.noGravity = true;
+                NPC.aiStyle = -1;
+                NPC.direction = Tail.direction;
+                NPC.spriteDirection = -NPC.direction;
+                NPC.position.X = Tail.position.X + ((float)Math.Sin(queue + NPC.ai[2]) * 3);
+                float posToBe = Main.npc[LowerChain].position.Y - (NPC.height);
                 if (QueueFromTop() == 0)
                     posToBe -= 10;
                 GoTo(posToBe);
@@ -205,39 +207,39 @@ namespace SpiritMod.NPCs.Pokey
             }
             if (QueueFromTop() == 0)
             {
-                npc.frame.Y = 64;
+                NPC.frame.Y = 64;
             }
         }
         private void CheckPlatform(Player player)
         {
             bool onplatform = true;
-            for (int i = (int)npc.position.X; i < npc.position.X + npc.width; i += npc.width / 4)
+            for (int i = (int)NPC.position.X; i < NPC.position.X + NPC.width; i += NPC.width / 4)
             {
-                Tile tile = Framing.GetTileSafely(new Point((int)npc.position.X / 16, (int)(npc.position.Y + npc.height + 8) / 16));
-                if (!TileID.Sets.Platforms[tile.type])
+                Tile tile = Framing.GetTileSafely(new Point((int)NPC.position.X / 16, (int)(NPC.position.Y + NPC.height + 8) / 16));
+                if (!TileID.Sets.Platforms[tile.TileType])
                     onplatform = false;
             }
-            if (onplatform && (npc.Center.Y < player.position.Y - 20))
-                npc.noTileCollide = true;
+            if (onplatform && (NPC.Center.Y < player.position.Y - 20))
+                NPC.noTileCollide = true;
             else
-                npc.noTileCollide = false;
+                NPC.noTileCollide = false;
         }
         private void CheckPit()
         {
             bool pit = true;
             for (int i = 1; i <= 4; i++)
             {
-                Tile forwardtile = Framing.GetTileSafely(new Point((int)(npc.Center.X / 16) + Math.Sign(npc.velocity.X), (int)(npc.Center.Y / 16) + i));
+                Tile forwardtile = Framing.GetTileSafely(new Point((int)(NPC.Center.X / 16) + Math.Sign(NPC.velocity.X), (int)(NPC.Center.Y / 16) + i));
                 if (WorldGen.SolidTile(forwardtile) || WorldGen.SolidTile2(forwardtile) || WorldGen.SolidTile3(forwardtile))
                     pit = false;
             }
             if (pit)
-                npc.velocity.X *= -0.5f;
+                NPC.velocity.X *= -0.5f;
         }
         private void GoTo(float pos) 
         {
-            float lerpspeed = (Math.Abs(npc.position.Y - pos) > (npc.height / 2)) ? 0.45f : 0.15f;
-            npc.position.Y = MathHelper.Lerp(npc.position.Y, pos, lerpspeed); 
+            float lerpspeed = (Math.Abs(NPC.position.Y - pos) > (NPC.height / 2)) ? 0.45f : 0.15f;
+            NPC.position.Y = MathHelper.Lerp(NPC.position.Y, pos, lerpspeed); 
         }
         private void Delete()
         {
@@ -250,7 +252,7 @@ namespace SpiritMod.NPCs.Pokey
             }
             int chain = Head.whoAmI;
             int tries = 0;
-            while (Main.npc[chain].ai[1] != npc.whoAmI)
+            while (Main.npc[chain].ai[1] != NPC.whoAmI)
             {
                 chain = (int)Main.npc[chain].ai[1];
                 if (chain == -1)
@@ -262,7 +264,7 @@ namespace SpiritMod.NPCs.Pokey
 
             chain = Tail.whoAmI;
             tries = 0;
-            while (Main.npc[chain].ai[0] != npc.whoAmI)
+            while (Main.npc[chain].ai[0] != NPC.whoAmI)
             {
                 chain = (int)Main.npc[chain].ai[0];
                 if (chain == -1)
@@ -275,7 +277,7 @@ namespace SpiritMod.NPCs.Pokey
 
         public override void HitEffect(int hitDirection, double damage)
 		{
-            Main.PlaySound(SoundID.Dig, (int)npc.Center.X, (int)npc.Center.Y, 1, 0.5f, 0.25f);
+            SoundEngine.PlaySound(SoundID.Dig, (int)NPC.Center.X, (int)NPC.Center.Y, 1, 0.5f, 0.25f);
 
             Tail.velocity.X = hitDirection * 2;
         }
@@ -292,33 +294,33 @@ namespace SpiritMod.NPCs.Pokey
 			return true;
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
         {
             if(Head.active && Head.life > 0) 
             {//no overlapping death sfx on head kill
-                Main.PlaySound(SoundID.Dig, (int)npc.Center.X, (int)npc.Center.Y, 1, 1f, -0.25f);
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Cactus, Main.rand.Next(0, 3) + 1);
+                SoundEngine.PlaySound(SoundID.Dig, (int)NPC.Center.X, (int)NPC.Center.Y, 1, 1f, -0.25f);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Cactus, Main.rand.Next(0, 3) + 1);
             }
             if (Head.life <= 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CopperCoin, Main.rand.Next(10, 20) + 6);
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.CopperCoin, Main.rand.Next(10, 20) + 6);
                 if (Main.rand.NextBool(5))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.PinkPricklyPear);
+                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.PinkPricklyPear);
                 }
             }
-            switch (npc.frame.Y)
+            switch (NPC.frame.Y)
             {
                 case 0:
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PokeyGores/Pokey1_Gore1"), 1f);
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PokeyGores/Pokey1_Gore2"), 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/Pokey1_Gore1").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/Pokey1_Gore2").Type, 1f);
                     break;
                 case 32:
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PokeyGores/Pokey2_Gore1"), 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/Pokey2_Gore1").Type, 1f);
                     break;
                 case 64:
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PokeyGores/PokeyHead_Gore1"), 1f);
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PokeyGores/PokeyHead_Gore2"), 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/PokeyHead_Gore1").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/PokeyHead_Gore2").Type, 1f);
                     break;
             }
         }

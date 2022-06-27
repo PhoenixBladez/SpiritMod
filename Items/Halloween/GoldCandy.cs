@@ -14,11 +14,11 @@ namespace SpiritMod.Items.Halloween
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 30;
-			item.rare = ItemRarityID.Green;
-			item.maxStack = 30;
-			item.value = 50000;
+			Item.width = 20;
+			Item.height = 30;
+			Item.rare = ItemRarityID.Green;
+			Item.maxStack = 30;
+			Item.value = 50000;
 		}
 	}
 }

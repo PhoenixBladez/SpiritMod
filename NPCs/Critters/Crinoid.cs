@@ -1,5 +1,6 @@
 using SpiritMod.Items.Consumable;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
@@ -15,38 +16,38 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crinoid");
-			Main.npcFrameCount[npc.type] = 6;
+			Main.npcFrameCount[NPC.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.dontCountMe = true;
-			npc.width = 22;
-			npc.height = 22;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 30;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)ModContent.ItemType<CrinoidItem>();
-			npc.knockBackResist = 0f;
-			npc.aiStyle = 0;
-			npc.npcSlots = 0;
-			npc.alpha = 255;
-			aiType = NPCID.WebbedStylist;
+			NPC.dontCountMe = true;
+			NPC.width = 22;
+			NPC.height = 22;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 30;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			Main.npcCatchable[NPC.type] = true;
+			NPC.catchItem = (short)ModContent.ItemType<CrinoidItem>();
+			NPC.knockBackResist = 0f;
+			NPC.aiStyle = 0;
+			NPC.npcSlots = 0;
+			NPC.alpha = 255;
+			AIType = NPCID.WebbedStylist;
         }
 		public bool hasPicked = false;
 		int pickedType;
 		public override void AI()
         {
-			if (npc.alpha > 0)
+			if (NPC.alpha > 0)
             {
-				npc.alpha -= 5;
+				NPC.alpha -= 5;
             }
 			if (!hasPicked)
             {
-				npc.scale = Main.rand.NextFloat(.6f, 1f);
+				NPC.scale = Main.rand.NextFloat(.6f, 1f);
 				pickedType = Main.rand.Next(0, 3);
 				hasPicked = true;
 
@@ -55,12 +56,12 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.22f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
-			npc.frame.X = 46 * pickedType;
-			npc.frame.Width = 46;
+			NPC.frameCounter += 0.22f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
+			NPC.frame.X = 46 * pickedType;
+			NPC.frame.Width = 46;
 		}
 		public override void SendExtraAI(BinaryWriter writer)
 		{
@@ -74,35 +75,35 @@ namespace SpiritMod.NPCs.Critters
 			hasPicked = reader.ReadBoolean();
 
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-			Vector2 drawPos = npc.Center - Main.screenPosition + drawOrigin + new Vector2(-26, -18);
-			Color color = npc.GetAlpha(lightColor);
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height * 0.5f));
+			Vector2 drawPos = NPC.Center - Main.screenPosition + drawOrigin + new Vector2(-26, -18);
+			Color color = NPC.GetAlpha(lightColor);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			return false;
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
 				for (int i = 0; i < 6; i++)
 				{
 					if (pickedType == 0)
 					{
-						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/PinkCrionid1"), Main.rand.NextFloat(.5f, 1.2f));
-						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/PinkCrionid2"), Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crionid/PinkCrionid1").Type, Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crionid/PinkCrionid2").Type, Main.rand.NextFloat(.5f, 1.2f));
 					}
 					if (pickedType == 1)
 					{
-						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/RedCrionid1"), Main.rand.NextFloat(.5f, 1.2f));
-						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/RedCrionid2"), Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crionid/RedCrionid1").Type, Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crionid/RedCrionid2").Type, Main.rand.NextFloat(.5f, 1.2f));
 					}
 					if (pickedType == 2)
 					{
-						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/YellowCrionid1"), Main.rand.NextFloat(.5f, 1.2f));
-						Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Crionid/YellowCrionid2"), Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crionid/YellowCrionid1").Type, Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crionid/YellowCrionid2").Type, Main.rand.NextFloat(.5f, 1.2f));
 					}
 
 				}

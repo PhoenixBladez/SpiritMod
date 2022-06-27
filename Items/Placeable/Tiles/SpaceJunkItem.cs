@@ -11,39 +11,39 @@ namespace SpiritMod.Items.Placeable.Tiles
 		{
 			DisplayName.SetDefault("Space Junk");
 			Tooltip.SetDefault("Can be used by the Extractinator\n'What's hidden behind this jumbled mess?'");
-			ItemID.Sets.ExtractinatorMode[item.type] = item.type;
+			ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 14;
+			Item.width = 16;
+			Item.height = 14;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<SpaceJunkTile>();
+			Item.createTile = ModContent.TileType<SpaceJunkTile>();
 		}
 		public override void ExtractinatorUse(ref int resultType, ref int resultStack)
 		{
 			if (Main.rand.Next(6) == 0) {
 				string[] lootTable = { "ScarpItem2", "ScrapItem3", "ScrapItem5" };
 				int loot = Main.rand.Next(lootTable.Length);
-				resultType = mod.ItemType(lootTable[loot]);
+				resultType = Mod.Find<ModItem>(lootTable[loot]).Type;
 				resultStack = Main.rand.Next(1, 4);
 			}
 			else if (Main.rand.Next(10) == 0) {
 				string[] lootTable1 = { "ScrapItem1", "ScrapItem4", "ScrapItem6" };
 				int loot2 = Main.rand.Next(lootTable1.Length);
-				resultType = mod.ItemType(lootTable1[loot2]);
+				resultType = Mod.Find<ModItem>(lootTable1[loot2]).Type;
 				resultStack = 1;
 			}
 			else if (Main.rand.Next(9) == 0) {

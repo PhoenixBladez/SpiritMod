@@ -18,21 +18,21 @@ namespace SpiritMod.Items.Sets.SwordsMisc.EternalSwordTree
 
 		public override void SetDefaults()
 		{
-			item.damage = 84;
-			item.useTime = 16;
-			item.useAnimation = 16;
-			item.melee = true;
-			item.width = 60;
-			item.height = 64;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 9;
-			item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
-			item.rare = ItemRarityID.Yellow;
-			item.shootSpeed = 12;
-			item.UseSound = SoundID.Item70;
-			item.autoReuse = true;
-			item.useTurn = true;
-			item.shoot = ModContent.ProjectileType<DemonProj>();
+			Item.damage = 84;
+			Item.useTime = 16;
+			Item.useAnimation = 16;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 60;
+			Item.height = 64;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 9;
+			Item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
+			Item.rare = ItemRarityID.Yellow;
+			Item.shootSpeed = 12;
+			Item.UseSound = SoundID.Item70;
+			Item.autoReuse = true;
+			Item.useTurn = true;
+			Item.shoot = ModContent.ProjectileType<DemonProj>();
 		}
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -52,13 +52,12 @@ namespace SpiritMod.Items.Sets.SwordsMisc.EternalSwordTree
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<DemoniceSword>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<DemonfireSword>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 8);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

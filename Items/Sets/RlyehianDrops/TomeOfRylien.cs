@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -21,31 +22,31 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 
 		public override void SetDefaults()
 		{
-			item.damage = 29;
-			item.noMelee = true;
-			item.magic = true;
-			item.width = 22;
-			item.height = 22;
-			item.useTime = 12;
-			item.mana = 9;
-			item.useAnimation = 12;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.knockBack = 4;
-			item.value = Terraria.Item.buyPrice(0, 7, 0, 0);
-			item.rare = ItemRarityID.Orange;
+			Item.damage = 29;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Magic;
+			Item.width = 22;
+			Item.height = 22;
+			Item.useTime = 12;
+			Item.mana = 9;
+			Item.useAnimation = 12;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 4;
+			Item.value = Terraria.Item.buyPrice(0, 7, 0, 0);
+			Item.rare = ItemRarityID.Orange;
 			//	item.UseSound = SoundID.Item103;
-			item.autoReuse = true;
-			item.shootSpeed = 11;
-			item.shoot = ModContent.ProjectileType<TentacleSpike>();
+			Item.autoReuse = true;
+			Item.shootSpeed = 11;
+			Item.shoot = ModContent.ProjectileType<TentacleSpike>();
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 			List<Vector2> tiles = new List<Vector2>();
 			for (int i = -12; i < 12; i++) {
 				for (int j = -12; j < 12; j++) {
 					Tile tile = Framing.GetTileSafely(i + (int)(mouse.X / 16), j + (int)(mouse.Y / 16));
-					if (tile.active() && Main.tileSolid[tile.type]) {
+					if (tile.HasTile && Main.tileSolid[tile.TileType]) {
 						tiles.Add(new Vector2(i + (int)(mouse.X / 16), j + (int)(mouse.Y / 16)));
 					}
 				}
@@ -62,10 +63,10 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 				}
 				Vector2 direction9 = mouse - position;
 				direction9.Normalize();
-				direction9 *= item.shootSpeed;
+				direction9 *= Item.shootSpeed;
 				speedX = direction9.X;
 				speedY = direction9.Y;
-				Main.PlaySound(SoundID.Item, position, 103);
+				SoundEngine.PlaySound(SoundID.Item, position, 103);
 				return true;
 			}
 			return false;

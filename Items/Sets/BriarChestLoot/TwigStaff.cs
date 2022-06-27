@@ -16,23 +16,23 @@ namespace SpiritMod.Items.Sets.BriarChestLoot
 
 		public override void SetDefaults()
 		{
-			item.damage = 8;
-			item.summon = true;
-			item.mana = 12;
-			item.width = 32;
-			item.height = 32;
-			item.useTime = 38;
-			item.useAnimation = 38;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 3;
-			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<NatureGraspProjectile>();
-			item.shootSpeed = 6f;
+			Item.damage = 8;
+			Item.DamageType = DamageClass.Summon;
+			Item.mana = 12;
+			Item.width = 32;
+			Item.height = 32;
+			Item.useTime = 38;
+			Item.useAnimation = 38;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 3;
+			Item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<NatureGraspProjectile>();
+			Item.shootSpeed = 6f;
 		}
 	}
 }

@@ -12,44 +12,43 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 
 		public override void SetDefaults()
 		{
-			item.damage = 18;
-			item.width = 28;
-			item.height = 14;
-			item.useTime = item.useAnimation = 30;
-			item.reuseDelay = 2; //Prevent item from being reused while projectile is still active, making projectile bug out
-			item.knockBack = 2f;
-			item.shootSpeed = 8f;
-			item.noUseGraphic = true;
-			item.noMelee = true;
-			item.autoReuse = true;
-			item.magic = true;
-			item.mana = 10;
-			item.rare = ItemRarityID.Blue;
-			item.value = Item.sellPrice(gold: 2);
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ModContent.ProjectileType<UrchinStaffProjectile>();
+			Item.damage = 18;
+			Item.width = 28;
+			Item.height = 14;
+			Item.useTime = Item.useAnimation = 30;
+			Item.reuseDelay = 2; //Prevent item from being reused while projectile is still active, making projectile bug out
+			Item.knockBack = 2f;
+			Item.shootSpeed = 8f;
+			Item.noUseGraphic = true;
+			Item.noMelee = true;
+			Item.autoReuse = true;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 10;
+			Item.rare = ItemRarityID.Blue;
+			Item.value = Item.sellPrice(gold: 2);
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ModContent.ProjectileType<UrchinStaffProjectile>();
 		}
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<IridescentScale>(), 16);
 			recipe.AddIngredient(ModContent.ItemType<SulfurDeposit>(), 4);
 			recipe.AddIngredient(ItemID.IronBar, 2);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 targetPos = Main.MouseWorld;
 			float minTargetRadius = 150f;
 			if (player.Distance(targetPos) <= minTargetRadius) //Doesn't instantly drop or move backwards
 				targetPos = player.Center + player.DirectionTo(targetPos) * minTargetRadius;
 
-			Projectile proj = Projectile.NewProjectileDirect(player.MountedCenter, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			if(proj.modProjectile is UrchinStaffProjectile staffProj)
+			Projectile proj = Projectile.NewProjectileDirect(player.MountedCenter, new Vector2(speedX, speedY), type, damage, knockback, player.whoAmI);
+			if(proj.ModProjectile is UrchinStaffProjectile staffProj)
 			{
 				staffProj.TargetPosition = targetPos - player.MountedCenter;
 				if (Main.netMode != NetmodeID.SinglePlayer) //sync extra ai as projectile is made

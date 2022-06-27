@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Arrow;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,41 +14,41 @@ namespace SpiritMod.Items.Sets.SpiritSet
 		{
 			DisplayName.SetDefault("Revenant");
 			Tooltip.SetDefault("Converts regular arrows into Revenant Arrows");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/SpiritSet/Revenant_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/SpiritSet/Revenant_Glow");
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.width = 12;
-			item.height = 28;
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Pink;
-			item.damage = 44;
-			item.knockBack = 1f;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = 22;
-			item.useAnimation = 22;
-			item.useAmmo = AmmoID.Arrow;
-			item.ranged = true;
-			item.noMelee = true;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<SpiritArrow>();
-			item.shootSpeed = 10f;
-			item.UseSound = SoundID.Item5;
+			Item.width = 12;
+			Item.height = 28;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Pink;
+			Item.damage = 44;
+			Item.knockBack = 1f;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useTime = 22;
+			Item.useAnimation = 22;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.DamageType = DamageClass.Ranged;
+			Item.noMelee = true;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<SpiritArrow>();
+			Item.shootSpeed = 10f;
+			Item.UseSound = SoundID.Item5;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.06f, .16f, .22f);
+			Lighting.AddLight(Item.position, 0.06f, .16f, .22f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/SpiritSet/Revenant_Glow"),
+				Mod.GetTexture("Items/Sets/SpiritSet/Revenant_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -58,21 +59,20 @@ namespace SpiritMod.Items.Sets.SpiritSet
 				0f
 			);
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (type == ProjectileID.WoodenArrowFriendly) {
 				type = ModContent.ProjectileType<SpiritArrow>();
 			}
-				Terraria.Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+				Terraria.Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockback, player.whoAmI, 0f, 0f);
 			return false;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe(1);
 			modRecipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 14);
 			modRecipe.AddTile(TileID.MythrilAnvil);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

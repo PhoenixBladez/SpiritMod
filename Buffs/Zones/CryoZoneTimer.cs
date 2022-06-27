@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Zones
 {
 	public class CryoZoneTimer : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slow Zone");
 			Description.SetDefault("The Slow Zone is up!");

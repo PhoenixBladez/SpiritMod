@@ -3,6 +3,7 @@ using SpiritMod.Items.Consumable.Fish;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -12,108 +13,108 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Packing Crate");
 
-			Main.npcFrameCount[npc.type] = 1;
-			Main.npcCatchable[npc.type] = true;
+			Main.npcFrameCount[NPC.type] = 1;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 40;
-			npc.height = 40;
-			npc.damage = 0;
-			npc.knockBackResist = 0f;
-			npc.defense = 1000;
-			npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.lifeMax = 10;
-			npc.aiStyle = 1;
-			npc.npcSlots = 0;
-			npc.catchItem = (short)ModContent.ItemType<Items.Placeable.FishCrate>();
-			npc.noGravity = false;
-			aiType = NPCID.Grasshopper;
-			npc.alpha = 40;
-			npc.dontCountMe = true;
+			NPC.width = 40;
+			NPC.height = 40;
+			NPC.damage = 0;
+			NPC.knockBackResist = 0f;
+			NPC.defense = 1000;
+			NPC.HitSound = SoundID.NPCHit4;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.lifeMax = 10;
+			NPC.aiStyle = 1;
+			NPC.npcSlots = 0;
+			NPC.catchItem = (short)ModContent.ItemType<Items.Placeable.FishCrate>();
+			NPC.noGravity = false;
+			AIType = NPCID.Grasshopper;
+			NPC.alpha = 40;
+			NPC.dontCountMe = true;
 		}
 
 		public override void AI()
 		{
-			npc.spriteDirection = -npc.direction;
+			NPC.spriteDirection = -NPC.direction;
 
-			if (npc.wet)
+			if (NPC.wet)
 			{
-				npc.aiStyle = 1;
-				npc.npcSlots = 0;
-				npc.noGravity = false;
-				aiType = NPCID.Grasshopper;
-				npc.velocity.X *= 0f;
-				npc.velocity.Y *= .9f;
+				NPC.aiStyle = 1;
+				NPC.npcSlots = 0;
+				NPC.noGravity = false;
+				AIType = NPCID.Grasshopper;
+				NPC.velocity.X *= 0f;
+				NPC.velocity.Y *= .9f;
 			}
 			else
 			{
-				npc.aiStyle = 0;
-				npc.npcSlots = 0;
-				npc.noGravity = false;
-				aiType = NPCID.BoundGoblin;
+				NPC.aiStyle = 0;
+				NPC.npcSlots = 0;
+				NPC.noGravity = false;
+				AIType = NPCID.BoundGoblin;
 			}
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FishCrate/FishCrate1"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/FishCrate/FishCrate1").Type, 1f);
 				for (int i = 0; i < 6; i++)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FishCrate/FishCrate2"), Main.rand.NextFloat(.5f, 1f));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FishCrate/FishCrate3"), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/FishCrate/FishCrate2").Type, Main.rand.NextFloat(.5f, 1f));
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/FishCrate/FishCrate3").Type, 1f);
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(2) == 0)
-				npc.DropItem(ModContent.ItemType<RawFish>());
+				NPC.DropItem(ModContent.ItemType<RawFish>());
 
 			if (Main.rand.Next(4) == 0)
-				npc.DropItem(Main.rand.NextBool() ? ModContent.ItemType<FloaterItem>() : ModContent.ItemType<LuvdiscItem>());
+				NPC.DropItem(Main.rand.NextBool() ? ModContent.ItemType<FloaterItem>() : ModContent.ItemType<LuvdiscItem>());
 
 			int[] lootTable = { ItemID.Shrimp, ItemID.Salmon, ItemID.Bass, ItemID.RedSnapper, ItemID.Trout };
-			npc.DropItem(Main.rand.Next(lootTable), Main.rand.Next(3, 5));
+			NPC.DropItem(Main.rand.Next(lootTable), Main.rand.Next(3, 5));
 
 			if (Main.rand.Next(4) == 1)
 			{
 				int[] lootTable3 = { ItemID.ArmoredCavefish, ItemID.Damselfish, ItemID.DoubleCod, ItemID.FrostMinnow };
-				npc.DropItem(Main.rand.Next(lootTable3));
+				NPC.DropItem(Main.rand.Next(lootTable3));
 			}
 
 			if (Main.rand.Next(27) == 0)
 			{
 				int[] lootTable4 = { ItemID.ReaverShark, ItemID.Swordfish, ItemID.SawtoothShark };
-				npc.DropItem(Main.rand.Next(lootTable4));
+				NPC.DropItem(Main.rand.Next(lootTable4));
 			}
 
 			if (Main.rand.Next(14) == 0)
 			{
 				string[] lootTable2123 = { "DiverLegs", "DiverHead", "DiverBody" };
-				npc.DropItem(mod.ItemType(Main.rand.Next(lootTable2123)));
+				NPC.DropItem(Mod.Find<ModItem>(Main.rand.Next(lootTable2123)).Type);
 			}
 
 			if (Main.rand.Next(3) == 0)
 			{
 				int[] lootTable2 = { ItemID.FrostDaggerfish, ItemID.BombFish };
-				npc.DropItem(Main.rand.Next(lootTable2), Main.rand.Next(9, 12));
+				NPC.DropItem(Main.rand.Next(lootTable2), Main.rand.Next(9, 12));
 			}
 
 			if (Main.hardMode && Main.rand.Next(10) == 0)
 			{
 				int[] lootTable51 = { ItemID.FlarefinKoi, ItemID.Obsidifish, ItemID.Prismite, ItemID.PrincessFish };
-				npc.DropItem(Main.rand.Next(lootTable51), 1);
+				NPC.DropItem(Main.rand.Next(lootTable51), 1);
 			}
 
 			if (Main.rand.Next(3) == 0)
-				npc.DropItem(ItemID.GoldCoin, Main.rand.Next(10, 90));
+				NPC.DropItem(ItemID.GoldCoin, Main.rand.Next(10, 90));
 
 			if (Main.rand.Next(7) == 0)
-				npc.DropItem(ItemID.GoldCoin, Main.rand.Next(1, 3));
+				NPC.DropItem(ItemID.GoldCoin, Main.rand.Next(1, 3));
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.OceanMonster.Chance * 0.05f;

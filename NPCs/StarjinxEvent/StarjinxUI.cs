@@ -107,7 +107,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 		private static Color DescColor => new Color(33, 24, 68); //Color for the background of the event icon and name, and for the background of the comet icons
 		private static Color ProgressBarBGColor => new Color(109, 6, 128); //Background color for the progress bar and progress % text
-		private static Color TextColor => Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTime * 2), Color.White, 0.75f); //Color of the event's text
+		private static Color TextColor => Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 2), Color.White, 0.75f); //Color of the event's text
 
 		//Mostly edited from tide ui, which I imagine is just edited from vanilla code
 		public static void DrawStarjinxEventUI(SpriteBatch spriteBatch)
@@ -142,9 +142,9 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 			//Bloom underneath shader bar
 			Texture2D bloom = SpiritMod.Instance.GetTexture("Effects/Masks/CircleGradient");
-			float sineCounter = (float)(Math.Sin(Main.GlobalTime * 4) * 0.05f) + 1f;
+			float sineCounter = (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 4) * 0.05f) + 1f;
 
-			Color bloomColor = Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTime * 0.75f), Color.White, 0.33f) * BarProgress * sineCounter;
+			Color bloomColor = Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 0.75f), Color.White, 0.33f) * BarProgress * sineCounter;
 			bloomColor.A = 0;
 
 			//Scale to match color bar texture size
@@ -161,7 +161,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 			Effect progressbarEffect = SpiritMod.Instance.GetEffect("Effects/SjinxProgressBar");
 			progressbarEffect.Parameters["vnoiseTex"].SetValue(SpiritMod.Instance.GetTexture("Textures/Trails/Trail_2"));
-			progressbarEffect.Parameters["timer"].SetValue(Main.GlobalTime * 0.75f);
+			progressbarEffect.Parameters["timer"].SetValue(Main.GlobalTimeWrappedHourly * 0.75f);
 			progressbarEffect.Parameters["progress"].SetValue(BarProgress);
 			progressbarEffect.Parameters["Yellow"].SetValue(new Color(245, 236, 74).ToVector4());
 			progressbarEffect.Parameters["Orange"].SetValue(new Color(255, 112, 68).ToVector4());

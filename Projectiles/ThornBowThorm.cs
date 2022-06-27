@@ -13,24 +13,24 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.height = 10;
-			projectile.width = 14;
-			projectile.timeLeft = 600;
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.WoodenArrowFriendly;
-			projectile.penetrate = 4;
-			projectile.tileCollide = true;
+			Projectile.friendly = true;
+			Projectile.height = 10;
+			Projectile.width = 14;
+			Projectile.timeLeft = 600;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.WoodenArrowFriendly;
+			Projectile.penetrate = 4;
+			Projectile.tileCollide = true;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+			Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Grass, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Grass, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

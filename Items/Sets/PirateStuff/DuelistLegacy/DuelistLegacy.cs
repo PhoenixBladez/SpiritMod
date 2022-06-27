@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using SpiritMod.Utilities;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Enums;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,24 +25,24 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 
 		public override void SetDefaults()
 		{
-			item.damage = 100;
-			item.melee = true;
-			item.width = 36;
-			item.height = 44;
-			item.useTime = 12;
-			item.useAnimation = 12;
-			item.reuseDelay = 20;
-			item.channel = true;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.knockBack = 10f;
-			item.value = Item.sellPrice(0, 1, 80, 0);
-			item.crit = 4;
-			item.rare = ItemRarityID.Pink;
-			item.shootSpeed = 1f;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<DuelistSlash>();
-			item.noUseGraphic = true;
-			item.noMelee = true;
+			Item.damage = 100;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 36;
+			Item.height = 44;
+			Item.useTime = 12;
+			Item.useAnimation = 12;
+			Item.reuseDelay = 20;
+			Item.channel = true;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 10f;
+			Item.value = Item.sellPrice(0, 1, 80, 0);
+			Item.crit = 4;
+			Item.rare = ItemRarityID.Pink;
+			Item.shootSpeed = 1f;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<DuelistSlash>();
+			Item.noUseGraphic = true;
+			Item.noMelee = true;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
@@ -48,20 +50,20 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 		public override bool CanUseItem(Player player)
 		{
 			if (player.altFunctionUse == 2)
-				item.shoot = ModContent.ProjectileType<DuelistGun>();
+				Item.shoot = ModContent.ProjectileType<DuelistGun>();
 			else
-				item.shoot = ModContent.ProjectileType<DuelistSlash>();
+				Item.shoot = ModContent.ProjectileType<DuelistSlash>();
 
 			return base.CanUseItem(player);
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (player.altFunctionUse == 2)
 			{
 				Vector2 direction = new Vector2(speedX, speedY);
 				if (ChargeReady)
 				{
-					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Shotgun2").WithPitchVariance(0.2f).WithVolume(0.4f), player.Center);
+					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Shotgun2").WithPitchVariance(0.2f).WithVolume(0.4f), player.Center);
 
 					for (int i = 0; i < 15; i++)
 					{
@@ -73,8 +75,8 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 				}
 				else
 				{
-					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithPitchVariance(0.2f).WithVolume(.35f), player.Center);
-					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Shotgun1").WithPitchVariance(0.6f).WithVolume(0.46f), player.Center);
+					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 14).WithPitchVariance(0.2f).WithVolume(.35f), player.Center);
+					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Shotgun1").WithPitchVariance(0.6f).WithVolume(0.46f), player.Center);
 
 					for (int i = 0; i < 10; i++)
 					{
@@ -84,16 +86,16 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 						dust.alpha = 40 + Main.rand.Next(40);
 						dust.rotation = Main.rand.NextFloat(6.28f);
 					}
-					Projectile.NewProjectile(position + (direction * 20) + (direction.RotatedBy(-1.57f * player.direction) * 15), direction, ModContent.ProjectileType<DuelistBlast>(), damage, knockBack, player.whoAmI);
+					Projectile.NewProjectile(position + (direction * 20) + (direction.RotatedBy(-1.57f * player.direction) * 15), direction, ModContent.ProjectileType<DuelistBlast>(), damage, knockback, player.whoAmI);
 				}
 				charge = 0;
 			}
 			else
 			{
 				Vector2 direction = new Vector2(speedX, speedY);
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 1).WithPitchVariance(0.5f), player.Center);
-				Projectile proj = Projectile.NewProjectileDirect(position + (direction * 20) + (direction.RotatedBy(-1.57f * player.direction) * 20), Vector2.Zero, ModContent.ProjectileType<DuelistSlash>(), damage, knockBack, player.whoAmI);
-				var mp = proj.modProjectile as DuelistSlash;
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 1).WithPitchVariance(0.5f), player.Center);
+				Projectile proj = Projectile.NewProjectileDirect(position + (direction * 20) + (direction.RotatedBy(-1.57f * player.direction) * 20), Vector2.Zero, ModContent.ProjectileType<DuelistSlash>(), damage, knockback, player.whoAmI);
+				var mp = proj.ModProjectile as DuelistSlash;
 				mp.Phase = charge % 3;
 				charge++;
 				return false;
@@ -111,7 +113,7 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 
 		public int Timer;
 
-		public Player Player => Main.player[projectile.owner];
+		public Player Player => Main.player[Projectile.owner];
 
 		public bool Empowered => Phase == 2;
 
@@ -162,26 +164,26 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Duelist's Legacy");
-			Main.projFrames[projectile.type] = 1;//11, 11, 9, 19
+			Main.projFrames[Projectile.type] = 1;//11, 11, 9, 19
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.tileCollide = false;
-			projectile.Size = new Vector2(150, 250);
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 16;
-			projectile.ownerHitCheck = true;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.tileCollide = false;
+			Projectile.Size = new Vector2(150, 250);
+			Projectile.penetrate = -1;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 16;
+			Projectile.ownerHitCheck = true;
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
 			Vector2 lineDirection = rotation.ToRotationVector2();
 			float collisionPoint = 0;
-			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Player.Center, Player.Center + (lineDirection * projectile.width), projectile.height, ref collisionPoint))
+			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Player.Center, Player.Center + (lineDirection * Projectile.width), Projectile.height, ref collisionPoint))
 				return true;
 			return false;
 		}
@@ -195,34 +197,34 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 		{
 			Vector2 lineDirection = rotation.ToRotationVector2();
 			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-			Utils.PlotTileLine(Player.Center, Player.Center + (lineDirection * projectile.width), projectile.height, DelegateMethods.CutTiles);
+			Utils.PlotTileLine(Player.Center, Player.Center + (lineDirection * Projectile.width), Projectile.height, DelegateMethods.CutTiles);
 		}
 		public override void AI()
 		{
-			Lighting.AddLight(projectile.position, Color.Cyan.ToVector3() * 0.5f);
+			Lighting.AddLight(Projectile.position, Color.Cyan.ToVector3() * 0.5f);
 
-			projectile.velocity = Vector2.Zero;
+			Projectile.velocity = Vector2.Zero;
 			Player.itemTime = Player.itemAnimation = 5;
-			Player.heldProj = projectile.whoAmI;
+			Player.heldProj = Projectile.whoAmI;
 
 			if (!initialized)
 			{
 				initialized = true;
 				direction = Player.DirectionTo(Main.MouseWorld);
 				direction.Normalize();
-				projectile.rotation = direction.ToRotation();
+				Projectile.rotation = direction.ToRotation();
 				switch (Phase)
 				{
 					case 0:
-						projectile.Size = new Vector2(150, 50);
+						Projectile.Size = new Vector2(150, 50);
 						break;
 					case 1:
-						projectile.Size = new Vector2(150, 50);
+						Projectile.Size = new Vector2(150, 50);
 						flip = !flip;
 						break;
 					case 2:
-						projectile.Size = new Vector2(150, 250);
-						projectile.Center -= (direction * 150);
+						Projectile.Size = new Vector2(150, 250);
+						Projectile.Center -= (direction * 150);
 						break;
 				}
 
@@ -231,21 +233,21 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 
 				if (Empowered)
 				{
-					projectile.damage *= 2;
-					Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Slash1").WithPitchVariance(0.1f).WithVolume(0.4f), projectile.Center);
+					Projectile.damage *= 2;
+					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Slash1").WithPitchVariance(0.1f).WithVolume(0.4f), Projectile.Center);
 					Player.GetModPlayer<MyPlayer>().Shake += 12;
 				}
 			}
 
 			if (Empowered)
-				projectile.Center = Player.Center - (direction * 50);
+				Projectile.Center = Player.Center - (direction * 50);
 			else
-				projectile.Center = Player.Center + (direction.RotatedBy(-1.57f) * 20);
+				Projectile.Center = Player.Center + (direction.RotatedBy(-1.57f) * 20);
 
 			Timer++;
 			float progress = Math.Min(Timer / (float)SwingTime, 1);
 			progress = EaseFunction.EaseCircularInOut.Ease(progress);
-			rotation = projectile.rotation + MathHelper.Lerp(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection, progress);
+			rotation = Projectile.rotation + MathHelper.Lerp(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection, progress);
 
 			Player.direction = Math.Sign(rotation.ToRotationVector2().X);
 
@@ -258,9 +260,9 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 
 			if (!Empowered)
 			{
-				if (projectile.frame > 2 && projectile.frame < 5)
+				if (Projectile.frame > 2 && Projectile.frame < 5)
 				{
-					Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 85).WithPitchVariance(0.2f).WithVolume(.15f), projectile.Center);
+					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 85).WithPitchVariance(0.2f).WithVolume(.15f), Projectile.Center);
 
 					/*StarParticle particle = new StarParticle(
 						Player.Center + ((rotation - 0.4f).ToRotationVector2() * 95),
@@ -276,26 +278,26 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 				}
 			}
 
-			projectile.frameCounter++;
-			if (projectile.frameCounter % 3 == 0)
-				projectile.frame++;
-			if (projectile.frame >= MaxFrames)
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter % 3 == 0)
+				Projectile.frame++;
+			if (Projectile.frame >= MaxFrames)
 			{
 				if (Phase == 1)
 				{
 					Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<DuelistActivation>(), 0, 0, Player.whoAmI);
 				}
-				projectile.active = false;
+				Projectile.active = false;
 			}
 
-			if (projectile.frame >= 2 && projectile.frame < 7)
-				projectile.friendly = true;
+			if (Projectile.frame >= 2 && Projectile.frame < 7)
+				Projectile.friendly = true;
 			else
-				projectile.friendly = false;
+				Projectile.friendly = false;
 		}
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			Color color = Color.White;
 			color.A = 120;
@@ -303,16 +305,16 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 
 			if (!Empowered)
 			{
-				Texture2D tex2 = Main.projectileTexture[projectile.type];
+				Texture2D tex2 = TextureAssets.Projectile[Projectile.type].Value;
 				if (flip)
 				{
-					spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .5f, rotation + 2.355f, new Vector2(tex2.Width, tex2.Height), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
-					spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .125f, rotation + 2.355f, new Vector2(tex2.Width, tex2.Height), projectile.scale * 1.15f, SpriteEffects.FlipHorizontally, 0f);
+					spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .5f, rotation + 2.355f, new Vector2(tex2.Width, tex2.Height), Projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+					spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .125f, rotation + 2.355f, new Vector2(tex2.Width, tex2.Height), Projectile.scale * 1.15f, SpriteEffects.FlipHorizontally, 0f);
 				}
 				else
 				{
-					spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor, rotation + 0.785f, new Vector2(0, tex2.Height), projectile.scale, SpriteEffects.None, 0f);
-					spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .125f, rotation + 0.785f, new Vector2(0, tex2.Height), projectile.scale * 1.15f, SpriteEffects.None, 0f);
+					spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor, rotation + 0.785f, new Vector2(0, tex2.Height), Projectile.scale, SpriteEffects.None, 0f);
+					spriteBatch.Draw(tex2, Player.Center - Main.screenPosition, null, lightColor * .125f, rotation + 0.785f, new Vector2(0, tex2.Height), Projectile.scale * 1.15f, SpriteEffects.None, 0f);
 				}
 			}
 
@@ -320,45 +322,45 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			switch (Phase)
 			{
 				case 0:
-					tex = ModContent.GetTexture(Texture + "One");
+					tex = ModContent.Request<Texture2D>(Texture + "One");
 					break;
 				case 1:
-					tex = ModContent.GetTexture(Texture + "Two");
+					tex = ModContent.Request<Texture2D>(Texture + "Two");
 					break;
 				case 2:
-					tex = ModContent.GetTexture(Texture + "Special");
+					tex = ModContent.Request<Texture2D>(Texture + "Special");
 					break;
 				default:
-					tex = Main.projectileTexture[projectile.type];
+					tex = TextureAssets.Projectile[Projectile.type].Value;
 					break;
 			}
 			int frameHeight = tex.Height / MaxFrames;
-			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
+			Rectangle frame = new Rectangle(0, frameHeight * Projectile.frame, tex.Width, frameHeight);
 			if (flip)
 			{
 				if (direction.X > 0)
 				{
-					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, color * .6f, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
-					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, color * .126f, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale * 1.05f, SpriteEffects.None, 0f);
+					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, color * .6f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0f);
+					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, color * .126f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.None, 0f);
 				}
 				else
 				{
-					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, color * .6f, projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
-					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, color * .126f, projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), projectile.scale * 1.05f, SpriteEffects.FlipHorizontally, 0f);
+					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, color * .6f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, color * .126f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.FlipHorizontally, 0f);
 				}
 			}
 			else
 			{
 				if (direction.X > 0)
 				{
-					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .6f, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
-					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .126f, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale * 1.05f, SpriteEffects.None, 0f);
+					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .6f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0f);
+					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .126f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.None, 0f);
 
 				}
 				else
 				{
-					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .6f, projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
-					spriteBatch.Draw(tex, projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .126f, projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), projectile.scale *1.05f, SpriteEffects.FlipHorizontally, 0f);
+					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .6f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+					spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - (direction.RotatedBy(-1.57f) * 15), frame, color * .126f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale *1.05f, SpriteEffects.FlipHorizontally, 0f);
 				}
 			}
 			return false;
@@ -379,31 +381,31 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 
 		private bool initialized = false;
 
-		private Player Player => Main.player[projectile.owner];
+		private Player Player => Main.player[Projectile.owner];
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Duelist's Legacy");
-			Main.projFrames[projectile.type] = 1;
+			Main.projFrames[Projectile.type] = 1;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = false;
-			projectile.ranged = true;
-			projectile.tileCollide = false;
-			projectile.Size = new Vector2(32, 32);
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 16;
-			projectile.ownerHitCheck = true;
-			projectile.timeLeft = 40;
+			Projectile.friendly = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.tileCollide = false;
+			Projectile.Size = new Vector2(32, 32);
+			Projectile.penetrate = -1;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 16;
+			Projectile.ownerHitCheck = true;
+			Projectile.timeLeft = 40;
 		}
 
 		public override void AI()
 		{
 			Player.itemTime = Player.itemAnimation = 5;
-			Player.heldProj = projectile.whoAmI;
-			projectile.Center = Player.Center;
+			Player.heldProj = Projectile.whoAmI;
+			Projectile.Center = Player.Center;
 
 			if (!initialized)
 			{
@@ -421,27 +423,27 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			Recoil *= 0.95f;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Player player = Main.player[projectile.owner];
-			Texture2D texture = Main.projectileTexture[projectile.type];
+			Player player = Main.player[Projectile.owner];
+			Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
 
-			int height = texture.Height / Main.projFrames[projectile.type];
-			int y2 = height * projectile.frame;
+			int height = texture.Height / Main.projFrames[Projectile.type];
+			int y2 = height * Projectile.frame;
 			Vector2 position = (player.Center + (CurrentDirection * 15)) - Main.screenPosition;
 
 			if (player.direction == 1)
 			{
 				SpriteEffects effects1 = SpriteEffects.None;
-				Main.spriteBatch.Draw(texture, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), lightColor * .91f, CurrentDirection.ToRotation(), new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, effects1, 0.0f);
-				Main.spriteBatch.Draw(texture, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.Gray * .05f, CurrentDirection.ToRotation(), new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale * 1.2f, effects1, 0.0f);
+				Main.spriteBatch.Draw(texture, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), lightColor * .91f, CurrentDirection.ToRotation(), new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, effects1, 0.0f);
+				Main.spriteBatch.Draw(texture, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.Gray * .05f, CurrentDirection.ToRotation(), new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale * 1.2f, effects1, 0.0f);
 			}
 
 			else
 			{
 				SpriteEffects effects1 = SpriteEffects.FlipHorizontally;
-				Main.spriteBatch.Draw(texture, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), lightColor * .91f, CurrentDirection.ToRotation() - 3.14f, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, effects1, 0.0f);
-				Main.spriteBatch.Draw(texture, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.Gray * .05f, CurrentDirection.ToRotation() - 3.14f, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale * 1.2f, effects1, 0.0f);
+				Main.spriteBatch.Draw(texture, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), lightColor * .91f, CurrentDirection.ToRotation() - 3.14f, new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, effects1, 0.0f);
+				Main.spriteBatch.Draw(texture, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.Gray * .05f, CurrentDirection.ToRotation() - 3.14f, new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale * 1.2f, effects1, 0.0f);
 
 			}
 			return false;
@@ -457,73 +459,73 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Duelist's Legacy");
-			Main.projFrames[projectile.type] = 6;
+			Main.projFrames[Projectile.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.tileCollide = false;
-			projectile.Size = new Vector2(225, 75);
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 16;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.tileCollide = false;
+			Projectile.Size = new Vector2(225, 75);
+			Projectile.penetrate = -1;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 16;
 		}
 		public override void AI()
 		{
-			if (projectile.velocity != Vector2.Zero)
+			if (Projectile.velocity != Vector2.Zero)
 			{
-				direction = Math.Sign(projectile.velocity.X);
-				projectile.rotation = projectile.velocity.ToRotation();
+				direction = Math.Sign(Projectile.velocity.X);
+				Projectile.rotation = Projectile.velocity.ToRotation();
 			}
-			projectile.velocity = Vector2.Zero;
-			projectile.frameCounter++;
-			if (projectile.frameCounter % 3 == 0)
-				projectile.frame++;
-			if (projectile.frame >= Main.projFrames[projectile.type])
-				projectile.active = false;
-			if (projectile.frame >= Main.projFrames[projectile.type] / 2)
-				projectile.friendly = false;
+			Projectile.velocity = Vector2.Zero;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter % 3 == 0)
+				Projectile.frame++;
+			if (Projectile.frame >= Main.projFrames[Projectile.type])
+				Projectile.active = false;
+			if (Projectile.frame >= Main.projFrames[Projectile.type] / 2)
+				Projectile.friendly = false;
 
 			CreateParticles();
 		}
 
 		protected virtual void CreateParticles()
 		{
-			Vector2 lineDirection = projectile.rotation.ToRotationVector2() * (projectile.width * 0.7f);
-			Vector2 lineOffshoot = (projectile.rotation + 1.57f).ToRotationVector2() * projectile.height * 0.3f;
+			Vector2 lineDirection = Projectile.rotation.ToRotationVector2() * (Projectile.width * 0.7f);
+			Vector2 lineOffshoot = (Projectile.rotation + 1.57f).ToRotationVector2() * Projectile.height * 0.3f;
 			for (int i = 0; i < 3; i++)
 			{
-				Vector2 position = projectile.Center + (lineDirection * Main.rand.NextFloat()) + (lineOffshoot * Main.rand.NextFloat(-1f, 1f));
-				Dust.NewDustPerfect(position, 6, Main.rand.NextVector2Circular(1, 1) + ((projectile.rotation + Main.rand.NextFloat(-0.35f,0.35f)).ToRotationVector2() * 5), 0, default, 1.3f).noGravity = true;
+				Vector2 position = Projectile.Center + (lineDirection * Main.rand.NextFloat()) + (lineOffshoot * Main.rand.NextFloat(-1f, 1f));
+				Dust.NewDustPerfect(position, 6, Main.rand.NextVector2Circular(1, 1) + ((Projectile.rotation + Main.rand.NextFloat(-0.35f,0.35f)).ToRotationVector2() * 5), 0, default, 1.3f).noGravity = true;
 			}
 		}
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			int frameHeight = tex.Height / Main.projFrames[projectile.type];
-			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
+			Rectangle frame = new Rectangle(0, frameHeight * Projectile.frame, tex.Width, frameHeight);
 			if (direction == 1)
 			{
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, color * .75f, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, color * .1f, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale * 1.05f, SpriteEffects.None, 0f);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color * .75f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color * .1f, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.None, 0f);
 			}
 			else
 			{
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, color * .75f, projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), projectile.scale, SpriteEffects.FlipHorizontally, 0f);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, color * .1f, projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), projectile.scale * 1.05f, SpriteEffects.FlipHorizontally, 0f);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color * .75f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale, SpriteEffects.FlipHorizontally, 0f);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color * .1f, Projectile.rotation + 3.14f, new Vector2(tex.Width, frameHeight / 2), Projectile.scale * 1.05f, SpriteEffects.FlipHorizontally, 0f);
 			}
 			return false;
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
-			Vector2 lineDirection = projectile.rotation.ToRotationVector2();
+			Vector2 lineDirection = Projectile.rotation.ToRotationVector2();
 			float collisionPoint = 0;
-			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + (lineDirection * projectile.width), projectile.height, ref collisionPoint))
+			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + (lineDirection * Projectile.width), Projectile.height, ref collisionPoint))
 				return true;
 			return false;
 		}
@@ -537,9 +539,9 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 		// Plot a line from the start of the Solar Eruption to the end of it, to change the tile-cutting collision logic. (Don't change this.)
 		public override void CutTiles()
 		{
-			Vector2 lineDirection = projectile.rotation.ToRotationVector2();
+			Vector2 lineDirection = Projectile.rotation.ToRotationVector2();
 			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-			Utils.PlotTileLine(projectile.Center, projectile.Center + (lineDirection * projectile.width), projectile.height, DelegateMethods.CutTiles);
+			Utils.PlotTileLine(Projectile.Center, Projectile.Center + (lineDirection * Projectile.width), Projectile.height, DelegateMethods.CutTiles);
 		}
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
@@ -553,28 +555,28 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Duelist's Legacy");
-			Main.projFrames[projectile.type] = 11;
+			Main.projFrames[Projectile.type] = 11;
 		}
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
-			projectile.Size = new Vector2(300, 100);
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 16;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.tileCollide = false;
+			Projectile.penetrate = -1;
+			Projectile.Size = new Vector2(300, 100);
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 16;
 		}
 
 		protected override void CreateParticles()
 		{
-			Vector2 lineDirection = projectile.rotation.ToRotationVector2() * (projectile.width * 0.7f);
-			Vector2 lineOffshoot = (projectile.rotation + 1.57f).ToRotationVector2() * projectile.height * 0.3f;
-			if (projectile.frame < 7)
+			Vector2 lineDirection = Projectile.rotation.ToRotationVector2() * (Projectile.width * 0.7f);
+			Vector2 lineOffshoot = (Projectile.rotation + 1.57f).ToRotationVector2() * Projectile.height * 0.3f;
+			if (Projectile.frame < 7)
 			{
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 85).WithPitchVariance(0.2f).WithVolume(.15f), projectile.Center);
-				Vector2 position = projectile.Center + (lineDirection * Main.rand.NextFloat()) + (lineOffshoot * Main.rand.NextFloat(-1f, 1f));
-				Dust.NewDustPerfect(position, ModContent.DustType<DuelistBubble>(), Main.rand.NextVector2Circular(1, 1) + (projectile.rotation.ToRotationVector2() * 2));
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 85).WithPitchVariance(0.2f).WithVolume(.15f), Projectile.Center);
+				Vector2 position = Projectile.Center + (lineDirection * Main.rand.NextFloat()) + (lineOffshoot * Main.rand.NextFloat(-1f, 1f));
+				Dust.NewDustPerfect(position, ModContent.DustType<DuelistBubble>(), Main.rand.NextVector2Circular(1, 1) + (Projectile.rotation.ToRotationVector2() * 2));
 			}
 		}
 	}
@@ -584,48 +586,48 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Duelist's Legacy");
-			Main.projFrames[projectile.type] = 19;
+			Main.projFrames[Projectile.type] = 19;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = false;
-			projectile.ranged = true;
-			projectile.tileCollide = false;
-			projectile.Size = new Vector2(225, 75);
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 16;
-			projectile.ownerHitCheck = true;
+			Projectile.friendly = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.tileCollide = false;
+			Projectile.Size = new Vector2(225, 75);
+			Projectile.penetrate = -1;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.localNPCHitCooldown = 16;
+			Projectile.ownerHitCheck = true;
 		}
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
-			if (player.HeldItem.modItem is DuelistLegacy modItem && !modItem.ChargeReady)
-				projectile.active = false;
+			Player player = Main.player[Projectile.owner];
+			if (player.HeldItem.ModItem is DuelistLegacy modItem && !modItem.ChargeReady)
+				Projectile.active = false;
 
 			Vector2 direction = player.DirectionTo(Main.MouseWorld);
 			direction.Normalize();
-			projectile.rotation = direction.ToRotation();
+			Projectile.rotation = direction.ToRotation();
 
-			projectile.Center = player.Center + (direction * 15);
-			projectile.velocity = Vector2.Zero;
-			projectile.frameCounter++;
-			if (projectile.frameCounter % 3 == 0)
-				projectile.frame++;
-			if (projectile.frame >= Main.projFrames[projectile.type])
-				projectile.active = false;
+			Projectile.Center = player.Center + (direction * 15);
+			Projectile.velocity = Vector2.Zero;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter % 3 == 0)
+				Projectile.frame++;
+			if (Projectile.frame >= Main.projFrames[Projectile.type])
+				Projectile.active = false;
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			Color color = Color.White;
 			color.A = 120;
 			color *= 0.8f;
 
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			int frameHeight = tex.Height / Main.projFrames[projectile.type];
-			Rectangle frame = new Rectangle(0, frameHeight * projectile.frame, tex.Width, frameHeight);
-			spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, frame, color, projectile.rotation, new Vector2(0, frameHeight / 2), projectile.scale, SpriteEffects.None, 0f);
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
+			Rectangle frame = new Rectangle(0, frameHeight * Projectile.frame, tex.Width, frameHeight);
+			spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color, Projectile.rotation, new Vector2(0, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0f);
 			return false;
 		}
 	}

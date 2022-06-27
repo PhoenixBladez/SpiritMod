@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Ambient.SurfaceIce
 {
 	public class SnowBush1 : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = false;
 			Main.tileFrameImportant[Type] = true;
@@ -25,11 +25,11 @@ namespace SpiritMod.Tiles.Ambient.SurfaceIce
 			};
             soundType = SoundID.Grass;
             TileObjectData.addTile(Type);
-			dustType = DustID.GrassBlades;
-			disableSmartCursor = true;
+			DustType = DustID.GrassBlades;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			if (Main.rand.NextBool(3))

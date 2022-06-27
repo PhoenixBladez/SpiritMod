@@ -10,36 +10,36 @@ namespace SpiritMod.NPCs.ZombieVariants
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Zombie");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[NPC.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 28;
-			npc.height = 42;
-			npc.damage = 16;
-			npc.defense = 6;
-			npc.lifeMax = 40;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath2;
-			npc.value = 70f;
-			npc.knockBackResist = .45f;
-			npc.aiStyle = 3;
-			aiType = NPCID.Zombie;
+			NPC.width = 28;
+			NPC.height = 42;
+			NPC.damage = 16;
+			NPC.defense = 6;
+			NPC.lifeMax = 40;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath2;
+			NPC.value = 70f;
+			NPC.knockBackResist = .45f;
+			NPC.aiStyle = 3;
+			AIType = NPCID.Zombie;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 20; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.78f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, .54f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.78f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, .54f);
 			}
 			
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
 				for (int i = 1; i < 4; ++i)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DiverZombie/DiverZombie" + i), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DiverZombie/DiverZombie" + i).Type, 1f);
 			}
 		}
 
@@ -48,15 +48,15 @@ namespace SpiritMod.NPCs.ZombieVariants
 
 		public override void AI()
 		{
-			npc.spriteDirection = npc.direction;
+			NPC.spriteDirection = NPC.direction;
 			frameTimer++;
-			if (npc.wet)
+			if (NPC.wet)
 			{
-				npc.noGravity = true;
-				npc.velocity.Y *= .9f;
-				npc.velocity.Y -= .09f;
-				npc.velocity.X *= .95f;
-				npc.rotation = npc.velocity.X * .1f;
+				NPC.noGravity = true;
+				NPC.velocity.Y *= .9f;
+				NPC.velocity.Y -= .09f;
+				NPC.velocity.X *= .95f;
+				NPC.rotation = NPC.velocity.X * .1f;
 				if (frameTimer >= 50)
 				{
 					frame++;
@@ -68,8 +68,8 @@ namespace SpiritMod.NPCs.ZombieVariants
 			}
 			else
 			{
-				npc.noGravity = false;
-				if (npc.velocity.Y != 0)
+				NPC.noGravity = false;
+				if (NPC.velocity.Y != 0)
 					frame = 2;
 				else
 				{
@@ -85,19 +85,19 @@ namespace SpiritMod.NPCs.ZombieVariants
 			}
 		}
 
-		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(50) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Shackle);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Shackle);
 			if (Main.rand.Next(250) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ZombieArm);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.ZombieArm);
 			if (Main.rand.Next(100) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Flipper);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Flipper);
 
 			if (Main.rand.Next(65) == 0)
-				npc.DropItem(mod.ItemType(Main.rand.Next(new string[]{ "DiverLegs", "DiverHead", "DiverBody" })));
+				NPC.DropItem(Mod.Find<ModItem>(Main.rand.Next(new string[]{ "DiverLegs", "DiverHead", "DiverBody" })).Type);
 		}
 	}
 }

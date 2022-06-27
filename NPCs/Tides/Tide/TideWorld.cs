@@ -1,4 +1,6 @@
 using Terraria;
+using Terraria.Audio;
+using Terraria.Chat;
 using Terraria.ModLoader;
 using Terraria.ID;
 using SpiritMod;
@@ -13,13 +15,13 @@ using Terraria.Localization;
 
 namespace SpiritMod.NPCs.Tides.Tide
 {
-	public class TideWorld : ModWorld
+	public class TideWorld : ModSystem
 	{
 		public static int TidePoints = 0;
 		public static int TideWave = 0;
 		public static bool TheTide;
 
-		public override void Initialize()
+		public override void OnWorldLoad()
 		{
 			TheTide = false;
 			TideWave = 0;
@@ -61,7 +63,7 @@ namespace SpiritMod.NPCs.Tides.Tide
 			if (TideWave > 5)
 			{
 				if (Main.netMode == NetmodeID.Server)
-					NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("The Tide has waned!"), new Color(61, 255, 142));
+					ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral("The Tide has waned!"), new Color(61, 255, 142));
 				else if (Main.netMode == NetmodeID.SinglePlayer)
 					Main.NewText("The Tide has waned!", 61, 255, 142);
 
@@ -74,7 +76,7 @@ namespace SpiritMod.NPCs.Tides.Tide
 					Main.musicFade[SpiritMod.Instance.GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion")] = 0;
 					float temp = Main.soundVolume; //temporarily store main.soundvolume, since sounds dont play at all if sound volume is at 0, regardless of actual volume of the sound
 					Main.soundVolume = (temp == 0) ? 1 : Main.soundVolume;
-					Main.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, SpiritMod.Instance.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/TideComplete"));
+					SoundEngine.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, SpiritMod.Instance.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/TideComplete"));
 					Main.soundVolume = temp;
 				}
 
@@ -93,7 +95,7 @@ namespace SpiritMod.NPCs.Tides.Tide
 				if (Main.netMode == NetmodeID.SinglePlayer)
 					Main.NewText(waveText, color);
 				else if (Main.netMode == NetmodeID.Server)
-					NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(waveText), color);
+					ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral(waveText), color);
 			}
 
 			SendInfoPacket();

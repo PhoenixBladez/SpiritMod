@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,35 +14,34 @@ namespace SpiritMod.Items.Sets.MarbleSet
 
 		public override void SetDefaults()
 		{
-			item.width = 44;
-			item.height = 40;
-			item.value = 8000;
-			item.rare = ItemRarityID.Green;
+			Item.width = 44;
+			Item.height = 40;
+			Item.value = 8000;
+			Item.rare = ItemRarityID.Green;
 
-			item.axe = 12;
-			item.hammer = 55;
+			Item.axe = 12;
+			Item.hammer = 55;
 
-			item.damage = 16;
-			item.knockBack = 5;
+			Item.damage = 16;
+			Item.knockBack = 5;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 28;
-			item.useAnimation = 28;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 28;
+			Item.useAnimation = 28;
 
-			item.melee = true;
-			item.useTurn = true;
-			item.autoReuse = true;
+			Item.DamageType = DamageClass.Melee;
+			Item.useTurn = true;
+			Item.autoReuse = true;
 
-			item.UseSound = SoundID.Item1;
+			Item.UseSound = SoundID.Item1;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<MarbleChunk>(), 15);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

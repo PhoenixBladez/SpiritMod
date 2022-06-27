@@ -11,41 +11,41 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Palecrab");
 
-			Main.npcFrameCount[npc.type] = 4;
-			Main.npcCatchable[npc.type] = true;
+			Main.npcFrameCount[NPC.type] = 4;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.dontCountMe = true;
-			npc.width = 18;
-			npc.height = 18;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 5;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.catchItem = (short)ModContent.ItemType<TinyCrabItem>();
-			npc.knockBackResist = .45f;
-			npc.aiStyle = 67;
-			npc.npcSlots = 0;
-			aiType = NPCID.Bunny;
+			NPC.dontCountMe = true;
+			NPC.width = 18;
+			NPC.height = 18;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 5;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.catchItem = (short)ModContent.ItemType<TinyCrabItem>();
+			NPC.knockBackResist = .45f;
+			NPC.aiStyle = 67;
+			NPC.npcSlots = 0;
+			AIType = NPCID.Bunny;
         }
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/TinyCrabGore"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/TinyCrabGore"), Main.rand.NextFloat(.5f, .7f));
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/TinyCrabGore").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/TinyCrabGore").Type, Main.rand.NextFloat(.5f, .7f));
 			}
 		}
 	}

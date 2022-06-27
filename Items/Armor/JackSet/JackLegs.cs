@@ -13,12 +13,12 @@ namespace SpiritMod.Items.Armor.JackSet
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 30;
-			item.value = Item.sellPrice(0, 0, 20, 0);
-			item.rare = ItemRarityID.LightPurple;
+			Item.width = 30;
+			Item.height = 30;
+			Item.value = Item.sellPrice(0, 0, 20, 0);
+			Item.rare = ItemRarityID.LightPurple;
 
-			item.vanity = true;
+			Item.vanity = true;
 		}
     }
 }

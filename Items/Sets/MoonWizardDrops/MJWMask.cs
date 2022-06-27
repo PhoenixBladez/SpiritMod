@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,21 +14,21 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moon Jelly Wizard Mask");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/MoonWizardDrops/MJWMask_Head_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/MoonWizardDrops/MJWMask_Head_Glow");
 
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.08f, .4f, .28f);
+			Lighting.AddLight(Item.position, 0.08f, .4f, .28f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/MoonWizardDrops/MJWMask_Glow"),
+				Mod.GetTexture("Items/Sets/MoonWizardDrops/MJWMask_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -46,12 +47,12 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
+			Item.width = 22;
+			Item.height = 20;
 
-			item.value = 3000;
-			item.rare = ItemRarityID.Blue;
-			item.vanity = true;
+			Item.value = 3000;
+			Item.rare = ItemRarityID.Blue;
+			Item.vanity = true;
 		}
 	}
 }

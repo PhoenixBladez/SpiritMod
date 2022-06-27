@@ -17,43 +17,42 @@ namespace SpiritMod.Items.Halloween.SpookySet
 		int counter = 0;
 		public override void SetDefaults()
 		{
-			item.damage = 67;
-			item.melee = true;
-			item.width = 45;
-			item.height = 45;
-			item.useTime = 45;
-			item.useAnimation = 45;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 6;
-			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Yellow;
-			item.UseSound = SoundID.Item1;
+			Item.damage = 67;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 45;
+			Item.height = 45;
+			Item.useTime = 45;
+			Item.useAnimation = 45;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 6;
+			Item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Yellow;
+			Item.UseSound = SoundID.Item1;
 			//  item.shoot = ModContent.ProjectileType<PestilentSwordProjectile>();
 			//  item.shootSpeed = 4f;
-			item.autoReuse = true;
+			Item.autoReuse = true;
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
 			counter++;
 			if (counter % 10 == 1) {
-				int newProj = Projectile.NewProjectile(new Vector2(hitbox.X, hitbox.Y), new Vector2(0, 0), ModContent.ProjectileType<Pumpkin>(), item.damage, 0, player.whoAmI);
+				int newProj = Projectile.NewProjectile(new Vector2(hitbox.X, hitbox.Y), new Vector2(0, 0), ModContent.ProjectileType<Pumpkin>(), Item.damage, 0, player.whoAmI);
 				Main.projectile[newProj].magic = false;
 				Main.projectile[newProj].melee = true;
 
 			}
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			// counter = 0;
 			return false;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.SpookyWood, 12);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

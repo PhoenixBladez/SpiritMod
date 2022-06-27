@@ -12,11 +12,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 	{
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
-			if (player.HeldItem.type == ModContent.ItemType<Sagittarius>() && false)
+			if (Player.HeldItem.type == ModContent.ItemType<Sagittarius>() && false)
 			{
-				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(mod.Name, "SagittariusHeld",
-					delegate (PlayerDrawInfo info) { DrawItem(mod.GetTexture("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_held"), 
-						mod.GetTexture("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_heldGlow"), info); }));
+				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "SagittariusHeld",
+					delegate (PlayerDrawInfo info) { DrawItem(Mod.GetTexture("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_held"), 
+						Mod.GetTexture("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_heldGlow"), info); }));
 			}
 		}
 

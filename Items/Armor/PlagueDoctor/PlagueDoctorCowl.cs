@@ -12,16 +12,16 @@ namespace SpiritMod.Items.Armor.PlagueDoctor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Plague Doctor's Visage");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Armor/PlagueDoctor/PlagueDoctorCowl_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Armor/PlagueDoctor/PlagueDoctorCowl_Glow");
 
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 20;
-			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
-			item.rare = ItemRarityID.Green;
-			item.vanity = true;
+			Item.width = 30;
+			Item.height = 20;
+			Item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.vanity = true;
 		}
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
 		{

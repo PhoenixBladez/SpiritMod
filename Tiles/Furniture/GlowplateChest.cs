@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
@@ -14,7 +15,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class GlowplateChest : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSpelunker[Type] = true;
 			Main.tileContainer[Type] = true;
@@ -22,13 +23,13 @@ namespace SpiritMod.Tiles.Furniture
 			Main.tileShine[Type] = 1200;
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
-			Main.tileValue[Type] = 500;
+			Main.tileOreFinderPriority[Type] = 500;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
-			TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
-			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
+			TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(Chest.FindEmptyChest, -1, 0, true);
+			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(Chest.AfterPlacement_Hook, -1, 0, false);
 			TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.LavaDeath = false;
@@ -37,8 +38,8 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Glowplate Chest");
 			AddMapEntry(new Color(70, 130, 180), name, MapChestName);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Containers };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.Containers };
 			chest = "Glowplate Chest";
 		}
 
@@ -47,10 +48,10 @@ namespace SpiritMod.Tiles.Furniture
 			int left = i;
 			int top = j;
 			Tile tile = Main.tile[i, j];
-			if (tile.frameX % 36 != 0) {
+			if (tile.TileFrameX % 36 != 0) {
 				left--;
 			}
-			if (tile.frameY != 0) {
+			if (tile.TileFrameY != 0) {
 				top--;
 			}
 			int chest = Chest.FindChest(left, top);
@@ -72,10 +73,10 @@ namespace SpiritMod.Tiles.Furniture
 			Tile tile = Main.tile[i, j];
 			int left = i;
 			int top = j;
-			if (tile.frameX % 36 != 0) {
+			if (tile.TileFrameX % 36 != 0) {
 				left--;
 			}
-			if (tile.frameY != 0) {
+			if (tile.TileFrameY != 0) {
 				top--;
 			}
 			return Chest.CanDestroyChest(left, top);
@@ -93,32 +94,32 @@ namespace SpiritMod.Tiles.Furniture
             {
                 zero = Vector2.Zero;
             }
-            int height = tile.frameY == 54 ? 36 : 16;
-            Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/GlowplateChest_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), new Color(150, 150, 150, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            int height = tile.TileFrameY == 54 ? 36 : 16;
+            Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Furniture/GlowplateChest_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(150, 150, 150, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             Tile t = Main.tile[i, j];
         }
 
-		public override bool NewRightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			Player player = Main.player[Main.myPlayer];
 			Tile tile = Main.tile[i, j];
 			Main.mouseRightRelease = false;
 			int left = i;
 			int top = j;
-			if (tile.frameX % 36 != 0) {
+			if (tile.TileFrameX % 36 != 0) {
 				left--;
 			}
-			if (tile.frameY != 0) {
+			if (tile.TileFrameY != 0) {
 				top--;
 			}
 			if (player.sign >= 0) {
-				Main.PlaySound(SoundID.MenuClose, -1, -1, 1);
+				SoundEngine.PlaySound(SoundID.MenuClose, -1, -1, 1);
 				player.sign = -1;
 				Main.editSign = false;
 				Main.npcChatText = "";
 			}
 			if (Main.editChest) {
-				Main.PlaySound(SoundID.MenuTick, -1, -1, 1);
+				SoundEngine.PlaySound(SoundID.MenuTick, -1, -1, 1);
 				Main.editChest = false;
 				Main.npcChatText = "";
 			}
@@ -130,7 +131,7 @@ namespace SpiritMod.Tiles.Furniture
 				if (left == player.chestX && top == player.chestY && player.chest >= 0) {
 					player.chest = -1;
 					Recipe.FindRecipes();
-					Main.PlaySound(SoundID.MenuClose, -1, -1, 1);
+					SoundEngine.PlaySound(SoundID.MenuClose, -1, -1, 1);
 				}
 				else {
 					NetMessage.SendData(MessageID.RequestChestOpen, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
@@ -143,7 +144,7 @@ namespace SpiritMod.Tiles.Furniture
 					Main.stackSplit = 600;
 					if (chest == player.chest) {
 						player.chest = -1;
-						Main.PlaySound(SoundID.MenuClose, -1, -1, 1);
+						SoundEngine.PlaySound(SoundID.MenuClose, -1, -1, 1);
 					}
 					else {
 						player.chest = chest;
@@ -151,7 +152,7 @@ namespace SpiritMod.Tiles.Furniture
 						Main.recBigList = false;
 						player.chestX = left;
 						player.chestY = top;
-						Main.PlaySound(player.chest < 0 ? 10 : 12, -1, -1, 1);
+						SoundEngine.PlaySound(player.chest < 0 ? 10 : 12, -1, -1, 1);
 					}
 					Recipe.FindRecipes();
 				}
@@ -166,35 +167,35 @@ namespace SpiritMod.Tiles.Furniture
 			Tile tile = Main.tile[i, j];
 			int left = i;
 			int top = j;
-			if (tile.frameX % 36 != 0) {
+			if (tile.TileFrameX % 36 != 0) {
 				left--;
 			}
-			if (tile.frameY != 0) {
+			if (tile.TileFrameY != 0) {
 				top--;
 			}
 			int chest = Chest.FindChest(left, top);
-			player.showItemIcon2 = -1;
+			player.cursorItemIconID = -1;
 			if (chest < 0) {
-				player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
+				player.cursorItemIconText = Language.GetTextValue("LegacyChestType.0");
 			}
 			else {
-				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Spirit Chest";
-				if (player.showItemIconText == "Spirit Chest") {
-					player.showItemIcon2 = ModContent.ItemType<GlowplateChestItem>();
-					player.showItemIconText = "";
+				player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Spirit Chest";
+				if (player.cursorItemIconText == "Spirit Chest") {
+					player.cursorItemIconID = ModContent.ItemType<GlowplateChestItem>();
+					player.cursorItemIconText = "";
 				}
 			}
 			player.noThrow = 2;
-			player.showItemIcon = true;
+			player.cursorItemIconEnabled = true;
 		}
 
 		public override void MouseOverFar(int i, int j)
 		{
 			MouseOver(i, j);
 			Player player = Main.player[Main.myPlayer];
-			if (player.showItemIconText == "") {
-				player.showItemIcon = false;
-				player.showItemIcon2 = 0;
+			if (player.cursorItemIconText == "") {
+				player.cursorItemIconEnabled = false;
+				player.cursorItemIconID = 0;
 			}
 		}
 	}
@@ -207,33 +208,32 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 28;
-			item.value = item.value = Terraria.Item.buyPrice(0, 0, 5, 0);
-			item.rare = ItemRarityID.Blue;
+			Item.width = 36;
+			Item.height = 28;
+			Item.value = Item.value = Terraria.Item.buyPrice(0, 0, 5, 0);
+			Item.rare = ItemRarityID.Blue;
 
-			item.maxStack = 99;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<GlowplateChest>();
+			Item.createTile = ModContent.TileType<GlowplateChest>();
 		}
 
   		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<TechBlockItem>(), 8);
 			recipe.AddIngredient(ItemID.IronBar, 2);
 			recipe.anyIronBar = true;
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
     }
 }

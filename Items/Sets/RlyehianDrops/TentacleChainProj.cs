@@ -4,6 +4,7 @@ using System;
 using SpiritMod.Projectiles.Flail;
 using Terraria;
 using Terraria.Enums;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,62 +24,62 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 
 		public override void SetDefaults()
 		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.ownerHitCheck = true;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.ownerHitCheck = true;
 		}
 
 		// This projectile uses advanced calculation for its motion.
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 
 			// Face the projectile towards its movement direction, offset by 90 degrees counterclockwise because the sprite faces downward.
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(-90f);
+			Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(-90f);
 
 			// Constantly set the chain's timeLeft to 2 so that it doesn't die.
-			projectile.spriteDirection = projectile.direction;
-			projectile.timeLeft = 2;
+			Projectile.spriteDirection = Projectile.direction;
+			Projectile.timeLeft = 2;
 
 			// Use one of the projectile's localAI slot as a cooldown timer for spawning explosions. When an explosion is spawned, this gets set to 4, so it takes 4 ticks to reach 0 again.
-			if (projectile.localAI[1] > 0f)
+			if (Projectile.localAI[1] > 0f)
 			{
-				projectile.localAI[1] -= 1f;
+				Projectile.localAI[1] -= 1f;
 			}
 
 			// The projectile's swerving motion.
 
 			// If this localAI slot is 0, meaning it doesn't have an assigned value, then set it to the projectile's rotation so that we can get the rotation it had on its first tick of being spawned.
-			if (projectile.localAI[0] == 0f)
+			if (Projectile.localAI[0] == 0f)
 			{
-				projectile.localAI[0] = projectile.rotation;
+				Projectile.localAI[0] = Projectile.rotation;
 			}
 
 			// If localAI[0] (the localAI slot we use to store initial rotation)'s X value is greater than 0, then direction is 1. Otherwise, -1.
-			float direction = (projectile.localAI[0].ToRotationVector2().X >= 0f).ToDirectionInt();
+			float direction = (Projectile.localAI[0].ToRotationVector2().X >= 0f).ToDirectionInt();
 
 			// Use a sine calculation to rotate the Solar Eruption around to form an ovular motion.
-			Vector2 rotation = (direction * (projectile.ai[0] / firingAnimation * MathHelper.ToRadians(360f) + MathHelper.ToRadians(-90f))).ToRotationVector2();
-			rotation.Y *= (float)Math.Sin(projectile.ai[1]);
+			Vector2 rotation = (direction * (Projectile.ai[0] / firingAnimation * MathHelper.ToRadians(360f) + MathHelper.ToRadians(-90f))).ToRotationVector2();
+			rotation.Y *= (float)Math.Sin(Projectile.ai[1]);
 
-			rotation = rotation.RotatedBy(projectile.localAI[0]);
+			rotation = rotation.RotatedBy(Projectile.localAI[0]);
 
 			// Use the ai[0] slot as a timer to increment how long the projectile has been alive.
-			projectile.ai[0] += 1f;
-			if (projectile.ai[0] < firingTime)
+			Projectile.ai[0] += 1f;
+			if (Projectile.ai[0] < firingTime)
 			{
-				projectile.velocity += (firingSpeed * rotation).RotatedBy(MathHelper.ToRadians(90f));
+				Projectile.velocity += (firingSpeed * rotation).RotatedBy(MathHelper.ToRadians(90f));
 			}
 			else
 			{
 				// If past the firingTime variable we set in the item's Shoot() hook, kill it.
-				projectile.Kill();
+				Projectile.Kill();
 			}
 
 			// Manages the positioning for the chain's handle.
@@ -96,16 +97,16 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 			}
 			// This line is a custom offset that you can change to move the handle around. Default is 0f, 0f. This projectile uses 4f, -6f.
 			offset += new Vector2(4f, -6f) * new Vector2(player.direction, player.gravDir);
-			offset -= new Vector2(player.bodyFrame.Width - projectile.width, player.bodyFrame.Height - 42) * 0.5f;
-			projectile.Center = player.RotatedRelativePoint(player.position + offset) - projectile.velocity;
+			offset -= new Vector2(player.bodyFrame.Width - Projectile.width, player.bodyFrame.Height - 42) * 0.5f;
+			Projectile.Center = player.RotatedRelativePoint(player.position + offset) - Projectile.velocity;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			// Spawns an explosion when it hits an NPC.
 			int cooldown = 10;
-			projectile.localNPCImmunity[target.whoAmI] = 10;
-			target.immune[projectile.owner] = cooldown;
+			Projectile.localNPCImmunity[target.whoAmI] = 10;
+			target.immune[Projectile.owner] = cooldown;
 		}
 
 		// Set to true so the projectile can break tiles like grass, pots, vines, etc.
@@ -118,7 +119,7 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 		public override void CutTiles()
 		{
 			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-			Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity, (projectile.width + projectile.height) * 0.5f * projectile.scale, DelegateMethods.CutTiles);
+			Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity, (Projectile.width + Projectile.height) * 0.5f * Projectile.scale, DelegateMethods.CutTiles);
 		}
 
 		// Plot a line from the start of the Solar Eruption to the end of it, and check if any hitboxes are intersected by it for the entity collision logic. (Don't change this.)
@@ -126,16 +127,16 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 		{
 			// Custom collision so all chains across the flail can cause impact.
 			float collisionPoint = 0f;
-			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity, (projectile.width + projectile.height) * 0.5f * projectile.scale, ref collisionPoint))
+			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity, (Projectile.width + Projectile.height) * 0.5f * Projectile.scale, ref collisionPoint))
 			{
 				return true;
 			}
 			return false;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D texture = Main.projectileTexture[projectile.type];
+			Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
 			Color color = lightColor;
 
 			// Some rectangle presets for different parts of the chain.
@@ -145,24 +146,24 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 			Rectangle chainHead = new Rectangle(0, 16, texture.Width, 24);
 
 			// If the chain isn't moving, stop drawing all of its components.
-			if (projectile.velocity == Vector2.Zero)
+			if (Projectile.velocity == Vector2.Zero)
 			{
 				return false;
 			}
 
 			// These fields / pre-draw logic have been taken from the vanilla source code for the Solar Eruption.
 			// They setup distances, directions, offsets, and rotations all so the chain faces correctly.
-			float chainDistance = projectile.velocity.Length() + 16f;
+			float chainDistance = Projectile.velocity.Length() + 16f;
 			bool distanceCheck = chainDistance < 100f;
-			Vector2 direction = Vector2.Normalize(projectile.velocity);
+			Vector2 direction = Vector2.Normalize(Projectile.velocity);
 			Rectangle rectangle = chainHandle;
-			Vector2 yOffset = new Vector2(0f, Main.player[projectile.owner].gfxOffY);
+			Vector2 yOffset = new Vector2(0f, Main.player[Projectile.owner].gfxOffY);
 			float rotation = direction.ToRotation() + MathHelper.ToRadians(-90f);
 			// Draw the chain handle. This is the first piece in the sprite.
-			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + yOffset, rectangle, color, rotation, rectangle.Size() / 2f - Vector2.UnitY * 4f, projectile.scale, SpriteEffects.None, 0f);
-			chainDistance -= 40f * projectile.scale;
-			Vector2 position = projectile.Center;
-			position += direction * projectile.scale * 12f;
+			spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + yOffset, rectangle, color, rotation, rectangle.Size() / 2f - Vector2.UnitY * 4f, Projectile.scale, SpriteEffects.None, 0f);
+			chainDistance -= 40f * Projectile.scale;
+			Vector2 position = Projectile.Center;
+			position += direction * Projectile.scale * 12f;
 			rectangle = chainLinkEnd;
 			if (chainDistance > 0f)
 			{
@@ -174,14 +175,14 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 						rectangle.Height = (int)(chainDistance - chains);
 					}
 					// Draws the chain links between the handle and the head. This is the "line," or the third piece in the sprite.
-					spriteBatch.Draw(texture, position - Main.screenPosition + yOffset, rectangle, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), rotation, new Vector2(rectangle.Width / 2, 0f), projectile.scale, SpriteEffects.None, 0f);
-					chains += rectangle.Height * projectile.scale;
-					position += direction * rectangle.Height * projectile.scale;
+					spriteBatch.Draw(texture, position - Main.screenPosition + yOffset, rectangle, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), rotation, new Vector2(rectangle.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0f);
+					chains += rectangle.Height * Projectile.scale;
+					position += direction * rectangle.Height * Projectile.scale;
 				}
 			}
 			Vector2 chainEnd = position;
-			position = projectile.Center;
-			position += direction * projectile.scale * 24f;
+			position = Projectile.Center;
+			position += direction * Projectile.scale * 24f;
 			rectangle = chainLink;
 			int offset = distanceCheck ? 9 : 18;
 			float chainLinkDistance = chainDistance;
@@ -199,14 +200,14 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 						spacing *= 0.75f;
 					}
 					// Draws the actual chain link spikes between the handle and the head. These are the "spikes," or the second piece in the sprite.
-					spriteBatch.Draw(texture, position - Main.screenPosition + yOffset, rectangle, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), rotation, new Vector2(rectangle.Width / 2, 0f), projectile.scale, SpriteEffects.None, 0f);
+					spriteBatch.Draw(texture, position - Main.screenPosition + yOffset, rectangle, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), rotation, new Vector2(rectangle.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0f);
 					chains += spacing;
 					position += direction * spacing;
 				}
 			}
 			rectangle = chainHead;
 			// Draw the chain head. This is the fourth piece in the sprite.
-			spriteBatch.Draw(texture, chainEnd - Main.screenPosition + yOffset, rectangle, Lighting.GetColor((int)chainEnd.X / 16, (int)chainEnd.Y / 16), rotation, texture.Frame().Top(), projectile.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(texture, chainEnd - Main.screenPosition + yOffset, rectangle, Lighting.GetColor((int)chainEnd.X / 16, (int)chainEnd.Y / 16), rotation, texture.Frame().Top(), Projectile.scale, SpriteEffects.None, 0f);
 			// Because the chain head's draw position isn't determined in AI, it is set in PreDraw.
 			// This is so the smoke-spawning dust and white light are at the proper location.
 			chainHeadPosition = chainEnd;

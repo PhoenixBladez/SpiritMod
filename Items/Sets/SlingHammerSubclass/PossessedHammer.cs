@@ -3,6 +3,7 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,26 +19,26 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 
 		public override void SetDefaults()
 		{
-			item.useStyle = 100;
-			item.width = 40;
-			item.height = 32;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.melee = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.useAnimation = 30;
-			item.useTime = 30;
-			item.shootSpeed = 8f;
-			item.knockBack = 5f;
-			item.damage = 120;
-			item.autoReuse = true;
-			item.value = Item.sellPrice(0, 1, 50, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ModContent.ProjectileType<PossessedHammerProj>();
+			Item.useStyle = 100;
+			Item.width = 40;
+			Item.height = 32;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.DamageType = DamageClass.Melee;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.useAnimation = 30;
+			Item.useTime = 30;
+			Item.shootSpeed = 8f;
+			Item.knockBack = 5f;
+			Item.damage = 120;
+			Item.autoReuse = true;
+			Item.value = Item.sellPrice(0, 1, 50, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ModContent.ProjectileType<PossessedHammerProj>();
 		}
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0 && player.ownedProjectileCounts[ModContent.ProjectileType<PossessedHammerProjReturning>()] == 0;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] == 0 && player.ownedProjectileCounts[ModContent.ProjectileType<PossessedHammerProjReturning>()] == 0;
 	}
 
 	public class PossessedHammerProj : SlingHammerProj
@@ -45,8 +46,8 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Possessed Hammer");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
 		}
 		protected override int height => 46;
 		protected override int width => 50;
@@ -66,28 +67,28 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Possessed Hammer");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 44;
-			projectile.height = 44;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 700;
+			Projectile.width = 44;
+			Projectile.height = 44;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 700;
 		}
 
-		private ref float AiState => ref projectile.ai[0];
+		private ref float AiState => ref Projectile.ai[0];
 		private const int STATE_THROWOUT = 0;
 		private const int STATE_RETURN = 1;
 		private const int STATE_SLOWHOME = 2;
 		private const int STATE_FASTHOME = 3;
 
-		private ref float AiTimer => ref projectile.ai[1];
-		private ref float NumHits => ref projectile.localAI[0];
+		private ref float AiTimer => ref Projectile.ai[1];
+		private ref float NumHits => ref Projectile.localAI[0];
 
 		private float _glowOpacity = 1;
 		private float _rotationSpeed = 0.2f;
@@ -95,18 +96,18 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 		public override void AI()
 		{
 			AiTimer++;
-			projectile.tileCollide = (AiState != STATE_RETURN);
+			Projectile.tileCollide = (AiState != STATE_RETURN);
 
 			if (!Main.dedServ)
 			{
-				if (projectile.timeLeft % 9 == 0)
-					Main.PlaySound(SoundID.Item19.WithPitchVariance(0.3f).WithVolume(0.7f), projectile.Center);
+				if (Projectile.timeLeft % 9 == 0)
+					SoundEngine.PlaySound(SoundID.Item19.WithPitchVariance(0.3f).WithVolume(0.7f), Projectile.Center);
 
 				if(Main.rand.NextBool(3) && _glowOpacity > 0)
 				{
-					Vector2 vel = (projectile.velocity / 5).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.8f, 1.2f);
+					Vector2 vel = (Projectile.velocity / 5).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.8f, 1.2f);
 					int maxtime = Main.rand.Next(35, 46);
-					ParticleHandler.SpawnParticle(new FireParticle(projectile.Center + Main.rand.NextVector2Circular(20, 20), vel,
+					ParticleHandler.SpawnParticle(new FireParticle(Projectile.Center + Main.rand.NextVector2Circular(20, 20), vel,
 						new Color(255, 143, 216) * _glowOpacity * 0.7f, new Color(57, 14, 92) * _glowOpacity * 0.7f, Main.rand.NextFloat(0.5f, 0.7f), maxtime, delegate (Particle particle)
 						{
 							particle.Velocity = vel.RotatedBy(Math.Cos(MathHelper.TwoPi * (particle.TimeActive / (float)maxtime)) * (MathHelper.Pi / 5));
@@ -115,9 +116,9 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 				}
 			}
 
-			Player Owner = Main.player[projectile.owner];
+			Player Owner = Main.player[Projectile.owner];
 			NPC target = null;
-			projectile.rotation += projectile.velocity.X > 0 ? _rotationSpeed : -_rotationSpeed;
+			Projectile.rotation += Projectile.velocity.X > 0 ? _rotationSpeed : -_rotationSpeed;
 
 			if (NumHits >= 3)
 				SetAIState(STATE_RETURN);
@@ -126,11 +127,11 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 			{
 				case STATE_THROWOUT:
 					AiTimer++;
-					projectile.rotation += projectile.velocity.X > 0 ? 0.2f : -0.2f;
-					projectile.velocity *= 0.96f;
-					target = Projectiles.ProjectileExtras.FindNearestNPC(projectile.Center, 200, false);
+					Projectile.rotation += Projectile.velocity.X > 0 ? 0.2f : -0.2f;
+					Projectile.velocity *= 0.96f;
+					target = Projectiles.ProjectileExtras.FindNearestNPC(Projectile.Center, 200, false);
 					if (target != null)
-						projectile.velocity = projectile.velocity.Length() * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * projectile.velocity.Length(), 0.15f));
+						Projectile.velocity = Projectile.velocity.Length() * Vector2.Normalize(Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(target.Center) * Projectile.velocity.Length(), 0.15f));
 
 					if (AiTimer > 40)
 						SetAIState(STATE_RETURN);
@@ -138,36 +139,36 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 				case STATE_RETURN:
 					AiTimer++;
 					_glowOpacity = Math.Max(_glowOpacity - 0.1f, 0);
-					projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(Owner.Center) * 20, 0.15f);
+					Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(Owner.Center) * 20, 0.15f);
 					if (AiTimer > 60)
-						projectile.extraUpdates = 1;
+						Projectile.extraUpdates = 1;
 
 					_rotationSpeed = MathHelper.Lerp(_rotationSpeed, 0.2f, 0.1f);
-					if (projectile.Hitbox.Intersects(Owner.Hitbox))
-						projectile.Kill();
+					if (Projectile.Hitbox.Intersects(Owner.Hitbox))
+						Projectile.Kill();
 					break;
 				case STATE_SLOWHOME:
 					AiTimer++;
-					if(projectile.velocity.Length() > 4)
-						projectile.velocity *= 0.95f;
+					if(Projectile.velocity.Length() > 4)
+						Projectile.velocity *= 0.95f;
 
 					_rotationSpeed = MathHelper.Lerp(_rotationSpeed, 0.4f, 0.2f);
-					target = Projectiles.ProjectileExtras.FindNearestNPC(projectile.Center, 600, false);
+					target = Projectiles.ProjectileExtras.FindNearestNPC(Projectile.Center, 600, false);
 					if (target != null)
-						projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center), 0.08f);
+						Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(target.Center), 0.08f);
 
 					if (AiTimer > 38)
 						SetAIState(STATE_FASTHOME);
 					break;
 				case STATE_FASTHOME:
 					AiTimer++;
-					if (projectile.velocity.Length() < 24)
-						projectile.velocity *= 1.1f;
+					if (Projectile.velocity.Length() < 24)
+						Projectile.velocity *= 1.1f;
 
 					_rotationSpeed = MathHelper.Lerp(_rotationSpeed, 0.1f, 0.2f);
-					target = Projectiles.ProjectileExtras.FindNearestNPC(projectile.Center, 600, false);
+					target = Projectiles.ProjectileExtras.FindNearestNPC(Projectile.Center, 600, false);
 					if (target != null)
-						projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * 24, 0.12f);
+						Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(target.Center) * 24, 0.12f);
 					else
 						SetAIState(STATE_RETURN);
 
@@ -182,17 +183,17 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			Player player = Main.player[projectile.owner];
-			projectile.damage = (int)(projectile.damage * 0.9f);
+			Player player = Main.player[Projectile.owner];
+			Projectile.damage = (int)(Projectile.damage * 0.9f);
 			if (AiState == STATE_THROWOUT || AiState == STATE_FASTHOME)
 			{
 				if (!Main.dedServ)
 				{
-					Main.PlaySound(SoundID.Item88, projectile.Center);
-					ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, new Color(217, 0, 255) * 0.25f, 150, 12) {RingColor = new Color(255, 94, 239) * 0.5f });
-					ParticleHandler.SpawnParticle(new PulseCircle(projectile.Center, new Color(217, 0, 255) * 0.2f, 200, 12) { RingColor = new Color(255, 94, 239) * 0.4f });
+					SoundEngine.PlaySound(SoundID.Item88, Projectile.Center);
+					ParticleHandler.SpawnParticle(new PulseCircle(Projectile.Center, new Color(217, 0, 255) * 0.25f, 150, 12) {RingColor = new Color(255, 94, 239) * 0.5f });
+					ParticleHandler.SpawnParticle(new PulseCircle(Projectile.Center, new Color(217, 0, 255) * 0.2f, 200, 12) { RingColor = new Color(255, 94, 239) * 0.4f });
 					for (int i = 0; i < 6; i++)
-						ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, (projectile.velocity / 4) - (Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 3) * Main.rand.NextFloat(6)),
+						ParticleHandler.SpawnParticle(new FireParticle(Projectile.Center, (Projectile.velocity / 4) - (Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 3) * Main.rand.NextFloat(6)),
 							new Color(255, 143, 216), new Color(57, 14, 92), Main.rand.NextFloat(0.5f, 0.7f), 40, delegate (Particle particle)
 							{
 								if (particle.Velocity.Y < 16)
@@ -203,28 +204,28 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 					{
 						float velLength = Main.rand.NextFloat(3, 5);
 						Vector2 vel = Main.rand.NextVector2Unit() * velLength;
-						ParticleHandler.SpawnParticle(new ImpactLine(projectile.Center, vel, new Color(255, 143, 216), new Vector2(0.25f, 2f * (velLength/3f)), 16));
+						ParticleHandler.SpawnParticle(new ImpactLine(Projectile.Center, vel, new Color(255, 143, 216), new Vector2(0.25f, 2f * (velLength/3f)), 16));
 					}
 				}
 
 				NumHits++;
 				SetAIState(STATE_SLOWHOME);
-				projectile.velocity = -projectile.velocity.RotatedByRandom(MathHelper.Pi / 3) * 1.5f;
+				Projectile.velocity = -Projectile.velocity.RotatedByRandom(MathHelper.Pi / 3) * 1.5f;
 				player.GetModPlayer<MyPlayer>().Shake += 8;
 			}
 		}
 
-		public override bool CanDamage() => AiState != STATE_SLOWHOME;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => AiState != STATE_SLOWHOME;
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.Bounce(oldVelocity, 0.7f);
+			Projectile.Bounce(oldVelocity, 0.7f);
 			if (AiState == STATE_SLOWHOME)
 				return false;
 
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			player.GetModPlayer<MyPlayer>().Shake += 8;
-			Main.PlaySound(SoundID.Item88, projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item88, Projectile.Center);
 			if(AiState == STATE_THROWOUT)
 				SetAIState(STATE_RETURN);
 			else if(AiState == STATE_FASTHOME)
@@ -239,21 +240,21 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 		{
 			AiState = State;
 			AiTimer = 0;
-			projectile.netUpdate = true;
+			Projectile.netUpdate = true;
 		}
 
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = height /= 2;
 			return true;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			projectile.QuickDrawTrail(spriteBatch, drawColor: Color.Lerp(lightColor, Color.Purple, _glowOpacity));
-			projectile.QuickDrawGlowTrail(spriteBatch, 0.75f * _glowOpacity);
-			projectile.QuickDraw(spriteBatch);
-			projectile.QuickDrawGlow(spriteBatch, Color.White * _glowOpacity);
+			Projectile.QuickDrawTrail(spriteBatch, drawColor: Color.Lerp(lightColor, Color.Purple, _glowOpacity));
+			Projectile.QuickDrawGlowTrail(spriteBatch, 0.75f * _glowOpacity);
+			Projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDrawGlow(spriteBatch, Color.White * _glowOpacity);
 			return true;
 		}
 	}

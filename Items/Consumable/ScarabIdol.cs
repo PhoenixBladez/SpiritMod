@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,23 +17,23 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.rare = ItemRarityID.Green;
-			item.maxStack = 1;
+			Item.width = Item.height = 16;
+			Item.rare = ItemRarityID.Green;
+			Item.maxStack = 1;
 
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.useTime = item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.noMelee = true;
-			item.consumable = false;
-			item.autoReuse = false;
+			Item.noMelee = true;
+			Item.consumable = false;
+			Item.autoReuse = false;
 
-			item.UseSound = SoundID.Item43;
+			Item.UseSound = SoundID.Item43;
 		}
 
 		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()) && player.ZoneDesert && Main.dayTime;
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Scarabeus>());
@@ -51,19 +52,18 @@ namespace SpiritMod.Items.Consumable
 
 				SpiritMultiplayer.SpawnBossFromClient((byte)player.whoAmI, ModContent.NPCType<Scarabeus>(), (int)spawnPos.X, (int)spawnPos.Y);
 			}
-			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1").WithVolume(0.3f), player.position);
+			SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1").WithVolume(0.3f), player.position);
 			return true;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Amber, 3);
 			recipe.AddIngredient(ItemID.AntlionMandible, 6);
 			recipe.AddRecipeGroup("SpiritMod:GoldBars", 12);
             recipe.AddTile(TileID.DemonAltar);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

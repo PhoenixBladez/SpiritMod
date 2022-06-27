@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Potion
 {
 	public class StarPotionBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star Burn");
 			Description.SetDefault("Critical hits may cause stars to fall from the sky\n4% increased ranged damage and critical strike chance when moving");

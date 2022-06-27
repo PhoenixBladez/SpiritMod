@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.SummonTag
 {
 	public class SacrificialDaggerBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sacrificial Strike");
 			Main.debuff[Type] = true;

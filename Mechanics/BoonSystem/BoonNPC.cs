@@ -27,7 +27,7 @@ namespace SpiritMod.Mechanics.BoonSystem
 			if (!SpiritMod.Instance.FinishedContentSetup || Main.gameMenu || Main.LocalPlayer == null)
 				return;
 
-			if (npc.modNPC is IBoonable || npc.type == NPCID.Medusa)
+			if (npc.ModNPC is IBoonable || npc.type == NPCID.Medusa)
 				ApplyBoon(npc);
 		}
 
@@ -98,9 +98,9 @@ namespace SpiritMod.Mechanics.BoonSystem
 
 		#region boon hooks
 		public override void AI(NPC npc) => currentBoon?.AI();
-		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color color) => currentBoon?.PostDraw(spriteBatch, color);
+		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => currentBoon?.PostDraw(spriteBatch, color);
 
-		public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Color color)
+		public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			currentBoon?.PreDraw(spriteBatch, color);
 			return true;

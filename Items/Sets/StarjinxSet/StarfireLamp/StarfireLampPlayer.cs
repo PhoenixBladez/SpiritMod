@@ -33,22 +33,22 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 		public float GlowmaskOpacity { get; set; }
 
 		//Where the origin of the texture is drawn
-		private Vector2 GetHoldPosition => player.MountedCenter + new Vector2(player.direction * player.width / 2, 0);
+		private Vector2 GetHoldPosition => Player.MountedCenter + new Vector2(Player.direction * Player.width / 2, 0);
 		private Vector2 Origin => new Vector2(38, 18);
 
 		//The amount of frames used for the animation
 		private const int NumFrames = 6;
 
 		//The current frame being drawn, currently based on game time as to constantly increase
-		private int CurFrame => (int)((Main.GlobalTime * 11) % NumFrames);
-		private bool HoldingLamp => player.HeldItem.type == ModContent.ItemType<StarfireLamp>() && false;
+		private int CurFrame => (int)((Main.GlobalTimeWrappedHourly * 11) % NumFrames);
+		private bool HoldingLamp => Player.HeldItem.type == ModContent.ItemType<StarfireLamp>() && false;
 
 		//The rectangle of the texture currently being drawn
 		private Rectangle DrawRectangle
 		{
 			get
 			{
-				Texture2D texture = mod.GetTexture(TexturePath);
+				Texture2D texture = Mod.GetTexture(TexturePath);
 				Rectangle drawRect = texture.Bounds;
 				drawRect.Height /= NumFrames;
 				drawRect.Y = CurFrame * drawRect.Height;
@@ -78,7 +78,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 
 			//Check if the target npc is still active and targettable, if not, set to null and reset target time
 			if (LampTargetNPC != null)
-				LampTargetNPC = (LampTargetNPC.active && LampTargetNPC.CanBeChasedBy(player)) ? LampTargetNPC : null;
+				LampTargetNPC = (LampTargetNPC.active && LampTargetNPC.CanBeChasedBy(Player)) ? LampTargetNPC : null;
 
 			else
 				LampTargetTime = 0;
@@ -91,28 +91,28 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 		public override void PostUpdate()
 		{
 			if (HoldingLamp)
-				player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawAdditiveLayer(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
+				Player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawAdditiveLayer(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
 		}
 		public override void ModifyDrawLayers(List<PlayerLayer> layers)
 		{
 			if(HoldingLamp)
-				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(mod.Name, "StarfireLampHeld",
+				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "StarfireLampHeld",
 					delegate (PlayerDrawInfo info) { DrawItem(info); }));
 		}
 
 		//Prevent the texture from being drawn if the player is dead or under other conditions where held items would typically not be drawn
-		private bool CanDraw => player.shadow == 0f && !player.frozen && !player.dead;
+		private bool CanDraw => Player.shadow == 0f && !Player.frozen && !Player.dead;
 
 		public void DrawItem(PlayerDrawInfo info)
 		{
 			if (!CanDraw)
 				return;
 
-			Texture2D texture = mod.GetTexture(TexturePath);
+			Texture2D texture = Mod.GetTexture(TexturePath);
 			Vector2 drawPosition = GetHoldPosition - Main.screenPosition;
 			Color lightColor = Lighting.GetColor(GetHoldPosition.ToTileCoordinates().X, GetHoldPosition.ToTileCoordinates().Y);
 
-			Main.playerDrawData.Add(new DrawData(texture, drawPosition, DrawRectangle, lightColor, 0, Origin, player.HeldItem.scale, info.spriteEffects, 0));
+			Main.playerDrawData.Add(new DrawData(texture, drawPosition, DrawRectangle, lightColor, 0, Origin, Player.HeldItem.scale, info.spriteEffects, 0));
 			DrawTwinkle(info);
 		}
 
@@ -120,7 +120,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 		{
 			if (TwinkleTime > 0)
 			{
-				float rotation = player.direction * (TwinkleTime / (float)MaxTwinkleTime) * MathHelper.Pi;
+				float rotation = Player.direction * (TwinkleTime / (float)MaxTwinkleTime) * MathHelper.Pi;
 				float opacity = 0.8f * (MaxTwinkleTime - Math.Abs((MaxTwinkleTime / 2) - TwinkleTime)) / (MaxTwinkleTime / 2);
 				Vector2 scale = new Vector2(1, 0.6f) * ((MaxTwinkleTime / 2) - Math.Abs((MaxTwinkleTime / 2) - TwinkleTime)) / (MaxTwinkleTime / 2);
 				Texture2D startex = Main.extraTexture[89];
@@ -133,7 +133,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 					 new Color(255, 147, 113) * opacity,
 					 rotation,
 					 startex.Size() / 2,
-					 player.HeldItem.scale * scale,
+					 Player.HeldItem.scale * scale,
 					 info.spriteEffects,
 					 0);
 
@@ -146,13 +146,13 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 
 		public void DrawAdditiveLayer(SpriteBatch sB)
 		{
-			if (player.frozen || player.dead)
+			if (Player.frozen || Player.dead)
 				return;
 
-			Texture2D glow = mod.GetTexture(GlowmaskPath);
+			Texture2D glow = Mod.GetTexture(GlowmaskPath);
 			Vector2 drawPosition = GetHoldPosition - Main.screenPosition;
-			Item item = player.HeldItem;
-			SpriteEffects flip = player.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			Item item = Player.HeldItem;
+			SpriteEffects flip = Player.direction > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
 			PulseDraw.DrawPulseEffect((float)Math.Asin(-0.6), 8, 12, delegate (Vector2 posOffset, float opacityMod)
 			{
@@ -169,7 +169,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			if (LampTargetNPC == null || LampTargetTime == 0)
 				return;
 
-			Texture2D beam = mod.GetTexture("Effects/Mining_Helmet");
+			Texture2D beam = Mod.GetTexture("Effects/Mining_Helmet");
 
 
 			Color color = Color.Lerp(SpiritMod.StarjinxColor(Main.GameUpdateCount / 12f), Color.White, 0.5f);

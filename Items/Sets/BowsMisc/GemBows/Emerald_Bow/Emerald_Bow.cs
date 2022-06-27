@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,33 +16,33 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Emerald_Bow
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 26;
-			item.useTime = 26;
-			item.width = 12;
-			item.height = 28;
-			item.shoot = ProjectileID.WoodenArrowFriendly;
-			item.useAmmo = AmmoID.Arrow;
-			item.UseSound = SoundID.Item5;
-			item.damage = 13;
-			item.shootSpeed = 8f;
-			item.knockBack = 0.5f;
-			item.rare = ItemRarityID.Blue;
-			item.noMelee = true;
-			item.value = Item.sellPrice(silver: 90);
-			item.ranged = true;
-			item.autoReuse = true;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useAnimation = 26;
+			Item.useTime = 26;
+			Item.width = 12;
+			Item.height = 28;
+			Item.shoot = ProjectileID.WoodenArrowFriendly;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.UseSound = SoundID.Item5;
+			Item.damage = 13;
+			Item.shootSpeed = 8f;
+			Item.knockBack = 0.5f;
+			Item.rare = ItemRarityID.Blue;
+			Item.noMelee = true;
+			Item.value = Item.sellPrice(silver: 90);
+			Item.DamageType = DamageClass.Ranged;
+			Item.autoReuse = true;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 40f;
+			Vector2 muzzleOffset = Vector2.Normalize(velocity) * 40f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
 				position += muzzleOffset;
 			if (type == ProjectileID.WoodenArrowFriendly)
 				type = ModContent.ProjectileType<Emerald_Arrow>();
-			Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(8));
-			Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI);
+			Vector2 perturbedSpeed = new Vector2(velocity).RotatedByRandom(MathHelper.ToRadians(8));
+			Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockback, player.whoAmI);
 			return false;
 		}
 
@@ -49,19 +50,17 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Emerald_Bow
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.SilverBow, 1);
 			recipe.AddIngredient(ItemID.Emerald, 8);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = CreateRecipe();
 			recipe1.AddIngredient(ItemID.TungstenBow, 1);
 			recipe1.AddIngredient(ItemID.Emerald, 8);
 			recipe1.AddTile(TileID.Anvils);
-			recipe1.SetResult(this);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 }

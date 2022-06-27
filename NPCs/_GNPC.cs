@@ -34,6 +34,7 @@ using SpiritMod.Projectiles.Arrow;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Chat;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
@@ -197,7 +198,7 @@ namespace SpiritMod.NPCs
 		{
 			if ((npc.type == NPCID.GraniteFlyer || npc.type == NPCID.GraniteGolem) && NPC.downedBoss2 && Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.Next(3) == 0)
 			{
-				Main.PlaySound(new LegacySoundStyle(2, 109));
+				SoundEngine.PlaySound(new LegacySoundStyle(2, 109));
 				{
 					for (int i = 0; i < 20; i++)
 					{
@@ -468,7 +469,7 @@ namespace SpiritMod.NPCs
 						return "I'm pretty sure this candy that makes you healthier. Maybe. Don't quote me on this.";
 				case NPCID.ArmsDealer:
 					if (dialogue == 0)
-						if (player.player.HeldItem.type == ItemID.CandyCornRifle)
+						if (player.Player.HeldItem.type == ItemID.CandyCornRifle)
 							return "Is that... it is! A Candy Corn Rifle! Here, I want you to have this for showing it to me.";
 						else
 							return "I hear there is a gun that shoots candy. Oh what I wouldn't give for one. What? Oh, yes, here's your candy.";
@@ -551,12 +552,12 @@ namespace SpiritMod.NPCs
 					if (dialogue == 0)
 						return "I might've dripped a little paint on this candy, but it's probably lead-free. Hopefully.";
 					else
-						return "Oh, " + player.player.name + ", you want candy? Let me get your portrait, then you can have some.";
+						return "Oh, " + player.Player.name + ", you want candy? Let me get your portrait, then you can have some.";
 				case NPCID.WitchDoctor:
 					if (dialogue == 0)
 						return "I decided not to give you lemon heads... or, should I say, lemon-flavored heads. Enjoy!";
 					else
-						return "Beware, " + player.player.name + ", for it is the season of ghouls and spirits. This edible talisman will protect you.";
+						return "Beware, " + player.Player.name + ", for it is the season of ghouls and spirits. This edible talisman will protect you.";
 				case NPCID.Pirate:
 					if (dialogue == 0)
 						return "Yo ho ho and a bottle of... candy. Take some!";
@@ -630,7 +631,7 @@ namespace SpiritMod.NPCs
 			}
 
 			if (dialogue == 0)
-				return "Hello, " + player.player.name + ". Take some candy!";
+				return "Hello, " + player.Player.name + ". Take some candy!";
 			else
 				return "Here, I have some candy for you.";
 		}
@@ -773,24 +774,24 @@ namespace SpiritMod.NPCs
 
 		public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
-			Player player = spawnInfo.player;
+			Player player = spawnInfo.Player;
 
 			if (MyWorld.calmNight)
 			{
-				if (spawnInfo.invasion || spawnInfo.sky || MyWorld.BlueMoon) return; //if invasion or in sky
+				if (spawnInfo.Invasion || spawnInfo.Sky || MyWorld.BlueMoon) return; //if invasion or in sky
 				if (Main.eclipse || Main.bloodMoon) return; //if eclipse or blood moon
 				if (!player.ZoneOverworldHeight) return; //if not in overworld
-				if (player.ZoneMeteor || player.ZoneRockLayerHeight || player.ZoneDungeon || player.ZoneBeach || player.ZoneCorrupt || player.ZoneCrimson || player.ZoneJungle || player.ZoneHoly || spawnInfo.player.GetSpiritPlayer().ZoneReach || spawnInfo.player.GetSpiritPlayer().ZoneSpirit) return; //if in wrong biome
+				if (player.ZoneMeteor || player.ZoneRockLayerHeight || player.ZoneDungeon || player.ZoneBeach || player.ZoneCorrupt || player.ZoneCrimson || player.ZoneJungle || player.ZoneHallow || spawnInfo.Player.GetSpiritPlayer().ZoneReach || spawnInfo.Player.GetSpiritPlayer().ZoneSpirit) return; //if in wrong biome
 
 				pool.Clear();
 			}
 
-			if (spawnInfo.spawnTileY <= Main.worldSurface && MyWorld.BlueMoon && !Main.dayTime)
+			if (spawnInfo.SpawnTileY <= Main.worldSurface && MyWorld.BlueMoon && !Main.dayTime)
 				pool.Remove(0);
 
-			if (spawnInfo.player.GetSpiritPlayer().ZoneAsteroid)
+			if (spawnInfo.Player.GetSpiritPlayer().ZoneAsteroid)
 			{
-				if (!spawnInfo.playerSafe)
+				if (!spawnInfo.PlayerSafe)
 				{
 					pool.Clear();
 					pool.Add(ModContent.NPCType<Shockhopper.DeepspaceHopper>(), .35f);
@@ -810,7 +811,7 @@ namespace SpiritMod.NPCs
 						pool.Add(ModContent.NPCType<MoonjellyEvent.DistressJelly>(), .055f);
 			}
 
-			if (MyWorld.jellySky && (spawnInfo.player.ZoneOverworldHeight || spawnInfo.player.ZoneSkyHeight))
+			if (MyWorld.jellySky && (spawnInfo.Player.ZoneOverworldHeight || spawnInfo.Player.ZoneSkyHeight))
 			{
 				pool.Add(ModContent.NPCType<MoonjellyEvent.TinyLunazoa>(), 9.35f);
 				pool.Add(ModContent.NPCType<MoonjellyEvent.ExplodingMoonjelly>(), 8.35f);
@@ -823,10 +824,10 @@ namespace SpiritMod.NPCs
 					pool.Add(ModContent.NPCType<MoonjellyEvent.DreamlightJelly>(), .85f);
 			}
 
-			if (spawnInfo.player.active && spawnInfo.player.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime)
+			if (spawnInfo.Player.active && spawnInfo.Player.ZoneBeach && MyWorld.luminousOcean && !Main.dayTime)
 			{
 				pool.Clear();
-				if (spawnInfo.water)
+				if (spawnInfo.Water)
 				{
 					if (MyWorld.luminousType == 1)
 						pool.Add(ModContent.NPCType<GreenAlgae2>(), 3f);
@@ -885,7 +886,7 @@ namespace SpiritMod.NPCs
 				if (Main.rand.NextBool(4))
 				{
 					if (Main.netMode != NetmodeID.Server)
-						Main.PlaySound(new LegacySoundStyle(SoundID.Item, 71).WithPitchVariance(0.2f).WithVolume(0.5f), target.Center);
+						SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 71).WithPitchVariance(0.2f).WithVolume(0.5f), target.Center);
 
 					int direction = target.position.X > Main.player[projectile.owner].position.X ? 1 : -1;
 
@@ -930,12 +931,12 @@ namespace SpiritMod.NPCs
 			return 2;
 		}
 
-		public override void NPCLoot(NPC npc)
+		public override void OnKill(NPC npc)
 		{
 			Player closest = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
 
 			if (NPC.killCount[Item.NPCtoBanner(npc.BannerID())] == 50)
-				Main.PlaySound(SoundLoader.customSoundType, closest.position, mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BannerSfx"));
+				SoundEngine.PlaySound(SoundLoader.customSoundType, closest.position, Mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BannerSfx"));
 
 			if (bloodInfused)
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
@@ -944,9 +945,9 @@ namespace SpiritMod.NPCs
 				closest.AddBuff(ModContent.BuffType<Buffs.Armor.ExplorerFight>(), 240);
 
 			#region Glyph
-			if (npc.boss && (npc.modNPC == null || npc.modNPC.bossBag > 0))
+			if (npc.boss && (npc.ModNPC == null || npc.ModNPC.bossBag > 0))
 			{
-				string name = npc.modNPC != null ? npc.modNPC.mod.Name + ":" + npc.modNPC.GetType().Name : "Terraria:" + npc.TypeName;
+				string name = npc.ModNPC != null ? npc.ModNPC.Mod.Name + ":" + npc.ModNPC.GetType().Name : "Terraria:" + npc.TypeName;
 
 				MyWorld.droppedGlyphs.TryGetValue(name, out bool droppedGlyphs);
 				if (!droppedGlyphs)
@@ -1118,20 +1119,20 @@ namespace SpiritMod.NPCs
 				for (int i = 0; i < 450; i++)
 				{
 					xAxis++;
-					if (Framing.GetTileSafely(xAxis, yAxis).active())
+					if (Framing.GetTileSafely(xAxis, yAxis).HasTile)
 					{
 						int nullRandom = Main.tile[xAxis, yAxis + 1] == null ? 50 : 1;
 						int type = -1;
 
-						if (Main.tile[xAxis, yAxis].type == TileID.Dirt)
+						if (Main.tile[xAxis, yAxis].TileType == TileID.Dirt)
 							type = ModContent.TileType<SpiritDirt>();
-						if (Grasses.Contains(Main.tile[xAxis, yAxis].type))
+						if (Grasses.Contains(Main.tile[xAxis, yAxis].TileType))
 							type = ModContent.TileType<SpiritGrass>();
-						else if (Ices.Contains(Main.tile[xAxis, yAxis].type))
+						else if (Ices.Contains(Main.tile[xAxis, yAxis].TileType))
 							type = ModContent.TileType<SpiritIce>();
-						else if (Stones.Contains(Main.tile[xAxis, yAxis].type))
+						else if (Stones.Contains(Main.tile[xAxis, yAxis].TileType))
 							type = ModContent.TileType<SpiritStone>();
-						else if (Sands.Contains(Main.tile[xAxis, yAxis].type))
+						else if (Sands.Contains(Main.tile[xAxis, yAxis].TileType))
 							type = ModContent.TileType<Spiritsand>();
 
 						if (xAxis < xAxisMid - 1)
@@ -1140,15 +1141,15 @@ namespace SpiritMod.NPCs
 							distanceFromCenter = xAxis - xAxisEdge;
 
 						if (type != -1 && Main.rand.NextBool(nullRandom) && Main.rand.Next(distanceFromCenter) < 10)
-							Main.tile[xAxis, yAxis].type = (ushort)type; //Converts tiles
+							Main.tile[xAxis, yAxis].TileType = (ushort)type; //Converts tiles
 
-						if (WallID.Sets.Conversion.Grass[Main.tile[xAxis, yAxis].wall] && Main.rand.NextBool(50) && Main.rand.Next(distanceFromCenter) < 18)
-							Main.tile[xAxis, yAxis].wall = (ushort)ModContent.WallType<SpiritWall>(); //Converts walls
+						if (WallID.Sets.Conversion.Grass[Main.tile[xAxis, yAxis].WallType] && Main.rand.NextBool(50) && Main.rand.Next(distanceFromCenter) < 18)
+							Main.tile[xAxis, yAxis].WallType = (ushort)ModContent.WallType<SpiritWall>(); //Converts walls
 
-						if (Decors.Contains(Main.tile[xAxis, yAxis].type) && Main.rand.NextBool(nullRandom) && Main.rand.Next(distanceFromCenter) < 18)
-							Main.tile[xAxis, yAxis].active(false); //Removes decor
+						if (Decors.Contains(Main.tile[xAxis, yAxis].TileType) && Main.rand.NextBool(nullRandom) && Main.rand.Next(distanceFromCenter) < 18)
+							Main.tile[xAxis, yAxis].HasTile = false; //Removes decor
 
-						if (Main.tile[xAxis, yAxis].type == ModContent.TileType<SpiritStone>() && yAxis > (int)((Main.rockLayer + Main.maxTilesY - 500) / 2f) && Main.rand.NextBool(300))
+						if (Main.tile[xAxis, yAxis].TileType == ModContent.TileType<SpiritStone>() && yAxis > (int)((Main.rockLayer + Main.maxTilesY - 500) / 2f) && Main.rand.NextBool(300))
 							WorldGen.TileRunner(xAxis, yAxis, WorldGen.genRand.Next(5, 7), 1, ModContent.TileType<Items.Sets.SpiritSet.SpiritOreTile>(), false, 0f, 0f, true, true); //Adds ore
 					}
 				}
@@ -1161,7 +1162,7 @@ namespace SpiritMod.NPCs
 			else if (Main.netMode == NetmodeID.Server)
 			{
 				NetMessage.SendData(MessageID.WorldData);
-				NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("The Spirits spread through the Land..."), Color.Orange, -1);
+				ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral("The Spirits spread through the Land..."), Color.Orange, -1);
 			}
 		}
 		public override void DrawEffects(NPC npc, ref Color drawColor)

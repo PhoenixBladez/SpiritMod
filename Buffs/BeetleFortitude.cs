@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	class BeetleFortitude : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Beetle Fortitude");
 			Description.SetDefault("Each strike strenghtens you...");

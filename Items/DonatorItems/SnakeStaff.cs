@@ -4,6 +4,8 @@ using SpiritMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
+
 namespace SpiritMod.Items.DonatorItems
 {
 	public class SnakeStaff : ModItem
@@ -12,45 +14,43 @@ namespace SpiritMod.Items.DonatorItems
 		{
 			DisplayName.SetDefault("Lihzahrd Wand");
 			Tooltip.SetDefault("Summons a friendly Flying Snake to shoot venom at foes");
-
 		}
-
 
 		public override void SetDefaults()
 		{
-			item.width = 26;
-			item.height = 28;
-			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Yellow;
-			item.mana = 13;
-			item.damage = 44;
-			item.knockBack = 1;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.summon = true;
-			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<SnakeMinion>();
-			item.buffType = ModContent.BuffType<SnakeMinionBuff>();
-			item.buffTime = 3600;
-			item.UseSound = SoundID.Item44;
+			Item.width = 26;
+			Item.height = 28;
+			Item.value = Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Yellow;
+			Item.mana = 13;
+			Item.damage = 44;
+			Item.knockBack = 1;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.DamageType = DamageClass.Summon;
+			Item.noMelee = true;
+			Item.shoot = ModContent.ProjectileType<SnakeMinion>();
+			Item.buffType = ModContent.BuffType<SnakeMinionBuff>();
+			Item.buffTime = 3600;
+			Item.UseSound = SoundID.Item44;
 		}
+
 		public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			return player.altFunctionUse != 2;
 		}
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)
 		{
-			if (player.altFunctionUse == 2) {
-				player.MinionNPCTargetAim();
-			}
-			return base.UseItem(player);
+			if (player.altFunctionUse == 2)
+				player.MinionNPCTargetAim(true);
+			return null;
 		}
 	}
 }

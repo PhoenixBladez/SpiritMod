@@ -23,38 +23,38 @@ namespace SpiritMod.Mechanics.AutoSell
 				{
 					if (sell_Weapons)
 					{
-						if (!player.inventory[index].favorited && SpiritModMechanic && Main.npcShop > 0 && Main.mouseItem.type == ItemID.None && !sell_Lock && player.inventory[index].damage < 1)
+						if (!Player.inventory[index].favorited && SpiritModMechanic && Main.npcShop > 0 && Main.mouseItem.type == ItemID.None && !sell_Lock && Player.inventory[index].damage < 1)
 						{
 							if (sell_NoValue)
 							{
-								player.SellItem(player.inventory[index].value, player.inventory[index].stack);
-								player.inventory[index].TurnToAir();
+								Player.SellItem(Player.inventory[index].value, Player.inventory[index].stack);
+								Player.inventory[index].TurnToAir();
 							}
 							else
 							{
-								if (player.inventory[index].value > 0)
+								if (Player.inventory[index].value > 0)
 								{
-									player.SellItem(player.inventory[index].value, player.inventory[index].stack);
-									player.inventory[index].TurnToAir();
+									Player.SellItem(Player.inventory[index].value, Player.inventory[index].stack);
+									Player.inventory[index].TurnToAir();
 								}
 							}
 						}
 					}
 					else
 					{
-						if (!player.inventory[index].favorited && SpiritModMechanic && Main.npcShop > 0 && Main.mouseItem.type == ItemID.None && !sell_Lock)
+						if (!Player.inventory[index].favorited && SpiritModMechanic && Main.npcShop > 0 && Main.mouseItem.type == ItemID.None && !sell_Lock)
 						{
 							if (sell_NoValue)
 							{
-								player.SellItem(player.inventory[index].value, player.inventory[index].stack);
-								player.inventory[index].TurnToAir();
+								Player.SellItem(Player.inventory[index].value, Player.inventory[index].stack);
+								Player.inventory[index].TurnToAir();
 							}
 							else
 							{
-								if (player.inventory[index].value > 0)
+								if (Player.inventory[index].value > 0)
 								{
-									player.SellItem(player.inventory[index].value, player.inventory[index].stack);
-									player.inventory[index].TurnToAir();
+									Player.SellItem(Player.inventory[index].value, Player.inventory[index].stack);
+									Player.inventory[index].TurnToAir();
 								}
 							}
 						}
@@ -87,14 +87,14 @@ namespace SpiritMod.Mechanics.AutoSell
 
 		public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
 		{
-			ModPacket packet = mod.GetPacket();
-			packet.Write((byte)player.whoAmI);
+			ModPacket packet = Mod.GetPacket();
+			packet.Write((byte)Player.whoAmI);
 			packet.Write(sell_NoValue);
 			packet.Write(sell_Lock);
 			packet.Write(sell_Weapons);
 		}
 
-		public override TagCompound Save()
+		public override void SaveData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
 		{
 			return new TagCompound {
 				{"sell_NoValue", sell_NoValue},
@@ -103,7 +103,7 @@ namespace SpiritMod.Mechanics.AutoSell
 			};
 		}
 
-		public override void Load(TagCompound tag)
+		public override void LoadData(TagCompound tag)
 		{
 			sell_NoValue = tag.GetBool("sell_NoValue");
 			sell_Lock = tag.GetBool("sell_Lock");

@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class SepulchreBannerTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -20,8 +20,8 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.StyleWrapLimit = 111;
 			TileObjectData.addTile(Type);
-			dustType = -1;
-			disableSmartCursor = true;
+			DustType = -1;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Banner");
 			AddMapEntry(new Color(70, 70, 70), name);

@@ -11,21 +11,21 @@ namespace SpiritMod.Mounts.Minecarts.MarbleMinecart
 			DisplayName.SetDefault("Nemean Chariot");
 			Tooltip.SetDefault("When charging, you gain defense.\n\"A good lookin' ride, to be sure\" - Professor Temp. O. Rary");
 
-			MountID.Sets.Cart[item.mountType] = true;
+			MountID.Sets.Cart[Item.mountType] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 48;
-			item.height = 32;
-			item.useTime = 20;
-			item.useAnimation = 20;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = 25000;
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item69; //nice
-			item.noMelee = true;
-			item.mountType = ModContent.MountType<MarbleMinecart>();
+			Item.width = 48;
+			Item.height = 32;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.value = 25000;
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item69; //nice
+			Item.noMelee = true;
+			Item.mountType = ModContent.MountType<MarbleMinecart>();
 		}
 
 		public override bool CanUseItem(Player player) => false; //the player shouldn't be able to use this item but they can so that's cool I guess don't worry

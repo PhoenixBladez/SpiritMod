@@ -28,18 +28,18 @@ namespace SpiritMod.Items.Accessory
 
 			foreach (TooltipLine line in tooltips)
 			{
-				if (line.mod == "Terraria" && line.Name == "Tooltip0")
-					line.text = line.text.Replace("{0}", down);
+				if (line.Mod == "Terraria" && line.Name == "Tooltip0")
+					line.Text = line.Text.Replace("{0}", down);
 			}
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 32;
-			item.value = Item.buyPrice(0, 5, 0, 0);
-			item.rare = ItemRarityID.Green;
-			item.accessory = true;
+			Item.width = 32;
+			Item.height = 32;
+			Item.value = Item.buyPrice(0, 5, 0, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.accessory = true;
 		}
 
 		private void DoubleTapPlayer_OnDoubleTapUp(Player player, int keyDir)

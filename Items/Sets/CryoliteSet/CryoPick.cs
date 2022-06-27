@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Material;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.CryoliteSet
@@ -11,26 +12,26 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryolite Pickaxe");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/CryoliteSet/CryoPick_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/CryoliteSet/CryoPick_Glow");
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 36;
-			item.value = Item.sellPrice(0, 0, 60, 0);
-			item.rare = ItemRarityID.Orange;
-			item.pick = 100;
-			item.damage = 20;
-			item.knockBack = 2;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 15;
-			item.useAnimation = 17;
-			item.melee = true;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.UseSound = SoundID.Item1;
+			Item.width = 36;
+			Item.height = 36;
+			Item.value = Item.sellPrice(0, 0, 60, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.pick = 100;
+			Item.damage = 20;
+			Item.knockBack = 2;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 15;
+			Item.useAnimation = 17;
+			Item.DamageType = DamageClass.Melee;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.UseSound = SoundID.Item1;
 		}
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
@@ -39,16 +40,16 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.06f, .16f, .22f);
+			Lighting.AddLight(Item.position, 0.06f, .16f, .22f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/CryoliteSet/CryoPick_Glow"),
+				Mod.GetTexture("Items/Sets/CryoliteSet/CryoPick_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -61,11 +62,10 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<CryoliteBar>(), 12);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

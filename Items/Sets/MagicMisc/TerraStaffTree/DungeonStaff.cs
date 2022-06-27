@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,31 +18,30 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 
 		public override void SetDefaults()
 		{
-			item.damage = 20;
-			item.magic = true;
-			item.mana = 14;
-			item.width = 42;
-			item.height = 42;
-			item.useTime = 31;
-			item.useAnimation = 31;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 0;
-			item.value = Terraria.Item.sellPrice(0, 0, 8, 0);
-			item.rare = ItemRarityID.Green;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<AquaSphere>();
-			item.shootSpeed = 13f;
+			Item.damage = 20;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 14;
+			Item.width = 42;
+			Item.height = 42;
+			Item.useTime = 31;
+			Item.useAnimation = 31;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 0;
+			Item.value = Terraria.Item.sellPrice(0, 0, 8, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<AquaSphere>();
+			Item.shootSpeed = 13f;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
+			if (Main.myPlayer == player.whoAmI)
 			{
-				if (Main.myPlayer == player.whoAmI) {
-					Vector2 mouse = Main.MouseWorld;
-					Projectile.NewProjectile(mouse.X, mouse.Y, 0, 0, ModContent.ProjectileType<AquaSphere>(), damage, knockBack, player.whoAmI);
-				}
+				Vector2 mouse = Main.MouseWorld;
+				Projectile.NewProjectile(source, mouse.X, mouse.Y, 0, 0, ModContent.ProjectileType<AquaSphere>(), damage, knockback, player.whoAmI);
 			}
 			return false;
 		}

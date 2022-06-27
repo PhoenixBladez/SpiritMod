@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class AstralMapCooldown : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astral Cooldown");
 			Description.SetDefault("Lightspeed travel is unstable!");

@@ -16,21 +16,21 @@ namespace SpiritMod.Items.Halloween
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 30;
-			item.rare = ItemRarityID.Green;
-			item.maxStack = 30;
+			Item.width = 20;
+			Item.height = 30;
+			Item.rare = ItemRarityID.Green;
+			Item.maxStack = 30;
 
-			item.useStyle = ItemUseStyleID.EatingUsing;
-			item.useTime = item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.EatFood;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.consumable = true;
-			item.autoReuse = false;
+			Item.consumable = true;
+			Item.autoReuse = false;
 
-			item.buffType = ModContent.BuffType<ChocolateBuff>();
-			item.buffTime = 14400;
+			Item.buffType = ModContent.BuffType<ChocolateBuff>();
+			Item.buffTime = 14400;
 
-			item.UseSound = SoundID.Item2;
+			Item.UseSound = SoundID.Item2;
 		}
 	}
 }

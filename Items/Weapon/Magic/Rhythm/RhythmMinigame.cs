@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 
 namespace SpiritMod.Items.Weapon.Magic.Rhythm
@@ -82,7 +83,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm
 		{
 			if (Owner.dead)
 				Pause();
-			else if (!Owner.inventory.Any(i => { if (i.modItem is IRhythmWeapon rw) return rw == Weapon; return false; }) || Main.gameInactive || Main.gameMenu || Main.gamePaused)
+			else if (!Owner.inventory.Any(i => { if (i.ModItem is IRhythmWeapon rw) return rw == Weapon; return false; }) || Main.gameInactive || Main.gameMenu || Main.gamePaused)
 			{
 				if (Weapon is IRhythmWeapon wep)
 				{
@@ -227,7 +228,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm
 				sB.Draw(RhythmBeatCircle, Position, circleRect, visibilityAdjustedWhite, 0f, new Vector2(10, 35), 2f, SpriteEffects.None, 0f);
 
 				string comboText = $"x{Combo}";
-				Vector2 size = Main.fontMouseText.MeasureString(comboText);
+				Vector2 size = FontAssets.MouseText.Value.MeasureString(comboText);
 
 				Utils.DrawBorderString(sB, comboText, Position + new Vector2(size.X / -2, 24), visibilityAdjustedWhite);
 

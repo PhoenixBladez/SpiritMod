@@ -11,14 +11,14 @@ namespace SpiritMod.Projectiles.Thrown
 		}
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Shuriken);
-			projectile.width = 6;
-			projectile.height = 6;
+			Projectile.CloneDefaults(ProjectileID.Shuriken);
+			Projectile.width = 6;
+			Projectile.height = 6;
 			//projectile.aiStyle = 8;
-			projectile.friendly = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.light = 0;
+			Projectile.friendly = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.light = 0;
 			//		aiType = ProjectileID.ThrowingKnife;
 		}
 		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -18,21 +18,21 @@ namespace SpiritMod.Items.Halloween
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 30;
-			item.rare = ItemRarityID.Green;
-			item.maxStack = 30;
+			Item.width = 20;
+			Item.height = 30;
+			Item.rare = ItemRarityID.Green;
+			Item.maxStack = 30;
 
-			item.useStyle = ItemUseStyleID.EatingUsing;
-			item.useTime = item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.EatFood;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.consumable = true;
-			item.autoReuse = false;
+			Item.consumable = true;
+			Item.autoReuse = false;
 
-			item.UseSound = SoundID.Item2;
+			Item.UseSound = SoundID.Item2;
 		}
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			string line = "";
 			Color color = new Color(127, 255, 127);

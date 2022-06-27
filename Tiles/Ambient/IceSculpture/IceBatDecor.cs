@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.IceSculpture;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +12,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture
 {
 	public class IceBatDecor : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -30,16 +31,16 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Ice Bat Sculpture");
-			dustType = DustID.SnowBlock;
+			DustType = DustID.SnowBlock;
 			AddMapEntry(new Color(200, 200, 200), name);
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			if (Vector2.Distance(new Vector2(i * 16, j * 16), Main.LocalPlayer.Center) < 56)
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
 			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<IceBatSculpture>());
 		}
 	}

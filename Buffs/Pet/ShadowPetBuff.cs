@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.Pet
 {
 	public class ShadowPetBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shadow Pup");
 			Description.SetDefault("'Awww'");

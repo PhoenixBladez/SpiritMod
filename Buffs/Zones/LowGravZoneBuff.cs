@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Zones
 {
 	public class LowGravZoneBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Low Gravity Zone");
 			Description.SetDefault("You feel light!");

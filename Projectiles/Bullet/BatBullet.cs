@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,26 +11,26 @@ namespace SpiritMod.Projectiles.Bullet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bat");
-			Main.projFrames[projectile.type] = 5;
+			Main.projFrames[Projectile.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 28;
-			projectile.height = 26;
+			Projectile.width = 28;
+			Projectile.height = 26;
 
-			projectile.ranged = true;
-			projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.friendly = true;
 
-			projectile.penetrate = 10;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 200;
+			Projectile.penetrate = 10;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 200;
 		}
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 			for (int num623 = 0; num623 < 25; num623++) {
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.SpookyWood, 0f, 0f, 100, default, 2f);
+				int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.SpookyWood, 0f, 0f, 100, default, 2f);
 				Main.dust[num622].noGravity = true;
 				Main.dust[num622].velocity *= 1.5f;
 				Main.dust[num622].scale = 0.8f;
@@ -37,17 +38,17 @@ namespace SpiritMod.Projectiles.Bullet
 		}
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
-			int num622 = Dust.NewDust(new Vector2(projectile.position.X - projectile.velocity.X, projectile.position.Y - projectile.velocity.Y), projectile.width, projectile.height, DustID.SpookyWood, 0f, 0f, 100, default, 2f);
+			Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.Pi;
+			int num622 = Dust.NewDust(new Vector2(Projectile.position.X - Projectile.velocity.X, Projectile.position.Y - Projectile.velocity.Y), Projectile.width, Projectile.height, DustID.SpookyWood, 0f, 0f, 100, default, 2f);
 			Main.dust[num622].noGravity = true;
 			Main.dust[num622].scale = 0.5f;
 
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 6) {
-				projectile.frame++;
-				projectile.frameCounter = 0;
-				if (projectile.frame >= 5)
-					projectile.frame = 0;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 6) {
+				Projectile.frame++;
+				Projectile.frameCounter = 0;
+				if (Projectile.frame >= 5)
+					Projectile.frame = 0;
 			}
 		}
 

@@ -16,21 +16,21 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 26;
-			item.rare = ItemRarityID.Blue;
-			item.value = Item.sellPrice(0, 0, 1, 0);
-			item.maxStack = 99;
-			item.noUseGraphic = true;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = item.useAnimation = 20;
+			Item.width = 30;
+			Item.height = 26;
+			Item.rare = ItemRarityID.Blue;
+			Item.value = Item.sellPrice(0, 0, 1, 0);
+			Item.maxStack = 99;
+			Item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.noMelee = true;
-			item.consumable = true;
-			item.autoReuse = true;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.autoReuse = true;
 
 		}
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Gulper>());
 			return true;

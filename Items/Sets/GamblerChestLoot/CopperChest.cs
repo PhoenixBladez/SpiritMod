@@ -15,12 +15,12 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot
 
 		public override void SetDefaults()
 		{
-			item.width = 40;
-			item.height = 40;
-			item.value = Item.buyPrice(silver: 10);
-			item.rare = ItemRarityID.Blue;
-			item.maxStack = 30;
-			item.autoReuse = true;
+			Item.width = 40;
+			Item.height = 40;
+			Item.value = Item.buyPrice(silver: 10);
+			Item.rare = ItemRarityID.Blue;
+			Item.maxStack = 30;
+			Item.autoReuse = true;
 		}
 
 		public override bool CanRightClick() => true;

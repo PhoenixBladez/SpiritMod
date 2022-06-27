@@ -5,6 +5,8 @@ using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Hostile;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,48 +17,48 @@ namespace SpiritMod.NPCs.SporeWheezer
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spore Wheezer");
-			Main.npcFrameCount[npc.type] = 12;
+			Main.npcFrameCount[NPC.type] = 12;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 40;
-			npc.height = 60;
-			npc.damage = 16;
-			npc.defense = 7;
-			npc.lifeMax = 63;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath53;
-			npc.value = 560f;
-			npc.knockBackResist = .55f;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.SporeWheezerBanner>();
+			NPC.width = 40;
+			NPC.height = 60;
+			NPC.damage = 16;
+			NPC.defense = 7;
+			NPC.lifeMax = 63;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath53;
+			NPC.value = 560f;
+			NPC.knockBackResist = .55f;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.SporeWheezerBanner>();
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			int x = spawnInfo.spawnTileX;
-			int y = spawnInfo.spawnTileY;
-			int tile = (int)Main.tile[x, y].type;
-			return (tile == TileID.MushroomGrass) && spawnInfo.spawnTileY > Main.rockLayer ? 3f : 0f;
+			int x = spawnInfo.SpawnTileX;
+			int y = spawnInfo.SpawnTileY;
+			int tile = (int)Main.tile[x, y].TileType;
+			return (tile == TileID.MushroomGrass) && spawnInfo.SpawnTileY > Main.rockLayer ? 3f : 0f;
 
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Harpy, hitDirection, -1f, 0, default, .61f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Harpy, hitDirection, -1f, 0, default, .61f);
 			}
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SporeWheezer1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SporeWheezer2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SporeWheezer3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SporeWheezer4"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SporeWheezer4"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SporeWheezer4"), 1f);
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SporeWheezer1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SporeWheezer2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SporeWheezer3").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SporeWheezer4").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SporeWheezer4").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SporeWheezer4").Type, 1f);
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
             /*int Techs = Main.rand.Next(1, 4);
 			for (int J = 0; J <= Techs; J++) {
@@ -64,29 +66,29 @@ namespace SpiritMod.NPCs.SporeWheezer
 			}*/
             int lootcount1 = Main.rand.Next(3, 6);
 			for (int J = 0; J <= lootcount1; J++) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GlowingMushroom);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.GlowingMushroom);
 			}
 			if (Main.rand.Next(15) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WheezerScale>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<WheezerScale>());
 			if (Main.rand.Next(80) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.DepthMeter);
             }
             if (Main.rand.NextBool(60))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.FlailsMisc.ClatterMace.ClatterMace>());
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.FlailsMisc.ClatterMace.ClatterMace>());
             }
             if (Main.rand.Next(80) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Compass);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Compass);
 			}
 			if (Main.rand.Next(200) == 0) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Rally);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Rally);
             }
             string[] lootTable = { "ClatterboneBreastplate", "ClatterboneFaceplate", "ClatterboenLeggings" };
             if (Main.rand.Next(55) == 0)
             {
                 int loot = Main.rand.Next(lootTable.Length);
                 {
-                    npc.DropItem(mod.ItemType(lootTable[loot]));
+                    NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
                 }
             }
         }
@@ -96,31 +98,31 @@ namespace SpiritMod.NPCs.SporeWheezer
 		int shootTimer = 0;
 		public override void AI()
 		{
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.1f, 0.15f);
-			npc.spriteDirection = npc.direction;
-			Player target = Main.player[npc.target];
-			int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0f, 0.1f, 0.15f);
+			NPC.spriteDirection = NPC.direction;
+			Player target = Main.player[NPC.target];
+			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
 			if (distance < 200) {
-				npc.velocity = Vector2.Zero;
-				if (npc.velocity == Vector2.Zero) {
-					npc.aiStyle = 0;
-					if (target.position.X > npc.position.X) {
-						npc.spriteDirection = 1;
+				NPC.velocity = Vector2.Zero;
+				if (NPC.velocity == Vector2.Zero) {
+					NPC.aiStyle = 0;
+					if (target.position.X > NPC.position.X) {
+						NPC.spriteDirection = 1;
 					}
 					else {
-						npc.spriteDirection = -1;
+						NPC.spriteDirection = -1;
 					}
-					npc.velocity.Y = 12f;
+					NPC.velocity.Y = 12f;
 				}
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 				num395 *= 0.2f;
-				npc.scale = num395 + 0.95f;
+				NPC.scale = num395 + 0.95f;
 				shootTimer++;
 				if (shootTimer >= 90) {
-					Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 95);
+					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 95);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-					Vector2 direction = Main.player[npc.target].Center - npc.Center;
+					Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 					direction.Normalize();
 					direction.X *= 5f;
 					direction.Y *= 5f;
@@ -131,9 +133,9 @@ namespace SpiritMod.NPCs.SporeWheezer
 					for (int i = 0; i < amountOfProjectiles; ++i) {
 						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 						float B = (float)Main.rand.Next(-60, -40) * 0.1f;
-						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<WheezerSporeHostile>(), damage, 1, Main.myPlayer, 0, 0);
+						int p = Projectile.NewProjectile(NPC.Center.X + (NPC.direction * 12), NPC.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<WheezerSporeHostile>(), damage, 1, Main.myPlayer, 0, 0);
 						for (int k = 0; k < 11; k++) {
-							Dust.NewDust(npc.position, npc.width, npc.height, DustID.Harpy, direction.X + A, direction.Y + B, 0, default, .61f);
+							Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Harpy, direction.X + A, direction.Y + B, 0, default, .61f);
 						}
 						Main.projectile[p].hostile = true;
 					}
@@ -150,10 +152,10 @@ namespace SpiritMod.NPCs.SporeWheezer
 				}
 			}
 			else {
-				npc.scale = 1f;
+				NPC.scale = 1f;
 				shootTimer = 0;
-				npc.aiStyle = 3;
-				aiType = NPCID.SnowFlinx;
+				NPC.aiStyle = 3;
+				AIType = NPCID.SnowFlinx;
 				timer++;
 				if (timer == 4) {
 					frame++;
@@ -171,20 +173,20 @@ namespace SpiritMod.NPCs.SporeWheezer
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/SporeWheezer/SporeWheezer_Glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/SporeWheezer/SporeWheezer_Glow"));
 		}
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frame.Y = frameHeight * frame;
+			NPC.frame.Y = frameHeight * frame;
 		}
 	}
 }

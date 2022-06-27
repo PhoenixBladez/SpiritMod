@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Bullet;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.CoilSet
@@ -12,20 +13,56 @@ namespace SpiritMod.Items.Sets.CoilSet
 		{
 			DisplayName.SetDefault("Coil Pistol");
 			Tooltip.SetDefault("Converts regular bullets into electrified bullets that chain from enemy to enemy");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/CoilSet/CoilPistol_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/CoilSet/CoilPistol_Glow");
 		}
+
+		public override void SetDefaults()
+		{
+			Item.damage = 10;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 24;
+			Item.height = 24;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 1;
+			Item.useTurn = false;
+			Item.value = Terraria.Item.sellPrice(0, 0, 22, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item11;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<CoilBullet1>();
+			Item.shootSpeed = 25f;
+			Item.useAmmo = AmmoID.Bullet;
+		}
+
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+			if (type == ProjectileID.Bullet)
+			{
+				type = ModContent.ProjectileType<CoilBullet1>();
+				knockback = 0;
+			}
+		}
+
+		public override Vector2? HoldoutOffset()
+		{
+			return new Vector2(-10, 0);
+		}
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.08f, .4f, .28f);
+			Lighting.AddLight(Item.position, 0.08f, .4f, .28f);
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/CoilSet/CoilPistol_Glow"),
+				ModContent.Request<Texture2D>("Items/Sets/CoilSet/CoilPistol_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -35,48 +72,14 @@ namespace SpiritMod.Items.Sets.CoilSet
 				SpriteEffects.None,
 				0f
 			);
-		}////
+		}
 
-		public override void SetDefaults()
-		{
-			item.damage = 10;
-			item.ranged = true;
-			item.width = 24;
-			item.height = 24;
-			item.useTime = 15;
-			item.useAnimation = 15;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 1;
-			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 0, 22, 0);
-			item.rare = ItemRarityID.Green;
-			item.UseSound = SoundID.Item11;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<CoilBullet1>();
-			item.shootSpeed = 25f;
-			item.useAmmo = AmmoID.Bullet;
-		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			if (type == ProjectileID.Bullet)
-			{
-				type = ModContent.ProjectileType<CoilBullet1>();
-				knockBack = 0;
-			}
-			return true;
-		}
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-10, 0);
-		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<TechDrive>(), 6);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

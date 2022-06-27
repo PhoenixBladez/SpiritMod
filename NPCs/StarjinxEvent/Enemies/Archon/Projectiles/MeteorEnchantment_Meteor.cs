@@ -18,51 +18,51 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Meteor");
-			Main.projFrames[projectile.type] = 6;
+			Main.projFrames[Projectile.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(32, 32);
-			projectile.scale = Main.rand.NextFloat(0.9f, 1.1f);
-			projectile.hostile = true;
-			projectile.frame = Main.rand.Next(Main.projFrames[projectile.type]);
+			Projectile.Size = new Vector2(32, 32);
+			Projectile.scale = Main.rand.NextFloat(0.9f, 1.1f);
+			Projectile.hostile = true;
+			Projectile.frame = Main.rand.Next(Main.projFrames[Projectile.type]);
 		}
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(projectile, new GradientTrail(Yellow, Orange), new RoundCap(), new DefaultTrailPosition(), 100f * projectile.scale, 220f * projectile.scale, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
-			tM.CreateTrail(projectile, new GradientTrail(Yellow, Orange), new RoundCap(), new DefaultTrailPosition(), 120f * projectile.scale, 220f * projectile.scale, new ImageShader(mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
-			tM.CreateTrail(projectile, new StandardColorTrail(Color.Orange * 0.5f), new RoundCap(), new DefaultTrailPosition(), 10f * projectile.scale, 90f * projectile.scale, new DefaultShader());
+			tM.CreateTrail(Projectile, new GradientTrail(Yellow, Orange), new RoundCap(), new DefaultTrailPosition(), 100f * Projectile.scale, 220f * Projectile.scale, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+			tM.CreateTrail(Projectile, new GradientTrail(Yellow, Orange), new RoundCap(), new DefaultTrailPosition(), 120f * Projectile.scale, 220f * Projectile.scale, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_1"), 0.01f, 1f, 1f));
+			tM.CreateTrail(Projectile, new StandardColorTrail(Color.Orange * 0.5f), new RoundCap(), new DefaultTrailPosition(), 10f * Projectile.scale, 90f * Projectile.scale, new DefaultShader());
 		}
 
 		public override void AI()
 		{
 			float intensity = .001f;
-			Lighting.AddLight(projectile.position, Orange.R * intensity, Orange.G * intensity, Orange.B * intensity);
+			Lighting.AddLight(Projectile.position, Orange.R * intensity, Orange.G * intensity, Orange.B * intensity);
 
-			projectile.velocity *= 1.004f;
+			Projectile.velocity *= 1.004f;
 
 			if (!Main.dedServ)
-				MakeEmberParticle(projectile.velocity * 0.5f, 0.97f);
+				MakeEmberParticle(Projectile.velocity * 0.5f, 0.97f);
 		}
 
 		private void MakeEmberParticle(Vector2 vel, float velDecayRate)
 		{
-			ParticleHandler.SpawnParticle(new FireParticle(projectile.Center + Main.rand.NextVector2Circular(10, 10) * projectile.scale,
+			ParticleHandler.SpawnParticle(new FireParticle(Projectile.Center + Main.rand.NextVector2Circular(10, 10) * Projectile.scale,
 				vel, Yellow, Orange, Main.rand.NextFloat(0.2f, 0.4f), 35, delegate (Particle p)
 				{
 					p.Velocity *= velDecayRate;
 				}));
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D Mask = ModContent.GetTexture(Texture + "_Glow");
-			projectile.QuickDraw(spriteBatch);
+			Texture2D Mask = ModContent.Request<Texture2D>(Texture + "_Glow");
+			Projectile.QuickDraw(spriteBatch);
 			void DrawGlow(Vector2 positionOffset, Color Color) =>
-				spriteBatch.Draw(Mask, projectile.Center - Main.screenPosition + positionOffset, projectile.DrawFrame(), Color, projectile.rotation,
-				projectile.DrawFrame().Size() / 2, projectile.scale, SpriteEffects.None, 0);
+				spriteBatch.Draw(Mask, Projectile.Center - Main.screenPosition + positionOffset, Projectile.DrawFrame(), Color, Projectile.rotation,
+				Projectile.DrawFrame().Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 
 			Color additiveWhite = Color.White;
 			additiveWhite.A = 0;

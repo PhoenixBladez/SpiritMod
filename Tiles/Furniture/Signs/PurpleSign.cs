@@ -13,7 +13,7 @@ namespace SpiritMod.Tiles.Furniture.Signs
 {
 	public class PurpleSign : ModTile
 	{
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileSolid[Type] = false;
@@ -61,8 +61,8 @@ namespace SpiritMod.Tiles.Furniture.Signs
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sign");
             AddMapEntry(new Color(139, 77, 255), name);
-            disableSmartCursor = true;
-            dustType = -1;
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            DustType = -1;
                                        //TODO	Main.highlightMaskTexture[Type] = mod.GetTexture("Tiles/ScoreBoard_Outline");
         }
 
@@ -79,9 +79,9 @@ namespace SpiritMod.Tiles.Furniture.Signs
 		{
 			Tile tile = Main.tile[i, j];
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
-			int height = tile.frameY == 36 ? 18 : 16;
+			int height = tile.TileFrameY == 36 ? 18 : 16;
 
-			spriteBatch.Draw(GetTexture("SpiritMod/Tiles/Furniture/Signs/PurpleSign_Glow"), new Vector2(i, j) * 16 - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(GetTexture("SpiritMod/Tiles/Furniture/Signs/PurpleSign_Glow"), new Vector2(i, j) * 16 - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
 	}
 }

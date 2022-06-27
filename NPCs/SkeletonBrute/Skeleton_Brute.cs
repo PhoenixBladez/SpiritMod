@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
@@ -15,45 +17,45 @@ namespace SpiritMod.NPCs.SkeletonBrute
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Skeleton Brute");
-			Main.npcFrameCount[npc.type] = 10;
+			Main.npcFrameCount[NPC.type] = 10;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.lifeMax = 250;
-			npc.defense = 10;
-			npc.value = Item.buyPrice(0, 0, 30, 0);
-			npc.knockBackResist = 0.3f;
-			npc.width = 35;
-			npc.height = 80;
-			npc.damage = 26;
-			npc.lavaImmune = false;
-			npc.noTileCollide = false;
-			npc.alpha = 0;
-			npc.HitSound = SoundID.NPCHit2;
-			npc.DeathSound = SoundID.NPCDeath2;
+			NPC.lifeMax = 250;
+			NPC.defense = 10;
+			NPC.value = Item.buyPrice(0, 0, 30, 0);
+			NPC.knockBackResist = 0.3f;
+			NPC.width = 35;
+			NPC.height = 80;
+			NPC.damage = 26;
+			NPC.lavaImmune = false;
+			NPC.noTileCollide = false;
+			NPC.alpha = 0;
+			NPC.HitSound = SoundID.NPCHit2;
+			NPC.DeathSound = SoundID.NPCDeath2;
 
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.SkeletonBruteBanner>();
-			aiType = 0;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.SkeletonBruteBanner>();
+			AIType = 0;
 		}
 
 		public override void AI()
 		{
-			Player player = Main.player[npc.target];
+			Player player = Main.player[NPC.target];
 
-			npc.TargetClosest(true);
-			npc.spriteDirection = npc.direction;
-			if (player.DistanceSQ(npc.Center) <= 120f * 120f)
+			NPC.TargetClosest(true);
+			NPC.spriteDirection = NPC.direction;
+			if (player.DistanceSQ(NPC.Center) <= 120f * 120f)
 			{
 				attacking = 1;
-				npc.aiStyle = 0;
-				npc.velocity.X = 0f;
-				npc.velocity.Y = 8f;				
+				NPC.aiStyle = 0;
+				NPC.velocity.X = 0f;
+				NPC.velocity.Y = 8f;				
 			}
 			else
 			{
-				npc.aiStyle = 3;
+				NPC.aiStyle = 3;
 				frameRes = true;	
 			}
 
@@ -62,10 +64,10 @@ namespace SpiritMod.NPCs.SkeletonBrute
 				if (!frameRes)
 				{
 					frameRes = true;
-					npc.frameCounter = 0;
+					NPC.frameCounter = 0;
 				}	
-				npc.velocity.X = 0f;
-				npc.velocity.Y = 8f;				
+				NPC.velocity.X = 0f;
+				NPC.velocity.Y = 8f;				
 			}
 		}
 
@@ -73,108 +75,108 @@ namespace SpiritMod.NPCs.SkeletonBrute
 		{		
 			for (int k = 0; k < 10; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Bone, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Bone, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
 			}
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 				for (int i = 1; i < 6; ++i)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SkeletonBrute/SkeletonBruteGore" + i), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SkeletonBrute/SkeletonBruteGore" + i).Type, 1f);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			bool downedAnyBoss = NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || MyWorld.downedScarabeus || MyWorld.downedAncientFlier || MyWorld.downedMoonWizard || MyWorld.downedRaider;
-			return spawnInfo.spawnTileY < Main.rockLayer && Main.bloodMoon && !NPC.AnyNPCs(ModContent.NPCType<Skeleton_Brute>()) && downedAnyBoss ? 0.05f : 0f;
+			return spawnInfo.SpawnTileY < Main.rockLayer && Main.bloodMoon && !NPC.AnyNPCs(ModContent.NPCType<Skeleton_Brute>()) && downedAnyBoss ? 0.05f : 0f;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => false;
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			Vector2 drawPos = new Vector2(npc.Center.X + 20 * npc.spriteDirection, npc.Center.Y - 22);
-			spriteBatch.Draw(Main.npcTexture[npc.type], drawPos - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			Vector2 drawPos = new Vector2(NPC.Center.X + 20 * NPC.spriteDirection, NPC.Center.Y - 22);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 		}
 
         public override void FindFrame(int frameHeight)
         {
-			npc.frame.Width = 240;
-            npc.frameCounter++;
+			NPC.frame.Width = 240;
+            NPC.frameCounter++;
 
-			void SetFrame(int frameX, int yOffset) => npc.frame.Location = new Point(frameX, frameHeight * yOffset); 
+			void SetFrame(int frameX, int yOffset) => NPC.frame.Location = new Point(frameX, frameHeight * yOffset); 
 
-            if (npc.velocity.Y != 0f)
-                npc.frame.Y = 2 * frameHeight;
-            else if (attacking == 0 && npc.velocity.X == 0f)
+            if (NPC.velocity.Y != 0f)
+                NPC.frame.Y = 2 * frameHeight;
+            else if (attacking == 0 && NPC.velocity.X == 0f)
 				SetFrame(0, 2);
             else if (attacking == 1)
             {
-                if (npc.frameCounter < 4)
+                if (NPC.frameCounter < 4)
 					SetFrame(0, 3);
-                else if (npc.frameCounter < 8)
+                else if (NPC.frameCounter < 8)
 					SetFrame(240, 3);
-                else if (npc.frameCounter < 12)
+                else if (NPC.frameCounter < 12)
 					SetFrame(0, 4);
-                else if (npc.frameCounter < 16)
+                else if (NPC.frameCounter < 16)
                 {
 					SetFrame(240, 4);
 
-					Player player = Main.player[npc.target];
-					if (npc.frameCounter == 13 && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0) && player.DistanceSQ(npc.Center) <= 150f * 150f)
+					Player player = Main.player[NPC.target];
+					if (NPC.frameCounter == 13 && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0) && player.DistanceSQ(NPC.Center) <= 150f * 150f)
 					{
-                        player.Hurt(PlayerDeathReason.LegacyDefault(), (int)(npc.damage * 1.5f), 0, false, false, false, -1);
-                        Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 37, 1f, 0.3f);
-                        player.velocity.X = npc.direction * 13f;
+                        player.Hurt(PlayerDeathReason.LegacyDefault(), (int)(NPC.damage * 1.5f), 0, false, false, false, -1);
+                        SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 37, 1f, 0.3f);
+                        player.velocity.X = NPC.direction * 13f;
                         player.velocity.Y = -9f;
                     }
                 }
-                else if (npc.frameCounter < 20)
+                else if (NPC.frameCounter < 20)
 					SetFrame(0, 5);
-                else if (npc.frameCounter < 24)
+                else if (NPC.frameCounter < 24)
 					SetFrame(240, 5);
-                else if (npc.frameCounter < 28)
+                else if (NPC.frameCounter < 28)
 					SetFrame(0, 6);
-                else if (npc.frameCounter < 32)
+                else if (NPC.frameCounter < 32)
 					SetFrame(240, 6);
-                else if (npc.frameCounter < 36)
+                else if (NPC.frameCounter < 36)
 					SetFrame(0, 7);
-                else if (npc.frameCounter < 40)
+                else if (NPC.frameCounter < 40)
 					SetFrame(240, 7);
-                else if (npc.frameCounter < 44)
+                else if (NPC.frameCounter < 44)
 					SetFrame(0, 8);
-                else if (npc.frameCounter < 48)
+                else if (NPC.frameCounter < 48)
 					SetFrame(240, 8);
-                else if (npc.frameCounter < 52)
+                else if (NPC.frameCounter < 52)
 					SetFrame(0, 9);
-                else if (npc.frameCounter < 70)
+                else if (NPC.frameCounter < 70)
                 {
 					SetFrame(240, 9);
-					if (npc.frameCounter == 69)
+					if (NPC.frameCounter == 69)
                     {
                         attacking = 0;
                         frameRes = false;
                     }
                 }
                 else
-                    npc.frameCounter = 0;
+                    NPC.frameCounter = 0;
             }
             else if (attacking == 0)
             {
-                if (npc.frameCounter < 7)
+                if (NPC.frameCounter < 7)
 					SetFrame(0, 0);
-                else if (npc.frameCounter < 14)
+                else if (NPC.frameCounter < 14)
 					SetFrame(240, 0);
-                else if (npc.frameCounter < 21)
+                else if (NPC.frameCounter < 21)
 					SetFrame(0, 1);
-                else if (npc.frameCounter < 28)
+                else if (NPC.frameCounter < 28)
 					SetFrame(240, 1);
-                else if (npc.frameCounter < 35)
+                else if (NPC.frameCounter < 35)
 					SetFrame(0, 2);
-                else if (npc.frameCounter < 42)
+                else if (NPC.frameCounter < 42)
 					SetFrame(240, 2);
                 else
-                    npc.frameCounter = 0;
+                    NPC.frameCounter = 0;
             }
         }
 	}

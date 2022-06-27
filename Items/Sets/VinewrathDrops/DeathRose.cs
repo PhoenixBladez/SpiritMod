@@ -28,19 +28,19 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 
 			foreach (TooltipLine line in tooltips)
 			{
-				if (line.mod == "Terraria" && line.Name == "Tooltip0")
-					line.text = line.text.Replace("{0}", down);
+				if (line.Mod == "Terraria" && line.Name == "Tooltip0")
+					line.Text = line.Text.Replace("{0}", down);
 			}
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 36;
-			item.value = Item.buyPrice(0, 10, 0, 0);
-			item.rare = ItemRarityID.LightPurple;
-			item.accessory = true;
-			item.expert = true;
+			Item.width = 32;
+			Item.height = 36;
+			Item.value = Item.buyPrice(0, 10, 0, 0);
+			Item.rare = ItemRarityID.LightPurple;
+			Item.accessory = true;
+			Item.expert = true;
 		}
 
 		private void DoubleTapPlayer_OnDoubleTap(Player player, int keyDir)

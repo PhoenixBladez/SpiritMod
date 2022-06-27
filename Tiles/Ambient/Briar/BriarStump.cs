@@ -10,13 +10,13 @@ namespace SpiritMod.Tiles.Ambient.Briar
 {
 	public class BriarStump : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoFail[Type] = true;
 			Main.tileLighted[Type] = true;
-			drop = ModContent.ItemType<Items.Sets.HuskstalkSet.AncientBark>();
-			dustType = 7;
+			ItemDrop = ModContent.ItemType<Items.Sets.HuskstalkSet.AncientBark>();
+			DustType = 7;
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
 			TileObjectData.addTile(Type);
@@ -29,7 +29,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			num = 2;
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}

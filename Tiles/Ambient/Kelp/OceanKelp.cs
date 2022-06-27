@@ -21,7 +21,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
             return base.Autoload(ref name, ref texture);
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = false; //Non solid
             Main.tileMergeDirt[Type] = false; //Don't merge with dirt (or anything else ever)
@@ -35,9 +35,9 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 			TileObjectData.newTile.AnchorAlternateTiles = new int[] { TileID.Sand, Type };
 			TileObjectData.addTile(Type);
 
-			drop = ModContent.ItemType<Items.Sets.FloatingItems.Kelp>();
+			ItemDrop = ModContent.ItemType<Items.Sets.FloatingItems.Kelp>();
 			AddMapEntry(new Color(21, 92, 19));
-            dustType = DustID.Grass;
+            DustType = DustID.Grass;
             soundType = SoundID.Grass;
         }
 
@@ -47,32 +47,32 @@ namespace SpiritMod.Tiles.Ambient.Kelp
         {
             Tile t = Framing.GetTileSafely(i, j); //this tile :)
 
-			int totalOffset = t.frameX / ClumpFrameOffset;
-			int realFrameX = t.frameX - (ClumpFrameOffset * totalOffset); //Adjusted so its easy to read
+			int totalOffset = t.TileFrameX / ClumpFrameOffset;
+			int realFrameX = t.TileFrameX - (ClumpFrameOffset * totalOffset); //Adjusted so its easy to read
 
-			if (realFrameX < 36 && t.frameY < 108) //Used for adjusting stem/top; does not include grown top or leafy stems
+			if (realFrameX < 36 && t.TileFrameY < 108) //Used for adjusting stem/top; does not include grown top or leafy stems
 			{
-                if (!Framing.GetTileSafely(i, j - 1).active()) //If top
-                    t.frameX = (short)(18 + (ClumpFrameOffset * totalOffset));
+                if (!Framing.GetTileSafely(i, j - 1).HasTile) //If top
+                    t.TileFrameX = (short)(18 + (ClumpFrameOffset * totalOffset));
                 else //If stem
-                    t.frameX = (short)(0 + (ClumpFrameOffset * totalOffset));
+                    t.TileFrameX = (short)(0 + (ClumpFrameOffset * totalOffset));
 				realFrameX = 0;
             }
 
 			if (realFrameX == 0) //If stem
-                t.frameY = (short)(Main.rand.Next(6) * 18); //Stem
+                t.TileFrameY = (short)(Main.rand.Next(6) * 18); //Stem
             else if (realFrameX == 18)
             {
-                if (t.frameY >= 108) //If grown top
-                    t.frameY = (short)((Main.rand.Next(4) * 18) + 108);
+                if (t.TileFrameY >= 108) //If grown top
+                    t.TileFrameY = (short)((Main.rand.Next(4) * 18) + 108);
                 else //If ungrown top
-                    t.frameY = (short)(Main.rand.Next(6) * 18);
+                    t.TileFrameY = (short)(Main.rand.Next(6) * 18);
             }
             else //Leafy stem
-                t.frameY = (short)(18 * Main.rand.Next(8));
+                t.TileFrameY = (short)(18 * Main.rand.Next(8));
 
-			if (t.frameY == 152 && t.frameY >= 108)
-				t.frameY = (short)(Main.rand.Next(6) * 18);
+			if (t.TileFrameY == 152 && t.TileFrameY >= 108)
+				t.TileFrameY = (short)(Main.rand.Next(6) * 18);
 			return false;
         }
 
@@ -80,79 +80,79 @@ namespace SpiritMod.Tiles.Ambient.Kelp
         {
             Tile t = Framing.GetTileSafely(i, j);
 
-			int totalOffset = t.frameX / ClumpFrameOffset;
-			int realFrameX = t.frameX - (ClumpFrameOffset * totalOffset); //Adjusted so its easy to read
+			int totalOffset = t.TileFrameX / ClumpFrameOffset;
+			int realFrameX = t.TileFrameX - (ClumpFrameOffset * totalOffset); //Adjusted so its easy to read
 
-			if (!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(4) == 0 && t.liquid > 155 && t.frameX < 36 && t.frameY < 108) //Grows the kelp
+			if (!Framing.GetTileSafely(i, j - 1).HasTile && Main.rand.Next(4) == 0 && t.LiquidAmount > 155 && t.TileFrameX < 36 && t.TileFrameY < 108) //Grows the kelp
 			{
 				int height = 1;
 
-				while (Framing.GetTileSafely(i, j + height).active() && Framing.GetTileSafely(i, j + height).type == Type)
+				while (Framing.GetTileSafely(i, j + height).HasTile && Framing.GetTileSafely(i, j + height).TileType == Type)
 					height++;
 
 				if (height < Main.rand.Next(17, 23))
 					WorldGen.PlaceTile(i, j - 1, Type, true, false);
 			}
 
-            if (realFrameX == 18 && t.frameY < 54 && t.liquid < 155) //Sprouts top
-                t.frameY = (short)((Main.rand.Next(2) * 18) + 54);
+            if (realFrameX == 18 && t.TileFrameY < 54 && t.LiquidAmount < 155) //Sprouts top
+                t.TileFrameY = (short)((Main.rand.Next(2) * 18) + 54);
 
 			if (realFrameX == 0 && Main.rand.NextBool(3)) //"Places" side (just changes frame [we do a LOT of deception])
 			{
-				t.frameY = (short)(18 * Main.rand.Next(8));
-				t.frameX = (short)(44 + (totalOffset * ClumpFrameOffset));
+				t.TileFrameY = (short)(18 * Main.rand.Next(8));
+				t.TileFrameX = (short)(44 + (totalOffset * ClumpFrameOffset));
 			}
 
-			bool validGrowthBelow = Framing.GetTileSafely(i, j + 1).type != Type || (Framing.GetTileSafely(i, j + 1).type == Type && Framing.GetTileSafely(i, j + 1).frameX >= ClumpFrameOffset);
-			if (realFrameX == 0 && t.frameX < ClumpFrameOffset * 2 && validGrowthBelow) //grows "clumps"
+			bool validGrowthBelow = Framing.GetTileSafely(i, j + 1).TileType != Type || (Framing.GetTileSafely(i, j + 1).TileType == Type && Framing.GetTileSafely(i, j + 1).TileFrameX >= ClumpFrameOffset);
+			if (realFrameX == 0 && t.TileFrameX < ClumpFrameOffset * 2 && validGrowthBelow) //grows "clumps"
 			{
-				bool validBelow = Framing.GetTileSafely(i, j + 1).frameX >= ClumpFrameOffset && Framing.GetTileSafely(i, j + 1).frameX < ClumpFrameOffset * 2 && t.frameX < ClumpFrameOffset;
-				if (Framing.GetTileSafely(i, j + 1).type != Type && t.frameX < ClumpFrameOffset * 2) //Grows clump if above sand
-					t.frameX += ClumpFrameOffset;
+				bool validBelow = Framing.GetTileSafely(i, j + 1).TileFrameX >= ClumpFrameOffset && Framing.GetTileSafely(i, j + 1).TileFrameX < ClumpFrameOffset * 2 && t.TileFrameX < ClumpFrameOffset;
+				if (Framing.GetTileSafely(i, j + 1).TileType != Type && t.TileFrameX < ClumpFrameOffset * 2) //Grows clump if above sand
+					t.TileFrameX += ClumpFrameOffset;
 				else if (validBelow) //grows clump 1
-					t.frameX += ClumpFrameOffset;
-				else if ((Framing.GetTileSafely(i, j + 1).frameX >= ClumpFrameOffset * 2 && t.frameX < ClumpFrameOffset * 2)) //grows clump 2
-					t.frameX += ClumpFrameOffset;
+					t.TileFrameX += ClumpFrameOffset;
+				else if ((Framing.GetTileSafely(i, j + 1).TileFrameX >= ClumpFrameOffset * 2 && t.TileFrameX < ClumpFrameOffset * 2)) //grows clump 2
+					t.TileFrameX += ClumpFrameOffset;
 			}
         }
 
         public override void NearbyEffects(int i, int j, bool closer) //Dust effects
         {
-			int totalOffset = Framing.GetTileSafely(i, j).frameX / ClumpFrameOffset;
+			int totalOffset = Framing.GetTileSafely(i, j).TileFrameX / ClumpFrameOffset;
 
 			if (Main.rand.Next(1000) <= 3 * totalOffset) //Spawns little bubbles
                 Dust.NewDustPerfect(new Vector2(i * 16, j * 16) + new Vector2(2 + Main.rand.Next(12), Main.rand.Next(16)), 34, new Vector2(Main.rand.NextFloat(-0.08f, 0.08f), Main.rand.NextFloat(-0.2f, -0.02f)));
 
-            if (!Framing.GetTileSafely(i, j + 1).active()) //KILL ME if there's no ground below me
+            if (!Framing.GetTileSafely(i, j + 1).HasTile) //KILL ME if there's no ground below me
                 WorldGen.KillTile(i, j);
-            if (Framing.GetTileSafely(i, j + 1).liquid < 155 && Framing.GetTileSafely(i, j).liquid < 155) //Kill me if I'm thirsty (aka kill if there's no water)
+            if (Framing.GetTileSafely(i, j + 1).LiquidAmount < 155 && Framing.GetTileSafely(i, j).LiquidAmount < 155) //Kill me if I'm thirsty (aka kill if there's no water)
                 WorldGen.KillTile(i, j);
         }
 
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem) //Kills whole stack when...killed
         {
-            if (Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j -1).type == Type && Framing.GetTileSafely(i, j).frameY < 108) //If ungrounded, kill me
+            if (Framing.GetTileSafely(i, j - 1).HasTile && Framing.GetTileSafely(i, j -1).TileType == Type && Framing.GetTileSafely(i, j).TileFrameY < 108) //If ungrounded, kill me
                 WorldGen.KillTile(i, j - 1, false, false, false);
 
 			Tile t = Framing.GetTileSafely(i, j);
-			t.frameX = t.frameY = 0;
+			t.TileFrameX = t.TileFrameY = 0;
         }
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch) //Drawing woo
         {
             Tile t = Framing.GetTileSafely(i, j); //ME!
-            Texture2D tile = ModContent.GetTexture(TexName); //Associated texture - loaded automatically
+            Texture2D tile = ModContent.Request<Texture2D>(TexName); //Associated texture - loaded automatically
 
-			int totalOffset = t.frameX / ClumpFrameOffset; //Gets offset
-			int realFrameX = t.frameX - (ClumpFrameOffset * totalOffset); //Adjusted so its easy to read
+			int totalOffset = t.TileFrameX / ClumpFrameOffset; //Gets offset
+			int realFrameX = t.TileFrameX - (ClumpFrameOffset * totalOffset); //Adjusted so its easy to read
 
-			float xOff = GetOffset(i, j, t.frameX); //Sin offset.
+			float xOff = GetOffset(i, j, t.TileFrameX); //Sin offset.
 
-			var source = new Rectangle(t.frameX, t.frameY, 16, 16); //Source rectangle used for drawing
+			var source = new Rectangle(t.TileFrameX, t.TileFrameY, 16, 16); //Source rectangle used for drawing
             if (realFrameX == 44)
-                source = new Rectangle(t.frameX, t.frameY, 26, 16);
+                source = new Rectangle(t.TileFrameX, t.TileFrameY, 26, 16);
 
-            Vector2 TileOffset = Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12; //Draw offset
+            Vector2 TileOffset = Lighting.LegacyEngine.Mode > 1 ? Vector2.Zero : Vector2.One * 12; //Draw offset
             Vector2 drawPos = ((new Vector2(i, j) + TileOffset) * 16) - Main.screenPosition; //Draw position
 
 			bool[] hasClumps = new bool[] { GetKelpTile(i, j - 1) >= ClumpFrameOffset, GetKelpTile(i, j - 1) >= ClumpFrameOffset * 2 }; //Checks for if there's a grown clump above this clump
@@ -217,11 +217,11 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 		public float GetOffset(int i, int j, int frameX, float sOffset = 0f)
 		{
 			float sin = (float)Math.Sin((Main.GameUpdateCount + (i * 24) + (j * 19)) * (0.04f * (!Lighting.NotRetro ? 0f : 1)) + sOffset) * 2.3f;
-			if (Framing.GetTileSafely(i, j + 1).type != Type) //Adjusts the sine wave offset to make it look nicer when closer to ground
+			if (Framing.GetTileSafely(i, j + 1).TileType != Type) //Adjusts the sine wave offset to make it look nicer when closer to ground
 				sin *= 0.25f;
-			else if (Framing.GetTileSafely(i, j + 2).type != Type)
+			else if (Framing.GetTileSafely(i, j + 2).TileType != Type)
 				sin *= 0.5f;
-			else if (Framing.GetTileSafely(i, j + 3).type != Type)
+			else if (Framing.GetTileSafely(i, j + 3).TileType != Type)
 				sin *= 0.75f;
 
 			if (frameX > ClumpFrameOffset) frameX -= ClumpFrameOffset;
@@ -235,8 +235,8 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 
 		public int GetKelpTile(int i, int j)
 		{
-			if (Framing.GetTileSafely(i, j).active() && Framing.GetTileSafely(i, j).type == Type)
-				return Framing.GetTileSafely(i, j).frameX;
+			if (Framing.GetTileSafely(i, j).HasTile && Framing.GetTileSafely(i, j).TileType == Type)
+				return Framing.GetTileSafely(i, j).TileFrameX;
 			return -1;
 		}
 	}

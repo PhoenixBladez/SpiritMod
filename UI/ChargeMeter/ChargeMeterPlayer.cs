@@ -36,7 +36,7 @@ namespace SpiritMod.UI.ChargeMeter
             if (body < 0)
                 return;
 
-            layers.Insert(body - 1, new PlayerLayer(mod.Name, "Body",
+            layers.Insert(body - 1, new PlayerLayer(Mod.Name, "Body",
                 delegate (PlayerDrawInfo drawInfo)
             {
                 if (drawInfo.shadow != 0f)
@@ -67,8 +67,8 @@ namespace SpiritMod.UI.ChargeMeter
                             spriteEffects = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
                     }
 
-                    Texture2D ChargeMeter = ModContent.GetTexture(chargeMeter.meterTexture);
-                    Texture2D ChargeBar = ModContent.GetTexture(chargeMeter.barTexture);
+                    Texture2D ChargeMeter = ModContent.Request<Texture2D>(chargeMeter.meterTexture);
+                    Texture2D ChargeBar = ModContent.Request<Texture2D>(chargeMeter.barTexture);
                     int num23 = !drawPlayer.setForbiddenCooldownLocked ? 1 : 0;
                     int num24 = (int)((drawPlayer.miscCounter / 300.0f * MathHelper.TwoPi).ToRotationVector2().Y * 4.0);
                     float num25 = ((float)(drawPlayer.miscCounter / 75.0 * 6.28318548202515)).ToRotationVector2().X * 4f;

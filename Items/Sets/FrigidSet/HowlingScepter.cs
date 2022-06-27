@@ -12,29 +12,29 @@ namespace SpiritMod.Items.Sets.FrigidSet
 
 		public override void SetDefaults()
 		{
-			item.damage = 9;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.magic = true;
-			item.width = 64;
-			item.height = 64;
-			item.useTime = 25;
-			item.mana = 9;
-			item.useAnimation = 25;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.knockBack = 4;
-			item.value = Item.sellPrice(0, 0, 5, 0);
-			item.rare = ItemRarityID.Blue;
-			item.crit = 6;
-			item.autoReuse = false;
-			item.shootSpeed = 9;
-			item.UseSound = SoundID.Item20;
-			item.shoot = ModContent.ProjectileType<HowlingBolt>();
+			Item.damage = 9;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Magic;
+			Item.width = 64;
+			Item.height = 64;
+			Item.useTime = 25;
+			Item.mana = 9;
+			Item.useAnimation = 25;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 4;
+			Item.value = Item.sellPrice(0, 0, 5, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.crit = 6;
+			Item.autoReuse = false;
+			Item.shootSpeed = 9;
+			Item.UseSound = SoundID.Item20;
+			Item.shoot = ModContent.ProjectileType<HowlingBolt>();
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+			int proj = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 			Projectile projectile = Main.projectile[proj];
 			Vector2 offset = Vector2.Normalize(Main.MouseWorld - player.position) * 51f;
 
@@ -52,11 +52,10 @@ namespace SpiritMod.Items.Sets.FrigidSet
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe(1);
 			modRecipe.AddIngredient(ModContent.ItemType<FrigidFragment>(), 9);
 			modRecipe.AddTile(TileID.Anvils);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

@@ -7,7 +7,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class FishingPaintingTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -30,7 +30,7 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Painting");
 			AddMapEntry(new Color(150, 150, 150), name);
-			dustType = -1;
+			DustType = -1;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

@@ -5,6 +5,7 @@ using SpiritMod.Items.Placeable;
 using SpiritMod.NPCs.Boss.SteamRaider;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
@@ -16,7 +17,7 @@ namespace SpiritMod.Tiles.Ambient
 	[TileTag(TileTags.Indestructible)]
 	public class StarBeacon : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -34,8 +35,8 @@ namespace SpiritMod.Tiles.Ambient
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Astralite Beacon");
 			AddMapEntry(new Color(50, 70, 150), name);
-			disableSmartCursor = true;
-			dustType = DustID.Electric;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType = DustID.Electric;
 		}
 
 		float alphaCounter = 0;
@@ -65,29 +66,29 @@ namespace SpiritMod.Tiles.Ambient
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(mod.GetTexture("Tiles/Ambient/StarBeacon_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Ambient/StarBeacon_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), new Vector2(i * 16 - (int)Main.screenPosition.X + 8, j * 16 - (int)Main.screenPosition.Y + 16) + zero, null, new Color((int)(2.5f * sineAdd), (int)(5f * sineAdd), (int)(6f * sineAdd), 0), 0f, new Vector2(50, 50), 0.2f * (sineAdd + 1), SpriteEffects.None, 0f);
 		}
 
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged) => MyWorld.downedRaider;
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<StarBeaconItem>());
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
 		}
 
 		public override void MouseOver(int i, int j)
 		{
 			//shows the Cryptic Crystal icon while mousing over this tile
-			Main.player[Main.myPlayer].showItemIcon = true;
-			Main.player[Main.myPlayer].showItemIcon2 = ModContent.ItemType<StarWormSummon>();
+			Main.player[Main.myPlayer].cursorItemIconEnabled = true;
+			Main.player[Main.myPlayer].cursorItemIconID = ModContent.ItemType<StarWormSummon>();
 		}
 
-		public override bool NewRightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			for (int k = 0; k < Main.npc.Length; k++)
 				if (Main.npc[k].active && Main.npc[k].type == ModContent.NPCType<SteamRaiderHead>()) return false;
@@ -100,9 +101,9 @@ namespace SpiritMod.Tiles.Ambient
 			{
 				int x = i;
 				int y = j;
-				while (Main.tile[x, y].type == Type) x--;
+				while (Main.tile[x, y].TileType == Type) x--;
 				x++;
-				while (Main.tile[x, y].type == Type) y--;
+				while (Main.tile[x, y].TileType == Type) y--;
 				y++;
 
 				Mechanics.EventSystem.EventManager.PlayEvent(new Mechanics.EventSystem.Events.StarplateBeaconIntroEvent(new Vector2(x * 16f + 16f, y * 16f + 12f)));

@@ -17,12 +17,12 @@ namespace SpiritMod.Items.Sets.FloranSet
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 24;
-			item.value = Item.buyPrice(silver: 20);
-			item.rare = ItemRarityID.Blue;
-			item.defense = 2;
-			item.accessory = true;
+			Item.width = 24;
+			Item.height = 24;
+			Item.value = Item.buyPrice(silver: 20);
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 2;
+			Item.accessory = true;
 		}
 
 	}

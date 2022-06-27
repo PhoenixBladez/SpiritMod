@@ -16,16 +16,16 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.WoodYoyo);
-			item.damage = 42;
-			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Pink;
-			item.knockBack = 2.9f;
-			item.channel = true;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useAnimation = 26;
-			item.useTime = 26;
-			item.shoot = ModContent.ProjectileType<EyeOfTheInfernoProj>();
+			Item.CloneDefaults(ItemID.WoodYoyo);
+			Item.damage = 42;
+			Item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Pink;
+			Item.knockBack = 2.9f;
+			Item.channel = true;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useAnimation = 26;
+			Item.useTime = 26;
+			Item.shoot = ModContent.ProjectileType<EyeOfTheInfernoProj>();
 		}
 	}
 }

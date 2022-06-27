@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Critters.Algae
@@ -11,23 +12,23 @@ namespace SpiritMod.NPCs.Critters.Algae
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bioluminescent Algae");
-			Main.npcFrameCount[npc.type] = 1;
+			Main.npcFrameCount[NPC.type] = 1;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 6;
-			npc.height = 6;
-			npc.damage = 0;
-			npc.defense = 1000;
-			npc.lifeMax = 1;
-			npc.aiStyle = -1;
-			npc.npcSlots = 0;
-			npc.noGravity = false;
-			npc.alpha = 40;
-			npc.behindTiles = true;
-			npc.dontCountMe = true;
-			npc.dontTakeDamage = true;
+			NPC.width = 6;
+			NPC.height = 6;
+			NPC.damage = 0;
+			NPC.defense = 1000;
+			NPC.lifeMax = 1;
+			NPC.aiStyle = -1;
+			NPC.npcSlots = 0;
+			NPC.noGravity = false;
+			NPC.alpha = 40;
+			NPC.behindTiles = true;
+			NPC.dontCountMe = true;
+			NPC.dontTakeDamage = true;
 		}
 
 		public float num42;
@@ -43,8 +44,8 @@ namespace SpiritMod.NPCs.Critters.Algae
 				num1232++;
 				if (num1232 >= Main.rand.Next(100, 700))
 				{
-					npc.active = false;
-					npc.netUpdate = true;
+					NPC.active = false;
+					NPC.netUpdate = true;
 				}
 			}
 
@@ -52,18 +53,18 @@ namespace SpiritMod.NPCs.Critters.Algae
 			{
 				for (int i = 0; i < 5; ++i)
 				{
-					Vector2 dir = Main.player[npc.target].Center - npc.Center;
+					Vector2 dir = Main.player[NPC.target].Center - NPC.Center;
 					dir.Normalize();
 					dir *= 1;
 					string[] npcChoices = { "GreenAlgae1", "GreenAlgae3" };
 
 					int npcChoice = Main.rand.Next(npcChoices.Length);
 
-					int newNPC = NPC.NewNPC((int)npc.Center.X + (Main.rand.Next(-55, 55)), (int)npc.Center.Y + (Main.rand.Next(-20, 20)), mod.NPCType(npcChoices[npcChoice]), npc.whoAmI);
+					int newNPC = NPC.NewNPC((int)NPC.Center.X + (Main.rand.Next(-55, 55)), (int)NPC.Center.Y + (Main.rand.Next(-20, 20)), Mod.Find<ModNPC>(npcChoices[npcChoice]).Type, NPC.whoAmI);
 					Main.npc[newNPC].velocity = dir;
 				}
 				txt = true;
-				npc.netUpdate = true;
+				NPC.netUpdate = true;
 			}
 			return true;
 		}
@@ -74,31 +75,31 @@ namespace SpiritMod.NPCs.Critters.Algae
 				num = 0;
 
 			if (!Main.dayTime)
-				Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0.135f * 2, 0.255f * 2, .211f * 2);
+				Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.135f * 2, 0.255f * 2, .211f * 2);
 
-			npc.spriteDirection = -npc.direction;
-			int npcXTile = (int)(npc.Center.X / 16);
-			int npcYTile = (int)(npc.Center.Y / 16);
+			NPC.spriteDirection = -NPC.direction;
+			int npcXTile = (int)(NPC.Center.X / 16);
+			int npcYTile = (int)(NPC.Center.Y / 16);
 
 			for (int y = npcYTile; y > Math.Max(0, npcYTile - 100); y--)
 			{
-				if (Main.tile[npcXTile, y].liquid != 255)
+				if (Main.tile[npcXTile, y].LiquidAmount != 255)
 				{
-					int liquid = Main.tile[npcXTile, y].liquid;
+					int liquid = Main.tile[npcXTile, y].LiquidAmount;
 					float up = (liquid / 255f) * 16f;
-					npc.position.Y = (y + 1) * 16f - up;
+					NPC.position.Y = (y + 1) * 16f - up;
 					break;
 				}
 			}
 
 			if (!collision)
-				npc.velocity.X = .5f * Main.windSpeed;
+				NPC.velocity.X = .5f * Main.windSpeed;
 			else
-				npc.velocity.X = -.5f * Main.windSpeed;
+				NPC.velocity.X = -.5f * Main.windSpeed;
 
-			if (npc.collideX || npc.collideY)
+			if (NPC.collideX || NPC.collideY)
 			{
-				npc.velocity.X *= -1f;
+				NPC.velocity.X *= -1f;
 
 				if (!collision)
 					collision = true;
@@ -106,12 +107,12 @@ namespace SpiritMod.NPCs.Critters.Algae
 					collision = false;
 			}
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			drawColor = new Color(176 - (num / 3 * 4), 255 - (num / 3 * 4), 237 - (num / 3 * 4), 255 - num);
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY - 8), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY - 8), NPC.frame,
+							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 	}

@@ -18,18 +18,17 @@ namespace SpiritMod.Items.Equipment
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.AmethystHook);
-			item.shootSpeed = 12f; // how quickly the hook is shot.
-			item.shoot = ProjectileType<KelpHookHead>();
+			Item.CloneDefaults(ItemID.AmethystHook);
+			Item.shootSpeed = 12f; // how quickly the hook is shot.
+			Item.shoot = ProjectileType<KelpHookHead>();
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.FloatingItems.Kelp>(), 20);
 			recipe.AddIngredient(ItemID.Hook, 1);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 
@@ -40,14 +39,14 @@ namespace SpiritMod.Items.Equipment
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
-			projectile.timeLeft = 1200;
+			Projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
+			Projectile.timeLeft = 1200;
 		}
 		public override bool? CanUseGrapple(Player player)
 		{
 			int hooksOut = 0;
 			for (int l = 0; l < 1000; l++) {
-				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type) {
+				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == Projectile.type) {
 					hooksOut++;
 				}
 			}
@@ -58,28 +57,28 @@ namespace SpiritMod.Items.Equipment
 			return true;
 		}
 
-		public override float GrappleRange() => Main.player[projectile.owner].wet ? 425 : 325;
+		public override float GrappleRange() => Main.player[Projectile.owner].wet ? 425 : 325;
 
 		public override void NumGrappleHooks(Player player, ref int numHooks) => numHooks = 1;
 
 
 		public override void GrappleRetreatSpeed(Player player, ref float speed)
 		{
-			int retreatSpeed = Main.player[projectile.owner].wet ? 17 : 12;
+			int retreatSpeed = Main.player[Projectile.owner].wet ? 17 : 12;
 			speed = retreatSpeed;
 		}
 
 		public override void GrapplePullSpeed(Player player, ref float speed)
 		{
-			int underwaterSpeed = Main.player[projectile.owner].wet ? 18 : 10;
+			int underwaterSpeed = Main.player[Projectile.owner].wet ? 18 : 10;
 			speed = underwaterSpeed;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(Color lightColor)
 		{
-			Texture2D texture = ModContent.GetTexture("SpiritMod/Items/Equipment/KelpHookChain");
-			Vector2 vector = projectile.Center;
-			Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
+			Texture2D texture = ModContent.Request<Texture2D>("SpiritMod/Items/Equipment/KelpHookChain");
+			Vector2 vector = Projectile.Center;
+			Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
 			Rectangle? sourceRectangle = null;
 			Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
 			float num = texture.Height;
@@ -102,7 +101,7 @@ namespace SpiritMod.Items.Equipment
 					vector += value * num;
 					vector2 = mountedCenter - vector;
 					Color color = Lighting.GetColor((int)vector.X / 16, (int)(vector.Y / 16.0));
-					color = projectile.GetAlpha(color);
+					color = Projectile.GetAlpha(color);
 					Main.spriteBatch.Draw(texture, vector - Main.screenPosition, sourceRectangle, color, rotation, origin, 1f, SpriteEffects.None, 0f);
 				}
 			}

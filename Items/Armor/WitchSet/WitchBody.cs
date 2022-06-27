@@ -10,19 +10,17 @@ namespace SpiritMod.Items.Armor.WitchSet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Charmcaster's Robe");
+
+			ArmorIDs.Body.Sets.HidesHands[Item.bodySlot] = false;
 		}
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 30;
-			item.value = Item.sellPrice(0, 0, 20, 0);
-			item.rare = ItemRarityID.Green;
+			Item.width = 30;
+			Item.height = 30;
+			Item.value = Item.sellPrice(0, 0, 20, 0);
+			Item.rare = ItemRarityID.Green;
 
-			item.vanity = true;
+			Item.vanity = true;
 		}
-        public override void DrawHands(ref bool drawHands, ref bool drawArms)
-        {
-            drawHands = true;
-        }
     }
 }

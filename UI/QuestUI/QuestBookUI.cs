@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using SpiritMod.UI.Elements;
@@ -404,7 +405,7 @@ namespace SpiritMod.UI.QuestUI
 			_questInteractButton.Append(_questInteractText);
 			rightPage.Append(_questInteractButton);
 
-			_obnoxiousTutorialGlow = new UIShaderImage(Main.blackTileTexture);
+			_obnoxiousTutorialGlow = new UIShaderImage(TextureAssets.BlackTile.Value);
 			_obnoxiousTutorialGlow.Top.Set(450f, 0f);
 			_obnoxiousTutorialGlow.Left.Set(-150f, 1f);
 			_obnoxiousTutorialGlow.Height.Set(102f, 0f);
@@ -464,7 +465,7 @@ namespace SpiritMod.UI.QuestUI
             float[] widths = new float[texts.Length];
             for (int i = 0; i < texts.Length; i++)
             {
-                widths[i] = Main.fontMouseText.MeasureString(texts[i]).X + 10;
+                widths[i] = FontAssets.MouseText.Value.MeasureString(texts[i]).X + 10;
                 totalWidth += widths[i];
             }
             for (int i = 0; i < texts.Length; i++) 
@@ -594,7 +595,7 @@ namespace SpiritMod.UI.QuestUI
 			}
 
 			quest.UpdateBookOverlay(_bookOverlay);
-			_obnoxiousTutorialGlow.Texture = (quest.TutorialActivateButton && !quest.IsActive && !quest.RewardsGiven) ? Main.blackTileTexture : null;
+			_obnoxiousTutorialGlow.Texture = (quest.TutorialActivateButton && !quest.IsActive && !quest.RewardsGiven) ? TextureAssets.BlackTile.Value : null;
 			_questTitleText.Top.Set(-8f, 0f);
 			// TODO: Automate the scaling here:
 			_questTitleText.Text = quest.QuestName;

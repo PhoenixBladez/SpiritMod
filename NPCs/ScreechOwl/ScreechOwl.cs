@@ -1,5 +1,6 @@
 using SpiritMod.Items.Material;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -12,42 +13,42 @@ namespace SpiritMod.NPCs.ScreechOwl
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Screech Owl");
-			Main.npcFrameCount[npc.type] = 8;
+			Main.npcFrameCount[NPC.type] = 8;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 28;
-			npc.height = 24;
-			npc.damage = 12;
-			npc.defense = 6;
-			npc.lifeMax = 60;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath4;
-			npc.value = 60f;
-			npc.knockBackResist = .62f;
-			npc.aiStyle = -1;
-            npc.noGravity = true;
-			npc.buffImmune[BuffID.Frostburn] = true;
-			npc.buffImmune[BuffID.Confused] = true;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.ScreechOwlBanner>();
+			NPC.width = 28;
+			NPC.height = 24;
+			NPC.damage = 12;
+			NPC.defense = 6;
+			NPC.lifeMax = 60;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath4;
+			NPC.value = 60f;
+			NPC.knockBackResist = .62f;
+			NPC.aiStyle = -1;
+            NPC.noGravity = true;
+			NPC.buffImmune[BuffID.Frostburn] = true;
+			NPC.buffImmune[BuffID.Confused] = true;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.ScreechOwlBanner>();
 		}
 
         int frame = 0;
 
         public override void AI()
         {
-            npc.spriteDirection = npc.direction;
-            Player player = Main.player[npc.target];
-            if (npc.ai[1] == 0f)
+            NPC.spriteDirection = NPC.direction;
+            Player player = Main.player[NPC.target];
+            if (NPC.ai[1] == 0f)
             {
-                npc.ai[3]++;
-                if (npc.ai[3] >= 6)
+                NPC.ai[3]++;
+                if (NPC.ai[3] >= 6)
                 {
                     frame++;
-                    npc.ai[3] = 0;
-                    npc.netUpdate = true;
+                    NPC.ai[3] = 0;
+                    NPC.netUpdate = true;
                 }
 
                 if (frame >= 6)
@@ -56,67 +57,67 @@ namespace SpiritMod.NPCs.ScreechOwl
 			else
                 frame = 7;
 
-            npc.ai[2]++;
-			if (npc.ai[2] > 300)
+            NPC.ai[2]++;
+			if (NPC.ai[2] > 300)
             {
-                npc.ai[1] = 1f;
-                npc.netUpdate = true;
+                NPC.ai[1] = 1f;
+                NPC.netUpdate = true;
             }
-			if (npc.ai[2] == 300)
+			if (NPC.ai[2] == 300)
             {
-                if (Vector2.Distance(npc.Center, player.Center) < 480)
+                if (Vector2.Distance(NPC.Center, player.Center) < 480)
                 {
-                    Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/ScreechOwlScreech"));
+                    SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/ScreechOwlScreech"));
                 }
-                Vector2 direction = Main.player[npc.target].Center - npc.Center;
+                Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
                 direction.Normalize();
                 direction.X *= 2.7f;
                 direction.Y *= 2.7f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    Projectile.NewProjectile(npc.Center.X + (10 * npc.spriteDirection), npc.Center.Y - 12, direction.X, direction.Y, ModContent.ProjectileType<ScreechOwlNote>(), 9, 1, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(NPC.Center.X + (10 * NPC.spriteDirection), NPC.Center.Y - 12, direction.X, direction.Y, ModContent.ProjectileType<ScreechOwlNote>(), 9, 1, Main.myPlayer, 0, 0);
 					for (int i = 0; i < 10; i++)
                     {
                         float angle = Main.rand.NextFloat(MathHelper.PiOver4, -MathHelper.Pi - MathHelper.PiOver4);
                         Vector2 spawnPlace = Vector2.Normalize(new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle))) * 20f;
-                        int dustIndex = Dust.NewDust(new Vector2(npc.Center.X + (10 * npc.spriteDirection), npc.Center.Y - 12), 2, 2, DustID.DungeonSpirit, 0f, 0f, 0, default, 1f);
+                        int dustIndex = Dust.NewDust(new Vector2(NPC.Center.X + (10 * NPC.spriteDirection), NPC.Center.Y - 12), 2, 2, DustID.DungeonSpirit, 0f, 0f, 0, default, 1f);
                         Main.dust[dustIndex].noGravity = true;
                         Main.dust[dustIndex].velocity = Vector2.Normalize(spawnPlace.RotatedBy(Main.rand.NextFloat(MathHelper.TwoPi))) * 1.6f;
                     }
                 }
             }
-			if (npc.ai[2] > 330)
+			if (NPC.ai[2] > 330)
             {
-                npc.ai[2] = 0f;
-                npc.ai[1] = 0f;
-                npc.netUpdate = true;
+                NPC.ai[2] = 0f;
+                NPC.ai[1] = 0f;
+                NPC.netUpdate = true;
             }
-			if (npc.ai[1] == 1f)
+			if (NPC.ai[1] == 1f)
             {
-                npc.aiStyle = 0;
-                npc.velocity.X = 0;
-                npc.velocity.Y *= .5f;
-                npc.rotation = 0f;
-                if (player.position.X > npc.position.X)
-                    npc.spriteDirection = 1;
+                NPC.aiStyle = 0;
+                NPC.velocity.X = 0;
+                NPC.velocity.Y *= .5f;
+                NPC.rotation = 0f;
+                if (player.position.X > NPC.position.X)
+                    NPC.spriteDirection = 1;
                 else
-                    npc.spriteDirection = -1;
+                    NPC.spriteDirection = -1;
             }
 			else
             {
-                if (player.position.X > npc.position.X)
-                    npc.spriteDirection = 1;
+                if (player.position.X > NPC.position.X)
+                    NPC.spriteDirection = 1;
                 else
-                    npc.spriteDirection = -1;
-                npc.aiStyle = -1;
+                    NPC.spriteDirection = -1;
+                NPC.aiStyle = -1;
                 float num1 = 4f;
                 float moveSpeed = 0.09f;
-                npc.TargetClosest(true);
-                Vector2 vector2_1 = Main.player[npc.target].Center - npc.Center + new Vector2(0.0f, Main.rand.NextFloat(-250f, 0f));
+                NPC.TargetClosest(true);
+                Vector2 vector2_1 = Main.player[NPC.target].Center - NPC.Center + new Vector2(0.0f, Main.rand.NextFloat(-250f, 0f));
                 float num2 = vector2_1.Length();
                 Vector2 desiredVelocity;
                 if ((double)num2 < 20.0)
-                    desiredVelocity = npc.velocity;
+                    desiredVelocity = NPC.velocity;
                 else if ((double)num2 < 40.0)
                 {
                     vector2_1.Normalize();
@@ -132,35 +133,35 @@ namespace SpiritMod.NPCs.ScreechOwl
                     vector2_1.Normalize();
                     desiredVelocity = vector2_1 * num1;
                 }
-                npc.SimpleFlyMovement(desiredVelocity, moveSpeed);
-                npc.rotation = npc.velocity.X * 0.055f;
-                if (npc.collideX)
+                NPC.SimpleFlyMovement(desiredVelocity, moveSpeed);
+                NPC.rotation = NPC.velocity.X * 0.055f;
+                if (NPC.collideX)
                 {
-                    npc.velocity.X = npc.oldVelocity.X * -0.5f;
-                    if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 2f)
-                        npc.velocity.X = 2f;
-                    if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -2f)
-                        npc.velocity.X = -2f;
+                    NPC.velocity.X = NPC.oldVelocity.X * -0.5f;
+                    if (NPC.direction == -1 && NPC.velocity.X > 0f && NPC.velocity.X < 2f)
+                        NPC.velocity.X = 2f;
+                    if (NPC.direction == 1 && NPC.velocity.X < 0f && NPC.velocity.X > -2f)
+                        NPC.velocity.X = -2f;
                 }
-                if (npc.collideY)
+                if (NPC.collideY)
                 {
-                    npc.velocity.Y = npc.oldVelocity.Y * -0.5f;
-                    if (npc.velocity.Y > 0f && npc.velocity.Y < 1f)
-                        npc.velocity.Y = 1f;
-                    if (npc.velocity.Y < 0f && npc.velocity.Y > -1f)
-                        npc.velocity.Y = -1f;
+                    NPC.velocity.Y = NPC.oldVelocity.Y * -0.5f;
+                    if (NPC.velocity.Y > 0f && NPC.velocity.Y < 1f)
+                        NPC.velocity.Y = 1f;
+                    if (NPC.velocity.Y < 0f && NPC.velocity.Y > -1f)
+                        NPC.velocity.Y = -1f;
                 }
             }
         }
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.spawnTileY < Main.worldSurface && spawnInfo.player.ZoneSnow && !Main.dayTime && !spawnInfo.playerSafe ? 0.05f : 0f;
-		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.SpawnTileY < Main.worldSurface && spawnInfo.Player.ZoneSnow && !Main.dayTime && !spawnInfo.PlayerSafe ? 0.05f : 0f;
+		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 
 		public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScreechOwl/ScreechOwl" + i), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ScreechOwl/ScreechOwl" + i).Type, 1f);
         }
 	}
 }

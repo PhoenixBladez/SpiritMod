@@ -104,7 +104,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 		public override void SetDefaults()
 		{
 			projectile.friendly = true;
-			projectile.melee = true;
+			Projectile.DamageType = DamageClass.Melee;
 			projectile.Size = new Vector2(12, 12);
 			projectile.tileCollide = false;
 			projectile.timeLeft = Duration;

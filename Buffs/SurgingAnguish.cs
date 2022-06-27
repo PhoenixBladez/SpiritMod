@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class SurgingAnguish : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Surging Anguish");
 			Description.SetDefault("'Your mind and body are in great pain'");

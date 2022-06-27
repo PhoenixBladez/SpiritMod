@@ -16,20 +16,20 @@ namespace SpiritMod.Items.Consumable.Quest
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.rare = -11;
-			item.maxStack = 99;
+			Item.width = Item.height = 16;
+			Item.rare = -11;
+			Item.maxStack = 99;
 		}
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			if (!QuestManager.GetQuest<ItsNoSalmon>().IsCompleted)
 			{
-				TooltipLine line = new TooltipLine(mod, "ItemName", "Quest Item");
-				line.overrideColor = new Color(100, 222, 122);
+				TooltipLine line = new TooltipLine(Mod, "ItemName", "Quest Item");
+				line.OverrideColor = new Color(100, 222, 122);
 				tooltips.Add(line);
 			}
-			TooltipLine line1 = new TooltipLine(mod, "FavoriteDesc", "'It buzzes and blubs at the same time'");
-			line1.overrideColor = new Color(255, 255, 255);
+			TooltipLine line1 = new TooltipLine(Mod, "FavoriteDesc", "'It buzzes and blubs at the same time'");
+			line1.OverrideColor = new Color(255, 255, 255);
 			tooltips.Add(line1);
 		}
 	}

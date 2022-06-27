@@ -17,27 +17,27 @@ namespace SpiritMod.Items.Sets.GladeWraithDrops
 
 		public override void SetDefaults()
 		{
-			item.damage = 11;
-			item.magic = true;
-			item.mana = 11;
-			item.width = 40;
-			item.height = 40;
-			item.useTime = 10;
-			item.useAnimation = 30;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 6;
-			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 0, 15, 0);
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.shoot = ProjectileID.Leaf;
-			item.shootSpeed = 5.5f;
-			item.reuseDelay = 30;
+			Item.damage = 11;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 11;
+			Item.width = 40;
+			Item.height = 40;
+			Item.useTime = 10;
+			Item.useAnimation = 30;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 6;
+			Item.useTurn = false;
+			Item.value = Terraria.Item.sellPrice(0, 0, 15, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = false;
+			Item.shoot = ProjectileID.Leaf;
+			Item.shootSpeed = 5.5f;
+			Item.reuseDelay = 30;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 			Vector2 offset = mouse - player.Center;

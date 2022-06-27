@@ -5,6 +5,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Spirit
 {
@@ -15,59 +16,59 @@ namespace SpiritMod.NPCs.Spirit
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ancient Tome");
-			Main.npcFrameCount[npc.type] = 6;
+			Main.npcFrameCount[NPC.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 48;
-			npc.height = 40;
-			npc.damage = 45;
-			npc.defense = 12;
-			npc.lifeMax = 410;
-			npc.HitSound = SoundID.NPCHit3;
-			npc.DeathSound = SoundID.NPCDeath6;
-			npc.value = 3060f;
-			npc.knockBackResist = .45f;
-			npc.aiStyle = -1;
-			npc.noTileCollide = true;
-			npc.noGravity = true;
+			NPC.width = 48;
+			NPC.height = 40;
+			NPC.damage = 45;
+			NPC.defense = 12;
+			NPC.lifeMax = 410;
+			NPC.HitSound = SoundID.NPCHit3;
+			NPC.DeathSound = SoundID.NPCDeath6;
+			NPC.value = 3060f;
+			NPC.knockBackResist = .45f;
+			NPC.aiStyle = -1;
+			NPC.noTileCollide = true;
+			NPC.noGravity = true;
 		}
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			Player player = spawnInfo.player;
+			Player player = spawnInfo.Player;
             if (!player.GetSpiritPlayer().ZoneSpirit)
             {
                 return 0f;
             }
-            if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.spawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.spawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
+            if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.SpawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.SpawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
 				int[] TileArray2 = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<Spiritsand>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>(), };
-				return TileArray2.Contains(Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].type) && NPC.downedMechBossAny && player.ZoneOverworldHeight ? 2.09f : 0f;
+				return TileArray2.Contains(Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY].TileType) && NPC.downedMechBossAny && player.ZoneOverworldHeight ? 2.09f : 0f;
 			}
 			return 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, 13);
-				Gore.NewGore(npc.position, npc.velocity, 12);
-				Gore.NewGore(npc.position, npc.velocity, 11);
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, 13);
+				Gore.NewGore(NPC.position, NPC.velocity, 12);
+				Gore.NewGore(NPC.position, NPC.velocity, 11);
 			}
 		}
 
 		public override void AI()
 		{
 			if (Main.rand.Next(150) == 8) {
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
+				Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 				direction.Normalize();
 				direction.X *= 2f;
 				direction.Y *= 2f;
@@ -76,35 +77,35 @@ namespace SpiritMod.NPCs.Spirit
 				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-1, 1) * 0.03f;
 					float B = (float)Main.rand.Next(-1, 1) * 0.03f;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<RuneHostile>(), 38, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<RuneHostile>(), 38, 1, Main.myPlayer, 0, 0);
 				}
 			}
-			npc.spriteDirection = npc.direction;
-			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.675f, 2.50f);
+			NPC.spriteDirection = NPC.direction;
+			Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0f, 0.675f, 2.50f);
 			timer++;
-			npc.TargetClosest(true);
+			NPC.TargetClosest(true);
 			if (timer == 25) {
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
+				Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 				direction.Normalize();
-				npc.velocity.Y = direction.Y * 3f;
-				npc.velocity.X = direction.X * 3f;
+				NPC.velocity.Y = direction.Y * 3f;
+				NPC.velocity.X = direction.X * 3f;
 				timer = 0;
 			}
 			if (timer == 32) {
-				Vector2 direction = Main.player[npc.target].Center - npc.Center;
+				Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 				direction.Normalize();
-				npc.velocity.Y = direction.Y * 3f;
-				npc.velocity.X = direction.X * 3f;
+				NPC.velocity.Y = direction.Y * 3f;
+				NPC.velocity.X = direction.X * 3f;
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.RunicSet.Rune>(), Main.rand.Next(1) + 2);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.RunicSet.Rune>(), Main.rand.Next(1) + 2);
 
 			if (Main.rand.Next(20) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PossessedBook>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<PossessedBook>());
 		}
 	}
 }

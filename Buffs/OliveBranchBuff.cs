@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class OliveBranchBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Peaceful Resolution");
 			Description.SetDefault("'Make peace with your enemies'");

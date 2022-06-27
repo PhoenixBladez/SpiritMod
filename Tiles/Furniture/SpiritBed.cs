@@ -9,7 +9,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class SpiritBed : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = true;
@@ -20,23 +20,23 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Spirit Wood Bed");
 			AddMapEntry(new Color(200, 200, 200), name);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Beds };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.Beds };
 			bed = true;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = 1;
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<SpiritBedItem>());
 
-		public override bool NewRightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			Player player = Main.player[Main.myPlayer];
 			Tile tile = Main.tile[i, j];
-			int spawnX = i - tile.frameX / 18;
+			int spawnX = i - tile.TileFrameX / 18;
 			int spawnY = j + 2;
-			spawnX += tile.frameX >= 72 ? 5 : 2;
+			spawnX += tile.TileFrameX >= 72 ? 5 : 2;
 
-			if (tile.frameY % 38 != 0)
+			if (tile.TileFrameY % 38 != 0)
 				spawnY--;
 
 			player.FindSpawn();
@@ -57,8 +57,8 @@ namespace SpiritMod.Tiles.Furniture
 		{
 			Player player = Main.player[Main.myPlayer];
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			player.showItemIcon2 = ModContent.ItemType<SpiritBedItem>();
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = ModContent.ItemType<SpiritBedItem>();
 		}
 	}
 }

@@ -3,9 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.GraniteSet;
 using SpiritMod.Projectiles.Summon.Zones;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs.Zones;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 {
@@ -15,53 +17,53 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 		{
 			DisplayName.SetDefault("Arcane Codex: Repulsion Zone");
 			Tooltip.SetDefault("Summons a repulsion zone at the cursor position\nRepulsion zones push nearby enemies away\nRepulsion zones break after multiple enemy strikes\nOnly one repulsion zone can exist at once\nZones count as sentries");
-            SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/ArcaneZoneSubclass/RepulsionCodex_Glow");
+            SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/ArcaneZoneSubclass/RepulsionCodex_Glow");
         }
 
         public override void SetDefaults()
 		{
-			item.damage = 0;
-			item.summon = true;
-			item.mana = 10;
-			item.width = 54;
-			item.height = 50;
-			item.useTime = 31;
-			item.useAnimation = 31;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 0;
-			item.value = 10000;
-			item.rare = ItemRarityID.Green;
-			item.reuseDelay = 60;
-			item.UseSound = SoundID.DD2_EtherianPortalSpawnEnemy;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<RepulsionZone>();
-			item.shootSpeed = 0f;
-			item.buffType = ModContent.BuffType<RepulsionZoneTimer>();
-			item.buffTime = Projectile.SentryLifeTime;
+			Item.damage = 0;
+			Item.DamageType = DamageClass.Summon;
+			Item.mana = 10;
+			Item.width = 54;
+			Item.height = 50;
+			Item.useTime = 31;
+			Item.useAnimation = 31;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 0;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.Green;
+			Item.reuseDelay = 60;
+			Item.UseSound = SoundID.DD2_EtherianPortalSpawnEnemy;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<RepulsionZone>();
+			Item.shootSpeed = 0f;
+			Item.buffType = ModContent.BuffType<RepulsionZoneTimer>();
+			Item.buffTime = Projectile.SentryLifeTime;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			position = Main.MouseWorld;
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
             player.UpdateMaxTurrets();
 			return false;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.133f, .031f, .211f);
-			Texture2D texture = Main.itemTexture[item.type];
+			Lighting.AddLight(Item.position, 0.133f, .031f, .211f);
+			Texture2D texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				mod.GetTexture("Items/Sets/ArcaneZoneSubclass/RepulsionCodex_Glow"),
+				Mod.GetTexture("Items/Sets/ArcaneZoneSubclass/RepulsionCodex_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -75,12 +77,11 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 
 		public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<EmptyCodex>(), 1);
             recipe.AddIngredient(ModContent.ItemType<GraniteChunk>(), 8);
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

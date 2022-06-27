@@ -18,12 +18,12 @@ namespace SpiritMod.Items.Sets.InfernonDrops.InfernonArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 20;
-			item.rare = ItemRarityID.Pink;
-			item.value = 72000;
+			Item.width = 28;
+			Item.height = 20;
+			Item.rare = ItemRarityID.Pink;
+			Item.value = 72000;
 
-			item.defense = 9;
+			Item.defense = 9;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Sets.InfernonDrops.InfernonArmor
 
 			if (timer == 20)
 			{
-				Dust.NewDust(player.position, player.width, player.height, DustID.Fire);
+				Dust.NewDust(player.position, player.width, player.height, DustID.Torch);
 				timer = 0;
 			}
 			player.setBonus = "When under 25%, defense is decreased by 4, but Infernal Guardians surround you \n Infernal Guardians vastly increase magic damage and reduce mana cost \n Getting hurt may spawn multiple exploding Infernal Embers";
@@ -48,11 +48,10 @@ namespace SpiritMod.Items.Sets.InfernonDrops.InfernonArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<InfernalAppendage>(), 10);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

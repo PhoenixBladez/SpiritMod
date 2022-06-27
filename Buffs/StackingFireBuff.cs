@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs
 {
 	public class StackingFireBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Combustion Blaze");
 		}
@@ -32,7 +32,7 @@ namespace SpiritMod.Buffs
 			}
 
 			if (Main.rand.NextBool(2)) {
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire);
+				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Torch);
 			}
 		}
 	}

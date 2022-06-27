@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -13,37 +12,36 @@ namespace SpiritMod.Items.Sets.AvianDrops
 		{
 			DisplayName.SetDefault("Talon's Fury");
 			Tooltip.SetDefault("Shoots feathers from off screen");
+			Item.staff[Item.type] = true;
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.damage = 25;
-			item.magic = true;
-			item.mana = 10;
-			item.width = 46;
-			item.height = 46;
-			item.useTime = 16;
-			item.useAnimation = 16;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 3.5f;
-			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Green;
-			item.UseSound = SoundID.Item20;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<BoneFeatherFriendly>();
-			item.shootSpeed = 17f;
+			Item.damage = 25;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 10;
+			Item.width = 46;
+			Item.height = 46;
+			Item.useTime = 16;
+			Item.useAnimation = 16;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 3.5f;
+			Item.useTurn = false;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item20;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<BoneFeatherFriendly>();
+			Item.shootSpeed = 17f;
 		}
 
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			position -= new Vector2(speedX, speedY) * 100;
-			speedX += (Main.rand.Next(-3, 4) / 5f);
-			speedY += (Main.rand.Next(-3, 4) / 5f);
-			return true;
+			position -= velocity * 100;
+			velocity.X += (Main.rand.Next(-3, 4) / 5f);
+			velocity.Y += (Main.rand.Next(-3, 4) / 5f);
 		}
 	}
 }

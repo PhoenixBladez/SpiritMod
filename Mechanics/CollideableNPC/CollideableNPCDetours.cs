@@ -24,7 +24,7 @@ namespace SpiritMod.Mechanics.CollideableNPC
 				{
 					NPC npc = Main.npc[i];
 
-					if (!npc.active || npc.modNPC == null || !(npc.modNPC is ISolidTopNPC) || (npc.whoAmI == modSelf.platformWhoAmI && modSelf.platformDropTimer > 0))
+					if (!npc.active || npc.ModNPC == null || !(npc.ModNPC is ISolidTopNPC) || (npc.whoAmI == modSelf.platformWhoAmI && modSelf.platformDropTimer > 0))
 						continue;
 
 					var playerBox = new Rectangle((int)self.position.X, (int)self.position.Y + self.height, self.width, 1);
@@ -73,7 +73,7 @@ namespace SpiritMod.Mechanics.CollideableNPC
 					{
 						NPC npc = Main.npc[i];
 
-						if (!npc.active || npc.modNPC == null || !(npc.modNPC is ISolidTopNPC topNPC) || !topNPC.Grappleable())
+						if (!npc.active || npc.ModNPC == null || !(npc.ModNPC is ISolidTopNPC topNPC) || !topNPC.Grappleable())
 							continue;
 
 						var projBox = self.getRect();

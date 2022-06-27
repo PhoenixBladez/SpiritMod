@@ -4,6 +4,7 @@ using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.DonatorItems
 {
@@ -17,46 +18,44 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override void SetDefaults()
 		{
-			item.mana = 9;
-			item.damage = 19;
-			item.knockBack = 1;
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Orange;
-			item.width = 26;
-			item.height = 28;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.summon = true;
-			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<QuacklingMinion>();
-			item.buffType = ModContent.BuffType<QuacklingBuff>();
-			item.UseSound = SoundID.Item44;
+			Item.mana = 9;
+			Item.damage = 19;
+			Item.knockBack = 1;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.width = 26;
+			Item.height = 28;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.DamageType = DamageClass.Summon;
+			Item.noMelee = true;
+			Item.shoot = ModContent.ProjectileType<QuacklingMinion>();
+			Item.buffType = ModContent.BuffType<QuacklingBuff>();
+			Item.UseSound = SoundID.Item44;
 		}
 		
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
-			player.AddBuff(item.buffType, 2);
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)  {
+			player.AddBuff(Item.buffType, 2);
 			position = Main.MouseWorld;
 			return true;
 		}
 		
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.Duck, 1);
 			recipe.AddIngredient(ItemID.Feather, 10);
 			recipe.AddIngredient(ItemID.WaterBolt, 1);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 
-			ModRecipe recipe1 = new ModRecipe(mod);
+			Recipe recipe1 = CreateRecipe(1);
 			recipe1.AddIngredient(ItemID.MallardDuck, 1);
 			recipe1.AddIngredient(ItemID.Feather, 10);
 			recipe1.AddIngredient(ItemID.WaterBolt, 1);
 			recipe1.AddTile(TileID.Anvils);
-			recipe1.SetResult(this, 1);
-			recipe1.AddRecipe();
+			recipe1.Register();
 		}
 	}
 }

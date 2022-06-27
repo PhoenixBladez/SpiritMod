@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Ambient.SurfaceIce
 {
 	public class SnowBush3 : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = false;
 			Main.tileFrameImportant[Type] = true;
@@ -19,11 +19,11 @@ namespace SpiritMod.Tiles.Ambient.SurfaceIce
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.addTile(Type);
-			dustType = DustID.GrassBlades;
+			DustType = DustID.GrassBlades;
             soundType = SoundID.Grass;
-            disableSmartCursor = true;
+            TileID.Sets.DisableSmartCursor[Type] = true;
 		}
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
         {
             offsetY = 2;
         }

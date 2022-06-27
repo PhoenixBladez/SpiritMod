@@ -8,11 +8,11 @@ namespace SpiritMod.Tiles.Walls.Natural
 {
 	public class SpiritWall : ModWall
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.wallHouse[Type] = true;
 			WallID.Sets.Conversion.Grass[Type] = true;
-			drop = ModContent.ItemType<SpiritWallItem>();
+			ItemDrop = ModContent.ItemType<SpiritWallItem>();
 			AddMapEntry(new Color(70, 70, 70));
 		}
 	}

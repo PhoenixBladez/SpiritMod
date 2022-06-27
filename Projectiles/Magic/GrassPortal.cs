@@ -13,22 +13,22 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 50;
-			projectile.height = 50;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.alpha = 255;
-			projectile.timeLeft = 120;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 50;
+			Projectile.height = 50;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 120;
 		}
 
 		public override bool PreAI()
 		{
-			projectile.tileCollide = false;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity,
-				projectile.width, projectile.height, DustID.TerraBlade, 0f, 0f);
+			Projectile.tileCollide = false;
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity,
+				Projectile.width, Projectile.height, DustID.TerraBlade, 0f, 0f);
 			Main.dust[dust].scale = 1.5f;
 			Main.dust[dust].noGravity = true;
 			return true;
@@ -41,39 +41,39 @@ namespace SpiritMod.Projectiles.Magic
 			timer--;
 
 			if (timer == 0) {
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
-					projectile.velocity.X + 10, projectile.velocity.Y + 10,
-					ProjectileID.ChlorophyteBullet, projectile.damage, projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y,
+					Projectile.velocity.X + 10, Projectile.velocity.Y + 10,
+					ProjectileID.ChlorophyteBullet, Projectile.damage, Projectile.knockBack, Projectile.owner);
 				timer = 20;
 			}
 
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 8) {
-				projectile.frameCounter = 0;
-				projectile.frame++;
-				if (projectile.frame > 5) {
-					projectile.frame = 0;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter > 8) {
+				Projectile.frameCounter = 0;
+				Projectile.frame++;
+				if (Projectile.frame > 5) {
+					Projectile.frame = 0;
 				}
 			}
 
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 7200f) {
-				projectile.alpha += 5;
-				if (projectile.alpha > 255) {
-					projectile.alpha = 255;
-					projectile.Kill();
+			Projectile.ai[1] += 1f;
+			if (Projectile.ai[1] >= 7200f) {
+				Projectile.alpha += 5;
+				if (Projectile.alpha > 255) {
+					Projectile.alpha = 255;
+					Projectile.Kill();
 				}
 			}
 
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] >= 10f) {
-				projectile.localAI[0] = 0f;
+			Projectile.localAI[0] += 1f;
+			if (Projectile.localAI[0] >= 10f) {
+				Projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
-				int num419 = projectile.type;
+				int num419 = Projectile.type;
 				for (int num420 = 0; num420 < 1000; num420++) {
-					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
+					if (Main.projectile[num420].active && Main.projectile[num420].owner == Projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
 						num416++;
 						if (Main.projectile[num420].ai[1] > num418) {
 							num417 = num420;

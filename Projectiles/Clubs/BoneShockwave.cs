@@ -18,18 +18,18 @@ namespace SpiritMod.Projectiles.Clubs
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.width = 24;
-			projectile.height = 24;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.damage = 1;
-			projectile.penetrate = -1;
-			projectile.alpha = 255;
-            projectile.timeLeft = 3;
-			projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.melee = true;
+			Projectile.hostile = false;
+			Projectile.width = 24;
+			Projectile.height = 24;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.damage = 1;
+			Projectile.penetrate = -1;
+			Projectile.alpha = 255;
+            Projectile.timeLeft = 3;
+			Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Melee;
 		}
 
 		//projectile.ai[0]: how many more pillars. Each one is one less
@@ -39,31 +39,31 @@ namespace SpiritMod.Projectiles.Clubs
 		public override bool PreAI()
 		{
 			if (startposY == 0) {
-				startposY = projectile.position.Y;
-                if (Main.tile[(int)projectile.Center.X / 16, (int)(projectile.Center.Y / 16)].collisionType == 1)
+				startposY = Projectile.position.Y;
+                if (Main.tile[(int)Projectile.Center.X / 16, (int)(Projectile.Center.Y / 16)].collisionType == 1)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
 			}
-			projectile.velocity.X = 0;
+			Projectile.velocity.X = 0;
 			if (!activated) {
-				projectile.velocity.Y = 24;
+				Projectile.velocity.Y = 24;
 			}
 			else {
-				projectile.velocity.Y = -3;
+				Projectile.velocity.Y = -3;
 				for (int i = 0; i < 5; i++)
 				{
-					int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height * 2, DustType<Dusts.FloranClubDust>());
+					int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height * 2, DustType<Dusts.FloranClubDust>());
                     Main.dust[dust].scale *= Main.rand.NextFloat(.65f, .9f);
 					//Main.dust[dust].velocity = Vector2.Zero;
 					//Main.dust[dust].noGravity = true;
 				}
-				if (projectile.timeLeft == 5 && projectile.ai[0] > 0) {
-					if (projectile.ai[1] == -1 || projectile.ai[1] == 0) {
-						Projectile.NewProjectile(projectile.Center.X - projectile.width, startposY, 0, 0, ModContent.ProjectileType<BoneShockwave>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0] - 1, -1);
+				if (Projectile.timeLeft == 5 && Projectile.ai[0] > 0) {
+					if (Projectile.ai[1] == -1 || Projectile.ai[1] == 0) {
+						Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X - Projectile.width, startposY, 0, 0, ModContent.ProjectileType<BoneShockwave>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] - 1, -1);
 					}
-					if (projectile.ai[1] == 1 || projectile.ai[1] == 0) {
-						Projectile.NewProjectile(projectile.Center.X + projectile.width, startposY, 0, 0, ModContent.ProjectileType<BoneShockwave>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0] - 1, 1);
+					if (Projectile.ai[1] == 1 || Projectile.ai[1] == 0) {
+						Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X + Projectile.width, startposY, 0, 0, ModContent.ProjectileType<BoneShockwave>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] - 1, 1);
 					}
 				}
 			}
@@ -71,15 +71,15 @@ namespace SpiritMod.Projectiles.Clubs
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (oldVelocity.Y != projectile.velocity.Y && !activated) {
-				startposY = projectile.position.Y;
-				projectile.velocity.Y = -2;
+			if (oldVelocity.Y != Projectile.velocity.Y && !activated) {
+				startposY = Projectile.position.Y;
+				Projectile.velocity.Y = -2;
 				activated = true;
-				projectile.timeLeft = 10;
+				Projectile.timeLeft = 10;
 			}
 			return false;
 		}
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			fallThrough = false;
 			return true;

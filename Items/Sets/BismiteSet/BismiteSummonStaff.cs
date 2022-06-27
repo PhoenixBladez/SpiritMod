@@ -5,6 +5,7 @@ using SpiritMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.BismiteSet
 {
@@ -18,23 +19,23 @@ namespace SpiritMod.Items.Sets.BismiteSet
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.QueenSpiderStaff);
-			item.damage = 12;
-			item.mana = 10;
-			item.width = 50;
-			item.height = 50;
-			item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
-			item.rare = ItemRarityID.Blue;
-			item.knockBack = 2.5f;
-			item.UseSound = SoundID.Item20;
-			item.shoot = ModContent.ProjectileType<BismiteSentrySummon>();
-			item.shootSpeed = 0f;
+			Item.CloneDefaults(ItemID.QueenSpiderStaff);
+			Item.damage = 12;
+			Item.mana = 10;
+			Item.width = 50;
+			Item.height = 50;
+			Item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.knockBack = 2.5f;
+			Item.UseSound = SoundID.Item20;
+			Item.shoot = ModContent.ProjectileType<BismiteSentrySummon>();
+			Item.shootSpeed = 0f;
 		}
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
             if (player.altFunctionUse != 2)
             {
@@ -42,7 +43,7 @@ namespace SpiritMod.Items.Sets.BismiteSet
                 float distance = Vector2.Distance(mouse, position);
                 if (distance < 600f)
                 {
-                    Projectile.NewProjectile(mouse.X, mouse.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                    Projectile.NewProjectile(mouse.X, mouse.Y, speedX, speedY, type, damage, knockback, player.whoAmI);
                     player.UpdateMaxTurrets();
                 }
             }
@@ -50,7 +51,7 @@ namespace SpiritMod.Items.Sets.BismiteSet
             {
                 for (int projectileFinder = 0; projectileFinder < 200; ++projectileFinder)
                 {
-                    if (Main.projectile[projectileFinder].type == item.shoot && Main.projectile[projectileFinder].alpha == 0)
+                    if (Main.projectile[projectileFinder].type == Item.shoot && Main.projectile[projectileFinder].alpha == 0)
                     {
                         Main.projectile[projectileFinder].alpha = 240;
                     }
@@ -61,11 +62,10 @@ namespace SpiritMod.Items.Sets.BismiteSet
 		}
         public override void AddRecipes()  
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<BismiteCrystal>(), 15);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

@@ -2,8 +2,10 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Arrow;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.BloodcourtSet
 {
@@ -19,28 +21,28 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 		int counter = 0;
 		public override void SetDefaults()
 		{
-			item.damage = 20;
-			item.noMelee = true;
-			item.ranged = true;
-			item.width = 24;
-			item.height = 46;
-			item.useTime = 31;
-			item.useAnimation = 31;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ProjectileID.Shuriken;
-			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 1.5f;
-			item.value = 22500;
-			item.rare = ItemRarityID.Green;
-			item.UseSound = SoundID.Item5;
-			item.autoReuse = true;
-			item.shootSpeed = 8f;
+			Item.damage = 20;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 24;
+			Item.height = 46;
+			Item.useTime = 31;
+			Item.useAnimation = 31;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ProjectileID.Shuriken;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.knockBack = 1.5f;
+			Item.value = 22500;
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item5;
+			Item.autoReuse = true;
+			Item.shootSpeed = 8f;
 		}
 		public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (player.altFunctionUse == 2) {
 				type = ModContent.ProjectileType<FlayedShot>();
@@ -56,7 +58,7 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 				counter--;
 			}
 			if (counter == 0) {
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 20));
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 20));
 				{
 					for (int i = 0; i < 7; i++) {
 						int num = Dust.NewDust(player.position, player.width, player.height, DustID.Blood, 0f, -2f, 0, default, 2f);
@@ -91,11 +93,10 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<DreamstrideEssence>(), 12);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

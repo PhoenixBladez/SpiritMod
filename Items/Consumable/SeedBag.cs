@@ -15,17 +15,17 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.rare = ItemRarityID.Green;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.consumable = true;
-			item.maxStack = 99;
-			item.value = Item.buyPrice(0, 0, 10, 0);
-			item.useTime = item.useAnimation = 20;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.noMelee = true;
-			item.autoReuse = false;
+			Item.width = Item.height = 16;
+			Item.rare = ItemRarityID.Green;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.maxStack = 99;
+			Item.value = Item.buyPrice(0, 0, 10, 0);
+			Item.useTime = Item.useAnimation = 20;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.noMelee = true;
+			Item.autoReuse = false;
 		}
 
 		public override bool CanRightClick() => true;

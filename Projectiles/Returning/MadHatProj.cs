@@ -10,35 +10,35 @@ namespace SpiritMod.Projectiles.Returning
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mad Hat");
-			Main.projFrames[base.projectile.type] = 5;
+			Main.projFrames[base.Projectile.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 38;
-			projectile.aiStyle = 3;
-			projectile.friendly = true;
-			projectile.thrown = true;
-			projectile.penetrate = 50;
-			projectile.timeLeft = 700;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.extraUpdates = 1;
+			Projectile.width = 22;
+			Projectile.height = 38;
+			Projectile.aiStyle = 3;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Throwing;
+			Projectile.penetrate = 50;
+			Projectile.timeLeft = 700;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation = 0;
+			Projectile.rotation = 0;
 
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 2) {
-				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-				projectile.frameCounter = 0;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 2) {
+				Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
+				Projectile.frameCounter = 0;
 			}
 
 			if (Main.rand.Next(5) == 1) {
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.UnusedWhiteBluePurple, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 				Main.dust[dust].noGravity = true;
 			}
 		}

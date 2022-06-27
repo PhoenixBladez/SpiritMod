@@ -18,11 +18,11 @@ namespace SpiritMod.Items.Sets.RunicSet.RunicArmor
 		}
 		public override void SetDefaults()
 		{
-			item.width = 34;
-			item.height = 30;
-			item.value = 60000;
-			item.rare = ItemRarityID.Pink;
-			item.defense = 9;
+			Item.width = 34;
+			Item.height = 30;
+			Item.value = 60000;
+			Item.rare = ItemRarityID.Pink;
+			Item.defense = 9;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -34,12 +34,11 @@ namespace SpiritMod.Items.Sets.RunicSet.RunicArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<Rune>(), 10);
 			recipe.AddIngredient(ModContent.ItemType<SoulShred>(), 4);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

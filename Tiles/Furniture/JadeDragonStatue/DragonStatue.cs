@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Furniture.JadeDragonStatue
 {
 	public class DragonStatue : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = false;
 			Main.tileNoAttach[Type] = true;
@@ -39,10 +39,10 @@ namespace SpiritMod.Tiles.Furniture.JadeDragonStatue
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Jade Dragon Statuette");
 			AddMapEntry(Color.DarkOliveGreen, name);
-			dustType = DustID.Chlorophyte;
+			DustType = DustID.Chlorophyte;
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<DragonStatueItem>());
 	}
 }

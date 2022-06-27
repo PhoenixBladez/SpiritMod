@@ -1,13 +1,13 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 {
 	public class HolyBurst : ModItem
-
 	{
 		public override void SetStaticDefaults()
 		{
@@ -17,23 +17,23 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 
 		public override void SetDefaults()
 		{
-			item.damage = 29;
-			item.ranged = true;
-			item.width = 50;
-			item.height = 28;
-			item.useTime = 7;
-			item.useAnimation = 21;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 0.7f;
-			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Pink;
-			item.UseSound = SoundID.Item31;
-			item.autoReuse = false;
-			item.shoot = ProjectileID.CrystalBullet;
-			item.shootSpeed = .02f;
-			item.useAmmo = AmmoID.Bullet;
+			Item.damage = 29;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 50;
+			Item.height = 28;
+			Item.useTime = 7;
+			Item.useAnimation = 21;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 0.7f;
+			Item.useTurn = false;
+			Item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item31;
+			Item.autoReuse = false;
+			Item.shoot = ProjectileID.CrystalBullet;
+			Item.shootSpeed = .02f;
+			Item.useAmmo = AmmoID.Bullet;
 		}
 
 		public override Vector2? HoldoutOffset()
@@ -41,24 +41,23 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 			return new Vector2(-10, 0);
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
+			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(velocity.X, velocity.Y)) * 45f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
 				position += muzzleOffset;
 			}
-			int p = Projectile.NewProjectile(position.X, position.Y, speedX / 1.75f, speedY / 1.75f, type, damage, knockBack, player.whoAmI);
+			int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X / 1.75f, velocity.Y / 1.75f, type, damage, knockback, player.whoAmI);
 			Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromHolyBurst = true;
 			return false;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.ClockworkAssaultRifle, 1);
 			recipe.AddIngredient(ItemID.HallowedBar, 8);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

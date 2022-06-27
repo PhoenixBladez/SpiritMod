@@ -8,37 +8,37 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Phantom");
-			Main.projFrames[projectile.type] = 12;
-			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-			ProjectileID.Sets.Homing[projectile.type] = true;
+			Main.projFrames[Projectile.type] = 12;
+			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.netImportant = true;
-			projectile.width = 44;
-			projectile.height = 44;
-			projectile.friendly = true;
-			Main.projPet[projectile.type] = true;
-			projectile.minion = true;
-			projectile.netImportant = true;
-			projectile.minionSlots = 0;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 18000;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
+			Projectile.netImportant = true;
+			Projectile.width = 44;
+			Projectile.height = 44;
+			Projectile.friendly = true;
+			Main.projPet[Projectile.type] = true;
+			Projectile.minion = true;
+			Projectile.netImportant = true;
+			Projectile.minionSlots = 0;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 18000;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
 			inertia = 30f;
-			ProjectileID.Sets.LightPet[projectile.type] = true;
-			Main.projPet[projectile.type] = true;
-			projectile.magic = true;
-			projectile.aiStyle = 54;
-			projectile.damage = 50;
-			Lighting.AddLight((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f), 1f, 1f, 10f);
+			ProjectileID.Sets.LightPet[Projectile.type] = true;
+			Main.projPet[Projectile.type] = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.aiStyle = 54;
+			Projectile.damage = 50;
+			Lighting.AddLight((int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f), 1f, 1f, 10f);
 		}
 
 		public override bool MinionContactDamage()
 		{
-			if (projectile.frame == 6)
+			if (Projectile.frame == 6)
 				return true;
 
 			return false;
@@ -46,27 +46,27 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void CheckActive()
 		{
-			Player player = Main.player[projectile.owner];
-			MyPlayer modPlayer = (MyPlayer)player.GetModPlayer(mod, "MyPlayer");
+			Player player = Main.player[Projectile.owner];
+			MyPlayer modPlayer = (MyPlayer)player.GetModPlayer(Mod, "MyPlayer");
 			if (player.dead)
 				modPlayer.Phantom = false;
 
 			if (modPlayer.Phantom)
-				projectile.timeLeft = 2;
+				Projectile.timeLeft = 2;
 
 		}
 
 		public override void CreateDust()
 		{
-			Lighting.AddLight((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f), 1f, 1f, 10f);
+			Lighting.AddLight((int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f), 1f, 1f, 10f);
 		}
 
 		public override void SelectFrame()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 12) {
-				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % 12;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 12) {
+				Projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % 12;
 			}
 		}
 

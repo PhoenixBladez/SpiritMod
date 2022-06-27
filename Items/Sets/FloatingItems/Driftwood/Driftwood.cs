@@ -21,30 +21,29 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 24;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = 0;
-			item.rare = ItemRarityID.White;
-			item.createTile = ModContent.TileType<Driftwood1Tile>();
-			item.maxStack = 999;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
+			Item.width = 30;
+			Item.height = 24;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.value = 0;
+			Item.rare = ItemRarityID.White;
+			Item.createTile = ModContent.TileType<Driftwood1Tile>();
+			Item.maxStack = 999;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = Mod.CreateRecipe(ModContent.ItemType<DriftwoodTileItem>(), 10);
 			recipe.AddIngredient(this, 1);
-			recipe.SetResult(ModContent.ItemType<DriftwoodTileItem>(), 10);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 
 	public class Driftwood1Tile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileTable[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -67,11 +66,11 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Driftwood");
 			AddMapEntry(new Color(69, 54, 43), name);
-			dustType = DustID.Stone;
+			DustType = DustID.Stone;
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Driftwood1Item>());
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 	}
 
 	public class Driftwood2Item : FloatingItem
@@ -87,30 +86,29 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 24;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = 0;
-			item.rare = ItemRarityID.White;
-			item.createTile = ModContent.TileType<Driftwood2Tile>();
-			item.maxStack = 999;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
+			Item.width = 30;
+			Item.height = 24;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.value = 0;
+			Item.rare = ItemRarityID.White;
+			Item.createTile = ModContent.TileType<Driftwood2Tile>();
+			Item.maxStack = 999;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = Mod.CreateRecipe(ModContent.ItemType<DriftwoodTileItem>(), 20);
 			recipe.AddIngredient(this, 1);
-			recipe.SetResult(ModContent.ItemType<DriftwoodTileItem>(), 20);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 
 	public class Driftwood2Tile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileTable[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -133,11 +131,11 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Driftwood");
 			AddMapEntry(new Color(69, 54, 43), name);
-			dustType = DustID.Stone;
+			DustType = DustID.Stone;
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Driftwood2Item>());
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 	}
 
 	public class Driftwood3Item : FloatingItem
@@ -153,30 +151,29 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 24;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = 0;
-			item.rare = ItemRarityID.White;
-			item.createTile = ModContent.TileType<Driftwood3Tile>();
-			item.maxStack = 999;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
+			Item.width = 30;
+			Item.height = 24;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.value = 0;
+			Item.rare = ItemRarityID.White;
+			Item.createTile = ModContent.TileType<Driftwood3Tile>();
+			Item.maxStack = 999;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = Mod.CreateRecipe(ModContent.ItemType<DriftwoodTileItem>(), 25);
 			recipe.AddIngredient(this, 1);
-			recipe.SetResult(ModContent.ItemType<DriftwoodTileItem>(), 25);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 
 	public class Driftwood3Tile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileTable[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -199,10 +196,10 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Driftwood");
 			AddMapEntry(new Color(69, 54, 43), name);
-			dustType = DustID.Stone;
+			DustType = DustID.Stone;
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Driftwood3Item>());
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 	}
 }

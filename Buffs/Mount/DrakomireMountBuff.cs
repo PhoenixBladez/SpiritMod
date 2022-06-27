@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Mount
 {
 	public class DrakomireMountBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Drakomire");
 			Description.SetDefault("You have tamed a Celestial Invader!");

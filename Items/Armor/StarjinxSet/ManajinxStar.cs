@@ -13,100 +13,100 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starlight Energy");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.aiStyle = 0;
-            projectile.tileCollide = true;
-            projectile.timeLeft = 720;
-            projectile.extraUpdates = 2;
-            projectile.magic = true;
-            projectile.friendly = true;
-            projectile.penetrate = 2;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.ignoreWater = true;
-            projectile.scale = 0.7f;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = true;
+            Projectile.timeLeft = 720;
+            Projectile.extraUpdates = 2;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.friendly = true;
+            Projectile.penetrate = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.ignoreWater = true;
+            Projectile.scale = 0.7f;
         }
         public override void AI()
         {
-            projectile.rotation += 0.1f;
+            Projectile.rotation += 0.1f;
             float maxdist = 500;
-            var validtargets = Main.npc.Where(x => x != null && x.CanBeChasedBy(this) && x.Distance(projectile.Center) < maxdist);
-            if (validtargets.Any() && projectile.ai[0] == 0)
+            var validtargets = Main.npc.Where(x => x != null && x.CanBeChasedBy(this) && x.Distance(Projectile.Center) < maxdist);
+            if (validtargets.Any() && Projectile.ai[0] == 0)
             {
                 NPC finaltarget = null;
                 foreach (NPC target in validtargets)
                 {
-                    maxdist = target.Distance(projectile.Center);
+                    maxdist = target.Distance(Projectile.Center);
                     finaltarget = target;
                 }
                 if(finaltarget != null)
-                    projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(finaltarget.Center) * 8, 0.05f);
+                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(finaltarget.Center) * 8, 0.05f);
             }
 
             if (Main.rand.Next(50) == 0)
-                Gore.NewGore(projectile.Center, projectile.velocity / 4, mod.GetGoreSlot("Gores/StarjinxGore"), 0.75f);
+                Gore.NewGore(Projectile.Center, Projectile.velocity / 4, Mod.Find<ModGore>("Gores/StarjinxGore").Type, 0.75f);
 
-            if (projectile.timeLeft < 25 || projectile.penetrate <= 1)
+            if (Projectile.timeLeft < 25 || Projectile.penetrate <= 1)
                 Fadeout();
 
-            if (projectile.ai[0] > 0)
+            if (Projectile.ai[0] > 0)
             {
-                projectile.velocity *= 0.9f;
-                projectile.alpha += 10;
-                if (projectile.alpha > 255)
-                    projectile.Kill();
+                Projectile.velocity *= 0.9f;
+                Projectile.alpha += 10;
+                if (Projectile.alpha > 255)
+                    Projectile.Kill();
             }
         }
         private void Fadeout()
         {
-            projectile.ai[0]++;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.damage = 0;
+            Projectile.ai[0]++;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.damage = 0;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Fadeout();
-            projectile.velocity = oldVelocity;
+            Projectile.velocity = oldVelocity;
             return false;
         }
-        public override bool CanDamage() => projectile.ai[0] == 0;
+        public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => Projectile.ai[0] == 0;
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             damage += Math.Max(target.defense / 2, 20); //ignore up to 40 defense
         }
 
-        private float Timer => Main.GlobalTime * 4 + projectile.ai[1];
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        private float Timer => Main.GlobalTimeWrappedHourly * 4 + Projectile.ai[1];
+        public override bool PreDraw(ref Color lightColor)
         {
-            for (int i = 1; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i++)
+            for (int i = 1; i < ProjectileID.Sets.TrailCacheLength[Projectile.type]; i++)
             {
-                Vector2 newCenter = projectile.oldPos[i] + projectile.Size / 2;
-                float lerpamount = 0.5f + (i / (float)(ProjectileID.Sets.TrailCacheLength[projectile.type] * 2));
-                float scale = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
-                spriteBatch.Draw(mod.GetTexture("Textures/StardustPillarStar"),
+                Vector2 newCenter = Projectile.oldPos[i] + Projectile.Size / 2;
+                float lerpamount = 0.5f + (i / (float)(ProjectileID.Sets.TrailCacheLength[Projectile.type] * 2));
+                float scale = (ProjectileID.Sets.TrailCacheLength[Projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[Projectile.type];
+                spriteBatch.Draw(Mod.GetTexture("Textures/StardustPillarStar"),
                     newCenter - Main.screenPosition,
                     null,
-                    Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTime * 4 + i), Color.Transparent, lerpamount) * projectile.Opacity, 0, new Vector2(36, 36),
-                    scale * ((float)Math.Sin(projectile.timeLeft / 14) / 8 + 1) * 0.4f,
+                    Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 4 + i), Color.Transparent, lerpamount) * Projectile.Opacity, 0, new Vector2(36, 36),
+                    scale * ((float)Math.Sin(Projectile.timeLeft / 14) / 8 + 1) * 0.4f,
                     SpriteEffects.None,
                     0);
             }
-            spriteBatch.Draw(mod.GetTexture("Textures/StardustPillarStar"),
-                projectile.Center - Main.screenPosition,
+            spriteBatch.Draw(Mod.GetTexture("Textures/StardustPillarStar"),
+                Projectile.Center - Main.screenPosition,
                 null,
-                Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTime * 4), Color.Transparent, 0.75f) * projectile.Opacity, 
+                Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 4), Color.Transparent, 0.75f) * Projectile.Opacity, 
                 0, 
                 new Vector2(36, 36),
-                projectile.scale * ((float)Math.Sin(projectile.timeLeft / 14) / 8 + 1),
+                Projectile.scale * ((float)Math.Sin(Projectile.timeLeft / 14) / 8 + 1),
                 SpriteEffects.None,
                 0);
 

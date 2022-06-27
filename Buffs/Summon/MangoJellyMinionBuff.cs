@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Summon
 {
 	public class MangoJellyMinionBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mango Jelly");
 			Description.SetDefault("A mini mango jelly fights for you!");

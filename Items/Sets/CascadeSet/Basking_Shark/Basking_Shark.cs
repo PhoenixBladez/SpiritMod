@@ -16,47 +16,45 @@ namespace SpiritMod.Items.Sets.CascadeSet.Basking_Shark
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.autoReuse = true;
-			item.useAnimation = 39;
-			item.useTime = 13;
-			item.width = 38;
-			item.height = 6;
-			item.shoot = ProjectileID.PurificationPowder;
-			item.damage = 8;
-			item.shootSpeed = 8f;
-			item.noMelee = true;
-			item.reuseDelay = 45;
-			item.value = Item.sellPrice(silver: 30);
-			item.knockBack = .25f;
-			item.useAmmo = AmmoID.Bullet;
-			item.ranged = true;
-			item.rare = ItemRarityID.Blue;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.autoReuse = true;
+			Item.useAnimation = 39;
+			Item.useTime = 13;
+			Item.width = 38;
+			Item.height = 6;
+			Item.shoot = ProjectileID.PurificationPowder;
+			Item.damage = 8;
+			Item.shootSpeed = 8f;
+			Item.noMelee = true;
+			Item.reuseDelay = 45;
+			Item.value = Item.sellPrice(silver: 30);
+			Item.knockBack = .25f;
+			Item.useAmmo = AmmoID.Bullet;
+			Item.DamageType = DamageClass.Ranged;
+			Item.rare = ItemRarityID.Blue;
 		}
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
+            Recipe recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 12);
             recipe.AddIngredient(ModContent.ItemType<Kelp>(), 10);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
 
 		public override Vector2? HoldoutOffset() => new Vector2(-4, 2);
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 40f;
+			Vector2 muzzleOffset = Vector2.Normalize(velocity) * 40f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
 				position += muzzleOffset;
+
 			if (type == ProjectileID.Bullet)
 				type = ModContent.ProjectileType<Basking_Shark_Projectile>();
-			Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(8));
-			speedX = perturbedSpeed.X;
-			speedY = perturbedSpeed.Y;
-			return true;
+
+			velocity = velocity.RotatedByRandom(MathHelper.ToRadians(8));
 		}
 	}
 }

@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.DoT
 {
 	public class CryoCrush : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryo Crush");
 			Main.debuff[Type] = true;

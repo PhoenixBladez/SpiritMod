@@ -17,11 +17,11 @@ namespace SpiritMod.Items.Sets.SpiritSet.SpiritArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 34;
-			item.height = 30;
-			item.value = 50000;
-			item.rare = ItemRarityID.Pink;
-			item.defense = 18;
+			Item.width = 34;
+			Item.height = 30;
+			Item.value = 50000;
+			Item.rare = ItemRarityID.Pink;
+			Item.defense = 18;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -34,12 +34,11 @@ namespace SpiritMod.Items.Sets.SpiritSet.SpiritArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<SpiritBar>(), 20);
 			recipe.AddIngredient(ModContent.ItemType<SoulShred>(), 5);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -16,23 +16,23 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.rare = ItemRarityID.Cyan;
-			item.maxStack = 99;
-			item.value = 100000;
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.useTime = item.useAnimation = 20;
+			Item.width = Item.height = 16;
+			Item.rare = ItemRarityID.Cyan;
+			Item.maxStack = 99;
+			Item.value = 100000;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.noMelee = true;
-			item.consumable = true;
-			item.autoReuse = false;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.autoReuse = false;
 
-			item.UseSound = SoundID.Item43;
+			Item.UseSound = SoundID.Item43;
 		}
 
 
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 64, 399);
 			return true;

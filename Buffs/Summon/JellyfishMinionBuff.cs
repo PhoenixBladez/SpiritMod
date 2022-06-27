@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.Summon
 {
 	public class JellyfishMinionBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Jellyfish");
 			Description.SetDefault("A cute, bouncy Jellyfish fights for you!");

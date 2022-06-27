@@ -14,32 +14,31 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void SetDefaults()
 		{
-			projectile.width = 5;
-			projectile.height = 9;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.hostile = false;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.tileCollide = true;
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 5;
+			Projectile.height = 9;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.hostile = false;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.tileCollide = true;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.Bullet;
 		}
 
 		public override void Kill(int timeLeft)
 		{
 			for (int I = 0; I < 8; I++)
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Blood, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+				Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Blood, Projectile.oldVelocity.X * 0.2f, Projectile.oldVelocity.Y * 0.2f);
 
 			for (int i = 0; i < 3; ++i) {
-				Projectile.NewProjectile(projectile.Center, Vector2.Zero,
-					ModContent.ProjectileType<FrostRune>(), projectile.damage, 0, projectile.owner);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FrostRune>(), Projectile.damage, 0, Projectile.owner);
 			}
 		}
 		public override bool PreAI()
 		{
 			if (Main.rand.Next(4) == 1)
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Flare_Blue, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Flare_Blue, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 
 			return true;
 		}
@@ -50,11 +49,8 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 			for (int i = 0; i < 3; ++i) {
 				int randFire = Main.rand.Next(1);
-				int newProj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y,
-					Main.rand.Next(0) / 100, Main.rand.Next(0, 0),
-					ModContent.ProjectileType<FrostRune>(), projectile.damage/3 * 2, 0, projectile.owner);
+				int newProj = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(0) / 100, Main.rand.Next(0, 0), ModContent.ProjectileType<FrostRune>(), Projectile.damage/3 * 2, 0, Projectile.owner);
 			}
 		}
-
 	}
 }

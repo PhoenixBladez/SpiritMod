@@ -1,4 +1,5 @@
 using SpiritMod.Items.Material;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,19 +15,18 @@ namespace SpiritMod.Items.Armor.AcidArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 18;
-			item.value = 16000;
-			item.rare = ItemRarityID.LightRed;
-			item.vanity = true;
+			Item.width = 22;
+			Item.height = 18;
+			Item.value = 16000;
+			Item.rare = ItemRarityID.LightRed;
+			Item.vanity = true;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<Acid>(), 6);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

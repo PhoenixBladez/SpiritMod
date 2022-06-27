@@ -16,20 +16,20 @@ namespace SpiritMod.Items.Consumable.Food
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 22;
-			item.rare = ItemRarityID.Green;
-			item.maxStack = 99;
-			item.noUseGraphic = true;
-			item.useStyle = ItemUseStyleID.EatingUsing;
-			item.useTime = item.useAnimation = 30;
+			Item.width = Item.height = 22;
+			Item.rare = ItemRarityID.Green;
+			Item.maxStack = 99;
+			Item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.EatFood;
+			Item.useTime = Item.useAnimation = 30;
 
-			item.noMelee = true;
-			item.consumable = true;
-			item.UseSound = SoundID.Item2;
-			item.autoReuse = false;
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.UseSound = SoundID.Item2;
+			Item.autoReuse = false;
 		}
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			if (player.whoAmI != Main.myPlayer)
 				return false;
@@ -37,12 +37,12 @@ namespace SpiritMod.Items.Consumable.Food
 			MyPlayer myPlayer = player.GetModPlayer<MyPlayer>();
 			AuroraStag auroraStag = myPlayer.hoveredStag;
 
-			if (auroraStag != null && !auroraStag.Scared && !auroraStag.npc.immortal && auroraStag.TameAnimationTimer == 0) {
+			if (auroraStag != null && !auroraStag.Scared && !auroraStag.NPC.immortal && auroraStag.TameAnimationTimer == 0) {
 				auroraStag.TameAnimationTimer = AuroraStag.TameAnimationLength;
 				myPlayer.hoveredStag = null;
 
 				if (Main.netMode == NetmodeID.MultiplayerClient)
-					SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(4), (byte)MessageType.TameAuroraStag, auroraStag.npc.whoAmI).Send();
+					SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(4), (byte)MessageType.TameAuroraStag, auroraStag.NPC.whoAmI).Send();
 			}
 			else
 				player.AddBuff(ModContent.BuffType<IceBerryBuff>(), 19600);

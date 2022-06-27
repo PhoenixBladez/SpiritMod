@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class Wither : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wither");
 			Main.debuff[Type] = true;

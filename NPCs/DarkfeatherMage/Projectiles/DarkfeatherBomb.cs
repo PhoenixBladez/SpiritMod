@@ -1,4 +1,5 @@
-﻿using static Terraria.ModLoader.ModContent;
+﻿using Terraria.Audio;
+using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -19,47 +20,47 @@ namespace SpiritMod.NPCs.DarkfeatherMage.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 4;
-			projectile.height = 4;
-            projectile.hostile = true;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 90;
+			Projectile.width = 4;
+			Projectile.height = 4;
+            Projectile.hostile = true;
+            Projectile.penetrate = 2;
+            Projectile.timeLeft = 90;
 		}
 
 		public override void AI()
 		{
-            projectile.velocity.Y += .185f;
-            Vector2 currentSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y);
-            projectile.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 2) * (Math.PI / 40));
-            projectile.ai[0] += .1135f;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            int num623 = Dust.NewDust(projectile.Center, 4, 4, DustID.ChlorophyteWeapon, 0f, 0f, 0, default, 1f);
+            Projectile.velocity.Y += .185f;
+            Vector2 currentSpeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y);
+            Projectile.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 2) * (Math.PI / 40));
+            Projectile.ai[0] += .1135f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            int num623 = Dust.NewDust(Projectile.Center, 4, 4, DustID.ChlorophyteWeapon, 0f, 0f, 0, default, 1f);
             Main.dust[num623].shader = GameShaders.Armor.GetSecondaryShader(67, Main.LocalPlayer);
-            if (projectile.scale > .5f)
+            if (Projectile.scale > .5f)
                 Main.dust[num623].noGravity = true;
             else
                 Main.dust[num623].noGravity = false;
-            Main.dust[num623].velocity = projectile.velocity;
-            Main.dust[num623].scale = MathHelper.Clamp(1.6f, .9f, 10 / projectile.ai[0]);
+            Main.dust[num623].velocity = Projectile.velocity;
+            Main.dust[num623].scale = MathHelper.Clamp(1.6f, .9f, 10 / Projectile.ai[0]);
         }
         public override void Kill(int timeLeft)
         {
             int num = 0;
-			if (projectile.friendly)
+			if (Projectile.friendly)
                 num = 120;
 			else
                 num = 80;
-            ProjectileExtras.Explode(projectile.whoAmI, num, num,
+            ProjectileExtras.Explode(Projectile.whoAmI, num, num,
             delegate
             {
-                if (projectile.friendly)
-                    Main.PlaySound(SoundID.NPCHit, (int)projectile.position.X, (int)projectile.position.Y, 3);
+                if (Projectile.friendly)
+                    SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 3);
                 else
-                    Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 74);
+                    SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 74);
 
                 for (int k = 0; k < 35; k++)
                 {
-                    Dust d = Dust.NewDustPerfect(projectile.Center, 159, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, Main.rand.NextFloat(.8f, 1.2f));
+                    Dust d = Dust.NewDustPerfect(Projectile.Center, 159, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, Main.rand.NextFloat(.8f, 1.2f));
                     d.noGravity = false;
                     d.shader = GameShaders.Armor.GetSecondaryShader(67, Main.LocalPlayer);
                 }

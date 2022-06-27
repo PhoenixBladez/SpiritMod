@@ -7,14 +7,14 @@ namespace SpiritMod.Tiles.Block
 {
 	public class AcidBrickTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			AddMapEntry(new Color(163, 191, 164));
 			Main.tileBlockLight[Type] = true;
-			drop = ModContent.ItemType<AcidBrick>();
+			ItemDrop = ModContent.ItemType<AcidBrick>();
 			soundType = SoundID.Tink;
 		}
 	}

@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
 using SpiritMod.Mechanics.Trails;
@@ -19,26 +20,26 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(32, 32);
-			projectile.scale = Main.rand.NextFloat(0.8f, 1.2f);
-			projectile.hostile = true;
-			projectile.alpha = 255;
-			projectile.tileCollide = false;
+			Projectile.Size = new Vector2(32, 32);
+			Projectile.scale = Main.rand.NextFloat(0.8f, 1.2f);
+			Projectile.hostile = true;
+			Projectile.alpha = 255;
+			Projectile.tileCollide = false;
 		}
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(228, 31, 156), new Color(180, 88, 237)), new RoundCap(), new ArrowGlowPosition(), 100f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(241, 153, 255) * .25f, new Color(241, 153, 255) * .125f), new RoundCap(), new ArrowGlowPosition(), 42f, 200f, new DefaultShader());
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(228, 31, 156, 150), new Color(228, 31, 156, 150) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 20f, 80f, new DefaultShader());
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(228, 31, 156, 150), new Color(228, 31, 156, 150) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 20f, 80f, new DefaultShader());
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(241, 153, 255) * .5f, new Color(241, 153, 255) * .25f), new RoundCap(), new ArrowGlowPosition(), 42f, 40f, new DefaultShader());
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(228, 31, 156), new Color(180, 88, 237)), new RoundCap(), new ArrowGlowPosition(), 100f, 180f, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(241, 153, 255) * .25f, new Color(241, 153, 255) * .125f), new RoundCap(), new ArrowGlowPosition(), 42f, 200f, new DefaultShader());
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(228, 31, 156, 150), new Color(228, 31, 156, 150) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 20f, 80f, new DefaultShader());
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(228, 31, 156, 150), new Color(228, 31, 156, 150) * 0.5f), new RoundCap(), new DefaultTrailPosition(), 20f, 80f, new DefaultShader());
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(241, 153, 255) * .5f, new Color(241, 153, 255) * .25f), new RoundCap(), new ArrowGlowPosition(), 42f, 40f, new DefaultShader());
 		}
 
-		private NPC Parent => Main.npc[(int)projectile.ai[0]];
-		private Player Target => Main.player[(int)projectile.ai[1]];
+		private NPC Parent => Main.npc[(int)Projectile.ai[0]];
+		private Player Target => Main.player[(int)Projectile.ai[1]];
 
-		private ref float Timer => ref projectile.localAI[0];
+		private ref float Timer => ref Projectile.localAI[0];
 
 		private Vector2 homeCenter;
 
@@ -50,11 +51,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public override void AI()
 		{
-			projectile.alpha = Math.Max(projectile.alpha - 5, 0);
+			Projectile.alpha = Math.Max(Projectile.alpha - 5, 0);
 
 			if (!Parent.active || !Target.active || Target.dead)
 			{
-				projectile.Kill();
+				Projectile.Kill();
 				return;
 			}
 			else
@@ -64,7 +65,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 				speed = EaseFunction.EaseQuadOut.Ease(speed);
 				speed = Math.Max(speed, 0.15f);
 
-				projectile.rotation += speed * Direction / 2;
+				Projectile.rotation += speed * Direction / 2;
 				float dist = Offset_Distance;
 
 				if (++Timer < CirclingTime) //Before colliding, stick to player center
@@ -73,13 +74,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 					dist = Offset_Distance * (EaseFunction.EaseCubicOut.Ease((COLLIDING_TIME - (Timer - CirclingTime)) / COLLIDING_TIME));
 
 				if (Timer == CirclingTime)
-					projectile.netUpdate = true;
+					Projectile.netUpdate = true;
 
-				projectile.Center = (Vector2.UnitX.RotatedBy(Offset_Rotation) * dist) + homeCenter;
+				Projectile.Center = (Vector2.UnitX.RotatedBy(Offset_Rotation) * dist) + homeCenter;
 				Offset_Rotation += speed * Direction * RADIANS_PERTICK;
 
-				if (projectile.Distance(homeCenter) < 10)
-					projectile.Kill();
+				if (Projectile.Distance(homeCenter) < 10)
+					Projectile.Kill();
 			}
 		}
 
@@ -87,10 +88,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		{
 			if (!Main.dedServ)
 			{
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.65f).WithPitchVariance(0.3f), projectile.Center);
+				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.65f).WithPitchVariance(0.3f), Projectile.Center);
 
 				for (int i = 0; i < 6; i++)
-					ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, Main.rand.NextVector2Circular(6, 6), new Color(241, 153, 255),
+					ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Main.rand.NextVector2Circular(6, 6), new Color(241, 153, 255),
 						new Color(228, 31, 156), Main.rand.NextFloat(0.1f, 0.2f), 25));
 			}
 		}
@@ -113,9 +114,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			homeCenter = reader.ReadVector2();
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			projectile.QuickDraw(spriteBatch, drawColor: Color.White);
+			Projectile.QuickDraw(spriteBatch, drawColor: Color.White);
 			return false;
 		}
 	}

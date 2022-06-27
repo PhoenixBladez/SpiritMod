@@ -12,24 +12,24 @@ namespace SpiritMod.NPCs.Mimic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wooden Crate Mimic");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[NPC.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 48;
-			npc.height = 42;
-			npc.damage = 9;
-			npc.defense = 4;
-			npc.lifeMax = 50;
-			npc.HitSound = SoundID.NPCHit3;
-			npc.DeathSound = SoundID.NPCDeath6;
-			npc.value = 360f;
-			npc.knockBackResist = 0.34f;
-			npc.aiStyle = 3;
-			aiType = NPCID.SnowFlinx;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.WoodCrateMimicBanner>();
+			NPC.width = 48;
+			NPC.height = 42;
+			NPC.damage = 9;
+			NPC.defense = 4;
+			NPC.lifeMax = 50;
+			NPC.HitSound = SoundID.NPCHit3;
+			NPC.DeathSound = SoundID.NPCDeath6;
+			NPC.value = 360f;
+			NPC.knockBackResist = 0.34f;
+			NPC.aiStyle = 3;
+			AIType = NPCID.SnowFlinx;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.WoodCrateMimicBanner>();
 		}
 
 		int frame = 2;
@@ -38,12 +38,12 @@ namespace SpiritMod.NPCs.Mimic
 
 		public override void AI()
 		{
-			npc.spriteDirection = npc.direction;
+			NPC.spriteDirection = NPC.direction;
 
-			if (npc.wet)
-				npc.noGravity = true;
+			if (NPC.wet)
+				NPC.noGravity = true;
 			else
-				npc.noGravity = false;
+				NPC.noGravity = false;
 			mimictimer++;
 			if (mimictimer <= 80)
 			{
@@ -61,38 +61,38 @@ namespace SpiritMod.NPCs.Mimic
 			if (frame == 4)
 				frame = 1;
 
-			if (npc.collideY && jump && npc.velocity.Y > 0)
+			if (NPC.collideY && jump && NPC.velocity.Y > 0)
 			{
 				if (Main.rand.Next(8) == 0)
 				{
 					jump = false;
 					for (int i = 0; i < 20; i++)
 					{
-						int dust = Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, DustID.SpookyWood, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f);
+						int dust = Dust.NewDust(NPC.position + NPC.velocity, NPC.width, NPC.height, DustID.SpookyWood, NPC.velocity.X * 0.5f, NPC.velocity.Y * 0.5f);
 						Main.dust[dust].noGravity = true;
 					}
 				}
 			}
 
-			if (!npc.collideY)
+			if (!NPC.collideY)
 				jump = true;
 		}
 
-		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity / 6, 220);
-				Gore.NewGore(npc.position, npc.velocity / 6, 221);
-				Gore.NewGore(npc.position, npc.velocity / 6, 222);
+				Gore.NewGore(NPC.position, NPC.velocity / 6, 220);
+				Gore.NewGore(NPC.position, NPC.velocity / 6, 221);
+				Gore.NewGore(NPC.position, NPC.velocity / 6, 222);
 			}
 
 			for (int k = 0; k < 30; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, 7, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, 7, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
 		}
 
-		public override void NPCLoot() => Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WoodenCrate);
+		public override void OnKill() => Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.WoodenCrate);
 	}
 }

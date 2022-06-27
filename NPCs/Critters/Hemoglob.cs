@@ -11,55 +11,55 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hemoglob");
-			Main.npcFrameCount[npc.type] = 7;
-			Main.npcFrameCount[npc.type] = 7;
-			Main.npcCatchable[npc.type] = true;
+			Main.npcFrameCount[NPC.type] = 7;
+			Main.npcFrameCount[NPC.type] = 7;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 16;
-			npc.height = 12;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 5;
-			npc.dontCountMe = true;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.catchItem = (short)ModContent.ItemType<HemoglobItem>();
-			npc.knockBackResist = .45f;
-			npc.aiStyle = 7;
-			npc.npcSlots = 0;
-			npc.noGravity = false; ;
-			aiType = NPCID.Bunny;
-			npc.dontTakeDamageFromHostiles = false;
+			NPC.width = 16;
+			NPC.height = 12;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 5;
+			NPC.dontCountMe = true;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.catchItem = (short)ModContent.ItemType<HemoglobItem>();
+			NPC.knockBackResist = .45f;
+			NPC.aiStyle = 7;
+			NPC.npcSlots = 0;
+			NPC.noGravity = false; ;
+			AIType = NPCID.Bunny;
+			NPC.dontTakeDamageFromHostiles = false;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
 				for (int k = 0; k < 20; k++)
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 1.75f * hitDirection, -1.75f, 0, new Color(), 0.86f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 1.75f * hitDirection, -1.75f, 0, new Color(), 0.86f);
 			}
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.ZoneCrimson && spawnInfo.player.ZoneOverworldHeight ? .06f : 0f;
-		public override void AI() => npc.spriteDirection = npc.direction;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneCrimson && spawnInfo.Player.ZoneOverworldHeight ? .06f : 0f;
+		public override void AI() => NPC.spriteDirection = NPC.direction;
 
 		public override void FindFrame(int frameHeight)
 		{
-			if (npc.velocity != Vector2.Zero)
+			if (NPC.velocity != Vector2.Zero)
 			{
-				npc.frameCounter += 0.25f;
-				npc.frameCounter %= Main.npcFrameCount[npc.type];
-				int frame = (int)npc.frameCounter;
-				npc.frame.Y = frame * frameHeight;
+				NPC.frameCounter += 0.25f;
+				NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+				int frame = (int)NPC.frameCounter;
+				NPC.frame.Y = frame * frameHeight;
 			}
 			else
 			{
-				int frame = (int)npc.frameCounter;
-				npc.frame.Y = frame * 0;
+				int frame = (int)NPC.frameCounter;
+				NPC.frame.Y = frame * 0;
 			}
 		}
 	}

@@ -1,4 +1,5 @@
 ﻿using SpiritMod.Projectiles.Arrow;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,31 +15,30 @@ namespace SpiritMod.Items.Ammo.Arrow
 
 		public override void SetDefaults()
 		{
-			item.width = 10;
-			item.height = 28;
-			item.rare = ItemRarityID.Blue;
-			item.value = Terraria.Item.buyPrice(0, 0, 0, 40);
+			Item.width = 10;
+			Item.height = 28;
+			Item.rare = ItemRarityID.Blue;
+			Item.value = Terraria.Item.buyPrice(0, 0, 0, 40);
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 
-			item.damage = 7;
-			item.knockBack = 0;
-			item.ammo = AmmoID.Arrow;
+			Item.damage = 7;
+			Item.knockBack = 0;
+			Item.ammo = AmmoID.Arrow;
 
-			item.ranged = true;
-			item.consumable = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.consumable = true;
 
-			item.shoot = ModContent.ProjectileType<PoisonArrowProj>();
-			item.shootSpeed = 4f;
+			Item.shoot = ModContent.ProjectileType<PoisonArrowProj>();
+			Item.shootSpeed = 4f;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(50);
 			recipe.AddIngredient(ItemID.WoodenArrow, 25);
 			recipe.AddIngredient(ItemID.Stinger, 1);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this, 50);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

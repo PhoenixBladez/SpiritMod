@@ -14,18 +14,18 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.width = 16;
-			projectile.height = 70;
-			projectile.penetrate = 5;
-			projectile.alpha = 255;
-			projectile.timeLeft = 240;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.width = 16;
+			Projectile.height = 70;
+			Projectile.penetrate = 5;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 240;
 		}
 		public override bool PreAI()
 		{
 			float num1627 = 2f;
-			float num1626 = (float)projectile.timeLeft / 60f;
+			float num1626 = (float)Projectile.timeLeft / 60f;
 			if (num1626 < 1f) {
 				num1627 *= num1626;
 			}
@@ -37,9 +37,9 @@ namespace SpiritMod.Projectiles
 				double radians17 = (Main.rand.NextDouble() - 0.5) * 1.5707963705062866;
 				Vector2 vector333 = default;
 				vector267 = spinningpoint18.RotatedBy(radians17, vector333);
-				Vector2 position160 = projectile.position;
-				int width124 = projectile.width;
-				int height124 = projectile.height;
+				Vector2 position160 = Projectile.position;
+				int width124 = Projectile.width;
+				int height124 = Projectile.height;
 				int num1624 = Dust.NewDust(position160, width124, height124, DustID.FireworkFountain_Yellow, 0f, 0f, 100, new Color(), 1f);
 				Dust dust77 = Main.dust[num1624];
 				dust77.scale = 1f + (float)Main.rand.NextDouble() * 0.3f;
@@ -62,24 +62,24 @@ namespace SpiritMod.Projectiles
 		}
 		public override void AI()
 		{
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 7200f) {
-				projectile.alpha += 5;
-				if (projectile.alpha > 255) {
-					projectile.alpha = 255;
-					projectile.Kill();
+			Projectile.ai[1] += 1f;
+			if (Projectile.ai[1] >= 7200f) {
+				Projectile.alpha += 5;
+				if (Projectile.alpha > 255) {
+					Projectile.alpha = 255;
+					Projectile.Kill();
 				}
 			}
 
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] >= 10f) {
-				projectile.localAI[0] = 0f;
+			Projectile.localAI[0] += 1f;
+			if (Projectile.localAI[0] >= 10f) {
+				Projectile.localAI[0] = 0f;
 				int num416 = 0;
 				int num417 = 0;
 				float num418 = 0f;
-				int num419 = projectile.type;
+				int num419 = Projectile.type;
 				for (int num420 = 0; num420 < 1000; num420++) {
-					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
+					if (Main.projectile[num420].active && Main.projectile[num420].owner == Projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f) {
 						num416++;
 						if (Main.projectile[num420].ai[1] > num418) {
 							num417 = num420;
@@ -96,9 +96,9 @@ namespace SpiritMod.Projectiles
 		}
 		public override void Kill(int timeLeft)
 		{
-			Dust.NewDust(projectile.position + projectile.velocity,
-				projectile.width, projectile.height,
-				DustID.FireworkFountain_Yellow, projectile.oldVelocity.X * 0.2f, projectile.oldVelocity.Y * 0.2f);
+			Dust.NewDust(Projectile.position + Projectile.velocity,
+				Projectile.width, Projectile.height,
+				DustID.FireworkFountain_Yellow, Projectile.oldVelocity.X * 0.2f, Projectile.oldVelocity.Y * 0.2f);
 		}
 	}
 }

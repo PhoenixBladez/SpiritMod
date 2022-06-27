@@ -16,20 +16,20 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.QueenSpiderStaff); //only here for values we haven't defined ourselves yet
-			item.damage = 51;  //placeholder damage :3
-			item.mana = 10;   //somehow I think this might be too much...? -thegamemaster1234
-			item.width = 40;
-			item.height = 40;
-			item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Pink;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.autoReuse = true;
-			item.knockBack = 2.5f;
-			item.UseSound = SoundID.Item25;
-			item.shoot = ModContent.ProjectileType<GloomgusShroom>();
-			item.shootSpeed = 0f;
+			Item.CloneDefaults(ItemID.QueenSpiderStaff); //only here for values we haven't defined ourselves yet
+			Item.damage = 51;  //placeholder damage :3
+			Item.mana = 10;   //somehow I think this might be too much...? -thegamemaster1234
+			Item.width = 40;
+			Item.height = 40;
+			Item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Pink;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.autoReuse = true;
+			Item.knockBack = 2.5f;
+			Item.UseSound = SoundID.Item25;
+			Item.shoot = ModContent.ProjectileType<GloomgusShroom>();
+			Item.shootSpeed = 0f;
 		}
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{

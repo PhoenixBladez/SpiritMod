@@ -16,21 +16,21 @@ namespace SpiritMod.Items.Consumable.Potion
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 30;
-			item.rare = ItemRarityID.Blue;
-			item.maxStack = 1;
+			Item.width = 20;
+			Item.height = 30;
+			Item.rare = ItemRarityID.Blue;
+			Item.maxStack = 1;
 
-			item.useStyle = ItemUseStyleID.EatingUsing;
-			item.useTime = item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.EatFood;
+			Item.useTime = Item.useAnimation = 20;
 
-			item.consumable = false;
-			item.autoReuse = false;
+			Item.consumable = false;
+			Item.autoReuse = false;
 
-			item.buffType = BuffID.Tipsy;
-			item.buffTime = 7200;
+			Item.buffType = BuffID.Tipsy;
+			Item.buffTime = 7200;
 
-			item.UseSound = SoundID.Item3;
+			Item.UseSound = SoundID.Item3;
 		}
 	}
 }

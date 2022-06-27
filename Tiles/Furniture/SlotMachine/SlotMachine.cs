@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria;
 using Terraria.Enums;
@@ -14,23 +15,23 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 34;
-			item.value = Item.buyPrice(0, 50, 0, 0);
-			item.maxStack = 99;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
-			item.createTile = ModContent.TileType<SlotMachineTile>();
+			Item.width = 36;
+			Item.height = 34;
+			Item.value = Item.buyPrice(0, 50, 0, 0);
+			Item.maxStack = 99;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.createTile = ModContent.TileType<SlotMachineTile>();
 		}
 	}
 
 	public class SlotMachineTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -57,8 +58,8 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			name.SetDefault("Slot Machine");
 			AddMapEntry(new Color(200, 200, 200), name);
 
-			dustType = -1;
-			animationFrameHeight = 54;
+			DustType = -1;
+			AnimationFrameHeight = 54;
 		}
 
 		public override void AnimateTile(ref int frame, ref int frameCounter)
@@ -72,7 +73,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			}
 		}
 
-		public override bool NewRightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			float minLength = float.MaxValue;
 			Player nearestPlayer = Main.player[Main.myPlayer];
@@ -93,7 +94,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 					return false;
 				else
 				{
-					Main.PlaySound(SoundID.MenuOpen);
+					SoundEngine.PlaySound(SoundID.MenuOpen);
 					ModContent.GetInstance<SpiritMod>().SlotUserInterface.SetState(new UISlotState(i, j, nearestPlayer));
 				}
 			}

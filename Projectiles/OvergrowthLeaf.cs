@@ -10,51 +10,51 @@ namespace SpiritMod.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Overgrowth Leaf");
-			Main.projFrames[projectile.type] = 5;
+			Main.projFrames[Projectile.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 20;
-			projectile.height = 16;
-			projectile.aiStyle = 43;
-			aiType = 227;
-			projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.minion = true;
-			projectile.minionSlots = 0;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 180;
+			Projectile.width = 20;
+			Projectile.height = 16;
+			Projectile.aiStyle = 43;
+			AIType = 227;
+			Projectile.friendly = true;
+			Projectile.ignoreWater = true;
+			Projectile.minion = true;
+			Projectile.minionSlots = 0;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 180;
 		}
 
 		public override void AI()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 8) {
-				projectile.frame++;
-				projectile.frameCounter = 0;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter > 8) {
+				Projectile.frame++;
+				Projectile.frameCounter = 0;
 			}
-			if (projectile.frame > 4) {
-				projectile.frame = 0;
+			if (Projectile.frame > 4) {
+				Projectile.frame = 0;
 			}
-			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.025f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
-			projectile.velocity.Y += projectile.ai[0];
+			Lighting.AddLight(Projectile.Center, ((255 - Projectile.alpha) * 0.025f) / 255f, ((255 - Projectile.alpha) * 0.25f) / 255f, ((255 - Projectile.alpha) * 0.05f) / 255f);
+			Projectile.velocity.Y += Projectile.ai[0];
 			if (Main.rand.Next(8) == 0)
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.GrassBlades, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.GrassBlades, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.penetrate--;
-			if (projectile.penetrate <= 0)
-				projectile.Kill();
+			Projectile.penetrate--;
+			if (Projectile.penetrate <= 0)
+				Projectile.Kill();
 			else {
-				projectile.ai[0] += 0.1f;
-				if (projectile.velocity.X != oldVelocity.X)
-					projectile.velocity.X = -oldVelocity.X;
+				Projectile.ai[0] += 0.1f;
+				if (Projectile.velocity.X != oldVelocity.X)
+					Projectile.velocity.X = -oldVelocity.X;
 
-				if (projectile.velocity.Y != oldVelocity.Y)
-					projectile.velocity.Y = -oldVelocity.Y;
+				if (Projectile.velocity.Y != oldVelocity.Y)
+					Projectile.velocity.Y = -oldVelocity.Y;
 			}
 			return false;
 		}
@@ -62,7 +62,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			for (int k = 0; k < 3; k++) {
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.GrassBlades, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+				Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.GrassBlades, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
 			}
 		}
 	}

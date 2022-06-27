@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
 {
 	public class PurpleNeonPlant : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -33,8 +33,8 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
 			Main.tileLighted[Type] = true;
 			name.SetDefault("Fluorescent Plant");
             AddMapEntry(new Color(139, 88, 255), name);
-            adjTiles = new int[] { TileID.Torches };
-            dustType = -1;
+            AdjTiles = new int[] { TileID.Torches };
+            DustType = -1;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
@@ -58,8 +58,8 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/NeonLights/PurpleNeonPlant_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Furniture/NeonLights/PurpleNeonPlant_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			Tile t = Main.tile[i, j];
 		}
 	}

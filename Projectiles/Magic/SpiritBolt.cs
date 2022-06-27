@@ -14,20 +14,20 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.penetrate = 1;
-			projectile.alpha = 255;
-			projectile.timeLeft = 200;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.penetrate = 1;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 200;
 		}
 
 		public override bool PreAI()
 		{
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.UnusedWhiteBluePurple, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].scale = 2f;
 
@@ -40,11 +40,11 @@ namespace SpiritMod.Projectiles.Magic
 			int deviation = Main.rand.Next(0, 60);
 			for (int i = 0; i < n; i++) {
 				float rotation = MathHelper.ToRadians(360 / n * i + deviation);
-				Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
+				Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y).RotatedBy(rotation);
 				perturbedSpeed.Normalize();
 				perturbedSpeed.X *= 5.5f;
 				perturbedSpeed.Y *= 5.5f;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<SpiritWave>(), projectile.damage, projectile.knockBack, projectile.owner);
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<SpiritWave>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 			}
 		}
 

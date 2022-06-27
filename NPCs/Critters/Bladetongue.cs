@@ -11,46 +11,46 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bladetongue");
-			Main.npcFrameCount[npc.type] = 6;
+			Main.npcFrameCount[NPC.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 44;
-			npc.height = 24;
-			npc.damage = 50;
-			npc.defense = 8;
-			npc.lifeMax = 380;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = 0f;
-			npc.aiStyle = 16;
-			npc.dontCountMe = true;
-			npc.noGravity = true;
-			npc.npcSlots = 0;
-			aiType = NPCID.Shark;
+			NPC.width = 44;
+			NPC.height = 24;
+			NPC.damage = 50;
+			NPC.defense = 8;
+			NPC.lifeMax = 380;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.knockBackResist = 0f;
+			NPC.aiStyle = 16;
+			NPC.dontCountMe = true;
+			NPC.noGravity = true;
+			NPC.npcSlots = 0;
+			AIType = NPCID.Shark;
 		}
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override void AI()
 		{
-			npc.spriteDirection = npc.direction;
+			NPC.spriteDirection = NPC.direction;
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/BladetongueGore"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BladetongueGore").Type, 1f);
 			}
 			for (int k = 0; k < 11; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, npc.direction, -1f, 1, default, .91f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, NPC.direction, -1f, 1, default, .91f);
 			}
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -60,16 +60,16 @@ namespace SpiritMod.NPCs.Critters
 				target.AddBuff(BuffID.Bleeding, 1200);
 			}
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
 			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Bladetongue, 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Bladetongue, 1);
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneCrimson && spawnInfo.water && Main.hardMode ? 0.0075f : 0f;
+			return spawnInfo.Player.ZoneCrimson && spawnInfo.Water && Main.hardMode ? 0.0075f : 0f;
 		}
 
 	}

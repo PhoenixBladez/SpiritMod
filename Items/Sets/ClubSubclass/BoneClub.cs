@@ -15,24 +15,24 @@ namespace SpiritMod.Items.Sets.ClubSubclass
 
         public override void SetDefaults()
         {
-            item.channel = true;
-            item.damage = 27;
-            item.width = 60;
-            item.height = 60;
-            item.useTime = 320;
-            item.useAnimation = 320;
-            item.crit = 4;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.melee = true;
-            item.noMelee = true;
-            item.knockBack = 12;
-            item.useTurn = true;
-            item.value = Item.sellPrice(0, 1, 40, 0);
-            item.rare = ItemRarityID.Orange;
-            item.autoReuse = false;
-            item.shoot = ModContent.ProjectileType<Projectiles.Clubs.BoneClubProj>();
-            item.shootSpeed = 6f;
-            item.noUseGraphic = true;
+            Item.channel = true;
+            Item.damage = 27;
+            Item.width = 60;
+            Item.height = 60;
+            Item.useTime = 320;
+            Item.useAnimation = 320;
+            Item.crit = 4;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.knockBack = 12;
+            Item.useTurn = true;
+            Item.value = Item.sellPrice(0, 1, 40, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.autoReuse = false;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Clubs.BoneClubProj>();
+            Item.shootSpeed = 6f;
+            Item.noUseGraphic = true;
         }
 
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);

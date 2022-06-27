@@ -5,7 +5,9 @@ using SpiritMod.Items.Sets.SeraphSet;
 using SpiritMod.Items.Sets.MagicMisc.AstralClock;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
@@ -17,72 +19,72 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lumantis");
-			Main.npcFrameCount[npc.type] = 5;
+			Main.npcFrameCount[NPC.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 40;
-			npc.height = 40;
-			npc.damage = 62;
-			npc.defense = 20;
-			npc.lifeMax = 560;
-			npc.buffImmune[ModContent.BuffType<StarFlame>()] = true;
-			npc.HitSound = SoundID.DD2_LightningBugHurt;
-			npc.DeathSound = SoundID.NPCDeath34;
-			npc.value = 760f;
-			npc.knockBackResist = .2f;
-			npc.aiStyle = 3;
-			aiType = NPCID.WalkingAntlion;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.LumantisBanner>();
+			NPC.width = 40;
+			NPC.height = 40;
+			NPC.damage = 62;
+			NPC.defense = 20;
+			NPC.lifeMax = 560;
+			NPC.buffImmune[ModContent.BuffType<StarFlame>()] = true;
+			NPC.HitSound = SoundID.DD2_LightningBugHurt;
+			NPC.DeathSound = SoundID.NPCDeath34;
+			NPC.value = 760f;
+			NPC.knockBackResist = .2f;
+			NPC.aiStyle = 3;
+			AIType = NPCID.WalkingAntlion;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<Items.Banners.LumantisBanner>();
         }
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<Lumantis>()) < 4 && spawnInfo.player.ZoneOverworldHeight ? .6f : 0f;
+			return MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<Lumantis>()) < 4 && spawnInfo.Player.ZoneOverworldHeight ? .6f : 0f;
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Flare_Blue, hitDirection, -1f, 1, default, .81f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.VenomStaff, hitDirection, -1f, 1, default, .51f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Flare_Blue, hitDirection, -1f, 1, default, .81f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.VenomStaff, hitDirection, -1f, 1, default, .51f);
 			}
-			if (npc.life <= 0) {
+			if (NPC.life <= 0) {
 				for (int k = 0; k < 11; k++) {
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Flare_Blue, hitDirection, -1f, 1, default, .81f);
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.VenomStaff, hitDirection, -1f, 1, default, .71f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Flare_Blue, hitDirection, -1f, 1, default, .81f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.VenomStaff, hitDirection, -1f, 1, default, .71f);
 				}
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumantis/Lumantis1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumantis/Lumantis2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumantis/Lumantis3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Lumantis/Lumantis4"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumantis/Lumantis1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumantis/Lumantis2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumantis/Lumantis3").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumantis/Lumantis4").Type, 1f);
 			}
 		}
 		int timer;
 		int frame;
 		public override void AI()
 		{
-			Player player = Main.player[npc.target];
+			Player player = Main.player[NPC.target];
 			timer++;
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), .196f * 3, .092f * 3, 0.214f * 3);
-			++npc.ai[1];
-			if (npc.ai[1] >= 600) {
+			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), .196f * 3, .092f * 3, 0.214f * 3);
+			++NPC.ai[1];
+			if (NPC.ai[1] >= 600) {
 				reflectPhase = true;
-				npc.aiStyle = 0;
-				if (player.position.X > npc.position.X) {
-					npc.spriteDirection = 1;
+				NPC.aiStyle = 0;
+				if (player.position.X > NPC.position.X) {
+					NPC.spriteDirection = 1;
 				}
 				else {
-					npc.spriteDirection = -1;
+					NPC.spriteDirection = -1;
 				}
 			}
 			else {
-				npc.aiStyle = 3;
-				aiType = NPCID.WalkingAntlion;
-				npc.spriteDirection = npc.direction;
+				NPC.aiStyle = 3;
+				AIType = NPCID.WalkingAntlion;
+				NPC.spriteDirection = NPC.direction;
 				reflectPhase = false;
-				npc.defense = 20;
+				NPC.defense = 20;
 				if (timer >= 4) {
 					frame++;
 					timer = 0;
@@ -91,17 +93,17 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 					frame = 0;
 				}
 			}
-			if (npc.ai[1] >= 840) {
-				npc.ai[1] = 0;
+			if (NPC.ai[1] >= 840) {
+				NPC.ai[1] = 0;
 			}
 		}
 		public override void FindFrame(int frameHeight)
 		{
 			if (!reflectPhase) {
-				npc.frame.Y = frameHeight * frame;
+				NPC.frame.Y = frameHeight * frame;
 			}
 			else {
-				npc.frame.Y = frameHeight * 4;
+				NPC.frame.Y = frameHeight * 4;
 			}
 		}
 		bool reflectPhase;
@@ -110,7 +112,7 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 
 			if (reflectPhase) {
 				player.Hurt(PlayerDeathReason.LegacyEmpty(), item.damage, 0, true, false, false, -1);
-				Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
+				SoundEngine.PlaySound(SoundID.DD2_LightningBugZap, NPC.position);
 			}
 		}
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
@@ -118,7 +120,7 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 			if (reflectPhase && !projectile.minion && !Main.player[projectile.owner].channel) {
 				projectile.hostile = true;
 				projectile.friendly = false;
-				Main.PlaySound(SoundID.DD2_LightningBugZap, npc.position);
+				SoundEngine.PlaySound(SoundID.DD2_LightningBugZap, NPC.position);
 				projectile.penetrate = 2;
 				projectile.velocity.X = projectile.velocity.X * -1f;
 			}
@@ -135,25 +137,25 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 			Main.dust[dust].velocity = vel;
 			Main.dust[dust].customData = follow;
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/BlueMoon/Lumantis/Lumantis_Glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/BlueMoon/Lumantis/Lumantis_Glow"));
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.NextBool(5))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonStone>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MoonStone>());
 			if (Main.rand.NextBool(100))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StopWatch>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<StopWatch>());
 			if (Main.rand.NextBool(10))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MoonJelly>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MoonJelly>());
 		}
 	}
 }

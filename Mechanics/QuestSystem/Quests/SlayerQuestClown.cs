@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
             _tasks.AddTask(new SlayTask(NPCID.Clown, 3, null, new QuestPoolData(0.2f, true, true, SpawnConditions)));
         }
 
-		private bool SpawnConditions(NPCSpawnInfo arg) => Main.bloodMoon && arg.spawnTileY < Main.worldSurface;
+		private bool SpawnConditions(NPCSpawnInfo arg) => Main.bloodMoon && arg.SpawnTileY < Main.worldSurface;
 
 		public override bool IsQuestPossible() => Main.hardMode;
 	}

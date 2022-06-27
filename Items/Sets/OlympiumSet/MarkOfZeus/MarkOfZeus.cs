@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
@@ -18,24 +20,24 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 
 		public override void SetDefaults()
 		{
-			item.damage = 80;
-			item.noMelee = true;
-			item.channel = true;
-			item.rare = ItemRarityID.LightRed;
-			item.width = 18;
-			item.height = 18;
-			item.useTime = 15;
-			item.useAnimation = 45;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = item.useAnimation = 24;
-			item.knockBack = 8;
-			item.magic = true;
-			item.noMelee = true;
-			item.autoReuse = false;
-			item.noUseGraphic = true;
-			item.shoot = ModContent.ProjectileType<MarkOfZeusProj>();
-			item.shootSpeed = 0f;
-			item.value = Item.sellPrice(0, 2, 0, 0);
+			Item.damage = 80;
+			Item.noMelee = true;
+			Item.channel = true;
+			Item.rare = ItemRarityID.LightRed;
+			Item.width = 18;
+			Item.height = 18;
+			Item.useTime = 15;
+			Item.useAnimation = 45;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = Item.useAnimation = 24;
+			Item.knockBack = 8;
+			Item.DamageType = DamageClass.Magic;
+			Item.noMelee = true;
+			Item.autoReuse = false;
+			Item.noUseGraphic = true;
+			Item.shoot = ModContent.ProjectileType<MarkOfZeusProj>();
+			Item.shootSpeed = 0f;
+			Item.value = Item.sellPrice(0, 2, 0, 0);
 		}
 
 		public override bool CanUseItem(Player player) => player.statMana > 20;
@@ -47,16 +49,16 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = -1;
-			projectile.friendly = false;
-			projectile.penetrate = 1;
-			projectile.alpha = 0;
-			projectile.timeLeft = 999999;
-			projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = false;
+			Projectile.penetrate = 1;
+			Projectile.alpha = 0;
+			Projectile.timeLeft = 999999;
+			Projectile.tileCollide = false;
 		}
 
 		public override Color? GetAlpha(Color lightColor) => Color.White;
@@ -74,35 +76,35 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 			growCounter++;
 
 			if (growCounter == 10)
-				Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/ElectricCharge").WithPitchVariance(0.4f).WithVolume(0.2f), projectile.Center);
+				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/ElectricCharge").WithPitchVariance(0.4f).WithVolume(0.2f), Projectile.Center);
 
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 
 			if (player.statMana <= 0)
-				projectile.Kill();
+				Projectile.Kill();
 
-			if (projectile.owner == Main.myPlayer)
+			if (Projectile.owner == Main.myPlayer)
 			{
-				Vector2 direction2 = Main.MouseWorld - (projectile.position);
+				Vector2 direction2 = Main.MouseWorld - (Projectile.position);
 				direction2.Normalize();
 				direction2 *= counter;
-				projectile.ai[0] = direction2.X;
-				projectile.ai[1] = direction2.Y;
-				projectile.netUpdate = true;
+				Projectile.ai[0] = direction2.X;
+				Projectile.ai[1] = direction2.Y;
+				Projectile.netUpdate = true;
 			}
 
-			Vector2 direction = new Vector2(projectile.ai[0], projectile.ai[1]);
+			Vector2 direction = new Vector2(Projectile.ai[0], Projectile.ai[1]);
 
 			if (player.channel && !firing)
 			{
-				projectile.position = player.position + holdOffset;
+				Projectile.position = player.position + holdOffset;
 				if (Main.rand.Next(4) == 0)
-					Dust.NewDustDirect(projectile.Center + ((projectile.rotation + 1.57f).ToRotationVector2() * Main.rand.Next(-30, 30)), 2, 2, DustID.Firework_Yellow).noGravity = true;
+					Dust.NewDustDirect(Projectile.Center + ((Projectile.rotation + 1.57f).ToRotationVector2() * Main.rand.Next(-30, 30)), 2, 2, DustID.Firework_Yellow).noGravity = true;
 
 				if (Main.rand.Next(8) == 0)
 				{
 					int timeLeft = Main.rand.Next(20, 50);
-					var particle = new StarParticle(projectile.Center + ((projectile.rotation + 1.57f).ToRotationVector2() * Main.rand.Next(-30, 30)), Main.rand.NextVector2Circular(1.5f, 1.5f),
+					var particle = new StarParticle(Projectile.Center + ((Projectile.rotation + 1.57f).ToRotationVector2() * Main.rand.Next(-30, 30)), Main.rand.NextVector2Circular(1.5f, 1.5f),
 						Color.Gold, Main.rand.NextFloat(0.1f, 0.2f),
 					timeLeft);
 					ParticleHandler.SpawnParticle(particle);
@@ -128,12 +130,12 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 				else if (!charged)
 				{
 					charged = true;
-					Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
+					SoundEngine.PlaySound(SoundID.NPCDeath7, Projectile.Center);
 				}
 				else
 					glowCounter += 0.025f;
 
-				projectile.rotation = direction.ToRotation() - 1.57f;
+				Projectile.rotation = direction.ToRotation() - 1.57f;
 
 				if (direction.X > 0)
 				{
@@ -149,9 +151,9 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 			else
 			{
 				Launch(player, direction);
-				projectile.active = false;
+				Projectile.active = false;
 			}
-			player.heldProj = projectile.whoAmI;
+			player.heldProj = Projectile.whoAmI;
 			player.itemTime = 30;
 			player.itemAnimation = 30;
 			return true;
@@ -161,22 +163,22 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 
 		private void Launch(Player player, Vector2 direction)
 		{
-			Main.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Thunder").WithPitchVariance(0.6f).WithVolume(0.6f), projectile.Center);
+			SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Thunder").WithPitchVariance(0.6f).WithVolume(0.6f), Projectile.Center);
 
-			if (projectile.owner == Main.myPlayer)
+			if (Projectile.owner == Main.myPlayer)
 			{
-				int proj = Projectile.NewProjectile(projectile.Center, direction, ModContent.ProjectileType<MarkOfZeusProj2>(), (int)(projectile.damage * Math.Sqrt(counter) * 0.5f), projectile.knockBack, projectile.owner);
-				if (Main.projectile[proj].modProjectile is MarkOfZeusProj2 modItem)
+				int proj = Projectile.NewProjectile(Projectile.Center, direction, ModContent.ProjectileType<MarkOfZeusProj2>(), (int)(Projectile.damage * Math.Sqrt(counter) * 0.5f), Projectile.knockBack, Projectile.owner);
+				if (Main.projectile[proj].ModProjectile is MarkOfZeusProj2 modItem)
 					modItem.charge = counter;
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
 			float growScale = growCounter > 10 ? 1 : (growCounter / 10f);
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			var effects = player.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 
 			lightColor = Color.White;
 
@@ -185,12 +187,12 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 				float progress = glowCounter % 1;
 				float transparency = (float)Math.Pow(1 - progress, 2);
 				float scale = 1 + progress;
-				spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY), new Rectangle(0, 0, tex.Width, tex.Height / 2),
-					lightColor * transparency, projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 4), projectile.scale * new Vector2(1, 0.75f + counter / 30f) * growScale * scale, effects, 0);
+				spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle(0, 0, tex.Width, tex.Height / 2),
+					lightColor * transparency, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 4), Projectile.scale * new Vector2(1, 0.75f + counter / 30f) * growScale * scale, effects, 0);
 			}
 
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY), new Rectangle(0, 0, tex.Width, tex.Height / 2),
-				lightColor, projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 4), projectile.scale * new Vector2(1, 0.75f + counter / 30f) * growScale, effects, 0);
+			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle(0, 0, tex.Width, tex.Height / 2),
+				lightColor, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 4), Projectile.scale * new Vector2(1, 0.75f + counter / 30f) * growScale, effects, 0);
 
 			if (counter >= 15 && flickerTime < 16)
 			{
@@ -200,8 +202,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 				if (alpha < 0)
 					alpha = 0;
 
-				spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY), new Rectangle(0, tex.Height / 2, tex.Width, tex.Height / 2), 
-					Color.White * alpha, projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 4), projectile.scale * new Vector2(1, 0.75f + counter / 30f) * growScale, effects, 0);
+				spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle(0, tex.Height / 2, tex.Width, tex.Height / 2), 
+					Color.White * alpha, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 4), Projectile.scale * new Vector2(1, 0.75f + counter / 30f) * growScale, effects, 0);
 			}
 			return false;
 		}
@@ -214,8 +216,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mark Of Zeus");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public float charge;
@@ -223,20 +225,20 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 36;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.penetrate = 2;
-			projectile.timeLeft = 600;
-			projectile.extraUpdates = 5;
-			projectile.light = 0;
-			aiType = ProjectileID.ThrowingKnife;
-			projectile.alpha = 255;
+			Projectile.width = 8;
+			Projectile.height = 36;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = 2;
+			Projectile.timeLeft = 600;
+			Projectile.extraUpdates = 5;
+			Projectile.light = 0;
+			AIType = ProjectileID.ThrowingKnife;
+			Projectile.alpha = 255;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => projectile.timeLeft = 0;
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => Projectile.timeLeft = 0;
 
 		public override void AI()
 		{
@@ -245,7 +247,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 				initialized = true;
 				if (Main.netMode != NetmodeID.Server)
 				{
-					trail = new MarkOfZeusPrimTrailTwo(projectile, 2f * (float)(Math.Sqrt(charge) / 5));
+					trail = new MarkOfZeusPrimTrailTwo(Projectile, 2f * (float)(Math.Sqrt(charge) / 5));
 					SpiritMod.primitives.CreateTrail(trail);
 				}
 			}
@@ -256,8 +258,8 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 			{
 				int timeLeft = Main.rand.Next(40, 100);
 				StarParticle particle = new StarParticle(
-				projectile.Center,
-				projectile.velocity.RotatedBy(Main.rand.NextFloat(-1.57f, 1.57f)) * 0.3f,
+				Projectile.Center,
+				Projectile.velocity.RotatedBy(Main.rand.NextFloat(-1.57f, 1.57f)) * 0.3f,
 				Color.Gold,
 				Main.rand.NextFloat(0.1f, 0.2f),
 				timeLeft);
@@ -269,18 +271,18 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 		public override void Kill(int timeLeft)
 		{
 			SpiritMod.tremorTime = (int)(charge * 0.66f);
-			Main.PlaySound(SoundID.Item70, projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item70, Projectile.Center);
 
 			for (double i = 0; i < 6.28; i += Main.rand.NextFloat(1f, 2f))
 			{
-				int lightningproj = Projectile.NewProjectile(projectile.Center + projectile.velocity - (new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 5f), new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<MarkOfZeusProj3>(), projectile.damage, projectile.knockBack, projectile.owner, charge);
+				int lightningproj = Projectile.NewProjectile(Projectile.Center + Projectile.velocity - (new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 5f), new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<MarkOfZeusProj3>(), Projectile.damage, Projectile.knockBack, Projectile.owner, charge);
 				Main.projectile[lightningproj].timeLeft = (int)(30 * Math.Sqrt(charge));
 			}
 
 			for (double i = 0; i < 6.28; i += 0.15)
 			{
-				Dust dust = Dust.NewDustPerfect(projectile.Center + projectile.velocity, 133, new Vector2((float)Math.Sin(i) * Main.rand.NextFloat(3f) * (float)(Math.Sqrt(charge) / 3), (float)Math.Cos(i)) * Main.rand.NextFloat(4f) * (float)(Math.Sqrt(charge) / 3));
-				Dust dust2 = Dust.NewDustPerfect(projectile.Center + projectile.velocity, 133, new Vector2((float)Math.Sin(i) * Main.rand.NextFloat(1.8f) * (float)(Math.Sqrt(charge) / 3), (float)Math.Cos(i)) * Main.rand.NextFloat(2.4f) * (float)(Math.Sqrt(charge) / 3));
+				Dust dust = Dust.NewDustPerfect(Projectile.Center + Projectile.velocity, 133, new Vector2((float)Math.Sin(i) * Main.rand.NextFloat(3f) * (float)(Math.Sqrt(charge) / 3), (float)Math.Cos(i)) * Main.rand.NextFloat(4f) * (float)(Math.Sqrt(charge) / 3));
+				Dust dust2 = Dust.NewDustPerfect(Projectile.Center + Projectile.velocity, 133, new Vector2((float)Math.Sin(i) * Main.rand.NextFloat(1.8f) * (float)(Math.Sqrt(charge) / 3), (float)Math.Cos(i)) * Main.rand.NextFloat(2.4f) * (float)(Math.Sqrt(charge) / 3));
 				dust.noGravity = true;
 				dust2.noGravity = true;
 				dust.scale = 0.75f;
@@ -289,7 +291,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 
 			for (int j = 0; j < 13; j++)
 			{
-				var particle = new StarParticle(projectile.Center + Main.rand.NextVector2Circular(10, 10) + projectile.velocity, Main.rand.NextVector2Circular(7, 5), 
+				var particle = new StarParticle(Projectile.Center + Main.rand.NextVector2Circular(10, 10) + Projectile.velocity, Main.rand.NextVector2Circular(7, 5), 
 					Color.Gold, Main.rand.NextFloat(0.1f, 0.2f), Main.rand.Next(30, 60));
 				ParticleHandler.SpawnParticle(particle);
 			}
@@ -305,18 +307,18 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 
 		public override void SetDefaults()
 		{
-			projectile.width = 32;
-			projectile.height = 32;
-			projectile.aiStyle = -1;
-			projectile.magic = true;
-			projectile.penetrate = -1;
-			projectile.hostile = false;
-			projectile.friendly = true;
-			projectile.tileCollide = false;
-			projectile.damage = 0;
-			projectile.timeLeft = 300;
-			projectile.alpha = 255;
-			projectile.extraUpdates = 12;
+			Projectile.width = 32;
+			Projectile.height = 32;
+			Projectile.aiStyle = -1;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = -1;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
+			Projectile.tileCollide = false;
+			Projectile.damage = 0;
+			Projectile.timeLeft = 300;
+			Projectile.alpha = 255;
+			Projectile.extraUpdates = 12;
 		}
 
 		Vector2 initialVelocity = Vector2.Zero;
@@ -330,7 +332,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 				initialized = true;
 				if (Main.netMode != NetmodeID.Server)
 				{
-					trail = new MarkOfZeusPrimTrail(projectile, 2f * (float)(Math.Sqrt(projectile.ai[0]) / 3));
+					trail = new MarkOfZeusPrimTrail(Projectile, 2f * (float)(Math.Sqrt(Projectile.ai[0]) / 3));
 					SpiritMod.primitives.CreateTrail(trail);
 				}
 			}
@@ -338,12 +340,12 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 			trail?.AddPoints();
 
 			if (initialVelocity == Vector2.Zero)
-				initialVelocity = projectile.velocity;
+				initialVelocity = Projectile.velocity;
 
-			if (projectile.timeLeft % 10 == 0)
-				projectile.velocity = initialVelocity.RotatedBy(Main.rand.NextFloat(-1, 1));
+			if (Projectile.timeLeft % 10 == 0)
+				Projectile.velocity = initialVelocity.RotatedBy(Main.rand.NextFloat(-1, 1));
 
-			DrawPos = projectile.position;
+			DrawPos = Projectile.position;
 		}
 	}
 }

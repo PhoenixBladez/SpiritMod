@@ -13,17 +13,17 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 30;
+			Projectile.width = 30;
+			Projectile.height = 30;
 
-			projectile.aiStyle = 3;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.penetrate = 6;
-			projectile.light = 0.3f;
-			projectile.extraUpdates = 1;
-			aiType = ProjectileID.PossessedHatchet;
-			projectile.tileCollide = false;
+			Projectile.aiStyle = 3;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = 6;
+			Projectile.light = 0.3f;
+			Projectile.extraUpdates = 1;
+			AIType = ProjectileID.PossessedHatchet;
+			Projectile.tileCollide = false;
 		}
 
 

@@ -12,7 +12,7 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
 {
 	public class BlueLightsSmall : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -24,13 +24,13 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
 			TileObjectData.newTile.AnchorBottom = default(AnchorData);
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-			dustType = DustID.Dirt;//ModContent.DustType<Pixel>();
+			DustType = DustID.Dirt;//ModContent.DustType<Pixel>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Fairy Lights");
-			adjTiles = new int[] { TileID.Torches };
+			AdjTiles = new int[] { TileID.Torches };
             AddMapEntry(new Color(82, 125, 255), name);
-            disableSmartCursor = true;
-            dustType = -1;
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            DustType = -1;
             //TODO	Main.highlightMaskTexture[Type] = mod.GetTexture("Tiles/ScoreBoard_Outline");
         }
 
@@ -56,12 +56,12 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
         {
             Tile tile = Framing.GetTileSafely(i, j);
             {
-                Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
+                Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
 
-                Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/Furniture/NeonLights/BlueLightsSmall_Glow");
+                Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/NeonLights/BlueLightsSmall_Glow");
                 Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
-                spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
+                spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), colour);
             }
         }
     }

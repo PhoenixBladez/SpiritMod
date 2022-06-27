@@ -15,10 +15,10 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 
 		public Kelp2x3()
 		{
-			glowmask = ModContent.GetTexture("SpiritMod/Tiles/Ambient/Kelp/Kelp2x3_Glow");
+			glowmask = ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/Kelp/Kelp2x3_Glow");
 		}
 
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -37,8 +37,8 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 			TileObjectData.newTile.RandomStyleRange = 1;
 			TileObjectData.addTile(Type);
 
-			disableSmartCursor = true;
-			dustType = DustID.Grass;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType = DustID.Grass;
 
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Kelp");
@@ -49,7 +49,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
-			if (Framing.GetTileSafely(i, j).frameY == 18) {
+			if (Framing.GetTileSafely(i, j).TileFrameY == 18) {
 				r = 0.3f * 1.5f;
 				g = 0.3f * 1.5f;
 				b = 0;
@@ -60,7 +60,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 		{
 			Tile t = Framing.GetTileSafely(i, j);
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
-			spriteBatch.Draw(glowmask, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(t.frameX, t.frameY, 16, 16), Color.LightYellow);
+			spriteBatch.Draw(glowmask, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(t.TileFrameX, t.TileFrameY, 16, 16), Color.LightYellow);
 		}
 	}
 }

@@ -3,6 +3,7 @@ using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.AtlasDrops
 {
@@ -18,40 +19,39 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 		private Vector2 newVect;
 		public override void SetDefaults()
 		{
-			item.damage = 51;
-			item.noMelee = true;
-			item.ranged = true;
-			item.width = 20;
-			item.height = 40;
-			item.useTime = 24;
-			item.useAnimation = 24;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ProjectileID.Starfury;
-			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 6;
-			item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Cyan;
-			item.UseSound = SoundID.Item5;
-			item.autoReuse = true;
-			item.shootSpeed = 18f;
+			Item.damage = 51;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 20;
+			Item.height = 40;
+			Item.useTime = 24;
+			Item.useAnimation = 24;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ProjectileID.Starfury;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.knockBack = 6;
+			Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Cyan;
+			Item.UseSound = SoundID.Item5;
+			Item.autoReuse = true;
+			Item.shootSpeed = 18f;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Earthrock>(), damage, knockBack, player.whoAmI);
+			int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Earthrock>(), damage, knockback, player.whoAmI);
 			Projectile newProj = Main.projectile[proj];
 			newProj.friendly = true;
 			newProj.hostile = false;
-			Vector2 origVect = new Vector2(speedX, speedY);
-			for (int X = 0; X <= 2; X++) {
-				if (Main.rand.Next(2) == 1) {
+			Vector2 origVect = velocity;
+			for (int X = 0; X <= 2; X++)
+			{
+				if (Main.rand.NextBool(2))
 					newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(82, 1800) / 10));
-				}
-				else {
+				else
 					newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(82, 1800) / 10));
-				}
-				int proj2 = Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, type, damage, knockBack, player.whoAmI);
-				Projectile newProj2 = Main.projectile[proj2];
+				
+				Projectile.NewProjectile(source, position.X, position.Y, newVect.X, newVect.Y, type, damage, knockback, player.whoAmI);
 			}
 			return false;
 		}

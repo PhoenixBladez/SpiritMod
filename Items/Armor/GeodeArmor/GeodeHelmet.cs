@@ -15,22 +15,21 @@ namespace SpiritMod.Items.Armor.GeodeArmor
 		}
 		public override void SetDefaults()
 		{
-			item.width = 40;
-			item.height = 30;
-			item.value = Terraria.Item.sellPrice(0, 0, 75, 0);
-			item.rare = ItemRarityID.LightRed;
+			Item.width = 40;
+			Item.height = 30;
+			Item.value = Terraria.Item.sellPrice(0, 0, 75, 0);
+			Item.rare = ItemRarityID.LightRed;
 
-			item.vanity = true;
+			Item.vanity = true;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.CrystalShard, 2);
 			recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Tiles.AsteroidBlock>(), 20);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

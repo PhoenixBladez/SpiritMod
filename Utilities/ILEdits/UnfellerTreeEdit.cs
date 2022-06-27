@@ -59,7 +59,7 @@ namespace SpiritMod.Utilities.ILEdits
 			// We increment the cursor index by 1 to skip over the HitTile.Clear instruction
 			// Then we emit a delegate to push the type of the targetted tile onto the stack
 			cursor.Index++;
-			cursor.EmitDelegate<Func<ushort>>(() => Main.tile[Player.tileTargetX, Player.tileTargetY].type);
+			cursor.EmitDelegate<Func<ushort>>(() => Main.tile[Player.tileTargetX, Player.tileTargetY].TileType);
 
 			// Now we jump for the final time to the WorldGen.KillTile call at IL_af24
 			if (!cursor.TryGotoNext(i => i.MatchCall<WorldGen>("KillTile")))
@@ -89,7 +89,7 @@ namespace SpiritMod.Utilities.ILEdits
 				int currentY = Player.tileTargetY;
 				Tile currentTile = Framing.GetTileSafely(currentX, currentY);
 
-				while (!currentTile.active() || !Main.tileSolid[currentTile.type])
+				while (!currentTile.HasTile || !Main.tileSolid[currentTile.TileType])
 					currentTile = Framing.GetTileSafely(currentX, ++currentY);
 
 				// Now we finish up and plant a sapling above the tile we hit

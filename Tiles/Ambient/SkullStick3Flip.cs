@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class SkullStick3Flip : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -26,7 +26,7 @@ namespace SpiritMod.Tiles.Ambient
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Skull Stick");
 			AddMapEntry(new Color(107, 90, 64), name);
-			adjTiles = new int[] { TileID.Lamps };
+			AdjTiles = new int[] { TileID.Lamps };
 		}
 
 	}

@@ -1,6 +1,4 @@
-
 using Microsoft.Xna.Framework;
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,9 +14,9 @@ namespace SpiritMod.Projectiles.Held
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Trident);
+			Projectile.CloneDefaults(ProjectileID.Trident);
 
-			aiType = ProjectileID.Trident;
+			AIType = ProjectileID.Trident;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -28,14 +26,10 @@ namespace SpiritMod.Projectiles.Held
 				int deviation = Main.rand.Next(0, 300);
 				for (int i = 0; i < n; i++) {
 					float rotation = MathHelper.ToRadians(270 / n * i + deviation);
-					Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(rotation);
-					perturbedSpeed.Normalize();
-					perturbedSpeed.X *= 5.5f;
-					perturbedSpeed.Y *= 5.5f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.TinyEater, projectile.damage / 2, projectile.knockBack, projectile.owner);
+					Vector2 perturbedSpeed = Vector2.Normalize(new Vector2(Projectile.velocity.X, Projectile.velocity.Y).RotatedBy(rotation)) * 5.5f;
+					Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.TinyEater, Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
 				}
 			}
 		}
-
 	}
 }

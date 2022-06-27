@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Consumable.Quest;
 using SpiritMod.NPCs.Boss.Scarabeus;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +14,7 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class ScarabIdol : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = true;
@@ -36,7 +37,7 @@ namespace SpiritMod.Tiles.Ambient
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Scarab Idol");
 			AddMapEntry(new Color(245, 179, 66), name);
-			dustType = DustID.GoldCoin;
+			DustType = DustID.GoldCoin;
 		}
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
@@ -48,7 +49,7 @@ namespace SpiritMod.Tiles.Ambient
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<ScarabIdolQuest>());
-			Main.PlaySound(SoundID.Zombie, (int)i * 16, (int)j * 16, 44);
+			SoundEngine.PlaySound(SoundID.Zombie, (int)i * 16, (int)j * 16, 44);
 			CombatText.NewText(new Rectangle((int)i * 16 + 10, (int)j * 16 - 10, 48, 48), new Color(204, 153, 0, 100),
 "Scarabs are pouring out from the walls!");
 			NPC.NewNPC((int)i * 16 + Main.rand.Next(-40, -30), (int)j * 16 + 5, ModContent.NPCType<Scarab>(), 0, 2, 1, 0, 0, Main.myPlayer);
@@ -61,7 +62,7 @@ namespace SpiritMod.Tiles.Ambient
 		{
 			Tile t = Main.tile[i, j];
 			Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-			if (t.frameX % 72 == 0 && t.frameY == 0) {
+			if (t.TileFrameX % 72 == 0 && t.TileFrameY == 0) {
 				Main.spriteBatch.Draw(Main.extraTexture[89], new Vector2(i * 16 - (int)Main.screenPosition.X - 6, j * 16 - (int)Main.screenPosition.Y - 9) + zero, null, new Color(245, 179, 66, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
 			return true;

@@ -17,11 +17,11 @@ namespace SpiritMod.Items.Sets.MarbleSet.MarbleArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 24;
-			item.value = Item.buyPrice(gold: 1, silver: 51);
-			item.rare = ItemRarityID.Green;
-			item.defense = 4;
+			Item.width = 28;
+			Item.height = 24;
+			Item.value = Item.buyPrice(gold: 1, silver: 51);
+			Item.rare = ItemRarityID.Green;
+			Item.defense = 4;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -36,11 +36,10 @@ namespace SpiritMod.Items.Sets.MarbleSet.MarbleArmor
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<MarbleChunk>(), 13);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

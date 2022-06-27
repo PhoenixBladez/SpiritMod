@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Block
 {
 	public class SpiritDirt : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileMerge[Type][ModContent.TileType<SpiritGrass>()] = true;
@@ -17,8 +17,8 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(173, 216, 230));
-			drop = ModContent.ItemType<SpiritDirtItem>();
-			dustType = DustID.Water_Space;
+			ItemDrop = ModContent.ItemType<SpiritDirtItem>();
+			DustType = DustID.Water_Space;
 		}
 	}
 }

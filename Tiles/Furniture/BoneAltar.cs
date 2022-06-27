@@ -12,7 +12,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class BoneAltar : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileSolid[Type] = false;
@@ -31,14 +31,14 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newTile.CoordinatePadding = 2;
 			TileObjectData.addTile(Type);
 
-			dustType = DustID.Fire;
+			DustType = DustID.Fire;
 
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Bone Altar");
 			AddMapEntry(Colors.RarityAmber, name);
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
@@ -47,7 +47,7 @@ namespace SpiritMod.Tiles.Furniture
 			b = .1f;
 		}
 
-		public override bool Dangersense(int i, int j, Player player) => true;
+		public override bool IsTileDangerous(int i, int j, Player player) => true;
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
@@ -57,8 +57,8 @@ namespace SpiritMod.Tiles.Furniture
 			{
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/BoneAltar_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Furniture/BoneAltar_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
 
 		public override void NearbyEffects(int i, int j, bool closer)
@@ -66,7 +66,7 @@ namespace SpiritMod.Tiles.Furniture
 			if (closer)
 			{
 				if (Main.rand.Next(20) == 0)
-					Dust.NewDust(new Vector2(i * 16, j * 16 - 10), 0, 16, DustID.Fire, 0.0f, -1, 0, new Color(), 0.5f);//Leave this line how it is, it uses int division
+					Dust.NewDust(new Vector2(i * 16, j * 16 - 10), 0, 16, DustID.Torch, 0.0f, -1, 0, new Color(), 0.5f);//Leave this line how it is, it uses int division
 			}
 		}
 
@@ -75,7 +75,7 @@ namespace SpiritMod.Tiles.Furniture
 			for (int a = 0; a < 30; a++)
 			{
 				Vector2 offset = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * new Vector2(40f, 40f);
-				int index1 = Dust.NewDust(new Vector2(i * 16, j * 16 - 30) + offset, 0, 0, DustID.Fire, 0.0f, 0.0f, 0, new Color(), 1f);
+				int index1 = Dust.NewDust(new Vector2(i * 16, j * 16 - 30) + offset, 0, 0, DustID.Torch, 0.0f, 0.0f, 0, new Color(), 1f);
 				Main.dust[index1].velocity = Vector2.Zero;
 			}
 

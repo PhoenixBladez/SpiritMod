@@ -132,7 +132,7 @@ namespace SpiritMod.UI.Elements
             if (ContainsPoint(new Vector2(Main.mouseX, Main.mouseY)))
             {
                 Main.LocalPlayer.mouseInterface = true;
-                Main.LocalPlayer.showItemIcon = false;
+                Main.LocalPlayer.cursorItemIconEnabled = false;
                 Main.ItemIconCacheUpdate(0);
             }
 

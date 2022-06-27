@@ -10,51 +10,51 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cleft Hopper");
-			Main.npcFrameCount[npc.type] = 7;
+			Main.npcFrameCount[NPC.type] = 7;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 28;
-			npc.dontCountMe = true;
-			npc.height = 24;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 5;
-			npc.HitSound = SoundID.NPCHit7;
-			npc.DeathSound = SoundID.NPCDeath4;
-			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)ModContent.ItemType<CleftItem>();
-			npc.knockBackResist = .45f;
-			npc.aiStyle = 67;
-			npc.npcSlots = 0;
-			aiType = NPCID.Snail;
-			Main.npcFrameCount[npc.type] = 7;
-			npc.dontTakeDamageFromHostiles = false;
+			NPC.width = 28;
+			NPC.dontCountMe = true;
+			NPC.height = 24;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 5;
+			NPC.HitSound = SoundID.NPCHit7;
+			NPC.DeathSound = SoundID.NPCDeath4;
+			Main.npcCatchable[NPC.type] = true;
+			NPC.catchItem = (short)ModContent.ItemType<CleftItem>();
+			NPC.knockBackResist = .45f;
+			NPC.aiStyle = 67;
+			NPC.npcSlots = 0;
+			AIType = NPCID.Snail;
+			Main.npcFrameCount[NPC.type] = 7;
+			NPC.dontTakeDamageFromHostiles = false;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Cleft/Cleft1"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Cleft/Cleft2"));
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Cleft/Cleft1").Type);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Cleft/Cleft2").Type);
 			}
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			return spawnInfo.player.ZoneUndergroundDesert && spawnInfo.spawnTileY > Main.rockLayer ? 0.11f : 0f;
+			return spawnInfo.Player.ZoneUndergroundDesert && spawnInfo.SpawnTileY > Main.rockLayer ? 0.11f : 0f;
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 		public override void AI()
 		{
-			npc.spriteDirection = npc.direction;
+			NPC.spriteDirection = NPC.direction;
 		}
 	}
 }

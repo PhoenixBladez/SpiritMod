@@ -8,7 +8,7 @@ namespace SpiritMod.Buffs.Glyph
 {
 	public class SanguineBleed : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crimson Bleed");
 			Description.SetDefault("You are rapidly losing blood.");

@@ -14,31 +14,31 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.CloneDefaults(ProjectileID.Shuriken);
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.friendly = true;
-			projectile.penetrate = 2;
-			projectile.alpha = 255;
-			projectile.timeLeft = 150;
-			projectile.tileCollide = true;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.CloneDefaults(ProjectileID.Shuriken);
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.friendly = true;
+			Projectile.penetrate = 2;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 150;
+			Projectile.tileCollide = true;
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.penetrate--;
-			if (projectile.penetrate <= 0)
-				projectile.Kill();
+			Projectile.penetrate--;
+			if (Projectile.penetrate <= 0)
+				Projectile.Kill();
 			else {
-				aiType = ProjectileID.Shuriken;
-				if (projectile.velocity.X != oldVelocity.X) {
-					projectile.velocity.X = -oldVelocity.X;
+				AIType = ProjectileID.Shuriken;
+				if (Projectile.velocity.X != oldVelocity.X) {
+					Projectile.velocity.X = -oldVelocity.X;
 				}
-				if (projectile.velocity.Y != oldVelocity.Y) {
-					projectile.velocity.Y = -oldVelocity.Y;
+				if (Projectile.velocity.Y != oldVelocity.Y) {
+					Projectile.velocity.Y = -oldVelocity.Y;
 				}
-				projectile.velocity *= 0.75f;
+				Projectile.velocity *= 0.75f;
 			}
 			return false;
 		}
@@ -46,8 +46,8 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			int num = 5;
 			for (int k = 0; k < 6; k++) {
-				int index2 = Dust.NewDust(projectile.position, 4, projectile.height, DustID.Blood, 0.0f, 0.0f, 0, new Color(), 1f);
-				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+				int index2 = Dust.NewDust(Projectile.position, 4, Projectile.height, DustID.Blood, 0.0f, 0.0f, 0, new Color(), 1f);
+				Main.dust[index2].position = Projectile.Center - Projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .8f;
 				Main.dust[index2].velocity *= 0f;
 				Main.dust[index2].noGravity = true;
@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			if (Main.rand.Next(18) <= 9 && player.statLife != player.statLifeMax2) {
 				int lifeToHeal = 0;
 

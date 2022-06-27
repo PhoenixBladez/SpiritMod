@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,15 +19,15 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.width = 12;
-			projectile.height = 12;
-			projectile.aiStyle = -1;
-			projectile.friendly = false;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 600;
-			projectile.alpha = 0;
-			projectile.tileCollide = true;
+			Projectile.hostile = false;
+			Projectile.width = 12;
+			Projectile.height = 12;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = false;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 600;
+			Projectile.alpha = 0;
+			Projectile.tileCollide = true;
 		}
 
 		bool chain = false;
@@ -39,14 +40,14 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 		{
 			alphaCounter += 0.04f;
 			if (!stuck) {
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+				Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 			}
-			projectile.timeLeft = 50;
-			leftValue = (int)projectile.ai[1];
+			Projectile.timeLeft = 50;
+			leftValue = (int)Projectile.ai[1];
 			if (leftValue < (double)Main.projectile.Length && leftValue != 0) {
 				Projectile other = Main.projectile[leftValue];
 				if (other.active) {
-					direction9 = other.Center - projectile.Center;
+					direction9 = other.Center - Projectile.Center;
 					distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y * direction9.Y));
 					chain = true;
 				}
@@ -58,14 +59,14 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 				chain = false;
 			}
 			if (stuck) {
-				projectile.velocity = Vector2.Zero;
+				Projectile.velocity = Vector2.Zero;
 			}
 			return true;
 		}
 		public override void AI()
 		{
 			if (stuck)
-				DoDustEffect(projectile.Center, 18f);
+				DoDustEffect(Projectile.Center, 18f);
 		}
 		private void DoDustEffect(Vector2 position, float distance, float minSpeed = 2f, float maxSpeed = 3f, object follow = null)
 		{
@@ -79,14 +80,14 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 			Main.dust[dust].velocity = vel;
 			Main.dust[dust].customData = follow;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(Color lightColor)
 		{
 			if (chain && distance < 2000 && stuck) {
 				Projectile other = Main.projectile[leftValue];
-				direction9 = other.Center - projectile.Center;
+				direction9 = other.Center - Projectile.Center;
 				direction9.Normalize();
 				//	direction9 *= 6;
-				ProjectileExtras.DrawChain(projectile.whoAmI, other.Center,
+				ProjectileExtras.DrawChain(Projectile.whoAmI, other.Center,
 				"SpiritMod/Projectiles/Summon/Zipline/Zipline_Chain", false, 0, true, direction9.X, direction9.Y);
 			}
 
@@ -95,24 +96,24 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (!stuck) {
-				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 52);
+				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 52);
 			}
-			if (oldVelocity.X != projectile.velocity.X) //if its an X axis collision
+			if (oldVelocity.X != Projectile.velocity.X) //if its an X axis collision
 				{
-				if (projectile.velocity.X > 0) {
-					projectile.rotation = 1.57f;
+				if (Projectile.velocity.X > 0) {
+					Projectile.rotation = 1.57f;
 				}
 				else {
-					projectile.rotation = 4.71f;
+					Projectile.rotation = 4.71f;
 				}
 			}
-			if (oldVelocity.Y != projectile.velocity.Y) //if its a Y axis collision
+			if (oldVelocity.Y != Projectile.velocity.Y) //if its a Y axis collision
 			{
-				if (projectile.velocity.Y > 0) {
-					projectile.rotation = 3.14f;
+				if (Projectile.velocity.Y > 0) {
+					Projectile.rotation = 3.14f;
 				}
 				else {
-					projectile.rotation = 0f;
+					Projectile.rotation = 0f;
 				}
 			}
 			stuck = true;

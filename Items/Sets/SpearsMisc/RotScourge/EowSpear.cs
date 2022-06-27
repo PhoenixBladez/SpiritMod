@@ -17,22 +17,22 @@ namespace SpiritMod.Items.Sets.SpearsMisc.RotScourge
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.width = 24;
-			item.height = 24;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.melee = true;
-			item.noMelee = true;
-			item.useAnimation = 32;
-			item.useTime = 32;
-			item.shootSpeed = 5f;
-			item.knockBack = 3f;
-			item.damage = 20;
-			item.value = Item.sellPrice(0, 1, 15, 0);
-			item.rare = ItemRarityID.Blue;
-			item.autoReuse = false;
-			item.shoot = ModContent.ProjectileType<EoWSpearProj>();
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.width = 24;
+			Item.height = 24;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.DamageType = DamageClass.Melee;
+			Item.noMelee = true;
+			Item.useAnimation = 32;
+			Item.useTime = 32;
+			Item.shootSpeed = 5f;
+			Item.knockBack = 3f;
+			Item.damage = 20;
+			Item.value = Item.sellPrice(0, 1, 15, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.autoReuse = false;
+			Item.shoot = ModContent.ProjectileType<EoWSpearProj>();
 		}
 		public override Vector2? HoldoutOffset()
 		{

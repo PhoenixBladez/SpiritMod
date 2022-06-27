@@ -14,24 +14,23 @@ namespace SpiritMod.Items.DonatorItems.MoonMan
 
 		public override void SetDefaults()
 		{
-			item.width = 16;
-			item.height = 20;
+			Item.width = 16;
+			Item.height = 20;
 
-			item.value = Item.sellPrice(0, 0, 50, 0);
-			item.rare = ItemRarityID.Green;
+			Item.value = Item.sellPrice(0, 0, 50, 0);
+			Item.rare = ItemRarityID.Green;
 
-			item.vanity = true;
+			Item.vanity = true;
 		}
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.IronBar, 8);
 			recipe.AddIngredient(ItemID.SilverBar, 8);
 			recipe.AddIngredient(ItemID.MeteoriteBar, 8);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

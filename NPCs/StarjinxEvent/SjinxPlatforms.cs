@@ -4,6 +4,7 @@ using SpiritMod.Mechanics.CollideableNPC;
 using SpiritMod.Utilities;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,37 +14,37 @@ namespace SpiritMod.NPCs.StarjinxEvent
 	{
 		private const int FADEIN_TIME = 60;
 
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public bool Grappleable() => true;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Platform");
-			Main.npcFrameCount[npc.type] = 1;
+			Main.npcFrameCount[NPC.type] = 1;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 300;
-			npc.height = 24;
-			npc.damage = 0;
-			npc.defense = 28;
-			npc.lifeMax = 1200;
-			npc.aiStyle = -1;
-			npc.HitSound = SoundID.NPCDeath1;
-			npc.DeathSound = SoundID.NPCDeath10;
-			npc.value = 0;
-			npc.knockBackResist = 0f;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.dontCountMe = true;
-			npc.dontTakeDamage = true;
-			npc.alpha = 255;
+			NPC.width = 300;
+			NPC.height = 24;
+			NPC.damage = 0;
+			NPC.defense = 28;
+			NPC.lifeMax = 1200;
+			NPC.aiStyle = -1;
+			NPC.HitSound = SoundID.NPCDeath1;
+			NPC.DeathSound = SoundID.NPCDeath10;
+			NPC.value = 0;
+			NPC.knockBackResist = 0f;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.dontCountMe = true;
+			NPC.dontTakeDamage = true;
+			NPC.alpha = 255;
 		}
 
-		private ref float TimeActive => ref npc.ai[0];
-		private ref float Offset => ref npc.ai[1];
+		private ref float TimeActive => ref NPC.ai[0];
+		private ref float Offset => ref NPC.ai[1];
 
 		public override void AI()
 		{
@@ -55,23 +56,23 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				float BaseRiseSpeed = -2f;
 				float progress = TimeActive / FADEIN_TIME;
 
-				npc.velocity.Y = BaseRiseSpeed * (1 - progress);
-				npc.alpha = (int)(255 * (1 - progress));
+				NPC.velocity.Y = BaseRiseSpeed * (1 - progress);
+				NPC.alpha = (int)(255 * (1 - progress));
 			}
 			else //Sine wave movement afterwards
-				npc.velocity.Y = (float)Math.Sin((TimeActive + Offset - FADEIN_TIME) * 0.03f) * 0.4f;
+				NPC.velocity.Y = (float)Math.Sin((TimeActive + Offset - FADEIN_TIME) * 0.03f) * 0.4f;
 
 			TimeActive++;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			float fadeProgress = Math.Min(TimeActive / FADEIN_TIME, 1);
 			fadeProgress = EaseFunction.EaseQuarticIn.Ease(fadeProgress); //Nonlinear easing, starts slow then goes fast
 			drawColor = StarjinxGlobalNPC.GetColorBrightness(drawColor, 1f);
 			Color additiveCyan = new Color(74, 243, 255, 0);
 
-			Texture2D npcTex = Main.npcTexture[npc.type];
+			Texture2D npcTex = TextureAssets.Npc[NPC.type].Value;
 
 			int numToDraw = 8;
 			if (fadeProgress < 1)
@@ -84,13 +85,13 @@ namespace SpiritMod.NPCs.StarjinxEvent
 					Vector2 offset = Vector2.UnitX.RotatedBy(rotation) * offsetDist;
 					float opacity = (1 - fadeProgress) * 0.5f;
 
-					spriteBatch.Draw(npcTex, npc.Center + offset - Main.screenPosition, npc.frame, npc.GetAlpha(Color.Lerp(additiveCyan, drawColor, fadeProgress) * opacity),
-						npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
+					spriteBatch.Draw(npcTex, NPC.Center + offset - Main.screenPosition, NPC.frame, NPC.GetAlpha(Color.Lerp(additiveCyan, drawColor, fadeProgress) * opacity),
+						NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 				}
 			}
 
-			spriteBatch.Draw(npcTex, npc.Center - Main.screenPosition, npc.frame, npc.GetAlpha(Color.Lerp(additiveCyan, drawColor, fadeProgress)),
-				npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(npcTex, NPC.Center - Main.screenPosition, NPC.frame, NPC.GetAlpha(Color.Lerp(additiveCyan, drawColor, fadeProgress)),
+				NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 
 			return false;
 		}
@@ -103,8 +104,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			npc.width = 450;
-			npc.height = 30;
+			NPC.width = 450;
+			NPC.height = 30;
 		}
 	}
 
@@ -113,8 +114,8 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			npc.width = 600;
-			npc.height = 50;
+			NPC.width = 600;
+			NPC.height = 50;
 		}
 	}
 }

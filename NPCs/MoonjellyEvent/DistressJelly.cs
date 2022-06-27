@@ -6,6 +6,7 @@ using SpiritMod.NPCs.Boss.MoonWizard.Projectiles;
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,30 +17,30 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Distressed Jelly");
-			Main.npcFrameCount[npc.type] = 6;
+			Main.npcFrameCount[NPC.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 12;
-			npc.height = 20;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.lifeMax = 5;
-			npc.HitSound = SoundID.NPCHit25;
-			npc.DeathSound = SoundID.NPCDeath28;
-            npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[BuffID.Venom] = true;
-            npc.value = 0f;
-			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)ModContent.ItemType<DistressJellyItem>();
-			npc.knockBackResist = .45f;
-			npc.aiStyle = 64;
-            npc.scale = 1f;
-			npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.rarity = 3;
-            aiType = NPCID.Firefly;
+			NPC.width = 12;
+			NPC.height = 20;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.lifeMax = 5;
+			NPC.HitSound = SoundID.NPCHit25;
+			NPC.DeathSound = SoundID.NPCDeath28;
+            NPC.buffImmune[BuffID.Poisoned] = true;
+            NPC.buffImmune[BuffID.Venom] = true;
+            NPC.value = 0f;
+			Main.npcCatchable[NPC.type] = true;
+			NPC.catchItem = (short)ModContent.ItemType<DistressJellyItem>();
+			NPC.knockBackResist = .45f;
+			NPC.aiStyle = 64;
+            NPC.scale = 1f;
+			NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.rarity = 3;
+            AIType = NPCID.Firefly;
 		}
 		public override bool? CanBeHitByProjectile(Projectile projectile) => !projectile.minion;
 
@@ -47,49 +48,49 @@ namespace SpiritMod.NPCs.MoonjellyEvent
         {
             for (int k = 0; k < 15; k++)
             {
-                Dust d = Dust.NewDustPerfect(npc.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, default, 0.65f);
+                Dust d = Dust.NewDustPerfect(NPC.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, default, 0.65f);
                 d.noGravity = true;
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DistressJelly/DistressJelly1"));
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DistressJelly/DistressJelly2"));
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DistressJelly/DistressJelly1").Type);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DistressJelly/DistressJelly2").Type);
             }
 		}
 		public override void AI()
         {
-            npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + 1.57f;
-            Lighting.AddLight(new Vector2(npc.Center.X, npc.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);
+            NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X) + 1.57f;
+            Lighting.AddLight(new Vector2(NPC.Center.X, NPC.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);
 
         }
         public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
-            npc.DropItem(ItemID.Gel);
+            NPC.DropItem(ItemID.Gel);
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-                             drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+                             drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Main.spriteBatch.Draw(
-                mod.GetTexture("NPCs/MoonjellyEvent/DistressJelly_Glow"),
-				npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
-				npc.frame,
+                Mod.GetTexture("NPCs/MoonjellyEvent/DistressJelly_Glow"),
+				NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY),
+				NPC.frame,
 				Color.White,
-				npc.rotation,
-				npc.frame.Size() / 2,
-				npc.scale,
+				NPC.rotation,
+				NPC.frame.Size() / 2,
+				NPC.scale,
 				SpriteEffects.None,
 				0
 			);

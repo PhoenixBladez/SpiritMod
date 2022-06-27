@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Terraria;
+using Terraria.GameContent;
 using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
 
@@ -24,7 +25,7 @@ namespace SpiritMod.UI.Elements
 
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Main.blackTileTexture, base.GetDimensions().ToRectangle(), null, Color);
+            spriteBatch.Draw(TextureAssets.BlackTile.Value, base.GetDimensions().ToRectangle(), null, Color);
         }
     }
 }

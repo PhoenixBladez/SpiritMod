@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,43 +12,43 @@ namespace SpiritMod.Projectiles.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rune Book");
-			Main.projFrames[projectile.type] = 4;
+			Main.projFrames[Projectile.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 28;
-			projectile.height = 32;
-			projectile.timeLeft = 100;
-			projectile.hostile = false;
-			projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.extraUpdates = 1;
+			Projectile.width = 28;
+			Projectile.height = 32;
+			Projectile.timeLeft = 100;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
+			Projectile.ignoreWater = true;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void AI()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter >= 6) {
-				projectile.frame++;
-				projectile.frameCounter = 0;
-				if (projectile.frame >= 4)
-					projectile.frame = 0;
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter >= 6) {
+				Projectile.frame++;
+				Projectile.frameCounter = 0;
+				if (Projectile.frame >= 4)
+					Projectile.frame = 0;
 			}
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
+			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
 			for (int k = 0; k < 15; k++) {
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+				Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.UnusedWhiteBluePurple, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
 			}
 			for (int h = 0; h < 7; h++) {
 				Vector2 vel = new Vector2(0, -1);
 				float rand = Main.rand.NextFloat() * (float)Math.PI;
 				vel = vel.RotatedBy(rand);
 				vel *= 6f;
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y + 20, vel.X, vel.Y, ModContent.ProjectileType<Rune>(), projectile.damage, 0, projectile.owner);
+				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y + 20, vel.X, vel.Y, ModContent.ProjectileType<Rune>(), Projectile.damage, 0, Projectile.owner);
 			}
 		}
 

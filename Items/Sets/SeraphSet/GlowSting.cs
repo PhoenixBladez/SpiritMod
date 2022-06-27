@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
 using SpiritMod.Projectiles.Held;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,39 +15,39 @@ namespace SpiritMod.Items.Sets.SeraphSet
 		{
 			DisplayName.SetDefault("Seraph's Strike");
 			Tooltip.SetDefault("Right-click to release a flurry of strikes");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/SeraphSet/GlowSting_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/SeraphSet/GlowSting_Glow");
 		}
 
 		int currentHit;
 		public override void SetDefaults()
 		{
-			item.damage = 47;
-			item.melee = true;
-			item.width = 34;
-			item.height = 40;
-			item.autoReuse = true;
-			item.useTime = 15;
-			item.useAnimation = 15;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 6;
-			item.value = Item.sellPrice(0, 1, 20, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.UseSound = SoundID.Item1;
-			item.shoot = ModContent.ProjectileType<GlowStingSpear>();
-			item.shootSpeed = 10f;
+			Item.damage = 47;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 34;
+			Item.height = 40;
+			Item.autoReuse = true;
+			Item.useTime = 15;
+			Item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 6;
+			Item.value = Item.sellPrice(0, 1, 20, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item1;
+			Item.shoot = ModContent.ProjectileType<GlowStingSpear>();
+			Item.shootSpeed = 10f;
 			this.currentHit = 0;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Sets/SeraphSet/GlowSting_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/SeraphSet/GlowSting_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -69,30 +70,30 @@ namespace SpiritMod.Items.Sets.SeraphSet
 		public override bool CanUseItem(Player player)
 		{
 			if (player.altFunctionUse == 2) {
-				item.noUseGraphic = true;
-				item.shoot = ModContent.ProjectileType<GlowStingSpear>();
-				item.useStyle = ItemUseStyleID.HoldingOut;
-				item.useTime = 7;
-				item.useAnimation = 7;
-				item.damage = 34;
-				item.knockBack = 2;
-				item.shootSpeed = 8f;
+				Item.noUseGraphic = true;
+				Item.shoot = ModContent.ProjectileType<GlowStingSpear>();
+				Item.useStyle = ItemUseStyleID.Shoot;
+				Item.useTime = 7;
+				Item.useAnimation = 7;
+				Item.damage = 34;
+				Item.knockBack = 2;
+				Item.shootSpeed = 8f;
 			}
 			else {
-				item.damage = 47;
-				item.noUseGraphic = false;
-				item.useTime = 25;
-				item.useAnimation = 25;
-				item.shoot = ProjectileID.None;
-				item.knockBack = 5;
-				item.useStyle = ItemUseStyleID.SwingThrow;
-				item.shootSpeed = 0f;
+				Item.damage = 47;
+				Item.noUseGraphic = false;
+				Item.useTime = 25;
+				Item.useAnimation = 25;
+				Item.shoot = ProjectileID.None;
+				Item.knockBack = 5;
+				Item.useStyle = ItemUseStyleID.Swing;
+				Item.shootSpeed = 0f;
 			}
-			if (player.ownedProjectileCounts[item.shoot] > 0)
+			if (player.ownedProjectileCounts[Item.shoot] > 0)
 				return false;
 			return true;
 		}
-		public override void UseStyle(Player player)
+		public override void UseStyle(Player player, Rectangle heldItemFrame)
 		{
 			if (player.altFunctionUse != 2) {
 				for (int projFinder = 0; projFinder < 300; ++projFinder) {
@@ -103,7 +104,7 @@ namespace SpiritMod.Items.Sets.SeraphSet
 				}
 			}
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (player.altFunctionUse == 2) {
 				Vector2 origVect = new Vector2(speedX, speedY);
@@ -123,11 +124,10 @@ namespace SpiritMod.Items.Sets.SeraphSet
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<MoonStone>(), 8);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -17,22 +18,22 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.Champagne
 		}
 		public override void SetDefaults()
 		{
-			item.useStyle = 100;
-			item.width = 40;
-			item.height = 32;
-			item.noUseGraphic = false;
-			item.UseSound = SoundID.Item1;
-			item.melee = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.useAnimation = 320;
-			item.useTime = 320;
-			item.shootSpeed = 8f;
-			item.value = Item.sellPrice(0, 0, 0, 0);
-			item.rare = ItemRarityID.Blue;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.shoot = ModContent.ProjectileType<ChampagneProj>();
-			item.maxStack = 999;
+			Item.useStyle = 100;
+			Item.width = 40;
+			Item.height = 32;
+			Item.noUseGraphic = false;
+			Item.UseSound = SoundID.Item1;
+			Item.DamageType = DamageClass.Melee;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.useAnimation = 320;
+			Item.useTime = 320;
+			Item.shootSpeed = 8f;
+			Item.value = Item.sellPrice(0, 0, 0, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.shoot = ModContent.ProjectileType<ChampagneProj>();
+			Item.maxStack = 999;
 		}
 	}
 	public class ChampagneProj : ModProjectile
@@ -40,32 +41,32 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.Champagne
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Champagne");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
 
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 90;
-			projectile.height = 90;
-			projectile.friendly = false;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.melee = true;
-			projectile.ownerHitCheck = true;
+			Projectile.width = 90;
+			Projectile.height = 90;
+			Projectile.friendly = false;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.ownerHitCheck = true;
 		}
 		bool released = false;
 		bool stopped = false;
 		Vector2 direction;
 		private float charge
 		{
-			get{return projectile.ai[0]; }
-			set{projectile.ai[0] = value; }
+			get{return Projectile.ai[0]; }
+			set{Projectile.ai[0] = value; }
 		}
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			if (player == Main.player[Main.myPlayer])
 			{
 			if (Main.MouseWorld.X > player.Center.X)
@@ -73,7 +74,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.Champagne
 			else
 				player.direction = -1;
 			}
-			projectile.Center = player.Center;
+			Projectile.Center = player.Center;
 			if (!stopped)
 			{
 				direction = Main.MouseWorld - player.Center;
@@ -81,10 +82,10 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.Champagne
 				player.itemAnimation -= (int)((charge + 50) / 6);
 				while (player.itemAnimation < 3)
 				{
-					Main.PlaySound(SoundID.Item1, projectile.Center);
+					SoundEngine.PlaySound(SoundID.Item1, Projectile.Center);
 					if (released && charge < 100)
 					{
-						projectile.active = false;
+						Projectile.active = false;
 						player.itemAnimation = 2;
 						player.itemTime = 2;
 						break;
@@ -95,7 +96,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.Champagne
 				if (charge < 100)
 					charge++;
 				if (charge == 99)
-					Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
+					SoundEngine.PlaySound(SoundID.NPCDeath7, Projectile.Center);
 				if (!player.channel || released)
 					released = true;
 				if (released)
@@ -114,29 +115,29 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.Champagne
 					if (Math.Abs(radians - throwingAngle) < 0.15f && charge >= 100)
 					{
 						stopped = true;
-						projectile.timeLeft = 60;
-						Projectile.NewProjectile(player.Center, direction * (charge / 6f), ModContent.ProjectileType<ChampagneCork>(), 1, projectile.knockBack, player.whoAmI);
+						Projectile.timeLeft = 60;
+						Projectile.NewProjectile(player.Center, direction * (charge / 6f), ModContent.ProjectileType<ChampagneCork>(), 1, Projectile.knockBack, player.whoAmI);
 						//for (int i = 0; i < 15; i++)
-							Projectile.NewProjectile(player.Center + direction * 20, direction * (float)Math.Sqrt(projectile.timeLeft), ModContent.ProjectileType<ChampagneLiquid>(), projectile.damage, projectile.knockBack, player.whoAmI);
+							Projectile.NewProjectile(player.Center + direction * 20, direction * (float)Math.Sqrt(Projectile.timeLeft), ModContent.ProjectileType<ChampagneLiquid>(), Projectile.damage, Projectile.knockBack, player.whoAmI);
 					}
 				}
 			}
 			else
 			{
-				if (projectile.timeLeft % 2 == 0)
-					Projectile.NewProjectile(player.Center + direction * 20, direction * (float)Math.Sqrt(projectile.timeLeft), ModContent.ProjectileType<ChampagneLiquid>(), projectile.damage, projectile.knockBack, player.whoAmI);
+				if (Projectile.timeLeft % 2 == 0)
+					Projectile.NewProjectile(player.Center + direction * 20, direction * (float)Math.Sqrt(Projectile.timeLeft), ModContent.ProjectileType<ChampagneLiquid>(), Projectile.damage, Projectile.knockBack, player.whoAmI);
 				player.itemAnimation++;
-				if (projectile.timeLeft == 2)
+				if (Projectile.timeLeft == 2)
 				{
 					player.HeldItem.stack -= 1;
 					player.itemAnimation = 2;
-					projectile.active = false;
+					Projectile.active = false;
 				}
 			}
 			player.itemTime = player.itemAnimation;
 
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
         {
             return false;
         }
@@ -146,29 +147,29 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.Champagne
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Champagne");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
 
 		}
 		public override void SetDefaults() {
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.friendly = true;
-			projectile.tileCollide = true;
-			projectile.ignoreWater = false;
-			projectile.ranged = true;
-			projectile.aiStyle = 1;
-			projectile.penetrate = 1;
+			Projectile.width = 8;
+			Projectile.height = 8;
+			Projectile.friendly = true;
+			Projectile.tileCollide = true;
+			Projectile.ignoreWater = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.aiStyle = 1;
+			Projectile.penetrate = 1;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Dig, projectile.Center);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			for(int i = 0; i < 8; i++)
 			{
 				int dusttype = (Main.rand.Next(3) == 0) ? 1 : 7;
-				Vector2 velocity = projectile.velocity.RotatedByRandom(Math.PI / 16) * Main.rand.NextFloat(0.3f);
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, dusttype, velocity.X, velocity.Y);
+				Vector2 velocity = Projectile.velocity.RotatedByRandom(Math.PI / 16) * Main.rand.NextFloat(0.3f);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dusttype, velocity.X, velocity.Y);
 			}
 		}
 	}
@@ -177,20 +178,20 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.Champagne
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Champagne");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
 
 		}
 		public override void SetDefaults() {
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.friendly = false;
-			projectile.tileCollide = true;
-			projectile.ignoreWater = false;
-			projectile.ranged = true;
-			projectile.aiStyle = 1;
-			projectile.penetrate = 1;
-			projectile.alpha = 255;
+			Projectile.width = 8;
+			Projectile.height = 8;
+			Projectile.friendly = false;
+			Projectile.tileCollide = true;
+			Projectile.ignoreWater = false;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.aiStyle = 1;
+			Projectile.penetrate = 1;
+			Projectile.alpha = 255;
 		}
 		bool primsCreated = false;
 		public override void AI()
@@ -198,7 +199,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.Champagne
 			if (!primsCreated)
 			{
 				primsCreated = true;
-				SpiritMod.primitives.CreateTrail(new ChampagnePrimTrail(projectile, new Color(250, 214, 165), (int)(2.5f * projectile.velocity.Length()), Main.rand.Next(15,25)));
+				SpiritMod.primitives.CreateTrail(new ChampagnePrimTrail(Projectile, new Color(250, 214, 165), (int)(2.5f * Projectile.velocity.Length()), Main.rand.Next(15,25)));
 			}
 		}
 	}

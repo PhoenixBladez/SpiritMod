@@ -13,14 +13,14 @@ namespace SpiritMod.Items.Accessory
 
 		public override void SetDefaults()
 		{
-            item.damage = 22;
-            item.summon = true;
-            item.knockBack = 1.5f;
-            item.width = 22;
-			item.height = 40;
-			item.value = Item.buyPrice(0, 3, 0, 0);
-			item.rare = ItemRarityID.Orange;
-			item.accessory = true;
+            Item.damage = 22;
+            Item.DamageType = DamageClass.Summon;
+            Item.knockBack = 1.5f;
+            Item.width = 22;
+			Item.height = 40;
+			Item.value = Item.buyPrice(0, 3, 0, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.accessory = true;
 		}
 	}
 }

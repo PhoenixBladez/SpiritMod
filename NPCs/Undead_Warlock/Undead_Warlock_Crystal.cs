@@ -15,30 +15,30 @@ namespace SpiritMod.NPCs.Undead_Warlock
 
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 34;
-			projectile.hostile = true;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.aiStyle = -1;
-			projectile.scale = 0.85f;
+			Projectile.width = 22;
+			Projectile.height = 34;
+			Projectile.hostile = true;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+			Projectile.aiStyle = -1;
+			Projectile.scale = 0.85f;
 		}
 		public override void AI()
 		{
-			if (!Main.npc[(int)projectile.ai[1]].active)
-				projectile.Kill();
+			if (!Main.npc[(int)Projectile.ai[1]].active)
+				Projectile.Kill();
 
-			if (projectile.ai[0] == 0)
+			if (Projectile.ai[0] == 0)
 			{
-				Location = projectile.Center - new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y - 90);
-				Location2 = projectile.Center - new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y - 90);
-				projectile.ai[0]++;
+				Location = Projectile.Center - new Vector2(Main.npc[(int)Projectile.ai[1]].Center.X, Main.npc[(int)Projectile.ai[1]].Center.Y - 90);
+				Location2 = Projectile.Center - new Vector2(Main.npc[(int)Projectile.ai[1]].Center.X, Main.npc[(int)Projectile.ai[1]].Center.Y - 90);
+				Projectile.ai[0]++;
 			}
 			else
 			{
 				Location2 = Location.RotatedBy((MathHelper.Pi / 180));
 				Location = Location2;
-				projectile.Center = Location + new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y - 90);
+				Projectile.Center = Location + new Vector2(Main.npc[(int)Projectile.ai[1]].Center.X, Main.npc[(int)Projectile.ai[1]].Center.Y - 90);
 			}
 
 			if (Main.rand.Next(28)==0)
@@ -55,8 +55,8 @@ namespace SpiritMod.NPCs.Undead_Warlock
 					}
 					int index2 = Dust.NewDust(new Vector2
 					(
-						projectile.position.X,
-						projectile.position.Y
+						Projectile.position.X,
+						Projectile.position.Y
 					), 22, 34, chosenDust, 0.0f, 0.0f, 200, new Color(), 1.2f);
 					Main.dust[index2].scale = scale;
 					Main.dust[index2].noGravity = true;
@@ -67,9 +67,9 @@ namespace SpiritMod.NPCs.Undead_Warlock
 			for (int i = 0; i < 200; i++)
 			{
 				NPC npc = Main.npc[i];
-				if (projectile.DistanceSQ(npc.Center) < 400f * 400f && !npc.boss && !npc.friendly && npc.damage > 0 && npc.type != ModContent.NPCType<Undead_Warlock>() && npc.active)
+				if (Projectile.DistanceSQ(npc.Center) < 400f * 400f && !npc.boss && !npc.friendly && npc.damage > 0 && npc.type != ModContent.NPCType<Undead_Warlock>() && npc.active)
 				{	
-					DrawDustBeetweenThisAndThat(projectile.Center, npc.Center);			
+					DrawDustBeetweenThisAndThat(Projectile.Center, npc.Center);			
 					npc.GetGlobalNPC<Undead_Warlock_NPC>().isNecrofied = true;
 					break;						
 				}			
@@ -79,10 +79,10 @@ namespace SpiritMod.NPCs.Undead_Warlock
 		public void DrawDustBeetweenThisAndThat(Vector2 vector3, Vector2 vector1)
 		{
 			healTimer++;
-			if (healTimer % 60 == 0 && Main.npc[(int)projectile.ai[1]].life < Main.npc[(int)projectile.ai[1]].lifeMax - 5)
+			if (healTimer % 60 == 0 && Main.npc[(int)Projectile.ai[1]].life < Main.npc[(int)Projectile.ai[1]].lifeMax - 5)
 			{
-				Main.npc[(int)projectile.ai[1]].life += 5;
-				Main.npc[(int)projectile.ai[1]].HealEffect(5, true);
+				Main.npc[(int)Projectile.ai[1]].life += 5;
+				Main.npc[(int)Projectile.ai[1]].HealEffect(5, true);
 			}
 				
 			Vector2 range = vector3 - vector1;

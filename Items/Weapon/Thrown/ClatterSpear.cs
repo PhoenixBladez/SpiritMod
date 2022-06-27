@@ -15,25 +15,25 @@ namespace SpiritMod.Items.Weapon.Thrown
 
 		public override void SetDefaults()
 		{
-			item.damage = 13;
-			item.noMelee = true;
-			item.channel = true; //Channel so that you can held the weapon [Important]
-			item.rare = ItemRarityID.Blue;
-			item.width = 18;
-			item.height = 18;
-			item.useTime = 15;
-			item.useAnimation = 45;
-            item.value = 22000;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = item.useAnimation = 24;
-			item.knockBack = 8;
-			item.melee = true;
-			item.noMelee = true;
+			Item.damage = 13;
+			Item.noMelee = true;
+			Item.channel = true; //Channel so that you can held the weapon [Important]
+			Item.rare = ItemRarityID.Blue;
+			Item.width = 18;
+			Item.height = 18;
+			Item.useTime = 15;
+			Item.useAnimation = 45;
+            Item.value = 22000;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = Item.useAnimation = 24;
+			Item.knockBack = 8;
+			Item.DamageType = DamageClass.Melee;
+			Item.noMelee = true;
 			//   item.UseSound = SoundID.Item20;
-			item.autoReuse = false;
-			item.noUseGraphic = true;
-			item.shoot = ModContent.ProjectileType<ClatterJavelinProj>();
-			item.shootSpeed = 0f;
+			Item.autoReuse = false;
+			Item.noUseGraphic = true;
+			Item.shoot = ModContent.ProjectileType<ClatterJavelinProj>();
+			Item.shootSpeed = 0f;
 		}
 	}
 }

@@ -16,28 +16,28 @@ namespace SpiritMod.Items.Weapon.Thrown
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.width = 30;
-			item.height = 50;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.ranged = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<EoWDaggerProj>();
-			item.useAnimation = 25;
-			item.consumable = true;
-			item.maxStack = 999;
-			item.useTime = 25;
-			item.shootSpeed = 8.5f;
-			item.damage = 15;
-			item.knockBack = 3.5f;
-			item.value = Item.sellPrice(0, 0, 0, 50);
-			item.value = Item.buyPrice(0, 0, 0, 60);
-			item.rare = ItemRarityID.Green;
-			item.autoReuse = false;
-			item.maxStack = 999;
-			item.consumable = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.width = 30;
+			Item.height = 50;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.DamageType = DamageClass.Ranged;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.shoot = ModContent.ProjectileType<EoWDaggerProj>();
+			Item.useAnimation = 25;
+			Item.consumable = true;
+			Item.maxStack = 999;
+			Item.useTime = 25;
+			Item.shootSpeed = 8.5f;
+			Item.damage = 15;
+			Item.knockBack = 3.5f;
+			Item.value = Item.sellPrice(0, 0, 0, 50);
+			Item.value = Item.buyPrice(0, 0, 0, 60);
+			Item.rare = ItemRarityID.Green;
+			Item.autoReuse = false;
+			Item.maxStack = 999;
+			Item.consumable = true;
 		}
 	}
 }

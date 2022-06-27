@@ -137,10 +137,10 @@ namespace SpiritMod.Mechanics.Trails
 
 		public static void ManualTrailSpawn(Projectile projectile)
 		{
-			if (projectile.modProjectile is IManualTrailProjectile)
+			if (projectile.ModProjectile is IManualTrailProjectile)
 			{
 				if (Main.netMode == NetmodeID.SinglePlayer)
-					(projectile.modProjectile as IManualTrailProjectile).DoTrailCreation(SpiritMod.TrailManager);
+					(projectile.ModProjectile as IManualTrailProjectile).DoTrailCreation(SpiritMod.TrailManager);
 
 				else
 					SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.SpawnTrail, projectile.whoAmI).Send();

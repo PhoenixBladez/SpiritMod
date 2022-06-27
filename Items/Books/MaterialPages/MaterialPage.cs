@@ -13,17 +13,17 @@ namespace SpiritMod.Items.Books.MaterialPages
 	public abstract class MaterialPage : ModItem
 	{
 		public override void SetDefaults() {
-			item.noMelee = true;
-			item.useTurn = true;
+			Item.noMelee = true;
+			Item.useTurn = true;
 			//item.channel = true; //Channel so that you can held the weapon [Important]
-			item.rare = ItemRarityID.Green;
-			item.width = 54;
-			item.height = 50;
-			item.useTime = 20;
-			item.useAnimation = 20;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.autoReuse = false;
-			item.noUseGraphic = false;
+			Item.rare = ItemRarityID.Green;
+			Item.width = 54;
+			Item.height = 50;
+			Item.useTime = 20;
+			Item.useAnimation = 20;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.autoReuse = false;
+			Item.noUseGraphic = false;
 		}
         public override Vector2? HoldoutOffset()
         {

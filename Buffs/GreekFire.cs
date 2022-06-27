@@ -12,7 +12,7 @@ namespace SpiritMod.Buffs
 		private readonly Color Blue = new Color(0, 114, 201);
 		private readonly Color Orange = new Color(255, 194, 89);
 
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Greek Fire");
 			Description.SetDefault("Set ablaze by the Gods themselves");

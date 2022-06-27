@@ -6,7 +6,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 {
 	public class AlphaBlade : ModItem
 	{
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetStaticDefaults()
 		{
@@ -16,23 +16,23 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 
 		public override void SetDefaults()
 		{
-			item.damage = 200;
-			item.melee = true;
-			item.width = 70;
-			item.height = 76;
-			item.useTime = 16;
-			item.useAnimation = 16;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 6;
-			item.value = Item.sellPrice(1, 0, 0, 0);
-			item.rare = 12;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
+			Item.damage = 200;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 70;
+			Item.height = 76;
+			Item.useTime = 16;
+			Item.useAnimation = 16;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 6;
+			Item.value = Item.sellPrice(1, 0, 0, 0);
+			Item.rare = 12;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<SpiritStar>(), 1);
 			recipe.AddIngredient(ItemID.LunarBar, 10);
 			recipe.AddIngredient(ItemID.FragmentVortex, 4);
@@ -40,8 +40,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 			recipe.AddIngredient(ItemID.FragmentSolar, 4);
 			recipe.AddIngredient(ItemID.FragmentStardust, 4);
 			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

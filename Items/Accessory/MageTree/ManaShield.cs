@@ -16,24 +16,23 @@ namespace SpiritMod.Items.Accessory.MageTree
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 36;
-			item.value = Item.sellPrice(0, 0, 80, 0);
-			item.rare = ItemRarityID.Green;
-			item.accessory = true;
+			Item.width = 36;
+			Item.height = 36;
+			Item.value = Item.sellPrice(0, 0, 80, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.accessory = true;
 		}
 
 		public override void SafeUpdateAccessory(Player player, bool hideVisual) => player.statManaMax2 += 20;
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<LeatherShield>());
 			recipe.AddIngredient(ItemID.FallenStar, 3);
             recipe.AddRecipeGroup("SpiritMod:PHMEvilMaterial", 2);
             recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

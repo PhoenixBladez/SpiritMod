@@ -1,4 +1,6 @@
 ﻿using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -15,20 +17,20 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
         public sealed override void SetStaticDefaults()
 		{
             SafeSetStaticDefaults();
-			Main.projFrames[projectile.type] = 3;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			Main.projFrames[Projectile.type] = 3;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
         public sealed override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.melee = true;
-			projectile.width = projectile.height = 80;
-			projectile.aiStyle = -1;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-            projectile.alpha = 255;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.width = Projectile.height = 80;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+            Projectile.alpha = 255;
             SafeSetDefaults();
 		}
         public virtual void SafeSetStaticDefaults() {}
@@ -48,20 +50,20 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
         protected int growCounter = 0;
         protected float charge
 		{
-			get {return projectile.ai[0];}
-			set {projectile.ai[0] = value;}
+			get {return Projectile.ai[0];}
+			set {Projectile.ai[0] = value;}
 		}
 
         public float radians
         {
             get
             {
-                Player player = Main.player[projectile.owner];
+                Player player = Main.player[Projectile.owner];
                 return player.itemRotation;
             }
             set
             {
-                Player player = Main.player[projectile.owner];
+                Player player = Main.player[Projectile.owner];
                 player.itemRotation = value;
                 if (player.direction != 1)
                 {
@@ -83,15 +85,15 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
         public override void AI()
         {
             SafeAI();
-            projectile.scale = growCounter < 10 ? (projectile.ai[0] / 10f) : 1;
-            Player player = Main.player[projectile.owner];
+            Projectile.scale = growCounter < 10 ? (Projectile.ai[0] / 10f) : 1;
+            Player player = Main.player[Projectile.owner];
             player.itemTime = 2;
             player.itemAnimation = 2;
-            projectile.scale = charge < 10 ? (charge / 10f) : 1;
+            Projectile.scale = charge < 10 ? (charge / 10f) : 1;
             player.ChangeDir(Main.MouseWorld.X > player.position.X ? 1 : -1);
 
-            projectile.Center = player.MountedCenter + (direction.RotatedBy(offset * player.direction) * (charge));
-            projectile.damage = minDamage + (int)((maxDamage - minDamage) * (charge / (float)chargeMax) * player.meleeDamage);
+            Projectile.Center = player.MountedCenter + (direction.RotatedBy(offset * player.direction) * (charge));
+            Projectile.damage = minDamage + (int)((maxDamage - minDamage) * (charge / (float)chargeMax) * player.meleeDamage);
             if (player.channel && !released)
             {
                 direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
@@ -108,14 +110,14 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
                 if(charge >= chargeMax && !maxcharge)
                 {
                     maxcharge = true;
-                    Main.PlaySound(SoundID.MaxMana, (int)player.MountedCenter.X, (int)player.MountedCenter.Y, 1, 1.5f, -0.2f);
+                    SoundEngine.PlaySound(SoundID.MaxMana, (int)player.MountedCenter.X, (int)player.MountedCenter.Y, 1, 1.5f, -0.2f);
                 }
             }
             else
             {
                 if (!released)
                 {
-                    Main.PlaySound(SoundID.Item, (int)player.MountedCenter.X, (int)player.MountedCenter.Y, 105, 0.5f + charge / (chargeMax / 2), 0.5f - charge / chargeMax);
+                    SoundEngine.PlaySound(SoundID.Item, (int)player.MountedCenter.X, (int)player.MountedCenter.Y, 105, 0.5f + charge / (chargeMax / 2), 0.5f - charge / chargeMax);
                     released = true;
                 }
                 offset += 0.2f;
@@ -128,7 +130,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
                 }
                 if (offset > maxOffset)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                 }
             }
             radians = direction.ToRotation() + (offset * player.direction);
@@ -136,15 +138,15 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
                 radians += 3.14f;
             SafePostAI();
         }
-        public SpriteEffects Effects => ((Main.player[projectile.owner].direction * (int)Main.player[projectile.owner].gravDir) < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+        public SpriteEffects Effects => ((Main.player[Projectile.owner].direction * (int)Main.player[Projectile.owner].gravDir) < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
         public float Truerotation => ((float)radians + 0.76f) - ((Effects == SpriteEffects.FlipHorizontally) ? MathHelper.PiOver2 : 0);
-        public Vector2 Origin => (Effects == SpriteEffects.FlipHorizontally) ? new Vector2(Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 3) : new Vector2(0, Main.projectileTexture[projectile.type].Height / 3);
-        public sealed override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public Vector2 Origin => (Effects == SpriteEffects.FlipHorizontally) ? new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / 3) : new Vector2(0, TextureAssets.Projectile[Projectile.type].Value.Height / 3);
+        public sealed override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
+            Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 			Color color = lightColor;
-			Main.spriteBatch.Draw(tex, Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, tex.Width, tex.Height / 3), color, Truerotation, Origin, projectile.scale, Effects, 0);
-            Main.spriteBatch.Draw(tex, Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 2 * (tex.Height / 3), tex.Width, tex.Height / 3), Color.White, Truerotation, Origin, projectile.scale, Effects, 0);
+			Main.spriteBatch.Draw(tex, Main.player[Projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, tex.Width, tex.Height / 3), color, Truerotation, Origin, Projectile.scale, Effects, 0);
+            Main.spriteBatch.Draw(tex, Main.player[Projectile.owner].Center - Main.screenPosition, new Rectangle(0, 2 * (tex.Height / 3), tex.Width, tex.Height / 3), Color.White, Truerotation, Origin, Projectile.scale, Effects, 0);
 			if (maxcharge && !released && flickerTime < 16) {
 				flickerTime++;
 				color = Color.White;
@@ -153,25 +155,25 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 				if (alpha < 0) {
 					alpha = 0;
 				}
-				Main.spriteBatch.Draw(tex, Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, tex.Height / 3, tex.Width, tex.Height / 3), color * alpha, Truerotation, Origin, projectile.scale, Effects, 1);
+				Main.spriteBatch.Draw(tex, Main.player[Projectile.owner].Center - Main.screenPosition, new Rectangle(0, tex.Height / 3, tex.Width, tex.Height / 3), color * alpha, Truerotation, Origin, Projectile.scale, Effects, 1);
 			}
             return false;
         }
-        public override bool CanDamage() => released; //only damage enemies before it hits four enemies(piercing but without killing projectile), and after it starts being swung
+        public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => released; //only damage enemies before it hits four enemies(piercing but without killing projectile), and after it starts being swung
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            Player player = Main.player[projectile.owner];
-            if (Collision.CheckAABBvLineCollision(targetHitbox.Center(), targetHitbox.Size(), player.Center, projectile.Center + (direction.RotatedBy(offset * player.direction) * 40)))
+            Player player = Main.player[Projectile.owner];
+            if (Collision.CheckAABBvLineCollision(targetHitbox.Center(), targetHitbox.Size(), player.Center, Projectile.Center + (direction.RotatedBy(offset * player.direction) * 40)))
                 return true;
 
             return projHitbox.Intersects(targetHitbox);
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
-            Player player = Main.player[projectile.owner];
-            hitbox.X = (int)(player.MountedCenter.X + (direction.RotatedBy(offset * player.direction) * Math.Min(charge + 40, chargeMax)).X) - projectile.height/2;
-            hitbox.Y = (int)(player.MountedCenter.Y + (direction.RotatedBy(offset * player.direction) * Math.Min(charge + 40, chargeMax)).Y) - projectile.width/2;
+            Player player = Main.player[Projectile.owner];
+            hitbox.X = (int)(player.MountedCenter.X + (direction.RotatedBy(offset * player.direction) * Math.Min(charge + 40, chargeMax)).X) - Projectile.height/2;
+            hitbox.Y = (int)(player.MountedCenter.Y + (direction.RotatedBy(offset * player.direction) * Math.Min(charge + 40, chargeMax)).Y) - Projectile.width/2;
         }
     }
 }

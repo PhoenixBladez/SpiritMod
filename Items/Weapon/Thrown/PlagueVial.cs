@@ -16,26 +16,26 @@ namespace SpiritMod.Items.Weapon.Thrown
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.width = 16;
-			item.height = 16;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item106;
-			item.ranged = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<PlagueVialFriendly>();
-			item.useAnimation = 24;
-			item.useTime = 24;
-			item.consumable = true;
-			item.maxStack = 999;
-			item.shootSpeed = 10.0f;
-			item.damage = 25;
-			item.knockBack = 4.5f;
-			item.value = Item.sellPrice(0, 0, 1, 0);
-			item.rare = ItemRarityID.Green;
-			item.autoReuse = false;
-			item.consumable = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.width = 16;
+			Item.height = 16;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item106;
+			Item.DamageType = DamageClass.Ranged;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.shoot = ModContent.ProjectileType<PlagueVialFriendly>();
+			Item.useAnimation = 24;
+			Item.useTime = 24;
+			Item.consumable = true;
+			Item.maxStack = 999;
+			Item.shootSpeed = 10.0f;
+			Item.damage = 25;
+			Item.knockBack = 4.5f;
+			Item.value = Item.sellPrice(0, 0, 1, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.autoReuse = false;
+			Item.consumable = true;
 		}
 	}
 }

@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 {
 	public class ShiverbarkTotemTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
             Main.tileSolidTop[Type] = false;
 			Main.tileFrameImportant[Type] = true;
@@ -32,15 +32,15 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 			name.SetDefault("Shiverbark Totem");
 			AddMapEntry(new Color(118, 155, 163), name);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
-			dustType = -1;
-			disableSmartCursor = true;
+			DustType = -1;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{
 			num = fail ? 1 : 3;
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}

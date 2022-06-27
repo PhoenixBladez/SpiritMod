@@ -16,12 +16,12 @@ namespace SpiritMod.Projectiles.Flail
 
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 900;
-			projectile.melee = true;
+			Projectile.width = 8;
+			Projectile.height = 8;
+			Projectile.friendly = true;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 900;
+			Projectile.DamageType = DamageClass.Melee;
 		}
 		//  bool comingHome = false;
 		int hookednpc = 0;
@@ -29,33 +29,33 @@ namespace SpiritMod.Projectiles.Flail
 		float returnSpeed = 7;
 		public override bool PreAI()
 		{
-			if (projectile.Hitbox.Intersects(Main.player[projectile.owner].Hitbox) && projectile.timeLeft < 870) {
-				projectile.active = false;
+			if (Projectile.Hitbox.Intersects(Main.player[Projectile.owner].Hitbox) && Projectile.timeLeft < 870) {
+				Projectile.active = false;
 			}
-			if (projectile.timeLeft < 859) {
-				Vector2 direction9 = Main.player[projectile.owner].Center - projectile.position;
+			if (Projectile.timeLeft < 859) {
+				Vector2 direction9 = Main.player[Projectile.owner].Center - Projectile.position;
 				direction9.Normalize();
-				projectile.velocity = direction9 * returnSpeed;
+				Projectile.velocity = direction9 * returnSpeed;
 				returnSpeed += 0.2f;
-				projectile.rotation = projectile.velocity.ToRotation() - 1.57f;
+				Projectile.rotation = Projectile.velocity.ToRotation() - 1.57f;
 			}
 			else {
-				projectile.velocity -= new Vector2(projectile.ai[0], projectile.ai[1]) / 40f;
-				projectile.rotation = new Vector2(projectile.ai[0], projectile.ai[1]).ToRotation() + 1.57f;
+				Projectile.velocity -= new Vector2(Projectile.ai[0], Projectile.ai[1]) / 40f;
+				Projectile.rotation = new Vector2(Projectile.ai[0], Projectile.ai[1]).ToRotation() + 1.57f;
 			}
-			Player player = Main.player[projectile.owner];
-			player.heldProj = projectile.whoAmI;
+			Player player = Main.player[Projectile.owner];
+			player.heldProj = Projectile.whoAmI;
 			player.itemTime = 2;
 			player.itemAnimation = 2;
 			if (!player.channel || hooked) {
-				projectile.timeLeft = 858;
-				projectile.friendly = false;
+				Projectile.timeLeft = 858;
+				Projectile.friendly = false;
 			}
 			NPC npc = Main.npc[hookednpc];
 			if (hooked && npc.active && player.channel) {
 				int distance = (int)Math.Sqrt((npc.Center.X - player.Center.X) * (npc.Center.X - player.Center.X) + (npc.Center.Y - player.Center.Y) * (npc.Center.Y - player.Center.Y));
-				if (distance > 100 && projectile.Distance(npc.Center) < 50) {
-					npc.velocity = projectile.velocity;
+				if (distance > 100 && Projectile.Distance(npc.Center) < 50) {
+					npc.velocity = Projectile.velocity;
 					npc.netUpdate = true;
 				}
 				else {
@@ -68,11 +68,11 @@ namespace SpiritMod.Projectiles.Flail
 		//projectile.ai[0]: X speed initial
 		//projectile.ai[1]: y speed initial
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			ProjectileExtras.DrawChain(projectile.whoAmI, Main.player[projectile.owner].MountedCenter,
+			ProjectileExtras.DrawChain(Projectile.whoAmI, Main.player[Projectile.owner].MountedCenter,
 			"SpiritMod/Projectiles/Flail/VineChain_Chain");
-			ProjectileExtras.DrawAroundOrigin(projectile.whoAmI, lightColor);
+			ProjectileExtras.DrawAroundOrigin(Projectile.whoAmI, lightColor);
 			return false;
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -80,29 +80,29 @@ namespace SpiritMod.Projectiles.Flail
 			if (!target.boss && target.knockBackResist != 0) {
 				hooked = true;
 				hookednpc = target.whoAmI;
-				target.position = projectile.position - new Vector2((target.width / 2), (target.height / 2));
+				target.position = Projectile.position - new Vector2((target.width / 2), (target.height / 2));
 				target.netUpdate = true;
 				//  target.velocity = projectile.velocity;
 			}
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (projectile.timeLeft >= 859) {
-				projectile.timeLeft = 800;
-				projectile.friendly = false;
+			if (Projectile.timeLeft >= 859) {
+				Projectile.timeLeft = 800;
+				Projectile.friendly = false;
 			}
 			else if (hooked) {
 				NPC npc = Main.npc[hookednpc];
 				if (npc.noTileCollide) {
-					projectile.tileCollide = false;
+					Projectile.tileCollide = false;
 				}
 				else {
 					hooked = false;
-					projectile.tileCollide = false;
+					Projectile.tileCollide = false;
 				}
 			}
 			else {
-				projectile.tileCollide = false;
+				Projectile.tileCollide = false;
 			}
 			return false;
 		}

@@ -3,6 +3,8 @@ using SpiritMod.Projectiles.Held;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
+
 namespace SpiritMod.Items.Sets.AvianDrops
 {
 	public class Talonginus : ModItem
@@ -17,32 +19,32 @@ namespace SpiritMod.Items.Sets.AvianDrops
 		int currentHit;
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 24;
-			item.value = Item.sellPrice(0, 1, 30, 0);
-			item.rare = ItemRarityID.Green;
-			item.crit = 3;
-			item.damage = 21;
-			item.knockBack = 2.5f;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = 9;
-			item.useAnimation = 9;
-			item.melee = true;
-			item.noMelee = true;
-			item.autoReuse = true;
-			item.noUseGraphic = true;
-			item.shoot = ModContent.ProjectileType<TalonginusProj>();
-			item.shootSpeed = 9f;
-			item.UseSound = SoundID.Item1;
+			Item.width = 24;
+			Item.height = 24;
+			Item.value = Item.sellPrice(0, 1, 30, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.crit = 3;
+			Item.damage = 21;
+			Item.knockBack = 2.5f;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useTime = 9;
+			Item.useAnimation = 9;
+			Item.DamageType = DamageClass.Melee;
+			Item.noMelee = true;
+			Item.autoReuse = true;
+			Item.noUseGraphic = true;
+			Item.shoot = ModContent.ProjectileType<TalonginusProj>();
+			Item.shootSpeed = 9f;
+			Item.UseSound = SoundID.Item1;
 			this.currentHit = 0;
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if (player.ownedProjectileCounts[item.shoot] > 0)
+			if (player.ownedProjectileCounts[Item.shoot] > 0)
 				return false;
 			return true;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			//create velocity vectors for the two angled projectiles (outwards at PI/15 radians)
 			Vector2 origVect = new Vector2(speedX, speedY);

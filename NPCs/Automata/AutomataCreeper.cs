@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -31,31 +32,31 @@ namespace SpiritMod.NPCs.Automata
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Arachmaton");
-			Main.npcFrameCount[npc.type] = 5;
+			Main.npcFrameCount[NPC.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 36;
-			npc.height = 36;
-			npc.damage = 70;
-			npc.defense = 30;
-			npc.lifeMax = 350;
-			npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = SoundID.NPCDeath14;
-			npc.value = 180f;
-			npc.knockBackResist = 0;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.buffImmune[BuffID.Venom] = true;
-			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
-			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
-			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
-			npc.noGravity = true;
+			NPC.width = 36;
+			NPC.height = 36;
+			NPC.damage = 70;
+			NPC.defense = 30;
+			NPC.lifeMax = 350;
+			NPC.HitSound = SoundID.NPCHit4;
+			NPC.DeathSound = SoundID.NPCDeath14;
+			NPC.value = 180f;
+			NPC.knockBackResist = 0;
+			NPC.buffImmune[BuffID.Poisoned] = true;
+			NPC.buffImmune[BuffID.Venom] = true;
+			NPC.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
+			NPC.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
+			NPC.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+			NPC.noGravity = true;
 			initialDirection = (Main.rand.Next(2) * 2) - 1;
 			moveDirection = new Vector2(initialDirection, 0);
-			npc.noTileCollide = true;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.ArachmatonBanner>();
+			NPC.noTileCollide = true;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.ArachmatonBanner>();
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -83,19 +84,19 @@ namespace SpiritMod.NPCs.Automata
 		public override void AI()
 		{
 			aiCounter++;
-			Lighting.AddLight((int)(npc.Center.X / 16f), (int)((npc.Center.Y + (npc.height / 2f)) / 16f), 0.1f * 2, 0.1f * 2, .1f * 2);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)((NPC.Center.Y + (NPC.height / 2f)) / 16f), 0.1f * 2, 0.1f * 2, .1f * 2);
 
 			if (aiCounter % TIMERAMOUNT == ATKAMOUNT)
 			{
 				attacking = true;
-				npc.frameCounter = 0;
-				oldVelocity = npc.velocity;
+				NPC.frameCounter = 0;
+				oldVelocity = NPC.velocity;
 			}
 
 			if (aiCounter % TIMERAMOUNT == 0)
 			{
 				attacking = false;
-				npc.velocity = oldVelocity;
+				NPC.velocity = oldVelocity;
 			}
 
 			if (!attacking)
@@ -106,39 +107,39 @@ namespace SpiritMod.NPCs.Automata
 
 		protected virtual void Attack()
 		{
-			npc.velocity = Vector2.Zero;
-			if (npc.frameCounter < 1)
+			NPC.velocity = Vector2.Zero;
+			if (NPC.frameCounter < 1)
 				shot = false;
 
-			if (npc.frameCounter > 2 && !shot)
+			if (NPC.frameCounter > 2 && !shot)
 			{
 				int glyphnum = Main.rand.Next(10);
-				DustHelper.DrawDustImage(npc.Center, 6, 0.05f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1.5f);
-				int proj = Projectile.NewProjectile(npc.Center, npc.velocity, ModContent.ProjectileType<AutomataCreeperProj>(), Main.expertMode ? 40 : 60, 4, npc.target, npc.ai[0], npc.ai[1]);
-				if (Main.projectile[proj].modProjectile is AutomataCreeperProj modproj)
+				DustHelper.DrawDustImage(NPC.Center, 6, 0.05f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1.5f);
+				int proj = Projectile.NewProjectile(NPC.Center, NPC.velocity, ModContent.ProjectileType<AutomataCreeperProj>(), Main.expertMode ? 40 : 60, 4, NPC.target, NPC.ai[0], NPC.ai[1]);
+				if (Main.projectile[proj].ModProjectile is AutomataCreeperProj modproj)
 					modproj.moveDirection = moveDirection;
 
 				shot = true;
 
 				if (Main.netMode == NetmodeID.MultiplayerClient)
 				{
-					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
+					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, NPC.whoAmI);
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj);
 				}
 			}
 		}
 
-		protected Vector2 Collide() => Collision.noSlopeCollision(npc.position, npc.velocity, npc.width, npc.height, true, true);
+		protected Vector2 Collide() => Collision.noSlopeCollision(NPC.position, NPC.velocity, NPC.width, NPC.height, true, true);
 
 		protected virtual void RotateCrawl()
 		{
-			float rotDifference = ((((npc.velocity.ToRotation() - npc.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+			float rotDifference = ((((NPC.velocity.ToRotation() - NPC.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 			if (Math.Abs(rotDifference) < 0.15f)
 			{
-				npc.rotation = npc.velocity.ToRotation();
+				NPC.rotation = NPC.velocity.ToRotation();
 				return;
 			}
-			npc.rotation += Math.Sign(rotDifference) * 0.1f;
+			NPC.rotation += Math.Sign(rotDifference) * 0.1f;
 		}
 
 		protected void Crawl()
@@ -146,116 +147,116 @@ namespace SpiritMod.NPCs.Automata
 			newVelocity = Collide();
 
 			if (Math.Abs(newVelocity.X) < 0.5f)
-				npc.collideX = true;
+				NPC.collideX = true;
 			else
-				npc.collideX = false;
+				NPC.collideX = false;
 			if (Math.Abs(newVelocity.Y) < 0.5f)
-				npc.collideY = true;
+				NPC.collideY = true;
 			else
-				npc.collideY = false;
+				NPC.collideY = false;
 
 			RotateCrawl();
 
-			if (npc.ai[0] == 0f)
+			if (NPC.ai[0] == 0f)
 			{
-				npc.TargetClosest(true);
+				NPC.TargetClosest(true);
 				moveDirection.Y = 1;
-				npc.ai[0] = 1f;
+				NPC.ai[0] = 1f;
 			}
 
-			if (npc.ai[1] == 0f)
+			if (NPC.ai[1] == 0f)
 			{
-				if (npc.collideY)
-					npc.ai[0] = 2f;
+				if (NPC.collideY)
+					NPC.ai[0] = 2f;
 
-				if (!npc.collideY && npc.ai[0] == 2f)
+				if (!NPC.collideY && NPC.ai[0] == 2f)
 				{
 					moveDirection.X = -moveDirection.X;
-					npc.ai[1] = 1f;
-					npc.ai[0] = 1f;
+					NPC.ai[1] = 1f;
+					NPC.ai[0] = 1f;
 				}
-				if (npc.collideX)
+				if (NPC.collideX)
 				{
 					moveDirection.Y = -moveDirection.Y;
-					npc.ai[1] = 1f;
+					NPC.ai[1] = 1f;
 				}
 			}
 			else
 			{
-				if (npc.collideX)
-					npc.ai[0] = 2f;
+				if (NPC.collideX)
+					NPC.ai[0] = 2f;
 
-				if (!npc.collideX && npc.ai[0] == 2f)
+				if (!NPC.collideX && NPC.ai[0] == 2f)
 				{
 					moveDirection.Y = -moveDirection.Y;
-					npc.ai[1] = 0f;
-					npc.ai[0] = 1f;
+					NPC.ai[1] = 0f;
+					NPC.ai[0] = 1f;
 				}
-				if (npc.collideY)
+				if (NPC.collideY)
 				{
 					moveDirection.X = -moveDirection.X;
-					npc.ai[1] = 0f;
+					NPC.ai[1] = 0f;
 				}
 			}
-			npc.velocity = SPEED * moveDirection;
-			npc.velocity = Collide();
+			NPC.velocity = SPEED * moveDirection;
+			NPC.velocity = Collide();
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 10; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Sunflower, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Wraith, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .55f));
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Sunflower, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Wraith, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .55f));
 			}
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Main.PlaySound(new LegacySoundStyle(4, 6).WithPitchVariance(0.2f), npc.Center);
+				SoundEngine.PlaySound(new LegacySoundStyle(4, 6).WithPitchVariance(0.2f), NPC.Center);
 				for (int i = 0; i < 4; ++i)
 				{
-					Gore.NewGore(npc.position, new Vector2(npc.velocity.X * .5f, npc.velocity.Y * .5f), 99);
+					Gore.NewGore(NPC.position, new Vector2(NPC.velocity.X * .5f, NPC.velocity.Y * .5f), 99);
 				}
 
 				for (int i = 1; i < 6; ++i)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AutomataCreeper/AutomataCreeper" + i), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AutomataCreeper/AutomataCreeper" + i).Type, 1f);
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.NextBool(100))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ArmorPolish);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.ArmorPolish);
 			if (Main.rand.NextBool(85))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.GoldenApple>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Accessory.GoldenApple>());
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, initialDirection != 1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition, NPC.frame, drawColor, NPC.rotation % 6.28f, NPC.frame.Size() / 2, NPC.scale, initialDirection != 1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 			return false;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => (spawnInfo.spawnTileType == TileID.Marble) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 1f : 0f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => (spawnInfo.SpawnTileType == TileID.Marble) && spawnInfo.SpawnTileY > Main.rockLayer && Main.hardMode ? 1f : 0f;
 
 		public override void FindFrame(int frameHeight)
 		{
 			// MULTIPLAYER FIX, textures arent loaded on server
 			// you might be able to use if (Main.dedServ) return; not sure tho
-			npc.frame.Width = 112 / 2;
+			NPC.frame.Width = 112 / 2;
 			//npc.frame.Width = Main.npcTexture[npc.type].Width / 2;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 			if (attacking)
 			{
-				npc.frameCounter += 0.20f;
-				npc.frame.X = 0;
+				NPC.frameCounter += 0.20f;
+				NPC.frame.X = 0;
 			}
 			else
 			{
-				npc.frameCounter += 0.20f;
-				npc.frame.X = npc.frame.Width;
+				NPC.frameCounter += 0.20f;
+				NPC.frame.X = NPC.frame.Width;
 			}
 		}
 	}
@@ -264,8 +265,8 @@ namespace SpiritMod.NPCs.Automata
 	{
 		public override void SetStaticDefaults()
 		{
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 			DisplayName.SetDefault("Cog");
 		}
 
@@ -279,24 +280,24 @@ namespace SpiritMod.NPCs.Automata
 
 		public override void SetDefaults()
 		{
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.hostile = true;
-			projectile.friendly = false;
-			projectile.width = projectile.height = 36;
-			projectile.timeLeft = 150;
-			projectile.ignoreWater = true;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.hostile = true;
+			Projectile.friendly = false;
+			Projectile.width = Projectile.height = 36;
+			Projectile.timeLeft = 150;
+			Projectile.ignoreWater = true;
 		}
 
 		public override void AI()
 		{
-			Dust.NewDustPerfect(new Vector2(projectile.position.X + Main.rand.Next(projectile.width), projectile.Bottom.Y - Main.rand.Next(7)), 6, new Vector2(-projectile.velocity.X, -projectile.velocity.Y *.5f)).noGravity = true;
-			Lighting.AddLight((int)(projectile.position.X / 16f), (int)(projectile.position.Y / 16f), 0.301f, .047f, .016f);
+			Dust.NewDustPerfect(new Vector2(Projectile.position.X + Main.rand.Next(Projectile.width), Projectile.Bottom.Y - Main.rand.Next(7)), 6, new Vector2(-Projectile.velocity.X, -Projectile.velocity.Y *.5f)).noGravity = true;
+			Lighting.AddLight((int)(Projectile.position.X / 16f), (int)(Projectile.position.Y / 16f), 0.301f, .047f, .016f);
 
 			if (speed < 12)
 				speed *= 1.03f;
 			if (growCounter < 1)
-				projectile.scale = growCounter += 0.1f;
+				Projectile.scale = growCounter += 0.1f;
 
 			newVelocity = Collide();
 			if (Math.Abs(newVelocity.X) < 0.5f)
@@ -308,58 +309,58 @@ namespace SpiritMod.NPCs.Automata
 			else
 				collideY = false;
 
-			if (projectile.ai[1] == 0f)
+			if (Projectile.ai[1] == 0f)
 			{
-				projectile.rotation += (moveDirection.X * moveDirection.Y) * 0.43f;
+				Projectile.rotation += (moveDirection.X * moveDirection.Y) * 0.43f;
 
 				if (collideY)
-					projectile.ai[0] = 2f;
+					Projectile.ai[0] = 2f;
 
-				if (!collideY && projectile.ai[0] == 2f)
+				if (!collideY && Projectile.ai[0] == 2f)
 				{
 					moveDirection.X = -moveDirection.X;
-					projectile.ai[1] = 1f;
-					projectile.ai[0] = 1f;
+					Projectile.ai[1] = 1f;
+					Projectile.ai[0] = 1f;
 				}
 				if (collideX)
 				{
 					moveDirection.Y = -moveDirection.Y;
-					projectile.ai[1] = 1f;
+					Projectile.ai[1] = 1f;
 				}
 			}
 			else
 			{
-				projectile.rotation -= (moveDirection.X * moveDirection.Y) * 0.13f;
+				Projectile.rotation -= (moveDirection.X * moveDirection.Y) * 0.13f;
 
 				if (collideX)
-					projectile.ai[0] = 2f;
+					Projectile.ai[0] = 2f;
 
-				if (!collideX && projectile.ai[0] == 2f)
+				if (!collideX && Projectile.ai[0] == 2f)
 				{
 					moveDirection.Y = -moveDirection.Y;
-					projectile.ai[1] = 0f;
-					projectile.ai[0] = 1f;
+					Projectile.ai[1] = 0f;
+					Projectile.ai[0] = 1f;
 				}
 				if (collideY)
 				{
 					moveDirection.X = -moveDirection.X;
-					projectile.ai[1] = 0f;
+					Projectile.ai[1] = 0f;
 				}
 			}
-			projectile.velocity = speed * moveDirection;
-			projectile.velocity = Collide();
+			Projectile.velocity = speed * moveDirection;
+			Projectile.velocity = Collide();
 		}
 
-		protected virtual Vector2 Collide() => Collision.noSlopeCollision(projectile.position, projectile.velocity, projectile.width, projectile.height, true, true);
+		protected virtual Vector2 Collide() => Collision.noSlopeCollision(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height, true, true);
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++)
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++)
 			{
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

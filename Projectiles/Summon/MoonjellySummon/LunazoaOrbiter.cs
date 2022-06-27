@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
@@ -14,80 +16,80 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lunazoa");
-			Main.projFrames[projectile.type] = 3;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			Main.projFrames[Projectile.type] = 3;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.aiStyle = -1;
-			projectile.width = 16;
-			projectile.height = 20;
-			projectile.friendly = true;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.minion = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 300;
+			Projectile.aiStyle = -1;
+			Projectile.width = 16;
+			Projectile.height = 20;
+			Projectile.friendly = true;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.minion = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 300;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
-			Lighting.AddLight(new Vector2(projectile.Center.X, projectile.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);
-			projectile.frameCounter++;
-			projectile.spriteDirection = -projectile.direction;
-			if (projectile.frameCounter >= 10)
+			Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + 1.57f;
+			Lighting.AddLight(new Vector2(Projectile.Center.X, Projectile.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);
+			Projectile.frameCounter++;
+			Projectile.spriteDirection = -Projectile.direction;
+			if (Projectile.frameCounter >= 10)
 			{
-				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
-				projectile.frameCounter = 0;
+				Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
+				Projectile.frameCounter = 0;
 			}
 
 			float x = 0.2f;
 			float y = 0.2f;
 			bool flag2 = false;
 
-			if ((double)projectile.ai[0] < 60)
+			if ((double)Projectile.ai[0] < 60)
 			{
 				bool flag4 = true;
-				int index1 = (int)projectile.ai[1];
+				int index1 = (int)Projectile.ai[1];
 				if (Main.projectile[index1].active && Main.projectile[index1].type == ModContent.ProjectileType<MoonjellySummon>())
 				{
 					if (!flag2 && Main.projectile[index1].oldPos[1] != Vector2.Zero)
-						projectile.position = projectile.position + Main.projectile[index1].position - Main.projectile[index1].oldPos[1];
+						Projectile.position = Projectile.position + Main.projectile[index1].position - Main.projectile[index1].oldPos[1];
 				}
 				else
 				{
-					projectile.ai[0] = 60;
+					Projectile.ai[0] = 60;
 					flag4 = false;
-					projectile.Kill();
+					Projectile.Kill();
 				}
 				if (flag4 && !flag2)
 				{
-					projectile.velocity += new Vector2((float)Math.Sign(Main.projectile[index1].Center.X - projectile.Center.X), (float)Math.Sign(Main.projectile[index1].Center.Y - projectile.Center.Y)) * new Vector2(x, y);
-					if (projectile.velocity.Length() > 4f)
-						projectile.velocity *= 4f / projectile.velocity.Length();
+					Projectile.velocity += new Vector2((float)Math.Sign(Main.projectile[index1].Center.X - Projectile.Center.X), (float)Math.Sign(Main.projectile[index1].Center.Y - Projectile.Center.Y)) * new Vector2(x, y);
+					if (Projectile.velocity.Length() > 4f)
+						Projectile.velocity *= 4f / Projectile.velocity.Length();
 				}
 			}
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			NPC mainTarget = projectile.OwnerMinionAttackTargetNPC;
-			if (mainTarget != null && mainTarget.CanBeChasedBy(projectile))
+			NPC mainTarget = Projectile.OwnerMinionAttackTargetNPC;
+			if (mainTarget != null && mainTarget.CanBeChasedBy(Projectile))
 			{
-				float dist = projectile.Distance(mainTarget.Center);
+				float dist = Projectile.Distance(mainTarget.Center);
 				if (dist / 16 < 30)
 				{
-					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 110);
-					Vector2 direction = Vector2.Normalize(mainTarget.Center - projectile.Center) * 15f;
-					Projectile p = Projectile.NewProjectileDirect(projectile.Center, direction, ModContent.ProjectileType<JellyfishOrbiter_Friendly>(), projectile.damage, projectile.knockBack, Main.myPlayer);
+					SoundEngine.PlaySound(SoundID.Item110, Projectile.position);
+					Vector2 direction = Vector2.Normalize(mainTarget.Center - Projectile.Center) * 15f;
+					Projectile p = Projectile.NewProjectileDirect(new EntitySource_ProjectileDeath(), Projectile.Center, direction, ModContent.ProjectileType<JellyfishOrbiter_Friendly>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
 					p.friendly = true;
 					p.hostile = false;
 					p.minion = true;
 					p.netUpdate = true;
-					p.scale = projectile.scale;
+					p.scale = Projectile.scale;
 				}
 			}
 			else
@@ -95,22 +97,22 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 				for (int npcFinder = 0; npcFinder < 200; ++npcFinder)
 				{
 					NPC npc = Main.npc[npcFinder];
-					if (npc.active && npc.CanBeChasedBy(projectile) && !npc.friendly)
+					if (npc.active && npc.CanBeChasedBy(Projectile) && !npc.friendly)
 					{
 						//if npc is within 50 blocks
-						float dist = projectile.Distance(npc.Center);
+						float dist = Projectile.Distance(npc.Center);
 						if (dist / 16 < 30)
 						{
 							if (!Main.npc[npcFinder].friendly && !Main.npc[npcFinder].townNPC && Main.npc[npcFinder].active)
 							{
-								Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 110);
-								Vector2 direction = Vector2.Normalize(Main.npc[npcFinder].Center - projectile.Center) * 15f;
-								Projectile p = Projectile.NewProjectileDirect(projectile.Center, direction, ModContent.ProjectileType<JellyfishOrbiter_Friendly>(), projectile.damage, projectile.knockBack, Main.myPlayer);
+								SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 110);
+								Vector2 direction = Vector2.Normalize(Main.npc[npcFinder].Center - Projectile.Center) * 15f;
+								Projectile p = Projectile.NewProjectileDirect(Projectile.Center, direction, ModContent.ProjectileType<JellyfishOrbiter_Friendly>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
 								p.friendly = true;
 								p.hostile = false;
 								p.minion = true;
 								p.netUpdate = true;
-								p.scale = projectile.scale;
+								p.scale = Projectile.scale;
 								break;
 							}
 						}
@@ -120,29 +122,30 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 
 			for (int k = 0; k < 10; k++)
 			{
-				Dust d = Dust.NewDustPerfect(projectile.Center, 226, Vector2.One.RotatedByRandom(3.28f) * Main.rand.NextFloat(5), 0, default, Main.rand.NextFloat(.4f, .8f));
+				Dust d = Dust.NewDustPerfect(Projectile.Center, 226, Vector2.One.RotatedByRandom(3.28f) * Main.rand.NextFloat(5), 0, default, Main.rand.NextFloat(.4f, .8f));
 				d.noGravity = true;
 			}
 		}
 
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsBehindProjectiles.Add(index);
+		public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindProjectiles.Add(index);
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height / Main.projFrames[projectile.type]) * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++)
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, (Projectile.height / Main.projFrames[Projectile.type]) * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++)
 			{
-				var effects = projectile.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) / 2);
-				Color color1 = Color.White * (float)(((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) / 2);
-				spriteBatch.Draw(mod.GetTexture("Projectiles/Summon/MoonjellySummon/LunazoaOrbiter_Glow"), drawPos, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color1, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
-				spriteBatch.Draw(mod.GetTexture("Projectiles/Summon/MoonjellySummon/LunazoaOrbiter_Glow"), drawPos, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color1, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
+				var effects = Projectile.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * (float)(((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) / 2);
+				Color color1 = Color.White * (float)(((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) / 2);
+				Texture2D glow = ModContent.Request<Texture2D>("Projectiles/Summon/MoonjellySummon/LunazoaOrbiter_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+
+				Main.spriteBatch.Draw(glow, drawPos, new Microsoft.Xna.Framework.Rectangle?(TextureAssets.Projectile[Projectile.type].Value.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame)), color1, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+				Main.spriteBatch.Draw(glow, drawPos, new Microsoft.Xna.Framework.Rectangle?(TextureAssets.Projectile[Projectile.type].Value.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame)), color1, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
 
 
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(Main.projectileTexture[projectile.type].Frame(1, Main.projFrames[projectile.type], 0, projectile.frame)), color, projectile.rotation, drawOrigin, projectile.scale, effects, 0f);
-
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(TextureAssets.Projectile[Projectile.type].Value.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(TextureAssets.Projectile[Projectile.type].Value.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
 			}
 			return false;
 		}

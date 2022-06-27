@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using System;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,19 +14,19 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Ruby_Bow
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ruby Arrow");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 14; 
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 14; 
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.arrow = true;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.arrow = true;
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.arrow = true;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.arrow = true;
 		}
 
 		int bounces = 2;
@@ -33,73 +35,73 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Ruby_Bow
 		{
 			bounces--;
 			if (bounces <= 0)
-				projectile.Kill();
+				Projectile.Kill();
 			else {
-				Main.PlaySound(SoundID.Trackable, (int)projectile.position.X, (int)projectile.position.Y, 193, 1f, -0.2f);
+				SoundEngine.PlaySound(SoundID.Trackable, (int)Projectile.position.X, (int)Projectile.position.Y, 193, 1f, -0.2f);
 				for (int index = 0; index < 5; ++index)
 				{
-					int i = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.RubyBolt, 0.0f, 0.0f, 0, new Color(), 1f);
+					int i = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.RubyBolt, 0.0f, 0.0f, 0, new Color(), 1f);
 					Main.dust[i].noGravity = true;
 				}				
-				if (projectile.velocity.X != oldVelocity.X)
-					projectile.velocity.X = -oldVelocity.X;
+				if (Projectile.velocity.X != oldVelocity.X)
+					Projectile.velocity.X = -oldVelocity.X;
 
-				if (projectile.velocity.Y != oldVelocity.Y)
-					projectile.velocity.Y = -oldVelocity.Y;
+				if (Projectile.velocity.Y != oldVelocity.Y)
+					Projectile.velocity.Y = -oldVelocity.Y;
 
-				projectile.velocity *= 0.825f;
+				Projectile.velocity *= 0.825f;
 			}
 			return false;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			SpriteEffects effect = projectile.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			SpriteEffects effect = Projectile.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-			Color col = Lighting.GetColor((int)(projectile.Center.Y) / 16, (int)(projectile.Center.Y) / 16);
-			var basePos = projectile.Center - Main.screenPosition + new Vector2(0.0f, projectile.gfxOffY);
+			Color col = Lighting.GetColor((int)(Projectile.Center.Y) / 16, (int)(Projectile.Center.Y) / 16);
+			var basePos = Projectile.Center - Main.screenPosition + new Vector2(0.0f, Projectile.gfxOffY);
 
-			Texture2D texture = Main.projectileTexture[projectile.type];
+			Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
 
-			int height = texture.Height / Main.projFrames[projectile.type];
-			var frame = new Rectangle(0, height * projectile.frame, texture.Width, height);
+			int height = texture.Height / Main.projFrames[Projectile.type];
+			var frame = new Rectangle(0, height * Projectile.frame, texture.Width, height);
 			Vector2 origin = frame.Size() / 2f;
 			int reps = 1;
 			while (reps < 5)
 			{
-				col = projectile.GetAlpha(Color.Lerp(col, Color.White, 2.5f));
+				col = Projectile.GetAlpha(Color.Lerp(col, Color.White, 2.5f));
 				float num7 = 5 - reps;
-				Color drawCol = col * (num7 / (ProjectileID.Sets.TrailCacheLength[projectile.type] * 1.5f));
-				Vector2 oldPo = projectile.oldPos[reps];
-				float rotation = projectile.rotation;
+				Color drawCol = col * (num7 / (ProjectileID.Sets.TrailCacheLength[Projectile.type] * 1.5f));
+				Vector2 oldPo = Projectile.oldPos[reps];
+				float rotation = Projectile.rotation;
 				SpriteEffects effects2 = effect;
-				if (ProjectileID.Sets.TrailingMode[projectile.type] == 2)
+				if (ProjectileID.Sets.TrailingMode[Projectile.type] == 2)
 				{
-					rotation = projectile.oldRot[reps];
-					effects2 = projectile.oldSpriteDirection[reps] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+					rotation = Projectile.oldRot[reps];
+					effects2 = Projectile.oldSpriteDirection[reps] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 				}
-				Vector2 drawPos = oldPo + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-				Main.spriteBatch.Draw(texture, drawPos, frame, drawCol, rotation + projectile.rotation * (reps - 1) * -effect.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin, MathHelper.Lerp(projectile.scale, 3f, reps / 15f), effects2, 0.0f);
+				Vector2 drawPos = oldPo + Projectile.Size / 2f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+				Main.spriteBatch.Draw(texture, drawPos, frame, drawCol, rotation + Projectile.rotation * (reps - 1) * -effect.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin, MathHelper.Lerp(Projectile.scale, 3f, reps / 15f), effects2, 0.0f);
 				reps++;
 			}
 
-			Main.spriteBatch.Draw(texture, basePos, frame, new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 175), projectile.rotation, origin, projectile.scale, effect, 0.0f);
+			Main.spriteBatch.Draw(texture, basePos, frame, new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 175), Projectile.rotation, origin, Projectile.scale, effect, 0.0f);
 
-			height = texture.Height / Main.projFrames[projectile.type];
-			frame = new Rectangle(0, height * projectile.frame, texture.Width, height);
+			height = texture.Height / Main.projFrames[Projectile.type];
+			frame = new Rectangle(0, height * Projectile.frame, texture.Width, height);
 			origin = new Vector2(texture.Width / 2, texture.Height / 2);
-			float num99 = (float)(Math.Cos(Main.GlobalTime % 2.40000009536743 / 2.40000009536743 * MathHelper.TwoPi) / 4.0f + 0.5f);
+			float num99 = (float)(Math.Cos(Main.GlobalTimeWrappedHourly % 2.40000009536743 / 2.40000009536743 * MathHelper.TwoPi) / 4.0f + 0.5f);
 
-			Color color2 = new Color(sbyte.MaxValue - projectile.alpha, sbyte.MaxValue - projectile.alpha, sbyte.MaxValue - projectile.alpha, 0).MultiplyRGBA(Color.White);
+			Color color2 = new Color(sbyte.MaxValue - Projectile.alpha, sbyte.MaxValue - Projectile.alpha, sbyte.MaxValue - Projectile.alpha, 0).MultiplyRGBA(Color.White);
 			for (int i = 0; i < 4; ++i)
 			{
-				Color drawCol = projectile.GetAlpha(color2) * (1f - num99);
-				Vector2 offset = ((i / 4 * MathHelper.TwoPi) + projectile.rotation).ToRotationVector2();
-				Vector2 position2 = projectile.Center + offset * (8.0f * num99 + 2.0f) - Main.screenPosition - texture.Size() * projectile.scale / 2f + origin * projectile.scale + new Vector2(0.0f, projectile.gfxOffY);
-				Main.spriteBatch.Draw(texture, position2, frame, drawCol, projectile.rotation, origin, projectile.scale, effect, 0.0f);
+				Color drawCol = Projectile.GetAlpha(color2) * (1f - num99);
+				Vector2 offset = ((i / 4 * MathHelper.TwoPi) + Projectile.rotation).ToRotationVector2();
+				Vector2 position2 = Projectile.Center + offset * (8.0f * num99 + 2.0f) - Main.screenPosition - texture.Size() * Projectile.scale / 2f + origin * Projectile.scale + new Vector2(0.0f, Projectile.gfxOffY);
+				Main.spriteBatch.Draw(texture, position2, frame, drawCol, Projectile.rotation, origin, Projectile.scale, effect, 0.0f);
 			}
 
-			Lighting.AddLight(projectile.Center, Color.Purple.ToVector3() / 2f);
+			Lighting.AddLight(Projectile.Center, Color.Purple.ToVector3() / 2f);
 			return false;
 		}
 
@@ -107,10 +109,10 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Ruby_Bow
 		{
 			for (int index = 0; index < 5; ++index)
 			{
-				int i = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.AmethystBolt, 0.0f, 0.0f, 0, Color.Purple, 1f);
+				int i = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.AmethystBolt, 0.0f, 0.0f, 0, Color.Purple, 1f);
 				Main.dust[i].noGravity = true;
 			}
-			Main.PlaySound(SoundID.Trackable, (int)projectile.position.X, (int)projectile.position.Y, 193, 1f, -0.2f);
+			SoundEngine.PlaySound(SoundID.Trackable, (int)Projectile.position.X, (int)Projectile.position.Y, 193, 1f, -0.2f);
 		}
 	}
 }

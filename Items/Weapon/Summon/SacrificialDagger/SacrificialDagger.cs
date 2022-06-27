@@ -1,3 +1,4 @@
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -17,35 +18,35 @@ namespace SpiritMod.Items.Weapon.Summon.SacrificialDagger
 
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 44;
-			item.rare = ItemRarityID.Green;
-			item.value = Terraria.Item.sellPrice(0, 0, 80, 0);
-			item.damage = 15;
-			item.knockBack = 2;
-            item.mana = 10;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = item.useAnimation = 35;
-			item.summon = true;
-			item.noMelee = true;
-			item.autoReuse = true;
-			item.noUseGraphic = true;
-			item.shoot = ModContent.ProjectileType<Projectiles.Summon.SacrificialDagger.SacrificialDaggerProj>();
-			item.shootSpeed = 14;
-			item.UseSound = SoundID.Item1;
+			Item.width = 18;
+			Item.height = 44;
+			Item.rare = ItemRarityID.Green;
+			Item.value = Terraria.Item.sellPrice(0, 0, 80, 0);
+			Item.damage = 15;
+			Item.knockBack = 2;
+            Item.mana = 10;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = Item.useAnimation = 35;
+			Item.DamageType = DamageClass.Summon;
+			Item.noMelee = true;
+			Item.autoReuse = true;
+			Item.noUseGraphic = true;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Summon.SacrificialDagger.SacrificialDaggerProj>();
+			Item.shootSpeed = 14;
+			Item.UseSound = SoundID.Item1;
 		}
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Lighting.AddLight(item.position, 0.46f, .07f, .52f);
+            Lighting.AddLight(Item.position, 0.46f, .07f, .52f);
             Texture2D texture;
-            texture = Main.itemTexture[item.type];
+            texture = TextureAssets.Item[Item.type].Value;
             spriteBatch.Draw
             (
-                ModContent.GetTexture("SpiritMod/Items/Weapon/Summon/SacrificialDagger/SacrificialDagger_Glow"),
+                ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Summon/SacrificialDagger/SacrificialDagger_Glow"),
                 new Vector2
                 (
-                    item.position.X - Main.screenPosition.X + item.width * 0.5f,
-                    item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+                    Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+                    Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
                 ),
                 new Rectangle(0, 0, texture.Width, texture.Height),
                 Color.White,

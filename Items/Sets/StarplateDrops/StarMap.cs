@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,27 +14,27 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			DisplayName.SetDefault("Astral Map");
 			Tooltip.SetDefault("Teleports you to the cursor location\n10 second cooldown");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/StarplateDrops/StarMap_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/StarplateDrops/StarMap_Glow");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 0;
-			item.noMelee = true;
-			item.channel = true;
-			item.rare = ItemRarityID.Pink;
-			item.width = 42;
-			item.height = 58;
-			item.useTime = item.useAnimation = 12;
-			item.UseSound = SoundID.Item8;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.expert = true;
-			item.autoReuse = false;
-			item.shootSpeed = 0f;
-			item.noUseGraphic = true;
+			Item.damage = 0;
+			Item.noMelee = true;
+			Item.channel = true;
+			Item.rare = ItemRarityID.Pink;
+			Item.width = 42;
+			Item.height = 58;
+			Item.useTime = Item.useAnimation = 12;
+			Item.UseSound = SoundID.Item8;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.expert = true;
+			Item.autoReuse = false;
+			Item.shootSpeed = 0f;
+			Item.noUseGraphic = true;
 		}
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			if (player.HasBuff(ModContent.BuffType<Buffs.AstralMapCooldown>()))
 				return false;		
@@ -55,19 +56,19 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			player.Teleport(pos, 2, 0);
 			player.velocity = Vector2.Zero;
-			Main.PlaySound(SoundID.Item6, player.Center);
+			SoundEngine.PlaySound(SoundID.Item6, player.Center);
 			DustHelper.DrawStar(player.Center, DustID.GoldCoin, pointAmount: 4, mainSize: 1.7425f, dustDensity: 6, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Lighting.AddLight(item.position, 0.2f, .142f, .032f);
+			Lighting.AddLight(Item.position, 0.2f, .142f, .032f);
 
-			Texture2D glow = ModContent.GetTexture(Texture + "_Glow");
-			Texture2D outline = ModContent.GetTexture(Texture + "_Outline");
-			float Timer = (float)Math.Sin(Main.GlobalTime * 3) / 2 + 0.5f;
+			Texture2D glow = ModContent.Request<Texture2D>(Texture + "_Glow");
+			Texture2D outline = ModContent.Request<Texture2D>(Texture + "_Outline");
+			float Timer = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 2 + 0.5f;
 
-			void DrawTex(Texture2D tex, float opacity, Vector2? offset = null) => spriteBatch.Draw(tex, item.Center + (offset ?? Vector2.Zero) - Main.screenPosition, null, Color.White * opacity, rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
+			void DrawTex(Texture2D tex, float opacity, Vector2? offset = null) => spriteBatch.Draw(tex, Item.Center + (offset ?? Vector2.Zero) - Main.screenPosition, null, Color.White * opacity, rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
 
 			for (int i = 0; i < 6; i++)
 			{

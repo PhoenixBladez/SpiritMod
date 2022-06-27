@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,30 +12,30 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 
 		public override void SetDefaults()
 		{
-			projectile.width = 4;
-			projectile.height = 4;
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.WoodenArrowFriendly;
-			projectile.hide = true;
-			projectile.scale = 1f;
-			projectile.timeLeft = 2;
+			Projectile.width = 4;
+			Projectile.height = 4;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.WoodenArrowFriendly;
+			Projectile.hide = true;
+			Projectile.scale = 1f;
+			Projectile.timeLeft = 2;
 		}
 
 		public override bool PreAI()
 		{
-			projectile.position -= projectile.velocity;
+			Projectile.position -= Projectile.velocity;
 			return base.PreAI();
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			for (int i = 1; i <= 3; i++) {
-				Vector2 position = projectile.position;
-				position += new Vector2(0, - (18 * (i - 1))).RotatedBy(projectile.velocity.ToRotation());
-				Projectile.NewProjectile(position, projectile.velocity, mod.ProjectileType("Reef_Wrath_Projectile_" + i), player.HeldItem.damage, 8f, 0);
+				Vector2 position = Projectile.position;
+				position += new Vector2(0, - (18 * (i - 1))).RotatedBy(Projectile.velocity.ToRotation());
+				Projectile.NewProjectile(position, Projectile.velocity, Mod.Find<ModProjectile>("Reef_Wrath_Projectile_" + i).Type, player.HeldItem.damage, 8f, 0);
 			}
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 3));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 3));
 		}
 	}
 }

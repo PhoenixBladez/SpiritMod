@@ -5,8 +5,10 @@ using SpiritMod.Items.Consumable.Fish;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -15,26 +17,26 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Luminous Floater");
-			Main.npcFrameCount[npc.type] = 40;
+			Main.npcFrameCount[NPC.type] = 40;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 18;
-			npc.height = 22;
-			npc.damage = 0;
-			npc.defense = 0;
-			npc.dontCountMe = true;
-			npc.lifeMax = 5;
-			npc.HitSound = SoundID.NPCHit25;
-			Main.npcCatchable[npc.type] = true;
-			npc.catchItem = (short)ModContent.ItemType<FloaterItem>();
-			npc.DeathSound = SoundID.NPCDeath28;
-			npc.knockBackResist = .35f;
-			npc.aiStyle = 18;
-			npc.noGravity = true;
-			npc.npcSlots = 0;
-			aiType = NPCID.PinkJellyfish;
+			NPC.width = 18;
+			NPC.height = 22;
+			NPC.damage = 0;
+			NPC.defense = 0;
+			NPC.dontCountMe = true;
+			NPC.lifeMax = 5;
+			NPC.HitSound = SoundID.NPCHit25;
+			Main.npcCatchable[NPC.type] = true;
+			NPC.catchItem = (short)ModContent.ItemType<FloaterItem>();
+			NPC.DeathSound = SoundID.NPCDeath28;
+			NPC.knockBackResist = .35f;
+			NPC.aiStyle = 18;
+			NPC.noGravity = true;
+			NPC.npcSlots = 0;
+			AIType = NPCID.PinkJellyfish;
 		}
 
 		bool txt = false;
@@ -45,57 +47,57 @@ namespace SpiritMod.NPCs.Critters
 			{
 				for (int i = 0; i < 8; ++i)
 				{
-					Vector2 dir = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-					int newNPC = NPC.NewNPC((int)npc.Center.X + (Main.rand.Next(-20, 20)), (int)npc.Center.Y + (Main.rand.Next(-20, 20)), ModContent.NPCType<Floater1>(), npc.whoAmI);
+					Vector2 dir = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center);
+					int newNPC = NPC.NewNPC((int)NPC.Center.X + (Main.rand.Next(-20, 20)), (int)NPC.Center.Y + (Main.rand.Next(-20, 20)), ModContent.NPCType<Floater1>(), NPC.whoAmI);
 					Main.npc[newNPC].velocity = dir;
 				}
 				txt = true;
-				npc.netUpdate = true;
-				Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), .3f, .2f, .3f);
+				NPC.netUpdate = true;
+				Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .3f, .2f, .3f);
 			}
 			return true;
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || Main.dayTime)
+			if (spawnInfo.PlayerSafe || Main.dayTime)
 				return 0f;
-			if (QuestManager.GetQuest<CritterCaptureFloater>().IsActive && !NPC.AnyNPCs(npc.type))
+			if (QuestManager.GetQuest<CritterCaptureFloater>().IsActive && !NPC.AnyNPCs(NPC.type))
 				return SpawnCondition.OceanMonster.Chance * 0.25f;
 			return SpawnCondition.OceanMonster.Chance * 0.173f;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame,
-							 drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, ModContent.GetTexture("SpiritMod/NPCs/Critters/Floater_Critter_Glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/Critters/Floater_Critter_Glow"));
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int d1 = 242;
 			for (int k = 0; k < 30; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, d1, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
+			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
 		}
 	}
 }

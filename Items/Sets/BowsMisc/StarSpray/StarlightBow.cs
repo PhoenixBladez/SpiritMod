@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.BowsMisc.StarSpray
 {
@@ -15,30 +16,30 @@ namespace SpiritMod.Items.Sets.BowsMisc.StarSpray
 
 		public override void SetDefaults()
 		{
-			item.damage = 17;
-			item.noMelee = true;
-			item.ranged = true;
-			item.width = 20;
-			item.height = 40;
-			item.useTime = 27;
-			item.useAnimation = 27;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ProjectileID.Starfury;
-			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 3;
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Green;
-			item.UseSound = SoundID.Item5;
-			item.autoReuse = true;
-			item.shootSpeed = 11f;
+			Item.damage = 17;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 20;
+			Item.height = 40;
+			Item.useTime = 27;
+			Item.useAnimation = 27;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ProjectileID.Starfury;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.knockBack = 3;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item5;
+			Item.autoReuse = true;
+			Item.shootSpeed = 11f;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (type == ProjectileID.WoodenArrowFriendly)
 				type = ProjectileID.StarWrath;// ProjectileID.Starfury;
 
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0, 0);
+			int proj = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 			Projectile projectile = Main.projectile[proj];
 
 			if (type == ProjectileID.StarWrath)

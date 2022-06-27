@@ -16,34 +16,34 @@ namespace SpiritMod.Items.Weapon.Summon
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 38;
-			item.value = Item.sellPrice(0, 0, 75, 0);
-			item.rare = ItemRarityID.Green;
-			item.mana = 10;
-			item.damage = 17;
-			item.knockBack = 1;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.summon = true;
-			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<SnapsporeMinion>();
-			item.UseSound = new Terraria.Audio.LegacySoundStyle(6, 0);
+			Item.width = 36;
+			Item.height = 38;
+			Item.value = Item.sellPrice(0, 0, 75, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.mana = 10;
+			Item.damage = 17;
+			Item.knockBack = 1;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.DamageType = DamageClass.Summon;
+			Item.noMelee = true;
+			Item.shoot = ModContent.ProjectileType<SnapsporeMinion>();
+			Item.UseSound = new Terraria.Audio.LegacySoundStyle(6, 0);
 		}
 		public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			if (player.altFunctionUse == 2) {
 				player.MinionNPCTargetAim();
 			}
 			return base.UseItem(player);
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			player.AddBuff(ModContent.BuffType<SnapsporeBuff>(), 3600);
 			return player.altFunctionUse != 2;

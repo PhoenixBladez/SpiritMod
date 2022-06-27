@@ -6,7 +6,7 @@ namespace SpiritMod.Tiles.Walls.Natural
 {
 	public class ReachStoneWall : ModWall
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.wallHouse[Type] = false;
 			AddMapEntry(new Color(70, 70, 70));

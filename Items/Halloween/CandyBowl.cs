@@ -14,21 +14,21 @@ namespace SpiritMod.Items.Halloween
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 28;
-			item.value = 200000;
+			Item.width = 32;
+			Item.height = 28;
+			Item.value = 200000;
 
-			item.maxStack = 99;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<Tiles.Furniture.CandyBowl>();
+			Item.createTile = ModContent.TileType<Tiles.Furniture.CandyBowl>();
 		}
 	}
 }

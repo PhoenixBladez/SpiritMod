@@ -4,8 +4,11 @@ using SpiritMod.Projectiles.Hostile;
 using SpiritMod.Items.Sets.BriarDrops;
 using SpiritMod.Items.Armor.Masks;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -15,63 +18,63 @@ namespace SpiritMod.NPCs.Reach
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Thorn Stalker");
-			Main.npcFrameCount[npc.type] = 13;
-			NPCID.Sets.TrailCacheLength[npc.type] = 3;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 13;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 3;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 48;
-			npc.height = 58;
-			npc.damage = 15;
-			npc.defense = 8;
-			npc.lifeMax = 70;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath6;
-			npc.value = 90f;
-			npc.knockBackResist = .35f;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.ThornStalkerBanner>();
+			NPC.width = 48;
+			NPC.height = 58;
+			NPC.damage = 15;
+			NPC.defense = 8;
+			NPC.lifeMax = 70;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath6;
+			NPC.value = 90f;
+			NPC.knockBackResist = .35f;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<Items.Banners.ThornStalkerBanner>();
         }
 		int frame = 0;
 		int timer = 0;
 		int shootTimer = 0;
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			Main.PlaySound(SoundID.NPCHit, npc.Center, 7);
+			SoundEngine.PlaySound(SoundID.NPCHit, NPC.Center, 7);
 			for (int k = 0; k < 11; k++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green, hitDirection, -1f, 0, Color.Green, .61f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Plantera_Green, hitDirection, -1f, 0, Color.Green, .61f);
 			}
-            if (npc.life <= 0) {
-                Main.PlaySound(SoundID.Zombie, npc.Center, 7);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ThornStalker/ThornStalker1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ThornStalker/ThornStalker2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ThornStalker/ThornStalker3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ThornStalker/ThornStalker4"), 1f);
+            if (NPC.life <= 0) {
+                SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, 7);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ThornStalker/ThornStalker1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ThornStalker/ThornStalker2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ThornStalker/ThornStalker3").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ThornStalker/ThornStalker4").Type, 1f);
 			}
 		}
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.024f, 0.088f, 0.026f);
-			npc.spriteDirection = npc.direction;
-			Player target = Main.player[npc.target];
+			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0.024f, 0.088f, 0.026f);
+			NPC.spriteDirection = NPC.direction;
+			Player target = Main.player[NPC.target];
 			shootTimer++;
 			if (shootTimer % 200 == 150) {
 				attack = true;
 			}
 			if (attack) {
-				npc.velocity.Y = 6;
-				npc.velocity.X = .008f * npc.direction;
+				NPC.velocity.Y = 6;
+				NPC.velocity.X = .008f * NPC.direction;
 				//shootTimer++;
 				if (frame == 11 && timer == 0) {
-					Main.PlaySound(SoundID.Item, npc.Center, 64);
+					SoundEngine.PlaySound(SoundID.Item, NPC.Center, 64);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						for (int i = 0; i < 2; i++) {
-							Vector2 knifePos = new Vector2(npc.Center.X + Main.rand.Next(-50, 50), npc.Center.Y - Main.rand.Next(60));
-							Vector2 direction = Main.player[npc.target].Center - knifePos;
+							Vector2 knifePos = new Vector2(NPC.Center.X + Main.rand.Next(-50, 50), NPC.Center.Y - Main.rand.Next(60));
+							Vector2 direction = Main.player[NPC.target].Center - knifePos;
 							direction.Normalize();
 							direction *= Main.rand.NextFloat(7, 10);
 							bool expertMode = Main.expertMode;
@@ -93,17 +96,17 @@ namespace SpiritMod.NPCs.Reach
 				if (frame < 7) {
 					frame = 7;
 				}
-				if (target.position.X > npc.position.X) {
-					npc.direction = 1;
+				if (target.position.X > NPC.position.X) {
+					NPC.direction = 1;
 				}
 				else {
-					npc.direction = -1;
+					NPC.direction = -1;
 				}
 			}
 			else {
 				//shootTimer = 0;
-				npc.aiStyle = 3;
-				aiType = NPCID.WalkingAntlion;
+				NPC.aiStyle = 3;
+				AIType = NPCID.WalkingAntlion;
 				timer++;
 				if (timer >= 6) {
 					frame++;
@@ -113,7 +116,7 @@ namespace SpiritMod.NPCs.Reach
 					frame = 1;
 				}
 			}
-			if (!attack && !npc.collideY && npc.velocity.Y > 0) {
+			if (!attack && !NPC.collideY && NPC.velocity.Y > 0) {
 				frame = 0;
 			}
 			/*if (shootTimer > 120)
@@ -127,41 +130,41 @@ namespace SpiritMod.NPCs.Reach
 		}
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frame.Y = frameHeight * frame;
+			NPC.frame.Y = frameHeight * frame;
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-			for (int k = 0; k < npc.oldPos.Length; k++) {
-				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-				Color color = npc.GetAlpha(lightColor) * (float)(((float)(npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-				spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height * 0.5f));
+			for (int k = 0; k < NPC.oldPos.Length; k++) {
+				var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+				Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+				Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			}
 			return true;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/Reach/ThornStalker_Glow"));
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/Reach/ThornStalker_Glow"));
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (!Main.dayTime) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnchantedLeaf>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<EnchantedLeaf>());
 			}
 			if (Main.rand.Next(33) == 3) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<VineChain>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<VineChain>());
 			}
             if (Main.rand.Next(20) == 1)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<LeafPaddyHat>());
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<LeafPaddyHat>());
             }
         }
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			Player player = spawnInfo.player;
+			Player player = spawnInfo.Player;
 			if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon)) && (!Main.eclipse) && (SpawnCondition.GoblinArmy.Chance == 0)) {
-				return spawnInfo.player.GetSpiritPlayer().ZoneReach ? 0.36f : 0f;
+				return spawnInfo.Player.GetSpiritPlayer().ZoneReach ? 0.36f : 0f;
 			}
 			return 0f;
 		}

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
@@ -18,80 +19,80 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 		public override void SetDefaults()
 		{
-			projectile.Size = new Vector2(10, 10);
-			projectile.hostile = true;
-			projectile.timeLeft = CHANNELTIME;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.alpha = 255;
-			projectile.scale = 0f;
-			projectile.hide = true;
+			Projectile.Size = new Vector2(10, 10);
+			Projectile.hostile = true;
+			Projectile.timeLeft = CHANNELTIME;
+			Projectile.ignoreWater = true;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 255;
+			Projectile.scale = 0f;
+			Projectile.hide = true;
 		}
 
-		private NPC Parent => Main.npc[(int)projectile.ai[0]];
+		private NPC Parent => Main.npc[(int)Projectile.ai[0]];
 
 		private Player Target => Main.player[Parent.target];
 
-		private int Timer => CHANNELTIME - projectile.timeLeft;
+		private int Timer => CHANNELTIME - Projectile.timeLeft;
 
-		private ref float TargetAngle => ref projectile.ai[1];
+		private ref float TargetAngle => ref Projectile.ai[1];
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => false;
 
 		public override void AI()
 		{
 			if(Parent.type != ModContent.NPCType<StarWeaverNPC>() || !Parent.active || !Target.active)
 			{
-				projectile.Kill();
+				Projectile.Kill();
 				return;
 			}
 
 			if(Timer % 20 == 0 && !Main.dedServ)
-				Main.PlaySound(SoundID.Item15.WithVolume(0.8f).WithPitchVariance(0.3f), projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item15.WithVolume(0.8f).WithPitchVariance(0.3f), Projectile.Center);
 
-			Lighting.AddLight(projectile.Center, Color.Goldenrod.ToVector3() / 3);
-			projectile.rotation += Parent.spriteDirection * 0.1f;
-			projectile.alpha = Math.Max(projectile.alpha - (510 / CHANNELTIME), 0);
-			projectile.scale = Math.Min(projectile.scale + (1 / (float)CHANNELTIME), 1);
-			projectile.Center = Parent.Center + new Vector2(9f * Parent.spriteDirection, 2 * (float)Math.Sin(Main.GameUpdateCount/7f));
+			Lighting.AddLight(Projectile.Center, Color.Goldenrod.ToVector3() / 3);
+			Projectile.rotation += Parent.spriteDirection * 0.1f;
+			Projectile.alpha = Math.Max(Projectile.alpha - (510 / CHANNELTIME), 0);
+			Projectile.scale = Math.Min(Projectile.scale + (1 / (float)CHANNELTIME), 1);
+			Projectile.Center = Parent.Center + new Vector2(9f * Parent.spriteDirection, 2 * (float)Math.Sin(Main.GameUpdateCount/7f));
 
-			TargetAngle = Utils.AngleLerp(TargetAngle, projectile.AngleTo(Target.Center), MathHelper.Lerp(0.2f, 0.04f, Timer / (float)CHANNELTIME));
+			TargetAngle = Utils.AngleLerp(TargetAngle, Projectile.AngleTo(Target.Center), MathHelper.Lerp(0.2f, 0.04f, Timer / (float)CHANNELTIME));
 		}
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
 			StarPrimitive star = new StarPrimitive
 			{
-				Color = Color.White * projectile.Opacity,
-				TriangleHeight = 12 * projectile.scale,
-				TriangleWidth = 4 * projectile.scale,
-				Position = projectile.Center - Main.screenPosition,
-				Rotation = projectile.rotation
+				Color = Color.White * Projectile.Opacity,
+				TriangleHeight = 12 * Projectile.scale,
+				TriangleWidth = 4 * Projectile.scale,
+				Position = Projectile.Center - Main.screenPosition,
+				Rotation = Projectile.rotation
 			};
 			PrimitiveRenderer.DrawPrimitiveShape(star);
 
-			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
 
-			sB.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.Goldenrod * 0.8f * projectile.Opacity, 0, bloom.Size() / 2, 0.25f * projectile.scale, SpriteEffects.None, 0);
-			sB.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.Goldenrod * projectile.Opacity, 0, bloom.Size() / 2, 0.2f * projectile.scale, SpriteEffects.None, 0);
+			sB.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Goldenrod * 0.8f * Projectile.Opacity, 0, bloom.Size() / 2, 0.25f * Projectile.scale, SpriteEffects.None, 0);
+			sB.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Goldenrod * Projectile.Opacity, 0, bloom.Size() / 2, 0.2f * Projectile.scale, SpriteEffects.None, 0);
 
-			Texture2D beam = mod.GetTexture("Textures/Ray");
+			Texture2D beam = Mod.GetTexture("Textures/Ray");
 			float beamProgress = (float)Math.Pow(Timer / (float)CHANNELTIME, 2);
-			float opacity = MathHelper.Lerp(0.5f, 1f, beamProgress) * projectile.Opacity;
+			float opacity = MathHelper.Lerp(0.5f, 1f, beamProgress) * Projectile.Opacity;
 			for (int i = 0; i < 5; i++)
 			{
 				float angle = TargetAngle + (MathHelper.TwoPi * (i / 5f)) - MathHelper.PiOver2;
 				float length = MathHelper.Lerp(30, 150, beamProgress);
-				Vector2 scale = new Vector2(projectile.scale, length / beam.Height);
-				sB.Draw(beam, projectile.Center - Main.screenPosition, null, Color.Goldenrod * opacity, angle, new Vector2(beam.Width / 2, 0), scale, SpriteEffects.None, 0);
+				Vector2 scale = new Vector2(Projectile.scale, length / beam.Height);
+				sB.Draw(beam, Projectile.Center - Main.screenPosition, null, Color.Goldenrod * opacity, angle, new Vector2(beam.Width / 2, 0), scale, SpriteEffects.None, 0);
 			}
 
 			for (int i = 0; i < 5; i++)
 			{
 				float angle = TargetAngle + (MathHelper.TwoPi * ((i + 0.5f) / 5f)) - MathHelper.PiOver2;
 				float length = MathHelper.Lerp(15, 100, beamProgress);
-				Vector2 scale = new Vector2(projectile.scale, length / beam.Height);
-				sB.Draw(beam, projectile.Center - Main.screenPosition, null, Color.Goldenrod * opacity, angle, new Vector2(beam.Width / 2, 0), scale, SpriteEffects.None, 0);
+				Vector2 scale = new Vector2(Projectile.scale, length / beam.Height);
+				sB.Draw(beam, Projectile.Center - Main.screenPosition, null, Color.Goldenrod * opacity, angle, new Vector2(beam.Width / 2, 0), scale, SpriteEffects.None, 0);
 			}
 		}
 
@@ -102,22 +103,22 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 			if (!Main.dedServ)
 			{
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.65f).WithPitchVariance(0.3f), projectile.Center);
+				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.65f).WithPitchVariance(0.3f), Projectile.Center);
 
 				for(int i = 0; i < 10; i++)
-					ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, Main.rand.NextVector2Circular(6, 6), Color.White, Color.Goldenrod, Main.rand.NextFloat(0.1f, 0.2f), 25));
+					ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Main.rand.NextVector2Circular(6, 6), Color.White, Color.Goldenrod, Main.rand.NextFloat(0.1f, 0.2f), 25));
 			}
 
 			for(int i = 0; i < 5; i++)
 			{
 				Vector2 vel = 26 * Vector2.UnitX.RotatedBy(TargetAngle + (MathHelper.TwoPi * (i / 5f)));
-				Projectile.NewProjectileDirect(projectile.Center, vel, ModContent.ProjectileType<WeaverStarFragment>(), projectile.damage, projectile.knockBack, projectile.owner, 1f).netUpdate = true;
+				Projectile.NewProjectileDirect(Projectile.Center, vel, ModContent.ProjectileType<WeaverStarFragment>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 1f).netUpdate = true;
 			}
 
 			for (int i = 0; i < 5; i++)
 			{
 				Vector2 vel = Main.rand.NextFloat(8, 12) * Vector2.UnitX.RotatedBy(TargetAngle + (MathHelper.TwoPi * ((i + 0.5f) / 5f)));
-				Projectile.NewProjectileDirect(projectile.Center, vel, ModContent.ProjectileType<WeaverStarFragment>(), (int)(projectile.damage * 0.75f), projectile.knockBack, projectile.owner, 0.5f).netUpdate = true;
+				Projectile.NewProjectileDirect(Projectile.Center, vel, ModContent.ProjectileType<WeaverStarFragment>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner, 0.5f).netUpdate = true;
 			}
 		}
 	}

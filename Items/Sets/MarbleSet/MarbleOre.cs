@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Sets.MarbleSet
 {
 	public class MarbleOre : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSpelunker[Type] = true;
 			Main.tileSolid[Type] = true;
@@ -16,13 +16,13 @@ namespace SpiritMod.Items.Sets.MarbleSet
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;  //true for block to emit light
 			Main.tileLighted[Type] = true;
-			drop = ModContent.ItemType<MarbleChunk>();   //put your CustomBlock name
+			ItemDrop = ModContent.ItemType<MarbleChunk>();   //put your CustomBlock name
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Enchanted Marble Chunk");
 			AddMapEntry(new Color(227, 191, 75), name);
 			soundType = SoundID.Tink;
-			minPick = 65;
-			dustType = DustID.GoldCoin;
+			MinPick = 65;
+			DustType = DustID.GoldCoin;
 
 		}
 		public override bool CanExplode(int i, int j)

@@ -1,9 +1,12 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Prim;
 using System;
+using Terraria.DataStructures;
+
 namespace SpiritMod.Items.Sets.MagicMisc.Arclash
 {
 	public class ArcLash : ModItem
@@ -15,34 +18,34 @@ namespace SpiritMod.Items.Sets.MagicMisc.Arclash
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 12;
-			item.magic = true;
-			item.mana = 5;
-			item.width = 44;
-			item.height = 46;
-			item.channel = true;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 3;
-			item.value = Item.sellPrice(0, 1, 10, 0);
-			item.UseSound = SoundID.Item15;
-			item.rare = ItemRarityID.Green;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<ArcLashProj>();
-			item.shootSpeed = 8;
+			Item.damage = 12;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 5;
+			Item.width = 44;
+			Item.height = 46;
+			Item.channel = true;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 3;
+			Item.value = Item.sellPrice(0, 1, 10, 0);
+			Item.UseSound = SoundID.Item15;
+			Item.rare = ItemRarityID.Green;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<ArcLashProj>();
+			Item.shootSpeed = 8;
 		}
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
         {
-			Vector2 direction = new Vector2(speedX,speedY);
+			Vector2 direction = velocity;
 			position+= direction * 7;
-			Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+			Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
 			return false;
         }
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] == 0;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] == 0;
 	}
 	public class ArcLashProj : ModProjectile
     {
@@ -50,53 +53,55 @@ namespace SpiritMod.Items.Sets.MagicMisc.Arclash
 
 		private readonly int cycletime = 40;
 		private readonly float lengthmult = 50;
-		private ref float Progress => ref projectile.ai[0];
+		private ref float Progress => ref Projectile.ai[0];
 
-		private ref float Angle => ref projectile.ai[1];
+		private ref float Angle => ref Projectile.ai[1];
 
-		Player Owner => Main.player[projectile.owner];
+		Player Owner => Main.player[Projectile.owner];
 
         public override void SetDefaults()
         {
-            projectile.width = 48;
-            projectile.height = 48;
-            projectile.aiStyle = -1;
-            projectile.magic = true;
-            projectile.penetrate = -1;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.timeLeft = cycletime;
-            projectile.alpha = 255;
+            Projectile.width = 48;
+            Projectile.height = 48;
+            Projectile.aiStyle = -1;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = -1;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = cycletime;
+            Projectile.alpha = 255;
         }
 
         public override void AI()
         {
 			if (!Owner.channel)
-				projectile.Kill();
+				Projectile.Kill();
 
 			if (Main.LocalPlayer == Owner) {
 				Angle = Owner.AngleTo(Main.MouseWorld);
-				projectile.netUpdate = true;
+				Projectile.netUpdate = true;
 			}
 
-			Progress = lengthmult * (cycletime - projectile.timeLeft)/cycletime;
-			Owner.ChangeDir(Math.Sign(projectile.Center.X - Owner.MountedCenter.X));
+			Progress = lengthmult * (cycletime - Projectile.timeLeft)/cycletime;
+			Owner.ChangeDir(Math.Sign(Projectile.Center.X - Owner.MountedCenter.X));
 			Owner.itemRotation = MathHelper.WrapAngle(Angle - Owner.fullRotation - ((Owner.direction < 0) ? MathHelper.Pi : 0));
 			Owner.itemTime = 2;
 			Owner.itemAnimation = 2;
 
 			if(Progress == cycletime/2) {
 				Owner.CheckMana(Owner.HeldItem, Owner.HeldItem.mana, true);
-				Main.PlaySound(Owner.HeldItem.UseSound, Owner.MountedCenter);
+
+				if (Owner.HeldItem.UseSound.HasValue)
+					SoundEngine.PlaySound(Owner.HeldItem.UseSound.Value, Owner.MountedCenter);
 			}
 
 			Vector2 direction = Vector2.UnitX * 8;
-			direction = direction.RotatedBy(projectile.ai[1]);
+			direction = direction.RotatedBy(Projectile.ai[1]);
 			Vector2 position = Owner.MountedCenter + (direction * (7 + (Progress / 30)));
-			projectile.Center = position + (direction * Progress * 0.66f);
+			Projectile.Center = position + (direction * Progress * 0.66f);
 
-			if (Main.netMode != NetmodeID.Server && ++projectile.localAI[0] == 1) {
-				SpiritMod.primitives.CreateTrail(new ArclashPrimTrail(projectile));
+			if (Main.netMode != NetmodeID.Server && ++Projectile.localAI[0] == 1) {
+				SpiritMod.primitives.CreateTrail(new ArclashPrimTrail(Projectile));
 			}
         }
 

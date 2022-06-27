@@ -13,7 +13,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 {
 	public class ReachClockTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -33,11 +33,11 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Elderbark Clock");
 			AddMapEntry(new Color(179, 146, 107), name);
-			dustType = -1;
-			adjTiles = new int[] { TileID.GrandfatherClocks };
+			DustType = -1;
+			AdjTiles = new int[] { TileID.GrandfatherClocks };
 		}
 
-		public override bool NewRightClick(int x, int y)
+		public override bool RightClick(int x, int y)
 		{
 			string text = "AM";
 			//Get current weird time
@@ -85,7 +85,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
 			if (closer) {
-				Main.clock = true;
+				Main.SceneMetrics.HasClock = true;
 			}
 		}
 

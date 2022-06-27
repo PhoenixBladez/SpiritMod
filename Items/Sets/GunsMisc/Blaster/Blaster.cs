@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -27,23 +28,23 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 
 		public override void SetDefaults()
 		{
-			item.ranged = true;
-			item.width = 60;
-			item.height = 32;
-			item.damage = 13;
-			item.useTime = 27;
-			item.useAnimation = 27;
-			item.knockBack = 1f;
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.scale = .85f;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.useTurn = false;
-			item.rare = ItemRarityID.Green;
-			item.autoReuse = true;
-			item.shoot = ProjectileID.PurificationPowder;
-			item.shootSpeed = 9f;
-			item.useAmmo = AmmoID.Bullet;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 60;
+			Item.height = 32;
+			Item.damage = 13;
+			Item.useTime = 27;
+			Item.useAnimation = 27;
+			Item.knockBack = 1f;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.scale = .85f;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.useTurn = false;
+			Item.rare = ItemRarityID.Green;
+			Item.autoReuse = true;
+			Item.shoot = ProjectileID.PurificationPowder;
+			Item.shootSpeed = 9f;
+			Item.useAmmo = AmmoID.Bullet;
 
 			Generate();
 		}
@@ -68,22 +69,22 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 		{
 			if (elementPrimary <= 1 && fireType == 1)
 			{
-				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_FireGlow");
+				SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_FireGlow");
 				dustType = DustID.Fire;
 			}
 			if (elementPrimary >= 2 && fireType == 1)
 			{
-				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_CorrosiveGlow");
+				SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_CorrosiveGlow");
 				dustType = 163;
 			}
 			if (elementSecondary <= 4 && fireType == 2)
 			{
-				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_ShockGlow");
+				SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_ShockGlow");
 				dustType = DustID.Electric;
 			}
 			if (elementSecondary >= 5 && fireType == 2)
 			{
-				SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_FreezeGlow");
+				SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/GunsMisc/Blaster/Blaster_FreezeGlow");
 				dustType = DustID.DungeonSpirit;
 			}
 		}
@@ -111,9 +112,9 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 			}
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Main.PlaySound(SoundLoader.customSoundType, player.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/MaliwanShot1"));
+			SoundEngine.PlaySound(SoundLoader.customSoundType, player.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/MaliwanShot1"));
 
 			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY - 1)) * 38f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
@@ -128,27 +129,27 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 
 			if (elementPrimary <= 1 && fireType == 1)
 			{
-				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+				int proj = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanFireCommon = true;
 			}
 			if (elementPrimary >= 2 && fireType == 1)
 			{
-				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+				int proj = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanAcidCommon = true;
 			}
 			if (elementSecondary <= 4 && fireType == 2)
 			{
-				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+				int proj = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon = true;
 			}
 			if (elementSecondary >= 5 && fireType == 2)
 			{
-				int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+				int proj = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 				Main.projectile[proj].GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanFreezeCommon = true;
 			}
 			for (int index1 = 0; index1 < 5; ++index1)
 			{
-				int index2 = Dust.NewDust(new Vector2(position.X, position.Y), item.width - 64, item.height - 16, dustType, speedX, speedY, (int)byte.MaxValue, new Color(), (float)SpiritMod.Instance.spiritRNG.Next(10, 17) * 0.1f);
+				int index2 = Dust.NewDust(new Vector2(position.X, position.Y), Item.width - 64, Item.height - 16, dustType, speedX, speedY, (int)byte.MaxValue, new Color(), (float)SpiritMod.Instance.spiritRNG.Next(10, 17) * 0.1f);
 				Main.dust[index2].noLight = true;
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.5f;
@@ -159,14 +160,14 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-		public override TagCompound Save() => new TagCompound
+		public override void SaveData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */ => new TagCompound
 		{
 			{ nameof(nameIndex), nameIndex },
 			{ nameof(elementPrimary), elementPrimary },
 			{ nameof(elementSecondary), elementSecondary }
 		};
 
-		public override void Load(TagCompound tag)
+		public override void LoadData(TagCompound tag)
 		{
 			if (!tag.ContainsKey(nameof(nameIndex)))
 				return;
@@ -185,7 +186,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 			writer.Write(elementSecondary);
 		}
 
-		public override void NetRecieve(BinaryReader reader)
+		public override void NetReceive(BinaryReader reader)
 		{
 			nameIndex = reader.ReadByte();
 			elementPrimary = reader.ReadInt32();
@@ -203,7 +204,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 			ApplyStats();
 		}
 
-		public void ApplyStats() => item.SetNameOverride(WeaponName);
+		public void ApplyStats() => Item.SetNameOverride(WeaponName);
 
 		public string elementalType;
 		public string elementalType2;
@@ -219,7 +220,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Blaster
 			if (elementSecondary >= 5)
 				elementalType2 = "Freeze";
 
-			var line = new TooltipLine(mod, "", "Right-click in inventory to toggle between " + elementalType + " & " + elementalType2);
+			var line = new TooltipLine(Mod, "", "Right-click in inventory to toggle between " + elementalType + " & " + elementalType2);
 			tooltips.Add(line);
 		}
 	}

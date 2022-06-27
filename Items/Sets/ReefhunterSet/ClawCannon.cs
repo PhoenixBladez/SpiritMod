@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Sets.ReefhunterSet.Projectiles;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,26 +17,26 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 
 		public override void SetDefaults()
 		{
-			item.damage = 18;
-			item.width = 38;
-			item.height = 26;
-			item.useTime = item.useAnimation = 30;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.knockBack = 4;
-			item.value = Item.sellPrice(0, 0, 5, 0);
-			item.rare = ItemRarityID.Blue;
-			item.crit = 6;
-			item.autoReuse = true;
-			item.noMelee = true;
-			item.ranged = true;
-			item.shootSpeed = 15f;
-			item.UseSound = SoundID.Item20;
-			item.shoot = ModContent.ProjectileType<Cannonbubble>();
+			Item.damage = 18;
+			Item.width = 38;
+			Item.height = 26;
+			Item.useTime = Item.useAnimation = 30;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.knockBack = 4;
+			Item.value = Item.sellPrice(0, 0, 5, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.crit = 6;
+			Item.autoReuse = true;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.shootSpeed = 15f;
+			Item.UseSound = SoundID.Item20;
+			Item.shoot = ModContent.ProjectileType<Cannonbubble>();
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Main.PlaySound(SoundID.Item, (int)position.X, (int)position.Y, 85);
+			SoundEngine.PlaySound(SoundID.Item, (int)position.X, (int)position.Y, 85);
 
 			for (int i = 0; i < 5; ++i)
 				Dust.NewDust(position, 0, 0, DustID.BubbleBurst_Blue, speedX * Main.rand.NextFloat(0.15f, 0.25f), speedY * Main.rand.NextFloat(0.15f, 0.25f), 0, default, Main.rand.NextFloat(0.5f, 1f));
@@ -49,13 +50,12 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<IridescentScale>(), 14);
 			recipe.AddIngredient(ModContent.ItemType<SulfurDeposit>(), 5);
 			recipe.AddIngredient(ItemID.IronBar, 2);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

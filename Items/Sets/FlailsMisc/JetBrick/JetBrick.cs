@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 
 			for (int i = 0; i < 4; i++)
 			{
-				Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 0, default, 1f)];
+				Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Torch, 0f, 0f, 0, default, 1f)];
 				if (Main.rand.NextBool(2))
 					newDust.position = position;
 				if (Main.rand.NextBool(2))

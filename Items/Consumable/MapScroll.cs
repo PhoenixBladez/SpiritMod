@@ -15,18 +15,18 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 40;
-			item.maxStack = 20;
-			item.value = 1000;
-			item.rare = ItemRarityID.White;
-			item.useAnimation = 30;
-			item.useTime = 30;
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.consumable = true;
+			Item.width = 28;
+			Item.height = 40;
+			Item.maxStack = 20;
+			Item.value = 1000;
+			Item.rare = ItemRarityID.White;
+			Item.useAnimation = 30;
+			Item.useTime = 30;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.consumable = true;
 		}
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height), new Color(255, 255, 255, 100), "Map Revealed");
 

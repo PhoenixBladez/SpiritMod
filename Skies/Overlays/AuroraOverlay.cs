@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 
 namespace SpiritMod.Skies.Overlays
@@ -138,7 +139,7 @@ namespace SpiritMod.Skies.Overlays
 			SpiritMod.auroraEffect.Parameters["opacity"].SetValue(opacity * Opacity); //this is the movement of each band layer. wind speed maybe?
 			SpiritMod.auroraEffect.CurrentTechnique.Passes[0].Apply();
 
-			spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, basePoint + yOffset, Main.screenWidth, height), Color.White);
+			spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, basePoint + yOffset, Main.screenWidth, height), Color.White);
 
 			spriteBatch.End();
 		}

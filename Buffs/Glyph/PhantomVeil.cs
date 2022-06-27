@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Glyph
 {
 	public class PhantomVeil : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Phantom Veil");
 			Description.SetDefault("The next attack will be blocked");

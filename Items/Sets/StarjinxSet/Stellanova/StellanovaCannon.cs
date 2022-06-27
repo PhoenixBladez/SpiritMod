@@ -11,50 +11,50 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 {
     public class StellanovaCannon : ModItem
     {
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stellanova Cannon");
             Tooltip.SetDefault("Uses stars as ammo\nFires erratic starfire\nRight click to launch an explosive stellanova that draws in smaller stars\n50% chance not to consume ammo");
-			SpiritGlowmask.AddGlowMask(item.type, Texture + "_glow");
+			SpiritGlowmask.AddGlowMask(Item.type, Texture + "_glow");
         }
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.autoReuse = true;
-            item.useTime = 20;
-			item.useAnimation = 20;
-			item.width = 38;
-            item.height = 6;
-            item.damage = 80;
-            item.shoot = ModContent.ProjectileType<StellanovaStarfire>();
-            item.shootSpeed = StellanovaStarfire.MAX_SPEED;
-            item.noMelee = true;
-            item.useAmmo = AmmoID.FallenStar;
-            item.value = Item.sellPrice(silver: 55);
-            item.knockBack = 3f;
-            item.ranged = true;
-            item.rare = ItemRarityID.Pink;
-			var sound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/StarCast"); //Wacky stuff so it doesn't break in mp
-			item.UseSound = Main.dedServ ? sound : sound.WithPitchVariance(0.3f).WithVolume(0.7f);
-			item.noUseGraphic = true;
-			item.channel = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.autoReuse = true;
+            Item.useTime = 20;
+			Item.useAnimation = 20;
+			Item.width = 38;
+            Item.height = 6;
+            Item.damage = 80;
+            Item.shoot = ModContent.ProjectileType<StellanovaStarfire>();
+            Item.shootSpeed = StellanovaStarfire.MAX_SPEED;
+            Item.noMelee = true;
+            Item.useAmmo = AmmoID.FallenStar;
+            Item.value = Item.sellPrice(silver: 55);
+            Item.knockBack = 3f;
+            Item.DamageType = DamageClass.Ranged;
+            Item.rare = ItemRarityID.Pink;
+			var sound = Mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/StarCast"); //Wacky stuff so it doesn't break in mp
+			Item.UseSound = Main.dedServ ? sound : sound.WithPitchVariance(0.3f).WithVolume(0.7f);
+			Item.noUseGraphic = true;
+			Item.channel = true;
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, item, ModContent.GetTexture(Texture + "_glow"), rotation, scale);
-		public override bool ConsumeAmmo(Player player) => Main.rand.NextBool();
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, ModContent.Request<Texture2D>(Texture + "_glow"), rotation, scale);
+		public override bool CanConsumeAmmo(Item item, Player player) => Main.rand.NextBool();
         public override bool CanUseItem(Player player) => player.altFunctionUse != 2 || player.ownedProjectileCounts[ModContent.ProjectileType<BigStellanova>()] <= 0;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
         {
             Vector2 direction = new Vector2(speedX, speedY);
             if (player.altFunctionUse == 2) //big stellanova
 			{
 				position += direction * 5;
-				Projectile.NewProjectile(position, direction * 0.12f, ModContent.ProjectileType<BigStellanova>(), damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(position, direction * 0.12f, ModContent.ProjectileType<BigStellanova>(), damage, knockback, player.whoAmI);
 			}
             else //starfire
             {
@@ -67,7 +67,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
                 player.itemRotation += shootRotation;
 				position -= new Vector2(-10, 15).RotatedBy(player.itemRotation);
 
-                Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockBack, player.whoAmI);
+                Projectile proj = Projectile.NewProjectileDirect(position, direction, type, damage, knockback, player.whoAmI);
 
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
@@ -82,13 +82,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
         public override void AddRecipes()
         {
-            var recipe = new ModRecipe(mod);
+            var recipe = CreateRecipe();
             recipe.AddIngredient(ModContent.ItemType<Starjinx>(), 6);
             recipe.AddIngredient(ItemID.StarCannon, 1);
             recipe.AddIngredient(ItemID.IllegalGunParts, 1);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            recipe.Register();
         }
     }
 }

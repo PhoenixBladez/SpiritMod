@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,33 +14,33 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 55;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.friendly = true;
-			projectile.timeLeft = 60;
-			projectile.penetrate = -1;
-			projectile.extraUpdates = 1;
+			Projectile.width = Projectile.height = 55;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
+			Projectile.timeLeft = 60;
+			Projectile.penetrate = -1;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override bool PreAI()
 		{
-			if (projectile.localAI[1] == 0f) {
-				projectile.localAI[1] = 1f;
-				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 8);
+			if (Projectile.localAI[1] == 0f) {
+				Projectile.localAI[1] = 1f;
+				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 8);
 			}
-			else if (projectile.ai[0] == 1f) {
-				projectile.scale -= 0.01f;
-				projectile.alpha += 50;
-				if (projectile.alpha >= 255) {
-					projectile.ai[0] = 2f;
-					projectile.alpha = 255;
+			else if (Projectile.ai[0] == 1f) {
+				Projectile.scale -= 0.01f;
+				Projectile.alpha += 50;
+				if (Projectile.alpha >= 255) {
+					Projectile.ai[0] = 2f;
+					Projectile.alpha = 255;
 				}
 			}
 
-			projectile.rotation = projectile.velocity.ToRotation() + 4.71F;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Projectile.rotation = Projectile.velocity.ToRotation() + 4.71F;
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.UnusedWhiteBluePurple, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+			int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.UnusedWhiteBluePurple, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust2].noGravity = true;
 

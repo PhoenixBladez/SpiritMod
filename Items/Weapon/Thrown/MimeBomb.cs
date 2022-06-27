@@ -16,26 +16,26 @@ namespace SpiritMod.Items.Weapon.Thrown
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.width = 16;
-			item.height = 16;
-			item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.width = 16;
+			Item.height = 16;
+			Item.noUseGraphic = true;
 			//	item.UseSound = SoundID.Item106;
-			item.ranged = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<MimeBombProj>();
-			item.useAnimation = 46;
-			item.useTime = 46;
-			item.consumable = true;
-			item.maxStack = 999;
-			item.shootSpeed = 5f;
-			item.damage = 40;
-			item.knockBack = 9.5f;
-			item.value = Item.sellPrice(0, 0, 3, 0);
-			item.rare = ItemRarityID.Green;
-			item.autoReuse = false;
-			item.consumable = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.shoot = ModContent.ProjectileType<MimeBombProj>();
+			Item.useAnimation = 46;
+			Item.useTime = 46;
+			Item.consumable = true;
+			Item.maxStack = 999;
+			Item.shootSpeed = 5f;
+			Item.damage = 40;
+			Item.knockBack = 9.5f;
+			Item.value = Item.sellPrice(0, 0, 3, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.autoReuse = false;
+			Item.consumable = true;
 		}
 	}
 }

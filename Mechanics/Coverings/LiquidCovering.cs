@@ -25,17 +25,17 @@ namespace SpiritMod.Mechanics.Coverings
             // if this tile has no liquid and the one below doesn't either, it's not valid anymore
             Tile tile = Framing.GetTileSafely(x, y);
             Tile above = Framing.GetTileSafely(x, y - 1);
-            if (tile.liquid == 0)
+            if (tile.LiquidAmount == 0)
             {
                 Tile below = Framing.GetTileSafely(x, y + 1);
-                if (below.liquid == 0)
+                if (below.LiquidAmount == 0)
                 {
                     return false;
                 }
             }
 
             // this should stop a few weird situations where tiles are directly above a covering
-            if (tile.liquid > 240 && WorldGen.SolidOrSlopedTile(above)) return false;
+            if (tile.LiquidAmount > 240 && WorldGen.SolidOrSlopedTile(above)) return false;
 
             // otherwise, as long as this tile is empty we gucci
             return !WorldGen.SolidOrSlopedTile(x, y);
@@ -45,7 +45,7 @@ namespace SpiritMod.Mechanics.Coverings
         {
             // try move upwards
             Tile above = Framing.GetTileSafely(x, y - 1);
-            if (above != null && above.liquid > 0)
+            if (above != null && above.LiquidAmount > 0)
             {
                 CoverData data = CoveringsManager.GetData(x, y);
                 CoveringsManager.RemoveAt(x, y);
@@ -58,7 +58,7 @@ namespace SpiritMod.Mechanics.Coverings
 
             // try move downwards if our current tile is empty
             Tile tile = Framing.GetTileSafely(x, y);
-            if (tile.liquid == 0)
+            if (tile.LiquidAmount == 0)
             {
                 CoverData data = CoveringsManager.GetData(x, y);
                 // because IsValidAt(x,y) returned true, we know the tile below has liquid in it
@@ -77,7 +77,7 @@ namespace SpiritMod.Mechanics.Coverings
         public override void Draw(SpriteBatch spriteBatch, int x, int y, int variation, int orientation)
         {
             Tile tile = Framing.GetTileSafely(x, y);
-            float percent = tile.liquid / 255f;
+            float percent = tile.LiquidAmount / 255f;
             float drawY = (y + 1) * 16f - 16f * percent - 4f; // subtracting 4f here just to make it sit slightly on top by default
 
             Color clr = Lighting.GetColor(x, y, Color);

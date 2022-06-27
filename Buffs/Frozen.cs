@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class Frozen : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frozen");
 			Main.debuff[Type] = true;

@@ -10,14 +10,14 @@ namespace SpiritMod.Tiles.Ambient.Briar
 {
 	public class SmallBriarObjects : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileCut[Type] = true;
 			Main.tileNoFail[Type] = true;
 			Main.tileMergeDirt[Type] = true;
             TileObjectData.newTile.RandomStyleRange = 10;
-            dustType = DustID.Stone;
+            DustType = DustID.Stone;
 			soundType = SoundID.Grass;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.addTile(Type);
@@ -50,7 +50,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             Tile tileBelow = Framing.GetTileSafely(i, j + 1);
-            if (!tileBelow.active() || tileBelow.halfBrick() || tileBelow.topSlope())
+            if (!tileBelow.HasTile || tileBelow.IsHalfBlock || tileBelow.TopSlope)
             {
                 WorldGen.KillTile(i, j);
             }
@@ -62,7 +62,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			num = 2;
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}

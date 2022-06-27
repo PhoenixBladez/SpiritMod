@@ -16,33 +16,33 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 		public override void AbstractSetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ethereal Butterfly");
-			Main.projFrames[projectile.type] = 2;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			Main.projFrames[Projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 		public override bool PreAI()
 		{
 			if (AiState == Moving)
 			{
-				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-				projectile.alpha = Math.Max(projectile.alpha - 5, 0);
+				Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+				Projectile.alpha = Math.Max(Projectile.alpha - 5, 0);
 
-				foreach (Projectile p in Main.projectile.Where(x => x.active && x != null && x.type == projectile.type && x.owner == projectile.owner && x != projectile))
-					if (p.Hitbox.Intersects(projectile.Hitbox))
-						projectile.velocity += projectile.DirectionFrom(p.Center) / 20;
+				foreach (Projectile p in Main.projectile.Where(x => x.active && x != null && x.type == Projectile.type && x.owner == Projectile.owner && x != Projectile))
+					if (p.Hitbox.Intersects(Projectile.Hitbox))
+						Projectile.velocity += Projectile.DirectionFrom(p.Center) / 20;
 
 				if (Main.rand.NextBool(8) && !Main.dedServ)
-					Particles.ParticleHandler.SpawnParticle(new Particles.StarParticle(projectile.Center + Main.rand.NextVector2Circular(4, 4),
-						projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.2f, 0.4f), Color.LightPink, Color.DeepPink, Main.rand.NextFloat(0.1f, 0.2f), 20));
+					Particles.ParticleHandler.SpawnParticle(new Particles.StarParticle(Projectile.Center + Main.rand.NextVector2Circular(4, 4),
+						Projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.2f, 0.4f), Color.LightPink, Color.DeepPink, Main.rand.NextFloat(0.1f, 0.2f), 20));
 			}
 			else
-				projectile.alpha = Math.Min(projectile.alpha + 5, 100);
+				Projectile.alpha = Math.Min(Projectile.alpha + 5, 100);
 
 			return true;
 		}
 
-		private ref float AiState => ref projectile.ai[0];
+		private ref float AiState => ref Projectile.ai[0];
 		private const float Moving = 0;
 		private const float StuckToPlayer = 1;
 
@@ -51,19 +51,19 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 		{
 			if (AiState == Moving)
 			{
-				if (projectile.Distance(player.MountedCenter) > 2000)
-					projectile.Center = player.MountedCenter;
+				if (Projectile.Distance(player.MountedCenter) > 2000)
+					Projectile.Center = player.MountedCenter;
 
-				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(player.MountedCenter) * 15, 0.04f);
-				if (projectile.Hitbox.Intersects(player.Hitbox))
+				Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(player.MountedCenter) * 15, 0.04f);
+				if (Projectile.Hitbox.Intersects(player.Hitbox))
 				{
-					stuckPos = projectile.Center - player.MountedCenter;
+					stuckPos = Projectile.Center - player.MountedCenter;
 					AiState = StuckToPlayer;
-					projectile.netUpdate = true;
+					Projectile.netUpdate = true;
 				}
 			}
 			else
-				projectile.Center = stuckPos + player.MountedCenter;
+				Projectile.Center = stuckPos + player.MountedCenter;
 		}
 
 		public override bool DoAutoFrameUpdate(ref int framespersecond, ref int startframe, ref int endframe)
@@ -76,37 +76,37 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 		{
 			AiState = Moving;
 
-			if (Math.Abs(MathHelper.WrapAngle(projectile.velocity.ToRotation() - projectile.AngleTo(target.Center))) < MathHelper.PiOver4) //if close enough in desired angle, accelerate and home accurately
-				projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * 18, 0.1f);
+			if (Math.Abs(MathHelper.WrapAngle(Projectile.velocity.ToRotation() - Projectile.AngleTo(target.Center))) < MathHelper.PiOver4) //if close enough in desired angle, accelerate and home accurately
+				Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(target.Center) * 18, 0.1f);
 
 			else //if too much of an angle, circle around
 			{
-				if (projectile.velocity.Length() > 8)
-					projectile.velocity *= 0.97f;
+				if (Projectile.velocity.Length() > 8)
+					Projectile.velocity *= 0.97f;
 
-				if (projectile.velocity.Length() < 5)
-					projectile.velocity *= 1.04f;
+				if (Projectile.velocity.Length() < 5)
+					Projectile.velocity *= 1.04f;
 
-				projectile.velocity = projectile.velocity.Length() * Vector2.Normalize(Vector2.Lerp(projectile.velocity, projectile.DirectionTo(target.Center) * projectile.velocity.Length(), 0.125f));
+				Projectile.velocity = Projectile.velocity.Length() * Vector2.Normalize(Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(target.Center) * Projectile.velocity.Length(), 0.125f));
 			}
 		}
 
-		public override Color? GetAlpha(Color lightColor) => Color.White * projectile.Opacity;
+		public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.Opacity;
 
 		public override void Kill(int timeLeft)
 		{
-			DustHelper.DrawStar(projectile.Center, 223, pointAmount: 5, mainSize: 1.6425f, dustDensity: 1.5f, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
+			DustHelper.DrawStar(Projectile.Center, 223, pointAmount: 5, mainSize: 1.6425f, dustDensity: 1.5f, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
 			for (int i = 0; i < 15; i++)
-				Dust.NewDustPerfect(projectile.Center, 223, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(3), 0, default, 0.5f);
+				Dust.NewDustPerfect(Projectile.Center, 223, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(3), 0, default, 0.5f);
 		}
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
-			Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
-			sB.Draw(bloom, projectile.Center - Main.screenPosition, null, Color.LightPink * projectile.Opacity * 0.6f, 0, bloom.Size() / 2, 0.2f, SpriteEffects.None, 0);
+			Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
+			sB.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.LightPink * Projectile.Opacity * 0.6f, 0, bloom.Size() / 2, 0.2f, SpriteEffects.None, 0);
 
-			projectile.QuickDrawTrail(sB, AiState == Moving ? 0.6f : 0f);
-			projectile.QuickDraw(sB);
+			Projectile.QuickDrawTrail(sB, AiState == Moving ? 0.6f : 0f);
+			Projectile.QuickDraw(sB);
 		}
 	}
 }

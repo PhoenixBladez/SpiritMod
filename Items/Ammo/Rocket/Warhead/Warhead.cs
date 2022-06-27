@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
@@ -19,14 +20,14 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.RocketI);
-			item.width = 26;
-			item.height = 14;
-			item.value = Item.buyPrice(0, 0, 0, 30);
-			item.rare = ItemRarityID.White;
-			item.damage = 10;
-			item.shoot = ModContent.ProjectileType<WarheadProj>();
-			item.shootSpeed = 6;
+			Item.CloneDefaults(ItemID.RocketI);
+			Item.width = 26;
+			Item.height = 14;
+			Item.value = Item.buyPrice(0, 0, 0, 30);
+			Item.rare = ItemRarityID.White;
+			Item.damage = 10;
+			Item.shoot = ModContent.ProjectileType<WarheadProj>();
+			Item.shootSpeed = 6;
 		}
 
 		public override void PickAmmo(Item weapon, Player player, ref int type, ref float speed, ref int damage, ref float knockback)
@@ -42,7 +43,7 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 					type = ModContent.ProjectileType<Warhead_snowman>();
 					break;
 				default:
-					type = item.shoot;
+					type = Item.shoot;
 					break;
 			}
 		}
@@ -62,27 +63,27 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Warhead");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(CopyProj);
-			projectile.penetrate = 1;
+			Projectile.CloneDefaults(CopyProj);
+			Projectile.penetrate = 1;
 			if (usesaitype)
-				aiType = CopyProj;
+				AIType = CopyProj;
 			else
-				projectile.aiStyle = -1;
+				Projectile.aiStyle = -1;
 		}
 
 		public override void ExplodeEffect()
 		{
-			Main.PlaySound(new LegacySoundStyle(soundId: SoundID.Item, style: 14).WithPitchVariance(0.1f), projectile.Center);
+			SoundEngine.PlaySound(new LegacySoundStyle(soundId: SoundID.Item, style: 14).WithPitchVariance(0.1f), Projectile.Center);
 			for (int i = 0; i < 10; i++)
 			{
 				Vector2 offset = Main.rand.NextVector2Circular(50, 50);
-				ParticleHandler.SpawnParticle(new WarheadBoom(projectile.Center + offset, Main.rand.NextFloat(1f, 1.4f), offset.ToRotation() + MathHelper.PiOver2));
+				ParticleHandler.SpawnParticle(new WarheadBoom(Projectile.Center + offset, Main.rand.NextFloat(1f, 1.4f), offset.ToRotation() + MathHelper.PiOver2));
 			}
 
 			for (int i = 0; i < 20; i++)
@@ -90,11 +91,11 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 				float maxDist = 70;
 				float Dist = Main.rand.NextFloat(maxDist);
 				Vector2 offset = Main.rand.NextVector2Unit();
-				ParticleHandler.SpawnParticle(new SmokeParticle(projectile.Center + (offset * Dist), Main.rand.NextFloat(5f) * offset * (1 - (Dist / maxDist)), new Color(60, 60, 60) * 0.5f, Main.rand.NextFloat(0.4f, 0.6f), 40));
+				ParticleHandler.SpawnParticle(new SmokeParticle(Projectile.Center + (offset * Dist), Main.rand.NextFloat(5f) * offset * (1 - (Dist / maxDist)), new Color(60, 60, 60) * 0.5f, Main.rand.NextFloat(0.4f, 0.6f), 40));
 			}
 
 			for (int i = 0; i < 6; i++)
-				ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, (projectile.velocity / 2) - (Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 3) * Main.rand.NextFloat(6)),
+				ParticleHandler.SpawnParticle(new FireParticle(Projectile.Center, (Projectile.velocity / 2) - (Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 3) * Main.rand.NextFloat(6)),
 					new Color(246, 255, 0), new Color(232, 37, 2), Main.rand.NextFloat(0.5f, 0.7f), 40, delegate (Particle particle)
 					{
 						if (particle.Velocity.Y < 16)
@@ -108,48 +109,48 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 		public WarheadProj() : base(ProjectileID.RocketI) { }
 
 		private const int maxTimeLeft = 240;
-		private int AiTimer => maxTimeLeft - projectile.timeLeft;
+		private int AiTimer => maxTimeLeft - Projectile.timeLeft;
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
-			projectile.timeLeft = maxTimeLeft;
+			Projectile.timeLeft = maxTimeLeft;
 		}
 
-		public override string Texture => mod.Name + "/Items/Ammo/Rocket/Warhead/Warhead";
+		public override string Texture => Mod.Name + "/Items/Ammo/Rocket/Warhead/Warhead";
 
-		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(projectile, new GradientTrail(Color.Lerp(Color.Orange, Color.White, 0.7f) * 0.2f, Color.Transparent), new RoundCap(), new DefaultTrailPosition(), 30, 100);
+		public void DoTrailCreation(TrailManager tM) => tM.CreateTrail(Projectile, new GradientTrail(Color.Lerp(Color.Orange, Color.White, 0.7f) * 0.2f, Color.Transparent), new RoundCap(), new DefaultTrailPosition(), 30, 100);
 
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+			Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 			if (AiTimer < 30)
-				projectile.velocity *= 1.023f;
+				Projectile.velocity *= 1.023f;
 			if (!Main.dedServ)
 			{
-				ParticleHandler.SpawnParticle(new FireParticle(projectile.Center, -projectile.velocity.RotatedByRandom(MathHelper.Pi / 32) * Main.rand.NextFloat(),
+				ParticleHandler.SpawnParticle(new FireParticle(Projectile.Center, -Projectile.velocity.RotatedByRandom(MathHelper.Pi / 32) * Main.rand.NextFloat(),
 							new Color(246, 255, 0), new Color(232, 37, 2), Main.rand.NextFloat(0.35f, 0.5f), 7, delegate (Particle particle)
 							{
 								particle.Velocity *= 0.94f;
 							}));
 
 				for(int i = 0; i < 2; i++)
-					ParticleHandler.SpawnParticle(new SmokeParticle(projectile.Center, -projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.25f), new Color(60, 60, 60) * 0.5f, Main.rand.NextFloat(0.2f, 0.3f), 20));
+					ParticleHandler.SpawnParticle(new SmokeParticle(Projectile.Center, -Projectile.velocity.RotatedByRandom(MathHelper.Pi / 16) * Main.rand.NextFloat(0.25f), new Color(60, 60, 60) * 0.5f, Main.rand.NextFloat(0.2f, 0.3f), 20));
 			}
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.Kill();
+			Projectile.Kill();
 			return base.OnTileCollide(oldVelocity);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			for(int i = 0; i < ProjectileID.Sets.TrailCacheLength[projectile.type]; i++) {
-				Vector2 drawpos = projectile.oldPos[i] + projectile.Size / 2 - Main.screenPosition;
-				float opacity = (ProjectileID.Sets.TrailCacheLength[projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[projectile.type];
+			for(int i = 0; i < ProjectileID.Sets.TrailCacheLength[Projectile.type]; i++) {
+				Vector2 drawpos = Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition;
+				float opacity = (ProjectileID.Sets.TrailCacheLength[Projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[Projectile.type];
 				opacity *= 0.4f;
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawpos, null, projectile.GetAlpha(lightColor) * opacity, projectile.rotation, projectile.Size / 2, projectile.scale, SpriteEffects.None, 0);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawpos, null, Projectile.GetAlpha(lightColor) * opacity, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
 			}
 			return true;
 		}
@@ -170,7 +171,7 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 		public Warhead_snowman() : base(ProjectileID.RocketSnowmanI, true) { }
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.Kill();
+			Projectile.Kill();
 			return base.OnTileCollide(oldVelocity);
 		}
 	}

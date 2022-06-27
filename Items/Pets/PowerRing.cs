@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using SpiritMod.Buffs.Pet;
 using SpiritMod.Projectiles.Pet;
 using Terraria;
@@ -17,23 +18,23 @@ namespace SpiritMod.Items.Pets
 		public override void SetDefaults()
 		{
 
-			item.damage = 0;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.shoot = ModContent.ProjectileType<Lantern>();
-			item.width = 16;
-			item.height = 30;
-			item.useAnimation = 20;
-			item.useTime = 20;
-			item.rare = ItemRarityID.Orange;
-			item.noMelee = true;
-			item.value = Item.sellPrice(0, 3, 50, 0);
-			item.buffType = ModContent.BuffType<LanternBuff>();
+			Item.damage = 0;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.shoot = ModContent.ProjectileType<Lantern>();
+			Item.width = 16;
+			Item.height = 30;
+			Item.useAnimation = 20;
+			Item.useTime = 20;
+			Item.rare = ItemRarityID.Orange;
+			Item.noMelee = true;
+			Item.value = Item.sellPrice(0, 3, 50, 0);
+			Item.buffType = ModContent.BuffType<LanternBuff>();
 		}
 
-		public override void UseStyle(Player player)
+		public override void UseStyle(Player player, Rectangle heldItemFrame)
 		{
 			if (player.whoAmI == Main.myPlayer && player.itemTime == 0) {
-				player.AddBuff(item.buffType, 3600, true);
+				player.AddBuff(Item.buffType, 3600, true);
 			}
 		}
 
@@ -45,13 +46,12 @@ namespace SpiritMod.Items.Pets
 		public override void AddRecipes()
 		{
 
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe(1);
 			modRecipe.AddIngredient(ItemID.MeteoriteBar, 10);
 			modRecipe.AddIngredient(ItemID.FallenStar, 3);
 			modRecipe.AddIngredient(ItemID.Emerald, 1);
 			modRecipe.AddTile(TileID.Anvils);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

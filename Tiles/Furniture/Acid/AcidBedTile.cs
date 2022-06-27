@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.Furniture.Acid;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -9,7 +11,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 {
 	public class AcidBedTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = true;
@@ -21,12 +23,12 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			name.SetDefault("Corrosive Bed");
 			AddMapEntry(new Color(100, 122, 111), name);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
-            disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Beds };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.Beds };
 			bed = true;
             TileID.Sets.HasOutlines[Type] = true;
         }
-        public override bool HasSmartInteract() => true;
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public override void NumDust(int i, int j, bool fail, ref int num)
 		{
@@ -35,18 +37,18 @@ namespace SpiritMod.Tiles.Furniture.Acid
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
 			Terraria.Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<AcidBed>());
 		}
 
-		public override bool NewRightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			Player player = Main.player[Main.myPlayer];
 			Tile tile = Main.tile[i, j];
-			int spawnX = i - tile.frameX / 18;
+			int spawnX = i - tile.TileFrameX / 18;
 			int spawnY = j + 2;
-			spawnX += tile.frameX >= 72 ? 5 : 2;
-			if (tile.frameY % 38 != 0) {
+			spawnX += tile.TileFrameX >= 72 ? 5 : 2;
+			if (tile.TileFrameY % 38 != 0) {
 				spawnY--;
 			}
 			player.FindSpawn();
@@ -65,8 +67,8 @@ namespace SpiritMod.Tiles.Furniture.Acid
 		{
 			Player player = Main.player[Main.myPlayer];
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			player.showItemIcon2 = ModContent.ItemType<AcidBed>();
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = ModContent.ItemType<AcidBed>();
 		}
 	}
 }

@@ -14,16 +14,16 @@ namespace SpiritMod.Items.Sets.SlagSet.FieryArmor
 		{
 			DisplayName.SetDefault("Slag Tyrant's Helm");
 			Tooltip.SetDefault("5% increased minion damage\nIncreases your max number of sentries");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/SlagSet/FieryArmor/ObsidiusHelm_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/SlagSet/FieryArmor/ObsidiusHelm_Glow");
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = Item.sellPrice(0, 0, 35, 0);
-			item.rare = ItemRarityID.Orange;
-			item.defense = 6;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = Item.sellPrice(0, 0, 35, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.defense = 6;
 		}
 
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
@@ -40,11 +40,10 @@ namespace SpiritMod.Items.Sets.SlagSet.FieryArmor
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 14);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 
 		public override void UpdateArmorSet(Player player)

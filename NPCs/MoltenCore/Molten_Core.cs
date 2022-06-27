@@ -2,8 +2,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Mechanics.QuestSystem;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace SpiritMod.NPCs.MoltenCore
 {
@@ -13,232 +15,232 @@ namespace SpiritMod.NPCs.MoltenCore
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Molten Core");
-			Main.npcFrameCount[npc.type] = 5;
+			Main.npcFrameCount[NPC.type] = 5;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.aiStyle = -1;
-			npc.lifeMax = 65;
-			npc.defense = 6;
-			npc.value = 350f;
-			npc.knockBackResist = 0.5f;
-			npc.width = 24;
-			npc.height = 24;
-			npc.damage = 25;
-			npc.lavaImmune = true;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.buffImmune[BuffID.OnFire] = true;
-			npc.buffImmune[BuffID.Confused] = true;
-			npc.HitSound = SoundID.NPCHit3;
-			npc.DeathSound = SoundID.NPCDeath43;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.MoltenCoreBanner>();
+			NPC.aiStyle = -1;
+			NPC.lifeMax = 65;
+			NPC.defense = 6;
+			NPC.value = 350f;
+			NPC.knockBackResist = 0.5f;
+			NPC.width = 24;
+			NPC.height = 24;
+			NPC.damage = 25;
+			NPC.lavaImmune = true;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.buffImmune[BuffID.OnFire] = true;
+			NPC.buffImmune[BuffID.Confused] = true;
+			NPC.HitSound = SoundID.NPCHit3;
+			NPC.DeathSound = SoundID.NPCDeath43;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.MoltenCoreBanner>();
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(24, 60 * 3);
 
 		public override void AI()
 		{
-			Player player = Main.player[npc.target];
-			npc.spriteDirection = npc.direction;
+			Player player = Main.player[NPC.target];
+			NPC.spriteDirection = NPC.direction;
 			Movement();
 			CheckPlatform();
 			
 			if (Main.rand.Next(15) == 0)
 			{
-				int index = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Fire, 0.0f, 0.0f, 100, new Color(), 1f);
+				int index = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Torch, 0.0f, 0.0f, 100, new Color(), 1f);
 				Main.dust[index].noGravity = true;
 				Main.dust[index].velocity.X = (float) Main.rand.Next(-3,3);
 				Main.dust[index].velocity.Y = 2f;
 			}
 			
-			if (npc.ai[2] < 3)
+			if (NPC.ai[2] < 3)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					npc.ai[2]++;
-					int p = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<Molten_Core_Projectile>(), 8, 0, 0);
-					Main.projectile[p].ai[1] = npc.whoAmI;
+					NPC.ai[2]++;
+					int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<Molten_Core_Projectile>(), 8, 0, 0);
+					Main.projectile[p].ai[1] = NPC.whoAmI;
 				}
-				npc.netUpdate = true;
+				NPC.netUpdate = true;
 			}
 		}
 
 		private void CheckPlatform()
 		{
 			bool onplatform = true;
-			for (int i = (int)npc.position.X; i < npc.position.X + npc.width; i += npc.width / 4) {
-				Tile tile = Framing.GetTileSafely(new Point((int)npc.position.X / 16, (int)(npc.position.Y + npc.height + 8) / 16));
-				if (!TileID.Sets.Platforms[tile.type])
+			for (int i = (int)NPC.position.X; i < NPC.position.X + NPC.width; i += NPC.width / 4) {
+				Tile tile = Framing.GetTileSafely(new Point((int)NPC.position.X / 16, (int)(NPC.position.Y + NPC.height + 8) / 16));
+				if (!TileID.Sets.Platforms[tile.TileType])
 					onplatform = false;
 			}
 			if (onplatform)
-				npc.noTileCollide = true;
+				NPC.noTileCollide = true;
 			else
-				npc.noTileCollide = false;
+				NPC.noTileCollide = false;
 		}
 
 		private void Movement()
 		{
-			npc.noGravity = true;
-			if (!npc.noTileCollide)
+			NPC.noGravity = true;
+			if (!NPC.noTileCollide)
 			{
-				if (npc.collideX)
+				if (NPC.collideX)
 				{
-					npc.velocity.X = npc.oldVelocity.X * -0.5f;
-					if (npc.direction == -1 && (double)npc.velocity.X > 0.0 && (double)npc.velocity.X < 2.0)
+					NPC.velocity.X = NPC.oldVelocity.X * -0.5f;
+					if (NPC.direction == -1 && (double)NPC.velocity.X > 0.0 && (double)NPC.velocity.X < 2.0)
 					{
-						npc.velocity.X = 2f;
+						NPC.velocity.X = 2f;
 					}
 
-					if (npc.direction == 1 && (double)npc.velocity.X < 0.0 && (double)npc.velocity.X > -2.0)
+					if (NPC.direction == 1 && (double)NPC.velocity.X < 0.0 && (double)NPC.velocity.X > -2.0)
 					{
-						npc.velocity.X = -2f;
+						NPC.velocity.X = -2f;
 					}
 				}
-				if (npc.collideY)
+				if (NPC.collideY)
 				{
-					npc.velocity.Y = npc.oldVelocity.Y * -0.5f;
-					if ((double)npc.velocity.Y > 0.0 && (double)npc.velocity.Y < 1.0)
+					NPC.velocity.Y = NPC.oldVelocity.Y * -0.5f;
+					if ((double)NPC.velocity.Y > 0.0 && (double)NPC.velocity.Y < 1.0)
 					{
-						npc.velocity.Y = 1f;
+						NPC.velocity.Y = 1f;
 					}
 
-					if ((double)npc.velocity.Y < 0.0 && (double)npc.velocity.Y > -1.0)
+					if ((double)NPC.velocity.Y < 0.0 && (double)NPC.velocity.Y > -1.0)
 					{
-						npc.velocity.Y = -1f;
+						NPC.velocity.Y = -1f;
 					}
 				}
 			}
-			npc.TargetClosest(true);
-			if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+			NPC.TargetClosest(true);
+			if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
 			{
-				if ((double)npc.ai[1] > 0.0 && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+				if ((double)NPC.ai[1] > 0.0 && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
 				{
-					npc.ai[1] = 0.0f;
-					npc.ai[0] = 0.0f;
-					npc.netUpdate = true;
+					NPC.ai[1] = 0.0f;
+					NPC.ai[0] = 0.0f;
+					NPC.netUpdate = true;
 				}
 			}
-			else if ((double)npc.ai[1] == 0.0)
+			else if ((double)NPC.ai[1] == 0.0)
 			{
-				++npc.ai[0];
+				++NPC.ai[0];
 			}
 
-			if ((double)npc.ai[0] >= 300.0)
+			if ((double)NPC.ai[0] >= 300.0)
 			{
-				npc.ai[1] = 1f;
-				npc.ai[0] = 0.0f;
-				npc.netUpdate = true;
+				NPC.ai[1] = 1f;
+				NPC.ai[0] = 0.0f;
+				NPC.netUpdate = true;
 			}
-			if ((double)npc.ai[1] == 0.0)
+			if ((double)NPC.ai[1] == 0.0)
 			{
-				npc.alpha = 0;
-				npc.noTileCollide = false;
+				NPC.alpha = 0;
+				NPC.noTileCollide = false;
 			}
 			else
 			{
-				npc.wet = false;
-				npc.alpha = 200;
-				npc.noTileCollide = true;
+				NPC.wet = false;
+				NPC.alpha = 200;
+				NPC.noTileCollide = true;
 			}
-			npc.TargetClosest(true);
-			if (npc.direction == -1 && (double)npc.velocity.X > -1.5 && (double)npc.position.X > (double)Main.player[npc.target].position.X + (double)Main.player[npc.target].width)
+			NPC.TargetClosest(true);
+			if (NPC.direction == -1 && (double)NPC.velocity.X > -1.5 && (double)NPC.position.X > (double)Main.player[NPC.target].position.X + (double)Main.player[NPC.target].width)
 			{
-				npc.velocity.X -= 0.08f;
-				if ((double)npc.velocity.X > 1.5)
+				NPC.velocity.X -= 0.08f;
+				if ((double)NPC.velocity.X > 1.5)
 				{
-					npc.velocity.X -= 0.04f;
+					NPC.velocity.X -= 0.04f;
 				}
-				else if ((double)npc.velocity.X > 0.0)
+				else if ((double)NPC.velocity.X > 0.0)
 				{
-					npc.velocity.X -= 0.2f;
+					NPC.velocity.X -= 0.2f;
 				}
 
-				if ((double)npc.velocity.X < -1.5)
+				if ((double)NPC.velocity.X < -1.5)
 				{
-					npc.velocity.X = -1.5f;
+					NPC.velocity.X = -1.5f;
 				}
 			}
-			else if (npc.direction == 1 && (double)npc.velocity.X < 1.5 && (double)npc.position.X + (double)npc.width < (double)Main.player[npc.target].position.X)
+			else if (NPC.direction == 1 && (double)NPC.velocity.X < 1.5 && (double)NPC.position.X + (double)NPC.width < (double)Main.player[NPC.target].position.X)
 			{
-				npc.velocity.X += 0.08f;
-				if ((double)npc.velocity.X < -1.5)
+				NPC.velocity.X += 0.08f;
+				if ((double)NPC.velocity.X < -1.5)
 				{
-					npc.velocity.X += 0.04f;
+					NPC.velocity.X += 0.04f;
 				}
-				else if ((double)npc.velocity.X < 0.0)
+				else if ((double)NPC.velocity.X < 0.0)
 				{
-					npc.velocity.X += 0.2f;
+					NPC.velocity.X += 0.2f;
 				}
 
-				if ((double)npc.velocity.X > 1.5)
+				if ((double)NPC.velocity.X > 1.5)
 				{
-					npc.velocity.X = 1.5f;
+					NPC.velocity.X = 1.5f;
 				}
 			}
-			if (npc.directionY == -1 && (double)npc.velocity.Y > -1.5 && (double)npc.position.Y > (double)Main.player[npc.target].position.Y + (double)Main.player[npc.target].height)
+			if (NPC.directionY == -1 && (double)NPC.velocity.Y > -1.5 && (double)NPC.position.Y > (double)Main.player[NPC.target].position.Y + (double)Main.player[NPC.target].height)
 			{
-				npc.velocity.Y -= 0.1f;
-				if ((double)npc.velocity.Y > 1.5)
+				NPC.velocity.Y -= 0.1f;
+				if ((double)NPC.velocity.Y > 1.5)
 				{
-					npc.velocity.Y -= 0.05f;
+					NPC.velocity.Y -= 0.05f;
 				}
-				else if ((double)npc.velocity.Y > 0.0)
+				else if ((double)NPC.velocity.Y > 0.0)
 				{
-					npc.velocity.Y -= 0.15f;
+					NPC.velocity.Y -= 0.15f;
 				}
 
-				if ((double)npc.velocity.Y < -1.5)
+				if ((double)NPC.velocity.Y < -1.5)
 				{
-					npc.velocity.Y = -1.5f;
+					NPC.velocity.Y = -1.5f;
 				}
 			}
-			else if (npc.directionY == 1 && (double)npc.velocity.Y < 1.5 && (double)npc.position.Y + (double)npc.height < (double)Main.player[npc.target].position.Y)
+			else if (NPC.directionY == 1 && (double)NPC.velocity.Y < 1.5 && (double)NPC.position.Y + (double)NPC.height < (double)Main.player[NPC.target].position.Y)
 			{
-				npc.velocity.Y += 0.1f;
-				if ((double)npc.velocity.Y < -1.5)
+				NPC.velocity.Y += 0.1f;
+				if ((double)NPC.velocity.Y < -1.5)
 				{
-					npc.velocity.Y += 0.05f;
+					NPC.velocity.Y += 0.05f;
 				}
-				else if ((double)npc.velocity.Y < 0.0)
+				else if ((double)NPC.velocity.Y < 0.0)
 				{
-					npc.velocity.Y += 0.15f;
+					NPC.velocity.Y += 0.15f;
 				}
 
-				if ((double)npc.velocity.Y > 1.5)
+				if ((double)NPC.velocity.Y > 1.5)
 				{
-					npc.velocity.Y = 1.5f;
+					NPC.velocity.Y = 1.5f;
 				}
 			}
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MoltenCore/MoltenCoreGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MoltenCore/MoltenCoreGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MoltenCore/MoltenCoreGore3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MoltenCore/MoltenCoreGore4"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MoltenCore/MoltenCoreGore1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MoltenCore/MoltenCoreGore2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MoltenCore/MoltenCoreGore3").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MoltenCore/MoltenCoreGore4").Type, 1f);
 			}
 			for (int k = 0; k < 7; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Torch, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Torch, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Torch, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
 			}
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(10) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 116, 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 116, 1);
 
 			if (Main.rand.Next(33) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MeteoriteSpewer"), 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("MeteoriteSpewer").Type, 1);
 
 			//if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.StylistQuestMeteor>().IsActive && Main.rand.NextBool(3))
 			//	Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>());
@@ -246,32 +248,32 @@ namespace SpiritMod.NPCs.MoltenCore
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.Meteor.Chance * 0.15f;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/MoltenCore/MoltenCore_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.GetTexture("NPCs/MoltenCore/MoltenCore_Glow"));
 
 		public override void FindFrame(int frameHeight)
 		{
 			const int AnimationSpeed = 5;
 
-			npc.frameCounter++;
-			if (npc.frameCounter < AnimationSpeed * 1)
-				npc.frame.Y = 0 * frameHeight;
-			else if (npc.frameCounter < AnimationSpeed * 2)
-				npc.frame.Y = 1 * frameHeight;
-			else if (npc.frameCounter < AnimationSpeed * 3)
-				npc.frame.Y = 2 * frameHeight;
-			else if (npc.frameCounter < AnimationSpeed * 4)
-				npc.frame.Y = 3 * frameHeight;
-			else if (npc.frameCounter < AnimationSpeed * 5)
-				npc.frame.Y = 4 * frameHeight;
+			NPC.frameCounter++;
+			if (NPC.frameCounter < AnimationSpeed * 1)
+				NPC.frame.Y = 0 * frameHeight;
+			else if (NPC.frameCounter < AnimationSpeed * 2)
+				NPC.frame.Y = 1 * frameHeight;
+			else if (NPC.frameCounter < AnimationSpeed * 3)
+				NPC.frame.Y = 2 * frameHeight;
+			else if (NPC.frameCounter < AnimationSpeed * 4)
+				NPC.frame.Y = 3 * frameHeight;
+			else if (NPC.frameCounter < AnimationSpeed * 5)
+				NPC.frame.Y = 4 * frameHeight;
 			else
-				npc.frameCounter = 0;
+				NPC.frameCounter = 0;
 		}
 	}
 }

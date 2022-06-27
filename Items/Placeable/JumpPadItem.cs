@@ -14,16 +14,16 @@ namespace SpiritMod.Items.Placeable
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.rare = ItemRarityID.Green;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.createTile = mod.TileType("JumpPadTile");
-			item.maxStack = 999;
-			item.autoReuse = false;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.consumable = true;
+			Item.width = 20;
+			Item.height = 20;
+			Item.rare = ItemRarityID.Green;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.createTile = Mod.Find<ModTile>("JumpPadTile").Type;
+			Item.maxStack = 999;
+			Item.autoReuse = false;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.consumable = true;
 
 		}
 	}

@@ -19,38 +19,37 @@ namespace SpiritMod.Items.Sets.HuskstalkSet
 
 		public override void SetDefaults()
 		{
-			item.damage = 7;
-			item.noMelee = true;
-			item.ranged = true;
-			item.width = 20;
-			item.height = 38;
-			item.useTime = 26;
-			item.useAnimation = 26;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ProjectileID.Shuriken;
-			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 3;
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item5;
-			item.value = Item.sellPrice(0, 0, 12, 0);
-			item.autoReuse = false;
-			item.shootSpeed = 7f;
+			Item.damage = 7;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 20;
+			Item.height = 38;
+			Item.useTime = 26;
+			Item.useAnimation = 26;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ProjectileID.Shuriken;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.knockBack = 3;
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item5;
+			Item.value = Item.sellPrice(0, 0, 12, 0);
+			Item.autoReuse = false;
+			Item.shootSpeed = 7f;
 
 
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+			int p = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 			Main.projectile[p].GetGlobalProjectile<SpiritGlobalProjectile>().WitherLeaf = true;
 			return false;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 6);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

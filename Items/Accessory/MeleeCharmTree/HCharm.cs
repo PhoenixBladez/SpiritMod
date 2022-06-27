@@ -15,13 +15,13 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 
 		public override void SetDefaults()
 		{
-			item.width = 14;
-			item.height = 24;
-			item.rare = ItemRarityID.Green;
-			item.UseSound = SoundID.Item11;
-			item.accessory = true;
-			item.value = Item.buyPrice(0, 1, 0, 0);
-			item.value = Item.sellPrice(0, 0, 50, 0);
+			Item.width = 14;
+			Item.height = 24;
+			Item.rare = ItemRarityID.Green;
+			Item.UseSound = SoundID.Item11;
+			Item.accessory = true;
+			Item.value = Item.buyPrice(0, 1, 0, 0);
+			Item.value = Item.sellPrice(0, 0, 50, 0);
 		}
 
 		public override void SafeUpdateAccessory(Player player, bool hideVisual)
@@ -35,13 +35,12 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 
 		public override void AddRecipes()
 		{
-			var modRecipe = new ModRecipe(mod);
+			var modRecipe = CreateRecipe(1);
 			modRecipe.AddIngredient(ItemID.HellstoneBar, 10);
 			modRecipe.AddIngredient(ItemID.Chain, 3);
 			modRecipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 1);
 			modRecipe.AddTile(TileID.Anvils);
-			modRecipe.SetResult(this, 1);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

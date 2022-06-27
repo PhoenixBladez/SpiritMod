@@ -13,27 +13,27 @@ namespace SpiritMod.NPCs.BottomFeeder
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bottom Feeder");
-			Main.npcFrameCount[npc.type] = 11;
+			Main.npcFrameCount[NPC.type] = 11;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 60;
-			npc.height = 68;
-			npc.damage = 24;
-			npc.defense = 9;
-			npc.lifeMax = 175;
-			npc.HitSound = SoundID.NPCHit18;
-			npc.DeathSound = SoundID.NPCDeath5;
-			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
-			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
-			npc.value = 800f;
-			npc.knockBackResist = 0.34f;
-			npc.aiStyle = 3;
-			npc.noGravity = false;
-			aiType = NPCID.WalkingAntlion;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.BottomFeederBanner>();
+			NPC.width = 60;
+			NPC.height = 68;
+			NPC.damage = 24;
+			NPC.defense = 9;
+			NPC.lifeMax = 175;
+			NPC.HitSound = SoundID.NPCHit18;
+			NPC.DeathSound = SoundID.NPCDeath5;
+			NPC.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
+			NPC.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+			NPC.value = 800f;
+			NPC.knockBackResist = 0.34f;
+			NPC.aiStyle = 3;
+			NPC.noGravity = false;
+			AIType = NPCID.WalkingAntlion;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.BottomFeederBanner>();
 		}
 
 		int frame = 1;
@@ -42,13 +42,13 @@ namespace SpiritMod.NPCs.BottomFeeder
 
 		public override void AI()
 		{
-			npc.spriteDirection = -npc.direction;
+			NPC.spriteDirection = -NPC.direction;
 
-			Player target = Main.player[npc.target];
+			Player target = Main.player[NPC.target];
 			{
 				timer++;
-				Player player = Main.player[npc.target];
-				int distance = (int)Math.Sqrt((npc.Center.X - target.Center.X) * (npc.Center.X - target.Center.X) + (npc.Center.Y - target.Center.Y) * (npc.Center.Y - target.Center.Y));
+				Player player = Main.player[NPC.target];
+				int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
 
 				if (timer == 4)
 				{
@@ -65,11 +65,11 @@ namespace SpiritMod.NPCs.BottomFeeder
 				{
 					shoottimer++;
 
-					if (!npc.wet)
+					if (!NPC.wet)
 					{
-						npc.velocity.X = .01f * npc.spriteDirection;
-						npc.spriteDirection = -npc.direction;
-						npc.velocity.Y = 10f;
+						NPC.velocity.X = .01f * NPC.spriteDirection;
+						NPC.spriteDirection = -NPC.direction;
+						NPC.velocity.Y = 10f;
 					}
 
 					if (shoottimer >= 40 && shoottimer < 96)
@@ -79,7 +79,7 @@ namespace SpiritMod.NPCs.BottomFeeder
 							int bloodproj;
 							bloodproj = Main.rand.Next(new int[] { ModContent.ProjectileType<Feeder1>(), ModContent.ProjectileType<Feeder2>(), ModContent.ProjectileType<Feeder3>() });
 							int damage = Main.expertMode ? 10 : 15;
-							Projectile.NewProjectile(npc.Center.X + (7 * npc.direction), npc.Center.Y - 10, -(npc.position.X - target.position.X) / distance * 8, -(npc.position.Y - target.position.Y + Main.rand.Next(-50, 50)) / distance * 8, bloodproj, damage, 0);
+							Projectile.NewProjectile(NPC.Center.X + (7 * NPC.direction), NPC.Center.Y - 10, -(NPC.position.X - target.position.X) / distance * 8, -(NPC.position.Y - target.position.Y + Main.rand.Next(-50, 50)) / distance * 8, bloodproj, damage, 0);
 						}
 					}
 
@@ -89,37 +89,37 @@ namespace SpiritMod.NPCs.BottomFeeder
 			}
 		}
 
-		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(20) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.GunsMisc.Belcher.BottomFeederGun>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.GunsMisc.Belcher.BottomFeederGun>());
 
 			if (Main.rand.Next(20) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Consumable.Food.FishFingers>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Consumable.Food.FishFingers>());
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0 || npc.life >= 0)
+			if (NPC.life <= 0 || NPC.life >= 0)
 			{
 				for (int k = 0; k < 25; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
-					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, .97f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, Color.White, .97f);
 				}
 			}
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity * 1.11f, mod.GetGoreSlot("Gores/FeederGore"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * 1.11f, mod.GetGoreSlot("Gores/FeederGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * 1.11f, mod.GetGoreSlot("Gores/FeederGore1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * 1.11f, mod.GetGoreSlot("Gores/FeederGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * 1.11f, mod.GetGoreSlot("Gores/FeederGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * 1.11f, mod.GetGoreSlot("Gores/FeederGore2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * 1.11f, mod.GetGoreSlot("Gores/FeederGore3"), 1f);
+				Gore.NewGore(NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore1").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore2").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("Gores/FeederGore3").Type, 1f);
 			}
 		}
 	}

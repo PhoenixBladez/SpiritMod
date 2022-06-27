@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class SpiritBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spirit Aura");
 			Description.SetDefault("Increases damage and critical strike chance by 5 % \n Getting hurt occasionally spawns a damaging bolt to chase enemies");

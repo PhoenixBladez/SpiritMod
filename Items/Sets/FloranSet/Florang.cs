@@ -16,24 +16,24 @@ namespace SpiritMod.Items.Sets.FloranSet
 
 		public override void SetDefaults()
 		{
-			item.damage = 19;
-			item.melee = true;
-			item.width = 44;
-			item.height = 40;
-			item.useTime = 61;
-			item.useAnimation = 61;
-			item.noUseGraphic = true;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 0;
-			item.value = Item.sellPrice(0, 0, 15, 0);
-			item.rare = ItemRarityID.Blue;
-			item.shootSpeed = 5f;
-			item.shoot = ModContent.ProjectileType<FloraP>();
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = false;
+			Item.damage = 19;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 44;
+			Item.height = 40;
+			Item.useTime = 61;
+			Item.useAnimation = 61;
+			Item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 0;
+			Item.value = Item.sellPrice(0, 0, 15, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.shootSpeed = 5f;
+			Item.shoot = ModContent.ProjectileType<FloraP>();
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = false;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (speedX > 0)
 				speedX = 2;
@@ -44,11 +44,10 @@ namespace SpiritMod.Items.Sets.FloranSet
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<FloranBar>(), 10);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

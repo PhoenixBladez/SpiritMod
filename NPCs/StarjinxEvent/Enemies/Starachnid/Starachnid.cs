@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -87,37 +89,37 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 		private Vector2 Bottom
 		{
-			get => npc.Center + ((npc.height / 2) * (toRotation + 1.57f).ToRotationVector2());
-			set => npc.Center = value - ((npc.height / 2) * (toRotation + 1.57f).ToRotationVector2());
+			get => NPC.Center + ((NPC.height / 2) * (toRotation + 1.57f).ToRotationVector2());
+			set => NPC.Center = value - ((NPC.height / 2) * (toRotation + 1.57f).ToRotationVector2());
 		}
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starachnid");
-			Main.npcFrameCount[npc.type] = 8;
+			Main.npcFrameCount[NPC.type] = 8;
 		}
 
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetDefaults()
 		{
-			npc.width = 64;
-			npc.height = 64;
-			npc.damage = 70;
-			npc.defense = 28;
-			npc.lifeMax = 450;
-			npc.HitSound = SoundID.NPCHit3;
-			npc.DeathSound = SoundID.DD2_LightningBugDeath;
-			npc.value = 600f;
-			npc.knockBackResist = 0;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
+			NPC.width = 64;
+			NPC.height = 64;
+			NPC.damage = 70;
+			NPC.defense = 28;
+			NPC.lifeMax = 450;
+			NPC.HitSound = SoundID.NPCHit3;
+			NPC.DeathSound = SoundID.DD2_LightningBugDeath;
+			NPC.value = 600f;
+			NPC.knockBackResist = 0;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
 
 			int seed = Main.rand.Next();
 			random = new UnifiedRandom(seed);
 
 			if (Main.netMode == NetmodeID.Server)
-				npc.netUpdate = true;
+				NPC.netUpdate = true;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(seed);
@@ -149,14 +151,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			if (!seedInitialized && Main.netMode != NetmodeID.SinglePlayer)
 				return;
 
-			npc.TargetClosest(false);
+			NPC.TargetClosest(false);
 
 			if (!initialized)
 			{
-				Main.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, npc.Center);
+				SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, NPC.Center);
 				initialized = true;
 				NewThread(true, true);
-				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<StarachnidProj>(), Main.expertMode ? 20 : 45, 0, npc.target, npc.whoAmI);
+				Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<StarachnidProj>(), Main.expertMode ? 20 : 45, 0, NPC.target, NPC.whoAmI);
 			}
 
 			TraverseThread(); //Walk along thread
@@ -170,22 +172,22 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int i = 0; i < 12; i++)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.VilePowder, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .75f));
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.VilePowder, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .75f));
 
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
                 for (int k = 0; k < 4; k++)
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StarjinxEvent/Starachnid/Starachnid1"), Main.rand.NextFloat(.6f, 1f));
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/StarjinxEvent/Starachnid/Starachnid1").Type, Main.rand.NextFloat(.6f, 1f));
 				ThreadDeathDust();
 			}
 		}
 
-		public override Color? GetAlpha(Color drawColor) => Color.Lerp(drawColor, Color.White, 0.5f) * npc.Opacity;
-		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, npc, npc.frame, Vector2.Zero, npc.frame.Size() / 2);
+		public override Color? GetAlpha(Color drawColor) => Color.Lerp(drawColor, Color.White, 0.5f) * NPC.Opacity;
+		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, NPC, NPC.frame, Vector2.Zero, NPC.frame.Size() / 2);
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition, npc.frame, GetAlpha(drawColor).Value, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, SpriteEffects.FlipHorizontally, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition, NPC.frame, GetAlpha(drawColor).Value, NPC.rotation % 6.28f, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.FlipHorizontally, 0);
 
 			return false;
 		}
@@ -193,15 +195,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		public void AdditiveCall(SpriteBatch sB)
 		{
 			DrawThreads(sB);
-			sB.Draw(ModContent.GetTexture(Texture + "_glow"), npc.Center - Main.screenPosition, npc.frame, Color.White, npc.rotation % 6.28f, npc.frame.Size() / 2, npc.scale, SpriteEffects.FlipHorizontally, 0);
+			sB.Draw(ModContent.Request<Texture2D>(Texture + "_glow"), NPC.Center - Main.screenPosition, NPC.frame, Color.White, NPC.rotation % 6.28f, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.FlipHorizontally, 0);
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
-			npc.frameCounter += 0.30f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.30f;
 		}
 
 		private void NewThread(bool firstThread, bool mainThread)
@@ -251,7 +253,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		//However, if the player is too far away, it curves towards them
 		private Vector2 NewThreadAngle(int maxDistance, bool mainThread, ref int dist, Vector2 startPos)
 		{
-			Player player = Main.player[npc.target];
+			Player player = Main.player[NPC.target];
 			Vector2 distanceFromPlayer = player.Center - startPos;
 			Vector2 direction = Vector2.One;
 			int tries = 0;
@@ -395,8 +397,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		private bool IsTileActive(Vector2 toLookAt) //Is the tile at the vector position solid?
 		{
 			Point tPos = toLookAt.ToTileCoordinates();
-			if (WorldGen.InWorld(tPos.X, tPos.Y, 2) && Framing.GetTileSafely(tPos.X, tPos.Y).active())
-				return Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16f), (int)(toLookAt.Y / 16f)).type];
+			if (WorldGen.InWorld(tPos.X, tPos.Y, 2) && Framing.GetTileSafely(tPos.X, tPos.Y).HasTile)
+				return Main.tileSolid[Framing.GetTileSafely((int)(toLookAt.X / 16f), (int)(toLookAt.Y / 16f)).TileType];
 
 			return false;
 		}
@@ -412,7 +414,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			{
 				for(int i = -1; i <= 1; i++)
 				{
-					Vector2 vel = Vector2.Normalize(npc.position - npc.oldPosition);
+					Vector2 vel = Vector2.Normalize(NPC.position - NPC.oldPosition);
 					Particles.ParticleHandler.SpawnParticle(new Particles.GlowParticle(Bottom, vel.RotatedBy(Main.rand.NextFloat(MathHelper.Pi / 16, MathHelper.Pi / 6) * i),
 						Color.HotPink, Main.rand.NextFloat(0.05f, 0.1f), 22, 15));
 				}
@@ -423,18 +425,18 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		{
 			toRotation = (currentThread.EndPoint - currentThread.StartPoint).ToRotation();
 
-			bool empowered = npc.GetGlobalNPC<PathfinderGNPC>().Buffed;
+			bool empowered = NPC.GetGlobalNPC<PathfinderGNPC>().Buffed;
 			float speedInc = empowered ? 1.4f : 1f;
 
-			float rotDifference = ((((toRotation - npc.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+			float rotDifference = ((((toRotation - NPC.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 			if (Math.Abs(rotDifference) < 0.15f)
 			{
-				npc.rotation = toRotation;
+				NPC.rotation = toRotation;
 				speed = 2 * speedInc;
 				return;
 			}
 			speed = 1 * speedInc;
-			npc.rotation += Math.Sign(rotDifference) * 0.06f;
+			NPC.rotation += Math.Sign(rotDifference) * 0.06f;
 		}
 
 		private void DrawThreads(SpriteBatch spriteBatch)
@@ -466,7 +468,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				new Vector2(0f, tex.Height / 2), threadScale * new Vector2((1 - progress) * thread2.Length, 1), SpriteEffects.None, 0f);
 
 			tex = SpiritMod.Instance.GetTexture("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar");
-			Texture2D Bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D Bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
 
 			//Use a method to cut down on boilerplate with drawing stars
 			void DrawStar(Vector2 center, float starSize, float rotation) 
@@ -485,9 +487,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 			float rotationSpeed = 1.5f;
 			if (threads.Count == 0) //Fix it otherwise spawning on a thread with only 1 star
-				DrawStar(thread2.StartPoint, size, Main.GlobalTime * rotationSpeed);
+				DrawStar(thread2.StartPoint, size, Main.GlobalTimeWrappedHourly * rotationSpeed);
 
-			DrawStar(thread2.EndPoint, size, Main.GlobalTime * rotationSpeed);
+			DrawStar(thread2.EndPoint, size, Main.GlobalTimeWrappedHourly * rotationSpeed);
 
 			//Draw stars at each thread's end and start points
 			int threadsDrawn = 0;
@@ -496,9 +498,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				size = Math.Min(thread.Counter / THREADGROWLERP, (thread.Duration - thread.Counter) / THREADGROWLERP);
 				size = Math.Min(size, 1);
 				if (thread.DrawStart || threadsDrawn == 0)
-					DrawStar(thread.StartPoint, size, Main.GlobalTime * rotationSpeed);
+					DrawStar(thread.StartPoint, size, Main.GlobalTimeWrappedHourly * rotationSpeed);
 
-				DrawStar(thread.EndPoint, 1, Main.GlobalTime * rotationSpeed);
+				DrawStar(thread.EndPoint, 1, Main.GlobalTimeWrappedHourly * rotationSpeed);
 				if (!thread.DrawStart)
 					threadsDrawn++;
 			}
@@ -571,10 +573,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			StarBreakParticles(currentThread.EndPoint);
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.NextBool(15))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Pets.CosmicRattler.CosmicRattler>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Pets.CosmicRattler.CosmicRattler>());
 		}
 	}
 
@@ -584,25 +586,25 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 
 		public override void SetDefaults()
 		{
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.hostile = true;
-			projectile.friendly = false;
-			projectile.width = projectile.height = 38;
-			projectile.timeLeft = 150;
-			projectile.ignoreWater = true;
-			projectile.alpha = 255;
+			Projectile.penetrate = -1;
+			Projectile.tileCollide = false;
+			Projectile.hostile = true;
+			Projectile.friendly = false;
+			Projectile.width = Projectile.height = 38;
+			Projectile.timeLeft = 150;
+			Projectile.ignoreWater = true;
+			Projectile.alpha = 255;
 		}
 
 		NPC parent;
 
 		public override void AI()
 		{
-			parent = Main.npc[(int)projectile.ai[0]];
+			parent = Main.npc[(int)Projectile.ai[0]];
 			if (parent.active)
 			{
-				projectile.Center = parent.Center;
-				projectile.timeLeft = 2;
+				Projectile.Center = parent.Center;
+				Projectile.timeLeft = 2;
 			}
 		}
 
@@ -610,7 +612,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 		{
 			if (parent != null)
 			{
-				if (parent.active && parent.modNPC is Starachnid parent2)
+				if (parent.active && parent.ModNPC is Starachnid parent2)
 				{
 					foreach (StarThread thread in parent2.threads)
 					{

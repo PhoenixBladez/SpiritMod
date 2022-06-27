@@ -5,6 +5,7 @@ using System;
 using SpiritMod.Items.Sets.RlyehianDrops;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.NPCs.Tides.Tide;
@@ -19,53 +20,53 @@ namespace SpiritMod.NPCs.Tides
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("R'lyehian");
-			Main.npcFrameCount[npc.type] = 9;
+			Main.npcFrameCount[NPC.type] = 9;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 66;
-			npc.height = 88;
-			npc.damage = 32;
-			npc.defense = 14;
-			npc.lifeMax = 1300;
-			npc.knockBackResist = 0;
-			npc.aiStyle = -1;
-			npc.noGravity = true;
-            npc.netAlways = true;
-			npc.noTileCollide = true;
-			npc.HitSound = SoundID.NPCHit55;
-			npc.DeathSound = SoundID.NPCDeath5;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.RlyehianBanner>();
+			NPC.width = 66;
+			NPC.height = 88;
+			NPC.damage = 32;
+			NPC.defense = 14;
+			NPC.lifeMax = 1300;
+			NPC.knockBackResist = 0;
+			NPC.aiStyle = -1;
+			NPC.noGravity = true;
+            NPC.netAlways = true;
+			NPC.noTileCollide = true;
+			NPC.HitSound = SoundID.NPCHit55;
+			NPC.DeathSound = SoundID.NPCDeath5;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.RlyehianBanner>();
 		}
 
 		float alphaCounter = 0;
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			if (npc.ai[1] != 0) {
+			if (NPC.ai[1] != 0) {
 				float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-				Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition), null, new Color((int)(16.9f * sineAdd), (int)(8.9f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.33f * (sineAdd + 1), SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), (NPC.Center - Main.screenPosition), null, new Color((int)(16.9f * sineAdd), (int)(8.9f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.33f * (sineAdd + 1), SpriteEffects.None, 0f);
 			}
 		}
 
 		public override void AI()
 		{
-			if (npc.ai[1] != 0) {
+			if (NPC.ai[1] != 0) {
 				alphaCounter += 0.04f;
 			}
 			else if (alphaCounter > 0) {
 				alphaCounter -= 0.08f;
 			}
-			if (npc.ai[1] == 0 && npc.life < npc.lifeMax / 3 && npc.ai[0] % 2 == 0) {
-				npc.ai[0]++;
+			if (NPC.ai[1] == 0 && NPC.life < NPC.lifeMax / 3 && NPC.ai[0] % 2 == 0) {
+				NPC.ai[0]++;
 			}
-			npc.TargetClosest();
-			Player player = Main.player[npc.target];
-			npc.ai[0]++;
-			int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.ShadowbeamStaff);
-			npc.spriteDirection = npc.direction;
-			if (npc.ai[0] % 400 == 100 && Main.netMode != NetmodeID.MultiplayerClient) {
+			NPC.TargetClosest();
+			Player player = Main.player[NPC.target];
+			NPC.ai[0]++;
+			int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ShadowbeamStaff);
+			NPC.spriteDirection = NPC.direction;
+			if (NPC.ai[0] % 400 == 100 && Main.netMode != NetmodeID.MultiplayerClient) {
 				int distance = 500;
 				bool teleported = false;
 				while (!teleported) 
@@ -73,157 +74,157 @@ namespace SpiritMod.NPCs.Tides
 					if (Main.netMode != NetmodeID.Server)
 					{
 						if (Main.rand.NextBool(2))
-							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/RlyehianCry2").WithVolume(0.85f).WithPitchVariance(0.4f), npc.Center);
+							SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/RlyehianCry2").WithVolume(0.85f).WithPitchVariance(0.4f), NPC.Center);
 						else
-							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/RlyehianCry").WithVolume(0.85f).WithPitchVariance(0.4f), npc.Center);
+							SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/RlyehianCry").WithVolume(0.85f).WithPitchVariance(0.4f), NPC.Center);
 					}
-					npc.ai[3] = Main.rand.Next(360);
-						double anglex = Math.Sin(npc.ai[3] * (Math.PI / 180));
-						double angley = Math.Cos(npc.ai[3] * (Math.PI / 180));
-						npc.position.X = player.Center.X + (int)(distance * anglex);
-						npc.position.Y = player.Center.Y + (int)(distance * angley);
-					if (Main.tile[(int)(npc.position.X / 16), (int)(npc.position.Y / 16)].active() || Main.tile[(int)(npc.Center.X / 16), (int)(npc.Center.Y / 16)].active()) {
-							npc.alpha = 255;
+					NPC.ai[3] = Main.rand.Next(360);
+						double anglex = Math.Sin(NPC.ai[3] * (Math.PI / 180));
+						double angley = Math.Cos(NPC.ai[3] * (Math.PI / 180));
+						NPC.position.X = player.Center.X + (int)(distance * anglex);
+						NPC.position.Y = player.Center.Y + (int)(distance * angley);
+					if (Main.tile[(int)(NPC.position.X / 16), (int)(NPC.position.Y / 16)].HasTile || Main.tile[(int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16)].HasTile) {
+							NPC.alpha = 255;
 						}
 						else {
 							teleported = true;
-							npc.alpha = 0;
+							NPC.alpha = 0;
 						}
 				}
-				npc.netUpdate = true;
+				NPC.netUpdate = true;
 			}
-			if (npc.ai[0] % 400 == 104) {
-				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 8);
-				DustHelper.DrawDiamond(npc.Center, 173, 12);
-				npc.netUpdate = true;
+			if (NPC.ai[0] % 400 == 104) {
+				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 8);
+				DustHelper.DrawDiamond(NPC.Center, 173, 12);
+				NPC.netUpdate = true;
 			}
 				float num395 = Main.mouseTextColor / 200f - 0.35f;
 			num395 *= 0.2f;
-			npc.scale = num395 + 0.95f;
+			NPC.scale = num395 + 0.95f;
 			if (!Main.raining) {
 				Main.cloudAlpha += .005f;
 				if (Main.cloudAlpha >= .5f) {
 					Main.cloudAlpha = .5f;
 				}
 			}
-			if (npc.ai[0] % 400 == 200) {
-				npc.ai[1] = Main.rand.Next(3) + 1;
-				npc.ai[2] = Main.rand.NextFloat(0.785f);
-				npc.netUpdate = true;
+			if (NPC.ai[0] % 400 == 200) {
+				NPC.ai[1] = Main.rand.Next(3) + 1;
+				NPC.ai[2] = Main.rand.NextFloat(0.785f);
+				NPC.netUpdate = true;
 			}
 
 			#region Phase 1
-			if (npc.ai[0] % 400 == 316 && npc.ai[1] == 1) {
-				Main.PlaySound(SoundID.Item, npc.Center, 109);
-				for (npc.ai[2] = 0; npc.ai[2] < 6.29; npc.ai[2] += 0.785f) {
-					Vector2 offset = new Vector2((float)Math.Cos(npc.ai[2]), (float)Math.Sin(npc.ai[2])) * 90f;
-					Vector2 direction = player.Center - (npc.Center + offset);
+			if (NPC.ai[0] % 400 == 316 && NPC.ai[1] == 1) {
+				SoundEngine.PlaySound(SoundID.Item, NPC.Center, 109);
+				for (NPC.ai[2] = 0; NPC.ai[2] < 6.29; NPC.ai[2] += 0.785f) {
+					Vector2 offset = new Vector2((float)Math.Cos(NPC.ai[2]), (float)Math.Sin(NPC.ai[2])) * 90f;
+					Vector2 direction = player.Center - (NPC.Center + offset);
 					direction.Normalize();
 					direction *= 19;
 
 					if (Main.netMode != NetmodeID.MultiplayerClient) {
-						Projectile proj = Projectile.NewProjectileDirect(npc.Center + offset, direction, ModContent.ProjectileType<RyBolt>(), npc.damage / 2, 0, Main.myPlayer);
+						Projectile proj = Projectile.NewProjectileDirect(NPC.Center + offset, direction, ModContent.ProjectileType<RyBolt>(), NPC.damage / 2, 0, Main.myPlayer);
 						proj.netUpdate = true;
 					}
 				}
-				npc.ai[1] = 0;
-                npc.netUpdate = true;
+				NPC.ai[1] = 0;
+                NPC.netUpdate = true;
 			}
-			if (npc.ai[1] == 1) {
-				if (npc.ai[0] % 12 == 0 && npc.ai[0] % 400 < 300) {
-					Main.PlaySound(SoundID.Item, npc.Center, 8);
-					Vector2 offset = new Vector2((float)Math.Cos(npc.ai[2]), (float)Math.Sin(npc.ai[2])) * 90f;
-					DustHelper.DrawTriangle(npc.Center + offset, 173, 4);
-					npc.ai[2] += 0.785f;
-                    npc.netUpdate = true;
+			if (NPC.ai[1] == 1) {
+				if (NPC.ai[0] % 12 == 0 && NPC.ai[0] % 400 < 300) {
+					SoundEngine.PlaySound(SoundID.Item, NPC.Center, 8);
+					Vector2 offset = new Vector2((float)Math.Cos(NPC.ai[2]), (float)Math.Sin(NPC.ai[2])) * 90f;
+					DustHelper.DrawTriangle(NPC.Center + offset, 173, 4);
+					NPC.ai[2] += 0.785f;
+                    NPC.netUpdate = true;
 				}
 			}
 			#endregion
 			#region phase 2
-			if (npc.ai[1] == 2) {
-				if (npc.ai[0] % 15 == 10 && Main.netMode != NetmodeID.MultiplayerClient) {
-					int laser = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 10, ModContent.ProjectileType<RyTentacle>(), npc.damage / 2, 0);
+			if (NPC.ai[1] == 2) {
+				if (NPC.ai[0] % 15 == 10 && Main.netMode != NetmodeID.MultiplayerClient) {
+					int laser = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 10, ModContent.ProjectileType<RyTentacle>(), NPC.damage / 2, 0);
 					Main.projectile[laser].netUpdate = true;
-					npc.netUpdate = true;
+					NPC.netUpdate = true;
 				}
-				if (npc.ai[0] % 400 == 390) {
-					npc.ai[1] = 0;
-                    npc.netUpdate = true;
+				if (NPC.ai[0] % 400 == 390) {
+					NPC.ai[1] = 0;
+                    NPC.netUpdate = true;
 				}
 			}
 			#endregion
 			#region phase 3
-			if (npc.ai[1] == 3) {
-				if (npc.ai[0] % 25 == 10) {
+			if (NPC.ai[1] == 3) {
+				if (NPC.ai[0] % 25 == 10) {
 					if (Main.netMode != NetmodeID.MultiplayerClient) {
-						npc.ai[3] = Main.rand.Next(360);
-						Main.PlaySound(SoundID.Item, npc.Center, 8);
-						double squidAnglex = Math.Sin(npc.ai[3] * (Math.PI / 180));
-						double squidAngley = 0 - Math.Abs(Math.Cos(npc.ai[3] * (Math.PI / 180)));
+						NPC.ai[3] = Main.rand.Next(360);
+						SoundEngine.PlaySound(SoundID.Item, NPC.Center, 8);
+						double squidAnglex = Math.Sin(NPC.ai[3] * (Math.PI / 180));
+						double squidAngley = 0 - Math.Abs(Math.Cos(NPC.ai[3] * (Math.PI / 180)));
 						Vector2 direction = player.Center - new Vector2(player.Center.X + (int)(500 * squidAnglex), player.Center.Y + (int)(500 * squidAngley));
 						direction.Normalize();
 						direction *= 19;
-						int squid = Projectile.NewProjectile(player.Center.X + (int)(500 * squidAnglex), player.Center.Y + (int)(500 * squidAngley), direction.X, direction.Y, ModContent.ProjectileType<TentacleSquid>(), npc.damage / 2, 0);
+						int squid = Projectile.NewProjectile(player.Center.X + (int)(500 * squidAnglex), player.Center.Y + (int)(500 * squidAngley), direction.X, direction.Y, ModContent.ProjectileType<TentacleSquid>(), NPC.damage / 2, 0);
 						Main.projectile[squid].netUpdate = true;
-						npc.netUpdate = true;
+						NPC.netUpdate = true;
 					}
 				}
-				if(npc.ai[0] % 25 == 11) {
-					DustHelper.DrawTriangle(new Vector2(player.Center.X + (int)(500 * Math.Sin(npc.ai[3] * (Math.PI / 180))), player.Center.Y + (int)(500 * (0 - Math.Abs(Math.Cos(npc.ai[3] * (Math.PI / 180)))))), 173, 3);
+				if(NPC.ai[0] % 25 == 11) {
+					DustHelper.DrawTriangle(new Vector2(player.Center.X + (int)(500 * Math.Sin(NPC.ai[3] * (Math.PI / 180))), player.Center.Y + (int)(500 * (0 - Math.Abs(Math.Cos(NPC.ai[3] * (Math.PI / 180)))))), 173, 3);
 				}
-				if (npc.ai[0] % 400 == 390) {
-					npc.ai[1] = 0;
-                    npc.netUpdate = true;
+				if (NPC.ai[0] % 400 == 390) {
+					NPC.ai[1] = 0;
+                    NPC.netUpdate = true;
 				}
 			}
 			#endregion
 		}
 		public override void FindFrame(int frameHeight)
 		{
-			if (npc.ai[1] == 0) {
-				npc.frameCounter += 0.2f;
-				npc.frameCounter %= 6;
-				int frame = (int)npc.frameCounter;
-				npc.frame.Y = frame * frameHeight;
+			if (NPC.ai[1] == 0) {
+				NPC.frameCounter += 0.2f;
+				NPC.frameCounter %= 6;
+				int frame = (int)NPC.frameCounter;
+				NPC.frame.Y = frame * frameHeight;
 			}
 			else {
-				npc.frameCounter += 0.15f;
-				npc.frameCounter %= 3;
-				int frame = (int)npc.frameCounter + 6;
-				npc.frame.Y = frame * frameHeight;
+				NPC.frameCounter += 0.15f;
+				NPC.frameCounter %= 3;
+				int frame = (int)NPC.frameCounter + 6;
+				NPC.frame.Y = frame * frameHeight;
 			}
 		}
 		public override void BossLoot(ref string name, ref int potionType)
 		{
 			potionType = ItemID.HealingPotion;
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			string[] lootTable = { "TomeOfRylien", "TentacleChain" };
 			{
 				int loot = Main.rand.Next(lootTable.Length);
 				{
-					npc.DropItem(mod.ItemType(lootTable[loot]));
+					NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
 				}
 			}
 			if (Main.rand.NextBool(10)) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RlyehMask>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RlyehMask>());
 			}
 			if (Main.rand.NextBool(10)) {
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Trophy10>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Trophy10>());
 			}
 		}
-        public override bool PreNPCLoot()
+        public override bool PreKill()
         {
-            Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+            SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
             return true;
         }
 
         public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0) {
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Tentacle"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/TentacleHead"), 1f);
+			if (NPC.life <= 0) {
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Tentacle").Type, 1f);
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/TentacleHead").Type, 1f);
 			}
 		}
 	}

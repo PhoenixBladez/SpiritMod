@@ -16,12 +16,12 @@ namespace SpiritMod.Items.Armor.LeatherArmor
 		}
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 12;
-			item.value = 3200;
-			item.rare = ItemRarityID.Blue;
+			Item.width = 22;
+			Item.height = 12;
+			Item.value = 3200;
+			Item.rare = ItemRarityID.Blue;
 
-			item.defense = 1;
+			Item.defense = 1;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -40,11 +40,10 @@ namespace SpiritMod.Items.Armor.LeatherArmor
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<OldLeather>(), 6);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

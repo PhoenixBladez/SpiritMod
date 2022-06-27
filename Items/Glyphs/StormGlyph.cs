@@ -39,16 +39,16 @@ namespace SpiritMod.Items.Glyphs
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 28;
-			item.value = Item.sellPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Green;
-			item.maxStack = 999;
+			Item.width = 28;
+			Item.height = 28;
+			Item.value = Item.sellPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.maxStack = 999;
 		}
 
 		public static void WindBurst(MyPlayer player, Item item)
 		{
-			if (player.player.whoAmI != Main.myPlayer)
+			if (player.Player.whoAmI != Main.myPlayer)
 				return;
 
 			if (player.stormStacks < 2) {
@@ -57,13 +57,13 @@ namespace SpiritMod.Items.Glyphs
 			}
 			player.stormStacks = 0;
 
-			int damage = (int)(item.damage * player.player.GetDamageBoost());
-			Vector2 position = player.player.MountedCenter;
+			int damage = (int)(item.damage * player.Player.GetDamageBoost());
+			Vector2 position = player.Player.MountedCenter;
 			Vector2 velocity = Main.MouseWorld - position;
 			float scale = 1 / velocity.Length();
 
 			if (float.IsNaN(scale))
-				velocity = new Vector2(player.player.direction, 0);
+				velocity = new Vector2(player.Player.direction, 0);
 			else
 				velocity *= scale;
 

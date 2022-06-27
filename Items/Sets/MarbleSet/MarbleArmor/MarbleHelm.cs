@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Sets.MarbleSet.MarbleArmor
 		}
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 24;
-			item.value = 1100;
-			item.rare = ItemRarityID.Green;
-			item.defense = 6;
+			Item.width = 28;
+			Item.height = 24;
+			Item.value = 1100;
+			Item.rare = ItemRarityID.Green;
+			Item.defense = 6;
 		}
 		public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
 		{
@@ -46,11 +46,10 @@ namespace SpiritMod.Items.Sets.MarbleSet.MarbleArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<MarbleChunk>(), 14);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

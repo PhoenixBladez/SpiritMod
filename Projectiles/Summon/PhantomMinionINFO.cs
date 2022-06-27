@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 namespace SpiritMod.Projectiles.Summon
 {
 	public abstract class PhantomMinionINFO : Minion
@@ -24,7 +25,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		}
 
-		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			fallThrough = false;
 			return true;

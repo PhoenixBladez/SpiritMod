@@ -20,14 +20,14 @@ namespace SpiritMod.Items.Sets.DonatorVanity
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
+			Item.width = 22;
+			Item.height = 20;
 
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Cyan;
-			item.vanity = true;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Cyan;
+			Item.vanity = true;
 		}
-		public override void UpdateVanity(Player player, EquipType type)
+		public override void EquipFrameEffects(Player player, EquipType type)
 		{
 			if (Main.rand.NextBool(3))
 				ParticleHandler.SpawnParticle(new FireParticle(new Vector2(player.Center.X + Main.rand.Next(-10, 10), player.Center.Y - 15 + Main.rand.Next(-10, 10)), new Vector2(Main.rand.NextFloat(-1.5f, 1.5f), Main.rand.NextFloat(-4.5f, -2.5f)),

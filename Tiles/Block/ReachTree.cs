@@ -1,44 +1,35 @@
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using SpiritMod.Items.Sets.HuskstalkSet;
+using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Block
 {
 	public class ReachTree : ModTree
 	{
-		private Mod mod {
-			get {
-				return ModLoader.GetMod("SpiritMod");
-			}
-		}
+		public override TreePaintingSettings TreeShaderSettings => new TreePaintingSettings {
+			UseSpecialGroups = true,
+			SpecialGroupMinimalHueValue = 11f / 72f,
+			SpecialGroupMaximumHueValue = 0.25f,
+			SpecialGroupMinimumSaturationValue = 0.88f,
+			SpecialGroupMaximumSaturationValue = 1f
+		};
 
-		public override int CreateDust()
+		public override void SetStaticDefaults() => GrowsOnTileId = new int[] { ModContent.TileType<ReachGrassTile>() };
+		public override int CreateDust() => 22;
+		public override int DropWood() => ModContent.ItemType<AncientBark>();
+		public override Asset<Texture2D> GetTexture() => ModContent.Request<Texture2D>("Tiles/Block/ReachTree");
+		public override Asset<Texture2D> GetTopTextures() => ModContent.Request<Texture2D>("Tiles/Block/ReachTree_Tops");
+		public override Asset<Texture2D> GetBranchTextures() => ModContent.Request<Texture2D>("Tiles/Block/ReachTree_Branches");
+
+		public override void SetTreeFoliageSettings(Tile tile, int xoffset, ref int treeFrame, ref int floorY, ref int topTextureFrameWidth, ref int topTextureFrameHeight)
 		{
-			return 22;
-		}
-
-		public override int DropWood()
-		{
-			return ModContent.ItemType<AncientBark>();
-		}
-
-		public override Texture2D GetTexture()
-		{
-			return mod.GetTexture("Tiles/Block/ReachTree");
-		}
-
-		public override Texture2D GetTopTextures(int i, int j, ref int frame, ref int frameWidth, ref int frameHeight, ref int xOffsetLeft, ref int yOffset)
-        {
-            frameWidth = 144;
-            frameHeight = 116;
-            xOffsetLeft = 62;
-            yOffset = 2;
-            return mod.GetTexture("Tiles/Block/ReachTree_Tops");
-		}
-
-		public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame)
-		{
-			return mod.GetTexture("Tiles/Block/ReachTree_Branches");
+			topTextureFrameWidth = 114;
+			topTextureFrameHeight = 116;
+			xoffset = 64;
+			floorY = 2;
 		}
 	}
 }

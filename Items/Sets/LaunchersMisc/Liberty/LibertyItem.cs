@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Bullet;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,31 +17,31 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Liberty
 
 		public override void SetDefaults()
 		{
-			item.damage = 24;
-			item.ranged = true;
-			item.Size = new Vector2(94, 30);
-			item.useTime = 40;
-			item.useAnimation = 40;
-			item.useTurn = false;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 4;
-			item.channel = true;
-			item.value = Item.buyPrice(0, 10, 0, 0);
-			item.rare = ItemRarityID.Green;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<LibertyProjHeld>();
-			item.shootSpeed = 12f;
-			item.useAmmo = AmmoID.Rocket;
-			item.noUseGraphic = true;
+			Item.damage = 24;
+			Item.DamageType = DamageClass.Ranged;
+			Item.Size = new Vector2(94, 30);
+			Item.useTime = 40;
+			Item.useAnimation = 40;
+			Item.useTurn = false;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 4;
+			Item.channel = true;
+			Item.value = Item.buyPrice(0, 10, 0, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<LibertyProjHeld>();
+			Item.shootSpeed = 12f;
+			Item.useAmmo = AmmoID.Rocket;
+			Item.noUseGraphic = true;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Projectile.NewProjectile(player.MountedCenter, new Vector2(speedX, speedY), ModContent.ProjectileType<LibertyProjHeld>(), damage, knockBack, player.whoAmI);
+			Projectile.NewProjectile(source, player.MountedCenter, velocity, ModContent.ProjectileType<LibertyProjHeld>(), damage, knockback, player.whoAmI);
 			return false;
 		}
 
-		public override bool ConsumeAmmo(Player player) => player.ownedProjectileCounts[item.shoot] > 0;
+		public override bool CanConsumeAmmo(Item item, Player player) => player.ownedProjectileCounts[Item.shoot] > 0;
 	}
 }

@@ -1,5 +1,6 @@
 using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Tiles.Furniture.Reach;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,29 +16,28 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
 
 		public override void SetDefaults()
 		{
-			item.width = 44;
-			item.height = 25;
-			item.value = 150;
+			Item.width = 44;
+			Item.height = 25;
+			Item.value = 150;
 
-			item.maxStack = 99;
+			Item.maxStack = 99;
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 10;
-			item.useAnimation = 15;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
 
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
 
-			item.createTile = ModContent.TileType<ReachBenchTile>();
+			Item.createTile = ModContent.TileType<ReachBenchTile>();
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 10);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

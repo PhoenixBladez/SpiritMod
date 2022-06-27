@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,46 +18,45 @@ namespace SpiritMod.Items.Sets.MagicMisc.HardmodeOreStaves
 
 		public override void SetDefaults()
 		{
-			item.damage = 37;
-			item.magic = true;
-			item.mana = 9;
-			item.width = 40;
-			item.height = 40;
-			item.useTime = 30;
-			item.useAnimation = 30;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 3;
-			item.useTurn = false;
-			item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.UseSound = SoundID.Item101;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<MythrilStaffProj>();
-			item.shootSpeed = 8f;
+			Item.damage = 37;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 9;
+			Item.width = 40;
+			Item.height = 40;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 3;
+			Item.useTurn = false;
+			Item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.UseSound = SoundID.Item101;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<MythrilStaffProj>();
+			Item.shootSpeed = 8f;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			int amountOfProjectiles = 2;
 			for (int i = 0; i < amountOfProjectiles; ++i) {
-				float sX = speedX;
-				float sY = speedY;
+				float sX = velocity.X;
+				float sY = velocity.Y;
 				sX += (float)Main.rand.Next(-60, 61) * 0.05f;
 				sY += (float)Main.rand.Next(-60, 61) * 0.05f;
-				Projectile.NewProjectile(position.X, position.Y, sX, sY, type, damage, knockBack, player.whoAmI);
+				Projectile.NewProjectile(source, position.X, position.Y, sX, sY, type, damage, knockback, player.whoAmI);
 			}
 			return false;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.MythrilBar, 12);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

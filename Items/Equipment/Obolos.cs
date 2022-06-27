@@ -14,16 +14,16 @@ namespace SpiritMod.Items.Equipment
 
 		public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 30;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.value = Item.buyPrice(gold: 15);
-            item.rare = ItemRarityID.Pink;
-			item.UseSound = SoundID.Item106;
-            item.noMelee = true;
-            item.mountType = mod.MountType("Obolos_Mount");
+            Item.width = 20;
+            Item.height = 30;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.value = Item.buyPrice(gold: 15);
+            Item.rare = ItemRarityID.Pink;
+			Item.UseSound = SoundID.Item106;
+            Item.noMelee = true;
+            Item.mountType = Mod.Find<ModMount>("Obolos_Mount").Type;
         }  
     }
 }

@@ -16,11 +16,11 @@ namespace SpiritMod.Items.Accessory.Leather
 		}
 		public override void SetDefaults()
 		{
-			item.width = 26;
-			item.height = 34;
-			item.rare = ItemRarityID.Blue;
-			item.value = 1200;
-			item.accessory = true;
+			Item.width = 26;
+			Item.height = 34;
+			Item.rare = ItemRarityID.Blue;
+			Item.value = 1200;
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -30,13 +30,12 @@ namespace SpiritMod.Items.Accessory.Leather
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<LeatherGlove>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<FrigidFragment>(), 6);
 			recipe.AddRecipeGroup("SpiritMod:PHMEvilMaterial", 4);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

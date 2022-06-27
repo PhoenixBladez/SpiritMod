@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Graphics.Shaders;
@@ -14,29 +15,29 @@ namespace SpiritMod.NPCs.BloodstainedChest
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloodstained Chest");
-            Main.npcFrameCount[npc.type] = 1;
+            Main.npcFrameCount[NPC.type] = 1;
 
 			//ModContent.GetInstance<SpiritMod>().NPCCandyBlacklist.Add(npc.type);
         }
 
         public override void SetDefaults()
         {
-            npc.width = 36;
-			npc.height = 24;
-            npc.knockBackResist = 0;
-            npc.aiStyle = -1;
-            npc.lifeMax = 1;
-            npc.immortal = true;
-            npc.noTileCollide = false;
-            npc.dontCountMe = true;
-			npc.townNPC = true;
-			npc.friendly = true;
+            NPC.width = 36;
+			NPC.height = 24;
+            NPC.knockBackResist = 0;
+            NPC.aiStyle = -1;
+            NPC.lifeMax = 1;
+            NPC.immortal = true;
+            NPC.noTileCollide = false;
+            NPC.dontCountMe = true;
+			NPC.townNPC = true;
+			NPC.friendly = true;
 
-			for (int k = 0; k < npc.buffImmune.Length; k++)
-				npc.buffImmune[k] = true;
+			for (int k = 0; k < NPC.buffImmune.Length; k++)
+				NPC.buffImmune[k] = true;
 		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             #region Shader
             Main.spriteBatch.End();
@@ -44,11 +45,11 @@ namespace SpiritMod.NPCs.BloodstainedChest
             Vector4 colorMod = Color.Gold.ToVector4();
             SpiritMod.StarjinxNoise.Parameters["distance"].SetValue(2.9f);
 			SpiritMod.StarjinxNoise.Parameters["colorMod"].SetValue(colorMod);
-			SpiritMod.StarjinxNoise.Parameters["noise"].SetValue(mod.GetTexture("Textures/noise"));
-			SpiritMod.StarjinxNoise.Parameters["rotation"].SetValue(npc.ai[2] / 5);
+			SpiritMod.StarjinxNoise.Parameters["noise"].SetValue(Mod.GetTexture("Textures/noise"));
+			SpiritMod.StarjinxNoise.Parameters["rotation"].SetValue(NPC.ai[2] / 5);
 			SpiritMod.StarjinxNoise.Parameters["opacity2"].SetValue(0.3f);
 			SpiritMod.StarjinxNoise.CurrentTechnique.Passes[0].Apply();
-            Main.spriteBatch.Draw(mod.GetTexture("Effects/Masks/Extra_49"), (npc.Center - Main.screenPosition) + new Vector2(0, 2), null, Color.White, 0f, new Vector2(50, 50), 1.1f + (1 / 9), SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(Mod.GetTexture("Effects/Masks/Extra_49"), (NPC.Center - Main.screenPosition) + new Vector2(0, 2), null, Color.White, 0f, new Vector2(50, 50), 1.1f + (1 / 9), SpriteEffects.None, 0f);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -65,60 +66,60 @@ namespace SpiritMod.NPCs.BloodstainedChest
 
 		public override void AI()
 		{
-			npc.ai[2] += 0.03f;
+			NPC.ai[2] += 0.03f;
 			//npc.homeless = true;
-			Player player = Main.player[npc.target];
+			Player player = Main.player[NPC.target];
 
 			if (rightClicked)
 			{
-				npc.velocity.Y = -5;
+				NPC.velocity.Y = -5;
 				rightClicked = false;
 			}
 
 			if (Main.rand.NextBool(10))
 			{
-				int dust = Dust.NewDust(npc.position, npc.width, npc.height, DustID.GoldCoin, 0, 0);
+				int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GoldCoin, 0, 0);
 				Main.dust[dust].velocity = Vector2.Zero;
 			}
 
-			if (npc.velocity.Y != 0)
-				npc.rotation += Main.rand.NextFloat(-0.1f, 0.1f);
-			else if (npc.velocity == Vector2.Zero)
-				npc.rotation = 0f;
+			if (NPC.velocity.Y != 0)
+				NPC.rotation += Main.rand.NextFloat(-0.1f, 0.1f);
+			else if (NPC.velocity == Vector2.Zero)
+				NPC.rotation = 0f;
 
-			if (npc.ai[0] >= 1f && npc.ai[0] <= 10f)
+			if (NPC.ai[0] >= 1f && NPC.ai[0] <= 10f)
             {
-				DoDust(npc.ai[0]);
+				DoDust(NPC.ai[0]);
 
-				npc.ai[0]++;
-				if (npc.ai[0] == 10f && !NPC.AnyNPCs(ModContent.NPCType<NPCs.DesertBandit.DesertBandit>()))
+				NPC.ai[0]++;
+				if (NPC.ai[0] == 10f && !NPC.AnyNPCs(ModContent.NPCType<NPCs.DesertBandit.DesertBandit>()))
                 {
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						NPC.NewNPC((int)npc.position.X + 355, (int)npc.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
-						NPC.NewNPC((int)npc.position.X - 355, (int)npc.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
-						NPC.NewNPC((int)npc.position.X - 400, (int)npc.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
-						NPC.NewNPC((int)npc.position.X + 400, (int)npc.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
+						NPC.NewNPC((int)NPC.position.X + 355, (int)NPC.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
+						NPC.NewNPC((int)NPC.position.X - 355, (int)NPC.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
+						NPC.NewNPC((int)NPC.position.X - 400, (int)NPC.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
+						NPC.NewNPC((int)NPC.position.X + 400, (int)NPC.Center.Y - Main.rand.Next(30, 50), ModContent.NPCType<NPCs.DesertBandit.DesertBandit>());
 					}
 				}
 			}
 
 			if (player.dead)
             {
-				npc.ai[0] = 0f;
-				npc.netUpdate = true;
+				NPC.ai[0] = 0f;
+				NPC.netUpdate = true;
             }
 
-			if ((npc.ai[0] > 10f && !NPC.AnyNPCs(ModContent.NPCType<NPCs.DesertBandit.DesertBandit>())) || npc.ai[3] > 0)
-				npc.ai[3]++;
+			if ((NPC.ai[0] > 10f && !NPC.AnyNPCs(ModContent.NPCType<NPCs.DesertBandit.DesertBandit>())) || NPC.ai[3] > 0)
+				NPC.ai[3]++;
 
-			if (npc.ai[3] == 2)
+			if (NPC.ai[3] == 2)
 				rightClicked = true;
 
-			if (npc.ai[3] > 0)
+			if (NPC.ai[3] > 0)
             {
-				DoDust(npc.ai[3]);
-				if (npc.ai[3] <= 100 && npc.ai[3] % 5 == 0)
+				DoDust(NPC.ai[3]);
+				if (NPC.ai[3] <= 100 && NPC.ai[3] % 5 == 0)
 				{
 					int itemid;
 					float val = Main.rand.NextFloat();
@@ -132,40 +133,40 @@ namespace SpiritMod.NPCs.BloodstainedChest
 					else
 						itemid = ItemID.PlatinumCoin;
 
-					int item = Item.NewItem(npc.Center, Vector2.Zero, itemid, 1);
+					int item = Item.NewItem(NPC.Center, Vector2.Zero, itemid, 1);
 					Main.item[item].velocity = Vector2.UnitY.RotatedBy(Main.rand.NextFloat(1.57f, 4.71f)) * 4;
 					Main.item[item].velocity.Y /= 2;
 					if (Main.netMode != NetmodeID.SinglePlayer)
 						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item);
 				}
 			}
-			if (npc.ai[3] > 120)
+			if (NPC.ai[3] > 120)
 			{
-				Gore.NewGore(npc.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, mod.GetGoreSlot("Gores/GamblerChests/GoldChestGore5"), 1f);
+				Gore.NewGore(NPC.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/GoldChestGore5").Type, 1f);
 
 				for (int i = 0; i < 40; i++)
 				{
-					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.LavaMoss, 0f, -2f, 0, default, 1.1f);
+					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.LavaMoss, 0f, -2f, 0, default, 1.1f);
 					Main.dust[num].noGravity = true;
 					Dust dust = Main.dust[num];
 					dust.position.X += ((Main.rand.Next(-30, 31) / 20) - 1.5f);
 					dust.position.Y += ((Main.rand.Next(-30, 31) / 20) - 1.5f);
-					if (dust.position != npc.Center)
-						dust.velocity = npc.DirectionTo(Main.dust[num].position) * 4f;
+					if (dust.position != NPC.Center)
+						dust.velocity = NPC.DirectionTo(Main.dust[num].position) * 4f;
 					dust.shader = GameShaders.Armor.GetSecondaryShader(13, Main.LocalPlayer);
 				}
 
-				Projectile.NewProjectile(npc.Center - new Vector2(0, 30), Vector2.Zero, ProjectileID.DD2ExplosiveTrapT2Explosion, 0, 0, npc.target);
-				Main.PlaySound(SoundID.Item14, npc.Center);
-				npc.DropItem(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.RoyalCrown>());
+				Projectile.NewProjectile(NPC.Center - new Vector2(0, 30), Vector2.Zero, ProjectileID.DD2ExplosiveTrapT2Explosion, 0, 0, NPC.target);
+				SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
+				NPC.DropItem(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.RoyalCrown>());
 
-				npc.active = false;
+				NPC.active = false;
             }
 		}
 
 		public void DoDust(float value)
         {
-			Vector2 center = npc.Center;
+			Vector2 center = NPC.Center;
 			float num4 = 2.094395f;
 			for (int index1 = 0; index1 < 3; ++index1)
 			{
@@ -174,7 +175,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 				Main.dust[index2].velocity = Vector2.Zero;
 				Main.dust[index2].noLight = true;
 				Main.dust[index2].shader = GameShaders.Armor.GetSecondaryShader(13, Main.LocalPlayer);
-				Main.dust[index2].position = center + ((float)((double)(float)value / 60f * 6.28318548202515 + (double)num4 * (double)index1)).ToRotationVector2() * npc.height;
+				Main.dust[index2].position = center + ((float)((double)(float)value / 60f * 6.28318548202515 + (double)num4 * (double)index1)).ToRotationVector2() * NPC.height;
 			}
 			for (int index1 = 0; index1 < 3; ++index1)
 			{
@@ -183,7 +184,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 				Main.dust[index2].velocity = Vector2.Zero;
 				Main.dust[index2].noLight = true;
 				Main.dust[index2].shader = GameShaders.Armor.GetSecondaryShader(13, Main.LocalPlayer);
-				Main.dust[index2].position = center + ((float)((double)(float)value / 60f * -6.28318548202515 + (double)num4 / 2 * (double)index1)).ToRotationVector2() * npc.height * 1.2f;
+				Main.dust[index2].position = center + ((float)((double)(float)value / 60f * -6.28318548202515 + (double)num4 / 2 * (double)index1)).ToRotationVector2() * NPC.height * 1.2f;
 			}
 			for (int index1 = 0; index1 < 3; ++index1)
 			{
@@ -192,7 +193,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 				Main.dust[index2].velocity = Vector2.Zero;
 				Main.dust[index2].noLight = true;
 				Main.dust[index2].shader = GameShaders.Armor.GetSecondaryShader(13, Main.LocalPlayer);
-				Main.dust[index2].position = center + ((float)((double)(float)value / 60f * 6.28318548202515 + (double)num4 / 4 * (double)index1)).ToRotationVector2() * npc.height * 1.4f;
+				Main.dust[index2].position = center + ((float)((double)(float)value / 60f * 6.28318548202515 + (double)num4 / 4 * (double)index1)).ToRotationVector2() * NPC.height * 1.4f;
 			}
 		}
 
@@ -204,10 +205,10 @@ namespace SpiritMod.NPCs.BloodstainedChest
 		{
 			if (firstButton)
 			{
-				if (npc.ai[0] == 0f)
+				if (NPC.ai[0] == 0f)
 				{
-					npc.ai[0] = 1f;
-					npc.ai[3] = 1f;
+					NPC.ai[0] = 1f;
+					NPC.ai[3] = 1f;
 				}
 			}
 		}
@@ -215,7 +216,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			//if (!Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.TravelingMerchantDesertQuest>().IsActive)
-			return spawnInfo.player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<BloodstainedChest>()) && spawnInfo.spawnTileY < Main.rockLayer ? 0.005f : 0f;
+			return spawnInfo.Player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<BloodstainedChest>()) && spawnInfo.SpawnTileY < Main.rockLayer ? 0.005f : 0f;
 		}
 	}
 }

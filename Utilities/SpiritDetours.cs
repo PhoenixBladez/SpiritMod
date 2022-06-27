@@ -5,7 +5,9 @@ using SpiritMod.Tiles;
 using System;
 using ReLogic.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,8 +36,8 @@ namespace SpiritMod.Utilities
 			On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
 			On.Terraria.Main.DrawCachedProjs += Main_DrawCachedProjs;
 			On.Terraria.Main.DrawNPCs += Main_DrawNPCs;
-			On.Terraria.Main.DrawPlayers += Main_DrawPlayers;
-			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
+			On.Terraria.Main.DrawPlayers_AfterProjectiles += Main_DrawPlayers_AfterProjectiles;
+			On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float; ;
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			On.Terraria.Main.DrawDust += AdditiveCalls;
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
@@ -48,7 +50,7 @@ namespace SpiritMod.Utilities
 			On.Terraria.WorldGen.SpreadGrass += WorldGen_SpreadGrass;
 			On.Terraria.Main.DrawBackgroundBlackFill += Main_DrawBackgroundBlackFill; //BackgroundItemManager.Draw()
 			On.Terraria.Main.Update += Main_Update; //BackgroundItemManager.Update()
-			On.Terraria.Main.DrawMap += Main_DrawMap;
+			On.Terraria.Main.DrawMap += Main_DrawMap1;
 
 			Main.OnPreDraw += Main_OnPreDraw;
 			On.Terraria.Main.DrawWater += Main_DrawWater;
@@ -63,24 +65,43 @@ namespace SpiritMod.Utilities
 			}
 		}
 
+		private static void Main_DrawMap1(On.Terraria.Main.orig_DrawMap orig, Main self, GameTime gameTime)
+		{
+			orig(self, gameTime);
+
+			if (Main.mapEnabled && !Main.mapFullscreen) //Draw only on the minimap
+				DrawPinsOnMiniMap(); //Main.mapStyle == 0, fullscreen; == 1, minimap; == 2, overlay
+		}
+
+		private static int Projectile_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float(On.Terraria.Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float orig, IEntitySource spawnSource, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
+		{
+			int index = orig(spawnSource, X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
+			Projectile projectile = Main.projectile[index];
+
+			if (projectile.ModProjectile is ITrailProjectile)
+			{
+				if (Main.netMode == NetmodeID.SinglePlayer)
+					(projectile.ModProjectile as ITrailProjectile).DoTrailCreation(SpiritMod.TrailManager);
+
+				else
+					SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.SpawnTrail, index).Send();
+			}
+			//if (Main.netMode != NetmodeID.Server) SpiritMod.TrailManager.DoTrailCreation(projectile);
+
+			return index;
+		}
+
+		private static void Main_DrawPlayers_AfterProjectiles(On.Terraria.Main.orig_DrawPlayers_AfterProjectiles orig, Main self)
+		{
+			orig(self);
+
+			ExtraDrawOnPlayer.DrawPlayers();
+			SpiritMod.Metaballs.DrawFriendlyLayer(Main.spriteBatch);
+		}
+
 		public static void Unload()
 		{
-			On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
-			On.Terraria.Main.DrawNPCs -= Main_DrawNPCs;
-			On.Terraria.Main.DrawPlayers -= Main_DrawPlayers;
-			On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile;
-			On.Terraria.Player.KeyDoubleTap -= Player_KeyDoubleTap;
-			On.Terraria.Main.DrawDust -= AdditiveCalls;
-			On.Terraria.Player.ToggleInv -= Player_ToggleInv;
-			On.Terraria.Main.DrawInterface -= DrawParticles;
-			On.Terraria.Localization.LanguageManager.GetTextValue_string -= LanguageManager_GetTextValue_string1;
-			On.Terraria.Main.DrawPlayerChat -= Main_DrawPlayerChat;
-
-			On.Terraria.Main.DrawNPCChatButtons -= Main_DrawNPCChatButtons;
-			On.Terraria.WorldGen.SpreadGrass -= WorldGen_SpreadGrass;
-
 			Main.OnPreDraw -= Main_OnPreDraw;
-			On.Terraria.Main.DrawWater -= Main_DrawWater;
 
 			SurfaceWaterModifications.Unload();
 			HookEndpointManager.Remove<hook_NPCAI>(NPCAIMethod, (hook_NPCAI)NPCAIMod);
@@ -111,14 +132,6 @@ namespace SpiritMod.Utilities
 				target.wet = false;
 		}
 
-		private static void Main_DrawMap(On.Terraria.Main.orig_DrawMap orig, Main self)
-		{
-			orig(self);
-
-			if (Main.mapEnabled && !Main.mapFullscreen) //Draw only on the minimap
-				DrawPinsOnMiniMap(); //Main.mapStyle == 0, fullscreen; == 1, minimap; == 2, overlay
-		}
-
 		private static void DrawPinsOnMiniMap()
 		{
 			var pins = ModContent.GetInstance<Items.Pins.PinWorld>().pins;
@@ -138,7 +151,7 @@ namespace SpiritMod.Utilities
 					drawScale = 1f;
 
 				if (PointOnMinimap(realPos))
-					DrawOnMinimap((int)realPos.X, (int)realPos.Y, drawScale, ModContent.GetTexture($"SpiritMod/Items/Pins/Textures/Pin{pair.Key}Map"));
+					DrawOnMinimap((int)realPos.X, (int)realPos.Y, drawScale, ModContent.Request<Texture2D>($"SpiritMod/Items/Pins/Textures/Pin{pair.Key}Map", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			}
 		}
 
@@ -192,7 +205,7 @@ namespace SpiritMod.Utilities
 
 		private static void Main_Update(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)
 		{
-			if (Main.playerLoaded && BackgroundItemManager.Loaded && !Main.gamePaused) //Update all background items
+			if (Main.PlayerLoaded && BackgroundItemManager.Loaded && !Main.gamePaused) //Update all background items
 				BackgroundItemManager.Update();
 
 			SpiritMod.deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -206,7 +219,7 @@ namespace SpiritMod.Utilities
 		{
 			orig(self);
 
-			if (Main.playerLoaded && BackgroundItemManager.Loaded && !Main.gameMenu)
+			if (Main.PlayerLoaded && BackgroundItemManager.Loaded && !Main.gameMenu)
 				BackgroundItemManager.Draw(); //Draw all background items
 		}
 
@@ -284,7 +297,7 @@ namespace SpiritMod.Utilities
 					// TODO: localization
 					string questText = "Quest";
 
-					DynamicSpriteFont font = Main.fontMouseText;
+					DynamicSpriteFont font = FontAssets.MouseText.Value;
 					Vector2 scale = new Vector2(0.9f);
 					Vector2 stringSize = ChatManager.GetStringSize(font, questText, scale);
 					Vector2 position = new Vector2((180 + Main.screenWidth / 2) + stringSize.X - 50f, 130 + numLines * 30);
@@ -298,7 +311,7 @@ namespace SpiritMod.Utilities
 						scale *= 1.1f;
 
 						if (!HoveringQuestButton)
-							Main.PlaySound(SoundID.MenuTick);
+							SoundEngine.PlaySound(SoundID.MenuTick);
 
 						HoveringQuestButton = true;
 
@@ -323,7 +336,7 @@ namespace SpiritMod.Utilities
 					else
 					{
 						if (HoveringQuestButton)
-							Main.PlaySound(SoundID.MenuTick);
+							SoundEngine.PlaySound(SoundID.MenuTick);
 
 						HoveringQuestButton = false;
 					}
@@ -341,9 +354,9 @@ namespace SpiritMod.Utilities
 		private static void DrawPortraitName(NPC talkNPC, Point size)
 		{
 			string name = talkNPC.GivenName;
-			Vector2 centring = ChatManager.GetStringSize(Main.fontItemStack, name, new Vector2(ProfileNameScale)) / 2; //Position centring
+			Vector2 centring = ChatManager.GetStringSize(FontAssets.ItemStack.Value, name, new Vector2(ProfileNameScale)) / 2; //Position centring
 			Vector2 textPos = new Vector2(Main.screenWidth / 2 - (198 + size.X), 114 + size.Y) - centring; //Real position
-			ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontItemStack, name, textPos, new Color(240, 240, 240), 0f, new Vector2(), new Vector2(ProfileNameScale), -1, 2f); //Name
+			ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.ItemStack.Value, name, textPos, new Color(240, 240, 240), 0f, new Vector2(), new Vector2(ProfileNameScale), -1, 2f); //Name
 		}
 
 		private static void Main_OnPreDraw(GameTime obj)
@@ -391,31 +404,6 @@ namespace SpiritMod.Utilities
 			orig(self, behindTiles);
 		}
 
-		private static void Main_DrawPlayers(On.Terraria.Main.orig_DrawPlayers orig, Main self)
-		{
-			orig(self);
-
-			ExtraDrawOnPlayer.DrawPlayers();
-			SpiritMod.Metaballs.DrawFriendlyLayer(Main.spriteBatch);
-		}
-
-		private static int Projectile_NewProjectile(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
-		{
-			int index = orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
-			Projectile projectile = Main.projectile[index];
-
-			if (projectile.modProjectile is ITrailProjectile) {
-				if(Main.netMode == NetmodeID.SinglePlayer)
-					(projectile.modProjectile as ITrailProjectile).DoTrailCreation(SpiritMod.TrailManager);
-
-				else 
-					SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.SpawnTrail, index).Send();
-			}
-			//if (Main.netMode != NetmodeID.Server) SpiritMod.TrailManager.DoTrailCreation(projectile);
-
-			return index;
-		}
-
 		private static void Player_KeyDoubleTap(On.Terraria.Player.orig_KeyDoubleTap orig, Player self, int keyDir)
 		{
 			orig(self, keyDir);
@@ -432,7 +420,7 @@ namespace SpiritMod.Utilities
 
 			if (spirit.BookUserInterface.CurrentState != null) {
 				spirit.BookUserInterface.SetState(null);
-				Main.PlaySound(SoundID.MenuClose);
+				SoundEngine.PlaySound(SoundID.MenuClose);
 				return;
 			}
 
@@ -460,7 +448,7 @@ namespace SpiritMod.Utilities
 		// detour to stop evil grass from spreading into areas protected by super sunflowers
 		private static void WorldGen_SpreadGrass(On.Terraria.WorldGen.orig_SpreadGrass orig, int i, int j, int dirt, int grass, bool repeat, byte color)
 		{
-			if (grass == TileID.CorruptGrass || grass == TileID.FleshGrass || grass == TileID.HallowedGrass)
+			if (grass == TileID.CorruptGrass || grass == TileID.CrimsonGrass || grass == TileID.HallowedGrass)
 				foreach (Point16 point in MyWorld.superSunFlowerPositions)
 					if (Math.Abs(point.X - i) < SuperSunFlower.Range * 2)
 						return;

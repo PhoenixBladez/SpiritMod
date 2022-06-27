@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Placeable;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -11,7 +12,7 @@ namespace SpiritMod.Tiles
 {
 	public class JumpPadTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -25,10 +26,10 @@ namespace SpiritMod.Tiles
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Jump Pad");
-			dustType = -3;
+			DustType = -3;
 			AddMapEntry(new Color(200, 200, 200), name);
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 2;
 		}
@@ -46,15 +47,15 @@ namespace SpiritMod.Tiles
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
+			int height = tile.TileFrameY == 36 ? 18 : 16;
 			Tile t = Main.tile[i, j];
-			if (t.frameX % 54 == 0 && t.frameY == 0) {
+			if (t.TileFrameX % 54 == 0 && t.TileFrameY == 0) {
 				Main.spriteBatch.Draw(Main.extraTexture[60], new Vector2(i * 16 - (int)Main.screenPosition.X - 44, ((j - 1) * 16) - (int)Main.screenPosition.Y - 50) + zero, null, new Color((int)(2.5f * sineAdd), (int)(5f * sineAdd), (int)(6f * sineAdd), 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.PlaySound(SoundID.NPCHit, i * 16, j * 16, 4);
+			SoundEngine.PlaySound(SoundID.NPCHit, i * 16, j * 16, 4);
 			{
 				//Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
 				Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<JumpPadItem>());
@@ -76,7 +77,7 @@ namespace SpiritMod.Tiles
 		public override void FloorVisuals(Player player)
 		{
 			player.velocity.Y -= 14f;
-			Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, player.Center);
+			SoundEngine.PlaySound(SoundID.DD2_WitherBeastAuraPulse, player.Center);
 			float speed = player.velocity.Length();
 			for (int i = 0; i < 12; i++) {
 				DoDustEffect(player.MountedCenter, 46f - speed * 4.5f, 1.08f - speed * 0.13f, 2.08f - speed * 0.24f, player);

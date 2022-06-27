@@ -4,6 +4,7 @@ using SpiritMod.Mechanics.Trails;
 using SpiritMod.Particles;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,35 +15,35 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dark Grasp");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
 		}
 
 		public int maxTimeLeft = 180;
 		public override void SetDefaults()
 		{
-			projectile.width = 20;
-			projectile.height = 20;
-			projectile.hostile = true;
-			projectile.scale = Main.rand.NextFloat(0.12f, 0.2f);
-			projectile.timeLeft = maxTimeLeft;
-			projectile.tileCollide = false;
-			projectile.alpha = 255;
-			projectile.spriteDirection = Main.rand.NextBool() ? -1 : 1;
+			Projectile.width = 20;
+			Projectile.height = 20;
+			Projectile.hostile = true;
+			Projectile.scale = Main.rand.NextFloat(0.12f, 0.2f);
+			Projectile.timeLeft = maxTimeLeft;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 255;
+			Projectile.spriteDirection = Main.rand.NextBool() ? -1 : 1;
 		}
 
 		public void DoTrailCreation(TrailManager tM)
 		{
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(99, 23, 51) * 0.2f), new RoundCap(), new ArrowGlowPosition(), 200 * projectile.scale, 100);
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(99, 23, 51), new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 150 * projectile.scale, 60, new ImageShader(mod.GetTexture("Textures/Trails/Trail_3"), 0.2f, 1f, 1f));
-			tM.CreateTrail(projectile, new OpacityUpdatingTrail(projectile, new Color(99, 23, 51), new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 150 * projectile.scale, 60, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.2f, 1f, 1f));
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(99, 23, 51) * 0.2f), new RoundCap(), new ArrowGlowPosition(), 200 * Projectile.scale, 100);
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(99, 23, 51), new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 150 * Projectile.scale, 60, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_3"), 0.2f, 1f, 1f));
+			tM.CreateTrail(Projectile, new OpacityUpdatingTrail(Projectile, new Color(99, 23, 51), new Color(181, 0, 116)), new NoCap(), new DefaultTrailPosition(), 150 * Projectile.scale, 60, new ImageShader(Mod.GetTexture("Textures/Trails/Trail_4"), 0.2f, 1f, 1f));
 		}
 
 		public float period = 80;
-		public ref float Amplitude => ref projectile.ai[0];
-		private ref float PeriodOffset => ref projectile.ai[1];
+		public ref float Amplitude => ref Projectile.ai[0];
+		private ref float PeriodOffset => ref Projectile.ai[1];
 
-		private float AiTimer => maxTimeLeft - projectile.timeLeft;
+		private float AiTimer => maxTimeLeft - Projectile.timeLeft;
 		public bool DoAcceleration = true;
 		public bool TileCollideCheck = true;
 
@@ -50,41 +51,41 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 
 		public override void AI()
 		{
-			projectile.position -= projectile.velocity;
-			projectile.Size = Vector2.One * 20 * projectile.scale;
+			Projectile.position -= Projectile.velocity;
+			Projectile.Size = Vector2.One * 20 * Projectile.scale;
 
-			Vector2 cosVel = projectile.velocity.RotatedBy(MathHelper.ToRadians(Amplitude) * (float)Math.Cos((AiTimer + PeriodOffset) / period * MathHelper.TwoPi));
-			projectile.position += cosVel;
-			projectile.rotation = cosVel.ToRotation() + MathHelper.PiOver2;
+			Vector2 cosVel = Projectile.velocity.RotatedBy(MathHelper.ToRadians(Amplitude) * (float)Math.Cos((AiTimer + PeriodOffset) / period * MathHelper.TwoPi));
+			Projectile.position += cosVel;
+			Projectile.rotation = cosVel.ToRotation() + MathHelper.PiOver2;
 
 			if (AiTimer == 0 && !Main.dedServ)
 			{
-				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, cosVel * 0.4f, new Color(99, 23, 51), 0.4f, 15, 3));
-				ParticleHandler.SpawnParticle(new StarParticle(projectile.Center, cosVel * 0.4f, new Color(99, 23, 51), 0.4f, 15, 4));
+				ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, cosVel * 0.4f, new Color(99, 23, 51), 0.4f, 15, 3));
+				ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, cosVel * 0.4f, new Color(99, 23, 51), 0.4f, 15, 4));
 
 				for (int i = 0; i < 4; i++)
-					ParticleHandler.SpawnParticle(new GlowParticle(projectile.Center, cosVel.RotatedByRandom(MathHelper.Pi / 20) * Main.rand.NextFloat(), Color.Magenta, Main.rand.NextFloat(0.02f, 0.04f), 30));
+					ParticleHandler.SpawnParticle(new GlowParticle(Projectile.Center, cosVel.RotatedByRandom(MathHelper.Pi / 20) * Main.rand.NextFloat(), Color.Magenta, Main.rand.NextFloat(0.02f, 0.04f), 30));
 			}
 
 			if (Main.rand.NextBool(10) && !Main.dedServ)
-				ParticleHandler.SpawnParticle(new GlowParticle(projectile.Center, projectile.velocity * Main.rand.NextFloat(), Color.Magenta, Main.rand.NextFloat(0.02f, 0.04f), 30));
+				ParticleHandler.SpawnParticle(new GlowParticle(Projectile.Center, Projectile.velocity * Main.rand.NextFloat(), Color.Magenta, Main.rand.NextFloat(0.02f, 0.04f), 30));
 
-			if (projectile.alpha > 0)
+			if (Projectile.alpha > 0)
 			{
-				projectile.alpha -= 25;
-				projectile.scale *= 1.15f;
-				projectile.velocity *= 1.15f;
+				Projectile.alpha -= 25;
+				Projectile.scale *= 1.15f;
+				Projectile.velocity *= 1.15f;
 			}
 			else
-				projectile.alpha = 0;
+				Projectile.alpha = 0;
 
 			if (AiTimer > maxTimeLeft / 3f)
 			{
 				if (TileCollideCheck)
-					projectile.tileCollide = true;
+					Projectile.tileCollide = true;
 
-				if (projectile.velocity.Length() < 20 && DoAcceleration)
-					projectile.velocity *= acceleration;
+				if (Projectile.velocity.Length() < 20 && DoAcceleration)
+					Projectile.velocity *= acceleration;
 			}
 		}
 
@@ -93,27 +94,27 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 			if (Main.dedServ)
 				return;
 
-			Main.PlaySound(SoundID.DD2_SkeletonHurt.WithPitchVariance(0.3f).WithVolume(0.5f), projectile.Center);
+			SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt.WithPitchVariance(0.3f).WithVolume(0.5f), Projectile.Center);
 			for (int i = 0; i < 10; i++)
-				ParticleHandler.SpawnParticle(new GlowParticle(projectile.Center + Main.rand.NextVector2Circular(20, 10),
+				ParticleHandler.SpawnParticle(new GlowParticle(Projectile.Center + Main.rand.NextVector2Circular(20, 10),
 					Main.rand.NextVector2Unit() * Main.rand.NextFloat(2), Color.Magenta, Main.rand.NextFloat(0.02f, 0.04f), 30));
 
 			for (int j = 0; j < 6; j++)
-				Gore.NewGore(projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/Skelet/grave" + Main.rand.Next(1, 5)), 0.5f);
+				Gore.NewGore(Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/Skelet/grave" + Main.rand.Next(1, 5)).Type, 0.5f);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			projectile.QuickDrawTrail(spriteBatch, 0.2f, drawColor: new Color(99, 23, 51));
-			projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDrawTrail(spriteBatch, 0.2f, drawColor: new Color(99, 23, 51));
+			Projectile.QuickDraw(spriteBatch);
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(Color lightColor)
 		{
-			Texture2D maskTex = ModContent.GetTexture(Texture + "_mask");
-			spriteBatch.Draw(maskTex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(new Color(252, 68, 166)) * Math.Max(1 - AiTimer / 20f, 0), projectile.rotation,
-				maskTex.Size() / 2, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+			Texture2D maskTex = ModContent.Request<Texture2D>(Texture + "_mask");
+			spriteBatch.Draw(maskTex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(new Color(252, 68, 166)) * Math.Max(1 - AiTimer / 20f, 0), Projectile.rotation,
+				maskTex.Size() / 2, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 		}
 	}
 }

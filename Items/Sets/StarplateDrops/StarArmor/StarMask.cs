@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarArmor
 		{
 			DisplayName.SetDefault("Astralite Visor");
 			Tooltip.SetDefault("6% increased ranged critical strike chance");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/StarplateDrops/StarArmor/StarMask_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/StarplateDrops/StarArmor/StarMask_Glow");
 		}
 
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
@@ -22,11 +22,11 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
-			item.value = Item.sellPrice(0, 0, 30, 0);
-			item.rare = ItemRarityID.Orange;
-			item.defense = 6;
+			Item.width = 22;
+			Item.height = 20;
+			Item.value = Item.sellPrice(0, 0, 30, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.defense = 6;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -50,11 +50,10 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarArmor
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 12);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

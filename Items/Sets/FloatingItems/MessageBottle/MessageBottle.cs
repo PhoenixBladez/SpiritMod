@@ -20,21 +20,21 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 10;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Blue;
-			item.maxStack = 1;
-			item.UseSound = SoundID.Item79;
-			item.mountType = ModContent.MountType<MessageBottleMount>();
-			item.useTime = item.useAnimation = 20;
+			Item.width = 22;
+			Item.height = 10;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.maxStack = 1;
+			Item.UseSound = SoundID.Item79;
+			Item.mountType = ModContent.MountType<MessageBottleMount>();
+			Item.useTime = Item.useAnimation = 20;
 		}
 
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
-			Texture2D tex = ModContent.GetTexture(Texture + "_World");
-			spriteBatch.Draw(tex, item.Center - Main.screenPosition, null, lightColor, rotation, new Vector2(item.width, item.height) / 2, scale, SpriteEffects.None, 0f);
+			Texture2D tex = ModContent.Request<Texture2D>(Texture + "_World");
+			spriteBatch.Draw(tex, Item.Center - Main.screenPosition, null, lightColor, rotation, new Vector2(Item.width, Item.height) / 2, scale, SpriteEffects.None, 0f);
 			return false;
 		}
 	}

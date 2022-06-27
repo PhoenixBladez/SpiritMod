@@ -18,26 +18,26 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 24;
-			item.useTurn = false;
-			item.autoReuse = true;
-			item.value = Terraria.Item.sellPrice(0, 1, 60, 0);
-			item.value = Item.buyPrice(0, 2, 0, 0);
-			item.rare = ItemRarityID.Pink;
-			item.damage = 38;
-			item.mana = 5;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.useTime = 11;
-			item.useAnimation = 11;
-			item.UseSound = SoundID.Item9;
-			item.knockBack = 2;
-			item.magic = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.shoot = ModContent.ProjectileType<SoulShard>();
-			item.shootSpeed = 12f;
+			Item.width = 24;
+			Item.height = 24;
+			Item.useTurn = false;
+			Item.autoReuse = true;
+			Item.value = Terraria.Item.sellPrice(0, 1, 60, 0);
+			Item.value = Item.buyPrice(0, 2, 0, 0);
+			Item.rare = ItemRarityID.Pink;
+			Item.damage = 38;
+			Item.mana = 5;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.useTime = 11;
+			Item.useAnimation = 11;
+			Item.UseSound = SoundID.Item9;
+			Item.knockBack = 2;
+			Item.DamageType = DamageClass.Magic;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.noUseGraphic = true;
+			Item.shoot = ModContent.ProjectileType<SoulShard>();
+			Item.shootSpeed = 12f;
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

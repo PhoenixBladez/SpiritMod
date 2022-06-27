@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria.ID;
@@ -11,9 +13,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 {
 	public class QuestPlayer : ModPlayer
 	{
-		public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
+		public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
 		{
-			if (player.ZoneJungle && QuestManager.GetQuest<ItsNoSalmon>().IsActive && Main.rand.NextBool(10))
+			if (Player.ZoneJungle && QuestManager.GetQuest<ItsNoSalmon>().IsActive && Main.rand.NextBool(10))
 				caughtType = ModContent.ItemType<Items.Consumable.Quest.HornetfishQuest>();
 		}
 

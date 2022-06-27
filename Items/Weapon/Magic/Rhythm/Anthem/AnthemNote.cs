@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,18 +24,18 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 
 		public override void SetDefaults()
 		{
-			projectile.width = 14;
-			projectile.height = 10;
-			projectile.magic = true;
-			projectile.friendly = true;
-			projectile.timeLeft = 600;
+			Projectile.width = 14;
+			Projectile.height = 10;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.friendly = true;
+			Projectile.timeLeft = 600;
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false;
+		public override bool PreDraw(ref Color lightColor) => false;
 
 		public override void AI()
 		{
-			projectile.rotation = projectile.velocity.ToRotation();
+			Projectile.rotation = Projectile.velocity.ToRotation();
 		}
 
 		public override void Kill(int timeLeft)
@@ -44,9 +45,9 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 
 		public void AdditiveCall(SpriteBatch sB) 
 		{
-			Vector2 drawPos = projectile.Center - Main.screenPosition;
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			sB.Draw(tex, drawPos, null, Color.White * (0.8f + 0.2f * minigame.BeatScale), projectile.rotation, new Vector2(tex.Width, tex.Height) / 2, projectile.scale + 0.2f * minigame.BeatScale, projectile.direction == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0f);
+			Vector2 drawPos = Projectile.Center - Main.screenPosition;
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			sB.Draw(tex, drawPos, null, Color.White * (0.8f + 0.2f * minigame.BeatScale), Projectile.rotation, new Vector2(tex.Width, tex.Height) / 2, Projectile.scale + 0.2f * minigame.BeatScale, Projectile.direction == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0f);
 		}
 
 		public void SetUpBeat(RhythmMinigame minigame)

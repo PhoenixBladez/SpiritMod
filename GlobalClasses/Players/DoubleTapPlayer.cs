@@ -14,7 +14,7 @@ namespace SpiritMod.GlobalClasses.Players
 		public int lastTapUpTimer = 0;
 		public bool controlUpLast = false;
 
-		public bool UpPress => !player.controlUp && controlUpLast;
+		public bool UpPress => !Player.controlUp && controlUpLast;
 
 		public override void ResetEffects() => lastTapUpTimer--;
 
@@ -26,13 +26,13 @@ namespace SpiritMod.GlobalClasses.Players
 
 				if (lastTapUpTimer > UpTapThreshold)
 				{
-					OnDoubleTap?.Invoke(player, !Main.ReversedUpDownArmorSetBonuses ? 1 : 0);
+					OnDoubleTap?.Invoke(Player, !Main.ReversedUpDownArmorSetBonuses ? 1 : 0);
 
 					lastTapUpTimer = 0;
 				}
 			}
 
-			controlUpLast = player.controlUp;
+			controlUpLast = Player.controlUp;
 		}
 
 		public override void PostUpdate()
@@ -40,6 +40,6 @@ namespace SpiritMod.GlobalClasses.Players
 			base.PostUpdate();
 		}
 
-		internal void DoubleTapDown() => OnDoubleTap?.Invoke(player, Main.ReversedUpDownArmorSetBonuses ? 1 : 0);
+		internal void DoubleTapDown() => OnDoubleTap?.Invoke(Player, Main.ReversedUpDownArmorSetBonuses ? 1 : 0);
 	}
 }

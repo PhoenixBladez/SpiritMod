@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Ambient.GraniteSpike
 {
 	public class Spike6Tile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = false;
 			Main.tileFrameImportant[Type] = true;
@@ -31,8 +31,8 @@ namespace SpiritMod.Tiles.Ambient.GraniteSpike
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Granite Formation");
 			AddMapEntry(new Color(100, 86, 145), name);
-			dustType = -1;
-			disableSmartCursor = true;
+			DustType = -1;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{

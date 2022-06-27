@@ -14,13 +14,13 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.aiStyle = -1;
-			projectile.penetrate = 8;
-            projectile.hide = true;
-			projectile.timeLeft = 10;
-			projectile.tileCollide = false;
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.aiStyle = -1;
+			Projectile.penetrate = 8;
+            Projectile.hide = true;
+			Projectile.timeLeft = 10;
+			Projectile.tileCollide = false;
 		}
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {

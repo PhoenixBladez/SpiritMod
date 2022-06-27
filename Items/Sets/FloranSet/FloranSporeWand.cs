@@ -16,32 +16,31 @@ namespace SpiritMod.Items.Sets.FloranSet
 
 		public override void SetDefaults()
 		{
-			item.width = 30;
-			item.height = 46;
-			item.value = Item.buyPrice(0, 0, 20, 0);
-			item.rare = ItemRarityID.Blue;
-			item.damage = 15;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.useTime = 28;
-			item.useAnimation = 28;
-			item.mana = 6;
-			item.knockBack = 3;
-			item.UseSound = SoundID.Item20;
-			item.magic = true;
-			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<FloranSpore>();
-			item.shootSpeed = 10f;
+			Item.width = 30;
+			Item.height = 46;
+			Item.value = Item.buyPrice(0, 0, 20, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.damage = 15;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.useTime = 28;
+			Item.useAnimation = 28;
+			Item.mana = 6;
+			Item.knockBack = 3;
+			Item.UseSound = SoundID.Item20;
+			Item.DamageType = DamageClass.Magic;
+			Item.noMelee = true;
+			Item.shoot = ModContent.ProjectileType<FloranSpore>();
+			Item.shootSpeed = 10f;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe modRecipe = new ModRecipe(mod);
+			Recipe modRecipe = CreateRecipe();
 			modRecipe.AddIngredient(ModContent.ItemType<FloranBar>(), 14);
 			modRecipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 5);
 			modRecipe.AddTile(TileID.Anvils);
-			modRecipe.SetResult(this);
-			modRecipe.AddRecipe();
+			modRecipe.Register();
 		}
 	}
 }

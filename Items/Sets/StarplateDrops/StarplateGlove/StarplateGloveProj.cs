@@ -12,22 +12,22 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fist of the north Starplate");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 30; 
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 30; 
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 24;
-			projectile.height = 24;
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.Bullet;
-			projectile.scale = 1f;
-			projectile.tileCollide = false;
-			projectile.hide = false;
-			projectile.friendly = false;
-			projectile.magic = true;
-			projectile.timeLeft = 2;
-			projectile.ignoreWater = true;
+			Projectile.width = 24;
+			Projectile.height = 24;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.Bullet;
+			Projectile.scale = 1f;
+			Projectile.tileCollide = false;
+			Projectile.hide = false;
+			Projectile.friendly = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.timeLeft = 2;
+			Projectile.ignoreWater = true;
 		}
 		
 		public override Color? GetAlpha(Color lightColor)
@@ -40,27 +40,27 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 		int counter;
 		public override void AI()
 		{
-			projectile.timeLeft = 2;
+			Projectile.timeLeft = 2;
 			counter++;
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			if (player.HeldItem.type != ModContent.ItemType<StarplateGlove>())
 			{
 				returning = true;
 			}
-			Vector2 direction = Main.MouseWorld - projectile.Center;
+			Vector2 direction = Main.MouseWorld - Projectile.Center;
 			direction.Normalize();
-			projectile.rotation = direction.ToRotation() + 1.57f;
+			Projectile.rotation = direction.ToRotation() + 1.57f;
 			if (!returning)
 			{
 				if (target == Vector2.Zero)
 				{
 					target = Main.MouseWorld;
 				}
-				Vector2 vel = target - projectile.position;
+				Vector2 vel = target - Projectile.position;
 				float speed = (float)Math.Sqrt(vel.Length()) / 2;
 				vel.Normalize();
 				vel *= speed;
-				projectile.velocity = vel;
+				Projectile.velocity = vel;
 				if (!Main.mouseRight)
 				{
 					rightClick = false;
@@ -75,7 +75,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 						return;
 					player.statMana -= 6;
 					player.manaRegenDelay = 60;
-					Vector2 position = projectile.Center;
+					Vector2 position = Projectile.Center;
 					float speedX = direction.X * 10;
 					float speedY = direction.Y * 10;
 				
@@ -84,7 +84,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 					//speed *= Main.rand.NextFloat(0.9f, 1.1f);
 					position += speed2 * 8;
 					int type = Main.rand.Next(2)==0 ? ModContent.ProjectileType<StargloveChargeOrange>() : ModContent.ProjectileType<StargloveChargePurple>();
-					int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, projectile.damage, projectile.knockBack, player.whoAmI);
+					int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, Projectile.damage, Projectile.knockBack, player.whoAmI);
 
 					if (type == ModContent.ProjectileType<StargloveChargePurple>())
 					{
@@ -99,7 +99,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 					else
 					{
 						for (float num2 = 0.0f; (double)num2 < 10; ++num2) {
-							int dustIndex = Dust.NewDust(position - speed2 * 3, 2, 2, DustID.Fire, 0f, 0f, 0, default, 2f);
+							int dustIndex = Dust.NewDust(position - speed2 * 3, 2, 2, DustID.Torch, 0f, 0f, 0, default, 2f);
 							Main.dust[dustIndex].noGravity = true;
 							Main.dust[dustIndex].velocity = Vector2.Normalize((speed2 * 8).RotatedBy(Main.rand.NextFloat(6.28f))) * 2.5f;
 						}
@@ -110,15 +110,15 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 			}
 			else
 			{
-				Vector2 vel = player.Center - projectile.position;
+				Vector2 vel = player.Center - Projectile.position;
 				if (vel.Length() < 40 || vel.Length() > 1500)
 				{
-					projectile.active = false;
+					Projectile.active = false;
 				}
 				vel.Normalize();
 				vel *= 20;
-				projectile.velocity = vel;
-				projectile.rotation =vel.ToRotation() - 1.57f;
+				Projectile.velocity = vel;
+				Projectile.rotation =vel.ToRotation() - 1.57f;
 			}
 		}
 	}

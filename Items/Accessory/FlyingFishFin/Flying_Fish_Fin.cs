@@ -18,11 +18,11 @@ namespace SpiritMod.Items.Accessory.FlyingFishFin
 		}
 		public override void SetDefaults()
 		{
-			item.width = 26;
-			item.height = 30;
-			item.value = Item.sellPrice(silver: 10);
-			item.rare = ItemRarityID.Blue;
-			item.accessory = true;
+			Item.width = 26;
+			Item.height = 30;
+			Item.value = Item.sellPrice(silver: 10);
+			Item.rare = ItemRarityID.Blue;
+			Item.accessory = true;
 		}
 		public override void UpdateEquip(Player player)
 		{

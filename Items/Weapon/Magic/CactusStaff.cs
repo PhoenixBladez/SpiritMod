@@ -17,26 +17,26 @@ namespace SpiritMod.Items.Weapon.Magic
 
 		public override void SetDefaults()
 		{
-			item.damage = 6;
-			item.magic = true;
-			item.mana = 7;
-			item.width = 40;
-			item.height = 40;
-			item.useTime = 11;
-			item.useAnimation = 22;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.noMelee = true;
-			item.knockBack = 2f;
-			item.value = 200;
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = new Terraria.Audio.LegacySoundStyle(2, 8);
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<CactusProj>();
-			item.shootSpeed = 8f;
-			item.autoReuse = false;
+			Item.damage = 6;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 7;
+			Item.width = 40;
+			Item.height = 40;
+			Item.useTime = 11;
+			Item.useAnimation = 22;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.noMelee = true;
+			Item.knockBack = 2f;
+			Item.value = 200;
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = new Terraria.Audio.LegacySoundStyle(2, 8);
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<CactusProj>();
+			Item.shootSpeed = 8f;
+			Item.autoReuse = false;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			Vector2 mouse = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
 			for (int k = 0; k < 15; k++) {
@@ -67,11 +67,10 @@ namespace SpiritMod.Items.Weapon.Magic
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.Cactus, 22);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

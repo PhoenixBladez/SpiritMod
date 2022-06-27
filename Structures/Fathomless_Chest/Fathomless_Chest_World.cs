@@ -9,11 +9,11 @@ using SpiritMod.Tiles.Block;
 
 namespace SpiritMod.Structures.Fathomless_Chest
 {
-	public class Fathomless_Chest_World : ModWorld
+	public class Fathomless_Chest_World : ModSystem
 	{
 		public static bool isThereAChest = false;
 
-		public override void Initialize() => isThereAChest = false;
+		public override void OnWorldLoad() => isThereAChest = false;
 
 		private void PlaceShrineMiscs(int i, int j, int[,] ShrineArray)
 		{
@@ -24,7 +24,7 @@ namespace SpiritMod.Structures.Fathomless_Chest
 					int k = i - 3 + x;
 					int l = j - 6 + y;
 					Tile tile = Framing.GetTileSafely(k, l);
-					if (WorldGen.InWorld(k, l, 30) && (tile.type != 41 || tile.type != 43 || tile.type != 44 || tile.type != 226))
+					if (WorldGen.InWorld(k, l, 30) && (tile.TileType != 41 || tile.TileType != 43 || tile.TileType != 44 || tile.TileType != 226))
 					{
 						switch (ShrineArray[y, x])
 						{
@@ -63,7 +63,7 @@ namespace SpiritMod.Structures.Fathomless_Chest
 					int k = i - 3 + x;
 					int l = j - 6 + y;
 					Tile tile = Framing.GetTileSafely(k, l);
-					if (WorldGen.InWorld(k, l, 30) && (tile.type != 41 || tile.type != 43 || tile.type != 44 || tile.type != 226))
+					if (WorldGen.InWorld(k, l, 30) && (tile.TileType != 41 || tile.TileType != 43 || tile.TileType != 44 || tile.TileType != 226))
 					{
 						switch (ShrineArray[y, x])
 						{
@@ -85,7 +85,7 @@ namespace SpiritMod.Structures.Fathomless_Chest
 					int k = i - 3 + x;
 					int l = j - 6 + y;
 					Tile tile = Framing.GetTileSafely(k, l);
-					if (WorldGen.InWorld(k, l, 30) && (tile.type != 41 || tile.type != 43 || tile.type != 44 || tile.type != 226))
+					if (WorldGen.InWorld(k, l, 30) && (tile.TileType != 41 || tile.TileType != 43 || tile.TileType != 44 || tile.TileType != 226))
 					{
 						switch (ShrineArray[y, x])
 						{
@@ -93,13 +93,13 @@ namespace SpiritMod.Structures.Fathomless_Chest
 							case 1:
 								break;
 							case 2:
-								WorldGen.PlaceTile(k, l, mod.TileType("Black_Stone")); // Dirt
+								WorldGen.PlaceTile(k, l, Mod.Find<ModTile>("Black_Stone").Type); // Dirt
 								WorldGen.PlaceWall(k, l, 1); // Stone Wall	
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 							case 3:
 								WorldGen.PlaceTile(k, l, 311); // Dynasty Wood							
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 							case 4:
 								WorldGen.PlaceWall(k, l, 139); // Rich Mahogany Fence	
@@ -107,17 +107,17 @@ namespace SpiritMod.Structures.Fathomless_Chest
 								break;
 							case 5:
 								WorldGen.PlaceTile(k, l, 313); // Blue Dynasty Shingles			
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 							case 6:
 								WorldGen.PlaceTile(k, l, 313); // Blue Dynasty Shingles
-								tile.active(true);
-								tile.slope(0);
+								tile.HasTile = true;
+								tile.Slope = 0;
 								break;
 							case 7:
 								WorldGen.PlaceTile(k, l, 311); // Dynasty Wood
 								WorldGen.PlaceWall(k, l, 139); // Rich Mahogany Fence
-								tile.active(true);
+								tile.HasTile = true;
 								break;
 						}
 					}
@@ -138,7 +138,7 @@ namespace SpiritMod.Structures.Fathomless_Chest
 								WorldGen.PlaceObject(k, l, 105, false, 31); // Tree Statue
 								break;
 							case 9:
-								WorldGen.PlaceTile(k, l, mod.TileType("Fathomless_Chest")); // Blue Dynasty Shingles
+								WorldGen.PlaceTile(k, l, Mod.Find<ModTile>("Fathomless_Chest").Type); // Blue Dynasty Shingles
 								break;
 						}
 					}
@@ -158,7 +158,7 @@ namespace SpiritMod.Structures.Fathomless_Chest
 				bool reachedsolidtile = false;
 				while (!reachedsolidtile) // Loop until it reaches a solid tile
 				{
-					if (WorldGen.SolidOrSlopedTile(Framing.GetTileSafely(x, y)) || TileID.Sets.BasicChest[Framing.GetTileSafely(x, y).type] || TileID.Sets.BasicChestFake[Framing.GetTileSafely(x, y).type])
+					if (WorldGen.SolidOrSlopedTile(Framing.GetTileSafely(x, y)) || TileID.Sets.BasicChest[Framing.GetTileSafely(x, y).TileType] || TileID.Sets.BasicChestFake[Framing.GetTileSafely(x, y).TileType])
 						reachedsolidtile = true;
 					else
 					{
@@ -224,8 +224,8 @@ namespace SpiritMod.Structures.Fathomless_Chest
 				{
 					Tile tile = Framing.GetTileSafely(x, y);
 
-					if (forbiddentiles.Contains(tile.type) || forbiddenwalls.Contains(tile.wall) || TileID.Sets.BasicChest[tile.type] || 
-						TileID.Sets.BasicChestFake[tile.type] || !TileID.Sets.CanBeClearedDuringGeneration[tile.type])
+					if (forbiddentiles.Contains(tile.TileType) || forbiddenwalls.Contains(tile.WallType) || TileID.Sets.BasicChest[tile.TileType] || 
+						TileID.Sets.BasicChestFake[tile.TileType] || !TileID.Sets.CanBeClearedDuringGeneration[tile.TileType])
 						safetyCheck = true;
 				}
 			}
@@ -241,7 +241,7 @@ namespace SpiritMod.Structures.Fathomless_Chest
 					for (int x = spawnX - radius; x <= spawnX + radius + 1; x++)
 					{
 						Tile tile = Framing.GetTileSafely(x, y);
-						if (forbiddentiles.Contains(tile.type) || forbiddenwalls.Contains(tile.wall) || !TileID.Sets.CanBeClearedDuringGeneration[tile.type])
+						if (forbiddentiles.Contains(tile.TileType) || forbiddenwalls.Contains(tile.WallType) || !TileID.Sets.CanBeClearedDuringGeneration[tile.TileType])
 							safetyCheck = true;
 					}
 				}

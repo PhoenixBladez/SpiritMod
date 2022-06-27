@@ -14,11 +14,11 @@ namespace SpiritMod.Items.Accessory.AceCardsSet
 
 		public override void SetDefaults()
 		{
-			item.width = 18;
-			item.height = 18;
-			item.value = Item.buyPrice(0, 5, 0, 0);
-			item.rare = ItemRarityID.Orange;
-			item.accessory = true;
+			Item.width = 18;
+			Item.height = 18;
+			Item.value = Item.buyPrice(0, 5, 0, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.accessory = true;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -31,14 +31,13 @@ namespace SpiritMod.Items.Accessory.AceCardsSet
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<AceOfClubs>());
             recipe.AddIngredient(ModContent.ItemType<AceOfHearts>());
             recipe.AddIngredient(ModContent.ItemType<AceOfSpades>());
 			recipe.AddIngredient(ModContent.ItemType<AceOfDiamonds>());
             recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

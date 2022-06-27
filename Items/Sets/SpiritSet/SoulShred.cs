@@ -12,15 +12,15 @@ namespace SpiritMod.Items.Sets.SpiritSet
 		{
 			DisplayName.SetDefault("Ethereal Ember");
 			Tooltip.SetDefault("'A part of the everburning Soul'");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(7, 6));
-			ItemID.Sets.ItemNoGravity[item.type] = true;
+			Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 6));
+			ItemID.Sets.ItemNoGravity[Item.type] = true;
 		}
 		public override void SetDefaults()
 		{
-			item.rare = ItemRarityID.Pink;
-			item.width = 14;
-			item.maxStack = 99;
-			item.height = 36;
+			Item.rare = ItemRarityID.Pink;
+			Item.width = 14;
+			Item.maxStack = 99;
+			Item.height = 36;
 		}
 	}
 }

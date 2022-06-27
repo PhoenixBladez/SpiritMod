@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.Chat;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -66,7 +67,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 				// load related quest image
 				string tex = "UI/QuestUI/Textures/Quests/" + type.Name;
-				if (SpiritMod.Instance.TextureExists(tex) && !Main.dedServ)
+				if (SpiritMod.Instance.HasAsset(tex) && !Main.dedServ)
 				
 					q.QuestImage = SpiritMod.Instance.GetTexture(tex);
 
@@ -393,7 +394,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			if (Main.netMode == NetmodeID.SinglePlayer || Main.netMode == NetmodeID.MultiplayerClient)
 				Main.NewText(text, colour.R, colour.G, colour.B, false);
 			else if (Main.netMode == NetmodeID.Server && !noServer)
-				NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), colour, -1);
+				ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral(text), colour, -1);
 		}
 
 		public static void UnlockQuestBook(bool openBook = true)

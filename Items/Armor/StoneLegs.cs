@@ -14,20 +14,19 @@ namespace SpiritMod.Items.Armor
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 18;
-			item.value = 0;
-			item.rare = ItemRarityID.White;
-			item.defense = 2;
+			Item.width = 22;
+			Item.height = 18;
+			Item.value = 0;
+			Item.rare = ItemRarityID.White;
+			Item.defense = 2;
 		}
 
 		public override void AddRecipes()  //How to craft this item
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.StoneBlock, 40);
 			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

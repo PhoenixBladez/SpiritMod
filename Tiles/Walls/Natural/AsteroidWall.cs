@@ -6,11 +6,11 @@ namespace SpiritMod.Tiles.Walls.Natural
 {
 	public class AsteroidWall : ModWall
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.wallHouse[Type] = true;
 			AddMapEntry(new Color(92, 76, 64));
-			drop = ModContent.ItemType<Items.Placeable.Walls.AsteroidWall>();
+			ItemDrop = ModContent.ItemType<Items.Placeable.Walls.AsteroidWall>();
 		}
 
 		/*	public override void NumDust(int i, int j, bool fail, ref int num)

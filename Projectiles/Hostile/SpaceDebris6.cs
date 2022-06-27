@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Placeable.Tiles;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,44 +15,44 @@ namespace SpiritMod.Projectiles.Hostile
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Space Junk");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.height = 20;
-			projectile.width = 18;
-			aiType = ProjectileID.DeathLaser;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = true;
+			Projectile.hostile = true;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.height = 20;
+			Projectile.width = 18;
+			AIType = ProjectileID.DeathLaser;
+			Projectile.extraUpdates = 1;
 		}
 
 		public override void AI()
 		{
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] == 16f) {
-				projectile.localAI[0] = 0f;
+			Projectile.localAI[0] += 1f;
+			if (Projectile.localAI[0] == 16f) {
+				Projectile.localAI[0] = 0f;
 				for (int j = 0; j < 12; j++) {
-					Vector2 vector2 = Vector2.UnitX * -projectile.width / 2f;
+					Vector2 vector2 = Vector2.UnitX * -Projectile.width / 2f;
 					vector2 += -Utils.RotatedBy(Vector2.UnitY, ((float)j * 3.141591734f / 6f), default) * new Vector2(8f, 16f);
-					vector2 = Utils.RotatedBy(vector2, (projectile.rotation - 1.57079637f), default);
-					int num8 = Dust.NewDust(projectile.Center, 0, 0, DustID.Electric, 0f, 0f, 160, new Color(), 1f);
+					vector2 = Utils.RotatedBy(vector2, (Projectile.rotation - 1.57079637f), default);
+					int num8 = Dust.NewDust(Projectile.Center, 0, 0, DustID.Electric, 0f, 0f, 160, new Color(), 1f);
 					Main.dust[num8].scale = .48f;
 					Main.dust[num8].noGravity = true;
-					Main.dust[num8].position = projectile.Center + vector2;
-					Main.dust[num8].velocity = projectile.velocity * 0.1f;
-					Main.dust[num8].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num8].position) * 1.25f;
+					Main.dust[num8].position = Projectile.Center + vector2;
+					Main.dust[num8].velocity = Projectile.velocity * 0.1f;
+					Main.dust[num8].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[num8].position) * 1.25f;
 				}
 			}
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+			Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 			int num = 5;
 			for (int k = 0; k < 4; k++) {
-				int index2 = Dust.NewDust(projectile.position, 1, 1, DustID.Fire, 0.0f, 0.0f, 0, new Color(), .9f);
-				Main.dust[index2].position = projectile.Center - projectile.velocity / num * (float)k;
+				int index2 = Dust.NewDust(Projectile.position, 1, 1, DustID.Torch, 0.0f, 0.0f, 0, new Color(), .9f);
+				Main.dust[index2].position = Projectile.Center - Projectile.velocity / num * (float)k;
 				Main.dust[index2].scale = .5f;
 				Main.dust[index2].velocity *= 0f;
 				Main.dust[index2].noGravity = true;
@@ -68,35 +70,32 @@ namespace SpiritMod.Projectiles.Hostile
 				if (num625 == 2)
 					scaleFactor10 = 1f;
 
-				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-				Main.gore[num626].velocity *= scaleFactor10;
-				Gore expr_13AB6_cp_0 = Main.gore[num626];
-				expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
-				Gore expr_13AD6_cp_0 = Main.gore[num626];
-				expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-				Main.gore[num626].velocity *= scaleFactor10;
-				Gore expr_13B79_cp_0 = Main.gore[num626];
-				expr_13B79_cp_0.velocity.X = expr_13B79_cp_0.velocity.X - 1f;
-				Gore expr_13B99_cp_0 = Main.gore[num626];
-				expr_13B99_cp_0.velocity.Y = expr_13B99_cp_0.velocity.Y + 1f;
+				for (int i = 0; i < 2; ++i)
+				{
+					int num626 = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+					Main.gore[num626].velocity *= scaleFactor10;
+					Gore expr_13AB6_cp_0 = Main.gore[num626];
+					expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
+					Gore expr_13AD6_cp_0 = Main.gore[num626];
+					expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
+				}
 			}
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 			for (int i = 0; i < 4; i++) {
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 3f);
+				int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Torch, 0f, 0f, 100, default, 3f);
 				Main.dust[num624].velocity *= 0f;
 				Main.dust[num624].scale *= 0.3f;
 			}
 			if (Main.rand.Next(0, 20) == 0)
-				Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<SpaceJunkItem>(), 1, false, 0, false, false);
+				Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<SpaceJunkItem>(), 1, false, 0, false, false);
 		}
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-			for (int k = 0; k < projectile.oldPos.Length; k++) {
-				Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+			for (int k = 0; k < Projectile.oldPos.Length; k++) {
+				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

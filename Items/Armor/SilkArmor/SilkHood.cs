@@ -15,11 +15,11 @@ namespace SpiritMod.Items.Armor.SilkArmor
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 22;
-			item.value = 7500;
-			item.rare = ItemRarityID.Blue;
-			item.defense = 1;
+			Item.width = 22;
+			Item.height = 22;
+			Item.value = 7500;
+			Item.rare = ItemRarityID.Blue;
+			Item.defense = 1;
 		}
 		public override void UpdateEquip(Player player)
 		{
@@ -41,13 +41,12 @@ namespace SpiritMod.Items.Armor.SilkArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.Silk, 3);
 			recipe.AddRecipeGroup("SpiritMod:GoldBars");
 			recipe.AddIngredient(ItemID.FallenStar, 1);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

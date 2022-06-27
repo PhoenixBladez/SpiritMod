@@ -15,24 +15,23 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 30;
-			item.value = Item.sellPrice(gold: 1);
-			item.rare = ItemRarityID.Orange;
-			item.defense = 2;
-			item.accessory = true;
+			Item.width = 24;
+			Item.height = 30;
+			Item.value = Item.sellPrice(gold: 1);
+			Item.rare = ItemRarityID.Orange;
+			Item.defense = 2;
+			Item.accessory = true;
 		}
 		
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().teslaCoil = true;
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<TechDrive>(), 14);
 			recipe.AddIngredient(ItemID.Wire, 4);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

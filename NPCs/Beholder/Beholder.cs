@@ -6,6 +6,8 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
@@ -28,39 +30,39 @@ namespace SpiritMod.NPCs.Beholder
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Beholder");
-			Main.npcFrameCount[npc.type] = 9;
-			NPCID.Sets.TrailCacheLength[npc.type] = 3;
-			NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 9;
+			NPCID.Sets.TrailCacheLength[NPC.type] = 3;
+			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 72;
-			npc.height = 68;
-			npc.damage = 33;
-			npc.defense = 15;
-			npc.lifeMax = 490;
-			npc.HitSound = SoundID.DD2_CrystalCartImpact;
-			npc.DeathSound = SoundID.NPCDeath2;
-			npc.value = 760f;
-			npc.knockBackResist = 0.35f;
-			npc.noTileCollide = true;
-			npc.noGravity = true;
-			npc.buffImmune[BuffID.Confused] = true;
-			npc.aiStyle = 14;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.rarity = 3;
-			aiType = NPCID.Slimer;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.BeholderBanner>();
+			NPC.width = 72;
+			NPC.height = 68;
+			NPC.damage = 33;
+			NPC.defense = 15;
+			NPC.lifeMax = 490;
+			NPC.HitSound = SoundID.DD2_CrystalCartImpact;
+			NPC.DeathSound = SoundID.NPCDeath2;
+			NPC.value = 760f;
+			NPC.knockBackResist = 0.35f;
+			NPC.noTileCollide = true;
+			NPC.noGravity = true;
+			NPC.buffImmune[BuffID.Confused] = true;
+			NPC.aiStyle = 14;
+			NPC.noGravity = true;
+			NPC.noTileCollide = true;
+			NPC.rarity = 3;
+			AIType = NPCID.Slimer;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.BeholderBanner>();
 		}
 
 		public override bool PreAI()
 		{
-			Player player = Main.player[npc.target];
-			float num5 = npc.position.X + (float)(npc.width / 2) - player.position.X - (float)(player.width / 2);
-			float num6 = npc.position.Y + (float)npc.height - 59f - player.position.Y - (float)(player.height / 2);
+			Player player = Main.player[NPC.target];
+			float num5 = NPC.position.X + (float)(NPC.width / 2) - player.position.X - (float)(player.width / 2);
+			float num6 = NPC.position.Y + (float)NPC.height - 59f - player.position.Y - (float)(player.height / 2);
 			float num7 = (float)Math.Atan2((double)num6, (double)num5) + 1.57f;
 
 			if (num7 < 0f)
@@ -70,50 +72,50 @@ namespace SpiritMod.NPCs.Beholder
 
 			const float RotationSpeed = 0.1f;
 
-			if (npc.rotation < num7)
+			if (NPC.rotation < num7)
 			{
-				if (num7 - npc.rotation > 3.1415)
-					npc.rotation -= RotationSpeed;
+				if (num7 - NPC.rotation > 3.1415)
+					NPC.rotation -= RotationSpeed;
 				else
-					npc.rotation += RotationSpeed;
+					NPC.rotation += RotationSpeed;
 			}
-			else if (npc.rotation > num7)
+			else if (NPC.rotation > num7)
 			{
-				if (npc.rotation - num7 > 3.1415)
-					npc.rotation += RotationSpeed;
+				if (NPC.rotation - num7 > 3.1415)
+					NPC.rotation += RotationSpeed;
 				else
-					npc.rotation -= RotationSpeed;
+					NPC.rotation -= RotationSpeed;
 			}
 
-			if (npc.rotation > num7 - RotationSpeed && npc.rotation < num7 + RotationSpeed)
-				npc.rotation = num7;
+			if (NPC.rotation > num7 - RotationSpeed && NPC.rotation < num7 + RotationSpeed)
+				NPC.rotation = num7;
 
-			if (npc.rotation < 0f)
-				npc.rotation += 6.283f;
+			if (NPC.rotation < 0f)
+				NPC.rotation += 6.283f;
 
-			else if (npc.rotation > 6.283)
-				npc.rotation -= 6.283f;
+			else if (NPC.rotation > 6.283)
+				NPC.rotation -= 6.283f;
 
-			if (npc.rotation > num7 - RotationSpeed && npc.rotation < num7 + RotationSpeed)
-				npc.rotation = num7;
-			npc.spriteDirection = npc.direction;
+			if (NPC.rotation > num7 - RotationSpeed && NPC.rotation < num7 + RotationSpeed)
+				NPC.rotation = num7;
+			NPC.spriteDirection = NPC.direction;
 			return true;
 		}
 
 		public override void AI()
 		{
-			npc.spriteDirection = npc.direction;
-			Player player = Main.player[npc.target];
+			NPC.spriteDirection = NPC.direction;
+			Player player = Main.player[NPC.target];
 
-			npc.TargetClosest(true);
+			NPC.TargetClosest(true);
 			dashTimer++;
 			if (dashTimer == 210 || dashTimer == 420 || dashTimer == 630)
 			{
-				Vector2 direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-				Main.PlaySound(SoundID.DD2_WyvernDiveDown, npc.Center);
+				Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center);
+				SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDown, NPC.Center);
 				direction.X *= Main.rand.Next(6, 9);
 				direction.Y *= Main.rand.Next(6, 9);
-				npc.velocity = direction * 0.98f;
+				NPC.velocity = direction * 0.98f;
 			}
 
 			timer++;
@@ -129,40 +131,40 @@ namespace SpiritMod.NPCs.Beholder
 
 			if (dashTimer == 770 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, npc.Center);
-				npc.position.X = player.position.X + Main.rand.NextFloat(-200f, 200f);
-				npc.position.Y = player.position.Y + Main.rand.NextFloat(-100f, -200f);
+				SoundEngine.PlaySound(SoundID.DD2_WitherBeastAuraPulse, NPC.Center);
+				NPC.position.X = player.position.X + Main.rand.NextFloat(-200f, 200f);
+				NPC.position.Y = player.position.Y + Main.rand.NextFloat(-100f, -200f);
 
-				npc.netUpdate = true;
+				NPC.netUpdate = true;
 			}
 
 			if (dashTimer == 771)
 			{
 				for (int i = 0; i < 30; i++)
 				{
-					Vector2 vector23 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(100f, 20f) * npc.scale * 1.85f / 2f;
-					int index1 = Dust.NewDust(npc.Center + vector23, 0, 0, DustID.GoldCoin, 0.0f, 0.0f, 0, new Color(), 1f);
-					Main.dust[index1].position = npc.Center + vector23;
+					Vector2 vector23 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(100f, 20f) * NPC.scale * 1.85f / 2f;
+					int index1 = Dust.NewDust(NPC.Center + vector23, 0, 0, DustID.GoldCoin, 0.0f, 0.0f, 0, new Color(), 1f);
+					Main.dust[index1].position = NPC.Center + vector23;
 					Main.dust[index1].velocity = Vector2.Zero;
-					Vector2 vector25 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(20f, 100f) * npc.scale * 1.85f / 2f;
-					int index3 = Dust.NewDust(npc.Center + vector25, 0, 0, DustID.GoldCoin, 0.0f, 0.0f, 0, new Color(), 1f);
-					Main.dust[index3].position = npc.Center + vector25;
+					Vector2 vector25 = Vector2.UnitY.RotatedByRandom(6.28318548202515) * new Vector2(20f, 100f) * NPC.scale * 1.85f / 2f;
+					int index3 = Dust.NewDust(NPC.Center + vector25, 0, 0, DustID.GoldCoin, 0.0f, 0.0f, 0, new Color(), 1f);
+					Main.dust[index3].position = NPC.Center + vector25;
 					Main.dust[index3].velocity = Vector2.Zero;
 				}
 			}
 
 			if (dashTimer == 800)
-				Main.PlaySound(SoundID.DD2_WyvernScream, npc.Center);
+				SoundEngine.PlaySound(SoundID.DD2_WyvernScream, NPC.Center);
 
 			if (dashTimer >= 800 && dashTimer <= 1000)
 			{
 				frame = 8;
-				npc.velocity.X *= .008f * npc.direction;
-				npc.velocity.Y *= 0f;
+				NPC.velocity.X *= .008f * NPC.direction;
+				NPC.velocity.Y *= 0f;
 				shootTimer++;
 				if (shootTimer >= 40 && Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					Vector2 direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 5f;
+					Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 5f;
 					shootTimer = 0;
 					int amountOfProjectiles = 1;
 					bool expertMode = Main.expertMode;
@@ -171,9 +173,9 @@ namespace SpiritMod.NPCs.Beholder
 					{
 						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-						int p = Projectile.NewProjectile(npc.Center.X + (npc.direction * 12), npc.Center.Y + 20, direction.X + A, direction.Y + B, ProjectileID.Fireball, damage, 1, Main.myPlayer, 0, 0);
+						int p = Projectile.NewProjectile(NPC.Center.X + (NPC.direction * 12), NPC.Center.Y + 20, direction.X + A, direction.Y + B, ProjectileID.Fireball, damage, 1, Main.myPlayer, 0, 0);
 						for (int k = 0; k < 11; k++)
-							Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, direction.X + A, direction.Y + B, 0, default, .61f);
+							Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Torch, direction.X + A, direction.Y + B, 0, default, .61f);
 						Main.projectile[p].hostile = true;
 					}
 				}
@@ -187,13 +189,13 @@ namespace SpiritMod.NPCs.Beholder
 			if (manaSteal)
 			{
 				manaStealTimer++;
-				int distance = (int)Math.Sqrt((npc.Center.X - player.Center.X) * (npc.Center.X - player.Center.X) + (npc.Center.Y - player.Center.Y) * (npc.Center.Y - player.Center.Y));
+				int distance = (int)Math.Sqrt((NPC.Center.X - player.Center.X) * (NPC.Center.X - player.Center.X) + (NPC.Center.Y - player.Center.Y) * (NPC.Center.Y - player.Center.Y));
 				if (distance < 300 && player.statMana > 0)
 				{
 					player.statMana--;
 					for (int i = 0; i < 2; i++)
 					{
-						int dust = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.PurificationPowder);
+						int dust = Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.PurificationPowder);
 						Main.dust[dust].velocity *= -1f;
 						Main.dust[dust].scale *= 1.4f;
 						Main.dust[dust].noGravity = true;
@@ -203,7 +205,7 @@ namespace SpiritMod.NPCs.Beholder
 						Main.dust[dust].velocity = vector2_2;
 						vector2_2.Normalize();
 						Vector2 vector2_3 = vector2_2 * 64f;
-						Main.dust[dust].position = npc.Center - vector2_3;
+						Main.dust[dust].position = NPC.Center - vector2_3;
 					}
 				}
 			}
@@ -239,41 +241,41 @@ namespace SpiritMod.NPCs.Beholder
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (NPC.AnyNPCs(ModContent.NPCType<Beholder>()) || !spawnInfo.player.GetSpiritPlayer().ZoneMarble || !NPC.downedBoss2 || spawnInfo.spawnTileY <= Main.rockLayer)
+			if (NPC.AnyNPCs(ModContent.NPCType<Beholder>()) || !spawnInfo.Player.GetSpiritPlayer().ZoneMarble || !NPC.downedBoss2 || spawnInfo.SpawnTileY <= Main.rockLayer)
 				return 0;
 			if (QuestManager.GetQuest<SlayerQuestMarble>().IsActive)
 				return 0.15f;
 			return 0.002765f;
 		}
 
-		public override void FindFrame(int frameHeight) => npc.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-			for (int k = 0; k < npc.oldPos.Length; k++)
+			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height * 0.5f));
+			for (int k = 0; k < NPC.oldPos.Length; k++)
 			{
-				var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-				Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-				Color color = npc.GetAlpha(lightColor) * (float)(((npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2);
-				spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+				var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+				Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+				Color color = NPC.GetAlpha(lightColor) * (float)(((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			}
 			return true;
 		}
-		public override bool PreNPCLoot()
+		public override bool PreKill()
 		{
-			Main.PlaySound(SoundLoader.customSoundType, npc.position, mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+			SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
 			MyWorld.downedBeholder = true;
 			return true;
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+			if (NPC.life <= 0)
 			{
-				Main.PlaySound(SoundID.DD2_WyvernScream, npc.Center);
+				SoundEngine.PlaySound(SoundID.DD2_WyvernScream, NPC.Center);
 
 				for (int i = 1; i < 9; ++i)
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Beholder" + i), 1f);
+					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Beholder" + i).Type, 1f);
 			}
 		}
 
@@ -284,14 +286,14 @@ namespace SpiritMod.NPCs.Beholder
 			manaSteal = true;
 		}
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MarbleChunk>(), Main.rand.Next(4, 7) + 1);
+			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MarbleChunk>(), Main.rand.Next(4, 7) + 1);
 			if (Main.rand.Next(2) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BeholderYoyo>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<BeholderYoyo>());
 
 			if (Main.rand.NextBool(5))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TofuSatay>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<TofuSatay>());
 		}
 
 		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,

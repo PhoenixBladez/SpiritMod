@@ -36,21 +36,21 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 			if (AiTimer < chargetime)
 			{
-				npc.TargetClosest(true);
+				NPC.TargetClosest(true);
 				if (AiTimer % 6 == 0)
 					AddRune();
 			}
 
 			if (AiTimer == chargetime && !Main.dedServ)
-				ParticleHandler.SpawnParticle(new OccultistTelegraphBeam(npc, (Vector2.UnitX * npc.direction).ToRotation(), 400, attacktelegraphtime));
+				ParticleHandler.SpawnParticle(new OccultistTelegraphBeam(NPC, (Vector2.UnitX * NPC.direction).ToRotation(), 400, attacktelegraphtime));
 
 			if (AiTimer > attacktelegraphtime + chargetime)
 			{
 				UpdateYFrame(11, 4, 8);
 				if (AiTimer % 6 == 0)
 				{
-					Vector2 spawnPos = npc.Center + (Vector2.UnitX * npc.direction).RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(20, 40);
-					Vector2 velocity = npc.direction * Vector2.UnitX * Main.rand.NextFloat(3, 4);
+					Vector2 spawnPos = NPC.Center + (Vector2.UnitX * NPC.direction).RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(20, 40);
+					Vector2 velocity = NPC.direction * Vector2.UnitX * Main.rand.NextFloat(3, 4);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float amplitude = Main.rand.NextFloat(5, 8);
@@ -71,14 +71,14 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			int daggerspintime = 40;
 
 			if (AiTimer < daggerspintime)
-				npc.TargetClosest(true);
+				NPC.TargetClosest(true);
 			else
 				UpdateYFrame(8, 0, 8, null, 4);
 
 			if ((AiTimer == 1 || AiTimer == 20) && !Main.dedServ)
 			{
-				Texture2D dagger = mod.GetTexture("NPCs/Boss/Occultist/Projectiles/OccultistDagger");
-				Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+				Texture2D dagger = Mod.GetTexture("NPCs/Boss/Occultist/Projectiles/OccultistDagger");
+				Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
 				float height = AiTimer == 1 ? 0 : -10;
 				float radius = AiTimer == 1 ? 30 : 40;
 				float scale = AiTimer == 1 ? 0.25f : 0.5f;
@@ -99,11 +99,11 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					float timer = AiTimer - daggerspintime + 10;
-					if (npc.direction > 0)
+					if (NPC.direction > 0)
 						timer = 40 - timer;
 
 					float angle = timer / 40 * MathHelper.Pi;
-					Vector2 spawnPos = npc.Center - new Vector2(0, 500) + new Vector2(0, 300).RotatedBy((angle - MathHelper.PiOver2) / 2.5f);
+					Vector2 spawnPos = NPC.Center - new Vector2(0, 500) + new Vector2(0, 300).RotatedBy((angle - MathHelper.PiOver2) / 2.5f);
 					var proj = Projectile.NewProjectileDirect(spawnPos, Vector2.Zero, ModContent.ProjectileType<OccultistDagger>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer, angle);
 					proj.netUpdate = true;
 				}
@@ -114,23 +114,23 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 		private void SoulsP1(Player Target)
 		{
-			npc.TargetClosest(true);
+			NPC.TargetClosest(true);
 
 			if (AiTimer <= 30)
 			{
 				UpdateYFrame(8, 4, 8);
 				if (AiTimer % 15 == 0)
 				{
-					Vector2 vel = npc.DirectionFrom(Target.Center).RotatedByRandom(MathHelper.PiOver2) * 14;
+					Vector2 vel = NPC.DirectionFrom(Target.Center).RotatedByRandom(MathHelper.PiOver2) * 14;
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						Projectile.NewProjectileDirect(npc.Center + vel, vel.RotatedByRandom(MathHelper.Pi / 12), ModContent.ProjectileType<OccultistSoul>(), NPCUtils.ToActualDamage(30, 1.5f), 1, Main.myPlayer, Main.rand.NextBool() ? -1 : 1, Target.whoAmI).netUpdate = true;
+						Projectile.NewProjectileDirect(NPC.Center + vel, vel.RotatedByRandom(MathHelper.Pi / 12), ModContent.ProjectileType<OccultistSoul>(), NPCUtils.ToActualDamage(30, 1.5f), 1, Main.myPlayer, Main.rand.NextBool() ? -1 : 1, Target.whoAmI).netUpdate = true;
 
 					if (!Main.dedServ)
 					{
-						ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(252, 3, 148) * 0.6f, 120, 15) { RingColor = new Color(255, 115, 239) * 0.4f });
-						ParticleHandler.SpawnParticle(new StarParticle(npc.Center + vel, vel / 8, Color.Lerp(Color.Red, Color.White, 0.15f), 0.5f, 20, 4f));
+						ParticleHandler.SpawnParticle(new PulseCircle(NPC.Center, new Color(252, 3, 148) * 0.6f, 120, 15) { RingColor = new Color(255, 115, 239) * 0.4f });
+						ParticleHandler.SpawnParticle(new StarParticle(NPC.Center + vel, vel / 8, Color.Lerp(Color.Red, Color.White, 0.15f), 0.5f, 20, 4f));
 						for (int i = 0; i < 4; i++)
-							ParticleHandler.SpawnParticle(new OccultistSoulVisual(npc.Center + vel * Main.rand.NextFloat(), vel.RotatedByRandom(MathHelper.Pi / 12) * Main.rand.NextFloat(0.2f, 0.7f),
+							ParticleHandler.SpawnParticle(new OccultistSoulVisual(NPC.Center + vel * Main.rand.NextFloat(), vel.RotatedByRandom(MathHelper.Pi / 12) * Main.rand.NextFloat(0.2f, 0.7f),
 								Main.rand.NextFloat(0.4f, 0.5f), 30));
 					}
 				}
@@ -149,7 +149,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			int restTime = 60;
 
 			if (AiTimer < chargeTime)
-				npc.TargetClosest(true);
+				NPC.TargetClosest(true);
 
 			if (AiTimer <= chargeTime + bruteSlamTime)
 			{
@@ -160,7 +160,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						var proj = Projectile.NewProjectileDirect(npc.Bottom, Vector2.Zero, ModContent.ProjectileType<BruteSlam>(), NPCUtils.ToActualDamage(60, 1.5f), 1, Main.myPlayer, npc.whoAmI);
+						var proj = Projectile.NewProjectileDirect(NPC.Bottom, Vector2.Zero, ModContent.ProjectileType<BruteSlam>(), NPCUtils.ToActualDamage(60, 1.5f), 1, Main.myPlayer, NPC.whoAmI);
 						proj.position.Y -= proj.height * 0.66f;
 						if (Main.netMode != NetmodeID.SinglePlayer)
 							NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
@@ -198,8 +198,8 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			while (desiredPos.Y < Main.maxTilesY && !ProjectileExtensions.CheckSolidTilesAndPlatforms(new Rectangle(desiredPos.X, desiredPos.Y + 4, 1, 0)))
 				desiredPos.Y++;
 
-			npc.position = desiredPos.ToWorldCoordinates();
-			npc.netUpdate = true;
+			NPC.position = desiredPos.ToWorldCoordinates();
+			NPC.netUpdate = true;
 		}
 
 		private void ResetAttackP1(int endTime)
@@ -208,7 +208,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			{
 				SecondaryCounter++;
 				frame.Y = 0;
-				npc.netUpdate = true;
+				NPC.netUpdate = true;
 			}
 		}
 
@@ -218,7 +218,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 		private void WaveHandsP2(Player target)
 		{
-			npc.TargetClosest(true);
+			NPC.TargetClosest(true);
 			int TPTime = 60;
 			if (AiTimer <= TPTime)
 			{
@@ -233,13 +233,13 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 				if (timer < 80) //home in on the side of the player that's closer
 				{
-					Vector2 DesiredPosition = target.Center + (target.DirectionTo(npc.Center).X < 0 ? -1 : 1) * Vector2.UnitX * 300;
+					Vector2 DesiredPosition = target.Center + (target.DirectionTo(NPC.Center).X < 0 ? -1 : 1) * Vector2.UnitX * 300;
 					DesiredPosition.Y += (float)Math.Sin(Main.GameUpdateCount / 10f) * 20;
-					float accel = MathHelper.Clamp(npc.Distance(DesiredPosition) / 400, 0.1f, 0.4f);
-					npc.AccelFlyingMovement(DesiredPosition, accel, 0.1f, 30);
+					float accel = MathHelper.Clamp(NPC.Distance(DesiredPosition) / 400, 0.1f, 0.4f);
+					NPC.AccelFlyingMovement(DesiredPosition, accel, 0.1f, 30);
 				}
 				else
-					npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.085f);
+					NPC.velocity = Vector2.Lerp(NPC.velocity, Vector2.Zero, 0.085f);
 
 				if (timer > 80)
 				{
@@ -248,17 +248,17 @@ namespace SpiritMod.NPCs.Boss.Occultist
 					{
 						if (frameY == 4 && Main.netMode != NetmodeID.MultiplayerClient && timer < 150)
 						{
-							Vector2 spawnPos = npc.Center + (Vector2.UnitX * npc.direction).RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(20, 40);
+							Vector2 spawnPos = NPC.Center + (Vector2.UnitX * NPC.direction).RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(20, 40);
 							float amplitude = 70;
 							for (int i = -1; i <= 1; i++)
 							{
 								if (i == 0)
 									continue;
 
-								Projectile.NewProjectileDirect(spawnPos, npc.direction * Vector2.UnitX * 2.25f, ModContent.ProjectileType<OccultistHandFiery>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer, amplitude * i, 60).netUpdate = true;
+								Projectile.NewProjectileDirect(spawnPos, NPC.direction * Vector2.UnitX * 2.25f, ModContent.ProjectileType<OccultistHandFiery>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer, amplitude * i, 60).netUpdate = true;
 							}
-							npc.velocity.X -= npc.direction * 5;
-							npc.netUpdate = true;
+							NPC.velocity.X -= NPC.direction * 5;
+							NPC.netUpdate = true;
 						}
 					}, 4);
 				}
@@ -280,7 +280,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			int TPTime = 60;
 			if (AiTimer <= TPTime)
 			{
-				npc.TargetClosest(true);
+				NPC.TargetClosest(true);
 				Vector2 TPPosition = target.Center + (target.velocity.X < 0 ? -1 : 1) * Vector2.UnitX * 550 - Vector2.UnitY * 220;
 				TeleportP2(TPPosition, TPTime);
 			}
@@ -292,8 +292,8 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 				if (timer == 1 && !Main.dedServ)
 				{
-					Texture2D dagger = mod.GetTexture("NPCs/Boss/Occultist/Projectiles/OccultistDagger");
-					Texture2D bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+					Texture2D dagger = Mod.GetTexture("NPCs/Boss/Occultist/Projectiles/OccultistDagger");
+					Texture2D bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
 					float radius = 30;
 					float scale = 0.5f;
 					float opacity = 0.8f;
@@ -312,21 +312,21 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 				if (timer < daggerstarttime) //home in on the side of the player that's closer
 				{
-					Vector2 DesiredPosition = target.Center + (target.DirectionTo(npc.Center).X < 0 ? -1 : 1) * Vector2.UnitX * 550 - Vector2.UnitY * 220;
-					float accel = MathHelper.Clamp(npc.Distance(DesiredPosition) / 400, 0.1f, 0.4f);
-					npc.AccelFlyingMovement(DesiredPosition, accel, 0.15f, 30);
+					Vector2 DesiredPosition = target.Center + (target.DirectionTo(NPC.Center).X < 0 ? -1 : 1) * Vector2.UnitX * 550 - Vector2.UnitY * 220;
+					float accel = MathHelper.Clamp(NPC.Distance(DesiredPosition) / 400, 0.1f, 0.4f);
+					NPC.AccelFlyingMovement(DesiredPosition, accel, 0.15f, 30);
 				}
 				else //move in direction it's facing, with quadratic easing formula to smooth out velocity
 				{
 					float progress = Math.Max((timer - daggerstarttime) / (attacktime - daggerstarttime), 0);
 
-					npc.velocity.Y = (float)Math.Sin(MathHelper.TwoPi * AiTimer / 90);
-					npc.velocity.X = npc.direction * 22f * (progress < 0.5f ? 4 * (float)Math.Pow(progress, 2) : (float)Math.Pow(-2 * progress + 2, 2));
+					NPC.velocity.Y = (float)Math.Sin(MathHelper.TwoPi * AiTimer / 90);
+					NPC.velocity.X = NPC.direction * 22f * (progress < 0.5f ? 4 * (float)Math.Pow(progress, 2) : (float)Math.Pow(-2 * progress + 2, 2));
 				}
 
 				if (timer % 7 == 0 && Main.netMode != NetmodeID.Server && timer > daggerstarttime)
 				{
-					var proj = Projectile.NewProjectileDirect(npc.Center + Main.rand.NextVector2CircularEdge(30, 50), Vector2.Zero,
+					var proj = Projectile.NewProjectileDirect(NPC.Center + Main.rand.NextVector2CircularEdge(30, 50), Vector2.Zero,
 						ModContent.ProjectileType<OccultistDagger>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer,
 						Main.rand.NextFloat(-0.12f, 0.12f) + MathHelper.PiOver2);
 					proj.netUpdate = true;
@@ -347,11 +347,11 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 		private void SoulsP2(Player target)
 		{
-			npc.TargetClosest(true);
+			NPC.TargetClosest(true);
 			int TPTime = 60;
 			if (AiTimer <= TPTime)
 			{
-				npc.TargetClosest(true);
+				NPC.TargetClosest(true);
 				Vector2 TPPosition = target.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(150, 200);
 				TeleportP2(TPPosition, TPTime);
 			}
@@ -363,20 +363,20 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				frame.X = 1;
 				UpdateYFrame(8, 4, 8);
 
-				npc.velocity.Y = (float)Math.Sin(MathHelper.TwoPi * AiTimer / 90);
-				npc.velocity.X = MathHelper.Lerp(npc.velocity.X, 0, 0.1f);
+				NPC.velocity.Y = (float)Math.Sin(MathHelper.TwoPi * AiTimer / 90);
+				NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, 0, 0.1f);
 				if (timer % 10 == 0)
 					VisualSoul(2.5f);
 
 				if (AiTimer % 20 == 0 && !Main.dedServ)
-					ParticleHandler.SpawnParticle(new PulseCircle(npc.Center, new Color(252, 3, 148, 100) * 0.5f, 120, 12));
+					ParticleHandler.SpawnParticle(new PulseCircle(NPC.Center, new Color(252, 3, 148, 100) * 0.5f, 120, 12));
 
 				if (timer % 12 == 0 && timer <= 60)
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Vector2 vel = npc.DirectionFrom(target.Center).RotatedByRandom(MathHelper.PiOver2) * 4;
-						Projectile.NewProjectileDirect(npc.Center + vel * Main.rand.NextFloat(10, 20), vel, ModContent.ProjectileType<OccultistSoul>(), NPCUtils.ToActualDamage(30, 1.5f), 1, Main.myPlayer, npc.whoAmI, target.whoAmI).netUpdate = true;
+						Vector2 vel = NPC.DirectionFrom(target.Center).RotatedByRandom(MathHelper.PiOver2) * 4;
+						Projectile.NewProjectileDirect(NPC.Center + vel * Main.rand.NextFloat(10, 20), vel, ModContent.ProjectileType<OccultistSoul>(), NPCUtils.ToActualDamage(30, 1.5f), 1, Main.myPlayer, NPC.whoAmI, target.whoAmI).netUpdate = true;
 					}
 				}
 
@@ -391,8 +391,8 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			SecondaryCounter++;
 			AiTimer = 0;
 			frame.Y = 0;
-			npc.velocity = Vector2.Zero;
-			npc.netUpdate = true;
+			NPC.velocity = Vector2.Zero;
+			NPC.netUpdate = true;
 		}
 
 		private void TeleportP2(Vector2 position, int time) //method to handle teleporting for at the start of the attack, as to reduce boilerplate
@@ -405,8 +405,8 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				  {
 					  if (frameY == 7)
 					  {
-						  npc.Center = position;
-						  npc.netUpdate = true;
+						  NPC.Center = position;
+						  NPC.netUpdate = true;
 						  AiTimer = halftime;
 					  }
 				  });

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.NPCs.MoonjellyEvent;
 using SpiritMod.Projectiles.Bullet;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,32 +18,31 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.ranged = true;
-			item.width = item.height = 32;
-			item.rare = ItemRarityID.Blue;
-			item.maxStack = 99;
-			item.noUseGraphic = true;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = Item.sellPrice(0, 0, 1, 0);
-			item.useTime = item.useAnimation = 20;
-			item.bait = 20;
-			item.ammo = item.type;
-			item.shoot = ModContent.ProjectileType<LunazoaProj>();
-			item.noMelee = true;
-			item.consumable = true;
-			item.autoReuse = true;
-
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = Item.height = 32;
+			Item.rare = ItemRarityID.Blue;
+			Item.maxStack = 99;
+			Item.noUseGraphic = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.value = Item.sellPrice(0, 0, 1, 0);
+			Item.useTime = Item.useAnimation = 20;
+			Item.bait = 20;
+			Item.ammo = Item.type;
+			Item.shoot = ModContent.ProjectileType<LunazoaProj>();
+			Item.noMelee = true;
+			Item.consumable = true;
+			Item.autoReuse = true;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<TinyLunazoa>());
+			NPC.NewNPC(Item.GetSource_ItemUse(Item), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<TinyLunazoa>());
 			return false;
 		}
 
 		public override void UpdateInventory(Player player)
 		{
-			item.bait = 30 +
+			Item.bait = 30 +
 				(!Main.dayTime ? 15 : 0) +
 				(MyWorld.jellySky ? 20 : 0);
 		}

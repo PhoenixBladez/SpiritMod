@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Magic;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,19 +15,19 @@ namespace SpiritMod.Items.Sets.SlagSet
 		{
 			DisplayName.SetDefault("Slag Breath");
 			Tooltip.SetDefault("Expels spurts of magical flame\nCritical hits shower enemies in damaging sparks");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/SlagSet/FieryMagicLauncher_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/SlagSet/FieryMagicLauncher_Glow");
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Sets/SlagSet/FieryMagicLauncher_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/SlagSet/FieryMagicLauncher_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,
@@ -38,51 +40,57 @@ namespace SpiritMod.Items.Sets.SlagSet
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 21;
-			item.magic = true;
-			item.mana = 12;
-			item.width = 32;
-			item.height = 26;
-			item.useTime = 4;
-			item.useAnimation = 16;
-			item.reuseDelay = 12;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 1;
-			item.value = Item.sellPrice(0, 0, 40, 0);
-			item.rare = ItemRarityID.Orange;
-			item.UseSound = SoundID.Item34;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<FieryFlareMagic>();
-			item.shootSpeed = 6f;
+			Item.damage = 21;
+			Item.DamageType = DamageClass.Magic;
+			Item.mana = 12;
+			Item.width = 32;
+			Item.height = 26;
+			Item.useTime = 4;
+			Item.useAnimation = 16;
+			Item.reuseDelay = 12;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.noMelee = true;
+			Item.knockBack = 1;
+			Item.value = Item.sellPrice(0, 0, 40, 0);
+			Item.rare = ItemRarityID.Orange;
+			Item.UseSound = SoundID.Item34;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<FieryFlareMagic>();
+			Item.shootSpeed = 6f;
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<CarvedRock>(), 14);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 		public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+			Vector2 muzzleOffset = Vector2.Normalize(vel) * 5f;
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
+			{
+				position += muzzleOffset;
+			}
+		}
+
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (player.wet) {
 				return false;
 			}
-			Vector2 vel = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.Pi / 18);
+			Vector2 vel = velocity.RotatedByRandom(MathHelper.Pi / 18);
 			player.itemRotation = MathHelper.WrapAngle(vel.ToRotation() - ((player.direction < 0) ? MathHelper.Pi : 0));
-			Vector2 muzzleOffset = Vector2.Normalize(vel) * 5f;
-			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
-				position += muzzleOffset;
-			}
+
 			for (int j = 0; j < 6; j++) {
-				int dust = Dust.NewDust(position, 0, 0, DustID.Fire);
+				int dust = Dust.NewDust(position, 0, 0, DustID.Torch);
 				Main.dust[dust].velocity = vel.RotatedByRandom(MathHelper.Pi / 12) * Main.rand.NextFloat(1.3f, 2.2f);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].scale = Main.rand.NextFloat(1.6f, 2f);
 			}
-			Projectile.NewProjectile(position + new Vector2(-8, 8), vel, type, damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(source, position + new Vector2(-8, 8), vel, type, damage, knockback, player.whoAmI, 0f, 0f);
 			return false;
 		}
 	}

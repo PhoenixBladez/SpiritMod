@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Ambient
 	public class SpookyFoliage : ModTile
 	{
 
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileCut[Type] = true;
@@ -17,7 +17,7 @@ namespace SpiritMod.Tiles.Ambient
 			//Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = false;
 
-			dustType = DustID.Blood;
+			DustType = DustID.Blood;
 			soundType = SoundID.Grass;
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);

@@ -13,23 +13,23 @@ namespace SpiritMod.Items.Consumable
 
 		public override void SetDefaults()
 		{
-			item.width = 52;
-			item.height = 32;
-			item.rare = -11;
-			item.maxStack = 999;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.consumable = true;
-			item.value = Item.buyPrice(0, 6, 0, 0);
+			Item.width = 52;
+			Item.height = 32;
+			Item.rare = -11;
+			Item.maxStack = 999;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.consumable = true;
+			Item.value = Item.buyPrice(0, 6, 0, 0);
 		}
 
 		public override bool CanRightClick() => true;
 
 		public override void RightClick(Player player)
 		{
-			player.QuickSpawnItem(mod.ItemType("AdvPainting" + Main.rand.Next(1, 24)));
-			player.QuickSpawnItem(mod.ItemType("AdvPainting" + Main.rand.Next(1, 24)));
+			player.QuickSpawnItem(Mod.Find<ModItem>("AdvPainting" + Main.rand.Next(1, 24)).Type);
+			player.QuickSpawnItem(Mod.Find<ModItem>("AdvPainting" + Main.rand.Next(1, 24)).Type);
 		}
 	}
 }

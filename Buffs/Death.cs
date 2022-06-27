@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class Death : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Death");
 			Main.debuff[Type] = true;

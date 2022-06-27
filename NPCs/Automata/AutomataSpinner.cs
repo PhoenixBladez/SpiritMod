@@ -5,6 +5,7 @@ using System.IO;
 using SpiritMod.Buffs;
 using SpiritMod.Items.Material;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -18,31 +19,31 @@ namespace SpiritMod.NPCs.Automata
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Trochmaton");
-			Main.npcFrameCount[npc.type] = 11;
-            NPCID.Sets.TrailCacheLength[npc.type] = 3;
-            NPCID.Sets.TrailingMode[npc.type] = 0;
+			Main.npcFrameCount[NPC.type] = 11;
+            NPCID.Sets.TrailCacheLength[NPC.type] = 3;
+            NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 66;
-			npc.height = 56;
-			npc.damage = 55;
-			npc.defense = 35;
-			npc.lifeMax = 300;
-            npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = SoundID.NPCDeath14;
-			npc.value = 180f;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.buffImmune[BuffID.Venom] = true;
-			npc.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
-			npc.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
-			npc.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
-			npc.knockBackResist = .25f;
-			npc.aiStyle = 3;
-			aiType = NPCID.WalkingAntlion;
-			banner = npc.type;
-			bannerItem = ModContent.ItemType<Items.Banners.TrochmatonBanner>();
+			NPC.width = 66;
+			NPC.height = 56;
+			NPC.damage = 55;
+			NPC.defense = 35;
+			NPC.lifeMax = 300;
+            NPC.HitSound = SoundID.NPCHit4;
+			NPC.DeathSound = SoundID.NPCDeath14;
+			NPC.value = 180f;
+			NPC.buffImmune[BuffID.Poisoned] = true;
+			NPC.buffImmune[BuffID.Venom] = true;
+			NPC.buffImmune[ModContent.BuffType<FesteringWounds>()] = true;
+			NPC.buffImmune[ModContent.BuffType<BloodCorrupt>()] = true;
+			NPC.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
+			NPC.knockBackResist = .25f;
+			NPC.aiStyle = 3;
+			AIType = NPCID.WalkingAntlion;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.TrochmatonBanner>();
 		}
 		int timer;
 		int frame = 0;
@@ -66,68 +67,68 @@ namespace SpiritMod.NPCs.Automata
 				target.AddBuff(BuffID.BrokenArmor, 1800);
 			}
 		}
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.NextBool(100))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ArmorPolish);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.ArmorPolish);
 			if (Main.rand.NextBool(85))
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Accessory.GoldenApple>());
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Accessory.GoldenApple>());
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 10; k++) {
-	            Dust.NewDust(npc.position, npc.width, npc.height, DustID.Sunflower, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
-				 Dust.NewDust(npc.position, npc.width, npc.height, DustID.Wraith, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .55f));
+	            Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Sunflower, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
+				 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Wraith, 2.5f * hitDirection, -2.5f, 0, default, Main.rand.NextFloat(.45f, .55f));
 			}
-            if (npc.life <= 0) {
-                Main.PlaySound(new LegacySoundStyle(4, 6).WithPitchVariance(0.2f), npc.Center);
+            if (NPC.life <= 0) {
+                SoundEngine.PlaySound(new LegacySoundStyle(4, 6).WithPitchVariance(0.2f), NPC.Center);
 				for (int i = 0; i < 4; ++i)
                 {
-					Gore.NewGore(npc.position, new Vector2(npc.velocity.X * .5f, npc.velocity.Y * .5f), 99);
+					Gore.NewGore(NPC.position, new Vector2(NPC.velocity.X * .5f, NPC.velocity.Y * .5f), 99);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trochmaton/AutomataSpinner1"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trochmaton/AutomataSpinner2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trochmaton/AutomataSpinner3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trochmaton/AutomataSpinner4"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trochmaton/AutomataSpinner5"), 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner1").Type, 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner2").Type, 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner3").Type, 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner4").Type, 1f);
+                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Trochmaton/AutomataSpinner5").Type, 1f);
 			}
 		}
 		public override void AI()
 		{	
-			npc.spriteDirection = npc.direction;
+			NPC.spriteDirection = NPC.direction;
 			timer++;
             FrameControl();
-			Vector2 direction = Main.player[npc.target].Center - npc.Center;
+			Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 			direction.Normalize();
 
 			if (timer == 300 && Main.netMode != NetmodeID.MultiplayerClient) {
-				Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 4);
-                Main.PlaySound(SoundID.DD2_GoblinBomberThrow, (int)npc.position.X, (int)npc.position.Y);
-				npc.netUpdate = true;
+				SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 4);
+                SoundEngine.PlaySound(SoundID.DD2_GoblinBomberThrow, (int)NPC.position.X, (int)NPC.position.Y);
+				NPC.netUpdate = true;
 			}
             if (timer >= 270 && timer < 300)
             {
-                npc.velocity *= .97f;
+                NPC.velocity *= .97f;
             }
 			if (timer >= 300 && timer <= 320) {
 				direction.X = direction.X * Main.rand.NextFloat(6.5f, 8.4f);
 				direction.Y = 0 - Main.rand.NextFloat(.5f, 1.5f);
-				npc.velocity.X = direction.X;
-				npc.velocity.Y = direction.Y;
-                npc.noGravity = true;
-				npc.knockBackResist = 0f;
+				NPC.velocity.X = direction.X;
+				NPC.velocity.Y = direction.Y;
+                NPC.noGravity = true;
+				NPC.knockBackResist = 0f;
 			}
 			if (timer >= 370) {
-                npc.rotation = 0f;
+                NPC.rotation = 0f;
 				frame = 0;
 				timer = 0;
-                npc.noGravity = false;
-				npc.knockBackResist = .2f;
-				npc.netUpdate = true;
+                NPC.noGravity = false;
+				NPC.knockBackResist = .2f;
+				NPC.netUpdate = true;
 			}
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => (spawnInfo.spawnTileType == TileID.Marble) && spawnInfo.spawnTileY > Main.rockLayer && Main.hardMode ? 1f : 0f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => (spawnInfo.SpawnTileType == TileID.Marble) && spawnInfo.SpawnTileY > Main.rockLayer && Main.hardMode ? 1f : 0f;
 
 		public void FrameControl()
         {
@@ -148,10 +149,10 @@ namespace SpiritMod.NPCs.Automata
 			{
 				if (timer % 15 == 0)
 				{
-					Main.PlaySound(SoundID.DD2_GoblinBomberThrow, (int)npc.position.X, (int)npc.position.Y);
+					SoundEngine.PlaySound(SoundID.DD2_GoblinBomberThrow, (int)NPC.position.X, (int)NPC.position.Y);
 				}
-                npc.rotation = npc.velocity.X * .05f;
-			    npc.knockBackResist = 0f;
+                NPC.rotation = NPC.velocity.X * .05f;
+			    NPC.knockBackResist = 0f;
                 if (frame > 8 || frame < 6)
                 {
                     frame = 7;
@@ -166,24 +167,24 @@ namespace SpiritMod.NPCs.Automata
                 frame = 10;
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (timer > 300)
             {
-                Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, (npc.height * 0.5f));
-                for (int k = 0; k < npc.oldPos.Length; k++)
+                Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height * 0.5f));
+                for (int k = 0; k < NPC.oldPos.Length; k++)
                 {
-                    var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                    Vector2 drawPos = npc.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, npc.gfxOffY);
-                    Color color = npc.GetAlpha(lightColor) * (float)(((npc.oldPos.Length - k) / (float)npc.oldPos.Length) / 2f);
-                    spriteBatch.Draw(Main.npcTexture[npc.type], drawPos, new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, drawOrigin, npc.scale, effects, 0f);
+                    var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                    Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+                    Color color = NPC.GetAlpha(lightColor) * (float)(((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2f);
+                    spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
                 }
             }
             return true;
         }
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frame.Y = frameHeight * frame;
+			NPC.frame.Y = frameHeight * frame;
 		}
 	}
 }

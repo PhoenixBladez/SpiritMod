@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using System;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +12,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class SynthwaveHead : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
@@ -21,18 +22,18 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newTile.CoordinateHeights = new int[]{ 16, 16, 16, 18 };
 			TileObjectData.addTile(Type);
 			AddMapEntry(new Color(75, 139, 166));
-			disableSmartCursor = true;
-			dustType = -1;
-			adjTiles = new int[]{ TileID.LunarMonolith };
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType = -1;
+			AdjTiles = new int[]{ TileID.LunarMonolith };
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Hyperspace Bust");
 		}
 
-		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 32, 48, mod.ItemType("SynthwaveHeadItem"));
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 32, 48, Mod.Find<ModItem>("SynthwaveHeadItem").Type);
 
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
-			if (Main.tile[i, j].frameY >= 74)
+			if (Main.tile[i, j].TileFrameY >= 74)
 			{
 				MyPlayer modPlayer = Main.LocalPlayer.GetModPlayer<MyPlayer>();
 				modPlayer.ZoneSynthwave = true;
@@ -42,13 +43,13 @@ namespace SpiritMod.Tiles.Furniture
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
-			Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTime * 1.3f) + 1f) * 0.5f));
+			Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
 
-			Texture2D glow = ModContent.GetTexture("SpiritMod/Tiles/Furniture/SynthwaveHead_Glow");
+			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/SynthwaveHead_Glow");
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
-			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.frameX, tile.frameY, 16, 16), colour);
-			if (Main.tile[i, j].frameY >= 74)
+			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), colour);
+			if (Main.tile[i, j].TileFrameY >= 74)
 			{
 				if (Main.rand.Next(50) == 0)
 				{
@@ -68,11 +69,11 @@ namespace SpiritMod.Tiles.Furniture
 			}
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height) => offsetY = 2;
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
 
-		public override bool NewRightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
-			Main.PlaySound(SoundID.Mech, i * 16, j * 16, 0);
+			SoundEngine.PlaySound(SoundID.Mech, i * 16, j * 16, 0);
 			HitWire(i, j);
 			return true;
 		}
@@ -81,26 +82,26 @@ namespace SpiritMod.Tiles.Furniture
 		{
 			Player player = Main.LocalPlayer;
 			player.noThrow = 2;
-			player.showItemIcon = true;
-			player.showItemIcon2 = mod.ItemType("VoidMonolith");
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = Mod.Find<ModItem>("VoidMonolith").Type;
 		}
 
 		public override void HitWire(int i, int j)
 		{
-			int x = i - (Main.tile[i, j].frameX / 18) % 3;
-			int y = j - (Main.tile[i, j].frameY / 18) % 4;
+			int x = i - (Main.tile[i, j].TileFrameX / 18) % 3;
+			int y = j - (Main.tile[i, j].TileFrameY / 18) % 4;
 			for (int l = x; l < x + 3; l++)
 			{
 				for (int m = y; m < y + 4; m++)
 				{
 					if (Main.tile[l, m] == null)
 						Main.tile[l, m] = new Tile();
-					if (Main.tile[l, m].active() && Main.tile[l, m].type == Type)
+					if (Main.tile[l, m].HasTile && Main.tile[l, m].TileType == Type)
 					{
-						if (Main.tile[l, m].frameY < 74)
-							Main.tile[l, m].frameY += 74;
+						if (Main.tile[l, m].TileFrameY < 74)
+							Main.tile[l, m].TileFrameY += 74;
 						else
-							Main.tile[l, m].frameY -= 74;
+							Main.tile[l, m].TileFrameY -= 74;
 					}
 				}
 			}

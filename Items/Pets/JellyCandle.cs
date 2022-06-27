@@ -18,15 +18,15 @@ namespace SpiritMod.Items.Pets
 
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.Fish);
-			item.shoot = ModContent.ProjectileType<JellyfishPet>();
-			item.buffType = ModContent.BuffType<JellyfishBuff>();
+			Item.CloneDefaults(ItemID.Fish);
+			Item.shoot = ModContent.ProjectileType<JellyfishPet>();
+			Item.buffType = ModContent.BuffType<JellyfishBuff>();
 		}
 
-		public override void UseStyle(Player player)
+		public override void UseStyle(Player player, Rectangle heldItemFrame)
 		{
 			if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
-				player.AddBuff(item.buffType, 3600, true);
+				player.AddBuff(Item.buffType, 3600, true);
 		}
 
 		public override bool CanUseItem(Player player) => player.miscEquips[0].IsAir;
@@ -35,13 +35,12 @@ namespace SpiritMod.Items.Pets
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ItemID.PeaceCandle, 3);
 			recipe.AddIngredient(ItemID.PinkGel, 3);
 			recipe.AddIngredient(ItemID.SoulofLight, 3);
 			recipe.AddTile(TileID.Bottles);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

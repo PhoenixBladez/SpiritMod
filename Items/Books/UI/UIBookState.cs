@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -53,12 +54,12 @@ namespace SpiritMod.Items.Books.UI
 
 			//mainPanel.BackgroundColor = UICommon.DefaultUIBlue;
 
-			var panelBackground = new UIImage(ModContent.GetTexture("SpiritMod/Items/Books/UI/BookBackground"));
+			var panelBackground = new UIImage(ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/BookBackground"));
 			panelBackground.SetPadding(12);
 			mainPanel.Append(panelBackground);
 			mainPanel.AddDragTarget(panelBackground);
 
-			Texture2D closeTexture = ModContent.GetTexture("SpiritMod/Items/Books/UI/closeButton");
+			Texture2D closeTexture = ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/closeButton");
 			UIImageButton closeButton = new UIImageButton(closeTexture);
 			closeButton.Left.Set(-15, 1f);
 			closeButton.Top.Set(0, 0f);
@@ -152,7 +153,7 @@ namespace SpiritMod.Items.Books.UI
 		}
 
 		private void CloseButton_OnClick(UIMouseEvent evt, UIElement listeningElement) {
-			Main.PlaySound(SoundID.MenuClose);
+			SoundEngine.PlaySound(SoundID.MenuClose);
 			ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(null);
 		}
 	}

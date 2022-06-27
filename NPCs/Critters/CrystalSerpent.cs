@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Consumable.Fish;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,24 +14,24 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crystal Serpent");
-			Main.npcFrameCount[npc.type] = 6;
+			Main.npcFrameCount[NPC.type] = 6;
 		}
 
 		public override void SetDefaults()
 		{
-			npc.width = 38;
-			npc.height = 20;
-			npc.damage = 55;
-			npc.defense = 10;
-			npc.lifeMax = 260;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = 0f;
-			npc.aiStyle = 16;
-			npc.noGravity = true;
-			npc.dontCountMe = true;
-			npc.npcSlots = 0;
-			aiType = NPCID.CorruptGoldfish;
+			NPC.width = 38;
+			NPC.height = 20;
+			NPC.damage = 55;
+			NPC.defense = 10;
+			NPC.lifeMax = 260;
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.NPCDeath1;
+			NPC.knockBackResist = 0f;
+			NPC.aiStyle = 16;
+			NPC.noGravity = true;
+			NPC.dontCountMe = true;
+			NPC.npcSlots = 0;
+			AIType = NPCID.CorruptGoldfish;
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -38,46 +40,46 @@ namespace SpiritMod.NPCs.Critters
 				target.AddBuff(BuffID.BrokenArmor, 1200);
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, effects, 0);
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
+			NPC.frameCounter += 0.15f;
+			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+			int frame = (int)NPC.frameCounter;
+			NPC.frame.Y = frame * frameHeight;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			Main.PlaySound(SoundID.DD2_WitherBeastHurt, npc.Center);
-			if (npc.life <= 0)
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CrystalSerpentGore"), 1f);
+			SoundEngine.PlaySound(SoundID.DD2_WitherBeastHurt, NPC.Center);
+			if (NPC.life <= 0)
+				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/CrystalSerpentGore").Type, 1f);
 			for (int k = 0; k < 11; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Clentaminator_Purple, npc.direction, -1f, 1, default, .61f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Clentaminator_Purple, NPC.direction, -1f, 1, default, .61f);
 		}
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)((npc.position.X + (npc.width / 2f)) / 16f), (int)((npc.position.Y + (npc.height / 2f)) / 16f), .170f * 2f, .064f * 2f, .199f * 2f);
-			npc.spriteDirection = -npc.direction;
+			Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2f)) / 16f), (int)((NPC.position.Y + (NPC.height / 2f)) / 16f), .170f * 2f, .064f * 2f, .199f * 2f);
+			NPC.spriteDirection = -NPC.direction;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, ModContent.GetTexture("SpiritMod/NPCs/Critters/CrystalSerpent_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/Critters/CrystalSerpent_Glow"));
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawFish>(), 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
 			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CrystalSerpent, 1);
+				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.CrystalSerpent, 1);
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.ZoneHoly && spawnInfo.water && Main.hardMode ? 0.005f : 0f;
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneHallow && spawnInfo.Water && Main.hardMode ? 0.005f : 0f;
 	}
 }

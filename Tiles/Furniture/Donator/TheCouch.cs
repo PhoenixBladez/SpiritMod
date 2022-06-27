@@ -8,7 +8,7 @@ namespace SpiritMod.Tiles.Furniture.Donator
 {
 	public class TheCouch : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileLavaDeath[Type] = true;
@@ -22,7 +22,7 @@ namespace SpiritMod.Tiles.Furniture.Donator
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("The Couch");
 			AddMapEntry(new Color(200, 200, 200), name);
-			disableSmartCursor = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 			bed = true;
 		}
 

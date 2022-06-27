@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.Pet
 {
 	public class ThrallBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lil' Leonard");
 			Description.SetDefault("'Grrr...'");

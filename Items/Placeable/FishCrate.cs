@@ -17,23 +17,23 @@ namespace SpiritMod.Items.Placeable
 
 		public override void SetDefaults()
 		{
-			item.width = 20;
-			item.height = 20;
-			item.rare = ItemRarityID.Orange;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.createTile = ModContent.TileType<FishCrate_Tile>();
-			item.maxStack = 999;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.consumable = true;
+			Item.width = 20;
+			Item.height = 20;
+			Item.rare = ItemRarityID.Orange;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.createTile = ModContent.TileType<FishCrate_Tile>();
+			Item.maxStack = 999;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.consumable = true;
 		}
 
 		public override bool CanRightClick() => true;
 
 		public override void Update(ref float gravity, ref float maxFallSpeed)
 		{
-			if (item.wet)
+			if (Item.wet)
 			{
 				gravity *= 0f;
 				maxFallSpeed *= -.09f;
@@ -77,7 +77,7 @@ namespace SpiritMod.Items.Placeable
 			{
 				string[] lootTable2123 = { "DiverLegs", "DiverHead", "DiverBody" };
 				int loot443 = Main.rand.Next(lootTable2123.Length);
-				player.QuickSpawnItem(mod.ItemType(lootTable2123[loot443]));
+				player.QuickSpawnItem(Mod.Find<ModItem>(lootTable2123[loot443]).Type);
 			}
 
 			if (Main.rand.Next(3) == 0)

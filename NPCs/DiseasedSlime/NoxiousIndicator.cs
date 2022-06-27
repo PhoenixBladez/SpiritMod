@@ -12,31 +12,31 @@ namespace SpiritMod.NPCs.DiseasedSlime
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Noxious Field");
-			Main.projFrames[projectile.type] = 6;
+			Main.projFrames[Projectile.type] = 6;
 
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.penetrate = 4;
-			projectile.timeLeft = 120;
-			projectile.height = 22;
-			projectile.width = 22;
-			projectile.alpha = 60;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.penetrate = 4;
+			Projectile.timeLeft = 120;
+			Projectile.height = 22;
+			Projectile.width = 22;
+			Projectile.alpha = 60;
 		}
 
 		public override void AI()
 		{
-			projectile.alpha += 2;
-			projectile.velocity.Y = -.9f * ((projectile.timeLeft * 2) / 120f);
-			projectile.velocity *= .98f;
+			Projectile.alpha += 2;
+			Projectile.velocity.Y = -.9f * ((Projectile.timeLeft * 2) / 120f);
+			Projectile.velocity *= .98f;
 
-			if (projectile.frameCounter++ >= 6)
+			if (Projectile.frameCounter++ >= 6)
 			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
+				Projectile.frame++;
+				Projectile.frameCounter = 0;
 			}
 		}
 	}

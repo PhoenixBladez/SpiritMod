@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,21 +17,21 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.light = 0.5f;
-			projectile.width = 24;
-			projectile.height = 24;
-			projectile.timeLeft = 180;
-			projectile.friendly = true;
-			projectile.damage = 10;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.light = 0.5f;
+			Projectile.width = 24;
+			Projectile.height = 24;
+			Projectile.timeLeft = 180;
+			Projectile.friendly = true;
+			Projectile.damage = 10;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 			for (int num623 = 0; num623 < 25; num623++) {
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Pumpkin, 0f, 0f, 100, default, 2f);
+				int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Pumpkin, 0f, 0f, 100, default, 2f);
 				Main.dust[num622].noGravity = true;
 				Main.dust[num622].velocity *= 1.5f;
 				Main.dust[num622].scale = 0.8f;
@@ -39,17 +40,17 @@ namespace SpiritMod.Projectiles
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)(projectile.position.X / 16f), (int)(projectile.position.Y / 16f), 0.749019608f, 0.443137255f, 0.203921569f);
+			Lighting.AddLight((int)(Projectile.position.X / 16f), (int)(Projectile.position.Y / 16f), 0.749019608f, 0.443137255f, 0.203921569f);
 			timer++;
-			Vector2 targetPos = projectile.Center;
+			Vector2 targetPos = Projectile.Center;
 			float targetDist = 1000f;
 			bool targetAcquired = false;
 
 			//loop through first 200 NPCs in Main.npc
 			//this loop finds the closest valid target NPC within the range of targetDist pixels
 			for (int i = 0; i < 200; i++) {
-				if (Main.npc[i].CanBeChasedBy(projectile) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
-					float dist = projectile.Distance(Main.npc[i].Center);
+				if (Main.npc[i].CanBeChasedBy(Projectile) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[i].Center, 1, 1)) {
+					float dist = Projectile.Distance(Main.npc[i].Center);
 					if (dist < targetDist) {
 						targetDist = dist;
 						targetPos = Main.npc[i].Center;
@@ -59,20 +60,20 @@ namespace SpiritMod.Projectiles
 			}
 
 			//change trajectory to home in on target
-			projectile.rotation += 0.1f;
+			Projectile.rotation += 0.1f;
 			if (timer > 60) {
-				projectile.rotation += 0.2f;
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X - projectile.velocity.X, projectile.position.Y - projectile.velocity.Y), projectile.width, projectile.height, DustID.Pumpkin, 0f, 0f, 100, default, 2f);
+				Projectile.rotation += 0.2f;
+				int num622 = Dust.NewDust(new Vector2(Projectile.position.X - Projectile.velocity.X, Projectile.position.Y - Projectile.velocity.Y), Projectile.width, Projectile.height, DustID.Pumpkin, 0f, 0f, 100, default, 2f);
 				Main.dust[num622].noGravity = true;
 				Main.dust[num622].scale = 0.5f;
 			}
 			if (targetAcquired && timer > 90 && !launch) {
 				float homingSpeedFactor = 15f;
-				Vector2 homingVect = targetPos - projectile.Center;
+				Vector2 homingVect = targetPos - Projectile.Center;
 				homingVect.Normalize();
 				homingVect *= homingSpeedFactor;
 
-				projectile.velocity = homingVect;
+				Projectile.velocity = homingVect;
 				launch = true;
 			}
 
@@ -88,7 +89,7 @@ namespace SpiritMod.Projectiles
 			if (RGB.X < min) {
 				multiplier = 1.5f;
 			}
-			Lighting.AddLight(projectile.position, RGB.X, RGB.Y, RGB.Z);
+			Lighting.AddLight(Projectile.position, RGB.X, RGB.Y, RGB.Z);
 		}
 
 		//public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

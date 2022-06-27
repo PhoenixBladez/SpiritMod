@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Glyphs
@@ -38,7 +39,7 @@ namespace SpiritMod.Items.Glyphs
 		{
 			Item item = EnchantmentTarget(player);
 			item.GetGlobalItem<GItem>().SetGlyph(item, Glyph);
-			Main.PlaySound(SoundLoader.customSoundType, player.Center, mod.GetSoundSlot(SoundType.Custom, "Sounds/GlyphAttach"));
+			SoundEngine.PlaySound(SoundLoader.customSoundType, player.Center, Mod.GetSoundSlot(SoundType.Custom, "Sounds/GlyphAttach"));
 		}
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -52,27 +53,27 @@ namespace SpiritMod.Items.Glyphs
 
 			Color color = Color;
 			color *= Main.mouseTextColor / 255f;
-			line = new TooltipLine(mod, "GlyphTooltip",
+			line = new TooltipLine(Mod, "GlyphTooltip",
 				"The enchanted " + ItemType + " will gain: [c/" +
 				string.Format("{0:X2}{1:X2}{2:X2}:", color.R, color.G, color.B) + Effect + "]");
-			line.overrideColor = new Color(120, 190, 120);
+			line.OverrideColor = new Color(120, 190, 120);
 			tooltips.Insert(index, line);
 
-			if (item.shopCustomPrice.HasValue) {
-				line = new TooltipLine(mod, "GlyphHint",
+			if (Item.shopCustomPrice.HasValue) {
+				line = new TooltipLine(Mod, "GlyphHint",
 					"Can only be applied to " + ItemType + "s");
 			}
 			else if (CanRightClick()) {
 				Item held = player.HeldItem;
 				Color itemColor = held.RarityColor(Main.mouseTextColor / 255f);
-				line = new TooltipLine(mod, "GlyphHint", "Right-click to enchant [i:" + held.type + "] [c/" +
+				line = new TooltipLine(Mod, "GlyphHint", "Right-click to enchant [i:" + held.type + "] [c/" +
 					string.Format("{0:X2}{1:X2}{2:X2}:", itemColor.R, itemColor.G, itemColor.B) +
 					held.Name + "]");
 			}
 			else
-				line = new TooltipLine(mod, "GlyphHint", "Hold the " + ItemType
+				line = new TooltipLine(Mod, "GlyphHint", "Hold the " + ItemType
 					+ " you want to enchant and right-click this glyph");
-			line.overrideColor = new Color(120, 190, 120);
+			line.OverrideColor = new Color(120, 190, 120);
 			tooltips.Insert(index, line);
 		}
 
@@ -97,8 +98,8 @@ namespace SpiritMod.Items.Glyphs
 					continue;
 
 				Item item = new Item();
-				item.SetDefaults(SpiritMod.Instance.ItemType(type.Name), true);
-				GlyphBase glyph = (GlyphBase)item.modItem;
+				item.SetDefaults(SpiritMod.Instance.Find<ModItem>(type.Name).Type, true);
+				GlyphBase glyph = (GlyphBase)item.ModItem;
 				_lookup[(byte)glyph.Glyph] = glyph;
 			}
 

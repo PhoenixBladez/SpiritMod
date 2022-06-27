@@ -8,7 +8,7 @@ namespace SpiritMod.Buffs.Glyph
 {
 	public class WanderingPlague : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wandering Plague");
 			Main.pvpBuff[Type] = true;

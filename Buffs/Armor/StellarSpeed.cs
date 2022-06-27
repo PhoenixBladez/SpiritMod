@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.Armor
 {
 	public class StellarSpeed : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stellar Speed");
 			Description.SetDefault("Greatly boosts speed");

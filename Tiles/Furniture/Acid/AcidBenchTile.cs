@@ -9,7 +9,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 {
 	public class AcidBenchTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = true;
 			Main.tileFrameImportant[Type] = true;
@@ -23,9 +23,9 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrosive Work Bench");
 			AddMapEntry(new Color(100, 122, 111), name);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.WorkBenches };
-			dustType = -1;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.WorkBenches };
+			DustType = -1;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

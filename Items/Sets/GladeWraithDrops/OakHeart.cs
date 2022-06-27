@@ -15,25 +15,25 @@ namespace SpiritMod.Items.Sets.GladeWraithDrops
 
 		public override void SetDefaults()
 		{
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.width = 9;
-			item.height = 15;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.melee = true;
-			item.channel = true;
-			item.noMelee = true;
-			item.maxStack = 1;
-			item.shoot = ModContent.ProjectileType<Projectiles.Thrown.OakHeart>();
-			item.useAnimation = 25;
-			item.useTime = 25;
-			item.shootSpeed = 5f;
-			item.damage = 12;
-			item.knockBack = 1.5f; ;
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Blue;
-			item.autoReuse = true;
-			item.consumable = false;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.width = 9;
+			Item.height = 15;
+			Item.noUseGraphic = true;
+			Item.UseSound = SoundID.Item1;
+			Item.DamageType = DamageClass.Melee;
+			Item.channel = true;
+			Item.noMelee = true;
+			Item.maxStack = 1;
+			Item.shoot = ModContent.ProjectileType<Projectiles.Thrown.OakHeart>();
+			Item.useAnimation = 25;
+			Item.useTime = 25;
+			Item.shootSpeed = 5f;
+			Item.damage = 12;
+			Item.knockBack = 1.5f; ;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.autoReuse = true;
+			Item.consumable = false;
 		}
 	}
 }

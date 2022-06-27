@@ -90,33 +90,33 @@ namespace SpiritMod.World
 									_mod.Logger.Warn("Blueprint tile type incorrect? value: " + type);
 									return;
 								}
-								tile.type = tileTypes[type].type;
+								tile.TileType = tileTypes[type].type;
 								if (tileTypes[type].type == 9999) {
 									_valid = false;
-									tile.type = (ushort)invalidTileReplace;
+									tile.TileType = (ushort)invalidTileReplace;
 								}
 
 								tile.bTileHeader = reader.ReadByte();
 								tile.bTileHeader2 = reader.ReadByte();
 								tile.bTileHeader3 = reader.ReadByte();
 								tile.sTileHeader = reader.ReadUInt16();
-								tile.frameX = 0;
-								tile.frameY = 0;
+								tile.TileFrameX = 0;
+								tile.TileFrameY = 0;
 								if (reader.ReadBoolean()) {
-									tile.frameX = reader.ReadInt16();
-									tile.frameY = reader.ReadInt16();
+									tile.TileFrameX = reader.ReadInt16();
+									tile.TileFrameY = reader.ReadInt16();
 								}
-								tile.liquid = reader.ReadByte();
+								tile.LiquidAmount = reader.ReadByte();
 
 								int wallType = reader.ReadInt32();
 								if (wallType < 0 || wallType > wallTypes.Length) {
 									_mod.Logger.Warn("Blueprint wall type incorrect? value: " + wallType);
 									return;
 								}
-								tile.wall = wallTypes[wallType].type;
+								tile.WallType = wallTypes[wallType].type;
 								if (wallTypes[wallType].type == 9999) {
 									_valid = false;
-									tile.wall = 0;
+									tile.WallType = 0;
 								}
 
 								tiles[x, y] = tile;
@@ -158,7 +158,7 @@ namespace SpiritMod.World
 				List<Point> containers = new List<Point>();
 				for (int x1 = 0; x1 < width; x1++) {
 					for (int y1 = 0; y1 < height; y1++) {
-						if (tiles[x1, y1] != null && (!Main.tile[x + x1, y + y1].active() || (removeNonSolids && !Main.tileSolid[Main.tile[x + x1, y + y1].type]))) {
+						if (tiles[x1, y1] != null && (!Main.tile[x + x1, y + y1].HasTile || (removeNonSolids && !Main.tileSolid[Main.tile[x + x1, y + y1].TileType]))) {
 							Main.tile[x + x1, y + y1] = new Tile(tiles[x1, y1]);
 							DoContainerCheck(ref containers, x, y, x1, y1);
 						}
@@ -169,11 +169,11 @@ namespace SpiritMod.World
 
 			private void DoContainerCheck(ref List<Point> containers, int x, int y, int x1, int y1)
 			{
-				if (Main.tileContainer[tiles[x1, y1].type]) {
-					ushort type = tiles[x1, y1].type;
+				if (Main.tileContainer[tiles[x1, y1].TileType]) {
+					ushort type = tiles[x1, y1].TileType;
 					//if top left (could do frame check but on the rare chance it's not 2x2)
-					if (Framing.GetTileSafely(x + x1 - 1, y + y1).type != type &&
-						Framing.GetTileSafely(x + x1, y + y1 - 1).type != type) {
+					if (Framing.GetTileSafely(x + x1 - 1, y + y1).TileType != type &&
+						Framing.GetTileSafely(x + x1, y + y1 - 1).TileType != type) {
 						containers.Add(new Point(x + x1, y + y1));
 					}
 				}

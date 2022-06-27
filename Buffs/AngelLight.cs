@@ -3,6 +3,7 @@ using SpiritMod.NPCs;
 using SpiritMod.Projectiles;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,7 +11,7 @@ namespace SpiritMod.Buffs
 {
 	public class AngelLight : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Angel's Light");
 		}
@@ -43,7 +44,7 @@ namespace SpiritMod.Buffs
 
 			if (info.angelLightStacks == 2)
 			{
-				Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
+				SoundEngine.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
 				for (int k = 0; k < Main.rand.Next(1, 3); k++)
 				{
 					float num12 = Main.rand.Next(-10, 10);

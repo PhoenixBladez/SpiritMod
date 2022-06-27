@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class SoulFlare : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Soul Flare");
 			Description.SetDefault("Your soul is fluctuating...");

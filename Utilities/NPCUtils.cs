@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -41,11 +42,11 @@ namespace SpiritMod
 
 		public static void PlayDeathSound(this NPC npc, string Sound)
 		{
-			if (Main.netMode != NetmodeID.Server && npc.modNPC != null) {
-				Main.musicFade[npc.modNPC.music] = 0.3f;
+			if (Main.netMode != NetmodeID.Server && npc.ModNPC != null) {
+				Main.musicFade[npc.ModNPC.Music] = 0.3f;
 				float temp = Main.soundVolume; //temporarily store main.soundvolume, since sounds dont play at all if sound volume is at 0, regardless of actual volume of the sound
 				Main.soundVolume = (temp == 0) ? 1 : Main.soundVolume;
-				Main.PlaySound(SoundLoader.customSoundType, npc.position, SpiritMod.Instance.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/" + Sound));
+				SoundEngine.PlaySound(SoundLoader.customSoundType, npc.position, SpiritMod.Instance.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/" + Sound));
 				Main.soundVolume = temp;
 			}
 		}

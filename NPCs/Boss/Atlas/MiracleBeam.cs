@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,41 +15,41 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.hostile = true;
-			projectile.timeLeft = 300;
-			projectile.penetrate = 1;
-			projectile.light = 0.5f;
+			Projectile.width = 8;
+			Projectile.height = 8;
+			Projectile.hostile = true;
+			Projectile.timeLeft = 300;
+			Projectile.penetrate = 1;
+			Projectile.light = 0.5f;
 		}
 
 		public override void AI()
 		{
-			if (projectile.localAI[0] == 0f) {
-				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 33);
-				projectile.localAI[0] += 1f;
+			if (Projectile.localAI[0] == 0f) {
+				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 33);
+				Projectile.localAI[0] += 1f;
 			}
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+			Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;
 
 			for (int i = 0; i < 2; i++) {
-				float x = projectile.Center.X - projectile.velocity.X / 10f * (float)i;
-				float y = projectile.Center.Y - projectile.velocity.Y / 10f * (float)i;
+				float x = Projectile.Center.X - Projectile.velocity.X / 10f * (float)i;
+				float y = Projectile.Center.Y - Projectile.velocity.Y / 10f * (float)i;
 				int num = Dust.NewDust(new Vector2(x, y), 2, 2, DustID.UnusedWhiteBluePurple);
-				Main.dust[num].alpha = projectile.alpha;
+				Main.dust[num].alpha = Projectile.alpha;
 				Main.dust[num].velocity = Vector2.Zero;
 				Main.dust[num].noGravity = true;
 			}
 
-			projectile.velocity.Y *= 1.005f;
-			projectile.velocity.X *= 1.005f;
+			Projectile.velocity.Y *= 1.005f;
+			Projectile.velocity.X *= 1.005f;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 
 			for (int num621 = 0; num621 < 15; num621++) {
-				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default, 2f);
+				Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default, 2f);
 			}
 		}
 		public override Color? GetAlpha(Color lightColor)

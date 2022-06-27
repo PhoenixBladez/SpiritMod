@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs.Pet
 {
 	public class HarpyPetBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Waning Gibbous");
 			Description.SetDefault("The Moonlit Faerie will protect you");

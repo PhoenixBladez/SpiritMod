@@ -17,22 +17,22 @@ namespace SpiritMod.Items.Ammo.Arrow
 
 		public override void SetDefaults()
 		{
-			item.width = 8;
-			item.height = 16;
-			item.value = 80;
-			item.rare = ItemRarityID.Blue;
-			item.value = Item.buyPrice(0, 0, 0, 30);
-			item.maxStack = 999;
+			Item.width = 8;
+			Item.height = 16;
+			Item.value = 80;
+			Item.rare = ItemRarityID.Blue;
+			Item.value = Item.buyPrice(0, 0, 0, 30);
+			Item.maxStack = 999;
 
-			item.damage = 9;
-			item.knockBack = 2f;
-			item.ammo = AmmoID.Arrow;
+			Item.damage = 9;
+			Item.knockBack = 2f;
+			Item.ammo = AmmoID.Arrow;
 
-			item.ranged = true;
-			item.consumable = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.consumable = true;
 
-			item.shoot = ModContent.ProjectileType<AccursedArrow>();
-			item.shootSpeed = 3.7f;
+			Item.shoot = ModContent.ProjectileType<AccursedArrow>();
+			Item.shootSpeed = 3.7f;
 
 		}
 	}

@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -31,29 +32,29 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 
 		private Vector2 Bottom
 		{
-			get => projectile.Center + ((projectile.height / 2) * (toRotation + 1.57f).ToRotationVector2());
-			set => projectile.Center = value - ((projectile.height / 2) * (toRotation + 1.57f).ToRotationVector2());
+			get => Projectile.Center + ((Projectile.height / 2) * (toRotation + 1.57f).ToRotationVector2());
+			set => Projectile.Center = value - ((Projectile.height / 2) * (toRotation + 1.57f).ToRotationVector2());
 		}
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starachnid");
-			Main.projFrames[projectile.type] = 5;
-			Main.projPet[projectile.type] = true;
+			Main.projFrames[Projectile.type] = 5;
+			Main.projPet[Projectile.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Truffle);
-			projectile.aiStyle = 0;
-			projectile.width = 28;
-			projectile.height = 36;
+			Projectile.CloneDefaults(ProjectileID.Truffle);
+			Projectile.aiStyle = 0;
+			Projectile.width = 28;
+			Projectile.height = 36;
 
 			int seed = Main.rand.Next();
 			random = new UnifiedRandom(seed);
 
 			if (Main.netMode == NetmodeID.Server)
-				projectile.netUpdate = true;
+				Projectile.netUpdate = true;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(seed);
@@ -81,19 +82,19 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 
 		public override bool PreAI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			player.truffle = false; // Relic from aiType
 			return true;
 		}
 
 		public override void AI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (player.dead)
 				modPlayer.starachnidPet = false;
 			if (modPlayer.starachnidPet)
-				projectile.timeLeft = 2;
+				Projectile.timeLeft = 2;
 
 			if (!seedInitialized && Main.netMode != NetmodeID.SinglePlayer)
 				return;
@@ -158,7 +159,7 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 		//However, if the player is too far away, it curves towards them
 		private Vector2 NewThreadAngle(int maxDistance, bool mainThread, ref int dist, Vector2 startPos)
 		{
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 			Vector2 distanceFromPlayer = player.Center - startPos;
 			Vector2 direction;
 
@@ -234,7 +235,7 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 			{
 				for (int i = -1; i <= 1; i++)
 				{
-					Vector2 vel = Vector2.Normalize(projectile.position - projectile.oldPosition);
+					Vector2 vel = Vector2.Normalize(Projectile.position - Projectile.oldPosition);
 					Particles.ParticleHandler.SpawnParticle(new Particles.GlowParticle(Bottom, vel.RotatedBy(Main.rand.NextFloat(MathHelper.Pi / 16, MathHelper.Pi / 6) * i),
 						Color.HotPink, Main.rand.NextFloat(0.05f, 0.1f), 22, 15));
 				}
@@ -247,15 +248,15 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 
 			float speedInc = 1f;
 
-			float rotDifference = ((((toRotation - projectile.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
+			float rotDifference = ((((toRotation - Projectile.rotation) % 6.28f) + 9.42f) % 6.28f) - 3.14f;
 			if (Math.Abs(rotDifference) < 0.15f)
 			{
-				projectile.rotation = toRotation;
+				Projectile.rotation = toRotation;
 				speed = 2 * speedInc;
 				return;
 			}
 			speed = 1 * speedInc;
-			projectile.rotation += Math.Sign(rotDifference) * 0.06f;
+			Projectile.rotation += Math.Sign(rotDifference) * 0.06f;
 		}
 
 		private void UpdateThreads()
@@ -273,14 +274,14 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 			thread2.Update();
 		}
 
-		public override Color? GetAlpha(Color drawColor) => Color.Lerp(drawColor, Color.White, 0.5f) * projectile.Opacity;
+		public override Color? GetAlpha(Color drawColor) => Color.Lerp(drawColor, Color.White, 0.5f) * Projectile.Opacity;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			int frameHeight = tex.Height / Main.projFrames[projectile.type];
-			Rectangle frame = new Rectangle(0, projectile.frame, tex.Width / 3, frameHeight);
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, frame, GetAlpha(drawColor).Value, projectile.rotation % 6.28f, frame.Size() / 2, projectile.scale, SpriteEffects.FlipHorizontally, 0);
+			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
+			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
+			Rectangle frame = new Rectangle(0, Projectile.frame, tex.Width / 3, frameHeight);
+			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, GetAlpha(drawColor).Value, Projectile.rotation % 6.28f, frame.Size() / 2, Projectile.scale, SpriteEffects.FlipHorizontally, 0);
 
 			return false;
 		}
@@ -289,10 +290,10 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 		{
 			DrawThreads(sB);
 
-			Texture2D tex = ModContent.GetTexture(Texture + "_Glow");
-			int frameHeight = tex.Height / Main.projFrames[projectile.type];
-			Rectangle frame = new Rectangle(0, projectile.frame, tex.Width / 3, frameHeight);
-			sB.Draw(tex, projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation % 6.28f, frame.Size() / 2, projectile.scale, SpriteEffects.FlipHorizontally, 0);
+			Texture2D tex = ModContent.Request<Texture2D>(Texture + "_Glow");
+			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
+			Rectangle frame = new Rectangle(0, Projectile.frame, tex.Width / 3, frameHeight);
+			sB.Draw(tex, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation % 6.28f, frame.Size() / 2, Projectile.scale, SpriteEffects.FlipHorizontally, 0);
 		}
 
 		private void DrawThreads(SpriteBatch spriteBatch)
@@ -324,7 +325,7 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 				new Vector2(0f, tex.Height / 2), threadScale * new Vector2((1 - progress) * thread2.Length, 1), SpriteEffects.None, 0f);
 
 			tex = SpiritMod.Instance.GetTexture("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar");
-			Texture2D Bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D Bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
 
 			//Use a method to cut down on boilerplate with drawing stars
 			void DrawStar(Vector2 center, float starSize, float rotation)
@@ -343,9 +344,9 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 
 			float rotationSpeed = 1.5f;
 			if (threads.Count == 0) //Fix it otherwise spawning on a thread with only 1 star
-				DrawStar(thread2.StartPoint, size, Main.GlobalTime * rotationSpeed);
+				DrawStar(thread2.StartPoint, size, Main.GlobalTimeWrappedHourly * rotationSpeed);
 
-			DrawStar(thread2.EndPoint, size, Main.GlobalTime * rotationSpeed);
+			DrawStar(thread2.EndPoint, size, Main.GlobalTimeWrappedHourly * rotationSpeed);
 
 			//Draw stars at each thread's end and start points
 			int threadsDrawn = 0;
@@ -354,9 +355,9 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 				size = Math.Min(thread.Counter / THREADGROWLERP, (thread.Duration - thread.Counter) / THREADGROWLERP);
 				size = Math.Min(size, 1);
 				if (thread.DrawStart || threadsDrawn == 0)
-					DrawStar(thread.StartPoint, size, Main.GlobalTime * rotationSpeed);
+					DrawStar(thread.StartPoint, size, Main.GlobalTimeWrappedHourly * rotationSpeed);
 
-				DrawStar(thread.EndPoint, 1, Main.GlobalTime * rotationSpeed);
+				DrawStar(thread.EndPoint, 1, Main.GlobalTimeWrappedHourly * rotationSpeed);
 				if (!thread.DrawStart)
 					threadsDrawn++;
 			}

@@ -12,11 +12,11 @@ namespace SpiritMod.Items.Sets.PirateStuff
 		}
 		public override void SetDefaults()
 		{
-			item.width = 14;
-			item.height = 20;
-			item.maxStack = 99;
-			item.rare = ItemRarityID.Pink;
-			item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.width = 14;
+			Item.height = 20;
+			Item.maxStack = 99;
+			Item.rare = ItemRarityID.Pink;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
 
 		}
 	}

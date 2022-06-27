@@ -14,10 +14,10 @@ namespace SpiritMod.Mechanics.AutoSell
 
         public static void Load()
         {
-            sellLockButton = ModContent.GetTexture("SpiritMod/Mechanics/AutoSell/Sell_Lock/Sell_Lock");
-            sellNoValueButton = ModContent.GetTexture("SpiritMod/Mechanics/AutoSell/Sell_NoValue/Sell_NoValue");
-            sellWeaponsButton = ModContent.GetTexture("SpiritMod/Mechanics/AutoSell/Sell_Weapons/Sell_Weapons");
-            autoSellUIButton = ModContent.GetTexture("SpiritMod/Mechanics/AutoSell/AutoSellUI");
+            sellLockButton = ModContent.Request<Texture2D>("SpiritMod/Mechanics/AutoSell/Sell_Lock/Sell_Lock");
+            sellNoValueButton = ModContent.Request<Texture2D>("SpiritMod/Mechanics/AutoSell/Sell_NoValue/Sell_NoValue");
+            sellWeaponsButton = ModContent.Request<Texture2D>("SpiritMod/Mechanics/AutoSell/Sell_Weapons/Sell_Weapons");
+            autoSellUIButton = ModContent.Request<Texture2D>("SpiritMod/Mechanics/AutoSell/AutoSellUI");
         }
 
         public static void Unload()

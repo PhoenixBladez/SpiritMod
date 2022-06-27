@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs.DoT
 {
 	public class DoomDestiny : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star Cut");
 			Main.debuff[Type] = true;

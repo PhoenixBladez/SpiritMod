@@ -7,7 +7,7 @@ namespace SpiritMod.Tiles.Block
 {
 	public class SpiritWood : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
@@ -15,7 +15,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(128, 128, 128));
-			drop = ModContent.ItemType<SpiritWoodItem>();
+			ItemDrop = ModContent.ItemType<SpiritWoodItem>();
 		}
 
 		public override bool CanExplode(int i, int j)

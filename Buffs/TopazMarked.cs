@@ -6,7 +6,7 @@ namespace SpiritMod.Buffs
 {
 	public class TopazMarked : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Illuminated");
 			Main.debuff[Type] = true;

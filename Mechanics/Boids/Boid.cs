@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Mechanics.Interfaces.Hosts;
 using Terraria;
+using Terraria.GameContent;
 
 namespace SpiritMod.Mechanics.Boids
 {
@@ -17,7 +18,7 @@ namespace SpiritMod.Mechanics.Boids
         public Flock(Texture2D[] texs, float Scale = 1, float MaxFlockSize = 60)
         {
 			if (texs != null) FlockTextures = texs;
-			else FlockTextures = new Texture2D[] { Main.magicPixel };
+			else FlockTextures = new Texture2D[] { TextureAssets.MagicPixel.Value };
 
             FlockScale = Scale;
 			MaxFish = MaxFlockSize;

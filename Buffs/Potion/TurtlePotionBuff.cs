@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs.Potion
 {
 	public class TurtlePotionBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Steadfast");
 			Description.SetDefault("Increases defense as health wanes\nReduces damage taken by 5%");

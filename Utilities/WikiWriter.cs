@@ -34,7 +34,7 @@ namespace SpiritMod.Utilities
 					try
 					{
 						string name = item.Name;
-						type = SpiritMod.Instance.ItemType(name);
+						type = SpiritMod.Instance.Find<ModItem>(name).Type;
 
 						Item itemInst = new Item();
 						itemInst.SetDefaults(type);

@@ -16,22 +16,22 @@ namespace SpiritMod.NPCs.Tides
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = false;
-			projectile.hostile = true;
-			projectile.magic = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 350;
-			projectile.height = 12;
-			projectile.width = 12;
-			projectile.alpha = 255;
-			aiType = ProjectileID.Bullet;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = false;
+			Projectile.hostile = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 350;
+			Projectile.height = 12;
+			Projectile.width = 12;
+			Projectile.alpha = 255;
+			AIType = ProjectileID.Bullet;
+			Projectile.extraUpdates = 1;
 		}
 		bool fired = false;
 		public override void AI()
 		{
 
-			Vector2 targetPos = projectile.Center;
+			Vector2 targetPos = Projectile.Center;
 			float targetDist = 450f;
 			bool targetAcquired = false;
 
@@ -40,7 +40,7 @@ namespace SpiritMod.NPCs.Tides
 				//if npc is a valid target (active, not friendly, and not a critter)
 				if (player.active) {
 					//if npc is within 50 blocks
-					float dist = projectile.Distance(player.Center);
+					float dist = Projectile.Distance(player.Center);
 					if (dist < lowestDist) {
 						targetDist = dist;
 						targetPos = player.Center;
@@ -50,7 +50,7 @@ namespace SpiritMod.NPCs.Tides
 			}
 
 			for (int i = 0; i < 6; i++) {
-				Vector2 position = projectile.Center;
+				Vector2 position = Projectile.Center;
 				Dust dust = Main.dust[Terraria.Dust.NewDust(position, 0, 0, DustID.WitherLightning, 0f, 0f, 0, new Color(255, 255, 255), 0.3947368f)];
 				dust.noLight = true;
 				dust.velocity = Vector2.Zero;
@@ -58,10 +58,10 @@ namespace SpiritMod.NPCs.Tides
 
 			//change trajectory to home in on target
 			if (targetAcquired && !fired) {
-				Vector2 homingVect = targetPos - projectile.Center;
+				Vector2 homingVect = targetPos - Projectile.Center;
 				homingVect.Normalize();
 				homingVect *= 9f;
-				projectile.velocity = homingVect;
+				Projectile.velocity = homingVect;
 				fired = true;
 
 			}

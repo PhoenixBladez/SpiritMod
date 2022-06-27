@@ -10,12 +10,12 @@ namespace SpiritMod.Tiles
 {
 	public class SoulBloomTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileCut[Type] = true;
 			Main.tileNoFail[Type] = true;
-			dustType = DustID.Flare_Blue;
+			DustType = DustID.Flare_Blue;
 			TileObjectData.newTile.CopyFrom(TileObjectData.StyleAlch);
 			TileObjectData.newTile.AnchorValidTiles = new int[]
 			{
@@ -38,7 +38,7 @@ namespace SpiritMod.Tiles
 
 		public override bool Drop(int i, int j)
 		{
-			int stage = Main.tile[i, j].frameX / 18;
+			int stage = Main.tile[i, j].TileFrameX / 18;
 			if (stage == 1) {
 				Item.NewItem(i * 16, j * 16, 64, 32, ItemType<SoulBloom>());
 			}
@@ -51,11 +51,11 @@ namespace SpiritMod.Tiles
 
 		public override void RandomUpdate(int i, int j)
 		{
-			if (Main.tile[i, j].frameX == 0) {
-				Main.tile[i, j].frameX += 18;
+			if (Main.tile[i, j].TileFrameX == 0) {
+				Main.tile[i, j].TileFrameX += 18;
 			}
-			else if (Main.tile[i, j].frameX == 18) {
-				Main.tile[i, j].frameX += 18;
+			else if (Main.tile[i, j].TileFrameX == 18) {
+				Main.tile[i, j].TileFrameX += 18;
 			}
 		}
 	}

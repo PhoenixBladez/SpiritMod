@@ -15,13 +15,13 @@ namespace SpiritMod.Projectiles.Clubs
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.penetrate = 4;
-			projectile.timeLeft = 90;
-			projectile.height = 130;
-			projectile.width = 110;
-			projectile.alpha = 255;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.penetrate = 4;
+			Projectile.timeLeft = 90;
+			Projectile.height = 130;
+			Projectile.width = 110;
+			Projectile.alpha = 255;
 		}
 
 		public override void AI()
@@ -29,9 +29,9 @@ namespace SpiritMod.Projectiles.Clubs
 			if (_npcAliveLast == null)
 				_npcAliveLast = new bool[200];
 
-			Player player = Main.player[projectile.owner];
+			Player player = Main.player[Projectile.owner];
 
-			var list = Main.npc.Where(x => x.CanBeChasedBy() && x.Hitbox.Intersects(projectile.Hitbox));
+			var list = Main.npc.Where(x => x.CanBeChasedBy() && x.Hitbox.Intersects(Projectile.Hitbox));
 			foreach (var npc in list)
 				npc.AddBuff(ModContent.BuffType<AcidBurn>(), 360);
 
@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Clubs
 			{
 				for (int num621 = 0; num621 < 9; num621++)
 				{
-					Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width, projectile.height, ModContent.DustType<Dusts.PoisonGas>(), projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, new Color(), 5f)];
+					Dust dust = Main.dust[Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 2f), Projectile.width, Projectile.height, ModContent.DustType<Dusts.PoisonGas>(), Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, new Color(), 5f)];
 					dust.noGravity = true;
 					dust.velocity.X = dust.velocity.X * 0.3f;
 					dust.velocity.Y = (dust.velocity.Y * 0.2f) - 1;
@@ -51,9 +51,9 @@ namespace SpiritMod.Projectiles.Clubs
 		{
 			for (int num621 = 0; num621 < 16; num621++)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height,
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height,
 					DustID.Grass, 0f, 0f, 100, default, .7f);
-				Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 2f), projectile.width, projectile.height, ModContent.DustType<Dusts.PoisonGas>(), projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, new Color(), 8f)];
+				Dust dust = Main.dust[Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 2f), Projectile.width, Projectile.height, ModContent.DustType<Dusts.PoisonGas>(), Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, new Color(), 8f)];
 				dust.noGravity = true;
 				dust.velocity.X = dust.velocity.X * 0.3f;
 				dust.velocity.Y = (dust.velocity.Y * 0.2f) - 1;

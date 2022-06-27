@@ -3,6 +3,7 @@ using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.AtlasDrops
 {
@@ -18,40 +19,40 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 
 		public override void SetDefaults()
 		{
-			item.damage = 88;
-			item.melee = true;
-			item.width = 54;
-			item.height = 58;
-			item.useTime = 22;
-			item.useAnimation = 22;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 7;
-			item.value = Item.sellPrice(0, 8, 0, 0);
-			item.rare = ItemRarityID.Cyan;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<PrismaticBolt>();
-			item.shootSpeed = 12;
+			Item.damage = 88;
+			Item.DamageType = DamageClass.Melee;
+			Item.width = 54;
+			Item.height = 58;
+			Item.useTime = 22;
+			Item.useAnimation = 22;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.knockBack = 7;
+			Item.value = Item.sellPrice(0, 8, 0, 0);
+			Item.rare = ItemRarityID.Cyan;
+			Item.UseSound = SoundID.Item1;
+			Item.autoReuse = true;
+			Item.shoot = ModContent.ProjectileType<PrismaticBolt>();
+			Item.shootSpeed = 12;
 		}
 
-		public override bool UseItem(Player player)
+		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			player.AddBuff(BuffID.Ironskin, 300);
 			return false;
 		}
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			charger++;
 			if (charger >= 7)
 			{
 				for (int I = 0; I < 4; I++)
-					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 300), speedY + ((float)Main.rand.Next(-230, 230) / 300), ModContent.ProjectileType<AtlasBolt>(), 50, knockBack, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(position.X - 8, position.Y + 8, speedX + ((float)Main.rand.Next(-230, 230) / 300), speedY + ((float)Main.rand.Next(-230, 230) / 300), ModContent.ProjectileType<AtlasBolt>(), 50, knockback, player.whoAmI, 0f, 0f);
 				charger = 0;
 			}
 			return true;
 		}
 
-		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit) => target.AddBuff(ModContent.BuffType<Buffs.DoT.Afflicted>(), 180);
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<Buffs.DoT.Afflicted>(), 180);
 	}
 }

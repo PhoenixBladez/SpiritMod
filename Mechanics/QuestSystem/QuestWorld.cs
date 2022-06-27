@@ -9,13 +9,13 @@ using System.Linq;
 
 namespace SpiritMod.Mechanics.QuestSystem
 {
-	public class QuestWorld : ModWorld
+	public class QuestWorld : ModSystem
 	{
 		public static bool downedWeaponsMaster = false;
 
 		public Dictionary<int, Queue<Quest>> NPCQuestQueue { get; private set; } = new Dictionary<int, Queue<Quest>>();
 
-		public override void PostUpdate()
+		public override void PostUpdateWorld()
 		{
 			if (!QuestManager.QuestBookUnlocked) //Do nothing if we don't have the book
 				return;
@@ -40,7 +40,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			//	AddQuestQueue(NPCID.Stylist, QuestManager.GetQuest<StylistQuestMeteor>());
 		}
 
-		public override void Load(TagCompound tag)
+		public override void LoadWorldData(TagCompound tag)
 		{
 			try
 			{
@@ -111,7 +111,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 		}
 
-		public override TagCompound Save()
+		public override void SaveWorldData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
 		{
 			var tag = new TagCompound
 			{

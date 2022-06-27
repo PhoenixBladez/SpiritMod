@@ -15,12 +15,12 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 
 		public override void SetDefaults()
 		{
-			item.width = 32;
-			item.height = 18;
-			item.value = 20;
-			item.rare = ItemRarityID.Blue;
-            item.value = 700;
-            item.maxStack = 999;
+			Item.width = 32;
+			Item.height = 18;
+			Item.value = 20;
+			Item.rare = ItemRarityID.Blue;
+            Item.value = 700;
+            Item.maxStack = 999;
 		}
 	}
 }

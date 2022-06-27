@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,27 +12,27 @@ namespace SpiritMod.Items.Sets.TideDrops.Whirltide
 
 		public override void SetDefaults()
 		{
-			projectile.width = 4;
-			projectile.height = 4;
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.WoodenArrowFriendly;
-			projectile.hide = true;
-			projectile.scale = 1f;
-			projectile.timeLeft = 60;
+			Projectile.width = 4;
+			Projectile.height = 4;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.WoodenArrowFriendly;
+			Projectile.hide = true;
+			Projectile.scale = 1f;
+			Projectile.timeLeft = 60;
 		}
 
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 
 		public override void AI()
 		{
-			projectile.velocity.Y = 100f;
-			projectile.velocity.X = 0f;
+			Projectile.velocity.Y = 100f;
+			Projectile.velocity.X = 0f;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(projectile.position.X, projectile.position.Y - 8, 0f, -3f, ModContent.ProjectileType<Whirltide_Water_Explosion>(), 14, 9f, 0);
-			Main.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 3));
+			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y - 8, 0f, -3f, ModContent.ProjectileType<Whirltide_Water_Explosion>(), 14, 9f, 0);
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 3));
 		}
 	}
 }

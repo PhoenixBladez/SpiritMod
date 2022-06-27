@@ -15,24 +15,24 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = -1;
-			projectile.friendly = false;
-			projectile.penetrate = 1;
-			projectile.tileCollide = false;
-			projectile.alpha = 0;
-			projectile.timeLeft = 999999;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 16;
+			Projectile.height = 16;
+			Projectile.aiStyle = -1;
+			Projectile.friendly = false;
+			Projectile.penetrate = 1;
+			Projectile.tileCollide = false;
+			Projectile.alpha = 0;
+			Projectile.timeLeft = 999999;
 		}
 
 		int counter = 0;
 		Vector2 holdOffset = new Vector2(0, -15);
 		public override bool PreAI()
 		{
-			DoDustEffect(projectile.Center, 14f);
-			Player player = Main.player[projectile.owner];
+			DoDustEffect(Projectile.Center, 14f);
+			Player player = Main.player[Projectile.owner];
 			Vector2 direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
 			direction.Normalize();
 			direction *= 12f;
@@ -46,23 +46,23 @@ namespace SpiritMod.Projectiles.Magic
 					player.direction = 0;
 				}
 
-				projectile.position = player.Center + holdOffset;
+				Projectile.position = player.Center + holdOffset;
 				player.velocity.X *= 0.97f;
 				counter++;
 				if (counter > 80) {
-					DoDustEffect(projectile.Center, 54f);
+					DoDustEffect(Projectile.Center, 54f);
 					if (counter % 3 == 0) {
-						Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<StarMapTrail>(), 0, 0, projectile.owner);
+						Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<StarMapTrail>(), 0, 0, Projectile.owner);
 					}
 				}
 			}
 			else {
 				if (counter > 80) {
-					Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<TeleportBolt>(), 0, 0, projectile.owner);
+					Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<TeleportBolt>(), 0, 0, Projectile.owner);
 				}
-				projectile.active = false;
+				Projectile.active = false;
 			}
-			player.heldProj = projectile.whoAmI;
+			player.heldProj = Projectile.whoAmI;
 			player.itemTime = 2;
 			player.itemAnimation = 2;
 			return true;

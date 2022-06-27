@@ -19,11 +19,11 @@ namespace SpiritMod.Items.Sets.FloranSet.FloranArmor
 		int timer = 0;
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 22;
-			item.value = Item.sellPrice(0, 0, 12, 0);
-			item.rare = ItemRarityID.Green;
-			item.defense = 4;
+			Item.width = 24;
+			Item.height = 22;
+			Item.value = Item.sellPrice(0, 0, 12, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.defense = 4;
 		}
 		public override void UpdateEquip(Player player)
 		{
@@ -50,12 +50,11 @@ namespace SpiritMod.Items.Sets.FloranSet.FloranArmor
 		}
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<FloranBar>(), 8);
 			recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 5);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

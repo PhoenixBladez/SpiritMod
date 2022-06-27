@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Projectiles.Magic;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,32 +15,32 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			DisplayName.SetDefault("Shadowbreak Wand");
 			Tooltip.SetDefault("Shoots out erratic shadowflame wisps");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Weapon/Magic/ShadowflameStoneStaff_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Weapon/Magic/ShadowflameStoneStaff_Glow");
 		}
 
 
 		public override void SetDefaults()
 		{
-			item.width = 44;
-			item.height = 46;
-			item.value = Item.buyPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.Green;
-			item.damage = 12;
-			item.knockBack = 4;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			Item.staff[item.type] = true;
-			item.useTime = 12;
-			item.useAnimation = 24;
-			item.mana = 10;
-			item.magic = true;
-			item.channel = true;
-			item.UseSound = SoundID.Item8;
-			item.autoReuse = false;
-			item.noMelee = true;
-			item.shoot = ModContent.ProjectileType<ShadowflameStoneBolt>();
-			item.shootSpeed = 10f;
+			Item.width = 44;
+			Item.height = 46;
+			Item.value = Item.buyPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.Green;
+			Item.damage = 12;
+			Item.knockBack = 4;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.staff[Item.type] = true;
+			Item.useTime = 12;
+			Item.useAnimation = 24;
+			Item.mana = 10;
+			Item.DamageType = DamageClass.Magic;
+			Item.channel = true;
+			Item.UseSound = SoundID.Item8;
+			Item.autoReuse = false;
+			Item.noMelee = true;
+			Item.shoot = ModContent.ProjectileType<ShadowflameStoneBolt>();
+			Item.shootSpeed = 10f;
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			for (int I = 0; I < Main.rand.Next(1, 3); I++) {
 				float angle = Main.rand.NextFloat(MathHelper.PiOver4, -MathHelper.Pi - MathHelper.PiOver4);
@@ -48,8 +49,8 @@ namespace SpiritMod.Items.Weapon.Magic
 					position += spawnPlace;
 				}
 
-				Vector2 velocity = Vector2.Normalize(Main.MouseWorld - position) * item.shootSpeed;
-				int p = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockBack, 0, 0.0f, 0.0f);
+				Vector2 velocity = Vector2.Normalize(Main.MouseWorld - position) * Item.shootSpeed;
+				int p = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, 0, 0.0f, 0.0f);
 				for (float num2 = 0.0f; (double)num2 < 10; ++num2) {
 					int dustIndex = Dust.NewDust(position, 2, 2, DustID.ShadowbeamStaff, 0f, 0f, 0, default, .8f);
 					Main.dust[dustIndex].noGravity = true;
@@ -62,14 +63,14 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;
-			texture = Main.itemTexture[item.type];
+			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.GetTexture("SpiritMod/Items/Weapon/Magic/ShadowflameStoneStaff_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Magic/ShadowflameStoneStaff_Glow"),
 				new Vector2
 				(
-					item.position.X - Main.screenPosition.X + item.width * 0.5f,
-					item.position.Y - Main.screenPosition.Y + item.height - texture.Height * 0.5f + 2f
+					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
+					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f + 2f
 				),
 				new Rectangle(0, 0, texture.Width, texture.Height),
 				Color.White,

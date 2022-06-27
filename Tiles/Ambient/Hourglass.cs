@@ -7,7 +7,7 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class Hourglass : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -26,8 +26,8 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.newTile.AnchorTop = default(AnchorData);
 			TileObjectData.newTile.AnchorWall = true;
 			TileObjectData.addTile(Type);
-			disableSmartCursor = true;
-			dustType -= 1;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			DustType -= 1;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Hourglass");
 			AddMapEntry(new Color(150, 150, 150), name);
@@ -37,7 +37,7 @@ namespace SpiritMod.Tiles.Ambient
 		{
 			num = fail ? 1 : 3;
 		}
-        public override bool NewRightClick(int x, int y)
+        public override bool RightClick(int x, int y)
         {
             string text = "AM";
             //Get current weird time
@@ -92,7 +92,7 @@ namespace SpiritMod.Tiles.Ambient
         {
             if (closer)
             {
-                Main.clock = true;
+                Main.SceneMetrics.HasClock = true;
             }
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

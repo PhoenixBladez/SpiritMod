@@ -14,9 +14,9 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 16;
-			item.maxStack = 999;
-			item.rare = ItemRarityID.LightRed;
+			Item.width = Item.height = 16;
+			Item.maxStack = 999;
+			Item.rare = ItemRarityID.LightRed;
 		}
 	}
 }

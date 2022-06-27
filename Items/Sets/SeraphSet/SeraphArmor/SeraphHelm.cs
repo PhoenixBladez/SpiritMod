@@ -13,16 +13,16 @@ namespace SpiritMod.Items.Sets.SeraphSet.SeraphArmor
 		{
 			DisplayName.SetDefault("Seraph's Crown");
 			Tooltip.SetDefault("12% increased melee damage");
-			SpiritGlowmask.AddGlowMask(item.type, "SpiritMod/Items/Sets/SeraphSet/SeraphArmor/SeraphHelm_Glow");
+			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/SeraphSet/SeraphArmor/SeraphHelm_Glow");
 		}
 
 		public override void SetDefaults()
 		{
-			item.width = 28;
-			item.height = 24;
-			item.value = Item.sellPrice(0, 1, 0, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.defense = 10;
+			Item.width = 28;
+			Item.height = 24;
+			Item.value = Item.sellPrice(0, 1, 0, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.defense = 10;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -48,11 +48,10 @@ namespace SpiritMod.Items.Sets.SeraphSet.SeraphArmor
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<MoonStone>(), 8);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this, 1);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

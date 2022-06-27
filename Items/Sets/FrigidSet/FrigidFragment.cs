@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,20 +14,19 @@ namespace SpiritMod.Items.Sets.FrigidSet
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 28;
-			item.value = 100;
-			item.rare = ItemRarityID.Blue;
-			item.maxStack = 999;
+			Item.width = 24;
+			Item.height = 28;
+			Item.value = 100;
+			Item.rare = ItemRarityID.Blue;
+			Item.maxStack = 999;
 		}
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = Mod.CreateRecipe(ItemID.FrostburnArrow, 15);
 			recipe.AddIngredient(ItemID.WoodenArrow, 15);
 			recipe.AddIngredient(this, 1);
-			recipe.SetResult(ItemID.FrostburnArrow, 15);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

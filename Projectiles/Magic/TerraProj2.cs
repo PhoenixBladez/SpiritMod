@@ -15,24 +15,24 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.penetrate = 1;
-			projectile.alpha = 255;
-			projectile.timeLeft = 180;
-			ProjectileID.Sets.Homing[projectile.type] = true;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Magic;
+			Projectile.width = 10;
+			Projectile.height = 10;
+			Projectile.penetrate = 1;
+			Projectile.alpha = 255;
+			Projectile.timeLeft = 180;
+			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
 		}
 
 		public override bool PreAI()
 		{
-			projectile.tileCollide = true;
-			int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.TerraBlade, 0f, 0f);
+			Projectile.tileCollide = true;
+			int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.TerraBlade, 0f, 0f);
 
-			if (projectile.localAI[0] == 0f) {
-				AdjustMagnitude(ref projectile.velocity);
-				projectile.localAI[0] = 1f;
+			if (Projectile.localAI[0] == 0f) {
+				AdjustMagnitude(ref Projectile.velocity);
+				Projectile.localAI[0] = 1f;
 			}
 
 			Vector2 move = Vector2.Zero;
@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Magic
 			bool target = false;
 			for (int k = 0; k < 200; k++) {
 				if (Main.npc[k].active && !Main.npc[k].dontTakeDamage && !Main.npc[k].friendly && Main.npc[k].lifeMax > 5) {
-					Vector2 newMove = Main.npc[k].Center - projectile.Center;
+					Vector2 newMove = Main.npc[k].Center - Projectile.Center;
 					float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
 					if (distanceTo < distance) {
 						move = newMove;
@@ -52,8 +52,8 @@ namespace SpiritMod.Projectiles.Magic
 
 			if (target) {
 				AdjustMagnitude(ref move);
-				projectile.velocity = (10 * projectile.velocity + move) / 11f;
-				AdjustMagnitude(ref projectile.velocity);
+				Projectile.velocity = (10 * Projectile.velocity + move) / 11f;
+				AdjustMagnitude(ref Projectile.velocity);
 			}
 
 			return false;
@@ -61,8 +61,8 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.Kill();
-			Dust.NewDust(projectile.position + projectile.velocity * 0, projectile.width, projectile.height, DustID.GreenFairy, projectile.oldVelocity.X * 0, projectile.oldVelocity.Y * 0);
+			Projectile.Kill();
+			Dust.NewDust(Projectile.position + Projectile.velocity * 0, Projectile.width, Projectile.height, DustID.GreenFairy, Projectile.oldVelocity.X * 0, Projectile.oldVelocity.Y * 0);
 			return false;
 		}
 

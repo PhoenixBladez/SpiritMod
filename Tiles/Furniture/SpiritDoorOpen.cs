@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class SpiritDoorOpen : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileSolid[Type] = false;
@@ -61,9 +61,9 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Spirit Door");
 			AddMapEntry(new Color(0, 0, 255), name);
-			disableSmartCursor = true;
-			adjTiles = new int[] { TileID.OpenDoor };
-			closeDoorID = ModContent.TileType<SpiritDoorClosed>();
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			AdjTiles = new int[] { TileID.OpenDoor };
+			CloseDoorID = ModContent.TileType<SpiritDoorClosed>();
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

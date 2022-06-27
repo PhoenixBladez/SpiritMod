@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Particles;
@@ -16,62 +17,62 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 
 		public override void SetDefaults()
 		{
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.friendly = true;
-			projectile.timeLeft = 600;
-			projectile.scale = Main.rand.NextFloat(0.18f, 0.28f);
-			projectile.alpha = 255;
-			projectile.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
-			projectile.hide = true;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
+			Projectile.width = 8;
+			Projectile.height = 8;
+			Projectile.friendly = true;
+			Projectile.timeLeft = 600;
+			Projectile.scale = Main.rand.NextFloat(0.18f, 0.28f);
+			Projectile.alpha = 255;
+			Projectile.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
+			Projectile.hide = true;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => false;
 
 		private Vector2 _position;
 
-		private Player Owner => Main.player[projectile.owner];
+		private Player Owner => Main.player[Projectile.owner];
 
-		private ref float StarsLeft => ref projectile.ai[0];
+		private ref float StarsLeft => ref Projectile.ai[0];
 
-		private ref float LastStar => ref projectile.ai[1];
+		private ref float LastStar => ref Projectile.ai[1];
 
-		private ref float Timer => ref projectile.localAI[1];
+		private ref float Timer => ref Projectile.localAI[1];
 
 		private Color BloomColor => (StarsLeft % 2 == 1) ? new Color(0, 242, 255) : new Color(255, 92, 211);
 
 		public override bool PreAI()
 		{
-			if (projectile.localAI[0] == 0)
+			if (Projectile.localAI[0] == 0)
 			{
-				_position = projectile.Center - Owner.MountedCenter;
-				projectile.localAI[0]++;
-				projectile.netUpdate = true;
+				_position = Projectile.Center - Owner.MountedCenter;
+				Projectile.localAI[0]++;
+				Projectile.netUpdate = true;
 			}
 
-			projectile.Center = Owner.MountedCenter + _position;
+			Projectile.Center = Owner.MountedCenter + _position;
 			return true;
 		}
 
 		public override void AI()
 		{
-			projectile.rotation += 0.08f * Owner.direction * ((StarsLeft % 2 == 0) ? 1 : -1);
+			Projectile.rotation += 0.08f * Owner.direction * ((StarsLeft % 2 == 0) ? 1 : -1);
 			if (++Timer < 20)
 			{
-				projectile.scale *= 1.05f;
-				projectile.alpha = Math.Max(projectile.alpha - 10, 0);
+				Projectile.scale *= 1.05f;
+				Projectile.alpha = Math.Max(Projectile.alpha - 10, 0);
 			}
 
 			if (Timer == 30 && !Main.dedServ) //particle effects on arrow shot time
 			{
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/MagicCast1").WithPitchVariance(0.2f), projectile.Center);
+				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/MagicCast1").WithPitchVariance(0.2f), Projectile.Center);
 				Color color = Color.Lerp(BloomColor, Color.White, 0.5f);
 				for (int i = 0; i < 7; i++)
-					ParticleHandler.SpawnParticle(new ImpactLine(projectile.Center, Main.rand.NextVector2Unit(), color * 0.7f, new Vector2(0.2f, Main.rand.NextFloat(0.3f, 0.4f)), 10, projectile));
+					ParticleHandler.SpawnParticle(new ImpactLine(Projectile.Center, Main.rand.NextVector2Unit(), color * 0.7f, new Vector2(0.2f, Main.rand.NextFloat(0.3f, 0.4f)), 10, Projectile));
 
-				ParticleHandler.SpawnParticle(new PulseCircle(projectile, color * 0.5f, projectile.scale * 80, 15, PulseCircle.MovementType.OutwardsQuadratic));
+				ParticleHandler.SpawnParticle(new PulseCircle(Projectile, color * 0.5f, Projectile.scale * 80, 15, PulseCircle.MovementType.OutwardsQuadratic));
 			}
 
 			if (Owner == Main.LocalPlayer)
@@ -79,41 +80,41 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 				if (Timer == 10 && StarsLeft > 1) //spawn next constellation star
 				{
 					Projectile.NewProjectileDirect(Owner.MountedCenter - Owner.DirectionTo(Main.MouseWorld).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(70, 100),
-						Vector2.Zero, ModContent.ProjectileType<SagittariusConstellation>(), projectile.damage, projectile.knockBack, projectile.owner, StarsLeft - 1, projectile.whoAmI).netUpdate = true;
-					projectile.netUpdate = true;
+						Vector2.Zero, ModContent.ProjectileType<SagittariusConstellation>(), Projectile.damage, Projectile.knockBack, Projectile.owner, StarsLeft - 1, Projectile.whoAmI).netUpdate = true;
+					Projectile.netUpdate = true;
 				}
 
 				if (Timer == 30) //fire the arrow
 				{
 					float baseAngle = Owner.AngleTo(Main.MouseWorld);
-					float starAngle = projectile.AngleTo(Main.MouseWorld);
+					float starAngle = Projectile.AngleTo(Main.MouseWorld);
 					float angletoshoot = (MathHelper.WrapAngle(baseAngle - starAngle) > 0) ? MathHelper.PiOver2 : -MathHelper.PiOver2;
-					Projectile proj = Projectile.NewProjectileDirect(projectile.Center, projectile.DirectionTo(Main.MouseWorld).RotatedBy(angletoshoot) * 16,
-						ModContent.ProjectileType<SagittariusConstellationArrow>(), projectile.damage, projectile.knockBack, projectile.owner, StarsLeft % 2);
+					Projectile proj = Projectile.NewProjectileDirect(Projectile.Center, Projectile.DirectionTo(Main.MouseWorld).RotatedBy(angletoshoot) * 16,
+						ModContent.ProjectileType<SagittariusConstellationArrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner, StarsLeft % 2);
 
-					if (proj.modProjectile is SagittariusConstellationArrow)
-						(proj.modProjectile as SagittariusConstellationArrow).TargetPos = Main.MouseWorld;
+					if (proj.ModProjectile is SagittariusConstellationArrow)
+						(proj.ModProjectile as SagittariusConstellationArrow).TargetPos = Main.MouseWorld;
 
 					if (Main.netMode != NetmodeID.SinglePlayer)
 						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
 
-					projectile.netUpdate = true;
+					Projectile.netUpdate = true;
 				}
 			}
 
 			if (Timer > 50)
 			{
-				projectile.scale *= 0.98f;
-				projectile.alpha += 10;
-				if (projectile.alpha >= 255)
-					projectile.Kill();
+				Projectile.scale *= 0.98f;
+				Projectile.alpha += 10;
+				if (Projectile.alpha >= 255)
+					Projectile.Kill();
 			}
 		}
 
 		float ScaleProgress() => (float)Math.Pow(1 - Math.Abs(30 - Timer) / 15, 3);
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
-			Texture2D Bloom = mod.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D Bloom = Mod.GetTexture("Effects/Masks/CircleGradient");
 			Color color = BloomColor;
 			float bloomopacity = 0.75f;
 			float bloomscale = 0.4f;
@@ -129,13 +130,13 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			if (LastStar >= 0)
 			{
 				Projectile laststar = Main.projectile[(int)LastStar];
-				if (laststar.active && laststar.type == projectile.type && laststar.ai[0] == projectile.ai[0] + 1 && laststar.owner == projectile.owner)
+				if (laststar.active && laststar.type == Projectile.type && laststar.ai[0] == Projectile.ai[0] + 1 && laststar.owner == Projectile.owner)
 				{
-					Texture2D Beam = mod.GetTexture("Textures/Trails/Trail_4");
-					Vector2 scale = new Vector2(projectile.Distance(laststar.Center) / Beam.Width, projectile.scale * 30 / Beam.Height);
-					float opacity = 0.8f * projectile.Opacity * laststar.Opacity;
+					Texture2D Beam = Mod.GetTexture("Textures/Trails/Trail_4");
+					Vector2 scale = new Vector2(Projectile.Distance(laststar.Center) / Beam.Width, Projectile.scale * 30 / Beam.Height);
+					float opacity = 0.8f * Projectile.Opacity * laststar.Opacity;
 					Vector2 origin = new Vector2(0, Beam.Height / 2);
-					spriteBatch.Draw(Beam, projectile.Center - Main.screenPosition, null, Color.Lerp(Color.White, color, 0.75f) * opacity, projectile.AngleTo(laststar.Center), origin, scale, SpriteEffects.None, 0);
+					spriteBatch.Draw(Beam, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.White, color, 0.75f) * opacity, Projectile.AngleTo(laststar.Center), origin, scale, SpriteEffects.None, 0);
 				}
 			}
 
@@ -143,18 +144,18 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			for(int i = 0; i < bloomstodraw; i++)
 			{
 				float progress = i / (float)bloomstodraw;
-				spriteBatch.Draw(Bloom, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(color * bloomopacity) * MathHelper.Lerp(1f, 0.5f, 1 - progress), 0,
-					Bloom.Size() / 2, projectile.scale * bloomscale * MathHelper.Lerp(0.75f, 1.2f, progress), SpriteEffects.None, 0);
+				spriteBatch.Draw(Bloom, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(color * bloomopacity) * MathHelper.Lerp(1f, 0.5f, 1 - progress), 0,
+					Bloom.Size() / 2, Projectile.scale * bloomscale * MathHelper.Lerp(0.75f, 1.2f, progress), SpriteEffects.None, 0);
 			}
 
 
 			StarPrimitive star = new StarPrimitive
 			{
-				Color = Color.White * projectile.Opacity,
-				TriangleHeight = starScale * projectile.scale,
-				TriangleWidth = starScale * projectile.scale * 0.3f,
-				Position = projectile.Center - Main.screenPosition,
-				Rotation = projectile.rotation
+				Color = Color.White * Projectile.Opacity,
+				TriangleHeight = starScale * Projectile.scale,
+				TriangleWidth = starScale * Projectile.scale * 0.3f,
+				Position = Projectile.Center - Main.screenPosition,
+				Rotation = Projectile.rotation
 			};
 			PrimitiveRenderer.DrawPrimitiveShape(star);
 		}

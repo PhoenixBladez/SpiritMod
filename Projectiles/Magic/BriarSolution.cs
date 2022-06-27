@@ -15,14 +15,14 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.width = 6;
-			projectile.height = 6;
-			projectile.friendly = true;
-			projectile.alpha = 255;
-			projectile.penetrate = -1;
-			projectile.extraUpdates = 2;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
+			Projectile.width = 6;
+			Projectile.height = 6;
+			Projectile.friendly = true;
+			Projectile.alpha = 255;
+			Projectile.penetrate = -1;
+			Projectile.extraUpdates = 2;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
 		}
 		public override bool? CanCutTiles() {
                return false;
@@ -31,16 +31,16 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			const int dustType = 163;
 
-			if (projectile.owner == Main.myPlayer)
-				Convert((int) (projectile.position.X + projectile.width / 2f) / 16,
-					(int) (projectile.position.Y + projectile.height / 2f) / 16, 2);
+			if (Projectile.owner == Main.myPlayer)
+				Convert((int) (Projectile.position.X + Projectile.width / 2f) / 16,
+					(int) (Projectile.position.Y + Projectile.height / 2f) / 16, 2);
 
-			if (projectile.timeLeft > 133)
-				projectile.timeLeft = 133;
+			if (Projectile.timeLeft > 133)
+				Projectile.timeLeft = 133;
 
-			if (projectile.ai[0] > 7f) {
+			if (Projectile.ai[0] > 7f) {
 				float dustScale = 1f;
-				switch (projectile.ai[0]) {
+				switch (Projectile.ai[0]) {
 					case 8f:
 						dustScale = 0.2f;
 						break;
@@ -55,11 +55,11 @@ namespace SpiritMod.Projectiles.Magic
 						break;
 				}
 
-				projectile.ai[0] += 1f;
+				Projectile.ai[0] += 1f;
 				for (int i = 0; i < 1; i++) {
-					Dust dust = Dust.NewDustDirect(new Vector2(projectile.position.X, projectile.position.Y),
-						projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f,
-						projectile.velocity.Y * 0.2f, 100);
+					Dust dust = Dust.NewDustDirect(new Vector2(Projectile.position.X, Projectile.position.Y),
+						Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f,
+						Projectile.velocity.Y * 0.2f, 100);
 					dust.noGravity = true;
 					dust.scale *= 1.75f;
 					dust.velocity.X *= 2f;
@@ -68,9 +68,9 @@ namespace SpiritMod.Projectiles.Magic
 				}
 			}
 			else
-				projectile.ai[0] += 1f;
+				Projectile.ai[0] += 1f;
 
-			projectile.rotation += 0.3f * projectile.direction;
+			Projectile.rotation += 0.3f * Projectile.direction;
 		}
 
 		public void Convert(int i, int j, int size = 4)
@@ -81,11 +81,11 @@ namespace SpiritMod.Projectiles.Magic
 				    !(Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size)))
 					continue;
 
-				int type = Main.tile[k, l].type;
-				int wall = Main.tile[k, l].wall;
+				int type = Main.tile[k, l].TileType;
+				int wall = Main.tile[k, l].WallType;
 
 				if (WallID.Sets.Conversion.Grass[wall]) {
-					Main.tile[k, l].wall = (ushort) ModContent.WallType<ReachWallNatural>();
+					Main.tile[k, l].WallType = (ushort) ModContent.WallType<ReachWallNatural>();
 					WorldGen.SquareWallFrame(k, l);
 					NetMessage.SendTileSquare(-1, k, l, 1);
 				}
@@ -93,7 +93,7 @@ namespace SpiritMod.Projectiles.Magic
 				if (!TileID.Sets.Conversion.Grass[type]) 
 					continue;
 
-				Main.tile[k, l].type = (ushort) ModContent.TileType<BriarGrass>();
+				Main.tile[k, l].TileType = (ushort) ModContent.TileType<BriarGrass>();
 				WorldGen.SquareTileFrame(k, l);
 				NetMessage.SendTileSquare(-1, k, l, 1);
 			}

@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 {
 	public class CryoliteBarTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileSolidTop[Type] = true;
@@ -17,8 +17,8 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 			Main.tileLavaDeath[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.addTile(Type);
-			drop = ModContent.ItemType<CryoliteBar>();
-			adjTiles = new int[] { TileID.MetalBars };
+			ItemDrop = ModContent.ItemType<CryoliteBar>();
+			AdjTiles = new int[] { TileID.MetalBars };
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Bar");
 			AddMapEntry(new Color(200, 200, 200), name);

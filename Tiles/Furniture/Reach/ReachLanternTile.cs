@@ -10,7 +10,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 {
 	public class ReachLanternTile : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -24,11 +24,11 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileObjectData.newTile.AnchorBottom = default;
 			TileObjectData.addTile(Type);
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-			dustType = DustID.Dirt;//ModContent.DustType<Pixel>();
+			DustType = DustID.Dirt;//ModContent.DustType<Pixel>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Elderbark Lantern");
 			AddMapEntry(new Color(179, 146, 107), name);
-			adjTiles = new int[] { TileID.Torches };
+			AdjTiles = new int[] { TileID.Torches };
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

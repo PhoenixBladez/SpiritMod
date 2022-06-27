@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -12,47 +13,47 @@ namespace SpiritMod.Projectiles.Returning
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Briarheart Boomerang");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;    //The length of old position to be recorded
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;    //The length of old position to be recorded
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 22;
-			projectile.aiStyle = 3;
-			projectile.friendly = true;
-			projectile.melee = true;
-			projectile.magic = false;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 700;
+			Projectile.width = 22;
+			Projectile.height = 22;
+			Projectile.aiStyle = 3;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.magic = false;
+			Projectile.penetrate = -1;
+			Projectile.timeLeft = 700;
 		}
 		 private Texture2D GlowingTrail => GetTexture("SpiritMod/Projectiles/Returning/ReachBoomerang_Trail");
 
 		public override void AI()
 		{
-			projectile.rotation += 0.1f;
+			Projectile.rotation += 0.1f;
 			{
-				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Plantera_Green, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				int dust2 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Plantera_Green, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 				Main.dust[dust2].velocity *= 0f;
 				Main.dust[dust2].scale = .62f;
 				Main.dust[dust2].noGravity = true;
 			}
 		}
-		 public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		 public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int k = 0; k < projectile.oldPos.Length; k++)
+            Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
-				 Color color = projectile.GetAlpha(Color.White) * (((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) * 0.5f);
-                float scale = projectile.scale * (float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length;
+				 Color color = Projectile.GetAlpha(Color.White) * (((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * 0.5f);
+                float scale = Projectile.scale * (float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length;
 
                 spriteBatch.Draw(GlowingTrail,
-                projectile.oldPos[k] + drawOrigin - Main.screenPosition,
-                new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2),
+                Projectile.oldPos[k] + drawOrigin - Main.screenPosition,
+                new Rectangle(0, (TextureAssets.Projectile[Projectile.type].Value.Height / 2) * Projectile.frame, TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / 2),
                 color,
-                projectile.rotation,
-                new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 4),
+                Projectile.rotation,
+                new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width / 2, TextureAssets.Projectile[Projectile.type].Value.Height / 4),
                 scale, default, default);
 			}
 			return true;

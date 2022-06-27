@@ -13,20 +13,20 @@ namespace SpiritMod.Items.Sets.ToolsMisc.Evergreen
 
 		public override void SetDefaults()
 		{
-			item.width = 46;
-			item.height = 46;
-			item.value = 10000;
-			item.rare = ItemRarityID.Orange;
-			item.axe = 12;
-			item.damage = 18;
-			item.knockBack = 6;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 22;
-			item.useAnimation = 22;
-			item.melee = true;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.UseSound = SoundID.Item1;
+			Item.width = 46;
+			Item.height = 46;
+			Item.value = 10000;
+			Item.rare = ItemRarityID.Orange;
+			Item.axe = 12;
+			Item.damage = 18;
+			Item.knockBack = 6;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 22;
+			Item.useAnimation = 22;
+			Item.DamageType = DamageClass.Melee;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.UseSound = SoundID.Item1;
 		}
 	}
 }

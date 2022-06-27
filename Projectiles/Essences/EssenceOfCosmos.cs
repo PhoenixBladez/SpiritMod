@@ -12,28 +12,28 @@ namespace SpiritMod.Projectiles.Essences
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.hostile = false;
-			projectile.melee = true;
-			projectile.penetrate = 1;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 300;
-			projectile.height = 6;
-			projectile.width = 6;
-			projectile.alpha = 255;
-			projectile.extraUpdates = 1;
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.DamageType = DamageClass.Melee;
+			Projectile.penetrate = 1;
+			Projectile.tileCollide = false;
+			Projectile.timeLeft = 300;
+			Projectile.height = 6;
+			Projectile.width = 6;
+			Projectile.alpha = 255;
+			Projectile.extraUpdates = 1;
 
-			aiType = ProjectileID.Bullet;
+			AIType = ProjectileID.Bullet;
 		}
 
 		public override void AI()
 		{
 			float rotationSpeed = (float)Math.PI / 15;
-			projectile.rotation += rotationSpeed;
+			Projectile.rotation += rotationSpeed;
 
 			for (int i = 0; i < 2; ++i)
 			{
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.GoldFlame);
+				int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.GoldFlame);
 				Main.dust[dust].noGravity = true;
 				Main.dust[dust].velocity = Vector2.Zero;
 				Main.dust[dust].scale = 0.9f;

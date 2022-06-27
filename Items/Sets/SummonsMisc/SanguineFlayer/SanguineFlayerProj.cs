@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -19,29 +20,29 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 
 		public override void SetDefaults()
 		{
-			projectile.friendly = true;
-			projectile.Size = new Vector2(55, 55);
-			projectile.tileCollide = false;
-			projectile.ownerHitCheck = true;
-			projectile.ignoreWater = true;
-			projectile.hide = true;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
+			Projectile.friendly = true;
+			Projectile.Size = new Vector2(55, 55);
+			Projectile.tileCollide = false;
+			Projectile.ownerHitCheck = true;
+			Projectile.ignoreWater = true;
+			Projectile.hide = true;
+			Projectile.penetrate = -1;
+			Projectile.usesLocalNPCImmunity = true;
 		}
 
 		public void DoTrailCreation(TrailManager tM)
 		{
 			float intensity = MathHelper.Lerp(0.85f, 1f, Math.Min(EaseFunction.EaseQuadIn.Ease(Intensity / HIGH_IMPACT_THRESHOLD), 1));
-			tM.CreateCustomTrail(new VNoiseMotionTrail(projectile, new Color(123, 19, 19), 50 * intensity, intensity));
+			tM.CreateCustomTrail(new VNoiseMotionTrail(Projectile, new Color(123, 19, 19), 50 * intensity, intensity));
 		}
 
-		private Player Owner => Main.player[projectile.owner];
+		private Player Owner => Main.player[Projectile.owner];
 
 		public int SwingTime;
 		public float SwingDistance;
 
-		public ref float Timer => ref projectile.ai[0];
-		public ref float AiState => ref projectile.ai[1];
+		public ref float Timer => ref Projectile.ai[0];
+		public ref float AiState => ref Projectile.ai[1];
 
 		public const int STATE_THROWOUT = 0; //When initially thrown out by the player, acts like a whip
 		public const int STATE_HOOKED = 1; //When hooked into an enemy
@@ -66,18 +67,18 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 		private int _flashTime;
 		private static readonly int FLASH_TIME_MAX = 40;
 
-		public override bool CanDamage() => AiState == STATE_THROWOUT; //Only actually hit enemies on initial throw
+		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => AiState == STATE_THROWOUT; //Only actually hit enemies on initial throw
 
 		public override void AI()
 		{
-			if(projectile.timeLeft > 2) //Initialize chain control points on first tick, in case of projectile hooking in on first tick
+			if(Projectile.timeLeft > 2) //Initialize chain control points on first tick, in case of projectile hooking in on first tick
 			{
-				_chainMidA = projectile.Center;
-				_chainMidB = projectile.Center;
+				_chainMidA = Projectile.Center;
+				_chainMidB = Projectile.Center;
 			}
 			Owner.itemAnimation = 2;
 			Owner.itemTime = 2;
-			projectile.timeLeft = 2;
+			Projectile.timeLeft = 2;
 
 			switch (AiState)
 			{
@@ -92,7 +93,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 					break;
 			}
 
-			Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(projectile.Center) - (Owner.direction < 0 ? MathHelper.Pi : 0));
+			Owner.itemRotation = MathHelper.WrapAngle(Owner.AngleTo(Projectile.Center) - (Owner.direction < 0 ? MathHelper.Pi : 0));
 			_flashTime = Math.Max(_flashTime - 1, 0);
 		}
 
@@ -100,25 +101,25 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 		{
 			//Starts at owner center, goes to peak range, then returns to owner center
 			float distance = MathHelper.Clamp(SwingDistance, THROW_RANGE * 0.33f, THROW_RANGE) * MathHelper.Lerp((float)Math.Sin(progress * MathHelper.Pi), 1, 0.2f);
-			distance = Math.Max(distance, projectile.height); //Dont be too close to player
+			distance = Math.Max(distance, Projectile.height); //Dont be too close to player
 
 			float angleMaxDeviation = MathHelper.Pi / 2;
 			float angleOffset = Owner.direction * MathHelper.Lerp(-angleMaxDeviation, angleMaxDeviation, progress); //Moves clockwise if player is facing right, counterclockwise if facing left
-			return projectile.velocity.RotatedBy(angleOffset) * distance;
+			return Projectile.velocity.RotatedBy(angleOffset) * distance;
 		}
 
 		private void ThrowOutAI()
 		{
-			projectile.rotation = projectile.AngleFrom(Owner.Center) + MathHelper.PiOver2;
+			Projectile.rotation = Projectile.AngleFrom(Owner.Center) + MathHelper.PiOver2;
 			Vector2 position = Owner.MountedCenter;
 			float progress = ++Timer / SwingTime; //How far the projectile is through its swing
 			progress = EaseFunction.EaseCubicInOut.Ease(progress);
 
-			projectile.Center = position + GetSwingPosition(progress);
-			projectile.direction = projectile.spriteDirection = -Owner.direction;
+			Projectile.Center = position + GetSwingPosition(progress);
+			Projectile.direction = Projectile.spriteDirection = -Owner.direction;
 
 			if (Timer >= SwingTime - 2)
-				projectile.Kill();
+				Projectile.Kill();
 		}
 
 		private void HookedAI()
@@ -129,29 +130,29 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 			if(!Owner.channel || Owner.DistanceSQ(hookNPC.Center) > HOOK_MAXRANGE * HOOK_MAXRANGE * 4 || !canStrike)
 			{
 				AiState = STATE_HOOKRETURN;
-				returnPosOffset = projectile.Center - Owner.MountedCenter;
+				returnPosOffset = Projectile.Center - Owner.MountedCenter;
 				Timer = 0;
 
 				if(canStrike) //If returning through stopping channelling or moving too far, do rip effects
 					RipEnemy();
 
-				projectile.netUpdate = true;
-				TrailManager.ManualTrailSpawn(projectile);
+				Projectile.netUpdate = true;
+				TrailManager.ManualTrailSpawn(Projectile);
 				return;
 			}
 
 
-			projectile.Center = hookNPC.Center + npcHookOffset;
-			projectile.rotation = npcHookRotation;
+			Projectile.Center = hookNPC.Center + npcHookOffset;
+			Projectile.rotation = npcHookRotation;
 			_chainGravStrength = MathHelper.Lerp(_chainGravStrength, 1, 0.05f);
 			if (++Timer % HOOK_HITTIME == 0) //Strike hooked enemy periodically, lowering projectile damage
 			{
-				hookNPC.StrikeNPC(RandomizeDamage(projectile.damage), projectile.knockBack, Math.Sign(Owner.DirectionTo(projectile.Center).X));
-				projectile.damage = Math.Max((int)(projectile.damage * 0.85f), 1);
+				hookNPC.StrikeNPC(RandomizeDamage(Projectile.damage), Projectile.knockBack, Math.Sign(Owner.DirectionTo(Projectile.Center).X));
+				Projectile.damage = Math.Max((int)(Projectile.damage * 0.85f), 1);
 				if (!Main.dedServ)
 				{
-					Vector2 projTip = projectile.Center - Vector2.UnitY.RotatedBy(projectile.rotation) * Main.projectileTexture[projectile.type].Height / 2;
-					Vector2 direction = projectile.direction * Vector2.UnitY.RotatedBy(projectile.rotation);
+					Vector2 projTip = Projectile.Center - Vector2.UnitY.RotatedBy(Projectile.rotation) * TextureAssets.Projectile[Projectile.type].Value.Height / 2;
+					Vector2 direction = Projectile.direction * Vector2.UnitY.RotatedBy(Projectile.rotation);
 
 					for (int i = 0; i < 6; i++)
 						Dust.NewDustPerfect(projTip, DustID.Blood, -direction.RotatedByRandom(MathHelper.Pi / 7) * Main.rand.NextFloat(2f, 3f), 0, default, Main.rand.NextFloat(0.7f, 0.9f));
@@ -163,7 +164,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 
 			//Switch player direction while hooked
 			int ownerDir = Owner.direction;
-			Owner.ChangeDir(Owner.DirectionTo(projectile.Center).X > 0 ? 1 : -1);
+			Owner.ChangeDir(Owner.DirectionTo(Projectile.Center).X > 0 ? 1 : -1);
 			if (ownerDir != Owner.direction && Main.netMode != NetmodeID.SinglePlayer) //if in multiplayer and the owner's last direction is not equal to the owner's current, sync the owner
 				NetMessage.SendData(MessageID.SyncPlayer, -1, -1, null, Owner.whoAmI);
 
@@ -201,9 +202,9 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 			float baseDamage = Owner.HeldItem.damage * Math.Max(Intensity, 0.5f);
 			if (HighImpact) //Make up for crit by lowering damage, while still being an overall damage boost after reaching the threshold
 				baseDamage *= 0.75f;
-			Vector2 direction = projectile.DirectionTo(Owner.Center);
+			Vector2 direction = Projectile.DirectionTo(Owner.Center);
 
-			hookNPC.StrikeNPC(RandomizeDamage(baseDamage), projectile.knockBack, Math.Sign(Owner.DirectionTo(projectile.Center).X), HighImpact);
+			hookNPC.StrikeNPC(RandomizeDamage(baseDamage), Projectile.knockBack, Math.Sign(Owner.DirectionTo(Projectile.Center).X), HighImpact);
 			if (!hookNPC.boss) //Pull ripped enemy to player, depending on kB resist
 				hookNPC.velocity += direction * hookNPC.knockBackResist * 10 * (HighImpact ? 1.5f : 1);
 
@@ -212,24 +213,24 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 			if (!Main.dedServ)
 			{
 				for (int i = 0; i < 18; i++)
-					Dust.NewDustPerfect(projectile.Center, DustID.Blood, direction.RotatedByRandom(MathHelper.PiOver4) * Main.rand.Next(2, 10), 0, default, Main.rand.NextFloat(1.2f, 2.2f)).noGravity = true;
+					Dust.NewDustPerfect(Projectile.Center, DustID.Blood, direction.RotatedByRandom(MathHelper.PiOver4) * Main.rand.Next(2, 10), 0, default, Main.rand.NextFloat(1.2f, 2.2f)).noGravity = true;
 
 				if (HighImpact)
-					ParticleHandler.SpawnParticle(new SanguineFlayerRip(projectile.Center, 1.25f, (-direction).ToRotation()));
+					ParticleHandler.SpawnParticle(new SanguineFlayerRip(Projectile.Center, 1.25f, (-direction).ToRotation()));
 			}
 		}
 		
 		private void HookReturnAI()
 		{
-			projectile.rotation = projectile.AngleFrom(Owner.Center) + MathHelper.PiOver2;
-			projectile.direction = projectile.spriteDirection = -Owner.direction; 
+			Projectile.rotation = Projectile.AngleFrom(Owner.Center) + MathHelper.PiOver2;
+			Projectile.direction = Projectile.spriteDirection = -Owner.direction; 
 
-			float progress = ++Timer / (RETURN_TIME * (1 + projectile.extraUpdates));
-			projectile.Center = Owner.MountedCenter + returnPosOffset * (1 - progress);
+			float progress = ++Timer / (RETURN_TIME * (1 + Projectile.extraUpdates));
+			Projectile.Center = Owner.MountedCenter + returnPosOffset * (1 - progress);
 
-			Rectangle returnHitbox = projectile.Hitbox;
+			Rectangle returnHitbox = Projectile.Hitbox;
 			if (returnHitbox.Contains(Owner.MountedCenter.ToPoint())) //Kill whenever the projectile's hitbox intersets the owner's center
-				projectile.Kill();
+				Projectile.Kill();
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -237,18 +238,18 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 			if(AiState == STATE_THROWOUT && Owner.channel) //Hook into npc on hit
 			{
 				hookNPC = target;
-				npcHookRotation = projectile.rotation;
-				npcHookOffset = (projectile.Center - target.Center) * 0.4f; //Decrease offset from what it normally would be due to big hitbox
+				npcHookRotation = Projectile.rotation;
+				npcHookOffset = (Projectile.Center - target.Center) * 0.4f; //Decrease offset from what it normally would be due to big hitbox
 				AiState = STATE_HOOKED;
-				projectile.netUpdate = true;
+				Projectile.netUpdate = true;
 				Owner.MinionAttackTargetNPC = target.whoAmI;
 				Timer = 0;
 			}
 
 			if (!Main.dedServ)
 			{
-				Vector2 projTip = target.Center + npcHookOffset - Vector2.UnitY.RotatedBy(projectile.rotation) * Main.projectileTexture[projectile.type].Height / 2;
-				Vector2 direction = projectile.direction * Vector2.UnitX.RotatedBy(projectile.rotation);
+				Vector2 projTip = target.Center + npcHookOffset - Vector2.UnitY.RotatedBy(Projectile.rotation) * TextureAssets.Projectile[Projectile.type].Value.Height / 2;
+				Vector2 direction = Projectile.direction * Vector2.UnitX.RotatedBy(Projectile.rotation);
 
 				//Slower in opposite direction of movement
 				for(int i = 0; i < 8; i++)
@@ -260,15 +261,15 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 			}
 		}
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
 		{
-			if (projectile.timeLeft > 2)
+			if (Projectile.timeLeft > 2)
 				return false;
 
-			Texture2D projTexture = Main.projectileTexture[projectile.type];
+			Texture2D projTexture = TextureAssets.Projectile[Projectile.type].Value;
 
 			//End control point for the chain
-			Vector2 projBottom = projectile.Center + new Vector2(0, projTexture.Height / 2).RotatedBy(projectile.rotation) * 0.75f;
+			Vector2 projBottom = Projectile.Center + new Vector2(0, projTexture.Height / 2).RotatedBy(Projectile.rotation) * 0.75f;
 			DrawChainCurve(spriteBatch, projBottom, out Vector2[] chainPositions);
 
 			//Adjust rotation to face from the last point in the bezier curve
@@ -278,10 +279,10 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 
 			//Draw from bottom center of texture
 			Vector2 origin = new Vector2(projTexture.Width / 2, projTexture.Height);
-			SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			SpriteEffects flip = (Projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-			lightColor = Lighting.GetColor((int)(projectile.Center.X / 16f), (int)(projectile.Center.Y / 16f));
-			spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, projectile.scale, flip, 0);
+			lightColor = Lighting.GetColor((int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f));
+			spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, Projectile.scale, flip, 0);
 
 			return false;
 		}
@@ -291,33 +292,33 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 			if (AiState != STATE_HOOKED) //Skip if not hooked in
 				return;
 
-			Texture2D glow = ModContent.GetTexture(Texture + "_glow");
-			Texture2D projTexture = Main.projectileTexture[projectile.type];
+			Texture2D glow = ModContent.Request<Texture2D>(Texture + "_glow");
+			Texture2D projTexture = TextureAssets.Projectile[Projectile.type].Value;
 			Vector2 origin = new Vector2(projTexture.Width / 2, projTexture.Height);
 			Vector2 originGlow = new Vector2(glow.Width / 2, glow.Height);
-			Vector2 projBottom = projectile.Center + new Vector2(0, projTexture.Height / 2).RotatedBy(projectile.rotation) * 0.75f;
-			SpriteEffects flip = (projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			Vector2 projBottom = Projectile.Center + new Vector2(0, projTexture.Height / 2).RotatedBy(Projectile.rotation) * 0.75f;
+			SpriteEffects flip = (Projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
 			float Opacity = Math.Min(EaseFunction.EaseQuinticIn.Ease(Intensity / HIGH_IMPACT_THRESHOLD), 1);
 
 			//Glowmask is drawn with an offset, due to using a larger texture
-			Vector2 drawPosition = projBottom + (Vector2.UnitY.RotatedBy(projectile.rotation) * 2) - Main.screenPosition;
+			Vector2 drawPosition = projBottom + (Vector2.UnitY.RotatedBy(Projectile.rotation) * 2) - Main.screenPosition;
 
 			if (HighImpact) //pulse glow effect at high impact
 			{
 				int numToDraw = 6;
-				float timer = (float)(Math.Sin(Main.GlobalTime * 2) / 2) + 0.5f;
+				float timer = (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 2) / 2) + 0.5f;
 				for (int i = 0; i < numToDraw; i++)
 				{
 					Vector2 offset = Vector2.UnitX.RotatedBy(npcHookRotation + (MathHelper.TwoPi * i / numToDraw)) * timer * 5;
-					spriteBatch.Draw(glow, drawPosition + offset, null, Color.White * (1 - timer) * Opacity, npcHookRotation, originGlow, projectile.scale, flip, 0);
+					spriteBatch.Draw(glow, drawPosition + offset, null, Color.White * (1 - timer) * Opacity, npcHookRotation, originGlow, Projectile.scale, flip, 0);
 				}
 			}
-			spriteBatch.Draw(glow, drawPosition, null, Color.White * Opacity, npcHookRotation, originGlow, projectile.scale, flip, 0);
+			spriteBatch.Draw(glow, drawPosition, null, Color.White * Opacity, npcHookRotation, originGlow, Projectile.scale, flip, 0);
 
 			float flashOpacity = _flashTime / (float)FLASH_TIME_MAX;
 			for(int i = 0; i < 5; i++) //draw multiple times for more intense flash
-				spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, new Color(255, 0, 51) * flashOpacity, npcHookRotation, origin, projectile.scale, flip, 0);
+				spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, new Color(255, 0, 51) * flashOpacity, npcHookRotation, origin, Projectile.scale, flip, 0);
 		}
 
 		//Control points for drawing chain bezier, update slowly when hooked in
@@ -325,7 +326,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 		private Vector2 _chainMidB;
 		private void DrawChainCurve(SpriteBatch spriteBatch, Vector2 projBottom, out Vector2[] chainPositions)
 		{
-			Texture2D chainTex = ModContent.GetTexture(Texture + "_chain");
+			Texture2D chainTex = ModContent.Request<Texture2D>(Texture + "_chain");
 
 			switch (AiState)
 			{
@@ -342,11 +343,11 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 
 				//Cubic bezier when hooked into enemy, with some fluctuation for gravity like effect
 				case STATE_HOOKED:
-					Vector2 directionUnit = -Vector2.UnitX.RotatedBy(projectile.rotation - MathHelper.PiOver2); //Direction opposite to direction hook is facing
-					Vector2 playerDirUnit = -directionUnit.RotatedBy(-(projectile.rotation - Owner.AngleTo(projectile.Center) - MathHelper.PiOver2));
-					float dist = projectile.Distance(Owner.MountedCenter) * 0.33f;
+					Vector2 directionUnit = -Vector2.UnitX.RotatedBy(Projectile.rotation - MathHelper.PiOver2); //Direction opposite to direction hook is facing
+					Vector2 playerDirUnit = -directionUnit.RotatedBy(-(Projectile.rotation - Owner.AngleTo(Projectile.Center) - MathHelper.PiOver2));
+					float dist = Projectile.Distance(Owner.MountedCenter) * 0.33f;
 
-					Vector2 gravityOffset = Vector2.UnitY * (dist / 6) * ((float)(Math.Sin(Main.GlobalTime) / 2) + 0.5f); //Make curve move up/down slowly to look less static
+					Vector2 gravityOffset = Vector2.UnitY * (dist / 6) * ((float)(Math.Sin(Main.GlobalTimeWrappedHourly) / 2) + 0.5f); //Make curve move up/down slowly to look less static
 					Vector2 controlPlayer = Owner.MountedCenter + playerDirUnit * dist;
 					Vector2 controlProj = projBottom + directionUnit * dist;
 

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.Graphics.Shaders;
 using System;
@@ -18,7 +19,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 	[TileTag(TileTags.Indestructible)]
 	public class Fathomless_Chest : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolidTop[Type] = false;
 			Main.tileFrameImportant[Type] = true;
@@ -31,14 +32,14 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			TileObjectData.newTile.Height = 3;
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
 			TileObjectData.newTile.Origin = new Point16(0, 2);
-			Main.tileValue[Type] = 1000;
+			Main.tileOreFinderPriority[Type] = 1000;
 			TileObjectData.addTile(Type);
-			drop = ModContent.ItemType<Tiles.Black_Stone_Item>();
+			ItemDrop = ModContent.ItemType<Tiles.Black_Stone_Item>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Fathomless Vase");
 			Main.tileSpelunker[Type] = true;
 			AddMapEntry(new Color(112, 216, 238), name);
-			disableSmartCursor = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 			Main.tileLighted[Type] = true;
 			soundType = SoundID.Trackable;
 			soundStyle = 170;
@@ -54,11 +55,11 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged) => false;
 
-		public override bool NewRightClick(int i, int j)
+		public override bool RightClick(int i, int j)
 		{
 			WorldGen.KillTile(i, j, false, false, false);
 			if (Main.netMode != NetmodeID.SinglePlayer)
-				NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, i, j);
+				NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, i, j);
 			return true;
 		}
 
@@ -71,17 +72,17 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		public override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
-			player.showItemIcon2 = ItemType<Fathomless_Chest_Item>();
-			player.showItemIconText = "";
+			player.cursorItemIconID = ItemType<Fathomless_Chest_Item>();
+			player.cursorItemIconText = "";
 			player.noThrow = 2;
-			player.showItemIcon = true;
+			player.cursorItemIconEnabled = true;
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Player player = Main.player[Player.FindClosest(new Vector2(i * 16, j * 16), 100, 100)];
 			Tile tile = Main.tile[i, j];
-			Main.PlaySound(SoundID.Trackable, i * 16, j * 16, 186);
+			SoundEngine.PlaySound(SoundID.Trackable, i * 16, j * 16, 186);
 			for (int index1 = 0; index1 < 3; ++index1)
 			{
 				for (int index2 = 0; index2 < 2; ++index2)
@@ -108,7 +109,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 					{
 						if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size))
 						{
-							int type = Main.tile[k, l].type;
+							int type = Main.tile[k, l].TileType;
 							if (tiletypes.Contains(type))
 								return true;
 						}
@@ -153,7 +154,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				case 1: //DROP COINS
 					{
 						BadLuck(i, j);
-						Main.PlaySound(SoundID.Coins, i * 16, j * 16, 0);
+						SoundEngine.PlaySound(SoundID.Coins, i * 16, j * 16, 0);
 						int num1 = 0;
 						for (int index = 0; index < 59; ++index)
 						{
@@ -293,7 +294,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 								dust.scale /= 2f;
 								dust.fadeIn /= 2f;
 							}
-							Main.PlaySound(SoundID.Item, (int)npcposX, (int)npcposY, 6, 1f, 0f);
+							SoundEngine.PlaySound(SoundID.Item, (int)npcposX, (int)npcposY, 6, 1f, 0f);
 						}
 						break;
 					}
@@ -391,10 +392,10 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				{
 					if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size))
 					{
-						int type = (int)Main.tile[k, l].type;
+						int type = (int)Main.tile[k, l].TileType;
 						if (TileID.Sets.Conversion.Stone[type] && Main.rand.NextFloat() <= density)
 						{
-							Main.tile[k, l].type = (ushort)typeConvert;
+							Main.tile[k, l].TileType = (ushort)typeConvert;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
@@ -410,10 +411,10 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				{
 					if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size))
 					{
-						int type = (int)Main.tile[k, l].type;
+						int type = (int)Main.tile[k, l].TileType;
 						if (type == 0 || type == 2)
 						{
-							Main.tile[k, l].type = (ushort)typeConvert;
+							Main.tile[k, l].TileType = (ushort)typeConvert;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
@@ -429,10 +430,10 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				{
 					if (WorldGen.InWorld(k, l, 1) && Math.Abs(k - i) + Math.Abs(l - j) < Math.Sqrt(size * size + size * size))
 					{
-						int type = (int)Main.tile[k, l].type;
+						int type = (int)Main.tile[k, l].TileType;
 						if (TileID.Sets.Conversion.Ice[type])
 						{
-							Main.tile[k, l].type = (ushort)typeConvert;
+							Main.tile[k, l].TileType = (ushort)typeConvert;
 							WorldGen.SquareTileFrame(k, l, true);
 							NetMessage.SendTileSquare(-1, k, l, 1);
 						}
@@ -468,11 +469,11 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Main.tile[i, j];
-			int left = i - tile.frameX / 18;
-			int top = j - tile.frameY / 18;
+			int left = i - tile.TileFrameX / 18;
+			int top = j - tile.TileFrameY / 18;
 			int spawnX = left * 16;
 			int spawnY = top * 16;
-			if (Main.rand.Next(20) == 0)
+			if (Main.rand.NextBool(20))
 			{
 				Dust dust = Main.dust[Dust.NewDust(new Vector2(spawnX, spawnY), 16 * 2, 16 * 3, DustID.DungeonSpirit, 0.0f, 0.0f, 150, new Color(), 0.3f)];
 				dust.fadeIn = 0.75f;
@@ -494,18 +495,18 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 
 		public override void SetDefaults()
 		{
-			item.width = 12;
-			item.height = 12;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.value = 0;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.consumable = true;
-			item.rare = ItemRarityID.Yellow;
-			item.createTile = ModContent.TileType<Fathomless_Chest>();
+			Item.width = 12;
+			Item.height = 12;
+			Item.maxStack = 999;
+			Item.useTurn = true;
+			Item.value = 0;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.rare = ItemRarityID.Yellow;
+			Item.createTile = ModContent.TileType<Fathomless_Chest>();
 		}
 	}
 }

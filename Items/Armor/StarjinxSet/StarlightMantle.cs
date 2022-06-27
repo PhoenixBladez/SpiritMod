@@ -7,7 +7,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 	[AutoloadEquip(EquipType.Body)]
     public class StarlightMantle : ModItem
 	{
-		public override bool Autoload(ref string name) => false;
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetStaticDefaults()
 		{
@@ -17,11 +17,11 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 
 		public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 18;
-			item.value = Item.sellPrice(gold: 10);
-			item.rare = ItemRarityID.Pink;
-			item.defense = 10;
+            Item.width = 26;
+            Item.height = 18;
+			Item.value = Item.sellPrice(gold: 10);
+			Item.rare = ItemRarityID.Pink;
+			Item.defense = 10;
 		}
 
 		public override void UpdateEquip(Player player)
@@ -35,13 +35,12 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(mod, "Starjinx", 11);
+			Recipe recipe = CreateRecipe();
+			recipe.AddIngredient(Mod, "Starjinx", 11);
 			recipe.AddIngredient(ItemID.Silk, 6);
 			recipe.AddIngredient(ItemID.FallenStar, 7);
 			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
     }
 }

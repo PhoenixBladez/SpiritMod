@@ -14,15 +14,15 @@ namespace SpiritMod.NPCs.GoblinGrenadier
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Grenade);
-			aiType = ProjectileID.Grenade;
-			projectile.hostile = true;
-			projectile.friendly = false;
+			Projectile.CloneDefaults(ProjectileID.Grenade);
+			AIType = ProjectileID.Grenade;
+			Projectile.hostile = true;
+			Projectile.friendly = false;
 		}
 
 		public override bool PreKill(int timeLeft)
 		{
-			projectile.type = ProjectileID.Grenade;
+			Projectile.type = ProjectileID.Grenade;
 			return true;
 		}
 	}

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
@@ -11,7 +12,7 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
 {
 	public class GlowShard1 : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 
 			TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
@@ -71,13 +72,13 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
 				16,
 			};
 			TileObjectData.addTile(Type);
-			dustType = DustID.DungeonSpirit;
+			DustType = DustID.DungeonSpirit;
 		}
 		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
 			Player player = Main.LocalPlayer;
 			{
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
 			}
 		}
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -93,8 +94,8 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
 			if (Main.drawToScreen) {
 				zero = Vector2.Zero;
 			}
-			int height = tile.frameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(mod.GetTexture("Tiles/Ambient/SpaceCrystals/GlowShard1_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), new Color(100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			int height = tile.TileFrameY == 36 ? 18 : 16;
+			Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Ambient/SpaceCrystals/GlowShard1_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{

@@ -12,29 +12,29 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void SetDefaults()
 		{
-			projectile.width = 30;
-			projectile.height = 30;
-			projectile.penetrate = -1;
-			projectile.ignoreWater = true;
-			projectile.timeLeft = 10;
-			projectile.alpha = 255;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.friendly = true;
+			Projectile.width = 30;
+			Projectile.height = 30;
+			Projectile.penetrate = -1;
+			Projectile.ignoreWater = true;
+			Projectile.timeLeft = 10;
+			Projectile.alpha = 255;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
 		}
 
 		public override bool PreAI()
 		{
-			if (projectile.ai[0] == 0f) {
-				projectile.Damage();
-				projectile.ai[0] = 1f;
+			if (Projectile.ai[0] == 0f) {
+				Projectile.Damage();
+				Projectile.ai[0] = 1f;
 			}
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 3) {
-				projectile.frameCounter = 0;
-				projectile.frame++;
-				if (projectile.frame > Main.projFrames[projectile.type]) {
-					projectile.Kill();
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter > 3) {
+				Projectile.frameCounter = 0;
+				Projectile.frame++;
+				if (Projectile.frame > Main.projFrames[Projectile.type]) {
+					Projectile.Kill();
 				}
 			}
 			return false;

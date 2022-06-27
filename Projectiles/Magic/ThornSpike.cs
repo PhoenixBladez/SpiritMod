@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,56 +14,56 @@ namespace SpiritMod.Projectiles.Magic
 		}
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.Shuriken);
-			projectile.width = 32;
-			projectile.height = 32;
-			projectile.timeLeft = 300;
-			projectile.penetrate = 4;
+			Projectile.CloneDefaults(ProjectileID.Shuriken);
+			Projectile.width = 32;
+			Projectile.height = 32;
+			Projectile.timeLeft = 300;
+			Projectile.penetrate = 4;
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
 			for (int i = 0; i < 5; i++) {
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
-				int a = Gore.NewGore(projectile.position, projectile.velocity, 911, goreScale);
+				int a = Gore.NewGore(Projectile.position, Projectile.velocity, 911, goreScale);
 				Main.gore[a].timeLeft = 15;
 			}
-			projectile.scale -= .06f;
-			projectile.penetrate--;
-			if (projectile.penetrate <= 0)
-				projectile.Kill();
+			Projectile.scale -= .06f;
+			Projectile.penetrate--;
+			if (Projectile.penetrate <= 0)
+				Projectile.Kill();
 			else {
-				aiType = ProjectileID.Shuriken;
-				if (projectile.velocity.X != oldVelocity.X) {
-					projectile.velocity.X = -oldVelocity.X;
+				AIType = ProjectileID.Shuriken;
+				if (Projectile.velocity.X != oldVelocity.X) {
+					Projectile.velocity.X = -oldVelocity.X;
 				}
-				if (projectile.velocity.Y != oldVelocity.Y) {
-					projectile.velocity.Y = -oldVelocity.Y;
+				if (Projectile.velocity.Y != oldVelocity.Y) {
+					Projectile.velocity.Y = -oldVelocity.Y;
 				}
-				projectile.velocity *= 0.75f;
+				Projectile.velocity *= 0.75f;
 			}
 			return false;
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
 			for (int i = 0; i < 5; i++) {
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
-				int a = Gore.NewGore(projectile.position, projectile.velocity, 911, goreScale);
+				int a = Gore.NewGore(Projectile.position, Projectile.velocity, 911, goreScale);
 				Main.gore[a].timeLeft = 15;
 			}
 			{
 				target.AddBuff(BuffID.Poisoned, 240, true);
 
 			}
-			projectile.penetrate--;
-			if (projectile.penetrate <= 0)
-				projectile.Kill();
+			Projectile.penetrate--;
+			if (Projectile.penetrate <= 0)
+				Projectile.Kill();
 			else {
-				aiType = ProjectileID.Shuriken;
+				AIType = ProjectileID.Shuriken;
 
-				projectile.velocity.X *= -1;
-				projectile.velocity *= 0.75f;
+				Projectile.velocity.X *= -1;
+				Projectile.velocity *= 0.75f;
 			}
 		}
 
@@ -70,10 +71,10 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			for (int i = 0; i < 5; i++) {
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
-				int a = Gore.NewGore(projectile.position, projectile.velocity, 911, goreScale);
+				int a = Gore.NewGore(Projectile.position, Projectile.velocity, 911, goreScale);
 				Main.gore[a].timeLeft = 15;
 			}
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
 		}
 
 	}

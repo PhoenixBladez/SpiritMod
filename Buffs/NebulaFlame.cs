@@ -7,7 +7,7 @@ namespace SpiritMod.Buffs
 {
 	public class NebulaFlame : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Nebula Flame");
 		}

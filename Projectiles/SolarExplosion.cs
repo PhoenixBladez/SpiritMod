@@ -13,35 +13,35 @@ namespace SpiritMod.Projectiles
 
 		public override void SetDefaults()
 		{
-			projectile.width = 52;
-			projectile.height = 52;
-			projectile.penetrate = -1;
-			projectile.ignoreWater = true;
-			projectile.alpha = 255;
-			projectile.tileCollide = false;
-			projectile.hostile = false;
-			projectile.friendly = true;
+			Projectile.width = 52;
+			Projectile.height = 52;
+			Projectile.penetrate = -1;
+			Projectile.ignoreWater = true;
+			Projectile.alpha = 255;
+			Projectile.tileCollide = false;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
 		}
 
 		public override bool PreAI()
 		{
-			if (projectile.ai[0] == 0f) {
-				projectile.Damage();
-				projectile.ai[0] = 1f;
+			if (Projectile.ai[0] == 0f) {
+				Projectile.Damage();
+				Projectile.ai[0] = 1f;
 			}
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 3) {
-				projectile.frameCounter = 0;
-				projectile.frame++;
-				if (projectile.frame > Main.projFrames[projectile.type])
-					projectile.Kill();
+			Projectile.frameCounter++;
+			if (Projectile.frameCounter > 3) {
+				Projectile.frameCounter = 0;
+				Projectile.frame++;
+				if (Projectile.frame > Main.projFrames[Projectile.type])
+					Projectile.Kill();
 			}
 			return false;
 		}
 
 		public override void AI()
 		{
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.CopperCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.CopperCoin, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

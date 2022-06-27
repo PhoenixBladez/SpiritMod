@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Material;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,48 +16,48 @@ namespace SpiritMod.Items.Sets.FrigidSet
 			Tooltip.SetDefault("Occasionally shoots out a frost bolt");
 		}
 
-
-
 		public override void SetDefaults()
 		{
-			item.damage = 11;
-			item.noMelee = true;
-			item.ranged = true;
-			item.width = 24;
-			item.height = 38;
-			item.useTime = 31;
-			item.useAnimation = 31;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.shoot = ProjectileID.Shuriken;
-			item.useAmmo = AmmoID.Arrow;
-			item.knockBack = 1;
-			item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
-			item.rare = ItemRarityID.Blue;
-			item.UseSound = SoundID.Item5;
-			item.autoReuse = false;
-            item.shootSpeed = 7.8f;
-            item.crit = 6;
+			Item.damage = 11;
+			Item.noMelee = true;
+			Item.DamageType = DamageClass.Ranged;
+			Item.width = 24;
+			Item.height = 38;
+			Item.useTime = 31;
+			Item.useAnimation = 31;
+			Item.useStyle = ItemUseStyleID.Shoot;
+			Item.shoot = ProjectileID.Shuriken;
+			Item.useAmmo = AmmoID.Arrow;
+			Item.knockBack = 1;
+			Item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.UseSound = SoundID.Item5;
+			Item.autoReuse = false;
+            Item.shootSpeed = 7.8f;
+            Item.crit = 6;
 
 		}
+
 		public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-3, 0);
 		}
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (Main.rand.Next(5) == 1) {
-				Main.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 8));
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.FrostSpine>(), damage, knockBack, player.whoAmI, 0f, 0f);
+				SoundEngine.PlaySound(SoundID.Item8);
+				Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.FrostSpine>(), damage, knockback, player.whoAmI, 0f, 0f);
 			}
 			return true;
 		}
+
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<FrigidFragment>(), 9);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

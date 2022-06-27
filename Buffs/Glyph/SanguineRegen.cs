@@ -8,7 +8,7 @@ namespace SpiritMod.Buffs.Glyph
 {
 	public class SanguineRegen : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sanguine Regeneration");
 			Description.SetDefault("You are rapidly gaining blood.");

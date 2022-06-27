@@ -15,12 +15,12 @@ namespace SpiritMod.Items.Accessory.DarkfeatherVisage
 
         public override void SetDefaults()
         {
-            item.width = 48;
-            item.height = 49;
-            item.value = Item.sellPrice(0, 1, 6, 0);
-            item.rare = ItemRarityID.Orange;
-            item.defense = 1;
-            item.accessory = true;
+            Item.width = 48;
+            Item.height = 49;
+            Item.value = Item.sellPrice(0, 1, 6, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.defense = 1;
+            Item.accessory = true;
         }
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawHair = false;

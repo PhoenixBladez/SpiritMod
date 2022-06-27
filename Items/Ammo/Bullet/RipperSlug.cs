@@ -16,29 +16,28 @@ namespace SpiritMod.Items.Ammo.Bullet
 
 		public override void SetDefaults()
 		{
-			item.width = 8;
-			item.height = 16;
-			item.value = 1000;
-			item.rare = ItemRarityID.Blue;
-			item.value = Item.buyPrice(0, 0, 0, 40);
-			item.maxStack = 999;
-			item.damage = 8;
-			item.knockBack = 1.5f;
-			item.ammo = AmmoID.Bullet;
-			item.ranged = true;
-			item.consumable = true;
-			item.shoot = ModContent.ProjectileType<RipperSlugProj>();
-			item.shootSpeed = 3f;
+			Item.width = 8;
+			Item.height = 16;
+			Item.value = 1000;
+			Item.rare = ItemRarityID.Blue;
+			Item.value = Item.buyPrice(0, 0, 0, 40);
+			Item.maxStack = 999;
+			Item.damage = 8;
+			Item.knockBack = 1.5f;
+			Item.ammo = AmmoID.Bullet;
+			Item.DamageType = DamageClass.Ranged;
+			Item.consumable = true;
+			Item.shoot = ModContent.ProjectileType<RipperSlugProj>();
+			Item.shootSpeed = 3f;
 		}
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
+			Recipe recipe = CreateRecipe(50);
 			recipe.AddIngredient(ItemID.MusketBall, 50);
 			recipe.AddIngredient(ItemID.TissueSample, 1);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this, 50);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 
@@ -48,21 +47,21 @@ namespace SpiritMod.Items.Ammo.Bullet
 		{
 			DisplayName.SetDefault("Ripper Slug");
 
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
-			projectile.width = 2;
-			projectile.height = 2;
-			projectile.friendly = true;
-			projectile.ranged = true;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 600;
-			projectile.hide = true;
-			projectile.extraUpdates = 1;
+			Projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
+			Projectile.width = 2;
+			Projectile.height = 2;
+			Projectile.friendly = true;
+			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.penetrate = 1;
+			Projectile.timeLeft = 600;
+			Projectile.hide = true;
+			Projectile.extraUpdates = 1;
 		}
 
 		bool primsCreated = false;
@@ -72,18 +71,18 @@ namespace SpiritMod.Items.Ammo.Bullet
 			if (!primsCreated)
 			{
 				primsCreated = true;
-				SpiritMod.primitives.CreateTrail(new RipperPrimTrail(projectile));
+				SpiritMod.primitives.CreateTrail(new RipperPrimTrail(Projectile));
 			}
-			projectile.velocity.X *= 0.995f;
-			projectile.velocity.Y += 0.05f;
+			Projectile.velocity.X *= 0.995f;
+			Projectile.velocity.Y += 0.05f;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(new LegacySoundStyle(SoundID.NPCHit, 8).WithPitchVariance(0.2f).WithVolume(0.3f), projectile.Center);
+			SoundEngine.PlaySound(new LegacySoundStyle(SoundID.NPCHit, 8).WithPitchVariance(0.2f).WithVolume(0.3f), Projectile.Center);
 
 			for (int i = 0; i < 20; i++)
-				Dust.NewDustPerfect(projectile.Center, 5, Main.rand.NextFloat(0.25f, 0.5f) * projectile.velocity.RotatedBy(3.14f + Main.rand.NextFloat(-0.4f, 0.4f)));
+				Dust.NewDustPerfect(Projectile.Center, 5, Main.rand.NextFloat(0.25f, 0.5f) * Projectile.velocity.RotatedBy(3.14f + Main.rand.NextFloat(-0.4f, 0.4f)));
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => damage = (int)(damage * 1.15f);

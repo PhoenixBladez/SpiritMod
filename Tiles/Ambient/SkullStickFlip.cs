@@ -11,7 +11,7 @@ namespace SpiritMod.Tiles.Ambient
 {
 	public class SkullStickFlip : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -30,9 +30,9 @@ namespace SpiritMod.Tiles.Ambient
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Skull Stick");
 			AddMapEntry(new Color(107, 90, 64), name);
-			adjTiles = new int[] { TileID.Lamps };
+			AdjTiles = new int[] { TileID.Lamps };
 		}
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
 		{
 			offsetY = 4;
 		}
@@ -67,8 +67,8 @@ namespace SpiritMod.Tiles.Ambient
 				if (Main.drawToScreen) {
 					zero = Vector2.Zero;
 				}
-				int height = tile.frameY == 36 ? 18 : 16;
-				Main.spriteBatch.Draw(mod.GetTexture("Tiles/Ambient/SkullStick_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				int height = tile.TileFrameY == 36 ? 18 : 16;
+				Main.spriteBatch.Draw(Mod.GetTexture("Tiles/Ambient/SkullStick_Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 				Tile t = Main.tile[i, j];
 			}
 		}

@@ -15,23 +15,22 @@ namespace SpiritMod.Items.Accessory.MageTree
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
-			item.height = 42;
-			item.value = Item.sellPrice(0, 0, 40, 0);
-			item.rare = ItemRarityID.Blue;
-			item.accessory = true;
+			Item.width = 36;
+			Item.height = 42;
+			Item.value = Item.sellPrice(0, 0, 40, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.accessory = true;
 		}
 
 		public override void SafeUpdateAccessory(Player player, bool hideVisual) => player.statManaMax2 += 20;
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.FallenStar, 3);
 			recipe.AddIngredient(ItemID.Chain, 3);
 			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

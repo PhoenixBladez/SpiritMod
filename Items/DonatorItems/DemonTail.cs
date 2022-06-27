@@ -17,37 +17,36 @@ namespace SpiritMod.Items.DonatorItems
 
 		public override void SetDefaults()
 		{
-			item.UseSound = SoundID.Item2;
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.useAnimation = 20;
-			item.useTime = 20;
+			Item.UseSound = SoundID.Item2;
+			Item.useStyle = ItemUseStyleID.HoldUp;
+			Item.useAnimation = 20;
+			Item.useTime = 20;
 
-			item.width = 22;
-			item.height = 32;
+			Item.width = 22;
+			Item.height = 32;
 
-			item.value = Item.sellPrice(0, 0, 54, 0);
-			item.rare = ItemRarityID.LightRed;
-			item.noMelee = true;
+			Item.value = Item.sellPrice(0, 0, 54, 0);
+			Item.rare = ItemRarityID.LightRed;
+			Item.noMelee = true;
 
-			item.buffType = ModContent.BuffType<LoomingPresence>();
-			item.shoot = ModContent.ProjectileType<DemonicBlob>();
+			Item.buffType = ModContent.BuffType<LoomingPresence>();
+			Item.shoot = ModContent.ProjectileType<DemonicBlob>();
 		}
 
 		public override bool CanUseItem(Player player)
 		{
-			player.AddBuff(item.buffType, 10);
+			player.AddBuff(Item.buffType, 10);
 			return true;
 		}
 
 		public override void AddRecipes()
 		{
-			var recipe = new ModRecipe(mod);
+			var recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.BlackLens);
 			recipe.AddIngredient(ItemID.WaterCandle);
 			recipe.AddIngredient(ModContent.ItemType<DreamstrideEssence>(), 5);
 			recipe.AddTile(TileID.DemonAltar);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			recipe.Register();
 		}
 	}
 }

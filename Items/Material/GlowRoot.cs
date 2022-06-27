@@ -13,12 +13,12 @@ namespace SpiritMod.Items.Material
 
 		public override void SetDefaults()
 		{
-			item.width = 24;
-			item.height = 28;
-			item.value = 300;
-			item.rare = ItemRarityID.Blue;
+			Item.width = 24;
+			Item.height = 28;
+			Item.value = 300;
+			Item.rare = ItemRarityID.Blue;
 
-			item.maxStack = 999;
+			Item.maxStack = 999;
 		}
 	}
 }

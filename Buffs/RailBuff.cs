@@ -5,7 +5,7 @@ namespace SpiritMod.Buffs
 {
 	public class RailBuff : ModBuff
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rail Rider");
 			Description.SetDefault("Sick shreds, duuude!");

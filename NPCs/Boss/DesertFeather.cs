@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,22 +14,22 @@ namespace SpiritMod.NPCs.Boss
 
 		public override void SetDefaults()
 		{
-			projectile.width = 10;
-			projectile.height = 20;
-			projectile.friendly = false;
-			projectile.hostile = true;
-			projectile.penetrate = 10;
-			projectile.timeLeft = 1000;
-			projectile.tileCollide = true;
-			projectile.aiStyle = 1;
-			aiType = ProjectileID.Bullet;
+			Projectile.width = 10;
+			Projectile.height = 20;
+			Projectile.friendly = false;
+			Projectile.hostile = true;
+			Projectile.penetrate = 10;
+			Projectile.timeLeft = 1000;
+			Projectile.tileCollide = true;
+			Projectile.aiStyle = 1;
+			AIType = ProjectileID.Bullet;
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y);
 			for (int i = 0; i < 20; i++) {
-				Dust.NewDust(projectile.Center, projectile.width, projectile.height,
+				Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height,
 					DustID.Dirt, 0, 1, 133);
 			}
 		}
