@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Sets.SlagSet.FieryArmor
 		public override void UpdateEquip(Player player)
 		{
 			player.maxTurrets += 1;
-			player.minionDamage += .05f;
+			player.GetDamage(DamageClass.Summon) += .05f;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)

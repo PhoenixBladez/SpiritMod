@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/DuskingDrops/DuskPendant_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Sets/DuskingDrops/DuskPendant_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
 				new Vector2
 				(
 					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
@@ -51,11 +51,12 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 				0f
 			);
 		}
+
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			if (!Main.dayTime) {
-				player.rangedCrit += 13;
-				player.magicCrit += 13;
+				player.GetCritChance(DamageClass.Ranged) += 13;
+				player.GetCritChance(DamageClass.Magic) += 13;
 			}
 		}
 	}

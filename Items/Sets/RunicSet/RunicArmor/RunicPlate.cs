@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.RunicSet.RunicArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.magicCrit += 8;
+			player.GetCritChance(DamageClass.Magic) += 8;
 		}
 		public override void AddRecipes()
 		{

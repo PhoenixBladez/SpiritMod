@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Armor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.minionKB += 0.15f;
+			player.GetKnockback(DamageClass.Summon) += 0.15f;
 			player.wingTimeMax += player.wingTimeMax + (int)(player.wingTimeMax * .15f);
 		}
 

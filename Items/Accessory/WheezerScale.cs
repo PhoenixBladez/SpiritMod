@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Accessory
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.GetSpiritPlayer().wheezeScale = true;
-			player.meleeSpeed += .05f;
+			player.GetAttackSpeed(DamageClass.Melee) += .05f;
 		}
 	}
 }

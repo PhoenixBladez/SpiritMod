@@ -17,7 +17,7 @@ namespace SpiritMod.Buffs.Glyph
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.GetModPlayer<MyPlayer>().blazeBurn = true;
-			player.allDamage += .17f;
+			player.GetDamage(DamageClass.Generic) += .17f;
 
 			if (Main.rand.NextDouble() < .5) {
 				int dust = Dust.NewDust(player.position, player.width, player.height, DustID.Torch);

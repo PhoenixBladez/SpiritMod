@@ -25,9 +25,9 @@ namespace SpiritMod.Items.Sets.FrigidSet.FrigidArmor
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.meleeCrit += 3;
-			player.magicCrit += 3;
-			player.rangedCrit += 3;
+			player.GetCritChance(DamageClass.Melee) += 3;
+			player.GetCritChance(DamageClass.Magic) += 3;
+			player.GetCritChance(DamageClass.Ranged) += 3;
 		}
 		public override void AddRecipes()
 		{

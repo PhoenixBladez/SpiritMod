@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 
 		public override void UpdateEquip(Player player)
 		{
-			player.magicDamage += 0.08f;
+			player.GetDamage(DamageClass.Magic) += 0.08f;
 			player.moveSpeed *= 1.25f;
 			player.jumpSpeedBoost += 1.75f;
 			player.maxFallSpeed *= 1.25f;

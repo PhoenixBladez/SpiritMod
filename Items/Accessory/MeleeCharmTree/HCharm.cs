@@ -26,11 +26,7 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 
 		public override void SafeUpdateAccessory(Player player, bool hideVisual)
 		{
-			player.meleeDamage += 0.05f;
-			player.magicDamage += 0.05f;
-			player.rangedDamage += 0.05f;
-			player.minionDamage += 0.05f;
-			player.thrownDamage += 0.05f;
+			player.GetDamage(DamageClass.Generic) += 0.05f;
 		}
 
 		public override void AddRecipes()

@@ -17,8 +17,8 @@ namespace SpiritMod.Buffs.Armor
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.minionDamage += .1f;
-			player.minionKB += .05f;
+			player.GetDamage(DamageClass.Summon) += .1f;
+			player.GetKnockback(DamageClass.Summon) += .05f;
 		}
 	}
 }

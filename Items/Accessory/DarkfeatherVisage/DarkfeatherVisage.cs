@@ -11,7 +11,9 @@ namespace SpiritMod.Items.Accessory.DarkfeatherVisage
         {
             DisplayName.SetDefault("Darkfeather Visage");
             Tooltip.SetDefault("Generates exploding darkfeather bolts around the player\nIncreases magic damage by 5%\nCan be worn in the accessory or helmet slot");
-        }
+
+			ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = false;
+		}
 
         public override void SetDefaults()
         {
@@ -23,17 +25,15 @@ namespace SpiritMod.Items.Accessory.DarkfeatherVisage
             Item.accessory = true;
         }
 
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawHair = false;
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.magicDamage += .05f;
+            player.GetDamage(DamageClass.Magic) += .05f;
             player.GetSpiritPlayer().darkfeatherVisage = true;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage += .05f;
+            player.GetDamage(DamageClass.Magic) += .05f;
             player.GetSpiritPlayer().darkfeatherVisage = true;
         }
     }

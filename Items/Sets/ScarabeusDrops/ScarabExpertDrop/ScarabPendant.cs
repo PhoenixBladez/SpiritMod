@@ -76,8 +76,8 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 			MountData.spawnDust = Mod.Find<ModDust>("SandDust").Type;
 			if (Main.netMode != NetmodeID.Server)
 			{
-				MountData.textureWidth = MountData.backTexture.Width;
-				MountData.textureHeight = MountData.backTexture.Height;
+				MountData.textureWidth = MountData.backTexture.Width();
+				MountData.textureHeight = MountData.backTexture.Height();
 			}
 		}
 
@@ -97,7 +97,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 			if (Math.Abs(player.velocity.X) > 3 && player.velocity.Y == 0)
 			{
 				if (modplayer.scarabtimer % 20 <= 1)
-					SoundEngine.PlaySound(SoundID.Roar, player.Center, 1);
+					SoundEngine.PlaySound(SoundID.Roar, player.Center);
 
 				for (int j = 0; j < Math.Abs(player.velocity.X) / 3; j++)
 				{
@@ -113,7 +113,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 				var enemies = Main.npc.Where(x => x.Hitbox.Intersects(player.Hitbox) && x.CanBeChasedBy(this) && x.immune[player.whoAmI] == 0);
 				foreach (NPC npc in enemies)
 				{
-					npc.StrikeNPC((int)(25 * player.meleeDamage * Main.rand.NextFloat(0.9f, 1.2f)), 1, player.direction, Main.rand.NextBool(10));
+					npc.StrikeNPC((int)(player.GetDamage(DamageClass.Melee).ApplyTo(25 * Main.rand.NextFloat(0.9f, 1.2f))), 1, player.direction, Main.rand.NextBool(10));
 					npc.immune[player.whoAmI] = 10;
 				}
 			}

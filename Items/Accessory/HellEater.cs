@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Accessory
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.GetSpiritPlayer().fireMaw = true;
-			player.magicDamage += 0.07f;
+			player.GetDamage(DamageClass.Magic) += 0.07f;
 		}
 	}
 }

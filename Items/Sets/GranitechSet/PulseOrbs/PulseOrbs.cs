@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.PulseOrbs
 			if (!orbsActive)
 			{
 				for (int i = 0; i < 3; i++)
-					Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<PulseOrbProj>(), (int)(item.damage * player.magicDamage), item.knockBack, player.whoAmI, i *  2.09f, i * 10);
+					Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<PulseOrbProj>(), (int)(item.damage * player.GetDamage(DamageClass.Magic)), item.knockBack, player.whoAmI, i *  2.09f, i * 10);
 			}
 		}
 

@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Sets.TideDrops.StreamSurfer
 
 		public override void UpdateEquip(Player player)
 		{
-			player.magicCrit += 8;
+			player.GetCritChance(DamageClass.Magic) += 8;
 			player.gills = true;
 		}
 

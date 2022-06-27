@@ -17,7 +17,7 @@ namespace SpiritMod.Buffs
 		{
             player.moveSpeed += .1f;
 			player.maxRunSpeed += 0.2f;
-			player.meleeSpeed += 0.1f;
+			player.GetAttackSpeed(DamageClass.Melee) += 0.1f;
 			player.runAcceleration += .04f;
 		}
 	}

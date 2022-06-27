@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Sets.SeraphSet.SeraphArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.meleeDamage += .12f;
+			player.GetDamage(DamageClass.Melee) += .12f;
 		}
 
 		public override void AddRecipes()

@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet.CryoliteArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.meleeDamage += 0.12f;
+			player.GetDamage(DamageClass.Melee) += 0.12f;
             player.noKnockback = true;
         }
 		public override void AddRecipes()

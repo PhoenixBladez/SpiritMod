@@ -23,11 +23,8 @@ namespace SpiritMod.Items.Accessory
 		}
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.allDamage -= 0.13f;
-			player.meleeCrit += 15;
-			player.magicCrit += 15;
-			player.rangedCrit += 15;
-
+			player.GetDamage(DamageClass.Generic) -= 0.13f;
+			player.GetCritChance(DamageClass.Melee) += 15;
 		}
 	}
 }

@@ -28,8 +28,8 @@ namespace SpiritMod.Items.Sets.InfernonDrops.InfernonArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.magicCrit += 9;
-			player.magicDamage += 0.15f;
+			player.GetCritChance(DamageClass.Magic) += 9;
+			player.GetDamage(DamageClass.Magic) += 0.15f;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<InfernalBreastplate>() && legs.type == ModContent.ItemType<InfernalGreaves>();

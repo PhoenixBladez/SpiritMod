@@ -99,7 +99,7 @@ namespace SpiritMod.Items.Weapon.Magic.LuminanceSeacone
 			Vector2 vector2 = new Vector2(1.1f, 1f);
 			for (float num2 = 0.0f; (double)num2 < (double)num1; ++num2)
 			{
-				int dustIndex = Dust.NewDust(Projectile.Center, 0, 0, DustID.RainbowMk2, 0.0f, 0.0f, 0, new Color(r, g, b), .6f);
+				int dustIndex = Dust.NewDust(Projectile.Center, 0, 0, DustID.RainbowTorchMk2, 0.0f, 0.0f, 0, new Color(r, g, b), .6f);
 				Main.dust[dustIndex].position = Projectile.Center;
 				Main.dust[dustIndex].velocity = spinningpoint.RotatedBy(6.28318548202515 * (double)num2 / (double)num1, new Vector2()) * vector2 * (float)(0.800000011920929 + (double)Main.rand.NextFloat() * 0.400000005960464);
 				Main.dust[dustIndex].noGravity = true;
@@ -145,7 +145,7 @@ namespace SpiritMod.Items.Weapon.Magic.LuminanceSeacone
 				b = Main.rand.Next(1, 255);
 				for (int index = 0; index < 8; ++index)
 				{
-					Dust dust = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, DustID.RainbowMk2, 0.0f, 0.0f, 0, new Color(r, g, b), .6f)];
+					Dust dust = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, DustID.RainbowTorchMk2, 0.0f, 0.0f, 0, new Color(r, g, b), .6f)];
 					dust.velocity = (Main.rand.NextFloatDirection() * 3.141593f).ToRotationVector2() * 2f + Projectile.velocity.SafeNormalize(Vector2.Zero) * 3f;
 					dust.noGravity = true;
 					dust.scale = .85f;

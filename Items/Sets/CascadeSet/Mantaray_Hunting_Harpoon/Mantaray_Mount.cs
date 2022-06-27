@@ -60,8 +60,8 @@ namespace SpiritMod.Items.Sets.CascadeSet.Mantaray_Hunting_Harpoon
 
 			if (Main.netMode != NetmodeID.Server)
 			{
-				MountData.textureWidth = MountData.backTexture.Width;
-				MountData.textureHeight = MountData.backTexture.Height;
+				MountData.textureWidth = MountData.backTexture.Width();
+				MountData.textureHeight = MountData.backTexture.Height();
 			}
         }
  

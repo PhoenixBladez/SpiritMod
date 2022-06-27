@@ -17,7 +17,7 @@ namespace SpiritMod.Buffs.Potion
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			modPlayer.runeBuff = true;
-			player.magicDamage += 0.05f;
+			player.GetDamage(DamageClass.Magic) += 0.05f;
 		}
 	}
 }

@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			if (Projectile.ai[0] > 120f) {
 				num26 = 5f;
 			}
-			Projectile.damage = (int)((float)player.inventory[player.selectedItem].damage * player.magicDamage);
+			Projectile.damage = (int)((float)player.inventory[player.selectedItem].damage * player.GetDamage(DamageClass.Magic));
 			Projectile.ai[0]++;
 			Projectile.ai[1]++;
 			bool flag9 = false;

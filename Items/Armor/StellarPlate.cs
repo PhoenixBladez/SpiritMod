@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.minionDamage += 0.1f;
+			player.GetDamage(DamageClass.Summon) += 0.1f;
 			player.maxMinions += 1;
 		}
 

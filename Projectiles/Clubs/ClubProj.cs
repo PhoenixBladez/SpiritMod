@@ -112,13 +112,10 @@ namespace SpiritMod.Projectiles.Clubs
 			{
 				_statBuffed = true;
 
-				float damageMult = player.meleeDamage;
-				float damageFlat = 0;
-				float add = 0;
-				PlayerLoader.ModifyWeaponDamage(player, player.HeldItem, ref add, ref damageMult, ref damageFlat);
+				PlayerLoader.ModifyWeaponDamage(player, player.HeldItem, ref player.GetDamage(DamageClass.Melee));
 
-				minDamage = (int)(minDamage * damageMult) + (int)damageFlat;
-				maxDamage = (int)(maxDamage * (1 + ((damageMult - 1) / 6))) + (int)damageFlat;
+				minDamage = (int)player.GetDamage(DamageClass.Melee).ApplyTo(minDamage);
+				maxDamage = (int)player.GetDamage(DamageClass.Melee).ApplyTo(maxDamage);
 			}
 
 			radians = degrees * (Math.PI / 180);
@@ -157,7 +154,8 @@ namespace SpiritMod.Projectiles.Clubs
 
 					_angularMomentum = 0;
 				}
-				Projectile.damage = (int)((minDamage + (int)((Projectile.ai[0] / ChargeTime) * (maxDamage - minDamage))) * player.meleeDamage);
+				float dmg = (minDamage + ((Projectile.ai[0] / ChargeTime) * (maxDamage - minDamage)));
+				Projectile.damage = (int)player.GetDamage(DamageClass.Melee).ApplyTo(dmg);
 				Projectile.knockBack = MinKnockback + (int)((Projectile.ai[0] / ChargeTime) * (MaxKnockback - MinKnockback));
 			}
 			else

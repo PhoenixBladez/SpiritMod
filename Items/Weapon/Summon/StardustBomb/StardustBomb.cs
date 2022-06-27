@@ -156,8 +156,8 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 				}
 			}
 
-			Projectile.NewProjectileDirect(NPC.Center, Vector2.Zero, ModContent.ProjectileType<StarShockwave>(), (int)(boomdamage * player.minionDamage * 0.5f), 0, player.whoAmI);
-			SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Thunder"), NPC.Center);
+			Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<StarShockwave>(), (int)(player.GetDamage(DamageClass.Summon).ApplyTo(boomdamage * 0.5f)), 0, player.whoAmI);
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Thunder"), NPC.Center);
 			SpiritMod.tremorTime = 15;
 			return true;
 		}

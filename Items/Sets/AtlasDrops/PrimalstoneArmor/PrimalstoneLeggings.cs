@@ -24,8 +24,8 @@ namespace SpiritMod.Items.Sets.AtlasDrops.PrimalstoneArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.meleeDamage += 0.09f;
-			player.magicDamage += 0.09f;
+			player.GetDamage(DamageClass.Melee) += 0.09f;
+			player.GetDamage(DamageClass.Magic) += 0.09f;
 			player.manaCost -= .05f;
 			player.moveSpeed -= .1f;
 		}

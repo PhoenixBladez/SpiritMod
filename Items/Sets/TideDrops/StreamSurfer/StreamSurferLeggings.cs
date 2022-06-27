@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Sets.TideDrops.StreamSurfer
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.magicDamage += .07f;
+			player.GetDamage(DamageClass.Magic) += .07f;
 			player.manaCost -= 0.10f;
 		}
 		public override void AddRecipes()

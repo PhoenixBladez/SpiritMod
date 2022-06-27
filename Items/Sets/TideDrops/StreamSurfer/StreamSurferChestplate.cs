@@ -18,14 +18,14 @@ namespace SpiritMod.Items.Sets.TideDrops.StreamSurfer
 		{
 			Item.width = 30;
 			Item.height = 20;
-			Item.value = Terraria.Item.sellPrice(0, 0, 80, 0);
+			Item.value = Item.sellPrice(0, 0, 80, 0);
 			Item.rare = ItemRarityID.Orange;
 			Item.defense = 7;
 		}
 
 		public override void UpdateEquip(Player player)
 		{
-			player.magicDamage += 0.09f;
+			player.GetDamage(DamageClass.Magic) += 0.09f;
 			player.statManaMax2 += 60;
 		}
 		public override void AddRecipes()

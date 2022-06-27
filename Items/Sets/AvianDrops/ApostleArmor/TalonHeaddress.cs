@@ -36,8 +36,8 @@ namespace SpiritMod.Items.Sets.AvianDrops.ApostleArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.magicCrit += 7;
-			player.rangedCrit += 7;
+			player.GetCritChance(DamageClass.Magic) += 7;
+			player.GetCritChance(DamageClass.Ranged) += 7;
 		}
 	}
 }

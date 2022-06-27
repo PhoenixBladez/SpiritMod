@@ -20,6 +20,9 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			DisplayName.SetDefault("Stargloop Head");
 			Tooltip.SetDefault("'Head beyond the clouds'");
 			ItemID.Sets.ItemNoGravity[Item.type] = true;
+
+			ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = false;
+			ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = false;
 		}
 
 		public override void SetDefaults()
@@ -31,7 +34,6 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			Item.vanity = true;
 		}
 
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawHair = drawAltHair = false;
 		public override bool DrawHead() => false;
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) => color = Color.White * 0f;
 

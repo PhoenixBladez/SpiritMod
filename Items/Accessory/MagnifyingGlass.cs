@@ -25,10 +25,7 @@ namespace SpiritMod.Items.Accessory
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.GetSpiritPlayer().magnifyingGlass = true;
-			player.magicCrit += 4;
-			player.meleeCrit += 4;
-			player.rangedCrit += 4;
-			player.thrownCrit += 4;
+			player.GetCritChance(DamageClass.Generic) += 4;
 		}
 	}
 }

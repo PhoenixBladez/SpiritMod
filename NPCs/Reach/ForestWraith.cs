@@ -14,7 +14,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
-
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -77,9 +77,9 @@ namespace SpiritMod.NPCs.Reach
 			NPC.collideY = false;
 			Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.46f, 0.32f, .1f);
 			timer++;
-			if ((timer == 240 || timer == 280 || timer == 320))
+			if (timer == 240 || timer == 280 || timer == 320)
 			{
-				SoundEngine.PlaySound(SoundID.Grass, (int)NPC.position.X, (int)NPC.position.Y, 0);
+				SoundEngine.PlaySound(SoundID.Grass, NPC.Center);
 				Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 				direction.Normalize();
 				direction.X *= 10f;
@@ -91,7 +91,7 @@ namespace SpiritMod.NPCs.Reach
 					{
 						float A = Main.rand.Next(-120, 120) * 0.01f;
 						float B = Main.rand.Next(-120, 120) * 0.01f;
-						int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<OvergrowthLeaf>(), 6, 1, Main.myPlayer, 0, 0);
+						int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<OvergrowthLeaf>(), 6, 1, Main.myPlayer, 0, 0);
 						Main.projectile[p].hostile = true;
 						Main.projectile[p].friendly = false;
 					}
@@ -110,9 +110,9 @@ namespace SpiritMod.NPCs.Reach
 				{
 					thrown = true;
 					Vector2 direction = NPC.GetArcVel(Main.player[NPC.target].Center, 0.4f, 100, 500, maxXvel: 14);
-					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 8);
+					SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						Projectile.NewProjectile(NPC.Center, direction, ModContent.ProjectileType<LittleBouncingSpore>(), 8, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, direction, ModContent.ProjectileType<LittleBouncingSpore>(), 8, 1, Main.myPlayer, 0, 0);
 				}
 
 				if ((int)NPC.frameCounter != 4)
@@ -128,7 +128,7 @@ namespace SpiritMod.NPCs.Reach
 				NPC.defense = 10;
 				Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 				direction.Normalize();
-				SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, 7);
+				SoundEngine.PlaySound(SoundID.Zombie7, NPC.Center);
 				direction.X *= Main.rand.Next(6, 9);
 				direction.Y *= Main.rand.Next(6, 9);
 				NPC.velocity.X = direction.X;
@@ -158,10 +158,10 @@ namespace SpiritMod.NPCs.Reach
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladeWraith/GladeWraith1").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladeWraith/GladeWraith2").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladeWraith/GladeWraith3").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladeWraith/GladeWraith4").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladeWraith/GladeWraith1").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladeWraith/GladeWraith2").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladeWraith/GladeWraith3").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladeWraith/GladeWraith4").Type);
 
 				NPC.position.X = NPC.position.X + (NPC.width / 2);
 				NPC.position.Y = NPC.position.Y + (NPC.height / 2);
@@ -199,7 +199,7 @@ namespace SpiritMod.NPCs.Reach
 
 		public override bool PreKill()
 		{
-			SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.Center);
 			MyWorld.downedGladeWraith = true;
 			return true;
 		}
@@ -213,13 +213,10 @@ namespace SpiritMod.NPCs.Reach
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Reach/ForestWraith_Glow").Value);
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			int[] lootTable = { ModContent.ItemType<OakHeart>(), ModContent.ItemType<HuskstalkStaff>() };
-			int loot = Main.rand.Next(lootTable.Length);
-
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, lootTable[loot]);
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<EnchantedLeaf>(), Main.rand.Next(5, 8));
+			npcLoot.Add(ItemDropRule.OneFromOptions(1, ModContent.ItemType<OakHeart>(), ModContent.ItemType<HuskstalkStaff>()));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<EnchantedLeaf>(), 1, 5, 7));
 		}
 
 		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,

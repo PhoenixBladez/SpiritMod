@@ -26,17 +26,10 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.meleeDamage += 0.05f;
-			player.magicDamage += 0.05f;
-			player.rangedDamage += 0.05f;
-			player.minionDamage += 0.05f;
-			player.thrownDamage += 0.05f;
-			player.meleeCrit += 5;
-			player.rangedCrit += 5;
-			player.magicCrit += 5;
-			player.thrownCrit += 5;
+			player.GetDamage(DamageClass.Generic) += 0.05f;
+			player.GetCritChance(DamageClass.Generic) += 5;
 			player.endurance += 0.05f;
-			player.meleeSpeed += 0.05f;
+			player.GetAttackSpeed(DamageClass.Melee) += 0.05f;
 			player.GetSpiritPlayer().bloodyBauble = true;
 		}
 

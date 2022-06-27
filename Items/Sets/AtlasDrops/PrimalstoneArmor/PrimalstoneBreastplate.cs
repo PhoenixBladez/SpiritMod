@@ -25,9 +25,9 @@ namespace SpiritMod.Items.Sets.AtlasDrops.PrimalstoneArmor
 		public override void UpdateEquip(Player player)
 		{
 			player.lifeRegen += 2;
-			player.meleeCrit += 17;
-			player.meleeDamage += .05f;
-			player.magicCrit += 7;
+			player.GetCritChance(DamageClass.Melee) += 17;
+			player.GetDamage(DamageClass.Melee) += .05f;
+			player.GetCritChance(DamageClass.Magic) += 7;
 		}
 
 		public override void AddRecipes()

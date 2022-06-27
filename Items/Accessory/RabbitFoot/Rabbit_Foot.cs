@@ -25,10 +25,7 @@ namespace SpiritMod.Items.Accessory.RabbitFoot
 
 		public override void UpdateEquip(Player player)
 		{
-			player.magicCrit = 1;
-			player.meleeCrit = 1;
-			player.rangedCrit = 1;
-			player.thrownCrit = 1;
+			player.GetCritChance(DamageClass.Generic) = 1;
 		}
 
 		public override void ModifyTooltips(System.Collections.Generic.List<TooltipLine> tooltips) 

@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Armor.Daybloom
 
 		public override void UpdateEquip(Player player)
 		{
-			player.magicCrit += 3;
+			player.GetCritChance(DamageClass.Magic) += 3;
 		}
 
 		public override void AddRecipes()

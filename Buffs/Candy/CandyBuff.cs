@@ -17,11 +17,8 @@ namespace SpiritMod.Buffs.Candy
 		{
 			player.moveSpeed += 0.5f;
 			player.statDefense += 2;
-			player.magicCrit += 2;
-			player.meleeCrit += 2;
-			player.thrownCrit += 2;
-			player.rangedCrit += 2;
-			player.allDamage += 0.04f;
+			player.GetCritChance(DamageClass.Generic) += 2;
+			player.GetDamage(DamageClass.Generic) += 0.04f;
 			player.lifeRegen += 1;
 			player.jumpSpeedBoost += 0.4f;
 		}

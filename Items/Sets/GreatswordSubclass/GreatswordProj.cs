@@ -93,7 +93,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
             player.ChangeDir(Main.MouseWorld.X > player.position.X ? 1 : -1);
 
             Projectile.Center = player.MountedCenter + (direction.RotatedBy(offset * player.direction) * (charge));
-            Projectile.damage = minDamage + (int)((maxDamage - minDamage) * (charge / (float)chargeMax) * player.meleeDamage);
+            Projectile.damage = minDamage + (int)((maxDamage - minDamage) * (charge / (float)chargeMax) * player.GetDamage(DamageClass.Melee));
             if (player.channel && !released)
             {
                 direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));

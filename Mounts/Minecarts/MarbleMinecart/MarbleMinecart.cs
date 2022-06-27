@@ -58,8 +58,8 @@ namespace SpiritMod.Mounts.Minecarts.MarbleMinecart
 			if (Main.netMode == NetmodeID.Server)
 				return;
 
-			MountData.textureWidth = MountData.backTexture.Width;
-			MountData.textureHeight = MountData.backTexture.Height;
+			MountData.textureWidth = MountData.backTexture.Width();
+			MountData.textureHeight = MountData.backTexture.Height();
 		}
 	}
 }

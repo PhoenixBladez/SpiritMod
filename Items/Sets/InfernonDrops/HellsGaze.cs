@@ -28,9 +28,7 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.GetSpiritPlayer().HellGaze = true;
-			player.meleeCrit += 6;
-			player.rangedCrit += 6;
-			player.magicCrit += 6;
+			player.GetCritChance(DamageClass.Generic) += 6;
 		}
 	}
 }

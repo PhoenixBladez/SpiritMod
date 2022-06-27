@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Sets.DuskingDrops.DuskArmor
 		public override void UpdateEquip(Player player)
 		{
 			player.manaCost -= 0.10f;
-			player.magicDamage += 0.10f;
+			player.GetDamage(DamageClass.Magic) += 0.10f;
 		}
 		public virtual void OnHitByNPC(NPC npc, int damage, bool crit)
 		{

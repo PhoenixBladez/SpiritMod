@@ -58,7 +58,7 @@ namespace SpiritMod.Projectiles
 			for (int index1 = 0; index1 < 5; ++index1) {
 				float num1 = Projectile.velocity.X * 0.2f * index1;
 				float num2 = (float)-(Projectile.velocity.Y * 0.200000002980232) * index1;
-				int index2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Rainbow, 0.0f, 0.0f, 100, new Color(), 1.3f);
+				int index2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.RainbowTorch, 0.0f, 0.0f, 100, new Color(), 1.3f);
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.0f;
 				Main.dust[index2].scale = 1f;

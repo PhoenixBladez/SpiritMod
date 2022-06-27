@@ -36,8 +36,8 @@ namespace SpiritMod.Items.Sets.AvianDrops.ApostleArmor
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.magicDamage += .07f;
-			player.rangedDamage += .07f;
+			player.GetDamage(DamageClass.Magic) += .07f;
+			player.GetDamage(DamageClass.Ranged) += .07f;
 			player.moveSpeed += 0.10f;
 		}
 	}

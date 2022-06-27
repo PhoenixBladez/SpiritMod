@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarArmor
 		public override void UpdateEquip(Player player)
 		{
 			player.ammoCost80 = true;
-			player.rangedDamage += .05f;
+			player.GetDamage(DamageClass.Ranged) += .05f;
 		}
 		public override void ArmorSetShadows(Player player)
 		{

@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Sets.FloranSet
 			grassTimer--;
 			if (grassTimer < 0) standingOnGrass = false;
 			if (standingOnGrass) {
-				player.meleeSpeed += meleeSpeed;
+				player.GetAttackSpeed(DamageClass.Melee) += meleeSpeed;
 				player.lifeRegen += lifeRegen;
 			}
 		}
@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Sets.FloranSet
 				|| type == TileID.JungleGrass
 				|| type == TileID.MushroomGrass
 				|| type == TileID.HallowedGrass
-				|| type == TileID.FleshGrass
+				|| type == TileID.CrimsonGrass
 				|| type == TileID.CorruptGrass
 				|| type == ModContent.TileType<HalloweenGrass>()
 				|| type == ModContent.TileType<ReachGrassTile>()

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Items
 {
@@ -36,22 +37,22 @@ namespace SpiritMod.Items
 				player.GetSpiritPlayer().effects.Add(acc);
 				acc.ItemUpdateAccessory(player, hideVisual);
 			}
-			player.allDamage += AllDamage;
-			player.meleeDamage += MeleeDamage;
-			player.rangedDamage += RangedDamage;
-			player.magicDamage += MagicDamage;
-			player.AddAllCrit(AllCrit);
-			player.meleeCrit += MeleeCrit;
-			player.rangedCrit += RangedCrit;
-			player.magicCrit += MagicCrit;
-			player.meleeSpeed += MeleeSpeed;
+			player.GetDamage(DamageClass.Generic) += AllDamage;
+			player.GetDamage(DamageClass.Melee) += MeleeDamage;
+			player.GetDamage(DamageClass.Ranged) += RangedDamage;
+			player.GetDamage(DamageClass.Magic) += MagicDamage;
+			player.GetCritChance(DamageClass.Generic) += AllCrit;
+			player.GetCritChance(DamageClass.Melee) += MeleeCrit;
+			player.GetCritChance(DamageClass.Ranged) += RangedCrit;
+			player.GetCritChance(DamageClass.Magic) += MagicCrit;
+			player.GetAttackSpeed(DamageClass.Melee) += MeleeSpeed;
 			player.moveSpeed += MovementSpeed;
 			player.maxRunSpeed += MovementSpeed;
 			player.lifeRegen += LifeRegen;
-			player.armorPenetration += ArmorPenetration;
+			player.GetArmorPenetration(DamageClass.Generic) += ArmorPenetration;
 		}
 
-		public override bool CanEquipAccessory(Player player, int slot)
+		public override bool CanEquipAccessory(Player player, int slot, bool modded)
 		{
 			if (slot < 10) {
 				int maxAccessoryIndex = 5 + player.extraAccessorySlots;

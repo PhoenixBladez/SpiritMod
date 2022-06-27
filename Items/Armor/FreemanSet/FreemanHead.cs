@@ -10,7 +10,9 @@ namespace SpiritMod.Items.Armor.FreemanSet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Freeman's Goggles");
+			ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
 		}
+
 		public override void SetDefaults()
 		{
 			Item.width = 30;
@@ -20,7 +22,5 @@ namespace SpiritMod.Items.Armor.FreemanSet
 
 			Item.vanity = true;
 		}
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-    => drawHair = true;
     }
 }

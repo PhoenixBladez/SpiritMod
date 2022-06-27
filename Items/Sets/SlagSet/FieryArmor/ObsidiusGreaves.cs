@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.SlagSet.FieryArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.minionDamage += 0.05f;
+			player.GetDamage(DamageClass.Summon) += 0.05f;
 			player.maxMinions += 1;
 		}
 		public override void AddRecipes()

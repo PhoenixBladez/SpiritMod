@@ -1106,7 +1106,7 @@ namespace SpiritMod.NPCs
 
 			int distanceFromCenter = 0;
 
-			int[] Grasses = { TileID.Grass, TileID.CorruptGrass, TileID.HallowedGrass, TileID.FleshGrass };
+			int[] Grasses = { TileID.Grass, TileID.CorruptGrass, TileID.HallowedGrass, TileID.CrimsonGrass };
 			int[] Ices = { TileID.IceBlock, TileID.CorruptIce, TileID.HallowedIce, TileID.FleshIce };
 			int[] Stones = { TileID.Stone, TileID.Ebonstone, TileID.Pearlstone, TileID.Crimstone, TileID.GreenMoss, TileID.BrownMoss, TileID.RedMoss, TileID.BlueMoss, TileID.PurpleMoss };
 			int[] Sands = { TileID.Sand, TileID.Ebonsand, TileID.Pearlsand, TileID.Crimsand };

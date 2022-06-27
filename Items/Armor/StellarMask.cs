@@ -36,8 +36,8 @@ namespace SpiritMod.Items.Armor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.rangedDamage += 0.1f;
-			player.rangedCrit += 5;
+			player.GetDamage(DamageClass.Ranged) += 0.1f;
+			player.GetCritChance(DamageClass.Ranged) += 5;
 			player.maxMinions += 1;
 		}
 

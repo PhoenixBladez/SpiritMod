@@ -26,16 +26,18 @@ namespace SpiritMod.Items.Accessory.MoonlightSack
 			Item.rare = ItemRarityID.Green;
 			Item.accessory = true;
 		}
+
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			Player player = Main.player[Item.playerIndexTheItemIsReservedFor];
 			float num7 = 5E-06f;
-			float num8 = 15 * player.minionDamage;
+			float num8 = player.GetDamage(DamageClass.Summon).ApplyTo(15);
 			var aga = new TooltipLine(Mod, "summonDamageText", (int)(num8+num7) + " summon damage");
 			tooltips.Add(aga);
 			var aga2 = new TooltipLine(Mod, "summonDamageText2", "Creates a chain of lightning between you and your minions that deal damage");
 			tooltips.Add(aga2);
 		}
+
 		public override void UpdateEquip(Player player)
 		{
 			player.GetSpiritPlayer().moonlightSack = true;

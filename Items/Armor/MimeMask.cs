@@ -12,6 +12,7 @@ namespace SpiritMod.Items.Armor
 			DisplayName.SetDefault("Mime Mask");
 			Tooltip.SetDefault("Increases summon damage by 3%\nIncreases your max number of minions");
 
+			ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
 		}
 
 		public override void SetDefaults()
@@ -25,10 +26,8 @@ namespace SpiritMod.Items.Armor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.minionDamage += 0.03f;
+			player.GetDamage(DamageClass.Summon) += 0.03f;
 			player.maxMinions += 1;
 		}
-
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawHair = true;
 	}
 }

@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.rangedCrit +=(6);
+			player.GetCritChance(DamageClass.Ranged) +=(6);
 		}
 
 		public override void UpdateArmorSet(Player player)

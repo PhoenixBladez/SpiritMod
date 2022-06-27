@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.meleeCrit += 5;
+			player.GetCritChance(DamageClass.Melee) += 5;
 			player.moveSpeed += .1f;
 		}
 

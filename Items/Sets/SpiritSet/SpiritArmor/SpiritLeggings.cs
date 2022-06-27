@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.SpiritSet.SpiritArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.meleeSpeed += 0.10f;
+			player.GetAttackSpeed(DamageClass.Melee) += 0.10f;
 		}
 		public override void AddRecipes()
 		{

@@ -24,8 +24,8 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 
 		public override void SafeUpdateAccessory(Player player, bool hideVisual)
 		{
-			player.meleeSpeed += 0.1f;
-			player.meleeDamage += 0.1f;
+			player.GetAttackSpeed(DamageClass.Melee) += 0.1f;
+			player.GetDamage(DamageClass.Melee) += 0.1f;
 			player.kbGlove = true;
 		}
 

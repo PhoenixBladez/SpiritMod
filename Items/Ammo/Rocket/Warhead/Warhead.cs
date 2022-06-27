@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 			Item.shootSpeed = 6;
 		}
 
-		public override void PickAmmo(Item weapon, Player player, ref int type, ref float speed, ref int damage, ref float knockback)
+		public override void PickAmmo(Item weapon, Player player, ref int type, ref float speed, ref StatModifier damage, ref float knockback)
 		{
 			switch (weapon.type) {
 				case ItemID.ProximityMineLauncher:
@@ -79,7 +79,7 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 
 		public override void ExplodeEffect()
 		{
-			SoundEngine.PlaySound(new LegacySoundStyle(soundId: SoundID.Item, style: 14).WithPitchVariance(0.1f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item14 with { PitchVariance = 0.1f }, Projectile.Center);
 			for (int i = 0; i < 10; i++)
 			{
 				Vector2 offset = Main.rand.NextVector2Circular(50, 50);
@@ -150,7 +150,7 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 				Vector2 drawpos = Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition;
 				float opacity = (ProjectileID.Sets.TrailCacheLength[Projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[Projectile.type];
 				opacity *= 0.4f;
-				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawpos, null, Projectile.GetAlpha(lightColor) * opacity, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawpos, null, Projectile.GetAlpha(lightColor) * opacity, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
 			}
 			return true;
 		}

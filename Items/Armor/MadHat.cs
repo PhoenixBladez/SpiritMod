@@ -38,8 +38,8 @@ namespace SpiritMod.Items.Armor
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.magicCrit += 8;
-			player.magicDamage += 0.1f;
+			player.GetCritChance(DamageClass.Magic) += 8;
+			player.GetDamage(DamageClass.Magic) += 0.1f;
 		}
 	}
 }

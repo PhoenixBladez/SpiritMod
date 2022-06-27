@@ -133,9 +133,8 @@ namespace SpiritMod.Tiles
 				(ByPosition[position] as CrimsonPustuleTileEntity).Explode();
 		}
 
-		public override void NetSend(BinaryWriter writer, bool lightSend) => writer.Write(agitated);
-
-		public override void NetReceive(BinaryReader reader, bool lightReceive) => agitated = reader.ReadBoolean();
+		public override void NetSend(BinaryWriter writer) => writer.Write(agitated);
+		public override void NetReceive(BinaryReader reader) => agitated = reader.ReadBoolean();
 
 		// Detonates a pustule, damaging all players and npcs within its range, and killing the tile and tile entity
 		public void Explode()

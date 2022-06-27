@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Sets.DuskingDrops.DuskArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.rangedDamage = 1.10f;
+			player.GetDamage(DamageClass.Ranged) *= 1.10f;
 			player.ammoCost75 = true;
 		}
 		public override void AddRecipes()

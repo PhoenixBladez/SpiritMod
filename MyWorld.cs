@@ -838,7 +838,7 @@ namespace SpiritMod
 					|| tile.TileType == TileID.Grass
 					|| tile.TileType == TileID.Stone
 					|| tile.TileType == TileID.Mud
-					|| tile.TileType == TileID.FleshGrass
+					|| tile.TileType == TileID.CrimsonGrass
 					|| tile.TileType == TileID.CorruptGrass
 					|| tile.TileType == TileID.JungleGrass
 					|| tile.TileType == TileID.Sand

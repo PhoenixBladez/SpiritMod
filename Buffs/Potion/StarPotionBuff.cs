@@ -19,12 +19,12 @@ namespace SpiritMod.Buffs.Potion
 			modPlayer.starBuff = true;
 
 			if (player.velocity.X != 0) {
-				player.rangedDamage += 0.04f;
-				player.rangedCrit += 4;
+				player.GetDamage(DamageClass.Ranged) += 0.04f;
+				player.GetCritChance(DamageClass.Ranged) += 4;
 			}
 			else if (player.velocity.Y != 0) {
-				player.rangedDamage += 0.04f;
-				player.rangedCrit += 4;
+				player.GetDamage(DamageClass.Ranged) += 0.04f;
+				player.GetCritChance(DamageClass.Ranged) += 4;
 			}
 		}
 	}

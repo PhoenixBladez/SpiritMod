@@ -37,8 +37,8 @@ namespace SpiritMod.Items.Sets.AtlasDrops.PrimalstoneArmor
 		{
 			player.endurance += 0.08f;
 			player.statManaMax2 += 60;
-			player.meleeDamage += .2f;
-			player.magicDamage += .2f;
+			player.GetDamage(DamageClass.Melee) += .2f;
+			player.GetDamage(DamageClass.Magic) += .2f;
 		}
 
 		public override void AddRecipes()

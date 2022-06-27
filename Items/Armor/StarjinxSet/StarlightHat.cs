@@ -15,6 +15,9 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			DisplayName.SetDefault("Starlight Hat");
 			Tooltip.SetDefault("12% increased magic damage and 6% increased magic critical strike chance");
 			SpiritGlowmask.AddGlowMask(Item.type, Texture + "_glow");
+
+			ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
+			ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
 		}
 		public override void SetDefaults()
         {
@@ -25,13 +28,10 @@ namespace SpiritMod.Items.Armor.StarjinxSet
             Item.defense = 7;
 		}
 
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawHair = drawAltHair = false;
-		public override bool DrawHead() => false;
-
 		public override void UpdateEquip(Player player)
 		{
-			player.magicDamage += 0.12f;
-			player.magicCrit += 6;
+			player.GetDamage(DamageClass.Magic) += 0.12f;
+			player.GetCritChance(DamageClass.Magic) += 6;
 		}
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) => glowMaskColor = Color.White * 0.75f;
 		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == Mod.Find<ModItem>("StarlightMantle").Type && legs.type == Mod.Find<ModItem>("StarlightSandals").Type;
@@ -42,11 +42,11 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 					  + "Running out of mana produces a manajinx pylon near you\n"
 					  + "Collecting the manajinx pylon restores all mana and temporarily enchants magic weapons with stars");
 			player.manaCost *= 1.5f;
-			MyPlayer modplayer = (MyPlayer)player.GetModPlayer(Mod, "MyPlayer");
+			MyPlayer modplayer = player.GetModPlayer<MyPlayer>();
 			modplayer.StarjinxSet = true;
 			if (Main.rand.Next(30) == 0)
 		    {
-				int gore = Gore.NewGore(player.position + new Vector2(Main.rand.Next(player.width), Main.rand.Next(player.height)), 
+				int gore = Gore.NewGore(player.GetSource_Accessory(Item, "Armor"), player.position + new Vector2(Main.rand.Next(player.width), Main.rand.Next(player.height)), 
 					player.velocity / 2 + Main.rand.NextVector2Circular(1, 1), 
 					Mod.Find<ModGore>("Gores/StarjinxGore").Type, 
 					Main.rand.NextFloat(0.25f, 0.75f));

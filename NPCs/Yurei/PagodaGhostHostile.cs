@@ -76,7 +76,7 @@ namespace SpiritMod.NPCs.Yurei
 				Gore.NewGore(NPC.position, NPC.velocity, 99);
 				Gore.NewGore(NPC.position, NPC.velocity, 99);
 				for (int i = 0; i < 40; i++) {
-					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Rainbow, 0f, -2f, 0, new Color(0, 255, 142), .6f);
+					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.RainbowTorch, 0f, -2f, 0, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
 					Dust dust = Main.dust[num];
 					dust.position.X = dust.position.X + ((Main.rand.Next(-50, 51) / 20) - 1.5f);

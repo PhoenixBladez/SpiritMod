@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.RunicSet.RunicArmor
 		public override void UpdateEquip(Player player)
 		{
 			player.manaCost -= 0.11f;
-			player.magicDamage += 0.1f;
+			player.GetDamage(DamageClass.Magic) += 0.1f;
 
 
 		}

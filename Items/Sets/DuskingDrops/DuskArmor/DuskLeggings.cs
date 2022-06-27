@@ -25,9 +25,9 @@ namespace SpiritMod.Items.Sets.DuskingDrops.DuskArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.magicCrit += 7;
-			player.rangedCrit += 7;
-			player.meleeCrit += 7;
+			player.GetCritChance(DamageClass.Magic) += 7;
+			player.GetCritChance(DamageClass.Ranged) += 7;
+			player.GetCritChance(DamageClass.Melee) += 7;
 		}
 		public override void AddRecipes()
 		{

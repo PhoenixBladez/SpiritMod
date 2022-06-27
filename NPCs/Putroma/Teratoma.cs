@@ -6,6 +6,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Putroma
 {
@@ -56,40 +57,33 @@ namespace SpiritMod.NPCs.Putroma
 			}
 
 			if (Main.rand.Next(2) == 0) {
-				SoundEngine.PlaySound(SoundID.NPCHit, NPC.Center, 19);
+				SoundEngine.PlaySound(SoundID.NPCHit19, NPC.Center);
 				int tomaProj;
 				tomaProj = Main.rand.Next(new int[] { ModContent.ProjectileType<Teratoma1>(), ModContent.ProjectileType<Teratoma2>(), ModContent.ProjectileType<Teratoma3>() });
 				SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
 				int damagenumber = Main.expertMode ? 9 : 12;
-				int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, Main.rand.Next(-4, 4), Main.rand.Next(-4, 0), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
+				int p = Projectile.NewProjectile(NPC.GetSource_OnHit(NPC), NPC.Center.X, NPC.Center.Y, Main.rand.Next(-4, 4), Main.rand.Next(-4, 0), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
 				Main.projectile[p].friendly = false;
 				Main.projectile[p].hostile = true;
 			}
 
 			if (NPC.life <= 0) {
 				for (int i = 1; i < 8; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma" + i).Type, Main.rand.NextFloat(.85f, 1.1f));
-				SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, 9);
+					Gore.NewGore(NPC.GetSource_OnHit(NPC), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma" + i).Type, Main.rand.NextFloat(.85f, 1.1f));
+				SoundEngine.PlaySound(SoundID.Zombie9, NPC.Center);
 			}
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return spawnInfo.Player.ZoneCorrupt && spawnInfo.Player.ZoneOverworldHeight ? .2f : 0f;
 		}
-        public override void OnKill()
-        {
-            if (Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.RottenChunk);
-            }
-            if (Main.rand.NextBool(5))
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.WormTooth);
-            }
-            if (Main.rand.NextBool(16))
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Meatballs>());
-            }
-        }
-    }
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.Add(ItemDropRule.Common(ItemID.RottenChunk, 3));
+			npcLoot.Add(ItemDropRule.Common(ItemID.WormTooth, 5));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Meatballs>(), 16));
+		}
+	}
 }

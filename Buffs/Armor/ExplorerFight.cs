@@ -15,7 +15,7 @@ namespace SpiritMod.Buffs.Armor
 		public override void Update(Player player, ref int buffIndex)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			player.allDamage += modPlayer.damageStacks * 0.03f;
+			player.GetDamage(DamageClass.Generic) += modPlayer.damageStacks * 0.03f;
 		}
 
 		public override bool ReApply(Player player, int time, int buffIndex)

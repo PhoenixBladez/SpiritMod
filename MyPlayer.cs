@@ -2485,7 +2485,7 @@ namespace SpiritMod
 						for (int i = 0; i < 2; i++)
 						{
 							AuroraStagMount.MakeStar(Main.rand.NextFloat(0.1f, 0.2f), Player.Center);
-							Dust dust = Dust.NewDustDirect(Player.position - new Vector2(40, 0), Player.width + 80, Player.height, DustID.Rainbow, Player.velocity.X * Main.rand.NextFloat(), 0, 200, AuroraStagMount.AuroraColor * 0.8f, Main.rand.NextFloat(0.9f, 1.3f));
+							Dust dust = Dust.NewDustDirect(Player.position - new Vector2(40, 0), Player.width + 80, Player.height, DustID.RainbowTorch, Player.velocity.X * Main.rand.NextFloat(), 0, 200, AuroraStagMount.AuroraColor * 0.8f, Main.rand.NextFloat(0.9f, 1.3f));
 							dust.fadeIn = 0.4f;
 							dust.noGravity = true;
 							if (Player.miscDyes[3] != null && Player.miscDyes[3].active)

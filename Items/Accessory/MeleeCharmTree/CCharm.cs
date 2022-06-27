@@ -24,10 +24,7 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.meleeCrit += 6;
-			player.rangedCrit += 6;
-			player.magicCrit += 6;
-			player.thrownCrit += 6;
+			player.GetCritChance(DamageClass.Generic) += 6;
 		}
 
 		public override void AddRecipes()

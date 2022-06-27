@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Sets.RunicSet.RunicArmor
 
 		public override void UpdateEquip(Player player)
 		{
-			player.magicDamage *= 1.12f;
+			player.GetDamage(DamageClass.Magic) *= 1.12f;
 			player.moveSpeed += 1.05f;
 		}
 		public override void AddRecipes()

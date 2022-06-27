@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 			Item.value = Item.sellPrice(0, 0, 30, 0);
 		}
 
-		public override void SafeUpdateAccessory(Player player, bool hideVisual) => player.meleeSpeed += 0.07f;
+		public override void SafeUpdateAccessory(Player player, bool hideVisual) => player.GetAttackSpeed(DamageClass.Melee) += 0.07f;
 
 		public override void AddRecipes()
 		{

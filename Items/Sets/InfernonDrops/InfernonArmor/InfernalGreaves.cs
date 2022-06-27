@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Sets.InfernonDrops.InfernonArmor
 		}
 		public override void UpdateEquip(Player player)
 		{
-			player.magicCrit += 7;
+			player.GetCritChance(DamageClass.Magic) += 7;
 			player.manaCost -= 0.10f;
 		}
 		public override void AddRecipes()

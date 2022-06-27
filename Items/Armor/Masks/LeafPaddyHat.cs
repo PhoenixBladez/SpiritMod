@@ -9,6 +9,7 @@ namespace SpiritMod.Items.Armor.Masks
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rice Paddy Hat");
+			ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
 		}
 
 		public override void SetDefaults()
@@ -20,8 +21,5 @@ namespace SpiritMod.Items.Armor.Masks
 			Item.rare = ItemRarityID.Blue;
 			Item.vanity = true;
 		}
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-            => drawAltHair = true;
-
     }
 }

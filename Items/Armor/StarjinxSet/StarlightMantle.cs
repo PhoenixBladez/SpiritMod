@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 
 		public override void UpdateEquip(Player player)
 		{
-			player.magicDamage += 0.08f;
+			player.GetDamage(DamageClass.Magic) += 0.08f;
 			MyPlayer modplayer = player.GetModPlayer<MyPlayer>();
 			modplayer.WingTimeMaxMultiplier += 0.2f;
 		}

@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet.CryoliteArmor
 
 		public override void UpdateEquip(Player player)
 		{
-            player.meleeSpeed += .08f;
+            player.GetAttackSpeed(DamageClass.Melee) += .08f;
 		}
 		public override void AddRecipes()
 		{

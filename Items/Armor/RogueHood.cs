@@ -39,10 +39,7 @@ namespace SpiritMod.Items.Armor
 
 			if (player.HasBuff(ModContent.BuffType<RogueCooldown>())) {
 				if (player.HasBuff(BuffID.Invisibility)) {
-					player.rangedDamage += 1f;
-					player.meleeDamage += 1f;
-					player.magicDamage += 1f;
-					player.minionDamage += 1f;
+					player.GetDamage(DamageClass.Generic) += 1f;
 				}
 			}
 		}

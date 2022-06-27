@@ -63,8 +63,8 @@ namespace SpiritMod.Mounts
 			MountData.swimFrameDelay = MountData.inAirFrameDelay;
 			MountData.swimFrameStart = MountData.inAirFrameStart;
 			if (Main.netMode != NetmodeID.Server) {
-				MountData.textureWidth = MountData.backTexture.Width;
-				MountData.textureHeight = MountData.backTexture.Height;
+				MountData.textureWidth = MountData.backTexture.Width();
+				MountData.textureHeight = MountData.backTexture.Height();
 			}
 		}
 

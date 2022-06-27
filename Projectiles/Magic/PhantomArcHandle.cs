@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,7 +31,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void PostDraw(Color lightColor)
 		{
 			float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-			Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), (Projectile.Center - Main.screenPosition), null, new Color((int)(2.5f * sineAdd), (int)(5.5f * sineAdd), (int)(6f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(TextureAssets.Extra[49].Value, (Projectile.Center - Main.screenPosition), null, new Color((int)(2.5f * sineAdd), (int)(5.5f * sineAdd), (int)(6f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
 		}
 		public override bool PreAI()
 		{
@@ -45,7 +46,7 @@ namespace SpiritMod.Projectiles.Magic
 			else if (Projectile.ai[0] > 90f)
 				num26 = 15f;
 
-			Projectile.damage = (int)(player.inventory[player.selectedItem].damage * player.magicDamage);
+			Projectile.damage = (int)(player.GetDamage(DamageClass.Magic).ApplyTo(player.inventory[player.selectedItem].damage));
 			Projectile.ai[0]++;
 			Projectile.ai[1]++;
 			bool flag9 = false;
@@ -85,7 +86,7 @@ namespace SpiritMod.Projectiles.Magic
 				Projectile.soundDelay = num27;
 				Projectile.soundDelay *= 2;
 				if (Projectile.ai[0] != 1f)
-					SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 15);
+					SoundEngine.PlaySound(SoundID.Item15, Projectile.Center);
 
 			}
 
@@ -100,7 +101,7 @@ namespace SpiritMod.Projectiles.Magic
 							vector12 = -Vector2.UnitY;
 
 						int num29 = Projectile.damage;
-						Projectile.NewProjectile(center3.X, center3.Y, vector12.X, vector12.Y, ModContent.ProjectileType<PhantomArc>(),
+						Projectile.NewProjectile(Projectile.GetSource_FromAI(), center3.X, center3.Y, vector12.X, vector12.Y, ModContent.ProjectileType<PhantomArc>(),
 							   num29, Projectile.knockBack, Projectile.owner, 0, Projectile.whoAmI);
 						Projectile.netUpdate = true;
 					}
@@ -126,6 +127,5 @@ namespace SpiritMod.Projectiles.Magic
 			player.itemRotation = (float)Math.Atan2(Projectile.velocity.Y * Projectile.direction, Projectile.velocity.X * Projectile.direction);
 			return false;
 		}
-
 	}
 }

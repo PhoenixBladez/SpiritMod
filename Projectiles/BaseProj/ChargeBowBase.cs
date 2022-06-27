@@ -124,7 +124,7 @@ namespace SpiritMod.Projectiles.BaseProj
 		{
 			Player player = Main.player[Projectile.owner];
 			float velocity = LerpFloat(minVelocity, maxVelocity, charge);
-			int damage = (int)(LerpFloat(minDamage, maxDamage, charge) * player.rangedDamage) + Projectile.damage;
+			int damage = (int)(LerpFloat(minDamage, maxDamage, charge) * player.GetDamage(DamageClass.Ranged)) + Projectile.damage;
 			SoundEngine.PlaySound(soundtype, Projectile.Center);
 			return Projectile.NewProjectile(player.Center, direction * velocity, AmmoType, damage, Projectile.knockBack, Projectile.owner, (charge >= 1) ? 1 : 0);
 		}
