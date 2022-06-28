@@ -69,8 +69,10 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 				RotationOffset = -Projectile.spriteDirection * ((Charge < maxcharge) ? Main.rand.NextFloat(0.35f, 0.45f) * Charge : MathHelper.Pi);
 				Projectile.netUpdate = true;
 
-				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/SwordSlash1").WithPitchVariance(0.6f).WithVolume(0.8f), ownerMountedCenter);
-				SoundEngine.PlaySound(projOwner.HeldItem.UseSound, ownerMountedCenter);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/SwordSlash1") with { PitchVariance = 0.6f, Volume = 0.8f }, ownerMountedCenter);
+
+				if (projOwner.HeldItem.UseSound.HasValue)
+					SoundEngine.PlaySound(projOwner.HeldItem.UseSound.Value, ownerMountedCenter);
 			}
 
 			//move the projectile from the player's center to where it would be for a swing
@@ -85,7 +87,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 				var proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * 6, ModContent.ProjectileType<Talon_Projectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 				proj.netUpdate = true;
 				if (!Main.dedServ)
-					SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starCast").WithPitchVariance(0.3f), Projectile.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/starCast") with { PitchVariance = 0.3f }, Projectile.Center);
 			}
 
 			//set the owner's direction and item rotation, and the projectile's rotation
@@ -115,7 +117,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 		public override bool PreDraw(ref Color lightColor)
 		{
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
-			Texture2D glowTex = ModContent.Request<Texture2D>(Texture + "_glow");
+			Texture2D glowTex = ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			SpriteEffects effects = (Projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
 			Vector2 origin = Projectile.Size / 2;

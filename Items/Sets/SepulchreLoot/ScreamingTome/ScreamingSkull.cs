@@ -99,7 +99,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 				Projectile.ai[1] = 1;
 
 				if (Main.netMode != NetmodeID.Server)
-					SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f).WithVolume(0.33f), Projectile.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/skullscrem") with { PitchVariance = 0.2f, Volume = 0.33f }, Projectile.Center);
 			}
 			else
 				Lighting.AddLight(player.position, 0f, 0.5f, 0f);
@@ -125,15 +125,15 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 			 Starjinx.YuyutsuShader.CurrentTechnique.Passes[0].Apply();*/
 			Color bloomColor = Color.DarkGreen;
 			bloomColor.A = 0;
-			Main.spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/Extra_49"), Projectile.Center - Main.screenPosition, null, bloomColor, 0f, new Vector2(50,50), 0.35f, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(TextureAssets.Extra[49].Value, Projectile.Center - Main.screenPosition, null, bloomColor, 0f, new Vector2(50,50), 0.35f, SpriteEffects.None, 0f);
 
 			Vector2 center = new Vector2((float)(TextureAssets.Projectile[Projectile.type].Value.Width / 2), (float)(TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type] / 2));
 			SpriteEffects spriteEffects3 = (Projectile.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 			Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
 			int frameHeight = texture.Height / Main.projFrames[Projectile.type];
 			Rectangle frameRect = new Rectangle(0, Projectile.frame * frameHeight, texture.Width, frameHeight);
-			Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frameRect, drawColor, 0f, center, 1, spriteEffects3, 0f);
-			Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glow"), Projectile.Center - Main.screenPosition, frameRect, Color.White, 0f, center, 1, spriteEffects3, 0f);
+			Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frameRect, lightColor, 0f, center, 1, spriteEffects3, 0f);
+			Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, Projectile.Center - Main.screenPosition, frameRect, Color.White, 0f, center, 1, spriteEffects3, 0f);
 
 			//Main.spriteBatch.End();
 			//Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -150,13 +150,11 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 3, 1f, 0f); 
+			SoundEngine.PlaySound(SoundID.NPCDeath3, Projectile.Center); 
 
 			for (int i = 0; i <= 3; i++) {
-				Gore gore = Gore.NewGoreDirect(Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)),
-					Main.rand.NextVector2Circular(-1, 1),
-					Mod.Find<ModGore>("Gores/Skelet/bonger" + Main.rand.Next(1, 5)).Type,
-					Projectile.scale);
+				Gore gore = Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)),
+					Main.rand.NextVector2Circular(-1, 1), Mod.Find<ModGore>("Gores/Skelet/bonger" + Main.rand.Next(1, 5)).Type, Projectile.scale);
 				gore.timeLeft = 20;
 			}
 		}

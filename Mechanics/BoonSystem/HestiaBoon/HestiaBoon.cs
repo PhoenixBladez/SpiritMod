@@ -83,9 +83,9 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 
 		public void DrawBoonBeam(Vector2 targetPos)
 		{
-			Effect effect = SpiritMod.Instance.GetEffect("Effects/EmpowermentBeam");
+			Effect effect = ModContent.Request<Effect>("Effects/EmpowermentBeam", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-			effect.Parameters["uTexture"].SetValue(SpiritMod.Instance.GetTexture("Textures/Trails/Trail_2"));
+			effect.Parameters["uTexture"].SetValue(ModContent.Request<Texture2D>("Textures/Trails/Trail_2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			effect.Parameters["progress"].SetValue(Main.GlobalTimeWrappedHourly / 3);
 			effect.Parameters["uColor"].SetValue(new Color(247, 117, 42, 0).ToVector4());
 			effect.Parameters["uSecondaryColor"].SetValue(new Color(247, 195, 92, 0).ToVector4());
@@ -122,7 +122,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 
 						if (rune.inFront == true)
 						{
-							Texture2D tex2 = ModContent.Request<Texture2D>("SpiritMod/Mechanics/BoonSystem/HestiaBoon/HestiaRune");
+							Texture2D tex2 = ModContent.Request<Texture2D>("SpiritMod/Mechanics/BoonSystem/HestiaBoon/HestiaRune", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 							Color color = new Color(247, 117, 42, 0);
 
@@ -186,7 +186,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 
 					if (rune.inFront == false)
 					{
-						Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Mechanics/BoonSystem/HestiaBoon/HestiaRune");
+						Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Mechanics/BoonSystem/HestiaBoon/HestiaRune", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 						Color color = new Color(247, 117, 42, 0);
 

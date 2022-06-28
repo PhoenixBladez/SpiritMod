@@ -55,19 +55,19 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 		{
 			Vector2 direction = velocity;
 			SoundEngine.PlaySound(SoundID.Item1 with { PitchVariance = 0.5f }, player.Center);
-			Projectile proj = Projectile.NewProjectileDirect(position + (direction * 20) + (direction.RotatedBy(-1.57f * player.direction) * 20), Vector2.Zero, type, damage, knockback, player.whoAmI);
+			Projectile proj = Projectile.NewProjectileDirect(source, position + (direction * 20) + (direction.RotatedBy(-1.57f * player.direction) * 20), Vector2.Zero, type, damage, knockback, player.whoAmI);
 			var mp = proj.ModProjectile as CurseBreakerProj;
 			mp.Phase = charge % 3;
 
 			if (charge % 3 != 0)
-				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SwordSlash1").WithPitchVariance(0.6f).WithVolume(0.8f), player.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/SwordSlash1") with { PitchVariance = 0.6f, Volume = 0.8f }, player.Center);
 
 			charge++;
 
 			if (charge % 3 != 0)
-				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SwordSlash1").WithPitchVariance(0.6f).WithVolume(0.8f), player.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/SwordSlash1") with { PitchVariance = 0.6f, Volume = 0.8f }, player.Center);
 			else
-				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PowerSlash1").WithPitchVariance(0.2f).WithVolume(0.6f), player.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/PowerSlash1") with { PitchVariance = 0.2f, Volume = 0.6f }, player.Center);
 			return false;
 		}
 
@@ -304,7 +304,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			float progress = GetProgress();
 			if (Empowered)
 			{
-				Texture2D tex3 = ModContent.Request<Texture2D>(Texture + "_Flare", AssetRequestMode.ImmediateLoad);
+				Texture2D tex3 = ModContent.Request<Texture2D>(Texture + "_Flare", AssetRequestMode.ImmediateLoad).Value;
 				for (float i = 0; i < 6.28f; i += 1.57f)
 					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition + (rotation.ToRotationVector2() * 75 * Projectile.scale), null, Color.White, i + (Main.GlobalTimeWrappedHourly * 1.5f), new Vector2(tex3.Width, 0) / 2, 0.5f * (float)Math.Pow(1 - progress, 2), SpriteEffects.None, 0f);
 			}
@@ -438,7 +438,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			{
 				target.StrikeNPC(Projectile.damage, 0, 0);
 
-				Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<CurseBreak>(), 0, 0, Projectile.owner, target.whoAmI);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), target.Center, Vector2.Zero, ModContent.ProjectileType<CurseBreak>(), 0, 0, Projectile.owner, target.whoAmI);
 				SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, Projectile.Center);
 			}
 		}

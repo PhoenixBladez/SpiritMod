@@ -51,21 +51,19 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 					Projectile.timeLeft = 15;
 			}
 		}
-        public void AdditiveCall(SpriteBatch spriteBatch)
-        {
-            {
-                for (int k = 0; k < 1; k++)
-                {
-                    Color color = Color.White * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
+		public void AdditiveCall(SpriteBatch spriteBatch)
+		{
+			for (int k = 0; k < 1; k++)
+			{
+				Color color = Color.White * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 
-                    float scale = Projectile.scale;
-                    Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/Boss/MoonWizardTwo/Projectiles/MysticWizardBall_Glow");
+				float scale = Projectile.scale;
+				Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/Boss/MoonWizardTwo/Projectiles/MysticWizardBall_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-                    spriteBatch.Draw(tex, Projectile.oldPos[k] + tex.Size() / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
-                    //spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
-                }
-            }
-        }
+				spriteBatch.Draw(tex, Projectile.oldPos[k] + tex.Size() / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
+				//spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
+			}
+		}
 		public override void Kill(int timeLeft)
         {
 			float speed = Small ? 1.25f : 3;

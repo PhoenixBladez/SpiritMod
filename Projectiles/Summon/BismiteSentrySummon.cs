@@ -90,9 +90,8 @@ namespace SpiritMod.Projectiles.Summon
 						}
 						if (Main.netMode != NetmodeID.MultiplayerClient) {
 
-							int proj2 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y - 13, direction.X, direction.Y, ModContent.ProjectileType<BismiteShot>(), Projectile.damage, 0, Main.myPlayer);
-							Main.projectile[proj2].ranged = false;
-							Main.projectile[proj2].minion = true;
+							int proj2 = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y - 13, direction.X, direction.Y, ModContent.ProjectileType<BismiteShot>(), Projectile.damage, 0, Main.myPlayer);
+							Main.projectile[proj2].DamageType = DamageClass.Summon;
 						}
 						
 						SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact, Projectile.Center);  //make bow shooty sound
@@ -118,8 +117,7 @@ namespace SpiritMod.Projectiles.Summon
 						if (Main.netMode != NetmodeID.MultiplayerClient) {
 
 							int proj2 = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y - 13, direction.X, direction.Y, ModContent.ProjectileType<BismiteShot>(), Projectile.damage, 0, Main.myPlayer);
-							Main.projectile[proj2].ranged = false;
-							Main.projectile[proj2].minion = true;
+							Main.projectile[proj2].DamageType = DamageClass.Summon;
 						}
 						
 						SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact, Projectile.Center);  //make bow shooty sound
@@ -151,8 +149,7 @@ namespace SpiritMod.Projectiles.Summon
                 Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y,
                     velocity.X, velocity.Y, ModContent.ProjectileType<BismiteShard>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
-                Main.projectile[proj].minion = true;
-                Main.projectile[proj].magic = false;
+                Main.projectile[proj].DamageType = DamageClass.Summon;
                 Main.projectile[proj].velocity *= 1.5f;
                 Main.projectile[proj].timeLeft = 120;
                 Main.projectile[proj].hide = true;
@@ -161,7 +158,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.DD2_WitherBeastHurt, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.DD2_WitherBeastHurt, Projectile.Center);
 
 			for (int i = 0; i < 10; i++) {
 				int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Plantera_Green, 0f, -2f, 0, default, 1.5f);

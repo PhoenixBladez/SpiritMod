@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			}
 			if (Projectile.timeLeft < 585 && Projectile.timeLeft % 3 == 0 && Projectile.timeLeft > 500) 
 			{
-				Projectile.NewProjectile(Projectile.Center, throwLine * (dist / 20), ModContent.ProjectileType<MoonPredictorTrail>(), 0, 0);
+				Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, throwLine * (dist / 20), ModContent.ProjectileType<MoonPredictorTrail>(), 0, 0);
 			}
 			if (Projectile.timeLeft <= 500 && Projectile.timeLeft > 464) {
 				radians += 0.0872664626f;
@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 				if (Projectile.timeLeft % 4 == 0) 
 				{
 					DustHelper.DrawElectricity(Projectile.Center, initialPos, 226, 0.6f, 30, default, 0.3f);
-					int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, distance.X * 30, distance.Y * 30, ModContent.ProjectileType<MoonLightning>(), 30, 0);
+					int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, distance.X * 30, distance.Y * 30, ModContent.ProjectileType<MoonLightning>(), 30, 0);
 					Main.projectile[proj].timeLeft = (int)(electricDist / 30);
 				}
 			}

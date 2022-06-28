@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Returning
 					perturbedSpeed.Normalize();
 					perturbedSpeed.X *= 2.5f;
 					perturbedSpeed.Y *= 2.5f;
-					Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.Spark, Projectile.damage / 2, 2, Projectile.owner);
+					Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.Spark, Projectile.damage / 2, 2, Projectile.owner);
 				}
 			}
 		}
@@ -70,7 +70,7 @@ namespace SpiritMod.Projectiles.Returning
 			for(int i = 0; i < ProjectileID.Sets.TrailCacheLength[Projectile.type]; i++) {
 				float opacity = (ProjectileID.Sets.TrailCacheLength[Projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[Projectile.type];
 				opacity *= 0.5f;
-				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.oldPos[i] + Projectile.Size/2 - Main.screenPosition, null, Projectile.GetAlpha(lightColor) * opacity, Projectile.oldRot[i],
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.oldPos[i] + Projectile.Size/2 - Main.screenPosition, null, Projectile.GetAlpha(lightColor) * opacity, Projectile.oldRot[i],
 					TextureAssets.Projectile[Projectile.type].Value.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 			}
 			return true;

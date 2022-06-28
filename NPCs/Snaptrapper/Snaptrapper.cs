@@ -46,7 +46,7 @@ namespace SpiritMod.NPCs.Snaptrapper
 		}
         public override bool PreKill()
         {
-            SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+            SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.Center);
             MyWorld.downedSnaptrapper = true;
             return true;
         }
@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.Snaptrapper
         {
             for (int i = 0; i < 6; i++)
             {
-                int a = Gore.NewGore(new Vector2(NPC.Center.X + Main.rand.Next(-10, 10), NPC.Center.Y + Main.rand.Next(-10, 10)), NPC.velocity, 911);
+                int a = Gore.NewGore(NPC.GetSource_OnHit(NPC), new Vector2(NPC.Center.X + Main.rand.Next(-10, 10), NPC.Center.Y + Main.rand.Next(-10, 10)), NPC.velocity, 911);
                 Main.gore[a].timeLeft = 20;
                 Main.gore[a].scale = Main.rand.NextFloat(.5f, 1f);
             }
@@ -71,18 +71,18 @@ namespace SpiritMod.NPCs.Snaptrapper
             {
                 for (int j = 0; j < 12; j++)
                 {
-                    int a = Gore.NewGore(new Vector2(NPC.Center.X + Main.rand.Next(-10, 10), NPC.Center.Y + Main.rand.Next(-10, 10)), NPC.velocity, 911);
+                    int a = Gore.NewGore(NPC.GetSource_Death(), new Vector2(NPC.Center.X + Main.rand.Next(-10, 10), NPC.Center.Y + Main.rand.Next(-10, 10)), NPC.velocity, 911);
                     Main.gore[a].timeLeft = 20;
                     Main.gore[a].scale = Main.rand.NextFloat(.5f, 1f);
                 }
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Snaptrapper/Snaptrapper1").Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Snaptrapper/Snaptrapper1").Type, 1f);
                 for (int k = 0; k < 6; k++)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Snaptrapper/Snaptrapper2").Type, Main.rand.NextFloat(.6f, 1f));
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Snaptrapper/Snaptrapper2").Type, Main.rand.NextFloat(.6f, 1f));
                 }
                 for (int z = 0; z < 2; z++)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Snaptrapper/Snaptrapper3").Type, Main.rand.NextFloat(.8f, 1f));
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Snaptrapper/Snaptrapper3").Type, Main.rand.NextFloat(.8f, 1f));
                 }
             }
         }
@@ -163,7 +163,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                 }
                 if (NPC.localAI[1] == 360)
                 {
-                    SoundEngine.PlaySound(SoundID.Grass, (int)NPC.position.X, (int)NPC.position.Y, 0);
+                    SoundEngine.PlaySound(SoundID.Grass, NPC.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int amountOfProjectiles = Main.rand.Next(2, 4);
@@ -171,7 +171,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                         {
                             float A = Main.rand.Next(-60, 60) * 0.05f;
                             float B = Main.rand.Next(-80, -10) * 0.05f;
-                            int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, -direction.Y + B, ModContent.ProjectileType<SnaptrapperSpore>(), 18, 1, Main.myPlayer, 0, 0);
+                            int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X + A, -direction.Y + B, ModContent.ProjectileType<SnaptrapperSpore>(), 18, 1, Main.myPlayer, 0, 0);
                             Main.projectile[p].hostile = true;
                             Main.projectile[p].friendly = false;
                         }
@@ -179,7 +179,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                 }
                 if (NPC.localAI[1] == 400)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCDeath, (int)NPC.position.X, (int)NPC.position.Y, 5);
+                    SoundEngine.PlaySound(SoundID.NPCDeath5, NPC.Center);
                 }
                 if (NPC.localAI[1] >= 400 && NPC.localAI[1] <= 530)
                 {
@@ -197,9 +197,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                         frame = 7;
                     }
 					else
-                    {
                         frame = 8;
-                    }
                 }
                 else
                 {
@@ -237,9 +235,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                 }
                 if (NPC.localAI[1] == 260)
                 {
-                    {
-                        SoundEngine.PlaySound(SoundID.Grass, (int)NPC.position.X, (int)NPC.position.Y, 0);
-                    }
+                    SoundEngine.PlaySound(SoundID.Grass, NPC.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int amountOfProjectiles = Main.rand.Next(3, 6);
@@ -247,7 +243,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                         {
                             float A = Main.rand.Next(-60, 60) * 0.05f;
                             float B = Main.rand.Next(-80, -10) * 0.05f;
-                            int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, -direction.Y + B, ModContent.ProjectileType<SnaptrapperSpore>(), 18, 1, Main.myPlayer, 0, 0);
+                            int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X + A, -direction.Y + B, ModContent.ProjectileType<SnaptrapperSpore>(), 18, 1, Main.myPlayer, 0, 0);
                             Main.projectile[p].hostile = true;
                             Main.projectile[p].friendly = false;
                         }
@@ -255,13 +251,13 @@ namespace SpiritMod.NPCs.Snaptrapper
                 }
 				if (NPC.localAI[1] == 300)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCDeath, (int)NPC.position.X, (int)NPC.position.Y, 5);
+                    SoundEngine.PlaySound(SoundID.NPCDeath5, NPC.Center);
                 }
                 if (NPC.localAI[1] >= 300 && NPC.localAI[1] <= 510)
                 {
                     if (NPC.collideY && Main.rand.Next(6) == 0)
                     {
-                        int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, Main.rand.Next(-2, 2), Main.rand.Next(-3, -1), ModContent.ProjectileType<SnaptrapperGas>(), 12, 1, Main.myPlayer, 0, 0);
+                        int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, Main.rand.Next(-2, 2), Main.rand.Next(-3, -1), ModContent.ProjectileType<SnaptrapperGas>(), 12, 1, Main.myPlayer, 0, 0);
                         Main.projectile[p].hostile = true;
                         Main.projectile[p].friendly = false;
                     }
@@ -295,9 +291,7 @@ namespace SpiritMod.NPCs.Snaptrapper
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
 			if (MyWorld.downedSnaptrapper)
-            {
                 return spawnInfo.Player.ZoneJungle && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Snaptrapper>()) && spawnInfo.Player.ZoneOverworldHeight ? 0.008125f : 0f;
-            }
             return spawnInfo.Player.ZoneJungle && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Snaptrapper>()) && spawnInfo.Player.ZoneOverworldHeight ? 0.036f : 0f;
         }
         public void ChargeFrames()
@@ -339,14 +333,10 @@ namespace SpiritMod.NPCs.Snaptrapper
                 if (NPC.collideY)
                 {
                     NPC.TargetClosest(true);
-                    if (NPC.oldVelocity.Y < 0f)
                     {
                         NPC.velocity.Y = 5f;
-                    }
                     else
-                    {
                         NPC.velocity.Y = NPC.velocity.Y - 2f;
-                    }
                     NPC.spriteDirection = NPC.direction;
                 }
                 if (NPC.velocity.Y > 4f)
@@ -355,9 +345,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                 }
                 NPC.velocity.Y = NPC.velocity.Y - 0.3f;
                 if (NPC.velocity.Y < -4f)
-                {
                     NPC.velocity.Y = -4f;
-                }
             }
             if (NPC.velocity.Y == 0f)
             {
@@ -369,12 +357,8 @@ namespace SpiritMod.NPCs.Snaptrapper
                 NPC.ai[3] = 0f;
                 NPC.velocity.X = NPC.velocity.X * 0.9f;
                 if ((double)NPC.velocity.X > -0.1 && (double)NPC.velocity.X < 0.1)
-                {
                     NPC.velocity.X = 0f;
-                }
-                {
-                    NPC.ai[0] += 5f;
-                }
+                NPC.ai[0] += 5f;
                 Vector2 vector416 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
                 float num2721 = Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width * 0.5f - vector416.X;
                 float num2720 = Main.player[NPC.target].position.Y + (float)Main.player[NPC.target].height * 0.5f - vector416.Y;

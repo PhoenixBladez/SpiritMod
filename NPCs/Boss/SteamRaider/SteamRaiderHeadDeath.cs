@@ -11,7 +11,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 {
 	public class SteamRaiderHeadDeath : ModNPC
 	{
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starplate Voyager");
@@ -60,16 +59,17 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			timeLeft--;
 			if (timeLeft <= 0) {
                 if (Main.expertMode) {
-					if (Main.netMode != NetmodeID.SinglePlayer) {
-						for (int i = 0; i < Main.maxPlayers; i++) {
+					if (Main.netMode != NetmodeID.SinglePlayer)
+					{
+						for (int i = 0; i < Main.maxPlayers; i++)
+						{
 							if (Main.player[i].active)
-                                playersActive++;  
-                        }
-                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SteamRaiderBag>(), playersActive);
-                    }
-					else { 
-                    NPC.DropBossBags();
+								playersActive++;
+						}
+						Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SteamRaiderBag>(), playersActive);
 					}
+					else
+						NPC.DropBossBags();
                 }
                 NPC.DropItem(ItemID.Heart);
 				NPC.DropItem(ItemID.Heart);
@@ -84,10 +84,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					NPC.DropItem(ModContent.ItemType<StarplateMask>(), 1f / 7);
 					NPC.DropItem(ModContent.ItemType<Trophy3>(), 1f / 10);
 				}
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Starplate/Starplate1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Starplate/Starplate2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Starplate/Starplate3").Type, 1f);
-				SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen, (int)NPC.position.X, (int)NPC.position.Y);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Starplate/Starplate1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Starplate/Starplate2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Starplate/Starplate3").Type, 1f);
+				SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen, NPC.Center);
 				//  Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
 				for (int i = 0; i < 90; i++) {
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, Main.rand.Next(-25, 25), Main.rand.Next(-13, 13));

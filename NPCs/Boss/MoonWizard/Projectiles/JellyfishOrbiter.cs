@@ -117,7 +117,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 
 			if (index != -1)
 			{
-				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 69);
+				SoundEngine.PlaySound(SoundID.Item69, Projectile.Center);
 				float speed = Main.expertMode ? Main.rand.NextFloat(15, 17) : Main.rand.NextFloat(11.5f, 12.5f);
 				Vector2 direction = Vector2.Normalize(Main.player[index].Center - Projectile.Center) * speed;
 				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, direction, ModContent.ProjectileType<JellyfishOrbiter_Projectile>(), Projectile.damage, 0, Main.myPlayer);

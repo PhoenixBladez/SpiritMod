@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.HauntedTome
 			NPC.aiStyle = -1;
 			NPC.value = 600;
 			NPC.knockBackResist = 1f;
-			NPC.HitSound = new LegacySoundStyle(SoundID.NPCHit, 15).WithPitchVariance(0.2f);
+			NPC.HitSound = SoundID.NPCHit15 with { PitchVariance = 0.2f };
 			NPC.DeathSound = SoundID.NPCDeath6;
 		}
 
@@ -102,7 +102,7 @@ namespace SpiritMod.NPCs.HauntedTome
 				AttackDict[Pattern[(int)AttackType]].Invoke(Main.player[NPC.target], NPC);
 
 				if (AiTimer % 30 == 0 && Main.netMode != NetmodeID.Server)
-						SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PageFlip").WithPitchVariance(0.2f), NPC.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/PageFlip") with { PitchVariance = 0.2f }, NPC.Center);
 
 				if (frame < 9)
 					UpdateFrame(12, 0, 9);
@@ -141,17 +141,10 @@ namespace SpiritMod.NPCs.HauntedTome
 
 			if(modnpc.AiTimer % 20 == 0) {
 				if (Main.netMode != NetmodeID.Server)
-					SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 104).WithPitchVariance(0.2f), npc.Center);
+					SoundEngine.PlaySound(SoundID.Item104 with { PitchVariance = 0.2f }, npc.Center);
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
-					Projectile.NewProjectileDirect(npc.Center,
-									-Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 2) * 3,
-									ModContent.ProjectileType<HauntedSkull>(),
-									NPCUtils.ToActualDamage(30, 1.5f),
-									1,
-									Main.myPlayer,
-									npc.whoAmI,
-									npc.target).netUpdate = true;
+					Projectile.NewProjectileDirect(npc.GetSource_FromAI(), npc.Center, -Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 2) * 3, ModContent.ProjectileType<HauntedSkull>(), NPCUtils.ToActualDamage(30, 1.5f), 1, Main.myPlayer, npc.whoAmI, npc.target).netUpdate = true;
 			}
 
 			if (modnpc.AiTimer == 340)
@@ -168,9 +161,9 @@ namespace SpiritMod.NPCs.HauntedTome
 
 				if (modnpc.AiTimer % 45 == 0) {
 				if (Main.netMode != NetmodeID.Server)
-					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/PaperRip"), npc.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/PageRip"), npc.Center);
 				if (Main.netMode != NetmodeID.MultiplayerClient)
-					Projectile.NewProjectileDirect(npc.Center,
+					Projectile.NewProjectileDirect(npc.GetSource_FromAI(), npc.Center,
 									-Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 4) * 3,
 									ModContent.ProjectileType<HauntedPaperPlane>(),
 									NPCUtils.ToActualDamage(24, 1.25f),
@@ -198,11 +191,11 @@ namespace SpiritMod.NPCs.HauntedTome
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/HauntedTomeGore1").Type, 1f);
 			}
 		}
 
@@ -214,18 +207,18 @@ namespace SpiritMod.NPCs.HauntedTome
 				NetMessage.SendData(MessageID.WorldData);
 
 			for (int i = 0; i < 8; i++)
-				Gore.NewGore(NPC.Center, Main.rand.NextVector2Circular(0.5f, 0.5f), 99, Main.rand.NextFloat(0.6f, 1.2f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(0.5f, 0.5f), 99, Main.rand.NextFloat(0.6f, 1.2f));
 
 			if (Main.netMode != NetmodeID.Server)
-				SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/DownedMiniboss"));
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.Center);
 		}
 
 		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1).Value + "_glow"));
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1).Value + "_mask"), Color.White * NPC.localAI[0]);
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1) + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1) + "_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, Color.White * NPC.localAI[0]);
 		}
 
 		public void RegisterToChecklist(out BossChecklistDataHandler.EntryType entryType, out float progression,
@@ -285,7 +278,7 @@ namespace SpiritMod.NPCs.HauntedTome
 				Projectile.localAI[0]++;
 				Projectile.timeLeft = 180;
 				if (Main.netMode != NetmodeID.Server)
-					SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f).WithVolume(0.33f), Projectile.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/skullscrem") with { PitchVariance = 0.2f, Volume = 0.33f }, Projectile.Center);
 			}
 
 			if(Projectile.localAI[1] == 0 && Main.netMode != NetmodeID.Server) {
@@ -330,7 +323,7 @@ namespace SpiritMod.NPCs.HauntedTome
 		{
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 			Rectangle drawFrame = new Rectangle(0, Projectile.frame * tex.Height / Main.projFrames[Projectile.type], tex.Width, tex.Height / Main.projFrames[Projectile.type]);
-			spriteBatch.Draw(tex,
+			Main.spriteBatch.Draw(tex,
 					Projectile.Center - Main.screenPosition,
 					drawFrame,
 					Projectile.GetAlpha(lightColor),
@@ -344,10 +337,10 @@ namespace SpiritMod.NPCs.HauntedTome
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 3, 1f, 0f); 
+			SoundEngine.PlaySound(SoundID.NPCDeath3, Projectile.Center); 
 
 			for (int i = 0; i <= 3; i++) {
-				Gore gore = Gore.NewGoreDirect(Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)),
+				Gore gore = Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)),
 					Main.rand.NextVector2Circular(-1, 1),
 					Mod.Find<ModGore>("Gores/Skelet/bonger" + Main.rand.Next(1, 5)).Type,
 					Projectile.scale);
@@ -417,7 +410,7 @@ namespace SpiritMod.NPCs.HauntedTome
 								Projectile.localAI[0]++;
 								Projectile.velocity = Projectile.DirectionTo(player.Center) * 12;
 								if (Main.netMode != NetmodeID.Server)
-									SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 1, 0.6f, 0.5f);
+									SoundEngine.PlaySound(SoundID.Item1 with { Volume = 0.5f }, Projectile.Center);
 
 								Projectile.netUpdate = true;
 							}
@@ -440,7 +433,7 @@ namespace SpiritMod.NPCs.HauntedTome
 			float scalemod = (Projectile.localAI[0] == 0) ? 0.5f : 1;
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 			Rectangle drawFrame = new Rectangle(0, Projectile.frame * tex.Height / Main.projFrames[Projectile.type], tex.Width, tex.Height / Main.projFrames[Projectile.type]);
-			spriteBatch.Draw(tex,
+			Main.spriteBatch.Draw(tex,
 					Projectile.Center - Main.screenPosition,
 					drawFrame,
 					Projectile.GetAlpha(lightColor),
@@ -456,7 +449,7 @@ namespace SpiritMod.NPCs.HauntedTome
 		{
 			Texture2D tex = Mod.Assets.Request<Texture2D>("NPCs/HauntedTome/HauntedPaperPlane_mask").Value;
 			Rectangle drawFrame = new Rectangle(0, Projectile.frame * tex.Height / Main.projFrames[Projectile.type], tex.Width, tex.Height / Main.projFrames[Projectile.type]);
-			spriteBatch.Draw(tex,
+			Main.spriteBatch.Draw(tex,
 					Projectile.Center - Main.screenPosition,
 					drawFrame,
 					Projectile.GetAlpha(Color.White) * Projectile.localAI[1],
@@ -467,6 +460,6 @@ namespace SpiritMod.NPCs.HauntedTome
 					0);
 		}
 
-		public override void Kill(int timeLeft) => Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/HauntedPaperPlane_gore").Type);
+		public override void Kill(int timeLeft) => Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/HauntedPaperPlane_gore").Type);
 	}
 }

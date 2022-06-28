@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -95,12 +96,12 @@ namespace SpiritMod.NPCs.FallingAsteroid
 					dust.scale += 8 * 0.03f;
 				}
 
-				SoundEngine.PlaySound(SoundID.NPCDeath, (int)NPC.position.X, (int)NPC.position.Y, 14, 1f, 0.0f);
+				SoundEngine.PlaySound(SoundID.NPCDeath14, NPC.Center);
 				NPC.ai[0] = -90;
 				NPC.netUpdate = true;
 
 				for (int k = 0; k < 10; k++)
-					Gore.NewGore(NPC.position, new Vector2(NPC.velocity.X * 0.5f, -NPC.velocity.Y * 0.5f), Main.rand.Next(61, 64), 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, new Vector2(NPC.velocity.X * 0.5f, -NPC.velocity.Y * 0.5f), Main.rand.Next(61, 64), 1f);
 				for (int k = 0; k < 20; k++)
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Torch, NPC.velocity.X * 2f, -NPC.velocity.Y * 2f, 150, new Color(), 1.2f);
 
@@ -225,7 +226,7 @@ namespace SpiritMod.NPCs.FallingAsteroid
 		{
 			if (NPC.life <= 0)
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/FallenAsteroid/FallenAsteroidGore" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/FallenAsteroid/FallenAsteroidGore" + i).Type, 1f);
 
 			for (int k = 0; k < 7; k++)
 			{
@@ -235,14 +236,13 @@ namespace SpiritMod.NPCs.FallingAsteroid
 			}
 		}
 
-		public override void OnKill()
-		{
-			if (Main.rand.Next(10) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 116, Main.rand.Next(2, 5));
+		//public override void OnKill()
+		//{
+		//	if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.StylistQuestMeteor>().IsActive && Main.rand.NextBool(3))
+		//		Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>());
+		//}
 
-			//if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.StylistQuestMeteor>().IsActive && Main.rand.NextBool(3))
-			//	Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>());
-		}
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemDropRule.Common(116, 10, 2, 4));
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
@@ -267,7 +267,7 @@ namespace SpiritMod.NPCs.FallingAsteroid
 					addWidth = 0f;
 				}
 
-				Texture2D tex = Main.extraTexture[55];
+				Texture2D tex = TextureAssets.Extra[55].Value;
 				Vector2 origin = new Vector2(tex.Width / 2, tex.Height / 8 + 14);
 
 				float num2 = -MathHelper.PiOver2 * NPC.rotation;

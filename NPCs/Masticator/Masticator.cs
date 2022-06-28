@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -119,9 +120,9 @@ namespace SpiritMod.NPCs.Masticator
 			{
 				if (Main.rand.NextFloat() < 0.331579f)
 				{
-						Vector2 position = NPC.Center;
-						int d = Dust.NewDust(NPC.position, NPC.width, NPC.height + 10, DustID.Plantera_Green, 0, 1f, 0, Color.Purple, 0.7f);
-						Main.dust[d].velocity *= .1f;
+					Vector2 position = NPC.Center;
+					int d = Dust.NewDust(NPC.position, NPC.width, NPC.height + 10, DustID.Plantera_Green, 0, 1f, 0, Color.Purple, 0.7f);
+					Main.dust[d].velocity *= .1f;
 				}
 				NPC.rotation = 0f;
 				NPC.velocity.X = .001f * NPC.direction;
@@ -157,7 +158,7 @@ namespace SpiritMod.NPCs.Masticator
 						NPC.velocity.Y -= .1f;
 						bool expertMode = Main.expertMode;
 						int damage = expertMode ? 12 : 15;
-						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y + 4, Main.rand.NextFloat(-.85f, .85f), Main.rand.NextFloat(4f, 6f), ModContent.ProjectileType<CorruptVomitProj>(), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 4, Main.rand.NextFloat(-.85f, .85f), Main.rand.NextFloat(4f, 6f), ModContent.ProjectileType<CorruptVomitProj>(), damage, 1, Main.myPlayer, 0, 0);
 						NPC.netUpdate = true;
 					}
 
@@ -171,7 +172,7 @@ namespace SpiritMod.NPCs.Masticator
 						int damagenumber = expertMode ? 12 : 17;
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y + 6, Main.rand.Next(-3, 3), Main.rand.NextFloat(1f, 3f), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
+							int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 6, Main.rand.Next(-3, 3), Main.rand.NextFloat(1f, 3f), tomaProj, damagenumber, 1, Main.myPlayer, 0, 0);
 							Main.projectile[p].penetrate = 1;
 						}
 					}
@@ -189,7 +190,7 @@ namespace SpiritMod.NPCs.Masticator
 				}
 
 				if (NPC.ai[3] == 180)
-					SoundEngine.PlaySound(SoundID.NPCDeath, NPC.Center, 13);
+					SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
 			}
 		}
 
@@ -204,26 +205,23 @@ namespace SpiritMod.NPCs.Masticator
 			}
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma1").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma2").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma3").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma4").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma5").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma6").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma7").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma5").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma6").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma7").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma1").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma2").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma3").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma4").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma5").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma6").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma7").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma5").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma6").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Teratoma/Teratoma7").Type, Main.rand.NextFloat(.85f, 1.1f));
 			}
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.NextBool(3))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.RottenChunk);
-
-			if (Main.rand.NextBool(5))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.WormTooth);
+			npcLoot.Add(ItemDropRule.Common(ItemID.RottenChunk, 3));
+			npcLoot.Add(ItemDropRule.Common(ItemID.WormTooth, 5));
 		}
 
 		public override void FindFrame(int frameHeight) => NPC.frame.Y = frame * frameHeight;

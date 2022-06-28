@@ -37,12 +37,12 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             alphaCounter += 0.04f;
 
 			if (Projectile.timeLeft > 20 && Projectile.timeLeft % 10 == 0)
-				Projectile.NewProjectile(Projectile.Center, new Vector2(0, 25), ModContent.ProjectileType<MoonPredictorTrail>(), 0, 0);
+				Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(0, 25), ModContent.ProjectileType<MoonPredictorTrail>(), 0, 0);
 
 			if (Projectile.timeLeft == 10)
 			{
-				SoundEngine.PlaySound(SoundID.Item, Projectile.position, 122);
-				int p = Projectile.NewProjectile(Projectile.Center + new Vector2(0, 500), Vector2.Zero, ModContent.ProjectileType<MoonThunder>(), Projectile.damage, 0);
+				SoundEngine.PlaySound(SoundID.Item112, Projectile.position);
+				int p = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + new Vector2(0, 500), Vector2.Zero, ModContent.ProjectileType<MoonThunder>(), Projectile.damage, 0);
                 Main.projectile[p].hostile = true;
                 Main.projectile[p].friendly = true;
             }

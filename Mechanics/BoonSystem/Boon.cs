@@ -12,7 +12,7 @@ namespace SpiritMod.Mechanics.BoonSystem
 	public abstract class Boon
 	{
 		public NPC npc;
-		public Texture2D Texture => ModContent.Request<Texture2D>(TexturePath);
+		public Texture2D Texture => ModContent.Request<Texture2D>(TexturePath, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 		public virtual bool CanApply => false;
 

@@ -1,6 +1,3 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -40,7 +37,7 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 			if (deathCounter == 1)
 			{
 				SoundEngine.PlaySound(SoundID.NPCDeath, Projectile.Center, 8);
-				Gore.NewGore(Projectile.Center, Projectile.velocity, Main.rand.Next(11, 13), 1f);
+				Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity, Main.rand.Next(11, 13), 1f);
 				Projectile.active = false;
 			}
 

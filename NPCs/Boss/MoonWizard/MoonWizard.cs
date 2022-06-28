@@ -340,10 +340,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
             }
 			if (NPC.life < 100)
             {
-                SoundEngine.PlaySound(SoundID.NPCHit, NPC.Center, 27);
+                SoundEngine.PlaySound(SoundID.NPCHit27, NPC.Center);
                 for (int i = 0; i < Main.rand.Next(1, 3); i++)
                 {
-                    int p = Projectile.NewProjectile(NPC.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(2.2f)), ModContent.ProjectileType<MoonBubble>(), 0, 3);
+                    int p = Projectile.NewProjectile(NPC.GetSource_OnHit(NPC), NPC.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(2.2f)), ModContent.ProjectileType<MoonBubble>(), 0, 3);
                     Main.projectile[p].scale = Main.rand.NextFloat(.2f, .4f);
                 }
             }

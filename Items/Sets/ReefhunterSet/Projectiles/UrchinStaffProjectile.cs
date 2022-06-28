@@ -71,7 +71,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			{
 				HasShotUrchin = true;
 
-				Projectile proj = Projectile.NewProjectileDirect(pos, vel, ModContent.ProjectileType<UrchinBall>(), Projectile.damage, 2f, Projectile.owner);
+				Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<UrchinBall>(), Projectile.damage, 2f, Projectile.owner);
 				proj.rotation = Projectile.rotation;
 				proj.Center = pos;
 				if (Main.netMode != NetmodeID.SinglePlayer) //Sync projectile made only on one client

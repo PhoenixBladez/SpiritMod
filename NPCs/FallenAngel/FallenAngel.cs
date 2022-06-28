@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -64,12 +65,12 @@ namespace SpiritMod.NPCs.FallenAngel
 
 			if (NPC.ai[0] >= 680)
 			{
-				SoundEngine.PlaySound(SoundID.Item, NPC.Center, 109);
+				SoundEngine.PlaySound(SoundID.Item109, NPC.Center);
 				DustHelper.DrawStar(NPC.Center, DustID.GoldCoin, pointAmount: 5, mainSize: 2.25f * 2.33f, dustDensity: 2, pointDepthMult: 0.3f, noGravity: true);
 
 				for (int i = 0; i < 5; i++)
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, Main.rand.Next(-8, 8), Main.rand.Next(-8, 8), ModContent.ProjectileType<ShootingStarHostile>(), 30, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, Main.rand.Next(-8, 8), Main.rand.Next(-8, 8), ModContent.ProjectileType<ShootingStarHostile>(), 30, 1, Main.myPlayer, 0, 0);
 
 				NPC.ai[0] = 0;
 			}
@@ -99,25 +100,23 @@ namespace SpiritMod.NPCs.FallenAngel
 
 		public override bool PreKill()
 		{
-			SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.Center);
 			return true;
 		}
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/FallenAngel/FallenAngel_Glow").Value);
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<StarPiece>(), Main.rand.Next(1, 3));
-
-			if (Main.rand.NextBool(5))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Accessory.FallenAngel>());
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<StarPiece>(), 1, 1, 2));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Accessory.FallenAngel>(), 5));
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0)
 				for (int i = 0; i < 3; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, 99);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
 
 			for (int k = 0; k < 2; k++)
 			{

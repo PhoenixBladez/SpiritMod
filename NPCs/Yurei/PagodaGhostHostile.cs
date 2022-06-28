@@ -7,6 +7,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Yurei
 {
@@ -72,9 +73,9 @@ namespace SpiritMod.NPCs.Yurei
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
 				for (int i = 0; i < 40; i++) {
 					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.RainbowTorch, 0f, -2f, 0, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
@@ -87,13 +88,10 @@ namespace SpiritMod.NPCs.Yurei
 				}
 			}
 		}
-        public override void OnKill()
-        {
-            if (Main.rand.NextBool(16))
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Ramen>());
-          
-        }
-        public override void AI()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Ramen>(), 16));
+
+		public override void AI()
 		{
 			Player player = Main.player[NPC.target];
 			NPC.alpha += 1;
@@ -102,13 +100,13 @@ namespace SpiritMod.NPCs.Yurei
 				int angle = Main.rand.Next(360);
 				int distX = (int)(Math.Sin(angle * (Math.PI / 180)) * 90);
 				int distY = (int)(Math.Cos(angle * (Math.PI / 180)) * 300);
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
 				NPC.position.X = player.position.X + distX;
 				NPC.position.Y = player.position.Y + distY;
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
 				NPC.alpha = 0;
-				SoundEngine.PlaySound(SoundID.NPCDeath, (int)NPC.position.X, (int)NPC.position.Y, 6);
+				SoundEngine.PlaySound(SoundID.NPCDeath6, NPC.Center);
 			}
 			NPC.spriteDirection = NPC.direction;
 		}
@@ -119,7 +117,7 @@ namespace SpiritMod.NPCs.Yurei
 			for (int k = 0; k < NPC.oldPos.Length; k++) {
 				var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-				Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+				Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			}
 			return true;

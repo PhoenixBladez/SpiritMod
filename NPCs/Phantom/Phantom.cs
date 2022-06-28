@@ -5,6 +5,7 @@ using SpiritMod.Items.Pets;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -72,7 +73,7 @@ namespace SpiritMod.NPCs.Phantom
 				NPC.velocity.Y = moveSpeedY * 0.16f;
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ShadowbeamStaff, 0f, -2.5f, 0, default, 0.6f);
 				if (!noise) {
-					SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 7);
+					SoundEngine.PlaySound(SoundID.Zombie7, NPC.Center);
 					noise = true;
 				}
 				NPC.rotation = NPC.velocity.X * .1f;
@@ -86,31 +87,29 @@ namespace SpiritMod.NPCs.Phantom
 			}
 
 			if (Main.dayTime) {
-				SoundEngine.PlaySound(SoundID.NPCDeath, (int)NPC.position.X, (int)NPC.position.Y, 6);
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
+				SoundEngine.PlaySound(SoundID.NPCDeath6, NPC.Center);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 99);
 				NPC.active = false;
 			}
 			return true;
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(12) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<PhantomEgg>());
-			if (Main.rand.Next(22) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<ShadowSingeFang>());
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PhantomEgg>(), 12));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ShadowSingeFang>(), 22));
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, lightColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
 			for (int k = 0; k < NPC.oldPos.Length; k++) {
 				Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-				Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+				Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			}
 			return false;
@@ -139,9 +138,9 @@ namespace SpiritMod.NPCs.Phantom
 				for (int k = 0; k < 20; k++) {
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection * 2, -1f, 0, default, 1f);
 				}
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Phantom/Phantom1").Type, .5f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Phantom/Phantom2").Type, .5f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Phantom/Phantom2").Type, .5f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Phantom/Phantom1").Type, .5f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Phantom/Phantom2").Type, .5f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Phantom/Phantom2").Type, .5f);
 			}
 		}
 		public override void FindFrame(int frameHeight)

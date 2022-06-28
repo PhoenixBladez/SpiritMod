@@ -44,11 +44,11 @@ namespace SpiritMod.NPCs.Festerfly
 
 			if (NPC.life <= 0)
 			{
-				SoundEngine.PlaySound(SoundID.NPCDeath, NPC.Center, 38);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pesterfly/Pesterfly1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pesterfly/Pesterfly2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pesterfly/Pesterfly3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pesterfly/Pesterfly4").Type, 1f);
+				SoundEngine.PlaySound(SoundID.NPCDeath38, NPC.Center);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pesterfly/Pesterfly1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pesterfly/Pesterfly2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pesterfly/Pesterfly3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pesterfly/Pesterfly4").Type, 1f);
 			}
 		}
 		public override void FindFrame(int frameHeight)
@@ -91,7 +91,7 @@ namespace SpiritMod.NPCs.Festerfly
 			if (timer >= 100 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
-				int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, vector2_2.X, vector2_2.Y, ModContent.ProjectileType<VileWaspProjectile>(), 0, 0.0f, Main.myPlayer, 0.0f, (float)NPC.whoAmI);
+				int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, vector2_2.X, vector2_2.Y, ModContent.ProjectileType<VileWaspProjectile>(), 0, 0.0f, Main.myPlayer, 0.0f, (float)NPC.whoAmI);
 				Main.projectile[p].hostile = true;
 				timer = 0;
 			}
@@ -102,7 +102,7 @@ namespace SpiritMod.NPCs.Festerfly
 				NPC.ai[3] = 0;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, 51);
+					SoundEngine.PlaySound(SoundID.Zombie51, NPC.Center);
 					for (int j = 0; j < 10; j++)
 					{
 						Vector2 vector2 = Vector2.UnitX * -NPC.width / 2f;
@@ -116,7 +116,7 @@ namespace SpiritMod.NPCs.Festerfly
 						Main.dust[num8].noLight = true;
 						Main.dust[num8].velocity = Vector2.Normalize(NPC.Center - NPC.velocity * 3f - Main.dust[num8].position) * 1.25f;
 					}
-					NPC.NewNPC((int)NPC.position.X, (int)NPC.position.Y, ModContent.NPCType<VileWasp>());
+					NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, ModContent.NPCType<VileWasp>());
 				}
 			}
 
