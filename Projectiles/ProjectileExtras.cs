@@ -199,7 +199,7 @@ namespace SpiritMod.Projectiles
 					projectile.localAI[0] += (float)Main.rand.Next(10, 31) * 0.1f;
 
 				float num = projectile.localAI[0] / 60f;
-				num /= (1f + Main.player[projectile.owner].meleeSpeed) / 2f;
+				num /= (1f + Main.player[projectile.owner].GetAttackSpeed(DamageClass.Melee)) / 2f;
 				if (num > seconds)
 					projectile.ai[0] = -1f;
 			}
@@ -235,8 +235,8 @@ namespace SpiritMod.Projectiles
 			if (Main.player[projectile.owner].yoyoString)
 				num2 = num2 * 1.25f + 30f;
 
-			num2 /= (1f + Main.player[projectile.owner].meleeSpeed * 3f) / 4f;
-			float num3 = acceleration / ((1f + Main.player[projectile.owner].meleeSpeed * 3f) / 4f);
+			num2 /= (1f + Main.player[projectile.owner].GetAttackSpeed(DamageClass.Melee) * 3f) / 4f;
+			float num3 = acceleration / ((1f + Main.player[projectile.owner].GetAttackSpeed(DamageClass.Melee) * 3f) / 4f);
 			float num4 = 14f - num3 / 2f;
 			float num5 = 5f + num3 / 2f;
 			if (flag)
@@ -473,8 +473,8 @@ namespace SpiritMod.Projectiles
 			}
 			else if (projectile.ai[0] == 1f)
 			{
-				float num4 = 14f / Main.player[projectile.owner].meleeSpeed;
-				float num5 = 0.9f / Main.player[projectile.owner].meleeSpeed;
+				float num4 = 14f / Main.player[projectile.owner].GetAttackSpeed(DamageClass.Melee);
+				float num5 = 0.9f / Main.player[projectile.owner].GetAttackSpeed(DamageClass.Melee);
 				Math.Abs(num);
 				Math.Abs(num2);
 				if (projectile.ai[1] == 1f)
@@ -554,14 +554,14 @@ namespace SpiritMod.Projectiles
 			{
 				projectile.netUpdate = true;
 				Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-				SoundEngine.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
+				SoundEngine.PlaySound(SoundID.Dig, projectile.Center);
 			}
 			return false;
 		}
 
 		public static void BoomerangAI(int index, float retractTime = 30f, float speed = 9f, float speedAcceleration = 0.4f, ExtraAction action = null, ExtraAction initialize = null)
 		{
-			Terraria.Projectile projectile = Main.projectile[index];
+			Projectile projectile = Main.projectile[index];
 			if (initialize != null && projectile.localAI[1] == 0f)
 			{
 				projectile.localAI[1] = 1f;
@@ -570,7 +570,7 @@ namespace SpiritMod.Projectiles
 			if (projectile.soundDelay == 0)
 			{
 				projectile.soundDelay = 8;
-				SoundEngine.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 7);
+				SoundEngine.PlaySound(SoundID.Item7, projectile.Center);
 			}
 
 			if (projectile.ai[0] == 0f)
@@ -644,7 +644,7 @@ namespace SpiritMod.Projectiles
 			projectile.velocity.X = -oldVelocity.X;
 			projectile.velocity.Y = -oldVelocity.Y;
 			projectile.netUpdate = true;
-			SoundEngine.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
+			SoundEngine.PlaySound(SoundID.Dig, projectile.Center);
 			return false;
 		}
 
@@ -731,7 +731,7 @@ namespace SpiritMod.Projectiles
 					if (k > 3)
 						scaleFactor = 0.8f;
 
-					Gore gore = Main.gore[Gore.NewGore(projectile.position, default, Main.rand.Next(61, 64), 1f)];
+					Gore gore = Main.gore[Gore.NewGore(projectile.GetSource_Death("Explosion"), projectile.position, default, Main.rand.Next(61, 64), 1f)];
 					gore.velocity *= scaleFactor;
 
 					float negateX = k > 3 ? -1 : 1;
@@ -888,14 +888,14 @@ namespace SpiritMod.Projectiles
 					float num10 = 0.5f;
 					color = Lighting.GetColor((int)vector.X / 16, (int)(vector.Y / 16f), color);
 					color = new Color((int)((byte)((float)color.R * num10)), (int)((byte)((float)color.G * num10)), (int)((byte)((float)color.B * num10)), (int)((byte)((float)color.A * num10)));
-					Main.spriteBatch.Draw(Main.fishingLineTexture, new Vector2(vector.X - Main.screenPosition.X + (float)Main.fishingLineTexture.Width * 0.5f, vector.Y - Main.screenPosition.Y + (float)Main.fishingLineTexture.Height * 0.5f) - new Vector2(6f, 0f), new Rectangle?(new Rectangle(0, 0, Main.fishingLineTexture.Width, (int)num5)), color, rotation, new Vector2((float)Main.fishingLineTexture.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(TextureAssets.FishingLine.Value, new Vector2(vector.X - Main.screenPosition.X + (float)TextureAssets.FishingLine.Value.Width * 0.5f, vector.Y - Main.screenPosition.Y + (float)TextureAssets.FishingLine.Value.Height * 0.5f) - new Vector2(6f, 0f), new Rectangle?(new Rectangle(0, 0, TextureAssets.FishingLine.Value.Width, (int)num5)), color, rotation, new Vector2((float)TextureAssets.FishingLine.Value.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
 				}
 			}
 		}
 
 		public static void DrawChain(int index, Vector2 to, string chainPath, bool electric = false, int damage = 0, bool zipline = false, float velocityX = 0, float velocityY = 0, bool white = false)
 		{
-			Texture2D texture = ModContent.Request<Texture2D>(chainPath);
+			Texture2D texture = ModContent.Request<Texture2D>(chainPath, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Projectile projectile = Main.projectile[index];
 			Vector2 vector = projectile.Center;
 			Rectangle? sourceRectangle = null;
@@ -921,15 +921,13 @@ namespace SpiritMod.Projectiles
 					Color color = Color.White;
 					if (!white) color = Lighting.GetColor((int)vector.X / 16, (int)((double)vector.Y / 16.0));
 					color = projectile.GetAlpha(color);
+
 					Main.spriteBatch.Draw(texture, vector - Main.screenPosition, sourceRectangle, color, rotation, origin, 1f, SpriteEffects.None, 0f);
+
 					if (electric)
-					{
-						Projectile.NewProjectile(vector.X, vector.Y, 0, 0, ModLoader.GetMod("SpiritMod").Find<ModProjectile>("ElectricChain").Type, damage, 0, Main.myPlayer);
-					}
+						Projectile.NewProjectile(projectile.GetSource_FromAI(), vector.X, vector.Y, 0, 0, ModLoader.GetMod("SpiritMod").Find<ModProjectile>("ElectricChain").Type, damage, 0, Main.myPlayer);
 					if (zipline)
-					{
-						Projectile.NewProjectile(vector.X, vector.Y, 0, 0, ModLoader.GetMod("SpiritMod").Find<ModProjectile>("ZiplinePiece").Type, 1, 0, Main.myPlayer, velocityX, velocityY);
-					}
+						Projectile.NewProjectile(projectile.GetSource_FromAI(), vector.X, vector.Y, 0, 0, ModLoader.GetMod("SpiritMod").Find<ModProjectile>("ZiplinePiece").Type, 1, 0, Main.myPlayer, velocityX, velocityY);
 				}
 			}
 		}

@@ -55,7 +55,6 @@ namespace SpiritMod.Items.Sets.CascadeSet.BubbleMine
 			Projectile.friendly = true;
 			Projectile.hostile = false;
 			Projectile.DamageType = DamageClass.Ranged;
-			Projectile.thrown = false;
 			Projectile.timeLeft = 600;
 			Projectile.width = 20;
 			Projectile.height = 30;
@@ -66,7 +65,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.BubbleMine
 		{
 			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 			for (float i = 0; i <= 6.28f; i+= Main.rand.NextFloat(0.5f,2))
-				Projectile.NewProjectile(Projectile.Center, i.ToRotationVector2() * Main.rand.NextFloat(), ModContent.ProjectileType<BubbleMineBubble>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, i.ToRotationVector2() * Main.rand.NextFloat(), ModContent.ProjectileType<BubbleMineBubble>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner);
 
 			for (int i = 0; i < 8; i++)
 				Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Wraith, Scale: Main.rand.NextFloat(1f, 1.5f)).noGravity = true;
@@ -135,14 +134,14 @@ namespace SpiritMod.Items.Sets.CascadeSet.BubbleMine
 
 		public override void AI()
 		{
-			
 			Projectile.velocity.X *= 0.9925f;
 			Projectile.velocity.Y -= 0.012f;
 		}
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => Projectile.Kill();
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 54);
+			SoundEngine.PlaySound(SoundID.Item54, Projectile.Center);
 			for (int i = 0; i < 20; i++) {
 				int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.FungiHit, 0f, -2f, 0, default, 2f);
 				Main.dust[num].noGravity = true;

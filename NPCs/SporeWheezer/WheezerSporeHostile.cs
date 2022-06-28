@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs.SporeWheezer
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 1);
+			SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 1);
 			for (int k = 0; k < 15; k++) {
 				int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Harpy);
 				Main.dust[dust].scale = .61f;

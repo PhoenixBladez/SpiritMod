@@ -516,7 +516,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			{
 				for (int k = 0; k < 18; k++)
 					Dust.NewDustPerfect(new Vector2(NPC.Center.X + 75 * NPC.spriteDirection, NPC.Center.Y - 30), 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 0.75f).noGravity = true;
-				SoundEngine.PlaySound(SoundID.NPCKilled, NPC.position, 28);
+				SoundEngine.PlaySound(SoundID.NPCDeath, NPC.position, 28);
 
 				Vector2 startPos = new Vector2(NPC.Center.X + 75 * NPC.spriteDirection, NPC.Center.Y - 30);
 				Vector2 arcVel = ArcVelocityHelper.GetArcVel(startPos, player.Center, 0.3f, 300, 500, 50, 100).RotatedBy(Main.rand.NextFloat(-0.2f,0.2f));
@@ -590,7 +590,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 				{
 					for (int k = 0; k < 18; k++)
 						Dust.NewDustPerfect(new Vector2(NPC.Center.X + 75 * NPC.spriteDirection, NPC.Center.Y - 30), 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 0.75f).noGravity = true;
-					SoundEngine.PlaySound(SoundID.NPCKilled, NPC.position, 28);
+					SoundEngine.PlaySound(SoundID.NPCDeath, NPC.position, 28);
 
 					int Ball = Projectile.NewProjectile(NPC.Center.X + 75 * NPC.spriteDirection, NPC.Center.Y - 30, NPC.spriteDirection * 3.5f, -2f, ModContent.ProjectileType<MysticWizardBall>(), NPCUtils.ToActualDamage(100, 1.5f), 3f, 0);
 					Main.projectile[Ball].ai[0] = NPC.whoAmI;

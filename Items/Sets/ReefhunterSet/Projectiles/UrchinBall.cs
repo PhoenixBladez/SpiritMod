@@ -107,19 +107,19 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			for (int i = 0; i < 8; ++i)
 			{
 				Vector2 vel = new Vector2(Main.rand.NextFloat(6f, 8f), 0).RotatedBy(i * MathHelper.TwoPi / 8f).RotatedByRandom(0.33f);
-				Projectile.NewProjectile(Projectile.Center + (hasTarget ? Vector2.Normalize(relativePoint) * 6 : vel), vel, ModContent.ProjectileType<UrchinSpike>(), Projectile.damage, 2f, Projectile.owner);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center + (hasTarget ? Vector2.Normalize(relativePoint) * 6 : vel), vel, ModContent.ProjectileType<UrchinSpike>(), Projectile.damage, 2f, Projectile.owner);
 			}
 
 			for (int i = 0; i < 2; ++i)
-				Gore.NewGore(Projectile.Center, Vector2.Zero, Mod.Find<ModGore>("Gores/Projectiles/UrchinLobber/Urchin" + i).Type);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, Mod.Find<ModGore>("Gores/Projectiles/UrchinLobber/Urchin" + i).Type);
 
-			SoundEngine.PlaySound(SoundID.Item14.WithPitchVariance(0.2f).WithVolume(0.4f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item14 with { PitchVariance = 0.2f, Volume = 0.4f }, Projectile.Center);
 		}
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Projectile.QuickDrawTrail(spriteBatch, 0.33f);
-			Projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDrawTrail(Main.spriteBatch, 0.33f);
+			Projectile.QuickDraw(Main.spriteBatch);
 
 			return false;
 		}
@@ -128,20 +128,20 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		{
 			const float Cutoff = 120;
 
-			Texture2D tex = ModContent.Request<Texture2D>(Texture + "Glow");
+			Texture2D tex = ModContent.Request<Texture2D>(Texture + "Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			float flashTimer = (Math.Max(Cutoff - Projectile.timeLeft, 0) / Cutoff);
 			int numFlashes = 6;
 			float alpha = 1 - (float)Math.Pow(Math.Sin(Utilities.EaseFunction.EaseQuadIn.Ease(flashTimer) * numFlashes * MathHelper.Pi), 4);
 
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * (1 - alpha), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * (1 - alpha), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
 		}
 
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width /= 3;
 			height /= 3;
-			return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+			return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -222,8 +222,8 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Projectile.QuickDrawTrail(spriteBatch, 0.5f);
-			Projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDrawTrail(Main.spriteBatch, 0.5f);
+			Projectile.QuickDraw(Main.spriteBatch);
 			return false;
 		}
 	}

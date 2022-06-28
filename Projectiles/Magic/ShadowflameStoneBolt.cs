@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (Projectile.tileCollide == true) {
-				SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 6);
+				SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 6);
 			}
 			return true;
 		}

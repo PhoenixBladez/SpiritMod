@@ -107,13 +107,13 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		public override bool PreDraw(ref Color lightColor)
 		{
 			Texture2D mask = ModContent.Request<Texture2D>(Texture + "_mask");
-			spriteBatch.Draw(mask, Projectile.Center - Main.screenPosition, Projectile.DrawFrame(), Color.White * Projectile.Opacity,
+			Main.spriteBatch.Draw(mask, Projectile.Center - Main.screenPosition, Projectile.DrawFrame(), Color.White * Projectile.Opacity,
 				Projectile.rotation, Projectile.DrawFrame().Size() / 2, Projectile.scale * 1.15f, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
-			Projectile.QuickDraw(spriteBatch);
-			Projectile.QuickDrawGlow(spriteBatch);
+			Projectile.QuickDraw(Main.spriteBatch);
+			Projectile.QuickDrawGlow(Main.spriteBatch);
 
-			spriteBatch.Draw(mask, Projectile.Center - Main.screenPosition, Projectile.DrawFrame(), Color.White * (1 - Projectile.Opacity) * Projectile.Opacity, 
+			Main.spriteBatch.Draw(mask, Projectile.Center - Main.screenPosition, Projectile.DrawFrame(), Color.White * (1 - Projectile.Opacity) * Projectile.Opacity, 
 				Projectile.rotation, Projectile.DrawFrame().Size() / 2, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 			return false;
 		}
@@ -138,7 +138,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		{
 			if (!Main.dedServ)
 			{
-				SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 3, 1f, 0f);
+				SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 3, 1f, 0f);
 				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f).WithVolume(0.7f), Projectile.Center);
 			}
 

@@ -132,8 +132,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			Vector2 scaleVerticalGlow = new Vector2(0.4f, 1f) * Timer;
 			Vector2 scaleHorizontalGlow = new Vector2(0.4f, 2f) * Timer;
 			Color blurcolor = new Color(255, 255, 255, 100) * 0.4f * Projectile.Opacity;
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, blurcolor * Timer, 0, tex.Size() / 2, scaleVerticalGlow, SpriteEffects.None, 0);
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, blurcolor * Timer, MathHelper.PiOver2, tex.Size() / 2, scaleHorizontalGlow, SpriteEffects.None, 0);
+			Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, blurcolor * Timer, 0, tex.Size() / 2, scaleVerticalGlow, SpriteEffects.None, 0);
+			Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, blurcolor * Timer, MathHelper.PiOver2, tex.Size() / 2, scaleHorizontalGlow, SpriteEffects.None, 0);
 			return false;
 		}
 	}

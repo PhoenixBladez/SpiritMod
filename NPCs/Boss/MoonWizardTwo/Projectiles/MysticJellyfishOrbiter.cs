@@ -110,15 +110,14 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
             if (index != -1)
             {
                 Player player = Main.player[index];
-                SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 69);
+                SoundEngine.PlaySound(SoundID.Item69, Projectile.Center);
                 Vector2 direction = Main.player[index].Center - Projectile.Center;
                 direction.Normalize();
                 direction *= 23f;
                 {
                     float A = (float)Main.rand.Next(-200, 200) * 0.05f;
                     float B = (float)Main.rand.Next(-200, 200) * 0.05f;
-                    Projectile.NewProjectile(Projectile.Center, direction,
-                    ModContent.ProjectileType<MysticJellyfishOrbiter_Projectile>(), Projectile.damage, 0, Main.myPlayer, Projectile.ai[1]);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, direction, ModContent.ProjectileType<MysticJellyfishOrbiter_Projectile>(), Projectile.damage, 0, Main.myPlayer, Projectile.ai[1]);
                 }
             }
         }

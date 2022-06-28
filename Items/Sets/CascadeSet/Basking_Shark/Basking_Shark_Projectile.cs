@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Basking_Shark
 			if ((double)Projectile.ai[0] == 0.0)
 			{
 				Projectile.ai[0] = 1f;
-				SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 1, 1f, 0.4f);
+				SoundEngine.PlaySound(SoundID.NPCHit1 with { Volume = 0.4f }, Projectile.Center);
 				for (int index = 0; index < 8; ++index)
 				{
 					Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Blood, 0.0f, 0.0f, 0, Color.Pink, 1f);

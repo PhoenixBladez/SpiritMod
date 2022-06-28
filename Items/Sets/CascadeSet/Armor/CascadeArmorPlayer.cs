@@ -90,9 +90,9 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 					npc.StrikeNPC(1, 3f * bubbleStrength, Player.Center.X < npc.Center.X ? 1 : -1);
 			}
 
-			SoundEngine.PlaySound(new LegacySoundStyle(2, 54).WithPitchVariance(0.2f), Player.Center);
-			SoundEngine.PlaySound(new LegacySoundStyle(4, 3).WithPitchVariance(0.2f), Player.Center);
-			SoundEngine.PlaySound(new LegacySoundStyle(2, 112).WithPitchVariance(0.2f).WithVolume(.6f), Player.Center);
+			SoundEngine.PlaySound(SoundID.Item54 with { PitchVariance = 0.2f }, Player.Center);
+			SoundEngine.PlaySound(SoundID.NPCHit3 with { PitchVariance = 0.2f }, Player.Center);
+			SoundEngine.PlaySound(SoundID.Item122 with { PitchVariance = 0.2f, Volume = 0.6f }, Player.Center);
 			SoundEngine.PlaySound(SoundID.Item86, Player.Center);
 
 			bubbleStrength = 0f;
@@ -112,7 +112,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 				if (outline)
 					texturePath += "Outline";
 
-				Texture2D texture = mod.GetTexture(texturePath);
+				Texture2D texture = ModContent.Request<Texture2D>(texturePath, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				Vector2 drawPos = Player.Center - Main.screenPosition + new Vector2(0, Player.gfxOffY);
 

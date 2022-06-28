@@ -111,7 +111,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDraw(Main.spriteBatch);
 			return false;
 		}
 
@@ -123,7 +123,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
 
 				Color color = Color.LightGoldenrodYellow;
 				color.A = (byte)(color.A * 2);
-				spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, color * 0.3f, Projectile.rotation, bloom.Size() / 2, Projectile.scale * 1.5f, SpriteEffects.None, 0);
+				Main.spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, color * 0.3f, Projectile.rotation, bloom.Size() / 2, Projectile.scale * 1.5f, SpriteEffects.None, 0);
 			}
 		}
 

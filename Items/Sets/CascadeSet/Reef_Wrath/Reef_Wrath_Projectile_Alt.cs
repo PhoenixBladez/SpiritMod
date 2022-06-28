@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 			for (int i = 1; i <= 3; i++) {
 				Vector2 position = Projectile.position;
 				position += new Vector2(0, - (18 * (i - 1))).RotatedBy(Projectile.velocity.ToRotation());
-				Projectile.NewProjectile(position, Projectile.velocity, Mod.Find<ModProjectile>("Reef_Wrath_Projectile_" + i).Type, player.HeldItem.damage, 8f, 0);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), position, Projectile.velocity, Mod.Find<ModProjectile>("Reef_Wrath_Projectile_" + i).Type, player.HeldItem.damage, 8f, 0);
 			}
 			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 3));
 		}

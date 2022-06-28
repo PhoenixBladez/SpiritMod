@@ -61,13 +61,13 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 				}
 				trailcounter++;
 				if (trailcounter % 5 == 0 && Projectile.owner == Main.myPlayer)
-					Projectile.NewProjectile(Projectile.Center + (direction * 6), direction, ModContent.ProjectileType<ClatterJavelinProj1>(), 0, 0, Projectile.owner); //predictor trail, please pick a better dust Yuy
+					Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + (direction * 6), direction, ModContent.ProjectileType<ClatterJavelinProj1>(), 0, 0, Projectile.owner); //predictor trail, please pick a better dust Yuy
 			}
 			else {
-				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 1);
+				SoundEngine.PlaySound(SoundID.Item1, Projectile.Center);
 				if (Projectile.owner == Main.myPlayer)
 				{
-					Projectile.NewProjectile(Projectile.Center + (direction * 6), direction, ModContent.ProjectileType<ClatterJavelinProj2>(), (int)(Projectile.damage * Math.Sqrt(counter)), Projectile.knockBack, Projectile.owner);
+					Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + (direction * 6), direction, ModContent.ProjectileType<ClatterJavelinProj2>(), (int)(Projectile.damage * Math.Sqrt(counter)), Projectile.knockBack, Projectile.owner);
 				}
 				Projectile.active = false;
 			}

@@ -70,8 +70,8 @@ namespace SpiritMod.Items.Sets.SummonsMisc.Toucane
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Projectile.QuickDrawTrail(spriteBatch);
-			Projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDrawTrail(Main.spriteBatch);
+			Projectile.QuickDraw(Main.spriteBatch);
 			return false;
 		}
 
@@ -83,7 +83,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.Toucane
 
 				Color color = Color.Lerp(new Color(255, 0, 89), new Color(255, 47, 0), (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 2 + 0.5f);
 				color.A = (byte)(color.A * 2);
-				spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, color * 0.5f, Projectile.rotation, bloom.Size() / 2, Projectile.scale * 1.5f, SpriteEffects.None, 0);
+				Main.spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, color * 0.5f, Projectile.rotation, bloom.Size() / 2, Projectile.scale * 1.5f, SpriteEffects.None, 0);
 			}
 		}
 

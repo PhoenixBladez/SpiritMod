@@ -344,7 +344,7 @@ namespace SpiritMod.NPCs.HauntedTome
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 3, 1f, 0f); 
+			SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 3, 1f, 0f); 
 
 			for (int i = 0; i <= 3; i++) {
 				Gore gore = Gore.NewGoreDirect(Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)),

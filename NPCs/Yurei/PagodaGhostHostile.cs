@@ -108,7 +108,7 @@ namespace SpiritMod.NPCs.Yurei
 				NPC.position.Y = player.position.Y + distY;
 				Gore.NewGore(NPC.position, NPC.velocity, 99);
 				NPC.alpha = 0;
-				SoundEngine.PlaySound(SoundID.NPCKilled, (int)NPC.position.X, (int)NPC.position.Y, 6);
+				SoundEngine.PlaySound(SoundID.NPCDeath, (int)NPC.position.X, (int)NPC.position.Y, 6);
 			}
 			NPC.spriteDirection = NPC.direction;
 		}

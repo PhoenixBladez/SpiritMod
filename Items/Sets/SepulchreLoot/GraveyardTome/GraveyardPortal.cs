@@ -106,10 +106,11 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		public override bool PreDraw(ref Color lightColor)
 		{
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_A1").Value;
-			spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Black, 0, bloom.Size() / 2, 
+			Main.spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Black, 0, bloom.Size() / 2, 
 				Projectile.scale * 1.3f, SpriteEffects.None, 0); //draw a dark bloom beneath the portal
 
-			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+			Main.spriteBatch.End(); 
+			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 			SpiritMod.ShaderDict["PortalShader"].Parameters["PortalNoise"].SetValue(Mod.Assets.Request<Texture2D>("Utilities/Noise/SpiralNoise").Value);
 			SpiritMod.ShaderDict["PortalShader"].Parameters["DistortionNoise"].SetValue(Mod.Assets.Request<Texture2D>("Utilities/Noise/noise").Value);
@@ -127,17 +128,18 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 				float Opacity = 0.33f * (float)Math.Pow(Math.Sin(Timer * MathHelper.Pi), 3);
 				float Scale = 0.6f * (Projectile.scale + (Timer * Projectile.scale));
 				float Rotation = Main.GlobalTimeWrappedHourly / 2 * ((i % 2 == 0) ? -1 : 1) * (MathHelper.TwoPi * i / numtodraw);
-				spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, new Color(94, 25, 25) * Opacity * opacitymod,
+				Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, new Color(94, 25, 25) * Opacity * opacitymod,
 					Rotation, tex.Size() / 2, Scale, SpriteEffects.None, 0);
 			}
 
 			Vector2 ellipticalscale = new Vector2(Projectile.scale * 0.5f, Projectile.scale);
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, new Color(15, 4, 4) * opacitymod, Projectile.rotation, tex.Size() / 2, //the main "body" of the portal
+			Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, new Color(15, 4, 4) * opacitymod, Projectile.rotation, tex.Size() / 2, //the main "body" of the portal
 				ellipticalscale, SpriteEffects.None, 0);
-			spriteBatch.Draw(tex, Projectile.Center + new Vector2(Direction * 3, 0).RotatedBy(Projectile.rotation) - Main.screenPosition, null, new Color(212, 8, 8) * opacitymod, 
+			Main.spriteBatch.Draw(tex, Projectile.Center + new Vector2(Direction * 3, 0).RotatedBy(Projectile.rotation) - Main.screenPosition, null, new Color(212, 8, 8) * opacitymod, 
 				Projectile.rotation, tex.Size() / 2, ellipticalscale * 0.66f, SpriteEffects.None, 0);  //the center, moves slightly depending on direction for illusion of facing the player
 
-			spriteBatch.End(); spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+			Main.spriteBatch.End();
+			Main.spriteBatch.Begin(default, BlendState.AlphaBlend, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 			return false;
 		}
 	}

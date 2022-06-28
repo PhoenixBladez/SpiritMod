@@ -86,7 +86,7 @@ namespace SpiritMod.NPCs.Phantom
 			}
 
 			if (Main.dayTime) {
-				SoundEngine.PlaySound(SoundID.NPCKilled, (int)NPC.position.X, (int)NPC.position.Y, 6);
+				SoundEngine.PlaySound(SoundID.NPCDeath, (int)NPC.position.X, (int)NPC.position.Y, 6);
 				Gore.NewGore(NPC.position, NPC.velocity, 99);
 				Gore.NewGore(NPC.position, NPC.velocity, 99);
 				Gore.NewGore(NPC.position, NPC.velocity, 99);

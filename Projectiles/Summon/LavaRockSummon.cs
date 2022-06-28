@@ -106,7 +106,7 @@ namespace SpiritMod.Projectiles.Summon
 				}
 
 				if (validTarget) {
-					Projectile.NewProjectile(Projectile.Center, Projectile.GetArcVel(new Vector2(shootPosX, shootPosY), 0.15f, heightabovetarget: 150), ModContent.ProjectileType<Blaze>(), 
+					Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.GetArcVel(new Vector2(shootPosX, shootPosY), 0.15f, heightabovetarget: 150), ModContent.ProjectileType<Blaze>(), 
 						Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
 					Projectile.ai[0] = 30f;
 					return;

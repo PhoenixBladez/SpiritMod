@@ -415,16 +415,16 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			float transparency = (float)Math.Pow(1 - progress, 2);
 			float scale = 1 + progress;
 
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * transparency, Projectile.rotation, tex.Size() / 2, scale * Projectile.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * transparency, Projectile.rotation, tex.Size() / 2, scale * Projectile.scale, SpriteEffects.None, 0f);
 			return true;
 		}
 		public override void PostDraw(Color lightColor)
 		{
-			DrawBloom(spriteBatch, new Color(242, 41, 58) * 0.33f, 0.48f);
+			DrawBloom(Main.spriteBatch, new Color(242, 41, 58) * 0.33f, 0.48f);
 		}
 		protected void DrawBloom(SpriteBatch spriteBatch, Color color, float scale)
 		{
-			Texture2D glow = SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49");
+			Texture2D glow = Terraria.GameContent.TextureAssets.Extra[49].Value;
 			color.A = 0;
 
 			float glowScale = 1 + ((float)Math.Sin(counter) / 4);

@@ -91,9 +91,9 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			const int halfTipWidth = 15;
 			Vector2 drawOrigin = new Vector2(Projectile.spriteDirection > 0 ? projTex.Width - halfTipWidth : halfTipWidth, projTex.Height / 2);
 			if(!hasTarget)
-				Projectile.QuickDrawTrail(spriteBatch, 0.25f, drawOrigin: drawOrigin);
+				Projectile.QuickDrawTrail(Main.spriteBatch, 0.25f, drawOrigin: drawOrigin);
 
-			Projectile.QuickDraw(spriteBatch, drawOrigin: drawOrigin);
+			Projectile.QuickDraw(Main.spriteBatch, drawOrigin: drawOrigin);
 			return false;
 		}
 

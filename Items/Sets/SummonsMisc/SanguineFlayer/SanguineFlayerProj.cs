@@ -270,7 +270,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 
 			//End control point for the chain
 			Vector2 projBottom = Projectile.Center + new Vector2(0, projTexture.Height / 2).RotatedBy(Projectile.rotation) * 0.75f;
-			DrawChainCurve(spriteBatch, projBottom, out Vector2[] chainPositions);
+			DrawChainCurve(Main.spriteBatch, projBottom, out Vector2[] chainPositions);
 
 			//Adjust rotation to face from the last point in the bezier curve
 			float newRotation = (projBottom - chainPositions[chainPositions.Length - 2]).ToRotation() + MathHelper.PiOver2;
@@ -282,7 +282,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 			SpriteEffects flip = (Projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
 			lightColor = Lighting.GetColor((int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f));
-			spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, Projectile.scale, flip, 0);
+			Main.spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, Projectile.scale, flip, 0);
 
 			return false;
 		}

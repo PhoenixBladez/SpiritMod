@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 					break;
 			}
 			if (item > 0) {
-				Item.NewItem(i * 16, j * 16, 48, 48, item);
+				Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, item);
 			}
 		}
 	}

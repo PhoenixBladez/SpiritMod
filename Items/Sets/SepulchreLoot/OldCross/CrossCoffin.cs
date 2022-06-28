@@ -153,7 +153,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 			Rectangle drawframe = new Rectangle(0, Projectile.frame * tex.Height / Main.projFrames[Projectile.type], tex.Width, tex.Height / Main.projFrames[Projectile.type]);
 			SpriteEffects flip = (Projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-			spriteBatch.Draw(tex,
+			Main.spriteBatch.Draw(tex,
 					Projectile.Center - Main.screenPosition + (Vector2.UnitX * Projectile.spriteDirection * 10),
 					drawframe,
 					Projectile.GetAlpha(Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16)),

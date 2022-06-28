@@ -661,7 +661,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                     Dust d = Dust.NewDustPerfect(new Vector2(NPC.Center.X + 75 * NPC.spriteDirection, NPC.Center.Y - 30), 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 0.75f);
                     d.noGravity = true;
                 }
-                SoundEngine.PlaySound(SoundID.NPCKilled, NPC.position, 28);
+                SoundEngine.PlaySound(SoundID.NPCDeath, NPC.position, 28);
 
                 int Ball = Projectile.NewProjectile(NPC.Center.X + 75 * NPC.spriteDirection, NPC.Center.Y - 30, NPC.spriteDirection * 3.5f, -2f, ModContent.ProjectileType<WizardBall>(), NPCUtils.ToActualDamage(50, 1.5f), 3f, 0);
                 Main.projectile[Ball].ai[0] = NPC.whoAmI;

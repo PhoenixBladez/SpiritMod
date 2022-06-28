@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.Magic
 			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<NightmareDust>());
 			}
-			SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 6);
+			SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 6);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

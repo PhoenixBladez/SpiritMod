@@ -138,7 +138,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 				Main.gore[index4].velocity.X += (float) Main.rand.Next(-10, 11) * 0.1f;
 				Main.gore[index4].velocity.Y += (float) Main.rand.Next(-10, 11) * 0.1f;			
 			}
-			SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 3, 1f, 0f);
+			SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 3, 1f, 0f);
 	
 			Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(3.14159274101257);
 			float num1 = (float) 14*Projectile.scale;

@@ -37,7 +37,7 @@ namespace SpiritMod.World.Sepulchre
 		public override bool IsTileDangerous(int i, int j, Player player) => true;
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			SoundEngine.PlaySound(new LegacySoundStyle(SoundID.NPCKilled, 6).WithPitchVariance(0.2f), new Vector2(i * 16, j * 16));
+			SoundEngine.PlaySound(new LegacySoundStyle(SoundID.NPCDeath, 6).WithPitchVariance(0.2f), new Vector2(i * 16, j * 16));
 			NPC npc = Main.npc[NPC.NewNPC((i + 1) * 16, (j + 4) * 16, ModContent.NPCType<Enchanted_Armor>())];
 			npc.velocity = Vector2.Zero;
 			if (Main.netMode != NetmodeID.SinglePlayer)

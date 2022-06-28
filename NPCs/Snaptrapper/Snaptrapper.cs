@@ -179,7 +179,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                 }
                 if (NPC.localAI[1] == 400)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCKilled, (int)NPC.position.X, (int)NPC.position.Y, 5);
+                    SoundEngine.PlaySound(SoundID.NPCDeath, (int)NPC.position.X, (int)NPC.position.Y, 5);
                 }
                 if (NPC.localAI[1] >= 400 && NPC.localAI[1] <= 530)
                 {
@@ -255,7 +255,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                 }
 				if (NPC.localAI[1] == 300)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCKilled, (int)NPC.position.X, (int)NPC.position.Y, 5);
+                    SoundEngine.PlaySound(SoundID.NPCDeath, (int)NPC.position.X, (int)NPC.position.Y, 5);
                 }
                 if (NPC.localAI[1] >= 300 && NPC.localAI[1] <= 510)
                 {

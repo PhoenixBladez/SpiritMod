@@ -251,10 +251,10 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Projectile.QuickDrawTrail(spriteBatch, drawColor: Color.Lerp(lightColor, Color.Purple, _glowOpacity));
-			Projectile.QuickDrawGlowTrail(spriteBatch, 0.75f * _glowOpacity);
-			Projectile.QuickDraw(spriteBatch);
-			Projectile.QuickDrawGlow(spriteBatch, Color.White * _glowOpacity);
+			Projectile.QuickDrawTrail(Main.spriteBatch, drawColor: Color.Lerp(lightColor, Color.Purple, _glowOpacity));
+			Projectile.QuickDrawGlowTrail(Main.spriteBatch, 0.75f * _glowOpacity);
+			Projectile.QuickDraw(Main.spriteBatch);
+			Projectile.QuickDrawGlow(Main.spriteBatch, Color.White * _glowOpacity);
 			return true;
 		}
 	}

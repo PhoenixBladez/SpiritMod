@@ -68,7 +68,7 @@ namespace SpiritMod.Tiles.Ambient
 			}
 			int height = tile.TileFrameY == 36 ? 18 : 16;
 			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Ambient/StarBeacon_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-			Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), new Vector2(i * 16 - (int)Main.screenPosition.X + 8, j * 16 - (int)Main.screenPosition.Y + 16) + zero, null, new Color((int)(2.5f * sineAdd), (int)(5f * sineAdd), (int)(6f * sineAdd), 0), 0f, new Vector2(50, 50), 0.2f * (sineAdd + 1), SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Extra[49].Value, new Vector2(i * 16 - (int)Main.screenPosition.X + 8, j * 16 - (int)Main.screenPosition.Y + 16) + zero, null, new Color((int)(2.5f * sineAdd), (int)(5f * sineAdd), (int)(6f * sineAdd), 0), 0f, new Vector2(50, 50), 0.2f * (sineAdd + 1), SpriteEffects.None, 0f);
 		}
 
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged) => MyWorld.downedRaider;

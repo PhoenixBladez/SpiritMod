@@ -95,8 +95,8 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Projectile.QuickDraw(spriteBatch);
-			Projectile.QuickDrawGlow(spriteBatch, Projectile.GetAlpha(new Color(252, 3, 148)) * Math.Max(1 - AiTimer / FADEINTIME, 0));
+			Projectile.QuickDraw(Main.spriteBatch);
+			Projectile.QuickDrawGlow(Main.spriteBatch, Projectile.GetAlpha(new Color(252, 3, 148)) * Math.Max(1 - AiTimer / FADEINTIME, 0));
 			return false;
 		}
 	}

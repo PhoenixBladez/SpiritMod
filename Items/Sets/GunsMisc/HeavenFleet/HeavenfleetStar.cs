@@ -81,10 +81,10 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 			{
 				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
 				Color color = Projectile.GetAlpha(Color.White * .65f) * ((float)(Projectile.oldPos.Length - k) / Projectile.oldPos.Length);
-				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 
-			spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, TextureAssets.Projectile[Projectile.type].Value.Bounds, Projectile.GetAlpha(Color.White * .9f), Projectile.rotation,
+			Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, TextureAssets.Projectile[Projectile.type].Value.Bounds, Projectile.GetAlpha(Color.White * .9f), Projectile.rotation,
 				TextureAssets.Projectile[Projectile.type].Value.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}

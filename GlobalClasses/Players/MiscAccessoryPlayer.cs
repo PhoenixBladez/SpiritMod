@@ -168,7 +168,7 @@ namespace SpiritMod.GlobalClasses.Players
 					float rand = Main.rand.NextFloat() * MathHelper.TwoPi;
 					vel = vel.RotatedBy(rand);
 					vel *= 2f;
-					Projectile.NewProjectile(Main.player[Main.myPlayer].Center, vel, ProjectileID.LostSoulFriendly, 45, 0, Main.myPlayer);
+					Projectile.NewProjectile(Player.GetSource_OnHurt(null), Player.Center, vel, ProjectileID.LostSoulFriendly, 45, 0, Main.myPlayer);
 				}
 			}
 
@@ -191,7 +191,7 @@ namespace SpiritMod.GlobalClasses.Players
 			// Spectre Ring
 			if (Player.HasAccessory<SpectreRing>())
 			{
-				int newProj = Projectile.NewProjectile(Player.Center, new Vector2(6, 6), ProjectileID.SpectreWrath, 40, 0f, Main.myPlayer);
+				int newProj = Projectile.NewProjectile(Player.GetSource_OnHurt(null), Player.Center, new Vector2(6, 6), ProjectileID.SpectreWrath, 40, 0f, Main.myPlayer);
 
 				int dist = 800;
 				int target = -1;

@@ -92,8 +92,8 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Projectile.QuickDrawGlowTrail(spriteBatch, 0.3f * Projectile.Opacity);
-			Projectile.QuickDraw(spriteBatch, drawColor: Color.White); 
+			Projectile.QuickDrawGlowTrail(Main.spriteBatch, 0.3f * Projectile.Opacity);
+			Projectile.QuickDraw(Main.spriteBatch, drawColor: Color.White); 
 			return false;
 		}
 

@@ -102,7 +102,7 @@ namespace SpiritMod.Projectiles.Summon
 							speedY = speedY + (float)Main.rand.Next(-40, 41) * 0.03f;
 							speedX *= (float)Main.rand.Next(75, 150) * 0.01f;
 							position.X += (float)Main.rand.Next(-50, 51);
-							Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PrismaticBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+							Projectile.NewProjectile(Projectile.GetSource_FromAI(), position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PrismaticBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 							break;
 						}
 					}

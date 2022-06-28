@@ -70,19 +70,19 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 				float progress = ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 				float speedMult = GetSpeedRatio(3); //Trail only appears when at high speed
 				Color color = Projectile.GetAlpha(lightColor) * progress * speedMult * 0.5f;
-				DrawBubble(spriteBatch, drawPos, color);
+				DrawBubble(Main.spriteBatch, drawPos, color);
 			}
 
-			DrawBubble(spriteBatch, Projectile.Center - Main.screenPosition, Projectile.GetAlpha(lightColor));
+			DrawBubble(Main.spriteBatch, Projectile.Center - Main.screenPosition, Projectile.GetAlpha(lightColor));
 			return false;
 		}
 
 		//Draw a bubble, with a rotated and squished outline and interior, a semi-transparent interior, and an unchanging shine
 		private void DrawBubble(SpriteBatch spriteBatch, Vector2 position, Color baseColor)
 		{
-			Texture2D outline = ModContent.Request<Texture2D>(TexturePath + "_Outline");
-			Texture2D inner = ModContent.Request<Texture2D>(TexturePath + "_Inner");
-			Texture2D shine = ModContent.Request<Texture2D>(TexturePath + "_Shine");
+			Texture2D outline = ModContent.Request<Texture2D>(TexturePath + "_Outline", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D inner = ModContent.Request<Texture2D>(TexturePath + "_Inner", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value
+			Texture2D shine = ModContent.Request<Texture2D>(TexturePath + "_Shine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value
 
 			Vector2 squishScale = BubbleSquishScale(0.35f, 0.1f);
 			Color innerColor = baseColor * 0.05f;

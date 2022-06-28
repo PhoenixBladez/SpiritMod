@@ -68,7 +68,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.AdornedBow
 		{
 			Texture2D projtexture = TextureAssets.Projectile[Projectile.type].Value;
 
-			void drawtexture(Vector2 position, Color color, float Opacity, Texture2D tex) => spriteBatch.Draw(tex, position - Main.screenPosition, null, color * Opacity, Projectile.rotation, tex.Size() / 2, Opacity * Projectile.scale, SpriteEffects.None, 0);
+			void drawtexture(Vector2 position, Color color, float Opacity, Texture2D tex) => Main.spriteBatch.Draw(tex, position - Main.screenPosition, null, color * Opacity, Projectile.rotation, tex.Size() / 2, Opacity * Projectile.scale, SpriteEffects.None, 0);
 
 			for (int i = 0; i < traillength; i += 1)
 			{

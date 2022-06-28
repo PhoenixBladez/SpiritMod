@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.Festerfly
 
 			if (NPC.life <= 0)
 			{
-				SoundEngine.PlaySound(SoundID.NPCKilled, NPC.Center, 38);
+				SoundEngine.PlaySound(SoundID.NPCDeath, NPC.Center, 38);
 				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pesterfly/Pesterfly1").Type, 1f);
 				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pesterfly/Pesterfly2").Type, 1f);
 				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pesterfly/Pesterfly3").Type, 1f);

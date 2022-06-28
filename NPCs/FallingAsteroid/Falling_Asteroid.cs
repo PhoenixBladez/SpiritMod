@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs.FallingAsteroid
 					dust.scale += 8 * 0.03f;
 				}
 
-				SoundEngine.PlaySound(SoundID.NPCKilled, (int)NPC.position.X, (int)NPC.position.Y, 14, 1f, 0.0f);
+				SoundEngine.PlaySound(SoundID.NPCDeath, (int)NPC.position.X, (int)NPC.position.Y, 14, 1f, 0.0f);
 				NPC.ai[0] = -90;
 				NPC.netUpdate = true;
 

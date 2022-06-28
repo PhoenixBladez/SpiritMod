@@ -110,7 +110,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 					soundTimer--;
 					if (soundTimer == 0)
-						SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 1);
+						SoundEngine.PlaySound(SoundID.Item1, Projectile.Center);
 
 					float progress = swingTimer;
 					float oldProgress = EaseFunction.EaseCircularInOut.Ease(progress - swingSpeed);
@@ -169,7 +169,8 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 
 			if (swinging)
 			{
-				spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+				Main.spriteBatch.End(); 
+				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
 				List<PrimitiveSlashArc> slashArcs = new List<PrimitiveSlashArc>();
 				Effect effect = Mod.GetEffect("Effects/NemesisBoonShader");
@@ -188,7 +189,8 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 				slashArcs.Add(slash);
 				PrimitiveRenderer.DrawPrimitiveShapeBatched(slashArcs.ToArray(), effect);
 
-				spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+				Main.spriteBatch.End();
+				Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 			}
 
 			return false;
@@ -198,7 +200,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 		{
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 
-			Texture2D tex2 = ModContent.Request<Texture2D>(Texture + "_White");
+			Texture2D tex2 = ModContent.Request<Texture2D>(Texture + "_White", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			DrawSword(spriteBatch, tex, 1, 1);
 

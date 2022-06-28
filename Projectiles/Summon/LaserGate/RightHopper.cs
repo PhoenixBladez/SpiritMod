@@ -60,7 +60,7 @@ namespace SpiritMod.Projectiles.Summon.LaserGate
 				if (Timer > 4)
 				{
 					Timer = 0;
-					int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, direction9.X * 15, direction9.Y * 15, ModContent.ProjectileType<GateLaser>(), 14, 0, Main.myPlayer);
+					int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, direction9.X * 15, direction9.Y * 15, ModContent.ProjectileType<GateLaser>(), 14, 0, Main.myPlayer);
 					Main.projectile[proj].timeLeft = (distance / 15) - 1;
 					DustHelper.DrawElectricity(Projectile.Center, other.Center, 226, 0.3f);
 				}

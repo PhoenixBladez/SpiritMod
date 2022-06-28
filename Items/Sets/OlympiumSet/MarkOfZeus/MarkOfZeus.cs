@@ -187,11 +187,11 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 				float progress = glowCounter % 1;
 				float transparency = (float)Math.Pow(1 - progress, 2);
 				float scale = 1 + progress;
-				spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle(0, 0, tex.Width, tex.Height / 2),
+				Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle(0, 0, tex.Width, tex.Height / 2),
 					lightColor * transparency, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 4), Projectile.scale * new Vector2(1, 0.75f + counter / 30f) * growScale * scale, effects, 0);
 			}
 
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle(0, 0, tex.Width, tex.Height / 2),
+			Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle(0, 0, tex.Width, tex.Height / 2),
 				lightColor, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 4), Projectile.scale * new Vector2(1, 0.75f + counter / 30f) * growScale, effects, 0);
 
 			if (counter >= 15 && flickerTime < 16)
@@ -202,7 +202,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 				if (alpha < 0)
 					alpha = 0;
 
-				spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle(0, tex.Height / 2, tex.Width, tex.Height / 2), 
+				Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle(0, tex.Height / 2, tex.Width, tex.Height / 2), 
 					Color.White * alpha, Projectile.rotation, new Vector2(tex.Width / 2, tex.Height / 4), Projectile.scale * new Vector2(1, 0.75f + counter / 30f) * growScale, effects, 0);
 			}
 			return false;

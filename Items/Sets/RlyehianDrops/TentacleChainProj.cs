@@ -160,7 +160,7 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 			Vector2 yOffset = new Vector2(0f, Main.player[Projectile.owner].gfxOffY);
 			float rotation = direction.ToRotation() + MathHelper.ToRadians(-90f);
 			// Draw the chain handle. This is the first piece in the sprite.
-			spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + yOffset, rectangle, color, rotation, rectangle.Size() / 2f - Vector2.UnitY * 4f, Projectile.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + yOffset, rectangle, color, rotation, rectangle.Size() / 2f - Vector2.UnitY * 4f, Projectile.scale, SpriteEffects.None, 0f);
 			chainDistance -= 40f * Projectile.scale;
 			Vector2 position = Projectile.Center;
 			position += direction * Projectile.scale * 12f;
@@ -175,7 +175,7 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 						rectangle.Height = (int)(chainDistance - chains);
 					}
 					// Draws the chain links between the handle and the head. This is the "line," or the third piece in the sprite.
-					spriteBatch.Draw(texture, position - Main.screenPosition + yOffset, rectangle, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), rotation, new Vector2(rectangle.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(texture, position - Main.screenPosition + yOffset, rectangle, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), rotation, new Vector2(rectangle.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0f);
 					chains += rectangle.Height * Projectile.scale;
 					position += direction * rectangle.Height * Projectile.scale;
 				}
@@ -200,14 +200,14 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 						spacing *= 0.75f;
 					}
 					// Draws the actual chain link spikes between the handle and the head. These are the "spikes," or the second piece in the sprite.
-					spriteBatch.Draw(texture, position - Main.screenPosition + yOffset, rectangle, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), rotation, new Vector2(rectangle.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(texture, position - Main.screenPosition + yOffset, rectangle, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), rotation, new Vector2(rectangle.Width / 2, 0f), Projectile.scale, SpriteEffects.None, 0f);
 					chains += spacing;
 					position += direction * spacing;
 				}
 			}
 			rectangle = chainHead;
 			// Draw the chain head. This is the fourth piece in the sprite.
-			spriteBatch.Draw(texture, chainEnd - Main.screenPosition + yOffset, rectangle, Lighting.GetColor((int)chainEnd.X / 16, (int)chainEnd.Y / 16), rotation, texture.Frame().Top(), Projectile.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(texture, chainEnd - Main.screenPosition + yOffset, rectangle, Lighting.GetColor((int)chainEnd.X / 16, (int)chainEnd.Y / 16), rotation, texture.Frame().Top(), Projectile.scale, SpriteEffects.None, 0f);
 			// Because the chain head's draw position isn't determined in AI, it is set in PreDraw.
 			// This is so the smoke-spawning dust and white light are at the proper location.
 			chainHeadPosition = chainEnd;

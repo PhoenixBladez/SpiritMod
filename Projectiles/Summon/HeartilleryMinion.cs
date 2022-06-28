@@ -91,10 +91,10 @@ namespace SpiritMod.Projectiles.Summon
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							Projectile.NewProjectile(Projectile.Center, vel, ModContent.ProjectileType<HeartilleryMinionClump>(), Projectile.damage, 0, Main.myPlayer);
+							Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, vel, ModContent.ProjectileType<HeartilleryMinionClump>(), Projectile.damage, 0, Main.myPlayer);
 							int numproj = Main.rand.Next(1, 4);
 							for (int i = 0; i < numproj; i++)
-								Projectile.NewProjectileDirect(Projectile.Center, vel.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.9f, 1.1f), ModContent.ProjectileType<HeartilleryMinionClump>(), Projectile.damage, 0, Main.myPlayer).netUpdate = true;
+								Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, vel.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.9f, 1.1f), ModContent.ProjectileType<HeartilleryMinionClump>(), Projectile.damage, 0, Main.myPlayer).netUpdate = true;
 						}
 						Projectile.netUpdate = true;
 						SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 95);  //make bow shooty sound
@@ -131,7 +131,7 @@ namespace SpiritMod.Projectiles.Summon
 		}
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 22);
+			SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 22);
 			for (int i = 0; i < 10; i++) {
 				int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Blood, 0f, -2f, 0, default, .85f);
 				Main.dust[num].noGravity = false;

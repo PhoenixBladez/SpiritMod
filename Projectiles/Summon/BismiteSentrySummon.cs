@@ -117,7 +117,7 @@ namespace SpiritMod.Projectiles.Summon
 						}
 						if (Main.netMode != NetmodeID.MultiplayerClient) {
 
-							int proj2 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y - 13, direction.X, direction.Y, ModContent.ProjectileType<BismiteShot>(), Projectile.damage, 0, Main.myPlayer);
+							int proj2 = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y - 13, direction.X, direction.Y, ModContent.ProjectileType<BismiteShot>(), Projectile.damage, 0, Main.myPlayer);
 							Main.projectile[proj2].ranged = false;
 							Main.projectile[proj2].minion = true;
 						}
@@ -149,7 +149,7 @@ namespace SpiritMod.Projectiles.Summon
             {
                 float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
                 Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-                int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y,
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y,
                     velocity.X, velocity.Y, ModContent.ProjectileType<BismiteShard>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
                 Main.projectile[proj].minion = true;
                 Main.projectile[proj].magic = false;

@@ -151,7 +151,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 					float scale = Projectile.scale;
 					Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/GunsMisc/HeavenFleet/HeavenFleet_Glow");
 
-					spriteBatch.Draw(tex, Offset - Main.screenPosition, null, color, player.itemRotation, tex.Size() / 2, num107, default, default);
+					Main.spriteBatch.Draw(tex, Offset - Main.screenPosition, null, color, player.itemRotation, tex.Size() / 2, num107, default, default);
 				}
 			}
 			return true;

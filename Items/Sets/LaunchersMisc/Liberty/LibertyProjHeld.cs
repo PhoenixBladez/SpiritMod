@@ -127,7 +127,7 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Liberty
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDraw(Main.spriteBatch);
 			return false;
 		}
 	}

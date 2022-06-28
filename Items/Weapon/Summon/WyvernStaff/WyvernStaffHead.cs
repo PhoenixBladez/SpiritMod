@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 			deathCounter--;
 			if (deathCounter == 1)
 			{
-				SoundEngine.PlaySound(SoundID.NPCKilled, Projectile.Center, 8);
+				SoundEngine.PlaySound(SoundID.NPCDeath, Projectile.Center, 8);
 				Gore.NewGore(Projectile.Center, Projectile.velocity, Main.rand.Next(11, 13), 1f);
 				Projectile.active = false;
 			}

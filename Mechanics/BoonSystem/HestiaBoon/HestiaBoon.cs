@@ -126,7 +126,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 
 							Color color = new Color(247, 117, 42, 0);
 
-							Texture2D glow = SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49");
+							Texture2D glow = Terraria.GameContent.TextureAssets.Extra[49].Value;
 							color.A = 0;
 
 							float glowScale = 1 + ((float)Math.Sin(Main.GameUpdateCount) / 4);
@@ -190,7 +190,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 
 						Color color = new Color(247, 117, 42, 0);
 
-						Texture2D glow = SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49");
+						Texture2D glow = Terraria.GameContent.TextureAssets.Extra[49].Value;
 						color.A = 0;
 
 						float glowScale = 1 + ((float)Math.Sin(Main.GameUpdateCount) / 4);

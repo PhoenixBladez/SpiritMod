@@ -39,7 +39,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			{
 				float sineAdd = (float)Math.Sin(alphaCounter) + 3;
 				Vector2 drawPos1 = NPC.Center - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-				Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), (NPC.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Extra[49].Value, (NPC.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
 			}
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
@@ -58,9 +58,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 117, new Color(0, 255, 142), .6f);
 			}
 			if (NPC.life <= 0) {
-				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 14);
-				SoundEngine.PlaySound(SoundID.NPCKilled, (int)NPC.position.X, (int)NPC.position.Y, 44);
-				SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 4);
+				SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
+				SoundEngine.PlaySound(SoundID.NPCDeath44, NPC.Center);
+				SoundEngine.PlaySound(SoundID.NPCHit4, NPC.Center);
 				for (int i = 0; i < 40; i++) {
 					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.UltraBrightTorch, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
@@ -79,9 +79,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			alphaCounter += .08f;
 			timer++;
 			if (timer >= 90) {
-				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 14);
-				SoundEngine.PlaySound(SoundID.NPCKilled, (int)NPC.position.X, (int)NPC.position.Y, 44);
-				SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 4);
+				SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
+				SoundEngine.PlaySound(SoundID.NPCDeath44, NPC.Center);
+				SoundEngine.PlaySound(SoundID.NPCHit4, NPC.Center);
 				for (int i = 0; i < 40; i++) {
 					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
@@ -154,9 +154,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			NPC.life = 0;
-			SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 14);
-			SoundEngine.PlaySound(SoundID.NPCKilled, (int)NPC.position.X, (int)NPC.position.Y, 44);
-			SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 4);
+			SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
+			SoundEngine.PlaySound(SoundID.NPCDeath44, NPC.Center);
+			SoundEngine.PlaySound(SoundID.NPCHit4, NPC.Center);
 			for (int i = 0; i < 40; i++) {
 				int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 				Main.dust[num].noGravity = true;

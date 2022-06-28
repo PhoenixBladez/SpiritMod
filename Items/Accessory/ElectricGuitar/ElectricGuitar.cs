@@ -56,8 +56,8 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 		{
 			if (active && proj.type != ModContent.ProjectileType<ElectricGuitarProj>() && proj.type != ModContent.ProjectileType<ElectricGuitarProjPlayer>() && Main.rand.Next(4) == 0 && overcharge < 30)
 			{
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 47).WithPitchVariance(0.8f).WithVolume(0.7f), Player.Center);
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 12).WithVolume(0.6f), target.Center);
+				SoundEngine.PlaySound(SoundID.Item47 with { PitchVariance = .8f, Volume = 0.7f }, Player.Center);
+				SoundEngine.PlaySound(SoundID.Item12 with { Volume = 0.6f }, Player.Center);
 				SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
 				DoLightningChain(target, damage);
 			}
@@ -67,8 +67,8 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 		{
 			if (active && Main.rand.Next(4) == 0 && overcharge < 30)
 			{
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 47).WithPitchVariance(0.8f).WithVolume(0.7f), Player.Center);
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 12).WithVolume(0.6f), target.Center);
+				SoundEngine.PlaySound(SoundID.Item47 with { PitchVariance = .8f, Volume = 0.7f }, Player.Center);
+				SoundEngine.PlaySound(SoundID.Item12 with { Volume = 0.6f }, Player.Center);
 				SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
 
 				DoLightningChain(target, damage);
@@ -90,7 +90,7 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 						NPC npc = Main.npc[i];
 						if (npc.CanBeChasedBy() && Vector2.Distance(Player.Center, npc.Center) <= 500f)
 						{
-							int proj = Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<ElectricGuitarProjPlayer>(), 35, 2, Player.whoAmI);
+							int proj = Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<ElectricGuitarProjPlayer>(), 35, 2, Player.whoAmI);
 							Main.projectile[proj].ai[0] = npc.position.X;
 							Main.projectile[proj].ai[1] = npc.position.Y;
 							ParticleHandler.SpawnParticle(new PulseCircle(Player.Center, new Color(255, 36, 50) * 0.124f, (.45f) * 100, 20, PulseCircle.MovementType.Outwards)
@@ -102,8 +102,8 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 							});
 							Main.projectile[proj].netUpdate = true;
 
-							SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 47).WithPitchVariance(0.8f).WithVolume(0.7f), Player.Center);
-							SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 12).WithVolume(0.6f), Player.Center);
+							SoundEngine.PlaySound(SoundID.Item47 with { PitchVariance = .8f, Volume = 0.7f }, Player.Center);
+							SoundEngine.PlaySound(SoundID.Item12 with { Volume = 0.6f }, Player.Center);
 							SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap, Player.position);
 
 							if (npcsHit++ > 3)
@@ -124,7 +124,7 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 				Velocity = Vector2.Zero
 			});
 
-			int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<ElectricGuitarProj>(), damage / 2, 2, Player.whoAmI);
+			int proj = Projectile.NewProjectile(Player.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<ElectricGuitarProj>(), damage / 2, 2, Player.whoAmI);
 			if (Main.projectile[proj].ModProjectile is ElectricGuitarProj lightning)
 			{
 				lightning.currentEnemy = target;
@@ -314,7 +314,7 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<ElectricGuitarProj>(), Projectile.damage / 2, 0, Projectile.owner);
+			Projectile.NewProjectile(target.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<ElectricGuitarProj>(), Projectile.damage / 2, 0, Projectile.owner);
 			SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
 			ParticleHandler.SpawnParticle(new PulseCircle(target.Center, new Color(255, 36, 50) * 0.124f, (.45f) * 100, 20, PulseCircle.MovementType.Outwards)
 			{

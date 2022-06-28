@@ -229,7 +229,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			if (stuck)
 				return false;
-			return base.PreDrawExtras(spriteBatch);
+			return base.PreDrawExtras(Main.spriteBatch);
 		}
 		public override void SendExtraAI(BinaryWriter writer)
 		{

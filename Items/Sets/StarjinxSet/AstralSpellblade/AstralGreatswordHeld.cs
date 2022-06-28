@@ -142,7 +142,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 				glowStrength = EaseFunction.EaseCircularOut.Ease((UseProgress - DRAWBACK_TIME) / SWING_TIME); //Make glow strength proportional to progress through the swing
 				glowStrength = 1 - (2 * Math.Abs(glowStrength - 0.5f)); //Then, use an absolute value function to make it peak in strength midway, rather than the end
 				glowStrength = EaseFunction.EaseCircularInOut.Ease(glowStrength); //Then smooth it out with an easing function
-				DrawTrail(spriteBatch, lightColor, EaseFunction.EaseCircularOut.Ease((UseProgress - DRAWBACK_TIME) / SWING_TIME), Math.Min(glowStrength * 5, 1));
+				DrawTrail(Main.spriteBatch, lightColor, EaseFunction.EaseCircularOut.Ease((UseProgress - DRAWBACK_TIME) / SWING_TIME), Math.Min(glowStrength * 5, 1));
 
 				glowStrength = Math.Max(glowStrength, glowStrengthMin); //Finally, if too low, increase it
 			}
@@ -151,7 +151,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 			Texture2D projMask = ModContent.Request<Texture2D>(Texture + "_mask");
 			Color additiveWhite = new Color(255, 255, 255, 0) * glowStrength;
 			void DrawGlow(Texture2D tex, Vector2? offset = null, float opacityMod = 1f) => //Use a method for a bit less copy paste
-				spriteBatch.Draw(tex, Projectile.Center + (offset ?? Vector2.Zero) - Main.screenPosition, null, additiveWhite * opacityMod, Projectile.rotation,
+				Main.spriteBatch.Draw(tex, Projectile.Center + (offset ?? Vector2.Zero) - Main.screenPosition, null, additiveWhite * opacityMod, Projectile.rotation,
 				tex.Size() / 2, Projectile.scale, Projectile.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
 			//Draw mask behind the sword
@@ -161,7 +161,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 			});
 			DrawGlow(projMask);
 
-			Projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDraw(Main.spriteBatch);
 
 			//Draw glowmask above the sword
 			PulseDraw.DrawPulseEffect(PulseDraw.BloomConstant, 6, 6, delegate (Vector2 offset, float opacityMod)

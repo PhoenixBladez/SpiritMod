@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.StarSpray
 			if (type == ProjectileID.WoodenArrowFriendly)
 				type = ProjectileID.StarWrath;// ProjectileID.Starfury;
 
-			int proj = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+			int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 			Projectile projectile = Main.projectile[proj];
 
 			if (type == ProjectileID.StarWrath)

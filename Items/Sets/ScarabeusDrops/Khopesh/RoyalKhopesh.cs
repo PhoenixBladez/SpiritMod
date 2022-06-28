@@ -177,7 +177,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.Khopesh
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 			Rectangle frame = new Rectangle(0, Projectile.frame * (tex.Height / Main.projFrames[Projectile.type]), tex.Width, (tex.Height / Main.projFrames[Projectile.type]));
 			SpriteEffects effects = (Projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() / 2, Projectile.scale, effects, 0);
+			Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() / 2, Projectile.scale, effects, 0);
 			return false;
 		}
 	}

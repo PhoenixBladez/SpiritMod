@@ -12,7 +12,6 @@ namespace SpiritMod.Items.Sets.AvianDrops.ApostleArmor
 		{
 			DisplayName.SetDefault("Apostle's Garb");
 			Tooltip.SetDefault("Increases magic and ranged damage by 7%\nIncreases movement speed by 10%");
-
 		}
 
 		public override void SetDefaults()

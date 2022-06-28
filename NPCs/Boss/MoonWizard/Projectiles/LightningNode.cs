@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -38,7 +39,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 				int distance = (int)Math.Sqrt((direction9.X * direction9.X) + (direction9.Y * direction9.Y));
 				direction9.Normalize();
 				if (Projectile.timeLeft % 4 == 0 && distance < 1000 && other.active) {
-					int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, direction9.X * 30, direction9.Y * 30, ModContent.ProjectileType<MoonLightning>(), 30, 0);
+					int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, direction9.X * 30, direction9.Y * 30, ModContent.ProjectileType<MoonLightning>(), 30, 0);
 					Main.projectile[proj].timeLeft = distance / 30;
 					DustHelper.DrawElectricity(Projectile.Center + (Projectile.velocity * 4), other.Center + (other.velocity * 4), 226, 0.6f, 60);
 				}
@@ -50,7 +51,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 		public override void PostDraw(Color lightColor)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-            Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), (Projectile.Center - Main.screenPosition), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .6f), SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Extra[49].Value, Terraria.GameContent.TextureAssets.Extra[49].Value, (Projectile.Center - Main.screenPosition), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .6f), SpriteEffects.None, 0f);
         }
     }
 }

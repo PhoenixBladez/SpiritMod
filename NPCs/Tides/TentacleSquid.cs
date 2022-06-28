@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.Tides
 		}
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 1);
+			SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 1);
 			Vector2 vector9 = Projectile.position;
 			Vector2 value19 = (Projectile.rotation - 3.14f).ToRotationVector2();
 			vector9 += value19 * 16f;

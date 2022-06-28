@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 				for (int i = 0; i < 3; ++i)
 				{
 					Vector2 pos = Projectile.Center + offsets[i];
-					int p = Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<SkullSentryEye>(), Main.player[Projectile.owner].HeldItem.damage, 0f, Projectile.owner, -1, i * SkullSentryEye.SHOOT_TIME / 3);
+					int p = Projectile.NewProjectile(Projectile.GetSource_FromAI(), pos, Vector2.Zero, ModContent.ProjectileType<SkullSentryEye>(), Main.player[Projectile.owner].HeldItem.damage, 0f, Projectile.owner, -1, i * SkullSentryEye.SHOOT_TIME / 3);
 
 					Projectile eye = Main.projectile[p];
 					(eye.ModProjectile as SkullSentryEye).anchor = offsets[i];
@@ -70,15 +70,15 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDraw(Main.spriteBatch);
 
 			//Manually call drawing for eyes after this projectile's drawing is called (eyes have hide = true, so they don't automatically get drawn)
 			List<Projectile> eyes = GetEyeList();
 			foreach (Projectile p in eyes) //Draw all the chains before all the eyes
-				(p.ModProjectile as SkullSentryEye).DrawChain(spriteBatch);
+				(p.ModProjectile as SkullSentryEye).DrawChain(Main.spriteBatch);
 
 			foreach (Projectile p in eyes) 
-				(p.ModProjectile as SkullSentryEye).Draw(spriteBatch, lightColor);
+				(p.ModProjectile as SkullSentryEye).Draw(Main.spriteBatch, lightColor);
 
 			return false;
 		}

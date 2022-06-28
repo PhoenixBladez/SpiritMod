@@ -84,13 +84,13 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 			Vector2 vel = Vector2.Normalize(Main.MouseWorld - p.Center) * 10f * (ScalingCapped * 0.8f);
 			int inc = 3 + (int)ScalingCapped;
 
+			p.PickAmmo(p.HeldItem, out int _, out float _, out int damage, out float kb, out int ammo, false);
+
 			for (int i = 0; i < inc; i++) //Projectiles
 			{
 				Vector2 velocity = vel.RotatedBy((i - (inc / 2f)) * 0.16f) * Main.rand.NextFloat(0.85f, 1.15f);
-				Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<GastricAcid>(), (int)(p.HeldItem.damage * ScalingCapped), 1f, Projectile.owner);
+				Projectile.NewProjectile(p.GetSource_ItemUse_WithPotentialAmmo(ammo), p.Center, velocity, ModContent.ProjectileType<GastricAcid>(), (int)(damage * ScalingCapped), 1f, Projectile.owner);
 			}
-
-			GItem.UseAmmo(p, AmmoID.Gel);
 		}
 
 		public override bool PreDraw(ref Color lightColor)
@@ -108,7 +108,7 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 			if (_charge > MinimumCharge && _endCharge == -1)
 				drawPos += new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * (ScalingCapped * 0.75f);
 
-			spriteBatch.Draw(t, drawPos, new Rectangle(0, 0, 42, 24), lightColor, realRot, new Vector2(21, 12), 1f, e, 1f);
+			Main.spriteBatch.Draw(t, drawPos, new Rectangle(0, 0, 42, 24), lightColor, realRot, new Vector2(21, 12), 1f, e, 1f);
 			return false;
 		}
 

@@ -62,7 +62,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
             {
                     float fade = (1 - (k / (float)Projectile.oldPos.Length));
                     Vector2 drawPos = Projectile.oldPos[k].ForDraw() + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
-                    spriteBatch.Draw(TextureAssets.MagicPixel.Value, drawPos, new Rectangle(0, 0, 2, 2), ColorSelect * fade * FlickerFactor, Projectile.rotation, drawOrigin, Projectile.scale * fade, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, drawPos, new Rectangle(0, 0, 2, 2), ColorSelect * fade * FlickerFactor, Projectile.rotation, drawOrigin, Projectile.scale * fade, SpriteEffects.None, 0f);
             }
             return false;
         }

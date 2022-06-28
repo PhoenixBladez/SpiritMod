@@ -71,7 +71,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 			position += new Vector2(18 * (Number - 1), 0).RotatedBy(Projectile.rotation) * (1 - sinewave);
 			position -= new Vector2(18, 0).RotatedBy(Projectile.rotation) * sinewave;
 			position += new Vector2(18, 0).RotatedBy(Projectile.rotation);
-			spriteBatch.Draw(tex, position, drawRect, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+			Main.spriteBatch.Draw(tex, position, drawRect, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 	}

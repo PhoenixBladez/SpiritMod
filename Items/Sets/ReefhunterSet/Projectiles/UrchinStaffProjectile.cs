@@ -106,7 +106,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		{
 			Texture2D t = TextureAssets.Projectile[Projectile.type].Value;
 
-			spriteBatch.Draw(t, Projectile.Center - Main.screenPosition, new Rectangle(0, 56 * (int)Projectile.ai[0], 50, 54), lightColor, Projectile.rotation, t.Size() * new Vector2(0, 0.5f), 1f, SpriteEffects.None, 1f);
+			Main.spriteBatch.Draw(t, Projectile.Center - Main.screenPosition, new Rectangle(0, 56 * (int)Projectile.ai[0], 50, 54), lightColor, Projectile.rotation, t.Size() * new Vector2(0, 0.5f), 1f, SpriteEffects.None, 1f);
 			return false;
 		}
 

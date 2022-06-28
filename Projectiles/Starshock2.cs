@@ -43,10 +43,10 @@ namespace SpiritMod.Projectiles
 			for (int i = 0; i < Repeats; i++) {
 				float rotation = MathHelper.ToRadians(270 / Repeats * i + deviation);
 				Vector2 perturbedSpeed = Vector2.Normalize(new Vector2(Projectile.velocity.X, Projectile.velocity.Y).RotatedBy(rotation)) * 2.5f;
-				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<StarTrail1>(), 12, 2, Projectile.owner);
+				Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<StarTrail1>(), 12, 2, Projectile.owner);
 			}
 
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 9);
+			SoundEngine.PlaySound(SoundID.Item9, Projectile.Center);
 			for (int i = 0; i < 6; i++) {
 				int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Electric, 0f, -2f, 0, default, 2f);
 				Main.dust[num].noGravity = true;

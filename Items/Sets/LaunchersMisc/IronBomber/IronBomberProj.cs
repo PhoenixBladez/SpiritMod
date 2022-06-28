@@ -91,12 +91,12 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.IronBomber
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Projectile.QuickDraw(spriteBatch);
-			Projectile.QuickDrawGlow(spriteBatch);
+			Projectile.QuickDraw(Main.spriteBatch);
+			Projectile.QuickDrawGlow(Main.spriteBatch);
 			if (Projectile.timeLeft < PulseTime)
 			{
 				float Opacity = (float)Math.Pow((PulseTime - Projectile.timeLeft) / PulseTime, 2);
-				spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_mask"), Projectile.Center - Main.screenPosition, Projectile.DrawFrame(), Color.Cyan * Opacity, Projectile.rotation, Projectile.DrawFrame().Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+				Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_mask"), Projectile.Center - Main.screenPosition, Projectile.DrawFrame(), Color.Cyan * Opacity, Projectile.rotation, Projectile.DrawFrame().Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 			}
 			return false;
 		}

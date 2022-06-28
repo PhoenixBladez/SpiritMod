@@ -134,7 +134,7 @@ namespace SpiritMod.Items.Sets.BriarChestLoot
 
 		public override void PostDraw(Color lightColor)
 		{
-			Texture2D texture = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/BriarChestLoot/ThornHook_Chain");
+			Texture2D texture = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/BriarChestLoot/ThornHook_Chain", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Vector2 vector = Projectile.Center;
 			Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
 			Rectangle? sourceRectangle = null;
@@ -165,19 +165,4 @@ namespace SpiritMod.Items.Sets.BriarChestLoot
 			}
 		}
 	}
-
-	// Animated hook example
-	// Multiple, 
-	// only 1 connected, spawn mult
-	// Light the path
-	// Gem Hooks: 1 spawn only
-	// Thorn: 4 spawns, 3 connected
-	// Dual: 2/1 
-	// Lunar: 5/4 -- Cycle hooks, more than 1 at once
-	// AntiGravity -- Push player to position
-	// Static -- move player with keys, don't pull to wall
-	// Christmas -- light ends
-	// Web slinger -- 9/8, can shoot more than 1 at once
-	// Bat hook -- Fast reeling
-
 }

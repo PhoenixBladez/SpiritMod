@@ -82,7 +82,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 			if (Charge == maxcharge && (Timer % TimePerSwing) == TimePerSwing / 2)
 			{
 				projOwner.GetModPlayer<MyPlayer>().Shake += 5;
-				var proj = Projectile.NewProjectileDirect(Projectile.Center, Projectile.velocity * 6, ModContent.ProjectileType<Talon_Projectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+				var proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * 6, ModContent.ProjectileType<Talon_Projectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 				proj.netUpdate = true;
 				if (!Main.dedServ)
 					SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starCast").WithPitchVariance(0.3f), Projectile.Center);
@@ -122,7 +122,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 			if (effects == SpriteEffects.FlipHorizontally)
 				origin.X = tex.Width - Projectile.width / 2;
 
-			void DrawGlow(Vector2 pos, float opacity, float scale = 1f, float? rot = null) => spriteBatch.Draw(glowTex, pos - Main.screenPosition, null, Color.White * opacity * (float)Math.Pow(Charge / maxcharge, 2), rot ?? Projectile.rotation, origin, Projectile.scale * scale, effects, 0);
+			void DrawGlow(Vector2 pos, float opacity, float scale = 1f, float? rot = null) => Main.spriteBatch.Draw(glowTex, pos - Main.screenPosition, null, Color.White * opacity * (float)Math.Pow(Charge / maxcharge, 2), rot ?? Projectile.rotation, origin, Projectile.scale * scale, effects, 0);
 
 			float timer = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2) / 2 + 0.5f;
 
@@ -133,7 +133,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 			}
 			DrawGlow(Projectile.Center, timer / 2 + 0.5f, 1.1f);
 
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, origin, Projectile.scale, effects, 0);
+			Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, origin, Projectile.scale, effects, 0);
 			return false;
 		}
 	}

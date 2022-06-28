@@ -132,7 +132,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 				Gore gore = Gore.NewGoreDirect(Projectile.position, Projectile.velocity / 2, Mod.Find<ModGore>("Gores/Skelet/skeler" + i).Type);
 				gore.timeLeft = 40;
 			}
-			SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 2, 0.75f, 0.25f);
+			SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 2, 0.75f, 0.25f);
 		}
 		public override bool MinionContactDamage() => true;
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)

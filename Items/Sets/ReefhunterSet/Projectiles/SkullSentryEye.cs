@@ -87,7 +87,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 				if (Timer % SHOOT_TIME == 0) //Move with shot projectile 
 				{
-					Projectile shot = Projectile.NewProjectileDirect(Projectile.Center, vel, ModContent.ProjectileType<SkullSentryMucus>(), Projectile.damage, 10.2f, Projectile.owner);
+					Projectile shot = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, vel, ModContent.ProjectileType<SkullSentryMucus>(), Projectile.damage, 10.2f, Projectile.owner);
 					if(shot.ModProjectile is SkullSentryMucus mucus)
 						mucus.MakeDust(Main.rand.Next(7, 10), 2, 1, 140, 5);
 

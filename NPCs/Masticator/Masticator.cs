@@ -189,7 +189,7 @@ namespace SpiritMod.NPCs.Masticator
 				}
 
 				if (NPC.ai[3] == 180)
-					SoundEngine.PlaySound(SoundID.NPCKilled, NPC.Center, 13);
+					SoundEngine.PlaySound(SoundID.NPCDeath, NPC.Center, 13);
 			}
 		}
 

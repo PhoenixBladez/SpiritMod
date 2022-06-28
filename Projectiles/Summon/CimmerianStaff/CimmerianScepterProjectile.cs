@@ -190,23 +190,23 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
 					{
 						case 0: //star attack
 							colorVer = new Color(126, 61, 255);
-							SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 9);
+							SoundEngine.PlaySound(SoundID.Item9, Projectile.Center);
 							for (int z = 0; z < 4; z++)
 							{
 								Vector2 pos = new Vector2(Projectile.Center.X + Main.rand.Next(-30, 30), Projectile.Center.Y + Main.rand.Next(-30, 30));
 								DustHelper.DrawStar(pos, 272, pointAmount: 5, mainSize: 1.425f, dustDensity: 2, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
-								Projectile.NewProjectile(pos.X, pos.Y, direction.X + Main.rand.Next(-2, 2), direction.Y + Main.rand.Next(-2, 2), ModContent.ProjectileType<CimmerianStaffStar>(), Projectile.damage, 0, Main.myPlayer);
+								Projectile.NewProjectile(Projectile.GetSource_FromAI(), pos.X, pos.Y, direction.X + Main.rand.Next(-2, 2), direction.Y + Main.rand.Next(-2, 2), ModContent.ProjectileType<CimmerianStaffStar>(), Projectile.damage, 0, Main.myPlayer);
 							}
 							break;
 						case 1: //explosion attack
 							colorVer = new Color(255, 20, 52);
 							SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaiveImpactGhost, Projectile.Center);
 							DustHelper.DrawCircle(Projectile.Center, 130, 1, 1f, 1f, .85f, .85f);
-							Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CimmerianRedGlyph>(), Projectile.damage, 0, Main.myPlayer);
+							Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CimmerianRedGlyph>(), Projectile.damage, 0, Main.myPlayer);
 							break;
 						case 2: //lightning attack
 							colorVer = new Color(61, 184, 255);
-							SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 12);
+							SoundEngine.PlaySound(SoundID.Item12, Projectile.Center);
 							for (int k = 0; k < 15; k++)
 							{
 								Dust d = Dust.NewDustPerfect(Projectile.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(3), 0, default, Main.rand.NextFloat(.4f, .8f));
@@ -282,7 +282,7 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
                     Color color = colorVer * sineAdd * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 
                     float scale = Projectile.scale;
-                    Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Summon/CimmerianStaff/CimmerianScepterProjectile_Glow");
+                    Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Summon/CimmerianStaff/CimmerianScepterProjectile_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad);
 
                     spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
                     //spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);

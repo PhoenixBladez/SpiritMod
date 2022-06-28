@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
         }
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), Projectile.damage/3 * 2, Projectile.knockBack, Projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Fire>(), Projectile.damage/3 * 2, Projectile.knockBack, Projectile.owner, 0f, 0f);
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 
             for (int k = 0; k < 40; k++)

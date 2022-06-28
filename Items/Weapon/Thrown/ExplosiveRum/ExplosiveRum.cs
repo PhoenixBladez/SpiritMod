@@ -183,7 +183,7 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 			{
 				SpriteEffects effect = flipSprite ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 				Vector2 pos = (Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY)) + new Vector2(0, (frameHeight / 2) + 12);
-				spriteBatch.Draw(tex, pos, frame, Color.White, Projectile.rotation, new Vector2(tex.Width - (Projectile.width / 2), frameHeight), Projectile.scale, effect, 0);
+				Main.spriteBatch.Draw(tex, pos, frame, Color.White, Projectile.rotation, new Vector2(tex.Width - (Projectile.width / 2), frameHeight), Projectile.scale, effect, 0);
 			}
 			return false;
 		}
@@ -238,7 +238,7 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
 			Rectangle frame = new Rectangle(0, frameHeight * Projectile.frame, tex.Width, frameHeight);
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, new Vector2(tex.Width / 2, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0);
+			Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, new Vector2(tex.Width / 2, frameHeight / 2), Projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 	}

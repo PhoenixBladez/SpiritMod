@@ -84,7 +84,7 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 				{
 					SoundEngine.PlaySound(SoundID.Item110, Projectile.position);
 					Vector2 direction = Vector2.Normalize(mainTarget.Center - Projectile.Center) * 15f;
-					Projectile p = Projectile.NewProjectileDirect(new EntitySource_ProjectileDeath(), Projectile.Center, direction, ModContent.ProjectileType<JellyfishOrbiter_Friendly>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
+					Projectile p = Projectile.NewProjectileDirect(Projectile.GetSource_Death(), Projectile.Center, direction, ModContent.ProjectileType<JellyfishOrbiter_Friendly>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
 					p.friendly = true;
 					p.hostile = false;
 					p.minion = true;
@@ -107,7 +107,7 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 							{
 								SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 110);
 								Vector2 direction = Vector2.Normalize(Main.npc[npcFinder].Center - Projectile.Center) * 15f;
-								Projectile p = Projectile.NewProjectileDirect(Projectile.Center, direction, ModContent.ProjectileType<JellyfishOrbiter_Friendly>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
+								Projectile p = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, direction, ModContent.ProjectileType<JellyfishOrbiter_Friendly>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
 								p.friendly = true;
 								p.hostile = false;
 								p.minion = true;

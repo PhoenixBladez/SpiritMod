@@ -185,8 +185,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			float chargeScale = (EaseFunction.EaseCubicOut.Ease(chargeProgress) * 0.66f) + 1; //Increase scale depending on how charged the projectile is
 			float modifiedScale = Projectile.scale * (1 + fluctuate + flashPulse) * chargeScale;
 
-			PreDrawOrbExtras(spriteBatch, modifiedScale, yellow);
-			DrawOrb(spriteBatch, modifiedScale, orange, purple);
+			PreDrawOrbExtras(Main.spriteBatch, modifiedScale, yellow);
+			DrawOrb(Main.spriteBatch, modifiedScale, orange, purple);
 
 			return false;
 		}

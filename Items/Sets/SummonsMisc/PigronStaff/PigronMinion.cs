@@ -182,12 +182,12 @@ namespace SpiritMod.Items.Sets.SummonsMisc.PigronStaff
 				{
 					float opacity = (ProjectileID.Sets.TrailCacheLength[Projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[Projectile.type];
 					opacity *= 0.5f * Projectile.Opacity;
-					spriteBatch.Draw(drawTex, Projectile.oldPos[i] + (Projectile.Size / 2) - Main.screenPosition, Projectile.DrawFrame(), trailColor * opacity, Projectile.oldRot[i], 
+					Main.spriteBatch.Draw(drawTex, Projectile.oldPos[i] + (Projectile.Size / 2) - Main.screenPosition, Projectile.DrawFrame(), trailColor * opacity, Projectile.oldRot[i], 
 						Projectile.DrawFrame().Size() / 2, Projectile.scale, (Projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 				}
 			}
 
-			spriteBatch.Draw(drawTex, Projectile.Center - Main.screenPosition, Projectile.DrawFrame(), lightColor * Projectile.Opacity, Projectile.rotation, Projectile.DrawFrame().Size() / 2, 
+			Main.spriteBatch.Draw(drawTex, Projectile.Center - Main.screenPosition, Projectile.DrawFrame(), lightColor * Projectile.Opacity, Projectile.rotation, Projectile.DrawFrame().Size() / 2, 
 				Projectile.scale, (Projectile.spriteDirection < 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 			return false;
 		}

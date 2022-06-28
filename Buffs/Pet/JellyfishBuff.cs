@@ -24,7 +24,7 @@ namespace SpiritMod.Buffs.Pet
 
 			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<JellyfishPet>()] <= 0;
 			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {
-				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<JellyfishPet>(), 0, 0f, player.whoAmI);
+				Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Center, Vector2.Zero, ModContent.ProjectileType<JellyfishPet>(), 0, 0f, player.whoAmI);
 			}
 		}
 	}

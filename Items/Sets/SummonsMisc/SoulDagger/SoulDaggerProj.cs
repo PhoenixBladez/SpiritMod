@@ -188,7 +188,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 			Rectangle frame = new Rectangle(0, frameHeight * frameY, tex.Width, frameHeight);
 
 			Vector2 origin = new Vector2(tex.Width, frameHeight) / 2;
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0f);
 			return false;
 		}
 
@@ -232,7 +232,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
 			Rectangle frame = new Rectangle(0, frameHeight * Projectile.frame, tex.Width, frameHeight);
-			spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color, Projectile.rotation, new Vector2(0, frameHeight), Projectile.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, frame, color, Projectile.rotation, new Vector2(0, frameHeight), Projectile.scale, SpriteEffects.None, 0f);
 			return false;
 		}
 	}

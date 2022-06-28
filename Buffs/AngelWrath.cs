@@ -51,7 +51,7 @@ namespace SpiritMod.Buffs
 
 			if (npc.buffTime[buffIndex] == 1)
 			{
-				SoundEngine.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 9);
+				SoundEngine.PlaySound(SoundID.Item9, npc.Center);
 				for (int k = 0; k < lightnum; k++)
 				{
 					float num12 = Main.rand.Next(-10, 10);
@@ -61,7 +61,7 @@ namespace SpiritMod.Buffs
 					float num17 = 100 * num15;
 					float SpeedX = num16 + Main.rand.Next(-40, 41) * 0.15f;  //this defines the projectile X position speed and randomnes
 					float SpeedY = num17 + Main.rand.Next(-40, 41) * 0.15f;  //this defines the projectile Y position speed and randomnes
-					Projectile.NewProjectile(npc.position.X, npc.position.Y + Main.rand.Next(-400, -380), SpeedX, SpeedY, ModContent.ProjectileType<AngelLightStar>(), 65, 0, Main.myPlayer, 0.0f, 1);
+					Projectile.NewProjectile(npc.GetSource_Buff(buffIndex), npc.position.X, npc.position.Y + Main.rand.Next(-400, -380), SpeedX, SpeedY, ModContent.ProjectileType<AngelLightStar>(), 65, 0, Main.myPlayer, 0.0f, 1);
 					info.angelWrathStacks = 0;
 				}
 			}

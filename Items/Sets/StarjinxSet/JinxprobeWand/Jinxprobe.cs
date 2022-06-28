@@ -102,7 +102,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 			Texture2D tex = Mod.Assets.Request<Texture2D>("Textures/Medusa_Ray").Value;
 			Color beamcolor = SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 4) * 0.5f * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 4 + 0.75f);
 			Vector2 scale = new Vector2(Projectile.Distance(Player.Center) / tex.Width, 1) * 0.75f;
-			spriteBatch.Draw(tex,
+			Main.spriteBatch.Draw(tex,
 				Projectile.Center - Main.screenPosition + new Vector2(tex.Size().X * scale.X, 0).RotatedBy(Projectile.AngleTo(Player.Center)) / 2,
 				null,
 				SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 4) * 0.5f * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 4 + 0.75f),
@@ -116,16 +116,16 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 			SpriteEffects flip = (Math.Abs(Projectile.rotation) > MathHelper.Pi / 2) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
 			//draw big glow underneath projectile
-			spriteBatch.Draw(glow2, Projectile.Center - Main.screenPosition, glow2.Bounds, beamcolor, newrotation,
-				glow2.Size() / 2, Projectile.scale * 1.1f, flip, 0); 
-			spriteBatch.Draw(glow2, Projectile.Center - Main.screenPosition, glow2.Bounds, beamcolor * 0.3f, newrotation,
+			Main.spriteBatch.Draw(glow2, Projectile.Center - Main.screenPosition, glow2.Bounds, beamcolor, newrotation,
+				glow2.Size() / 2, Projectile.scale * 1.1f, flip, 0);
+			Main.spriteBatch.Draw(glow2, Projectile.Center - Main.screenPosition, glow2.Bounds, beamcolor * 0.3f, newrotation,
 				 glow2.Size() / 2, Projectile.scale * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 6 + 1.2f), flip, 0);
 
 			//redraw projectile and glowmask
-			spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, rect, Projectile.GetAlpha(lightColor), newrotation, rect.Size() / 2, Projectile.scale, flip, 0);
-			spriteBatch.Draw(glow, Projectile.Center - Main.screenPosition, rect, Projectile.GetAlpha(Color.White), newrotation, rect.Size() / 2, Projectile.scale, flip, 0);
+			Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, rect, Projectile.GetAlpha(lightColor), newrotation, rect.Size() / 2, Projectile.scale, flip, 0);
+			Main.spriteBatch.Draw(glow, Projectile.Center - Main.screenPosition, rect, Projectile.GetAlpha(Color.White), newrotation, rect.Size() / 2, Projectile.scale, flip, 0);
 
-			spriteBatch.Draw(glow, Projectile.Center - Main.screenPosition, rect, Projectile.GetAlpha(Color.White * 0.5f), newrotation, rect.Size() / 2, 
+			Main.spriteBatch.Draw(glow, Projectile.Center - Main.screenPosition, rect, Projectile.GetAlpha(Color.White * 0.5f), newrotation, rect.Size() / 2, 
 				Projectile.scale + (Projectile.scale * (0.3f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3)/6)), flip, 0);
 
 			return false;

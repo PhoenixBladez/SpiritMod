@@ -70,7 +70,7 @@ namespace SpiritMod.Projectiles.Summon
 							num5 = num4 / num5;
 
 						value *= num5;
-						int p = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, value.X, value.Y, ModContent.ProjectileType<NovaBeam1>(), Projectile.damage, Projectile.knockBack / 2f, Projectile.owner, 0f, 0f);
+						int p = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, value.X, value.Y, ModContent.ProjectileType<NovaBeam1>(), Projectile.damage, Projectile.knockBack / 2f, Projectile.owner, 0f, 0f);
 						Main.projectile[p].minion = true;
 						Main.projectile[p].magic = false;
 					}

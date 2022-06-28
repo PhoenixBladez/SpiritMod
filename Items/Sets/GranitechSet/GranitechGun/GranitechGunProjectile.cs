@@ -155,10 +155,10 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			else if (_charge <= ChargeUp)
 				frame = new Rectangle(0, Height * 3, Width, Height);
 
-			spriteBatch.Draw(t, drawPos, frame, lightColor, realRot, new Vector2(42, 22), 1f, _effect, 1f);
+			Main.spriteBatch.Draw(t, drawPos, frame, lightColor, realRot, new Vector2(42, 22), 1f, _effect, 1f);
 
 			Texture2D glowmask = ModContent.Request<Texture2D>(Texture + "_glow");
-			spriteBatch.Draw(glowmask, drawPos, frame, Color.White, realRot, new Vector2(42, 22), 1f, _effect, 1f);
+			Main.spriteBatch.Draw(glowmask, drawPos, frame, Color.White, realRot, new Vector2(42, 22), 1f, _effect, 1f);
 
 			return false;
 		}

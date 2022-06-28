@@ -135,7 +135,7 @@ namespace SpiritMod.NPCs.Boss
 				vector47.Y = 0f;
 				vector47.X = 0f;
 				vector47 += new Vector2(value12.X, num382) - Main.screenPosition;
-				spriteBatch.Draw(texture2D12, vector47, rectangle5, color70, num386 + num380, origin6, 1f + num379, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(texture2D12, vector47, rectangle5, color70, num386 + num380, origin6, 1f + num379, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

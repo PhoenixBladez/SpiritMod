@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Summon
 		public override void PostDraw(Color lightColor)
 		{
 			float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-			Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_49"), (Projectile.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Extra[49].Value, (Projectile.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
 		}
 		public override void AI()
 		{
@@ -72,7 +72,7 @@ namespace SpiritMod.Projectiles.Summon
 				Vector2 ShootArea = new Vector2(Projectile.Center.X, Projectile.Center.Y - 13);
 				Vector2 direction = Vector2.Normalize(target.Center - ShootArea) * shootVelocity;
 				if(Main.netMode != NetmodeID.MultiplayerClient) {
-					int proj2 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y - 13, direction.X, direction.Y, ModContent.ProjectileType<CoilBullet1>(), Projectile.damage, 0, Main.myPlayer);
+					int proj2 = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y - 13, direction.X, direction.Y, ModContent.ProjectileType<CoilBullet1>(), Projectile.damage, 0, Main.myPlayer);
 					Main.projectile[proj2].ranged = false;
 					Main.projectile[proj2].minion = true;
 				}

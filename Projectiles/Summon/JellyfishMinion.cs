@@ -231,9 +231,9 @@ namespace SpiritMod.Projectiles.Summon
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						if (colorType == 0)
-							Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<BlueJellyfishBolt>(), Projectile.damage, 0, Main.myPlayer);
+							Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<BlueJellyfishBolt>(), Projectile.damage, 0, Main.myPlayer);
 						else
-							Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<PinkJellyfishBolt>(), Projectile.damage, 0, Main.myPlayer);
+							Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<PinkJellyfishBolt>(), Projectile.damage, 0, Main.myPlayer);
 					}
 				}
 				if (Projectile.ai[1] == -1f)
