@@ -1031,94 +1031,69 @@ namespace SpiritMod
 
 			if (KoiTotem && Main.rand.Next(10) == 0)
 			{
-				for (int j = 0; j < Player.inventory.Length; ++j)
-				{
-					if (Player.inventory[j].stack > 0 && Player.inventory[j].bait > 0)
-					{
-						Item.NewItem((int)Player.position.X, (int)Player.position.Y, Player.width, Player.height, Player.inventory[j].type, 1, false, 0, false, false);
-						break;
-					}
-				}
+				if (attempt.playerFishingConditions.Bait.stack < attempt.playerFishingConditions.Bait.maxStack)
+					attempt.playerFishingConditions.Bait.stack++;
 			}
 
 			MyPlayer modPlayer = Player.GetModPlayer<MyPlayer>();
-			int bobberIndex = -1;
 
-			for (int i = 0; i < Main.maxProjectiles; i++)
-				if (Main.projectile[i].active && Main.projectile[i].owner == Player.whoAmI && Main.projectile[i].bobber)
-					bobberIndex = i;
-
-			if (config.EnemyFishing && bobberIndex != -1)
+			if (config.EnemyFishing && (attempt.common || attempt.uncommon))
 			{
-				Vector2 bobberPos = Main.projectile[bobberIndex].Center;
-
 				if (Main.bloodMoon && Main.rand.Next(20) == 0)
 				{
-					int id = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>(), 0, 2, 1, 0, 0, Main.myPlayer);
-					if (Main.netMode == NetmodeID.MultiplayerClient)
-						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
-
-					caughtType = ItemID.None;
+					itemDrop = 0;
+					attempt.rolledEnemySpawn = ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>();
 					return;
 				}
 
-				if (!mimicRepellent)
+				if (!mimicRepellent && attempt.crate)
 				{
-					if (Main.rand.NextBool(Player.cratePotion ? 85 : 125))
+					if (Main.rand.NextBool(35))
 					{
-						int id = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<WoodCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-						if (Main.netMode == NetmodeID.MultiplayerClient)
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
-
-						caughtType = ItemID.None;
+						itemDrop = 0;
+						npcSpawn = ModContent.NPCType<WoodCrateMimic>();
 						return;
 					}
 
-					if (Main.rand.NextBool(Player.cratePotion ? 90 : 145))
+					if (Main.rand.NextBool(45))
 					{
-						int id = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<IronCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-						if (Main.netMode == NetmodeID.MultiplayerClient)
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
-
-						caughtType = ItemID.None;
+						itemDrop = 0;
+						npcSpawn = ModContent.NPCType<IronCrateMimic>();
 						return;
 					}
 
-					if (Main.rand.NextBool(Player.cratePotion ? 105 : 165))
+					if (Main.rand.NextBool(60))
 					{
-						int id = NPC.NewNPC((int)bobberPos.X, (int)bobberPos.Y, ModContent.NPCType<GoldCrateMimic>(), 0, 2, 1, 0, 0, Main.myPlayer);
-						if (Main.netMode == NetmodeID.MultiplayerClient)
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
-
-						caughtType = ItemID.None;
+						itemDrop = 0;
+						npcSpawn = ModContent.NPCType<GoldCrateMimic>();
 						return;
 					}
 				}
 			}
 
-			if (Player.ZoneDungeon && power >= 30 && Main.rand.NextBool(25))
-				caughtType = ModContent.ItemType<MysticalCage>();
+			if (Player.ZoneDungeon && attempt.fishingLevel >= 30 && Main.rand.NextBool(25))
+				itemDrop = ModContent.ItemType<MysticalCage>();
 
 			if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(Player.cratePotion ? 35 : 65))
-				caughtType = ModContent.ItemType<SpiritCrate>();
+				itemDrop = ModContent.ItemType<SpiritCrate>();
 
 			if (modPlayer.ZoneSpirit && NPC.downedMechBossAny && Main.rand.NextBool(5))
-				caughtType = ModContent.ItemType<SpiritKoi>();
+				itemDrop = ModContent.ItemType<SpiritKoi>();
 
 			if (modPlayer.ZoneReach && Main.rand.NextBool(5))
-				caughtType = ModContent.ItemType<Items.Sets.BriarDrops.ReachFishingCatch>();
+				itemDrop = ModContent.ItemType<Items.Sets.BriarDrops.ReachFishingCatch>();
 
 			if (modPlayer.ZoneReach && Main.rand.NextBool(Player.cratePotion ? 25 : 45))
-				caughtType = ModContent.ItemType<ReachCrate>();
+				itemDrop = ModContent.ItemType<ReachCrate>();
 
 			if (modPlayer.ZoneReach && Main.rand.NextBool(25))
-				caughtType = ModContent.ItemType<ThornDevilfish>();
+				itemDrop = ModContent.ItemType<ThornDevilfish>();
 
 			if (Player.ZoneGlowshroom && Main.rand.NextBool(27))
-				caughtType = ModContent.ItemType<ShroomFishSummon>();
+				itemDrop = ModContent.ItemType<ShroomFishSummon>();
 
 			if (Player.ZoneBeach && Main.rand.NextBool(125))
-				caughtType = ModContent.ItemType<Items.Sets.ClubSubclass.BassSlapper>();
+				itemDrop = ModContent.ItemType<Items.Sets.ClubSubclass.BassSlapper>();
 		}
 
 		public override void AnglerQuestReward(float quality, List<Item> rewardItems)
@@ -1280,7 +1255,7 @@ namespace SpiritMod
 				Projectile.NewProjectile(item.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<PhoenixProjectile>(), 50, 4, Main.myPlayer);
 
 			if (crystalFlower && target.life <= 0 && Main.rand.NextBool(12))
-				CrystalFlowerOnKillEffect(target);
+				CrystalFlowerOnKillEffect(proj, target);
 		}
 
 		int Charger;
@@ -4221,7 +4196,7 @@ namespace SpiritMod
 			}
 		}
 
-		public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
+		public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
 		{
 			if (camoCounter > 0)
 			{
@@ -4247,7 +4222,7 @@ namespace SpiritMod
 			}
 		}
 
-		public override void ModifyDrawLayers(List<PlayerLayer> layers)
+		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
 		{
 			for (int i = 0; i < layers.Count; i++)
 			{
@@ -4262,12 +4237,12 @@ namespace SpiritMod
 			}
 			if (ChitinDashTicks > 0 && Player.active && !Player.dead)
 			{
-				TornadoLayer.visible = true;
+				TornadoLayer.Visible = true;
 				layers.Add(TornadoLayer);
 			}
 		}
 
-		public static readonly PlayerLayer WeaponLayer = new PlayerLayer("SpiritMod", "WeaponLayer", PlayerLayer.HeldItem, delegate (PlayerDrawInfo drawInfo)
+		public static readonly PlayerDrawLayer WeaponLayer = new PlayerDrawLayer("SpiritMod", "WeaponLayer", PlayerLayer.HeldItem, delegate (PlayerDrawSet drawInfo)
 		{
 			if (drawInfo.shadow != 0f)
 				return;
@@ -4305,7 +4280,7 @@ namespace SpiritMod
 			}
 		});
 
-		public static readonly PlayerLayer BubbleLayer = new PlayerLayer("SpiritMod", "BubbleLayer", PlayerLayer.Body, delegate (PlayerDrawInfo drawInfo)
+		public static readonly PlayerDrawLayer BubbleLayer = new PlayerDrawLayer("SpiritMod", "BubbleLayer", PlayerLayer.Body, delegate (PlayerDrawSet drawInfo)
 		{
 			if (drawInfo.shadow != 0f)
 				return;
@@ -4326,7 +4301,7 @@ namespace SpiritMod
 			}
 		});
 
-		public static readonly PlayerLayer TornadoLayer = new PlayerLayer("SpiritMod", "TornadoLayer", PlayerLayer.Body, delegate (PlayerDrawInfo drawInfo)
+		public static readonly PlayerDrawLayer TornadoLayer = new PlayerDrawLayer("SpiritMod", "TornadoLayer", PlayerLayer.Body, delegate (PlayerDrawSet drawInfo)
 		{
 			if (drawInfo.shadow != 0f)
 				return;

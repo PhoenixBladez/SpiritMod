@@ -29,7 +29,6 @@ namespace SpiritMod.Items.Weapon.Yoyo
 			Item.shoot = ModContent.ProjectileType<BeholderYoyoProj>();
 			Item.DamageType = DamageClass.Magic;
 			Item.channel = true;
-			Item.melee = false;
 		}
 	}
 }

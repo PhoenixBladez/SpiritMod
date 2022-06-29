@@ -21,7 +21,6 @@ namespace SpiritMod.Items.Weapon.Thrown
 			Item.height = 50;
 			Item.noUseGraphic = true;
 			Item.UseSound = SoundID.Item1;
-			Item.thrown = false;
 			Item.DamageType = DamageClass.Ranged;
 			Item.channel = true;
 			Item.noMelee = true;

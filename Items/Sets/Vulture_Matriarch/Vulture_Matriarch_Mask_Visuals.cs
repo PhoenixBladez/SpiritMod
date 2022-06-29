@@ -16,13 +16,13 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch
 	{
 		public static bool maskEquipped = false;
 		public override void ResetEffects() => maskEquipped = false;
-		public override void ModifyDrawLayers(List<PlayerLayer> layers)
+		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
 		{
 			int head = layers.FindIndex(l => l == PlayerLayer.Head);
 			if (head < 0)
 				return;
 
-			layers.Insert(head, new PlayerLayer(Mod.Name, "Head", delegate (PlayerDrawInfo drawInfo)
+			layers.Insert(head, new PlayerDrawLayer(Mod.Name, "Head", delegate (PlayerDrawSet drawInfo)
 			{
 				if (drawInfo.shadow != 0f)
 					return;

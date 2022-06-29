@@ -15,6 +15,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Gulper");
 			Main.npcFrameCount[NPC.type] = 6;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -26,7 +27,6 @@ namespace SpiritMod.NPCs.Critters
 			NPC.dontCountMe = true;
 			NPC.lifeMax = 5;
 			NPC.HitSound = SoundID.NPCHit1;
-			Main.npcCatchable[NPC.type] = true;
 			NPC.catchItem = (short)ModContent.ItemType<GulperItem>();
 			NPC.DeathSound = SoundID.NPCDeath1;
 			NPC.knockBackResist = .35f;
@@ -35,6 +35,7 @@ namespace SpiritMod.NPCs.Critters
 			NPC.npcSlots = 0;
 			AIType = NPCID.Goldfish;
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += 0.15f;
@@ -42,13 +43,15 @@ namespace SpiritMod.NPCs.Critters
 			int frame = (int)NPC.frameCounter;
 			NPC.frame.Y = frame * frameHeight;
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gulper/Gulper1").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gulper/Gulper2").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gulper/Gulper1").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gulper/Gulper2").Type);
 			}
 		}
+
 		private int Counter;
 		public override void AI()
 		{

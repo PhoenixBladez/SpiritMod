@@ -87,7 +87,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 					Dust.NewDustPerfect(new Vector2(i * 16 + 12, j * 16 - 18), ModContent.DustType<Dusts.BoneDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
 				for (int k = 0; k <= 20; k++)
 					Dust.NewDustPerfect(new Vector2(i * 16 + 12, j * 16 - 18), ModContent.DustType<Dusts.FireClubDust>(), new Vector2(0, 6).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1));
-				Projectile.NewProjectile(i * 16 + 12, j * 16 - 36, 0, -4, ModContent.ProjectileType<Projectiles.HydrothermalVentPlume>(), 5, 0f);
+				Projectile.NewProjectile(new EntitySource_Wiring(i, j), i * 16 + 12, j * 16 - 36, 0, -4, ModContent.ProjectileType<Projectiles.HydrothermalVentPlume>(), 5, 0f);
 			}
 		}
 
@@ -119,7 +119,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 					if (Main.rand.NextBool(2200))
 					{
 						if (NPC.MechSpawn((float)i * 16, (float)j * 16, ModContent.NPCType<NPCs.Critters.TinyCrab>()))
-							npcIndex = NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<NPCs.Critters.TinyCrab>());
+							npcIndex = NPC.NewNPC(new EntitySource_TileUpdate(i, j), i * 16, j * 16, ModContent.NPCType<NPCs.Critters.TinyCrab>());
 					}
 					if (npcIndex >= 0)
 					{
@@ -133,7 +133,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 						if (Main.rand.NextBool(300))
 						{
 							if (NPC.MechSpawn((float)i * 16, (float)j * 16, ModContent.NPCType<NPCs.Critters.Crinoid>()))
-								npcIndex1 = NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<NPCs.Critters.Crinoid>());
+								npcIndex1 = NPC.NewNPC(new EntitySource_TileUpdate(i, j), i * 16, j * 16, ModContent.NPCType<NPCs.Critters.Crinoid>());
 						}
 					}
 					if (npcIndex1 >= 0)
@@ -147,7 +147,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 					{
 						if (Main.rand.NextBool(85))
 							if (NPC.MechSpawn((float)i * 16, (float)j * 16, ModContent.NPCType<NPCs.Critters.TubeWorm>()))
-								npcIndex2 = NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<NPCs.Critters.TubeWorm>());
+								npcIndex2 = NPC.NewNPC(new EntitySource_TileUpdate(i, j), i * 16, j * 16, ModContent.NPCType<NPCs.Critters.TubeWorm>());
 					}
 					if (npcIndex2 >= 0)
 					{
@@ -161,20 +161,16 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 		public static void SpawnSmoke(Vector2 pos)
 		{
 			if (Main.rand.NextBool(16))
-				Gore.NewGorePerfect(pos, new Vector2(0, Main.rand.NextFloat(-2.2f, -1.5f)), 99, Main.rand.NextFloat(0.5f, 0.8f));
+				Gore.NewGorePerfect(new EntitySource_TileUpdate((int)pos.X / 16, (int)pos.Y / 16), pos, new Vector2(0, Main.rand.NextFloat(-2.2f, -1.5f)), 99, Main.rand.NextFloat(0.5f, 0.8f));
 		}
 	}
 
 	[TileTag()]
 	public class Breakable1x2Vent : HydrothermalVent1x2
 	{
-		public override bool Autoload(ref string name, ref string texture)
-		{
-			texture = texture.Replace(nameof(Breakable1x2Vent), nameof(HydrothermalVent1x2));
-			return base.Autoload(ref name, ref texture);
-		}
+		public override string Texture => base.Texture.Replace(nameof(Breakable1x2Vent), nameof(HydrothermalVent1x2));
 
-		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<LargeVentItem>());
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<LargeVentItem>());
 		public override bool CanExplode(int i, int j) => true;
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged) => true;
 	}

@@ -189,7 +189,7 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 				if (r == 255)
 					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Topaz, Main.rand.Next(1, 5));
 				if (r == 23)
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID., Main.rand.Next(1, 5));
+					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Sapphire, Main.rand.Next(1, 5));
 				if (r == 33)
 					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 179, Main.rand.Next(1, 5));
 				if (r == 238)
@@ -201,7 +201,7 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			npcLoot.Add(ItemDropRule.Common(ItemID.StoneBlock), 1, 10, 25);
+			npcLoot.Add(ItemDropRule.Common(ItemID.StoneBlock, 1, 10, 25));
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

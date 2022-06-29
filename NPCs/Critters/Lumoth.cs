@@ -54,10 +54,10 @@ namespace SpiritMod.NPCs.Critters
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth1").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth2").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth3").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth4").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth1").Type);
+				Gore.NewGoreNPC.GetSource_Death(),(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth2").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth3").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth4").Type);
 				NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
 				NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
 				NPC.width = 32;

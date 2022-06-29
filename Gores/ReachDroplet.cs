@@ -10,12 +10,16 @@ namespace SpiritMod.Gores
 {
 	public class ReachDroplet : ModGore
 	{
+		IEntitySource source = null;
+
 		public override void OnSpawn(Gore gore, IEntitySource source)
 		{
 			gore.numFrames = 15;
 			gore.behindTiles = true;
 			gore.timeLeft = Gore.goreTime * 3;
 			ChildSafety.SafeGore[gore.type] = true;
+
+			this.source = source;
 		}
 
 		public override bool Update(Gore gore)
@@ -49,7 +53,7 @@ namespace SpiritMod.Gores
 					gore.frameCounter = 0;
 					gore.frame += 1;
 					if (gore.frame == 5) {
-						int droplet = Gore.NewGore(gore.position, gore.velocity, gore.type);
+						int droplet = Gore.NewGore(source, gore.position, gore.velocity, gore.type);
 						Main.gore[droplet].frame = 9;
 						Main.gore[droplet].velocity *= 0f;
 					}

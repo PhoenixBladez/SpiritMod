@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 				if (DespawnTimer <= 0)
 				{
 					for (int i = 0; i < 6; i++)
-						Gore.NewGore(NPC.Center, Main.rand.NextVector2Circular(2, 2), 99);
+						Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(2, 2), 99);
 
 					bool placed = false;
 					Point CheckTile = new Point((int)NPC.Left.X / 16, (int)(NPC.Left.Y + 16) / 16);
@@ -115,7 +115,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 							NetMessage.SendData(MessageID.TileChange, -1, -1, null, ModContent.TileType<CursedArmor>(), CheckTile.X, CheckTile.Y);
 
 						for (int i = 0; i < 6; i++)
-							Gore.NewGore(CheckTile.ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
+							Gore.NewGore(NPC.GetSource_Death(), CheckTile.ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
 						placed = true;
 					}
 					else if (CanPlaceStatue(new Point(TileX, TileY)))
@@ -125,7 +125,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 							NetMessage.SendData(MessageID.TileChange, -1, -1, null, ModContent.TileType<CursedArmor>(), TileX, TileY);
 
 						for (int i = 0; i < 6; i++)
-							Gore.NewGore(new Point(TileX, TileY).ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
+							Gore.NewGore(NPC.GetSource_Death(), new Point(TileX, TileY).ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
 						placed = true;
 					}
 					int tries = 0;
@@ -143,7 +143,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 										NetMessage.SendData(MessageID.TileChange, -1, -1, null, ModContent.TileType<CursedArmor>(), checkFrom.X, checkFrom.Y);
 
 									for (int i = 0; i < 6; i++)
-										Gore.NewGore(checkFrom.ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
+										Gore.NewGore(NPC.GetSource_Death(), checkFrom.ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
 									placed = true;
 								}
 							}
@@ -302,21 +302,6 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 				int index1 = (int)((position.X + (NPC.width / 2) + ((NPC.width / 2 + 1) * num8)) / 16.0);
 				int index2 = (int)((position.Y + NPC.height - 1.0) / 16.0);
 
-				if (Main.tile[index1, index2] == null)
-					Main.tile[index1, index2] = new Tile();
-
-				if (Main.tile[index1, index2 - 1] == null)
-					Main.tile[index1, index2 - 1] = new Tile();
-
-				if (Main.tile[index1, index2 - 2] == null)
-					Main.tile[index1, index2 - 2] = new Tile();
-
-				if (Main.tile[index1, index2 - 3] == null)
-					Main.tile[index1, index2 - 3] = new Tile();
-
-				if (Main.tile[index1, index2 + 1] == null)
-					Main.tile[index1, index2 + 1] = new Tile();
-
 				if ((index1 * 16) < position.X + NPC.width && (index1 * 16 + 16) > position.X && (Main.tile[index1, index2].HasUnactuatedTile && !Main.tile[index1, index2].TopSlope && (!Main.tile[index1, index2 - 1].TopSlope && Main.tileSolid[(int)Main.tile[index1, index2].TileType]) && !Main.tileSolidTop[(int)Main.tile[index1, index2].TileType] || Main.tile[index1, index2 - 1].IsHalfBlock && Main.tile[index1, index2 - 1].HasUnactuatedTile) && ((!Main.tile[index1, index2 - 1].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1, index2 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[index1, index2 - 1].TileType] || Main.tile[index1, index2 - 1].IsHalfBlock && (!Main.tile[index1, index2 - 4].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1, index2 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[index1, index2 - 4].TileType])) && ((!Main.tile[index1, index2 - 2].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1, index2 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[index1, index2 - 2].TileType]) && (!Main.tile[index1, index2 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1, index2 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[index1, index2 - 3].TileType]) && (!Main.tile[index1 - num8, index2 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1 - num8, index2 - 3].TileType]))))
 				{
 					float num9 = (float)(index2 * 16);
@@ -342,29 +327,6 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			{
 				int index1 = (int)((NPC.position.X + (NPC.width / 2) + ((NPC.width / 2 + 2) * NPC.direction) + NPC.velocity.X * 5.0) / 16.0);
 				int index2 = (int)((NPC.position.Y + NPC.height - 15.0) / 16.0);
-				if (Main.tile[index1, index2] == null)
-					Main.tile[index1, index2] = new Tile();
-
-				if (Main.tile[index1, index2 - 1] == null)
-					Main.tile[index1, index2 - 1] = new Tile();
-
-				if (Main.tile[index1, index2 - 2] == null)
-					Main.tile[index1, index2 - 2] = new Tile();
-
-				if (Main.tile[index1, index2 - 3] == null)
-					Main.tile[index1, index2 - 3] = new Tile();
-
-				if (Main.tile[index1, index2 + 1] == null)
-					Main.tile[index1, index2 + 1] = new Tile();
-
-				if (Main.tile[index1 + NPC.direction, index2 - 1] == null)
-					Main.tile[index1 + NPC.direction, index2 - 1] = new Tile();
-
-				if (Main.tile[index1 + NPC.direction, index2 + 1] == null)
-					Main.tile[index1 + NPC.direction, index2 + 1] = new Tile();
-
-				if (Main.tile[index1 - NPC.direction, index2 + 1] == null)
-					Main.tile[index1 - NPC.direction, index2 + 1] = new Tile();
 
 				int spriteDirection = NPC.spriteDirection;
 				if (NPC.velocity.X < 0.0 && spriteDirection == -1 || NPC.velocity.X > 0.0 && spriteDirection == 1)
@@ -406,10 +368,10 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/EnchantedArmorGore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/EnchantedArmorGore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/EnchantedArmorGore3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/EnchantedArmorGore4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/EnchantedArmorGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/EnchantedArmorGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/EnchantedArmorGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/EnchantedArmorGore4").Type, 1f);
 			}
 			for (int k = 0; k < 10; k++)
 			{

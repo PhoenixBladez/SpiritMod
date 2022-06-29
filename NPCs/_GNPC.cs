@@ -52,6 +52,7 @@ using SpiritMod.Items.Sets.PirateStuff;
 using SpiritMod.Items.Accessory.MageTree;
 using SpiritMod.Items.Sets.ReefhunterSet;
 using SpiritMod.Buffs.DoT;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs
 {
@@ -936,7 +937,7 @@ namespace SpiritMod.NPCs
 			Player closest = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
 
 			if (NPC.killCount[Item.NPCtoBanner(npc.BannerID())] == 50)
-				SoundEngine.PlaySound(SoundLoader.customSoundType, closest.position, Mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/BannerSfx"));
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BannerSfx"), NPC.Center);
 
 			if (bloodInfused)
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
@@ -961,136 +962,172 @@ namespace SpiritMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Glyph>());
 			#endregion
 
-			ItemLoot(npc, closest);
-
 			bool lastTwin = (npc.type == NPCID.Retinazer && !NPC.AnyNPCs(NPCID.Spazmatism)) || (npc.type == NPCID.Spazmatism && !NPC.AnyNPCs(NPCID.Retinazer));
 			if ((npc.type == NPCID.SkeletronPrime || npc.type == NPCID.TheDestroyer || lastTwin) && !MyWorld.spiritBiome)
 				SpawnSpiritBiome();
 		}
 
-		private void ItemLoot(NPC npc, Player player)
+		public override void ModifyGlobalLoot(GlobalLoot globalLoot)
 		{
-			if (player.GetSpiritPlayer().vitaStone)
-			{
-				if (!npc.friendly && npc.lifeMax > 5 && Main.rand.Next(9) == 1 && player.statLife < player.statLifeMax)
-				{
-					if (Main.halloween)
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 1734);
-					else
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58);
-				}
-			}
+			LeadingConditionRule inAsteroids = new LeadingConditionRule(new DropRuleConditions.InBiome(DropRuleConditions.InBiome.Biome.Asteroid));
+			inAsteroids.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Sets.GunsMisc.Blaster.Blaster>()));
+			globalLoot.Add(inAsteroids);
 
-			if (player.HasAccessory<ArcaneNecklace>() && Main.rand.Next(5) == 0 && !npc.friendly && player.HeldItem.magic && player.statMana < player.statManaMax2)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Star);
+			LeadingConditionRule wearingArcaneNecklace = new LeadingConditionRule(new DropRuleConditions.PlayerConditional("Wearing the Arcane Necklace and is using a magic weapon", (player) => player.HasAccessory<ArcaneNecklace>() && player.HeldItem.IsMagic() && player.statMana < player.statManaMax2));
+			wearingArcaneNecklace.OnSuccess(ItemDropRule.Common(ItemID.Star, 5));
+			globalLoot.Add(wearingArcaneNecklace);
 
-			if (player.GetSpiritPlayer().ZoneAsteroid && Main.rand.Next(50) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.GunsMisc.Blaster.Blaster>());
+			LeadingConditionRule floranSet = new LeadingConditionRule(new DropRuleConditions.PlayerConditional("Wearing the full Floran set", (player) => player.GetSpiritPlayer().floranSet));
+			floranSet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<RawMeat>(), 9));
+			globalLoot.Add(floranSet);
 
-			if (npc.type == NPCID.PirateShip || npc.type == NPCID.PirateCaptain)
-			{
-				if (Main.rand.Next(50) <= 2)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.GunsMisc.CaptainsRegards.CaptainsRegards>());
-				if (npc.type == NPCID.PirateShip && Main.rand.NextBool(3))
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PirateCrate>());
-			}
-
-			if (npc.type == NPCID.Demon && NPC.downedBoss3 && Main.rand.Next(4) == 0)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.SlagSet.CarvedRock>(), Main.rand.Next(1) + 2);
-
-			if (player.GetSpiritPlayer().floranSet && Main.rand.Next(9) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<RawMeat>(), 1);
-
-			if (npc.type == NPCID.EaterofWorldsTail && !NPC.AnyNPCs(NPCID.EaterofWorldsHead) && !NPC.AnyNPCs(NPCID.EaterofWorldsBody) && Main.rand.Next(3) == 1)
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Sets.SpearsMisc.RotScourge.EoWSpear>(), 1);
-
-			if (!npc.SpawnedFromStatue)
-			{
-				DropLoot(80, 60, ModContent.ItemType<InfernalPact>(), npc, NPCID.Lavabat, NPCID.RedDevil);
-				DropLoot(150, 150, ModContent.ItemType<IceVikingSculpture>(), npc, NPCID.UndeadViking);
-				DropLoot(150, 150, ModContent.ItemType<IceFlinxSculpture>(), npc, NPCID.SnowFlinx);
-				DropLoot(150, 150, ModContent.ItemType<IceBatSculpture>(), npc, NPCID.IceBat);
-				DropLoot(120, 110, ModContent.ItemType<Items.Accessory.RabbitFoot.Rabbit_Foot>(), npc, NPCID.Bunny);
-				DropLoot(150, 150, ModContent.ItemType<WinterbornSculpture>(), npc, ModContent.NPCType<Winterborn.WinterbornMelee>(), ModContent.NPCType<WinterbornHerald.WinterbornMagic>());
-				DropLoot(5, 5, ModContent.ItemType<Items.Consumable.Potion.BottomlessHealingPotion>(), npc, NPCID.Mimic);
-				DropLoot(5, 5, ModContent.ItemType<Items.Sets.MagicMisc.MagicDeck.MagicDeck>(), npc, NPCID.Mimic);
-
-				if (player.ZoneSnow)
-					DropLoot(100, 100, ModContent.ItemType<IceWheezerSculpture>(), npc, ModContent.NPCType<Wheezer.Wheezer>());
-			}
-
-			if (MyWorld.downedScarabeus)
-				DropLoot(40, 40, ModContent.ItemType<DesertSlab>(), npc, NPCID.TombCrawlerHead);
-
-			DropLoot(1, 1, ModContent.ItemType<Glyph>(), npc, NPCID.Tim, NPCID.RuneWizard);
-			DropLoot(100, 100, ModContent.ItemType<Items.Consumable.Potion.BottomlessAle>(), npc, NPCID.Pixie);
-			DropLoot(250, 200, ModContent.ItemType<Items.Accessory.Ukelele.Ukelele>(), npc, NPCID.AngryNimbus);
-			DropLoot(100, 95, ModContent.ItemType<Items.Accessory.BowSummonItem.BowSummonItem>(), npc, NPCID.GoblinArcher);
-			DropLoot(100, 100, ModContent.ItemType<Items.Accessory.FlyingFishFin.Flying_Fish_Fin>(), npc, NPCID.FlyingFish);
-			DropLoot(3, 3, ModContent.ItemType<Items.Accessory.SeaSnailVenom.Sea_Snail_Poison>(), npc, NPCID.SeaSnail);
-			DropLoot(100, 100, ModContent.ItemType<PossessedHammer>(), npc, NPCID.PossessedArmor);
-			DropLoot(90, 75, ModContent.ItemType<GoblinSorcererStaff>(), npc, NPCID.GoblinSorcerer);
-			DropLoot(110, 95, ModContent.ItemType<Items.Sets.ClubSubclass.BoneClub>(), npc, NPCID.AngryBones, NPCID.AngryBonesBig, NPCID.AngryBonesBigMuscle);
-			DropLoot(45, 45, ModContent.ItemType<Items.Sets.BowsMisc.StarSpray.StarlightBow>(), npc, NPCID.Harpy);
-			DropLoot(45, 45, ModContent.ItemType<Items.Sets.MagicMisc.ZephyrBreath.BreathOfTheZephyr>(), npc, NPCID.Harpy);
-			DropLoot(1, 1, ModContent.ItemType<TimScroll>(), npc, NPCID.Tim);
-			DropLoot(30, 30, ItemID.SnowGlobe, npc, NPCID.IcyMerman);
-			DropLoot(1, 1, ModContent.ItemType<PrintPrime>(), Main.rand.Next(2) + 1, npc, NPCID.SkeletronPrime);
-			DropLoot(1, 1, ModContent.ItemType<BlueprintTwins>(), Main.rand.Next(2) + 1, npc, NPCID.Retinazer, NPCID.Spazmatism);
-			DropLoot(1, 1, ModContent.ItemType<PrintProbe>(), Main.rand.Next(2) + 1, npc, NPCID.TheDestroyer);
-			DropLoot(50, 50, ModContent.ItemType<ChaosCrystal>(), npc, NPCID.ChaosElemental);
-			DropLoot(100, 80, ModContent.ItemType<Items.Weapon.Thrown.PiecesOfEight.PiecesOfEight>(), npc, NPCID.PirateDeckhand);
-			DropLoot(23, 23, ModContent.ItemType<SaucerBeacon>(), npc, NPCID.MartianOfficer);
-			DropLoot(35, 35, ModContent.ItemType<SnapperHat>(), npc, NPCID.Crawdad, NPCID.Crawdad2);
-			DropLoot(50, 50, ModContent.ItemType<TrapperGlove>(), npc, NPCID.ManEater);
-			DropLoot(500, 500, ModContent.ItemType<SnakeStaff>(), npc, NPCID.Lihzahrd, NPCID.LihzahrdCrawler);
-			DropLoot(42, 42, ModContent.ItemType<Items.Sets.MagicMisc.TerraStaffTree.DungeonStaff>(), npc, NPCID.DarkCaster);
-			DropLoot(200, 200, ModContent.ItemType<Items.Sets.GunsMisc.Swordsplosion.Swordsplosion>(), npc, NPCID.RustyArmoredBonesAxe, NPCID.RustyArmoredBonesFlail, NPCID.RustyArmoredBonesSword, NPCID.RustyArmoredBonesSwordNoArmor, NPCID.BlueArmoredBones, NPCID.BlueArmoredBonesMace,
-				NPCID.BlueArmoredBonesNoPants, NPCID.BlueArmoredBonesSword, NPCID.HellArmoredBones, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSword);
-			DropLoot(175, 175, ModContent.ItemType<Items.Sets.BowsMisc.Morningtide.Morningtide>(), npc, NPCID.HellArmoredBones, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSword);
-			DropLoot(3, 3, ModContent.ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.ZombieEskimo, NPCID.IceSlime, NPCID.IceBat, NPCID.ArmoredViking);
-			DropLoot(20, 16, ModContent.ItemType<FrostGiantBelt>(), 1, npc, NPCID.UndeadViking);
-			DropLoot(1, 1, ModContent.ItemType<FrigidFragment>(), Main.rand.Next(1, 3), npc, NPCID.SpikedIceSlime, NPCID.ArmedZombieEskimo);
-			DropLoot(14, 10, ModContent.ItemType<SweetThrow>(), npc, NPCID.QueenBee);
-			DropLoot(2, 2, ModContent.ItemType<OldLeather>(), Main.rand.Next(1, 3), npc, NPCID.Zombie, NPCID.BaldZombie, NPCID.SlimedZombie, NPCID.SwampZombie, NPCID.TwiggyZombie, NPCID.ZombieRaincoat, NPCID.PincushionZombie);
-			DropLoot(50, 50, ModContent.ItemType<SolarRattle>(), npc, NPCID.SolarDrakomire, NPCID.SolarDrakomireRider);
-			DropLoot(50, 50, ModContent.ItemType<EngineeringRod>(), npc, NPCID.GrayGrunt, NPCID.RayGunner, NPCID.BrainScrambler);
-			DropLoot(5, 5, ModContent.ItemType<Items.Sets.BowsMisc.Eyeshot.Eyeshot>(), npc, NPCID.EyeofCthulhu);
-			DropLoot(2, 2, ModContent.ItemType<Martian>(), npc, NPCID.MartianSaucer);
-			DropLoot(1, 1, Main.rand.NextBool(2) ? ModContent.ItemType<Ancient>() : ModContent.ItemType<CultistScarf>(), npc, NPCID.CultistBoss);
-			DropLoot(50, 50, ModContent.ItemType<IchorPendant>(), npc, NPCID.IchorSticker);
-			DropLoot(1, 1, ModContent.ItemType<Typhoon>(), npc, NPCID.DukeFishron);
-			DropLoot(6, 4, ModContent.ItemType<PigronStaffItem>(), npc, NPCID.PigronCorruption, NPCID.PigronHallow, NPCID.PigronCrimson);
-			DropLoot(18, 18, ModContent.ItemType<TheFireball>(), npc, NPCID.FireImp);
-			DropLoot(50, 50, ModContent.ItemType<CursedPendant>(), npc, NPCID.Clinger);
-			DropLoot(50, 50, ModContent.ItemType<MagnifyingGlass>(), npc, NPCID.DemonEye, NPCID.DemonEye2, NPCID.DemonEyeOwl, NPCID.DemonEyeSpaceship);
-			DropLoot(1, 1, ModContent.ItemType<PirateKey>(), npc, NPCID.PirateShip);
-			DropLoot(6, 6, ModContent.ItemType<Items.Sets.SummonsMisc.SanguineFlayer.SanguineFlayerItem>(), npc, NPCID.BigMimicCrimson);
-			DropLoot(6, 5, ModContent.ItemType<Items.Accessory.OpalFrog.OpalFrogItem>(), npc, NPCID.BigMimicHallow);
-			DropLoot(15, 15, ModContent.ItemType<Items.Sets.SwordsMisc.CurseBreaker.CurseBreaker>(), npc, NPCID.RedDevil);
-			DropLoot(1, 1, ModContent.ItemType<IridescentScale>(), Main.rand.Next(2, 5), npc, NPCID.Shark);
+			LeadingConditionRule vitaStoneEquipped = new LeadingConditionRule(new DropRuleConditions.PlayerConditional("Wearing the Vitality Stone (or an upgrade)", (player) => player.GetSpiritPlayer().vitaStone));
+			vitaStoneEquipped.OnSuccess(ItemDropRule.Common(ItemID.Heart));
+			globalLoot.Add(vitaStoneEquipped);
 		}
 
-		/// <summary>Drops an item given the specific conditions.</summary>
-		/// <param name="npc">NPC to check against.</param>
-		/// <param name="chance">Chance in not-expert mode (1/x).</param>
-		/// <param name="expertChance">Chance in expert mode (1/x).</param>
-		/// <param name="itemID">The item to drop.</param>
-		/// <param name="types">The NPC IDs to drop from.</param>
-		public void DropLoot(int chance, int expertChance, int itemID, NPC npc, params int[] types) => DropLoot(chance, expertChance, itemID, 1, npc, types);
-
-		/// <summary>Drops an item given the specific conditions.</summary>
-		/// <param name="npc">NPC to check against.</param>
-		/// <param name="chance">Chance in not-expert mode (1/x).</param>
-		/// <param name="expertChance">Chance in expert mode (1/x).</param>
-		/// <param name="itemID">The item to drop.</param>
-		/// <param name="stack">The stack size of the dropped item.</param>
-		/// <param name="types">The NPC IDs to drop from.</param>
-		public void DropLoot(int chance, int expertChance, int itemID, int stack, NPC npc, params int[] types)
+		public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
 		{
-			int r = Main.expertMode ? expertChance : chance;
-			if (types.Contains(npc.type) && Main.rand.NextBool(r))
-				Item.NewItem(npc.getRect(), itemID, stack);
+			DropLoot(npcLoot, 50, 50, ModContent.ItemType<SolarRattle>(), npc, NPCID.SolarDrakomire, NPCID.SolarDrakomireRider);
+			DropLoot(npcLoot, 50, 50, ModContent.ItemType<EngineeringRod>(), npc, NPCID.GrayGrunt, NPCID.RayGunner, NPCID.BrainScrambler);
+			DropLoot(npcLoot, 5, 5, ModContent.ItemType<Items.Sets.BowsMisc.Eyeshot.Eyeshot>(), npc, NPCID.EyeofCthulhu);
+			DropLoot(npcLoot, 2, 2, ModContent.ItemType<Martian>(), npc, NPCID.MartianSaucer);
+			DropLoot(npcLoot, 1, 1, Main.rand.NextBool(2) ? ModContent.ItemType<Ancient>() : ModContent.ItemType<CultistScarf>(), npc, NPCID.CultistBoss);
+			DropLoot(npcLoot, 50, 50, ModContent.ItemType<IchorPendant>(), npc, NPCID.IchorSticker);
+			DropLoot(npcLoot, 1, 1, ModContent.ItemType<Typhoon>(), npc, NPCID.DukeFishron);
+			DropLoot(npcLoot, 6, 4, ModContent.ItemType<PigronStaffItem>(), npc, NPCID.PigronCorruption, NPCID.PigronHallow, NPCID.PigronCrimson);
+			DropLoot(npcLoot, 18, 18, ModContent.ItemType<TheFireball>(), npc, NPCID.FireImp);
+			DropLoot(npcLoot, 50, 50, ModContent.ItemType<CursedPendant>(), npc, NPCID.Clinger);
+			DropLoot(npcLoot, 50, 50, ModContent.ItemType<MagnifyingGlass>(), npc, NPCID.DemonEye, NPCID.DemonEye2, NPCID.DemonEyeOwl, NPCID.DemonEyeSpaceship);
+			DropLoot(npcLoot, 1, 1, ModContent.ItemType<PirateKey>(), npc, NPCID.PirateShip);
+			DropLoot(npcLoot, 6, 6, ModContent.ItemType<Items.Sets.SummonsMisc.SanguineFlayer.SanguineFlayerItem>(), npc, NPCID.BigMimicCrimson);
+			DropLoot(npcLoot, 6, 5, ModContent.ItemType<Items.Accessory.OpalFrog.OpalFrogItem>(), npc, NPCID.BigMimicHallow);
+			DropLoot(npcLoot, 15, 15, ModContent.ItemType<Items.Sets.SwordsMisc.CurseBreaker.CurseBreaker>(), npc, NPCID.RedDevil);
+			DropLoot(npcLoot, 50, 50, ModContent.ItemType<ChaosCrystal>(), npc, NPCID.ChaosElemental);
+			DropLoot(npcLoot, 100, 80, ModContent.ItemType<Items.Weapon.Thrown.PiecesOfEight.PiecesOfEight>(), npc, NPCID.PirateDeckhand);
+			DropLoot(npcLoot, 23, 23, ModContent.ItemType<SaucerBeacon>(), npc, NPCID.MartianOfficer);
+			DropLoot(npcLoot, 35, 35, ModContent.ItemType<SnapperHat>(), npc, NPCID.Crawdad, NPCID.Crawdad2);
+			DropLoot(npcLoot, 50, 50, ModContent.ItemType<TrapperGlove>(), npc, NPCID.ManEater);
+			DropLoot(npcLoot, 500, 500, ModContent.ItemType<SnakeStaff>(), npc, NPCID.Lihzahrd, NPCID.LihzahrdCrawler);
+			DropLoot(npcLoot, 1, 1, ModContent.ItemType<Glyph>(), npc, NPCID.Tim, NPCID.RuneWizard);
+			DropLoot(npcLoot, 100, 100, ModContent.ItemType<Items.Consumable.Potion.BottomlessAle>(), npc, NPCID.Pixie);
+			DropLoot(npcLoot, 250, 200, ModContent.ItemType<Items.Accessory.Ukelele.Ukelele>(), npc, NPCID.AngryNimbus);
+			DropLoot(npcLoot, 100, 95, ModContent.ItemType<Items.Accessory.BowSummonItem.BowSummonItem>(), npc, NPCID.GoblinArcher);
+			DropLoot(npcLoot, 100, 100, ModContent.ItemType<Items.Accessory.FlyingFishFin.Flying_Fish_Fin>(), npc, NPCID.FlyingFish);
+			DropLoot(npcLoot, 3, 3, ModContent.ItemType<Items.Accessory.SeaSnailVenom.Sea_Snail_Poison>(), npc, NPCID.SeaSnail);
+			DropLoot(npcLoot, 100, 100, ModContent.ItemType<PossessedHammer>(), npc, NPCID.PossessedArmor);
+			DropLoot(npcLoot, 90, 75, ModContent.ItemType<GoblinSorcererStaff>(), npc, NPCID.GoblinSorcerer);
+			DropLoot(npcLoot, 110, 95, ModContent.ItemType<Items.Sets.ClubSubclass.BoneClub>(), npc, NPCID.AngryBones, NPCID.AngryBonesBig, NPCID.AngryBonesBigMuscle);
+			DropLoot(npcLoot, 45, 45, ModContent.ItemType<Items.Sets.BowsMisc.StarSpray.StarlightBow>(), npc, NPCID.Harpy);
+			DropLoot(npcLoot, 45, 45, ModContent.ItemType<Items.Sets.MagicMisc.ZephyrBreath.BreathOfTheZephyr>(), npc, NPCID.Harpy);
+			DropLoot(npcLoot, 1, 1, ModContent.ItemType<TimScroll>(), npc, NPCID.Tim);
+			DropLoot(npcLoot, 30, 30, ItemID.SnowGlobe, npc, NPCID.IcyMerman);
+			DropLoot(npcLoot, 14, 10, ModContent.ItemType<SweetThrow>(), npc, NPCID.QueenBee);
+			DropLoot(npcLoot, 80, 60, ModContent.ItemType<InfernalPact>(), npc, NPCID.Lavabat, NPCID.RedDevil);
+			DropLoot(npcLoot, 150, 150, ModContent.ItemType<IceVikingSculpture>(), npc, NPCID.UndeadViking);
+			DropLoot(npcLoot, 150, 150, ModContent.ItemType<IceFlinxSculpture>(), npc, NPCID.SnowFlinx);
+			DropLoot(npcLoot, 150, 150, ModContent.ItemType<IceBatSculpture>(), npc, NPCID.IceBat);
+			DropLoot(npcLoot, 120, 110, ModContent.ItemType<Items.Accessory.RabbitFoot.Rabbit_Foot>(), npc, NPCID.Bunny);
+			DropLoot(npcLoot, 150, 150, ModContent.ItemType<WinterbornSculpture>(), npc, ModContent.NPCType<Winterborn.WinterbornMelee>(), ModContent.NPCType<WinterbornHerald.WinterbornMagic>());
+			DropLoot(npcLoot, 5, 5, ModContent.ItemType<Items.Consumable.Potion.BottomlessHealingPotion>(), npc, NPCID.Mimic);
+			DropLoot(npcLoot, 5, 5, ModContent.ItemType<Items.Sets.MagicMisc.MagicDeck.MagicDeck>(), npc, NPCID.Mimic);
+			DropLoot(npcLoot, 42, 42, ModContent.ItemType<Items.Sets.MagicMisc.TerraStaffTree.DungeonStaff>(), npc, NPCID.DarkCaster);
+			DropLoot(npcLoot, 200, 200, ModContent.ItemType<Items.Sets.GunsMisc.Swordsplosion.Swordsplosion>(), npc, NPCID.RustyArmoredBonesAxe, NPCID.RustyArmoredBonesFlail, NPCID.RustyArmoredBonesSword, NPCID.RustyArmoredBonesSwordNoArmor, NPCID.BlueArmoredBones, NPCID.BlueArmoredBonesMace,
+				NPCID.BlueArmoredBonesNoPants, NPCID.BlueArmoredBonesSword, NPCID.HellArmoredBones, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSword);
+			DropLoot(npcLoot, 20, 16, ModContent.ItemType<FrostGiantBelt>(), npc, NPCID.UndeadViking);
+			DropLoot(npcLoot, 13, 13, ModContent.ItemType<Items.Sets.GunsMisc.CaptainsRegards.CaptainsRegards>(), npc, NPCID.PirateShip, NPCID.PirateCaptain);
+			DropLoot(npcLoot, 13, 13, ModContent.ItemType<PirateCrate>(), npc, NPCID.PirateShip);
+			DropLoot(npcLoot, 175, 175, ModContent.ItemType<Items.Sets.BowsMisc.Morningtide.Morningtide>(), npc, NPCID.HellArmoredBones, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSword);
+
+			DownedBossLoot(npcLoot, DropRuleConditions.BossDowned.Bosses.Scarabeus, 40, 40, ModContent.ItemType<DesertSlab>(), npc, NPCID.TombCrawlerHead);
+			DownedBossLootCommon(npcLoot, DropRuleConditions.BossDowned.Bosses.Skeletron, 40, ModContent.ItemType<Items.Sets.SlagSet.CarvedRock>(), 1, 3, npc, NPCID.Demon);
+
+			DropLoot(npcLoot, 1, 1, ModContent.ItemType<PrintPrime>(), 1, 2, npc, NPCID.SkeletronPrime);
+			DropLoot(npcLoot, 1, 1, ModContent.ItemType<BlueprintTwins>(), 1, 2, npc, NPCID.Retinazer, NPCID.Spazmatism);
+			DropLoot(npcLoot, 1, 1, ModContent.ItemType<PrintProbe>(), 1, 2, npc, NPCID.TheDestroyer);
+			DropLoot(npcLoot, 3, 3, ModContent.ItemType<FrigidFragment>(), 1, 2, npc, NPCID.ZombieEskimo, NPCID.IceSlime, NPCID.IceBat, NPCID.ArmoredViking);
+			DropLoot(npcLoot, 1, 1, ModContent.ItemType<FrigidFragment>(), 1, 2, npc, NPCID.SpikedIceSlime, NPCID.ArmedZombieEskimo);
+			DropLoot(npcLoot, 2, 2, ModContent.ItemType<OldLeather>(), 1, 2, npc, NPCID.Zombie, NPCID.BaldZombie, NPCID.SlimedZombie, NPCID.SwampZombie, NPCID.TwiggyZombie, NPCID.ZombieRaincoat, NPCID.PincushionZombie);
+			DropLoot(npcLoot, 1, 1, ModContent.ItemType<IridescentScale>(), 1, 2, npc, NPCID.Shark);
+
+			if (new int[] { NPCID.EaterofWorldsBody, NPCID.EaterofWorldsHead, NPCID.EaterofWorldsTail }.Contains(npc.type)) //Drops for EoW here
+			{
+				LeadingConditionRule leadingConditionRule = new(new Conditions.LegacyHack_IsABoss());
+				leadingConditionRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Sets.SpearsMisc.RotScourge.EoWSpear>(), 1));
+				npcLoot.Add(leadingConditionRule);
+			}
+		}
+
+		/// <summary>Adds loot that only drops after a certain boss has been defeated. Uses NormalvsExpert if the condition is true.</summary>
+		/// <param name="npcLoot"></param>
+		/// <param name="boss"></param>
+		/// <param name="normal"></param>
+		/// <param name="expert"></param>
+		/// <param name="itemID"></param>
+		/// <param name="npc"></param>
+		/// <param name="types"></param>
+		private void DownedBossLoot(NPCLoot npcLoot, DropRuleConditions.BossDowned.Bosses boss, int normal, int expert, int itemID, NPC npc, params int[] types)
+		{
+			if (types.Contains(npc.type)) 
+			{
+				LeadingConditionRule rule = new LeadingConditionRule(new DropRuleConditions.BossDowned(boss));
+				rule.OnSuccess(ItemDropRule.NormalvsExpert(itemID, normal, expert));
+				npcLoot.Add(rule);
+			}
+		}
+
+		/// <summary>Adds loot that only drops after a certain boss has been defeated. Uses NormalvsExpert if the condition is true.</summary>
+		/// <param name="npcLoot"></param>
+		/// <param name="boss"></param>
+		/// <param name="normal"></param>
+		/// <param name="expert"></param>
+		/// <param name="itemID"></param>
+		/// <param name="npc"></param>
+		/// <param name="types"></param>
+		private void DownedBossLoot(NPCLoot npcLoot, DropRuleConditions.BossDowned.Bosses boss, int normal, int expert, int itemID, int minStack, int maxStack, NPC npc, params int[] types)
+		{
+			if (types.Contains(npc.type))
+			{
+				LeadingConditionRule rule = new LeadingConditionRule(new DropRuleConditions.BossDowned(boss));
+				rule.OnSuccess(DropRules.NormalvsExpertStacked(itemID, normal, expert, minStack, maxStack));
+				npcLoot.Add(rule);
+			}
+		}
+
+		private void DownedBossLootCommon(NPCLoot npcLoot, DropRuleConditions.BossDowned.Bosses boss, int normal, int itemID, int minStack, int maxStack, NPC npc, params int[] types)
+		{
+			if (types.Contains(npc.type))
+			{
+				LeadingConditionRule rule = new LeadingConditionRule(new DropRuleConditions.BossDowned(boss));
+				rule.OnSuccess(ItemDropRule.Common(itemID, normal, minStack, maxStack));
+				npcLoot.Add(rule);
+			}
+		}
+
+		/// <summary>Drops an item given the specific conditions. Uses NormalvsExpert.</summary>
+		/// <param name="npc">NPC to check against.</param>
+		/// <param name="chance">Chance in not-expert mode (1/x).</param>
+		/// <param name="expertChance">Chance in expert mode (1/x).</param>
+		/// <param name="itemID">The item to drop.</param>
+		/// <param name="types">The NPC IDs to drop from.</param>
+		public void DropLoot(NPCLoot loot, int chance, int expertChance, int itemID, NPC npc, params int[] types)
+		{
+			if (types.Contains(npc.type))
+				loot.Add(ItemDropRule.NormalvsExpert(itemID, chance, expertChance));
+		}
+
+		/// <summary>Drops an item given the specific conditions. Uses DropRules.NormalvsExpertStacked.</summary>
+		/// <param name="npc">NPC to check against.</param>
+		/// <param name="chance">Chance in not-expert mode (1/x).</param>
+		/// <param name="expertChance">Chance in expert mode (1/x).</param>
+		/// <param name="itemID">The item to drop.</param>
+		/// <param name="minStack">The minimum stack size of the dropped item.</param>
+		/// <param name="maxStack">The maximum stack size of the dropped item.</param>
+		/// <param name="types">The NPC IDs to drop from.</param>
+		public void DropLoot(NPCLoot loot, int chance, int expertChance, int itemID, int minStack, int maxStack, NPC npc, params int[] types)
+		{
+			if (types.Contains(npc.type))
+				loot.Add(DropRules.NormalvsExpertStacked(itemID, chance, expertChance, minStack, maxStack));
 		}
 
 		private void SpawnSpiritBiome()
@@ -1147,7 +1184,10 @@ namespace SpiritMod.NPCs
 							Main.tile[xAxis, yAxis].WallType = (ushort)ModContent.WallType<SpiritWall>(); //Converts walls
 
 						if (Decors.Contains(Main.tile[xAxis, yAxis].TileType) && Main.rand.NextBool(nullRandom) && Main.rand.Next(distanceFromCenter) < 18)
-							Main.tile[xAxis, yAxis].HasTile = false; //Removes decor
+						{
+							Tile tile = Main.tile[xAxis, yAxis];
+							tile.HasTile = false; //Removes decor
+						}
 
 						if (Main.tile[xAxis, yAxis].TileType == ModContent.TileType<SpiritStone>() && yAxis > (int)((Main.rockLayer + Main.maxTilesY - 500) / 2f) && Main.rand.NextBool(300))
 							WorldGen.TileRunner(xAxis, yAxis, WorldGen.genRand.Next(5, 7), 1, ModContent.TileType<Items.Sets.SpiritSet.SpiritOreTile>(), false, 0f, 0f, true, true); //Adds ore

@@ -105,9 +105,9 @@ namespace SpiritMod.NPCs.FrozenSouls
 							DoExplosionDust();
 							SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/PositiveOutcome"));
 							outcomeValue = 1f;
-							Gore.NewGore(NPC.position, NPC.velocity, 13);
-							Gore.NewGore(NPC.position, NPC.velocity, 13);
-							Gore.NewGore(NPC.position, NPC.velocity, 13);
+							Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 13);
+							Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 13);
+							Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 13);
 							if (!player.HasItem(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.IceDeityShard1>()))
 							{ 
 								player.QuickSpawnItem(ItemID.WarmthPotion, 2);
@@ -123,9 +123,9 @@ namespace SpiritMod.NPCs.FrozenSouls
 							DoExplosionDust();
 							SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/NegativeOutcome"));
 							outcomeValue = 1f;
-							Gore.NewGore(NPC.position, NPC.velocity, 99);
-							Gore.NewGore(NPC.position, NPC.velocity, 99);
-							Gore.NewGore(NPC.position, NPC.velocity, 99);
+							Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 99);
+							Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 99);
+							Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 99);
 							player.AddBuff(BuffID.Darkness, 3600);
 							player.AddBuff(BuffID.Weak, 3600);
 							player.AddBuff(BuffID.BrokenArmor, 3600);

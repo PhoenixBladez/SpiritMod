@@ -10,17 +10,17 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 {
 	public class SagittariusPlayer : ModPlayer
 	{
-		public override void ModifyDrawLayers(List<PlayerLayer> layers)
+		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
 		{
 			if (Player.HeldItem.type == ModContent.ItemType<Sagittarius>() && false)
 			{
-				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "SagittariusHeld",
-					delegate (PlayerDrawInfo info) { DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_held").Value, 
+				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerDrawLayer(Mod.Name, "SagittariusHeld",
+					delegate (PlayerDrawSet info) { DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_held").Value, 
 						Mod.Assets.Request<Texture2D>("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_heldGlow").Value, info); }));
 			}
 		}
 
-		public void DrawItem(Texture2D texture, Texture2D glow, PlayerDrawInfo info)
+		public void DrawItem(Texture2D texture, Texture2D glow, PlayerDrawSet info)
 		{
 			Item item = info.drawPlayer.HeldItem;
 			if (info.shadow != 0f || info.drawPlayer.frozen || ((info.drawPlayer.itemAnimation <= 0 || item.useStyle == 0) && (item.holdStyle <= 0 || info.drawPlayer.pulley)) || info.drawPlayer.dead || (info.drawPlayer.wet && item.noWet))

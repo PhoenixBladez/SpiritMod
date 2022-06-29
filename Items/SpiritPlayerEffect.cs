@@ -26,7 +26,7 @@ namespace SpiritMod.Items
 		public virtual void PlayerPostUpdateEquips(Player player) { }
 		public virtual void PlayerPostUpdate(Player player) { }
 		public virtual void PlayerModifyHitNPC(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit) { }
-		public virtual void PlayerDrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright) { }
+		public virtual void PlayerDrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright) { }
 
 		///<summary>Only runs if this is being used through an accessory.</summary>
 		public virtual void ItemUpdateAccessory(Player player, bool hideVisual) { }

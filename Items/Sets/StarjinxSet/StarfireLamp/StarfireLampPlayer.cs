@@ -93,17 +93,17 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			if (HoldingLamp)
 				Player.GetModPlayer<ExtraDrawOnPlayer>().DrawDict.Add(delegate (SpriteBatch sB) { DrawAdditiveLayer(sB); }, ExtraDrawOnPlayer.DrawType.Additive);
 		}
-		public override void ModifyDrawLayers(List<PlayerLayer> layers)
+		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
 		{
 			if(HoldingLamp)
-				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "StarfireLampHeld",
-					delegate (PlayerDrawInfo info) { DrawItem(info); }));
+				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerDrawLayer(Mod.Name, "StarfireLampHeld",
+					delegate (PlayerDrawSet info) { DrawItem(info); }));
 		}
 
 		//Prevent the texture from being drawn if the player is dead or under other conditions where held items would typically not be drawn
 		private bool CanDraw => Player.shadow == 0f && !Player.frozen && !Player.dead;
 
-		public void DrawItem(PlayerDrawInfo info)
+		public void DrawItem(PlayerDrawSet info)
 		{
 			if (!CanDraw)
 				return;
@@ -116,14 +116,14 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			DrawTwinkle(info);
 		}
 
-		private void DrawTwinkle(PlayerDrawInfo info)
+		private void DrawTwinkle(PlayerDrawSet info)
 		{
 			if (TwinkleTime > 0)
 			{
 				float rotation = Player.direction * (TwinkleTime / (float)MaxTwinkleTime) * MathHelper.Pi;
 				float opacity = 0.8f * (MaxTwinkleTime - Math.Abs((MaxTwinkleTime / 2) - TwinkleTime)) / (MaxTwinkleTime / 2);
 				Vector2 scale = new Vector2(1, 0.6f) * ((MaxTwinkleTime / 2) - Math.Abs((MaxTwinkleTime / 2) - TwinkleTime)) / (MaxTwinkleTime / 2);
-				Texture2D startex = Main.extraTexture[89];
+				Texture2D startex = TextureAssets.Extra[49][89];
 				Vector2 twinkleOffset = new Vector2(0, 26);
 
 				DrawData data = new DrawData(

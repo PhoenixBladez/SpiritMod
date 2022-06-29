@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.Reach
 		{
 			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<AncientBark>(), 3, 1, 2));
 
-			LeadingConditionRule leadingConditionRule = new(new LootConditions.NotDay());
+			LeadingConditionRule leadingConditionRule = new(new DropRuleConditions.NotDay());
 			leadingConditionRule.OnSuccess(ItemDropRule.Common(ModContent.ItemType<EnchantedLeaf>(), 1));
 			npcLoot.Add(leadingConditionRule);
 		}

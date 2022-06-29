@@ -57,11 +57,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		}
 
 		//Add in custom draw layers
-		public override void ModifyDrawLayers(List<PlayerLayer> layers)
+		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
 		{
 			if(Player.HeldItem.type == ModContent.ItemType<StellanovaCannon>() && false)
-				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "StellanovaHeld",
-					delegate (PlayerDrawInfo info) { DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/StarjinxSet/Stellanova/StellanovaCannon_held").Value, info); }));
+				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerDrawLayer(Mod.Name, "StellanovaHeld",
+					delegate (PlayerDrawSet info) { DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/StarjinxSet/Stellanova/StellanovaCannon_held").Value, info); }));
 		}
 
 		public override void PostUpdate()
@@ -71,7 +71,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		}
 
 		//Draw the item and its glowmask on the player
-		public void DrawItem(Texture2D texture, PlayerDrawInfo info)
+		public void DrawItem(Texture2D texture, PlayerDrawSet info)
 		{
 			if (!CanDraw || info.shadow != 0f)
 				return;

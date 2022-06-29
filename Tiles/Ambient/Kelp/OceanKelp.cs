@@ -11,15 +11,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 {
     internal class OceanKelp : ModTile
     {
-        private static string TexName = "";
-
 		private const int ClumpFrameOffset = 76; //so I don't have to magic number 76 constantly
-
-        public override bool Autoload(ref string name, ref string texture)
-        {
-            TexName = texture; //Autoloads the texture :)
-            return base.Autoload(ref name, ref texture);
-        }
 
         public override void SetStaticDefaults()
         {
@@ -38,7 +30,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 			ItemDrop = ModContent.ItemType<Items.Sets.FloatingItems.Kelp>();
 			AddMapEntry(new Color(21, 92, 19));
             DustType = DustID.Grass;
-            soundType = SoundID.Grass;
+            HitSound = SoundID.Grass;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num) => num = 3;
@@ -141,7 +133,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch) //Drawing woo
         {
             Tile t = Framing.GetTileSafely(i, j); //ME!
-            Texture2D tile = ModContent.Request<Texture2D>(TexName); //Associated texture - loaded automatically
+            Texture2D tile = ModContent.Request<Texture2D>(Texture, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value; //Associated texture - loaded automatically
 
 			int totalOffset = t.TileFrameX / ClumpFrameOffset; //Gets offset
 			int realFrameX = t.TileFrameX - (ClumpFrameOffset * totalOffset); //Adjusted so its easy to read

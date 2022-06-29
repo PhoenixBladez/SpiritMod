@@ -88,7 +88,7 @@ namespace SpiritMod.GlobalClasses.Players
 		{
 			// Frost Giant Belt
 			if (Player.HasAccessory<FrostGiantBelt>() && HeldItemIsClub(Player) && item.type == Player.HeldItem.type)
-				mult += 1 + (item.knockBack / 30f);
+				damage *= 1 + (item.knockBack / 30f);
 		}
 
 		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
@@ -112,7 +112,7 @@ namespace SpiritMod.GlobalClasses.Players
 		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			// Twilight Talisman & Shadow Gauntlet
-			bool shadowFlameCondition = (Player.HasAccessory<Twilight1>() && Main.rand.NextBool(15)) || (Player.HasAccessory<ShadowGauntlet>() && proj.melee && Main.rand.NextBool(2));
+			bool shadowFlameCondition = (Player.HasAccessory<Twilight1>() && Main.rand.NextBool(15)) || (Player.HasAccessory<ShadowGauntlet>() && proj.IsMelee() && Main.rand.NextBool(2));
 			AddBuffWithCondition(shadowFlameCondition, target, BuffID.ShadowFlame, 180);
 		}
 
@@ -121,14 +121,14 @@ namespace SpiritMod.GlobalClasses.Players
 			// Hell Charm
 			if (Player.HasAccessory<HCharm>() && Main.rand.Next(11) == 0)
 			{
-				if ((weapon is Item i && i.melee) || weapon is Projectile)
+				if ((weapon is Item i && i.IsMelee()) || weapon is Projectile)
 					target.AddBuff(BuffID.OnFire, 120);
 			}
 
 			// Amazon Charm
 			if (Player.HasAccessory<YoyoCharm2>() && Main.rand.Next(11) == 0)
 			{
-				if ((weapon is Item i && i.melee) || weapon is Projectile)
+				if ((weapon is Item i && i.IsMelee()) || weapon is Projectile)
 					target.AddBuff(BuffID.Poisoned, 120);
 			}
 		}
@@ -141,13 +141,13 @@ namespace SpiritMod.GlobalClasses.Players
 			if (Player.HasAccessory<ShadowGauntlet>())
 			{
 				Player.kbGlove = true;
-				Player.GetDamage(DamageClass.Melee) += 0.07F;
-				Player.meleeSpeed += 0.07F;
+				Player.GetDamage(DamageClass.Melee) += 0.07f;
+				Player.GetAttackSpeed(DamageClass.Melee) += 0.07f;
 			}
 
 			// Cimmerian Scepter
 			if (!Player.dead && Player.HasAccessory<CimmerianScepter>() && Player.ownedProjectileCounts[ModContent.ProjectileType<CimmerianScepterProjectile>()] < 1)
-				Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<CimmerianScepterProjectile>(), (int)(22 * Player.GetDamage(DamageClass.Summon)), 1.5f, Player.whoAmI);
+				Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.Center, Vector2.Zero, ModContent.ProjectileType<CimmerianScepterProjectile>(), (int)Player.GetDamage(DamageClass.Summon).ApplyTo(22), 1.5f, Player.whoAmI);
 		}
 
 		public override void MeleeEffects(Item item, Rectangle hitbox)

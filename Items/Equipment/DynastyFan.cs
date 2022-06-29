@@ -35,13 +35,12 @@ namespace SpiritMod.Items.Equipment
 		{
 			if (!player.HasBuff(BuffID.Featherfall)) {
                 player.AddBuff(ModContent.BuffType<Buffs.DynastyFanBuff>(), 120);
-                player.velocity.X = 0 - speedX;
-				player.velocity.Y = 0 - speedY;
-				int ing = Gore.NewGore(player.Center, player.velocity * 4, 825);
+				player.velocity = -velocity;
+				int ing = Gore.NewGore(source, player.Center, player.velocity * 4, 825);
 				Main.gore[ing].timeLeft = Main.rand.Next(30, 90);
-				int ing1 = Gore.NewGore(player.Center, player.velocity * 4, 826);
+				int ing1 = Gore.NewGore(source, player.Center, player.velocity * 4, 826);
 				Main.gore[ing1].timeLeft = Main.rand.Next(30, 90);
-				int ing2 = Gore.NewGore(player.Center, player.velocity * 4, 827);
+				int ing2 = Gore.NewGore(source, player.Center, player.velocity * 4, 827);
 				Main.gore[ing2].timeLeft = Main.rand.Next(30, 90);
 			}
 

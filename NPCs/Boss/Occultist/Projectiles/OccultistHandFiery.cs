@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
-			Texture2D extraTex = Main.extraTexture[55];
+			Texture2D extraTex = TextureAssets.Extra[49][55];
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			int frame = (int)((Main.GlobalTimeWrappedHourly * 5) % 4);
 			Rectangle drawFrame = new Rectangle(0, frame * extraTex.Height / 4, extraTex.Width, extraTex.Height / 4);

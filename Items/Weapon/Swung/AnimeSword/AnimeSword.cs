@@ -211,12 +211,12 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 
 	public class AnimeSwordPlayer : ModPlayer
 	{
-		public override void ModifyDrawLayers(List<PlayerLayer> layers)
+		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
 		{
 			if (Player.HeldItem.type == ModContent.ItemType<AnimeSword>())
 			{
-				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "AnimeSwordHeld",
-					delegate (PlayerDrawInfo info) {
+				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerDrawLayer(Mod.Name, "AnimeSwordHeld",
+					delegate (PlayerDrawSet info) {
 						DragonPlayer.DrawItem(Mod.Assets.Request<Texture2D>("Items/Weapon/Swung/AnimeSword/AnimeSwordProj").Value, Mod.Assets.Request<Texture2D>("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_sparkle").Value, info);
 					}));
 			}

@@ -86,7 +86,7 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 			}
 		}
 
-		public override void PlayerDrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
+		public override void PlayerDrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
 		{
 			var player = drawInfo.drawPlayer;
 			if (virulence <= 0 && Main.rand.NextBool(2)) {

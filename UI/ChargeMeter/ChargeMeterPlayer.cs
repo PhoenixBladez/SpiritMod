@@ -30,14 +30,14 @@ namespace SpiritMod.UI.ChargeMeter
             chargeMeter.barTexture = "SpiritMod/ChargeMeter/ChargeBar";
         }
 
-        public override void ModifyDrawLayers(List<PlayerLayer> layers)
+        public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
         {
             int body = layers.FindIndex(l => l == PlayerLayer.MiscEffectsFront);
             if (body < 0)
                 return;
 
-            layers.Insert(body - 1, new PlayerLayer(Mod.Name, "Body",
-                delegate (PlayerDrawInfo drawInfo)
+            layers.Insert(body - 1, new PlayerDrawLayer(Mod.Name, "Body",
+                delegate (PlayerDrawSet drawInfo)
             {
                 if (drawInfo.shadow != 0f)
                 {

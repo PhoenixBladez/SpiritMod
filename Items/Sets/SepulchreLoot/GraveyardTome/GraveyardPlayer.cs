@@ -18,17 +18,17 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 				GraveyardFrame = 0;
 		}
 
-		public override void ModifyDrawLayers(List<PlayerLayer> layers)
+		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
 		{
 			if(Player.HeldItem.type == ModContent.ItemType<Graveyard>())
 			{
-				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerLayer(Mod.Name, "GraveyardHeld",
-					delegate (PlayerDrawInfo info) { DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_held").Value,
+				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerDrawLayer(Mod.Name, "GraveyardHeld",
+					delegate (PlayerDrawSet info) { DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_held").Value,
 						Mod.Assets.Request<Texture2D>("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_heldGlow").Value, info); }));
 			}
 		}
 
-		public void DrawItem(Texture2D texture, Texture2D glow, PlayerDrawInfo info)
+		public void DrawItem(Texture2D texture, Texture2D glow, PlayerDrawSet info)
 		{
 			Item item = info.drawPlayer.HeldItem;
 			if (info.shadow != 0f || info.drawPlayer.frozen || ((info.drawPlayer.itemAnimation <= 0 || item.useStyle == 0) && (item.holdStyle <= 0 || info.drawPlayer.pulley)) || info.drawPlayer.dead || (info.drawPlayer.wet && item.noWet))

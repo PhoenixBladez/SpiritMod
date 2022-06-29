@@ -33,19 +33,19 @@ namespace SpiritMod.Items.Accessory.Rangefinder
 
 		public override void ResetEffects() => active = false;
 
-		public override void ModifyDrawLayers(List<PlayerLayer> layers)
+		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
 		{
 			int arms = layers.FindIndex(l => l == PlayerLayer.Arms);
 			if (arms < 0)
 				return;
 
-			layers.Insert(arms - 5, new PlayerLayer(Mod.Name, "HeldItem",
-				delegate (PlayerDrawInfo drawInfo)
+			layers.Insert(arms - 5, new PlayerDrawLayer(Mod.Name, "HeldItem",
+				delegate (PlayerDrawSet drawInfo)
 				{
 					Player drawPlayer = drawInfo.drawPlayer;
 					DrawData drawData = new DrawData();
 					Mod mod = ModLoader.GetMod("SpiritMod");
-					Texture2D texture = Main.extraTexture[47];
+					Texture2D texture = TextureAssets.Extra[49][47];
 					Vector2 drawPlayerCenter = drawPlayer.MountedCenter;
 					Vector2 distToProj = Main.MouseWorld - drawPlayerCenter;
 					float projRotation = distToProj.ToRotation() - 1.57f;
