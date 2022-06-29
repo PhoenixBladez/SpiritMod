@@ -59,14 +59,14 @@ namespace SpiritMod.NPCs.Town
 			{
 				if (NPC.active)
 				{
-					SoundEngine.PlaySound(SoundID.DoubleJump, NPC.Center, 0);
+					SoundEngine.PlaySound(SoundID.DoubleJump, NPC.Center);
 					Rectangle textPos = new Rectangle((int)NPC.position.X, (int)NPC.position.Y - 60, NPC.width, NPC.height);
 					CombatText.NewText(textPos, new Color(255, 240, 0, 100), "Gotta go adventurin', see you later!");
 					for (int i = 0; i < 2; i++)
 					{
-						Gore.NewGore(NPC.position, NPC.velocity, 11);
-						Gore.NewGore(NPC.position, NPC.velocity, 13);
-						Gore.NewGore(NPC.position, NPC.velocity, 12);
+						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 11);
+						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 13);
+						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 12);
 					}
 					NPC.life = -1;
 					NPC.active = false;
@@ -80,10 +80,10 @@ namespace SpiritMod.NPCs.Town
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer1").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer2").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer3").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer4").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer1").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer2").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer3").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer4").Type);
 			}
 		}
 
@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs.Town
 			return SpawnCondition.OverworldDay.Chance * 0.2f;
 		}
 
-		public override string TownNPCName() => Main.rand.Next(new string[] { "Indie", "Guy", "Nathan" });
+		public override List<string> SetNPCNameList() => new List<string>() { "Indie", "Guy", "Nathan" };
 
 		public override void OnKill() => NPC.DropItem(ItemType<AdventurerMap>());
 

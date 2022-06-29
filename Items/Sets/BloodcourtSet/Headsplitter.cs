@@ -58,9 +58,9 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (modPlayer.shootDelay < 150 && player.altFunctionUse == 2) {
-				SoundEngine.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 20);
+				SoundEngine.PlaySound(SoundID.Item20, player.Center);
 				damage = 1 + (int)((damage * 1.35f) / (MathHelper.Clamp((float)Math.Sqrt(modPlayer.shootDelay), 1, 180)));
-				Projectile.NewProjectile(position.X, position.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), damage, 2.5f, Main.myPlayer);
+				Projectile.NewProjectile(source, position.X, position.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), damage, 2.5f, Main.myPlayer);
 				modPlayer.shootDelay = 180;
 			}
 			return false;

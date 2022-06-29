@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Summon
             {
                 for (int i = 0; i < 13; i++)
                 {
-                    int num = Dust.NewDust(Projectile.Center + new Vector2(0, (float)Math.Cos(counter / 4.2f) * 16.2f).RotatedBy(Projectile.rotation), 6, 6, DustID.SapphireBolt, 0f, 0f, 0, default, .65f);
+                    int num = Dust.NewDust(Projectile.Center + new Vector2(0, (float)Math.Cos(counter / 4.2f) * 16.2f).RotatedBy(Projectile.rotation), 6, 6, DustID.GemSapphire, 0f, 0f, 0, default, .65f);
                     Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(18, Main.LocalPlayer);
                     Main.dust[num].velocity *= .1f;
                     Main.dust[num].scale = MathHelper.Clamp(1.25f, .2f, 10/Projectile.ai[0]);

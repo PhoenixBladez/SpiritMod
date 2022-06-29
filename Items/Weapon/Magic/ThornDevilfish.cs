@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Weapon.Magic
         {
             for (int I = 0; I < 3; I++)
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, velocity.X + ((float)Main.rand.Next(-180, 180) / 100), velocity.Y + ((float)Main.rand.Next(-180, 180) / 100), ProjectileID.ToxicBubble, damage, knockback, player.whoAmI, 0f, 0f);
+                int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X + ((float)Main.rand.Next(-180, 180) / 100), velocity.Y + ((float)Main.rand.Next(-180, 180) / 100), ProjectileID.ToxicBubble, damage, knockback, player.whoAmI, 0f, 0f);
                 Main.projectile[p].timeLeft = 60;
                 Main.projectile[p].scale *= .6f;
 				Main.projectile[p].DamageType = DamageClass.Magic;

@@ -49,9 +49,9 @@ namespace SpiritMod.NPCs.Town
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Bandit/Bandit1").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Bandit/Bandit2").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Bandit/Bandit3").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Bandit/Bandit1").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Bandit/Bandit2").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Bandit/Bandit3").Type);
 			}
 		}
 
@@ -60,11 +60,7 @@ namespace SpiritMod.NPCs.Town
 			return Main.player.Any(x => x.active) && !NPC.AnyNPCs(NPCType<Rogue>()) && !NPC.AnyNPCs(NPCType<BoundRogue>());
 		}
 
-		public override string TownNPCName()
-		{
-			string[] names = { "Zane", "Carlos", "Tycho", "Damien", "Shane", "Daryl", "Shepard", "Sly" };
-			return Main.rand.Next(names);
-		}
+		public override List<string> SetNPCNameList() => new List<string>() { "Zane", "Carlos", "Tycho", "Damien", "Shane", "Daryl", "Shepard", "Sly" };
 
 		public override string GetChat()
 		{

@@ -126,7 +126,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					Vector2 dir = Main.player[NPC.target].Center - NPC.Center;
 					dir.Normalize();
 					dir *= 14;
-					int newNPC = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ShadowBall>(), NPC.whoAmI);
+					int newNPC = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ShadowBall>(), NPC.whoAmI);
 					Main.npc[newNPC].velocity = dir;
 				}
 
@@ -140,7 +140,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 						targetDir.Normalize();
 						targetDir *= 3;
 						int dmg = expertMode ? 23 : 37;
-						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), dmg, 0.5F, Main.myPlayer);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), dmg, 0.5F, Main.myPlayer);
 					}
 				}
 
@@ -151,7 +151,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					dir += new Vector2(Main.rand.Next(-40, 41), Main.rand.Next(-40, 41));
 					dir.Normalize();
 					dir *= 12;
-					int newNPC = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Shadowflamer>(), NPC.whoAmI);
+					int newNPC = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Shadowflamer>(), NPC.whoAmI);
 					Main.npc[newNPC].velocity = dir;
 				}
 
@@ -232,7 +232,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 							Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 							targetDir.Normalize();
 							targetDir *= 3;
-							Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), 26, 0.5F, Main.myPlayer);
+							Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), 26, 0.5F, Main.myPlayer);
 						}
 					}
 
@@ -240,7 +240,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					{
 						if (Main.rand.Next(100) == 10)
 						{
-							SoundEngine.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 21);
+							SoundEngine.PlaySound(SoundID.Item21, player.Center);
 							Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 							direction.Normalize();
 							direction.X *= 12f;
@@ -252,7 +252,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 								float A = Main.rand.Next(-200, 200) * 0.01f;
 								float B = Main.rand.Next(-200, 200) * 0.01f;
 								int damage = expertMode ? 23 : 37;
-								Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<CrystalShadow>(), damage, 1, Main.myPlayer, 0, 0);
+								Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<CrystalShadow>(), damage, 1, Main.myPlayer, 0, 0);
 							}
 						}
 					}
@@ -346,7 +346,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 							Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 							targetDir.Normalize();
 							targetDir *= 3;
-							Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), 26, 0.5F, Main.myPlayer);
+							Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<CrystalShadow>(), 26, 0.5F, Main.myPlayer);
 						}
 					}
 					if (NPC.ai[2] >= 270)
@@ -408,7 +408,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			{
 				if (Main.rand.Next(100) == 2 && NPC.life >= (NPC.lifeMax / 2))
 				{
-					SoundEngine.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 33);
+					SoundEngine.PlaySound(SoundID.Item33, player.Center);
 					Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 12f;
 
 					bool expertMode = Main.expertMode;
@@ -418,7 +418,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 						float A = Main.rand.Next(-80, 80) * 0.01f;
 						float B = Main.rand.Next(-80, 80) * 0.01f;
 						int damage = expertMode ? 23 : 37;
-						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<ShadowPulse>(), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<ShadowPulse>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 				}
 			}

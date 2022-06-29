@@ -55,7 +55,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			if (!NPC.AnyNPCs(ModContent.NPCType<InfernonSkull>()))
 			{
 				if (Main.expertMode || NPC.life <= 7000)
-					NPC.NewNPC((int)NPC.position.X, (int)NPC.position.Y, ModContent.NPCType<InfernonSkull>(), 0, 2, 1, 0, NPC.whoAmI, NPC.target);
+					NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, ModContent.NPCType<InfernonSkull>(), 0, 2, 1, 0, NPC.whoAmI, NPC.target);
 			}
 
 			if (NPC.ai[0] == 0)
@@ -129,7 +129,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 						float num12 = speed / length;
 						speedX *= num12;
 						speedY *= num12;
-						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), position.X, position.Y, speedX, speedY, ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
 					}
 				}
 				else if (NPC.ai[3] < 0)
@@ -182,7 +182,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 							Vector2 dir = player.Center - pos;
 							dir.Normalize();
 							dir *= 12;
-							Projectile.NewProjectile(pos.X, pos.Y, dir.X, dir.Y, ModContent.ProjectileType<FireSpike>(), 24, 0, Main.myPlayer);
+							Projectile.NewProjectile(NPC.GetSource_FromAI(), pos.X, pos.Y, dir.X, dir.Y, ModContent.ProjectileType<FireSpike>(), 24, 0, Main.myPlayer);
 							currentSpread++;
 						}
 					}
@@ -239,7 +239,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 						Main.dust[dust3].noGravity = true;
 						Main.dust[dust3].scale = 1.9f;
 						Vector2 direction = Vector2.One.RotatedByRandom(MathHelper.ToRadians(100));
-						int newNPC = NPC.NewNPC((int)NPC.position.X, (int)NPC.position.Y, ModContent.NPCType<InfernonSkullMini>());
+						int newNPC = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, ModContent.NPCType<InfernonSkullMini>());
 						Main.npc[newNPC].velocity = direction * 8;
 					}
 					// Shoot mini skulls.
@@ -310,10 +310,9 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				{
 					if (Main.expertMode)
 					{
-
-						Main.NewText("You have yet to defeat the true master of Hell...", 220, 100, 100, true);
+						Main.NewText("You have yet to defeat the true master of Hell...", 220, 100, 100);
 						Vector2 spawnAt = NPC.Center + new Vector2(0f, (float)NPC.height);
-						NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<InfernoSkull>());
+						NPC.NewNPC(NPC.GetSource_Death(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<InfernoSkull>());
 					}
 				}
 				NPC.position.X = NPC.position.X + (NPC.width / 2);
@@ -380,13 +379,14 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				{
 					for (int y = centerY - halfLength; y <= centerY + halfLength; y++)
 					{
+						Tile tile = Main.tile[x, y];
 						if ((x == centerX - halfLength || x == centerX + halfLength || y == centerY - halfLength || y == centerY + halfLength) && !Main.tile[x, y].HasTile)
 						{
-							Main.tile[x, y].TileType = TileID.HellstoneBrick;
-							Main.tile[x, y].HasTile = true;
+							tile.TileType = TileID.HellstoneBrick;
+							tile.HasTile = true;
 						}
-						Main.tile[x, y].lava/* tModPorter Suggestion: LiquidType = ... */(false);
-						Main.tile[x, y].LiquidAmount = 0;
+						tile.LiquidType = LiquidID.Lava;
+						tile.LiquidAmount = 0;
 						if (Main.netMode == NetmodeID.Server)
 							NetMessage.SendTileSquare(-1, x, y, 1);
 						else

@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using System.IO;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Boulder_Termagant
 {
@@ -181,15 +182,14 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 		}
 		public override void OnKill()
 		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.StoneBlock, Main.rand.Next(10, 26));
 			if (Main.rand.NextBool(4))
 			{
 				if (r == 219)
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 181, Main.rand.Next(1, 5));
+					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Amethyst, Main.rand.Next(1, 5));
 				if (r == 255)
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 180, Main.rand.Next(1, 5));
+					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Topaz, Main.rand.Next(1, 5));
 				if (r == 23)
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 177, Main.rand.Next(1, 5));
+					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID., Main.rand.Next(1, 5));
 				if (r == 33)
 					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 179, Main.rand.Next(1, 5));
 				if (r == 238)
@@ -197,16 +197,21 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 				if (r == 223)
 					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 182, Main.rand.Next(1, 5));
 			}
-
 		}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.Add(ItemDropRule.Common(ItemID.StoneBlock), 1, 10, 25);
+		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BoulderTermagent/RockTermagantGore4").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BoulderTermagent/RockTermagantGore3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BoulderTermagent/RockTermagantGore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BoulderTermagent/RockTermagantGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BoulderTermagent/RockTermagantGore4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BoulderTermagent/RockTermagantGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BoulderTermagent/RockTermagantGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BoulderTermagent/RockTermagantGore1").Type, 1f);
 			}
 			for (int k = 0; k < 7; k++)
 			{

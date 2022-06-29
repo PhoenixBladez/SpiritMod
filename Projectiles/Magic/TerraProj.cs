@@ -34,10 +34,10 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 30f, 0f, ModContent.ProjectileType<TerraProj2>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, -30f, 0f, ModContent.ProjectileType<TerraProj2>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 0f, -30f, ModContent.ProjectileType<TerraProj2>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 10f, 30f, ModContent.ProjectileType<TerraProj2>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position.X, Projectile.position.Y, 30f, 0f, ModContent.ProjectileType<TerraProj2>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position.X, Projectile.position.Y, -30f, 0f, ModContent.ProjectileType<TerraProj2>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position.X, Projectile.position.Y, 0f, -30f, ModContent.ProjectileType<TerraProj2>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position.X, Projectile.position.Y, 10f, 30f, ModContent.ProjectileType<TerraProj2>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

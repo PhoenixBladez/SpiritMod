@@ -87,10 +87,10 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 				Exploded = true;
 
 				Vector2 off = new Vector2(30);
-				Projectile.NewProjectile(Projectile.Center.X - off.X, Projectile.Center.Y - off.Y, 0f, 0f, ModContent.ProjectileType<NoxiousGas>(), 0, 1, Main.myPlayer, 0, 0);
-				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<NoxiousIndicator>(), 0, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X - off.X, Projectile.Center.Y - off.Y, 0f, 0f, ModContent.ProjectileType<NoxiousGas>(), 0, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<NoxiousIndicator>(), 0, 1, Main.myPlayer, 0, 0);
 
-				SoundEngine.PlaySound(SoundLoader.customSoundType, Projectile.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/GasHiss"));
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/GasHiss"), Projectile.position);
 				SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 			}
 		}

@@ -35,7 +35,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		{
 			if (NPC.ai[1] == 0f) {
 				NPC.ai[1] = 1f;
-				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 34);
+				SoundEngine.PlaySound(SoundID.Item34, NPC.Center);
 			}
 			else if (NPC.ai[1] == 1f && Main.netMode != NetmodeID.MultiplayerClient) {
 				int target = -1;
@@ -158,10 +158,10 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		{
 			bool expertMode = Main.expertMode;
 			int dam = expertMode ? 19 : 35;
-			int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, 0, ModContent.ProjectileType<Projectiles.HostileWrath>(), dam, 1, Main.myPlayer, 0, 0);
+			int p = Projectile.NewProjectile(NPC.GetSource_OnHit(NPC), NPC.Center.X, NPC.Center.Y, 0, 0, ModContent.ProjectileType<Projectiles.HostileWrath>(), dam, 1, Main.myPlayer, 0, 0);
 			Main.projectile[p].timeLeft = 30;
 
-			SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 14);
+			SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
 			if (NPC.life <= 0) {
 				NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
 				NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);

@@ -1741,12 +1741,12 @@ namespace SpiritMod
 
 				string waveText = "Wave " + TideWorld.TideWave + " : " + TideWorld.TidePoints + "%";
 				Utils.DrawBorderString(spriteBatch, waveText, new Vector2(waveBackground.Center.X, waveBackground.Y + 5), Color.White, Scale, 0.5f, -0.1f);
-				Rectangle waveProgressBar = Utils.CenteredRectangle(new Vector2(waveBackground.Center.X, waveBackground.Y + waveBackground.Height * 0.75f), Main.colorBarTexture.Size());
+				Rectangle waveProgressBar = Utils.CenteredRectangle(new Vector2(waveBackground.Center.X, waveBackground.Y + waveBackground.Height * 0.75f), TextureAssets.ColorBar.Size());
 
-				var waveProgressAmount = new Rectangle(0, 0, (int)(Main.colorBarTexture.Width * 0.01f * MathHelper.Clamp(TideWorld.TidePoints, 0f, 100f)), Main.colorBarTexture.Height);
+				var waveProgressAmount = new Rectangle(0, 0, (int)(TextureAssets.ColorBar.Width * 0.01f * MathHelper.Clamp(TideWorld.TidePoints, 0f, 100f)), TextureAssets.ColorBar.Height);
 				var offset = new Vector2((waveProgressBar.Width - (int)(waveProgressBar.Width * Scale)) * 0.5f, (waveProgressBar.Height - (int)(waveProgressBar.Height * Scale)) * 0.5f);
-				spriteBatch.Draw(Main.colorBarTexture, waveProgressBar.Location.ToVector2() + offset, null, Color.White * Alpha, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
-				spriteBatch.Draw(Main.colorBarTexture, waveProgressBar.Location.ToVector2() + offset, waveProgressAmount, waveColor, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(TextureAssets.ColorBar, waveProgressBar.Location.ToVector2() + offset, null, Color.White * Alpha, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(TextureAssets.ColorBar, waveProgressBar.Location.ToVector2() + offset, waveProgressAmount, waveColor, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
 
 				Vector2 descSize = new Vector2(154, 40) * Scale;
 				Rectangle barrierBackground = Utils.CenteredRectangle(new Vector2(Main.screenWidth - OffsetX - 100f, Main.screenHeight - OffsetY - 19f), new Vector2(width, height));

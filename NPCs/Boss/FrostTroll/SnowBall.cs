@@ -30,8 +30,8 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 
 			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 
-			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 6, -2, ProjectileID.FrostBlastHostile, Projectile.damage, Projectile.knockBack, Main.myPlayer);
-			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, -6, -2, ProjectileID.FrostBlastHostile, Projectile.damage, Projectile.knockBack, Main.myPlayer);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position.X, Projectile.position.Y, 6, -2, ProjectileID.FrostBlastHostile, Projectile.damage, Projectile.knockBack, Main.myPlayer);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position.X, Projectile.position.Y, -6, -2, ProjectileID.FrostBlastHostile, Projectile.damage, Projectile.knockBack, Main.myPlayer);
 		}
 
 		public override void AI()

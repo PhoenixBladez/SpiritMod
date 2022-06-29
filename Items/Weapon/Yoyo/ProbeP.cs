@@ -8,24 +8,28 @@ namespace SpiritMod.Items.Weapon.Yoyo
 {
 	public class ProbeP : ModProjectile
 	{
+		public override void SetStaticDefaults()
+		{
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+
+		}
+
 		public override void SetDefaults()
 		{
-			base.Projectile.CloneDefaults(549);
-			base.Projectile.damage = 52;
-			base.Projectile.extraUpdates = 3;
-			ProjectileID.Sets.TrailCacheLength[base.Projectile.type] = 4;
-			ProjectileID.Sets.TrailingMode[base.Projectile.type] = 1;
-			this.AIType = 549;
+			Projectile.CloneDefaults(549);
+			Projectile.damage = 52;
+			Projectile.extraUpdates = 3;
+			AIType = 549;
 		}
 
 		public override void PostAI()
 		{
-			base.Projectile.rotation -= 10f;
+			Projectile.rotation -= 10f;
 		}
 
 		public override void AI()
 		{
-
 			Projectile.frameCounter++;
 			if (Projectile.frameCounter >= 30) {
 				Projectile.frameCounter = 0;
@@ -48,7 +52,7 @@ namespace SpiritMod.Items.Weapon.Yoyo
 							num5 = num4 / num5;
 						}
 						value *= num5;
-						int p = Terraria.Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, value.X, value.Y, ProjectileID.DeathLaser, 30, Projectile.knockBack / 2f, Projectile.owner, 0f, 0f);
+						int p = Terraria.Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, value.X, value.Y, ProjectileID.DeathLaser, 30, Projectile.knockBack / 2f, Projectile.owner, 0f, 0f);
 						Main.projectile[p].friendly = true;
 						Main.projectile[p].hostile = false;
 					}

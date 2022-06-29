@@ -18,14 +18,8 @@ namespace SpiritMod.NPCs.Town
 	public class Adventurer : ModNPC
 	{
 		public override string Texture => "SpiritMod/NPCs/Town/Adventurer";
-
+		public override string Name => "Adventurer";
 		public override string[] AltTextures => new string[] { "SpiritMod/NPCs/Town/Adventurer_Alt_1" };
-
-		public override bool Autoload(ref string name)
-		{
-			name = "Adventurer";
-			return Mod.Properties.Autoload;
-		}
 
 		public override void SetStaticDefaults()
 		{
@@ -59,19 +53,14 @@ namespace SpiritMod.NPCs.Town
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer1").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer2").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer3").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer4").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer1").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer2").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer3").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Adventurer/Adventurer4").Type);
 			}
 		}
 
-		public override string TownNPCName()
-		{
-			string[] names = { "Morgan", "Adam", "Aziz", "Temir", "Evan", "Senzen", "Johanovic", "Adrian", "Christopher" };
-			return Main.rand.Next(names);
-		}
-
+		public override List<string> SetNPCNameList() => new List<string>() { "Morgan", "Adam", "Aziz", "Temir", "Evan", "Senzen", "Johanovic", "Adrian", "Christopher" };
 		public override void OnKill() => NPC.DropItem(ItemType<AdventurerMap>());
 
 		public override string GetChat()

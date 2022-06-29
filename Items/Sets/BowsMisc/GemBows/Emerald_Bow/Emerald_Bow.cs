@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Emerald_Bow
 			if (type == ProjectileID.WoodenArrowFriendly)
 				type = ModContent.ProjectileType<Emerald_Arrow>();
 			Vector2 perturbedSpeed = new Vector2(velocity).RotatedByRandom(MathHelper.ToRadians(8));
-			Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockback, player.whoAmI);
+			Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockback, player.whoAmI);
 			return false;
 		}
 

@@ -10,11 +10,7 @@ namespace SpiritMod.Items.Accessory
 {
 	public class AssassinMagazine : ModItem
 	{
-		public override bool Autoload(ref string name)
-		{
-			DoubleTapPlayer.OnDoubleTap += DoubleTapPlayer_OnDoubleTapUp;
-			return base.Autoload(ref name);
-		}
+		public override void Load() => DoubleTapPlayer.OnDoubleTap += DoubleTapPlayer_OnDoubleTapUp;
 
 		public override void SetStaticDefaults()
 		{

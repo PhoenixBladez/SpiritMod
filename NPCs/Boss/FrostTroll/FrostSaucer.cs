@@ -52,7 +52,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 		{
 			if (NPC.life <= 0)
 			{
-                SoundEngine.PlaySound(SoundID.Item, NPC.Center, 14);
+                SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
                 for (int num625 = 0; num625 < 10; num625++)
                 {
                     float scaleFactor10 = 0.2f;
@@ -60,13 +60,13 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
                         scaleFactor10 = 0.5f;
                     if (num625 == 2)
                         scaleFactor10 = 1f;
-                    int num626 = Gore.NewGore(new Vector2(NPC.Center.X + Main.rand.Next(-100, 100), NPC.Center.Y + Main.rand.Next(-100, 100)), default, Main.rand.Next(61, 64), 1f);
+                    int num626 = Gore.NewGore(NPC.GetSource_OnHit(NPC), new Vector2(NPC.Center.X + Main.rand.Next(-100, 100), NPC.Center.Y + Main.rand.Next(-100, 100)), default, Main.rand.Next(61, 64), 1f);
                     Main.gore[num626].velocity *= scaleFactor10;
                     Gore expr_13AB6_cp_0 = Main.gore[num626];
                     expr_13AB6_cp_0.velocity.X += 1f;
                     Gore expr_13AD6_cp_0 = Main.gore[num626];
                     expr_13AD6_cp_0.velocity.Y += 1f;
-                    num626 = Gore.NewGore(new Vector2(NPC.Center.X + Main.rand.Next(-100, 100), NPC.Center.Y + Main.rand.Next(-100, 100)), default, Main.rand.Next(61, 64), 1f);
+                    num626 = Gore.NewGore(NPC.GetSource_OnHit(NPC), new Vector2(NPC.Center.X + Main.rand.Next(-100, 100), NPC.Center.Y + Main.rand.Next(-100, 100)), default, Main.rand.Next(61, 64), 1f);
                     Main.gore[num626].velocity *= scaleFactor10;
                     Gore expr_13B79_cp_0 = Main.gore[num626];
                     expr_13B79_cp_0.velocity.X -= 1f;
@@ -170,7 +170,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
                     direction.X *= 7.5f;
                     direction.Y *= 7.5f;
                     int somedamage = expertMode ? 25 : 38;
-                    int p = Projectile.NewProjectile(NPC.Center.X + 80, NPC.Center.Y + 70, direction.X, direction.Y, ProjectileID.IceBolt, somedamage, 1, Main.myPlayer, 0, 0);
+                    int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + 80, NPC.Center.Y + 70, direction.X, direction.Y, ProjectileID.IceBolt, somedamage, 1, Main.myPlayer, 0, 0);
                     Main.projectile[p].hostile = true;
                     Main.projectile[p].friendly = false;
                     Main.projectile[p].timeLeft = 280;
@@ -179,7 +179,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
                     direction1.Normalize();
                     direction1.X *= 7.5f;
                     direction1.Y *= 7.5f;                  
-                    int p1 = Projectile.NewProjectile(NPC.Center.X - 80, NPC.Center.Y + 70, direction1.X, direction1.Y, ProjectileID.IceBolt, somedamage, 1, Main.myPlayer, 0, 0);
+                    int p1 = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X - 80, NPC.Center.Y + 70, direction1.X, direction1.Y, ProjectileID.IceBolt, somedamage, 1, Main.myPlayer, 0, 0);
                     Main.projectile[p1].hostile = true;
                     Main.projectile[p1].friendly = false;  
                     Main.projectile[p1].timeLeft = 280;  
@@ -209,13 +209,13 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
             }
 			if (NPC.ai[0] == 445 || NPC.ai[0] == 455 || NPC.ai[0] == 465)
             {
-                SoundEngine.PlaySound(SoundID.Item, NPC.Center, 91);
+                SoundEngine.PlaySound(SoundID.Item91, NPC.Center);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                    Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y + 70, 0, 26, ModContent.ProjectileType<SnowMongerBeam>(), 70, 1, Main.myPlayer, 0, 0);                  
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 70, 0, 26, ModContent.ProjectileType<SnowMongerBeam>(), 70, 1, Main.myPlayer, 0, 0);                  
             }
             if (NPC.ai[0] == 570)
             {
-                SoundEngine.PlaySound(SoundID.Roar, NPC.Center, 0);
+                SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
             }
 			if (NPC.ai[0] >= 650)
             {
@@ -247,7 +247,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 				ModContent.ItemType<ShiverWind>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, lootTable[loot]);
+			Item.NewItem(NPC.GetSource_Death(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, lootTable[loot]);
 
 			for (int i = 0; i < 15; ++i) {
 				if (Main.rand.Next(8) == 0) {

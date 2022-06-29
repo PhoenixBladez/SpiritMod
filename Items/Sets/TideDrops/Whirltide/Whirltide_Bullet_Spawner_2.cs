@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Sets.TideDrops.Whirltide
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y - 8, 0f, -2.5f, ModContent.ProjectileType<Whirltide_Water_Explosion>(), 13, 8.5f, 0);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position.X, Projectile.position.Y - 8, 0f, -2.5f, ModContent.ProjectileType<Whirltide_Water_Explosion>(), 13, 8.5f, 0);
 			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 3));
 		}
 	}

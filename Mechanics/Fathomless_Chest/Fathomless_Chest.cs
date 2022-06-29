@@ -95,7 +95,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			{
 				float SpeedX = (float)(-1 * Main.rand.Next(40, 70) * 0.00999999977648258 + Main.rand.Next(-20, 21) * 0.4f);
 				float SpeedY = (float)(-1 * Main.rand.Next(40, 70) * 0.00999999977648258 + Main.rand.Next(-20, 21) * 0.4f);
-				int p = Projectile.NewProjectile((float)(i * 16) + 8 + SpeedX, (float)(j * 16) + 12 + SpeedY, SpeedX, SpeedY, ModContent.ProjectileType<Visual_Projectile>(), 0, 0f, player.whoAmI, 0.0f, 0.0f);
+				int p = Projectile.NewProjectile(new EntitySource_TileBreak(i, j), (float)(i * 16) + 8 + SpeedX, (float)(j * 16) + 12 + SpeedY, SpeedX, SpeedY, ModContent.ProjectileType<Visual_Projectile>(), 0, 0f, player.whoAmI, 0.0f, 0.0f);
 				Main.projectile[p].scale = Main.rand.Next(30, 150) * 0.01f;
 			}
 
@@ -154,7 +154,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 				case 1: //DROP COINS
 					{
 						BadLuck(i, j);
-						SoundEngine.PlaySound(SoundID.Coins, i * 16, j * 16, 0);
+						SoundEngine.PlaySound(SoundID.Coins, new(i * 16, j * 16));
 						int num1 = 0;
 						for (int index = 0; index < 59; ++index)
 						{

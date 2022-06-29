@@ -57,7 +57,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 					for (int num621 = 0; num621 < 5; num621++)
 						Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Electric, 0f, 0f, 100, default, 2f);
 					int damage = expertMode ? 30 : 40;
-					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<MiracleBeam>(), damage, 1f, NPC.target);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<MiracleBeam>(), damage, 1f, NPC.target);
 				}
 				timer = 0;
 			}

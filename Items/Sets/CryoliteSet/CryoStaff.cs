@@ -51,7 +51,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 					if (Main.rand.NextBool(2))
 						newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(300, 500) / 10));
 
-					Projectile proj = Main.projectile[Projectile.NewProjectile(position.X, position.Y, newVect.X, newVect.Y, type, damage, knockback, player.whoAmI)];
+					Projectile proj = Main.projectile[Projectile.NewProjectile(source, position.X, position.Y, newVect.X, newVect.Y, type, damage, knockback, player.whoAmI)];
 					proj.friendly = true;
 					proj.hostile = false;
 					proj.netUpdate = true;

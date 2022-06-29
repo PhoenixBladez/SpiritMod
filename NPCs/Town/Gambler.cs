@@ -17,12 +17,7 @@ namespace SpiritMod.NPCs.Town
 	public class Gambler : ModNPC
 	{
 		public override string Texture => "SpiritMod/NPCs/Town/Gambler";
-
-		public override bool Autoload(ref string name)
-		{
-			name = "Gambler";
-			return Mod.Properties.Autoload;
-		}
+		public override string Name => "Gambler";
 
 		public override void SetStaticDefaults()
 		{
@@ -72,26 +67,7 @@ namespace SpiritMod.NPCs.Town
 			return false;
 		}
 
-		public override string TownNPCName()
-		{
-			switch (WorldGen.genRand.Next(7))
-			{
-				case 0:
-					return "Yumeko";
-				case 1:
-					return "Vanessa";
-				case 2:
-					return "Gray";
-				case 3:
-					return "Alexandra";
-				case 4:
-					return "Sasha";
-				case 5:
-					return "Celine";
-				default:
-					return "Aleksa";
-			}
-		}
+		public override List<string> SetNPCNameList() => new List<string>() { "Yumeko", "Vanessa", "Gray", "Alexandra", "Sasha", "Celine", "Aleksa" };
 
 		public override string GetChat()
 		{
@@ -193,13 +169,13 @@ namespace SpiritMod.NPCs.Town
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gambler/Gambler1").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gambler/Gambler2").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gambler/Gambler3").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gambler/Gambler1").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gambler/Gambler2").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Gambler/Gambler3").Type);
 
 				for (int numGore = 0; numGore < 15; numGore++)
 				{
-					int g = Gore.NewGore(NPC.position, NPC.velocity * Main.rand.NextFloat(0.5f, 1.3f), Mod.Find<ModGore>("Gores/GamblerCash").Type);
+					int g = Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * Main.rand.NextFloat(0.5f, 1.3f), Mod.Find<ModGore>("Gores/GamblerCash").Type);
 					Main.gore[g].scale = Main.rand.NextFloat(.5f, 1f);
 				}
 				for (int num621 = 0; num621 < 14; num621++)

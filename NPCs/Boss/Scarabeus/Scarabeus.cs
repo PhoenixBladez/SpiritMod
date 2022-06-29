@@ -324,7 +324,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			}
 
 			if (Main.rand.Next(500) == 0)
-				SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 44);
+				SoundEngine.PlaySound(SoundID.Zombie44, NPC.Center);
 
 			UpdateFrame(4, 0, 6, true);
 		}
@@ -367,7 +367,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				AiTimer = 0; //reset charge if in the air and hasn't jumped already
 
 			if(AiTimer == 30) { //jump towards player, at faster speed if farther away
-				SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 44, 1.5f, -1f);
+				SoundEngine.PlaySound(SoundID.Zombie44, NPC.Center);
 				hasjumped = true;
 				NPC.noTileCollide = true; 
 				Vector2 JumpTo = new Vector2(player.Center.X, player.Center.Y - 300);
@@ -385,7 +385,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 						Vector2 velocity = -Vector2.UnitY.RotatedBy(i * (float)Math.PI / 12);
 						velocity *= 10f;
 						velocity.Y += 2f;
-						Projectile.NewProjectileDirect(NPC.Center, velocity, ModContent.ProjectileType<ScarabSandball>(), NPC.damage / 4, 1f, Main.myPlayer, 0, player.position.Y).netUpdate = true;
+						Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, velocity, ModContent.ProjectileType<ScarabSandball>(), NPC.damage / 4, 1f, Main.myPlayer, 0, player.position.Y).netUpdate = true;
 					}
 				}
 			}
@@ -400,6 +400,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				NextAttack();
 			}
 		}
+
 		public void Dash(Player player)
 		{
 			AiTimer++;
@@ -424,7 +425,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					NPC.spriteDirection = (int)(2 * (Math.Floor(Math.Sin(NPC.ai[2])) + 0.5f));
 					if (NPC.ai[2] % 3 == 0 || NPC.oldVelocity.Y > 0) {
 						SoundEngine.PlaySound(SoundID.DoubleJump, NPC.Center);
-						int g = Gore.NewGore(NPC.Center, NPC.velocity / 2, GoreID.ChimneySmoke1 + Main.rand.Next(3));
+						int g = Gore.NewGore(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity / 2, GoreID.ChimneySmoke1 + Main.rand.Next(3));
 						Main.gore[g].timeLeft = 10;
 					}
 				}
@@ -436,15 +437,15 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 			if (AiTimer >= 90) {
 				if (AiTimer == 130) {
-					SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 44, 1.2f, -1f);
+					SoundEngine.PlaySound(SoundID.Zombie44, NPC.Center);
 					for(int i = 0; i < 6; i++) {
-						int g = Gore.NewGore(NPC.Center, Main.rand.NextVector2Circular(4, 4), GoreID.ChimneySmoke1 + Main.rand.Next(3));
+						int g = Gore.NewGore(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextVector2Circular(4, 4), GoreID.ChimneySmoke1 + Main.rand.Next(3));
 						Main.gore[g].timeLeft = 15;
 					}
 				}
 
 				if (AiTimer == 150) {
-					SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1"), NPC.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BossSFX/Scarab_Roar1"), NPC.Center);
 					trailbehind = true;
 					NPC.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - NPC.Center.X)/30), 16, 32) * NPC.direction;
 					SyncNPC();
@@ -502,7 +503,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			if (AiTimer >= 100) { //dash at player, then dash again, swapping between rotating towards the player and only having its rotation be based on its velocity
 
 				if (AiTimer == 100 || AiTimer == 190)
-					SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 44, 1.2f, -1f);
+					SoundEngine.PlaySound(SoundID.Zombie44, NPC.Center);
 
 				if (AiTimer == 120 || AiTimer == 210) {
 					trailbehind = true;
@@ -558,7 +559,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					UpdateFrame(4, 12, 17);
 					NPC.rotation = NPC.spriteDirection * MathHelper.PiOver2;
 					AiTimer++;
-					SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 44, 1.5f, -1f);
+					SoundEngine.PlaySound(SoundID.Zombie44, NPC.Center);
 					NPC.velocity = new Vector2(0, 0.25f);
 					SyncNPC();
 				}
@@ -595,7 +596,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 								break;
 
 							if(Main.netMode != NetmodeID.MultiplayerClient)
-								Projectile.NewProjectile(center, Vector2.Zero, ModContent.ProjectileType<SandShockwave>(), NPC.damage / 4, 5f, Main.myPlayer);
+								Projectile.NewProjectile(NPC.GetSource_FromAI(), center, Vector2.Zero, ModContent.ProjectileType<SandShockwave>(), NPC.damage / 4, 5f, Main.myPlayer);
 						}
 					}
 
@@ -630,7 +631,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			if (InSolidTile) {
 
 				if (AiTimer % 20 == 0)
-					SoundEngine.PlaySound(SoundID.Roar, (int)NPC.Center.X, (int)NPC.Center.Y, 1);
+					SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
 
 				float distfromsurface = 0; //check the npc's distance from the surface to determine dust velocity, by checking each tile and increasing this float for every solid tile above this npc until a non-solid tile is found
 				Vector2 tilecheck = NPC.Center;
@@ -664,12 +665,12 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				else if (AiTimer <= 200) { //if enough time has passed and the boss is in the ground, stop homing and pause its velocity
 					NPC.velocity = Vector2.Lerp(NPC.velocity, Vector2.Zero, 0.1f);
 					if ((AiTimer == 120 || AiTimer == 160) && Main.netMode != NetmodeID.Server) 
-						SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1").WithVolume(0.5f).WithPitchVariance(0.2f), NPC.Center);
+						SoundEngine.PlaySound(new SoundStyle("Sounds/BossSFX/Scarab_Roar1") with { Volume = 0.5f, PitchVariance = 0.2f }, NPC.Center);
 
 					if (AiTimer == 200) { //jump at the player
 
 						if (Main.netMode != NetmodeID.Server)
-							SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1"), NPC.Center);
+							SoundEngine.PlaySound(new SoundStyle("Spirit Sounds/BossSFX/Scarab_Roar1"), NPC.Center);
 
 						statictarget[0] = NPC.Center;
 						statictarget[1] = player.Center;
@@ -776,13 +777,13 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					if (Main.netMode != NetmodeID.MultiplayerClient) { //spawn the telegraph for the scarab storm, going from the random spot to the player's center
 						for (int i = 0; i < numwaves; i++) {
 							Vector2 spawnpos = statictarget[0].RotatedBy(MathHelper.PiOver2 * i) + statictarget[1];
-							Projectile proj = Projectile.NewProjectileDirect(spawnpos, Vector2.Normalize(statictarget[1] - spawnpos) * 6, ModContent.ProjectileType<SwarmTelegraph>(), 0, 0, Main.myPlayer);
+							Projectile proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), spawnpos, Vector2.Normalize(statictarget[1] - spawnpos) * 6, ModContent.ProjectileType<SwarmTelegraph>(), 0, 0, Main.myPlayer);
 							SoundEngine.PlaySound(SoundID.Item, (int)statictarget[1].X, (int)statictarget[1].Y, 117, 1, 2);
 							proj.netUpdate = true;
 						}
 					}
 					NPC.netUpdate = true;
-					SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1"), NPC.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BossSFX/Scarab_Roar1"), NPC.Center);
 				}
 				if(BaseVel.Length() < 24)
 					BaseVel *= 1.1f;
@@ -795,7 +796,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					if (Main.netMode != NetmodeID.MultiplayerClient) {
 						for (int i = 0; i < numwaves; i++) {
 							Vector2 spawnpos = statictarget[0].RotatedBy(MathHelper.PiOver2 * i) + Main.rand.NextVector2Circular(60, 60) + statictarget[1];
-							NPC Npc = Main.npc[NPC.NewNPC((int)spawnpos.X, (int)spawnpos.Y, ModContent.NPCType<SwarmScarab>(), NPC.whoAmI,
+							NPC Npc = Main.npc[NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnpos.X, (int)spawnpos.Y, ModContent.NPCType<SwarmScarab>(), NPC.whoAmI,
 								Vector2.Normalize(statictarget[1] - spawnpos).ToRotation(), 1)];
 							SoundEngine.PlaySound(SoundID.Zombie, (int)Npc.position.X, (int)Npc.position.Y, 44, 0.5f);
 							Npc.netUpdate = true;
@@ -829,7 +830,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			}
 			else if(AiTimer < hometime + 28) { //rotate backwards to telegraph dash
 				if(AiTimer == hometime)
-					SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 44, 1.5f, -1f);
+					SoundEngine.PlaySound(SoundID.Zombie44, NPC.Center);
 
 				NPC.rotation = Utils.AngleLerp(NPC.rotation, NPC.spriteDirection * -MathHelper.Pi / 6, 0.1f);
 				NPC.velocity = Vector2.Lerp(NPC.velocity, Vector2.Zero, 0.1f);
@@ -890,7 +891,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 										break;
 
 									if (Main.netMode != NetmodeID.MultiplayerClient)
-										Projectile.NewProjectile(center, Vector2.Zero, ModContent.ProjectileType<SandShockwave>(), NPC.damage / 4, 5f, Main.myPlayer);
+										Projectile.NewProjectile(NPC.GetSource_FromAI(), center, Vector2.Zero, ModContent.ProjectileType<SandShockwave>(), NPC.damage / 4, 5f, Main.myPlayer);
 								}
 							}
 						}
@@ -947,7 +948,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					SoundEngine.PlaySound(SoundID.Item5, NPC.Center);
 					if (Main.netMode != NetmodeID.MultiplayerClient) {
 						for (int i = 0; i < numproj; i++) {
-							Projectile proj = Projectile.NewProjectileDirect(NPC.Center,
+							Projectile proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center,
 								new Vector2(-Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 2).X * 1.5f, -1) * Main.rand.NextFloat(8, 11),
 								ModContent.ProjectileType<ScarabSandball>(), NPC.damage / 5, 1, Main.myPlayer, 1, player.position.Y);
 							proj.netUpdate = true;
@@ -974,7 +975,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 							break;
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
-							Projectile.NewProjectile(center, Vector2.Zero, ModContent.ProjectileType<SandShockwave>(), NPC.damage / 5, 5f, Main.myPlayer);
+							Projectile.NewProjectile(NPC.GetSource_FromAI(), center, Vector2.Zero, ModContent.ProjectileType<SandShockwave>(), NPC.damage / 5, 5f, Main.myPlayer);
 					}
 				}
 				NPC.rotation = NPC.velocity.X * -0.05f;
@@ -995,10 +996,10 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			NPC.velocity.Y += (NPC.Center.Y < player.Center.Y) ? 0.2f : -0.2f;
 			NPC.velocity = new Vector2(MathHelper.Clamp(NPC.velocity.X, -10, 10), MathHelper.Clamp(NPC.velocity.Y, -4, 4));
 			if((++AiTimer == 30 || AiTimer == 90)) { //spawn 2 waves of large scarabs
-				SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 44, 1.5f, -1f);
+				SoundEngine.PlaySound(SoundID.Zombie44, NPC.Center);
 				if (Main.netMode != NetmodeID.MultiplayerClient) {
 					for (int i = 0; i < 3; i++) {
-						Projectile proj = Projectile.NewProjectileDirect(player.Center - new Vector2(Main.rand.Next(-200, 200), 200), -Vector2.UnitY, ModContent.ProjectileType<LargeScarab>(), NPC.damage / 5, 1, Main.myPlayer, player.whoAmI, Main.rand.Next(20));
+						Projectile proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), player.Center - new Vector2(Main.rand.Next(-200, 200), 200), -Vector2.UnitY, ModContent.ProjectileType<LargeScarab>(), NPC.damage / 5, 1, Main.myPlayer, player.whoAmI, Main.rand.Next(20));
 						proj.netUpdate = true;
 					}
 				}
@@ -1013,12 +1014,12 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		{
 			SpriteEffects effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(-10 * NPC.spriteDirection, NPC.gfxOffY - 16 + extraYoff).RotatedBy(NPC.rotation), NPC.frame,
-							 lightColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			if (trailbehind) {
 				Vector2 drawOrigin = NPC.frame.Size() / 2;
 				for (int k = 0; k < NPC.oldPos.Length; k++) {
 					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + new Vector2(NPC.width/2, NPC.height/2) + new Vector2(-10 * NPC.spriteDirection, NPC.gfxOffY - 16 + extraYoff).RotatedBy(NPC.rotation);
-					Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+					Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
@@ -1043,7 +1044,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			if(Main.player[projectile.owner].HeldItem.type == ItemID.Minishark) { //shadow nerfing minishark on scarab because meme balance weapon
 				knockback *= 0.5f;
 				int maxdamage = (Main.rand.Next(3, 6));
-				while(damage - (NPC.defense / 2) + (Main.player[projectile.owner].armorPenetration * 0.33f) > maxdamage) {
+				while(damage - (NPC.defense / 2) + (Main.player[projectile.owner].GetArmorPenetration(DamageClass.Ranged) * 0.33f) > maxdamage) {
 					damage--;
 				}
 			}
@@ -1103,7 +1104,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		private void Gores()
 		{
 			for (int i = 1; i <= 7; i++) 
-				Gore.NewGoreDirect(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Scarabeus/Scarab" + i.ToString()).Type, 1f);
+				Gore.NewGoreDirect(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Scarabeus/Scarab" + i.ToString()).Type, 1f);
 
 			NPC.position += NPC.Size / 2;
 			NPC.Size = new Vector2(100, 60);

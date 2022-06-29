@@ -74,12 +74,13 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				{
 					for (int y = centerY - halfLength; y <= centerY + halfLength; y++)
 					{
+						Tile tile = Main.tile[x, y];
 						if ((x == centerX - halfLength || x == centerX + halfLength || y == centerY - halfLength || y == centerY + halfLength) && !Main.tile[x, y].HasTile)
 						{
-							Main.tile[x, y].TileType = TileID.HellstoneBrick;
-							Main.tile[x, y].HasTile = true;
+							tile.TileType = TileID.HellstoneBrick;
+							tile.HasTile = true;
 						}
-						Main.tile[x, y].lava/* tModPorter Suggestion: LiquidType = ... */(false);
+						tile.LiquidType = LiquidID.Lava;
 						Main.tile[x, y].LiquidAmount = 0;
 
 						if (Main.netMode == NetmodeID.Server)
@@ -130,8 +131,8 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				for (int i = 0; i < 4; i++)
 				{
 					offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
-					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
 					NPC.netUpdate = true;
 				}
 			}
@@ -140,7 +141,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			{
 				if (NPC.life >= (NPC.lifeMax / 3))
 				{
-					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 33);
+					SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
 					Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 					direction.Normalize();
 					direction.X *= 9.5f;
@@ -151,26 +152,26 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					{
 						float A = Main.rand.Next(-200, 200) * 0.03f;
 						float B = Main.rand.Next(-200, 200) * 0.03f;
-						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<InfernalBlastHostile>(), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<InfernalBlastHostile>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 				}
 			}
 
 			if (timer == 400)
 			{
-				Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y + 200, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
-				Projectile.NewProjectile(NPC.Center.X + 200, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
-				Projectile.NewProjectile(NPC.Center.X - 200, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
-				Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y - 200, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 200, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + 200, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X - 200, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y - 200, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
 
 				timer = 0;
 			}
 			else if (Main.rand.Next(90) == 1 && NPC.life <= (NPC.lifeMax / 3))
 			{
-				Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y + 500, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
-				Projectile.NewProjectile(NPC.Center.X + 500, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
-				Projectile.NewProjectile(NPC.Center.X - 500, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
-				Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y - 500, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 500, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + 500, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X - 500, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y - 500, 0f, 0f, ModContent.ProjectileType<Fireball>(), damage, 1, Main.myPlayer, 0, 0);
 			}
 		}
 

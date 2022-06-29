@@ -42,10 +42,10 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 14f, 0f, ModContent.ProjectileType<SunBlast>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, -14f, 0f, ModContent.ProjectileType<SunBlast>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 0f, 14f, ModContent.ProjectileType<SunBlast>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(Projectile.position.X, Projectile.position.Y, 0f, -14f, ModContent.ProjectileType<SunBlast>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position.X, Projectile.position.Y, 14f, 0f, ModContent.ProjectileType<SunBlast>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position.X, Projectile.position.Y, -14f, 0f, ModContent.ProjectileType<SunBlast>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position.X, Projectile.position.Y, 0f, 14f, ModContent.ProjectileType<SunBlast>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position.X, Projectile.position.Y, 0f, -14f, ModContent.ProjectileType<SunBlast>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
 
 			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 			Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
@@ -78,19 +78,19 @@ namespace SpiritMod.NPCs.Boss.Infernon
 				else if (num625 == 2)
 					scaleFactor10 = 1f;
 
-				int num626 = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+				int num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Main.gore[num626].velocity.X += 1f;
 				Main.gore[num626].velocity.Y += 1f;
-				num626 = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Main.gore[num626].velocity.X -= 1f;
 				Main.gore[num626].velocity.Y += 1f;
-				num626 = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Main.gore[num626].velocity.X += 1f;
 				Main.gore[num626].velocity.Y -= 1f;
-				num626 = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+				num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num626].velocity *= scaleFactor10;
 				Main.gore[num626].velocity.X -= 1f;
 				Main.gore[num626].velocity.Y -= 1f;

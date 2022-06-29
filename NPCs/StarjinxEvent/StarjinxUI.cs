@@ -131,14 +131,14 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			int progress = (int)(100 * StarjinxEventWorld.KilledEnemies / (float)StarjinxEventWorld.MaxEnemies);
 			string waveText = "Wave Progress : " + progress + "%";
 			Utils.DrawBorderString(spriteBatch, waveText, new Vector2(progressBarBackground.Center.X, progressBarBackground.Y + 2.5f), TextColor, Scale, 0.5f, -0.1f);
-			Rectangle waveProgressBar = Utils.CenteredRectangle(new Vector2(progressBarBackground.Center.X, progressBarBackground.Y + progressBarBackground.Height * 0.75f), Main.colorBarTexture.Size());
+			Rectangle waveProgressBar = Utils.CenteredRectangle(new Vector2(progressBarBackground.Center.X, progressBarBackground.Y + progressBarBackground.Height * 0.75f), TextureAssets.ColorBar.Size());
 
 			//Scale the amount of the bar drawn based on progress
-			var waveProgressAmount = new Rectangle(0, 0, (int)(Main.colorBarTexture.Width * BarProgress), Main.colorBarTexture.Height);
+			var waveProgressAmount = new Rectangle(0, 0, (int)(TextureAssets.ColorBar.Width * BarProgress), TextureAssets.ColorBar.Height);
 			var offset = new Vector2((waveProgressBar.Width - (int)(waveProgressBar.Width * Scale)) * 0.5f, (waveProgressBar.Height - (int)(waveProgressBar.Height * Scale)) * 0.5f);
 
 			//Make the part of the bar not filled out black, by drawing a full length black bar beneath the color bar
-			spriteBatch.Draw(Main.colorBarTexture, waveProgressBar.Location.ToVector2() + offset, null, Color.White * Alpha, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(TextureAssets.ColorBar, waveProgressBar.Location.ToVector2() + offset, null, Color.White * Alpha, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
 
 			//Bloom underneath shader bar
 			Texture2D bloom = SpiritMod.Instance.GetTexture("Effects/Masks/CircleGradient");
@@ -148,12 +148,12 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			bloomColor.A = 0;
 
 			//Scale to match color bar texture size
-			Vector2 bloomScale = Main.colorBarTexture.Size() / bloom.Size();
+			Vector2 bloomScale = TextureAssets.ColorBar.Size() / bloom.Size();
 			bloomScale *= 2.2f * Scale * sineCounter;
 			bloomScale.Y *= 1.75f;
 			bloomScale.X *= BarProgress; //Match progress bar effective width
 
-			Vector2 bloomPos = waveProgressBar.Location.ToVector2() + offset + new Vector2((Main.colorBarTexture.Width / 2) * BarProgress * 0.95f, Main.colorBarTexture.Height / 2) * Scale;
+			Vector2 bloomPos = waveProgressBar.Location.ToVector2() + offset + new Vector2((TextureAssets.ColorBar.Width / 2) * BarProgress * 0.95f, TextureAssets.ColorBar.Height / 2) * Scale;
 			spriteBatch.Draw(bloom, bloomPos, null, bloomColor, 0f, bloom.Size() / 2, bloomScale, SpriteEffects.None, 0);
 
 			//Draw the colored part of the bar, with a shader
@@ -168,7 +168,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			progressbarEffect.Parameters["Pink"].SetValue(new Color(255, 84, 231).ToVector4());
 			progressbarEffect.CurrentTechnique.Passes[0].Apply();
 
-			spriteBatch.Draw(Main.colorBarTexture, waveProgressBar.Location.ToVector2() + offset, waveProgressAmount, Color.White, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(TextureAssets.ColorBar, waveProgressBar.Location.ToVector2() + offset, waveProgressAmount, Color.White, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.UIScaleMatrix);
 

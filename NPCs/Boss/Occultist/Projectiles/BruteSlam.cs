@@ -50,7 +50,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 			{
 				if (Projectile.frame == DAMAGEFRAME)
 				{
-					BruteShockwave.MakeShockwave(Projectile.Center, -Projectile.direction, (int)(Projectile.damage * 0.75f), 20);
+					BruteShockwave.MakeShockwave(Projectile, Projectile.Center, -Projectile.direction, (int)(Projectile.damage * 0.75f), 20);
 
 					if (!Main.dedServ)
 					{
@@ -70,16 +70,16 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 		{
 			if (!Main.dedServ)
 			{
-				SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt.WithPitchVariance(0.3f).WithVolume(0.5f), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt with { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);
 
 				for (int i = 1; i < 6; ++i)
-					Gore.NewGore(Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("Gores/SkeletonBrute/SkeletonBruteGore" + i).Type, 1f);
+					Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("Gores/SkeletonBrute/SkeletonBruteGore" + i).Type, 1f);
 			}
 		}
 
-		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => Projectile.frame == DAMAGEFRAME;
+		public override bool? CanDamage() => Projectile.frame == DAMAGEFRAME;
 
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsBehindNPCs.Add(index);
+		public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindNPCs.Add(index);
 
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(Projectile.frame);
 

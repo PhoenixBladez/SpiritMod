@@ -39,12 +39,12 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 			Projectile.position -= Projectile.velocity;
 			Projectile.direction = Projectile.spriteDirection = -Math.Sign(Projectile.velocity.X);
 			if ((MAXTIME - Projectile.timeLeft) == MAXTIME / 6 && NumProjsLeft > 0)
-				MakeShockwave(Projectile.Center, -Projectile.direction, Projectile.damage, (int)NumProjsLeft - 1);
+				MakeShockwave(Projectile, Projectile.Center, -Projectile.direction, Projectile.damage, (int)NumProjsLeft - 1);
 		}
 
-		public static void MakeShockwave(Vector2 center, int direction, int damage, int projsLeft)
+		public static void MakeShockwave(Projectile proj, Vector2 center, int direction, int damage, int projsLeft)
 		{
-			Projectile proj = Projectile.NewProjectileDirect(center + new Vector2(direction * 100, 0), direction * Vector2.UnitX,
+			Projectile proj = Projectile.NewProjectileDirect(proj.GetSource_FromAI(), center + new Vector2(direction * 100, 0), direction * Vector2.UnitX,
 				ModContent.ProjectileType<BruteShockwave>(), damage, 1, Main.myPlayer, projsLeft - 1);
 			if (proj.ModProjectile is BruteShockwave shockwave)
 			{
@@ -56,7 +56,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 				NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
 
 			if (!Main.dedServ)
-				SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 14).WithVolume(0.5f).WithPitchVariance(0.2f), center);
+				SoundEngine.PlaySound(SoundID.Item14 with { Volume = 0.5f, PitchVariance = 0.2f }, center);
 		}
 
 		public bool SetTilePos()
@@ -85,7 +85,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 			return true;
 		}
 
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsBehindNPCs.Add(index);
+		public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindNPCs.Add(index);
 
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 	}

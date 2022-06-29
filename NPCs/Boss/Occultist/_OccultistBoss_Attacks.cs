@@ -55,7 +55,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 					{
 						float amplitude = Main.rand.NextFloat(5, 8);
 						float periodOffset = Main.rand.Next(160);
-						var proj = Projectile.NewProjectileDirect(spawnPos, velocity, ModContent.ProjectileType<OccultistHand>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer, amplitude, periodOffset);
+						var proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), spawnPos, velocity, ModContent.ProjectileType<OccultistHand>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer, amplitude, periodOffset);
 						proj.netUpdate = true;
 					}
 				}
@@ -104,7 +104,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 					float angle = timer / 40 * MathHelper.Pi;
 					Vector2 spawnPos = NPC.Center - new Vector2(0, 500) + new Vector2(0, 300).RotatedBy((angle - MathHelper.PiOver2) / 2.5f);
-					var proj = Projectile.NewProjectileDirect(spawnPos, Vector2.Zero, ModContent.ProjectileType<OccultistDagger>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer, angle);
+					var proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), spawnPos, Vector2.Zero, ModContent.ProjectileType<OccultistDagger>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer, angle);
 					proj.netUpdate = true;
 				}
 			}
@@ -123,7 +123,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				{
 					Vector2 vel = NPC.DirectionFrom(Target.Center).RotatedByRandom(MathHelper.PiOver2) * 14;
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						Projectile.NewProjectileDirect(NPC.Center + vel, vel.RotatedByRandom(MathHelper.Pi / 12), ModContent.ProjectileType<OccultistSoul>(), NPCUtils.ToActualDamage(30, 1.5f), 1, Main.myPlayer, Main.rand.NextBool() ? -1 : 1, Target.whoAmI).netUpdate = true;
+						Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + vel, vel.RotatedByRandom(MathHelper.Pi / 12), ModContent.ProjectileType<OccultistSoul>(), NPCUtils.ToActualDamage(30, 1.5f), 1, Main.myPlayer, Main.rand.NextBool() ? -1 : 1, Target.whoAmI).netUpdate = true;
 
 					if (!Main.dedServ)
 					{
@@ -160,7 +160,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						var proj = Projectile.NewProjectileDirect(NPC.Bottom, Vector2.Zero, ModContent.ProjectileType<BruteSlam>(), NPCUtils.ToActualDamage(60, 1.5f), 1, Main.myPlayer, NPC.whoAmI);
+						var proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Bottom, Vector2.Zero, ModContent.ProjectileType<BruteSlam>(), NPCUtils.ToActualDamage(60, 1.5f), 1, Main.myPlayer, NPC.whoAmI);
 						proj.position.Y -= proj.height * 0.66f;
 						if (Main.netMode != NetmodeID.SinglePlayer)
 							NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
@@ -255,7 +255,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 								if (i == 0)
 									continue;
 
-								Projectile.NewProjectileDirect(spawnPos, NPC.direction * Vector2.UnitX * 2.25f, ModContent.ProjectileType<OccultistHandFiery>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer, amplitude * i, 60).netUpdate = true;
+								Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), spawnPos, NPC.direction * Vector2.UnitX * 2.25f, ModContent.ProjectileType<OccultistHandFiery>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer, amplitude * i, 60).netUpdate = true;
 							}
 							NPC.velocity.X -= NPC.direction * 5;
 							NPC.netUpdate = true;
@@ -326,7 +326,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 				if (timer % 7 == 0 && Main.netMode != NetmodeID.Server && timer > daggerstarttime)
 				{
-					var proj = Projectile.NewProjectileDirect(NPC.Center + Main.rand.NextVector2CircularEdge(30, 50), Vector2.Zero,
+					var proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2CircularEdge(30, 50), Vector2.Zero,
 						ModContent.ProjectileType<OccultistDagger>(), NPCUtils.ToActualDamage(40, 1.5f), 1f, Main.myPlayer,
 						Main.rand.NextFloat(-0.12f, 0.12f) + MathHelper.PiOver2);
 					proj.netUpdate = true;
@@ -376,7 +376,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vel = NPC.DirectionFrom(target.Center).RotatedByRandom(MathHelper.PiOver2) * 4;
-						Projectile.NewProjectileDirect(NPC.Center + vel * Main.rand.NextFloat(10, 20), vel, ModContent.ProjectileType<OccultistSoul>(), NPCUtils.ToActualDamage(30, 1.5f), 1, Main.myPlayer, NPC.whoAmI, target.whoAmI).netUpdate = true;
+						Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + vel * Main.rand.NextFloat(10, 20), vel, ModContent.ProjectileType<OccultistSoul>(), NPCUtils.ToActualDamage(30, 1.5f), 1, Main.myPlayer, NPC.whoAmI, target.whoAmI).netUpdate = true;
 					}
 				}
 

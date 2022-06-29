@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Accessory
 			}
 			timer++;
 			if (timer == 200) {
-				int proj2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0, 0, ModContent.ProjectileType<QuicksilverBolt>(), 40, 0, Main.myPlayer);
+				int proj2 = Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center.X, player.Center.Y, 0, 0, ModContent.ProjectileType<QuicksilverBolt>(), 40, 0, Main.myPlayer);
 				timer = 0;
 			}
 

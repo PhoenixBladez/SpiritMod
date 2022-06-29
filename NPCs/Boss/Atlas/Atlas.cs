@@ -85,8 +85,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			NPC.defense = NPC.defDefense + defenseBuff;
 
 			if (NPC.ai[0] == 0f) {
-				arms[0] = NPC.NewNPC((int)NPC.Center.X - 80 - Main.rand.Next(80, 160), (int)NPC.position.Y, ModContent.NPCType<AtlasArmRight>(), NPC.whoAmI, NPC.whoAmI);
-				arms[1] = NPC.NewNPC((int)NPC.Center.X + 80 + Main.rand.Next(80, 160), (int)NPC.position.Y, ModContent.NPCType<AtlasArmLeft>(), NPC.whoAmI, NPC.whoAmI);
+				arms[0] = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X - 80 - Main.rand.Next(80, 160), (int)NPC.position.Y, ModContent.NPCType<AtlasArmRight>(), NPC.whoAmI, NPC.whoAmI);
+				arms[1] = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + 80 + Main.rand.Next(80, 160), (int)NPC.position.Y, ModContent.NPCType<AtlasArmLeft>(), NPC.whoAmI, NPC.whoAmI);
 				NPC.ai[0] = 1f;
                 NPC.netUpdate = true;
                 Main.npc[arms[0]].netUpdate = true;
@@ -195,7 +195,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						direction.Y *= 8f;
 						int amountOfProjectiles = Main.rand.Next(6, 8);
 						int damageAmount = expertMode ? 54 : 62; //always account for expert damage values
-						SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 92);
+						SoundEngine.PlaySound(SoundID.Item92, NPC.Center);
 						for (int num621 = 0; num621 < 30; num621++) {
 							Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Electric, 0f, 0f, 100, default, 2f);
 						}
@@ -203,7 +203,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 							for (int i = 0; i < amountOfProjectiles; ++i) {
 								float A = Main.rand.Next(-250, 250) * 0.01f;
 								float B = Main.rand.Next(-250, 250) * 0.01f;
-								Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<PrismaticBoltHostile>(), damageAmount, 1, Main.myPlayer);
+								Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<PrismaticBoltHostile>(), damageAmount, 1, Main.myPlayer);
 								timer = 0;
 							}
 						}
@@ -211,12 +211,12 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 					if (aiChange) {
 						if (secondStage == false) {
-							SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 93);
+							SoundEngine.PlaySound(SoundID.Item93, NPC.Center);
 							float radius = 250;
 							float rot = MathHelper.TwoPi / 5;
 							for (int I = 0; I < 5; I++) {
 								Vector2 position = NPC.Center + radius * (I * rot).ToRotationVector2();
-								NPC.NewNPC((int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye>(), NPC.whoAmI, NPC.whoAmI, I * rot, radius);
+								NPC.NewNPC(NPC.GetSource_FromAI(), (int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye>(), NPC.whoAmI, NPC.whoAmI, I * rot, radius);
 							}
 							secondStage = true;
 						}
@@ -224,12 +224,12 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 					if (aiChange2) {
 						if (thirdStage == false) {
-							SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 93);
+							SoundEngine.PlaySound(SoundID.Item93, NPC.Center);
 							float radius = 400;
 							float rot = MathHelper.TwoPi / 10;
 							for (int I = 0; I < 10; I++) {
 								Vector2 position = NPC.Center + radius * (I * rot).ToRotationVector2();
-								NPC.NewNPC((int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye2>(), NPC.whoAmI, NPC.whoAmI, I * rot, radius);
+								NPC.NewNPC(NPC.GetSource_FromAI(), (int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye2>(), NPC.whoAmI, NPC.whoAmI, I * rot, radius);
 							}
 							thirdStage = true;
 						}
@@ -237,12 +237,12 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 					if (aiChange3) {
 						if (lastStage == false) {
-							SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 93);
+							SoundEngine.PlaySound(SoundID.Item93, NPC.Center);
 							float radius = 1200;
 							float rot = MathHelper.TwoPi / 41;
 							for (int I = 0; I < 41; I++) {
 								Vector2 position = NPC.Center + radius * (I * rot).ToRotationVector2();
-								NPC.NewNPC((int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye3>(), NPC.whoAmI, NPC.whoAmI, I * rot, radius);
+								NPC.NewNPC(NPC.GetSource_FromAI(), (int)(position.X), (int)(position.Y), ModContent.NPCType<CobbledEye3>(), NPC.whoAmI, NPC.whoAmI, I * rot, radius);
 							}
 							lastStage = true;
 						}
@@ -328,8 +328,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-			lightColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
