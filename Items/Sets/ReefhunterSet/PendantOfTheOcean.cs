@@ -9,11 +9,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 {
 	public class PendantOfTheOcean : AccessoryItem, ITimerItem
 	{
-		public override bool Autoload(ref string name)
-		{
-			DoubleTapPlayer.OnDoubleTap += DoubleTapUp;
-			return base.Autoload(ref name);
-		}
+		public override void Load() => DoubleTapPlayer.OnDoubleTap += DoubleTapUp;
 
 		public override void SetStaticDefaults()
 		{

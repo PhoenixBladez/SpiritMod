@@ -13,7 +13,7 @@ namespace SpiritMod.Particles
 			if (TimeActive >= MaxTime)
 				Kill();
 
-			Velocity.X += Main.windSpeed / 2f;
+			Velocity.X += Main.windSpeedCurrent / 2f;
 			Velocity.X *= 0.992f;
 			Color = Color.Black * (float)Math.Sin(MathHelper.TwoPi * ((MaxTime - TimeActive) / (float)MaxTime)) * 0.8f;
 		}
@@ -30,7 +30,7 @@ namespace SpiritMod.Particles
 
 			ashParticle.Position = startingPosition;
 			ashParticle.OriginalScreenPosition = Main.screenPosition;
-			ashParticle.Velocity = new Vector2(Main.windSpeed * 12f, Main.rand.NextFloat(3, 4f));
+			ashParticle.Velocity = new Vector2(Main.windSpeedCurrent * 12f, Main.rand.NextFloat(3, 4f));
 			ashParticle.Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
 			ashParticle.Scale = Main.rand.NextFloat(0.8f, 1.2f);
 			ashParticle.ParallaxStrength = ashParticle.Scale / 3f;

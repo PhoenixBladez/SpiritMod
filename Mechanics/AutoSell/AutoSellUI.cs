@@ -14,7 +14,7 @@ namespace SpiritMod.Mechanics.AutoSell
 
 		public override void OnInitialize()
 		{
-			Texture2D buttonPlayTexture = SpiritModAutoSellTextures.autoSellUIButton;
+			var buttonPlayTexture = SpiritModAutoSellTextures.autoSellUIButton;
 			UIImageButton playButton = new UIImageButton(buttonPlayTexture);
 			playButton.Left.Set(494, 0f);
 			playButton.Top.Set(312, 0f);

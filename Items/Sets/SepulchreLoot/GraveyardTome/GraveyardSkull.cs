@@ -106,7 +106,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D mask = ModContent.Request<Texture2D>(Texture + "_mask");
+			Texture2D mask = ModContent.Request<Texture2D>(Texture + "_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Main.spriteBatch.Draw(mask, Projectile.Center - Main.screenPosition, Projectile.DrawFrame(), Color.White * Projectile.Opacity,
 				Projectile.rotation, Projectile.DrawFrame().Size() / 2, Projectile.scale * 1.15f, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 

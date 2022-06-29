@@ -59,7 +59,7 @@ namespace SpiritMod.Items.Books.UI
 			mainPanel.Append(panelBackground);
 			mainPanel.AddDragTarget(panelBackground);
 
-			Texture2D closeTexture = ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/closeButton");
+			var closeTexture = ModContent.Request<Texture2D>("SpiritMod/Items/Books/UI/closeButton", ReLogic.Content.AssetRequestMode.ImmediateLoad);
 			UIImageButton closeButton = new UIImageButton(closeTexture);
 			closeButton.Left.Set(-15, 1f);
 			closeButton.Top.Set(0, 0f);

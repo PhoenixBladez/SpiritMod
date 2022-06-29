@@ -18,7 +18,7 @@ namespace SpiritMod.Gores
 
 		public override bool Update(Gore gore)
 		{
-			gore.velocity.X = Main.windSpeed * 23;
+			gore.velocity.X = Main.windSpeedCurrent * 23;
 			gore.rotation = gore.velocity.ToRotation() + MathHelper.PiOver2;
 			gore.position += gore.velocity;
 			if (Collision.SolidCollision(gore.position, 2, 2)) {

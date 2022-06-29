@@ -333,7 +333,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                 if (NPC.collideY)
                 {
                     NPC.TargetClosest(true);
-                    {
+					if (NPC.oldVelocity.Y < 0f)
                         NPC.velocity.Y = 5f;
                     else
                         NPC.velocity.Y = NPC.velocity.Y - 2f;

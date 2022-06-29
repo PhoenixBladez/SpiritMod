@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs.MoltenCore
 				{
 					addHeight = -8f;
 					addWidth = -6f;
-					texture2D = ModContent.Request<Texture2D>("SpiritMod/Textures/Flames");
+					texture2D = ModContent.Request<Texture2D>("SpiritMod/Textures/Flames", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				}
 				Vector2 origin = new Vector2((float) (texture2D.Width / 2), (float) (texture2D.Height / 8 + 14));
 				int num1 = (int) visualTimer / 2;

@@ -29,8 +29,8 @@ namespace SpiritMod.Items.Material
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			Texture2D glow = ModContent.Request<Texture2D>(Texture + "_Glow");
-			Texture2D outline = ModContent.Request<Texture2D>(Texture + "_outline");
+			Texture2D glow = ModContent.Request<Texture2D>(Texture + "_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D outline = ModContent.Request<Texture2D>(Texture + "_outline", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			float Timer = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 2 + 0.5f;
 			void DrawTex(Texture2D tex, float opacity, Vector2? offset = null) => spriteBatch.Draw(tex, Item.Center + (offset ?? Vector2.Zero) - Main.screenPosition, null, Color.White * opacity, rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
 

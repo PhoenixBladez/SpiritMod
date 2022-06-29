@@ -166,7 +166,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 			if (_chain == null)
 				return false;
 
-			_chain.Draw(Main.spriteBatch, ModContent.Request<Texture2D>(Texture + "_chain"));
+			_chain.Draw(Main.spriteBatch, ModContent.Request<Texture2D>(Texture + "_chain", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			return false;
 		}
 	}

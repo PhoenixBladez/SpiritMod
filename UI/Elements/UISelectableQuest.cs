@@ -10,6 +10,7 @@ using SpiritMod.Utilities;
 using Terraria.UI;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.UI.QuestUI;
+using Terraria.ModLoader;
 
 namespace SpiritMod.UI.Elements
 {
@@ -53,10 +54,10 @@ namespace SpiritMod.UI.Elements
 
 			// difficulty stars
 			float pixels = -5f;
-			Texture2D starImage = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/Star");
+			var starImage = ModContent.Request<Texture2D>("UI/QuestUI/Textures/Star", ReLogic.Content.AssetRequestMode.ImmediateLoad);
 			for (int i = 0; i < quest.Difficulty; i++)
 			{
-				UIImageFramed star = new UIImageFramed(starImage, starImage.Bounds);
+				UIImageFramed star = new UIImageFramed(starImage, starImage.Value.Bounds);
 				star.Left.Set(pixels, 1f);
 				star.Top.Set(-8f, 0f);
 				pixels -= 13f;
@@ -64,7 +65,7 @@ namespace SpiritMod.UI.Elements
 				Stars.Add(star);
 			}
 
-			Exclamation = new UIImageFramed(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/ExclamationMark"), new Rectangle(6, 0, 3, 12));
+			Exclamation = new UIImageFramed(ModContent.Request<Texture2D>("UI/QuestUI/Textures/ExclamationMark", ReLogic.Content.AssetRequestMode.ImmediateLoad), new Rectangle(6, 0, 3, 12));
 			Exclamation.Width.Set(3f, 0f);
 			Exclamation.Height.Set(12f, 0f);
 			Exclamation.Top.Set(-7f, 0f);
@@ -121,7 +122,7 @@ namespace SpiritMod.UI.Elements
 			if (_highlighted)
 			{
 				Rectangle area = GetDimensions().ToRectangle();
-				spriteBatch.Draw(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/Highlight"), area, Color.White * 0.3f);
+				spriteBatch.Draw(ModContent.Request<Texture2D>("UI/QuestUI/Textures/Highlight", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, area, Color.White * 0.3f);
 			}
 		}
 

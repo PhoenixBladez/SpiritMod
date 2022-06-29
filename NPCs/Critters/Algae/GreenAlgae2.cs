@@ -93,9 +93,9 @@ namespace SpiritMod.NPCs.Critters.Algae
 			}
 
 			if (!collision)
-				NPC.velocity.X = .5f * Main.windSpeed;
+				NPC.velocity.X = .5f * Main.windSpeedCurrent;
 			else
-				NPC.velocity.X = -.5f * Main.windSpeed;
+				NPC.velocity.X = -.5f * Main.windSpeedCurrent;
 
 			if (NPC.collideX || NPC.collideY)
 			{

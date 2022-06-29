@@ -183,7 +183,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D tex = ModContent.Request<Texture2D>(Texture + TextureEnd);
+			Texture2D tex = ModContent.Request<Texture2D>(Texture + TextureEnd, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			int frameHeight = tex.Height / NumFrames;
 			Rectangle frame = new Rectangle(0, frameHeight * frameY, tex.Width, frameHeight);
 

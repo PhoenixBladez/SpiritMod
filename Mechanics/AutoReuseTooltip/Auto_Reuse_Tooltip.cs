@@ -23,45 +23,45 @@ namespace SpiritMod.Mechanics.AutoReuseTooltip
 			var config = ModContent.GetInstance<SpiritClientConfig>();
 			if (config.AutoReuse && item.ammo == 0 && !item.accessory)
 			{
-				if ((item.autoReuse || item.channel) && item.ranged)
+				if ((item.autoReuse || item.channel) && item.IsRanged())
 				{
 					TooltipLine line = new TooltipLine(Mod, "isAutoreused", "Autofire: [c/64FF64:✔]");
 					tooltips.Add(line);
 				}
-				else if (!item.autoReuse && item.ranged)
+				else if (!item.autoReuse && item.IsRanged())
 				{
 					TooltipLine line2 = new TooltipLine(Mod, "isntAutoreused", "Autofire: [c/FF505A:✘]");
 					tooltips.Add(line2);
 				}	
 
-				if ((item.autoReuse || item.channel) && item.melee)
+				if ((item.autoReuse || item.channel) && item.IsMelee())
 				{
 					TooltipLine line = new TooltipLine(Mod, "isAutoreused", "Autoswing: [c/64FF64:✔]");
 					tooltips.Add(line);
 				}
-				else if (!item.autoReuse && item.melee)
+				else if (!item.autoReuse && item.IsMelee())
 				{
 					TooltipLine line2 = new TooltipLine(Mod, "isntAutoreused", "Autoswing: [c/FF505A:✘]");
 					tooltips.Add(line2);
 				}	
 
-				if ((item.autoReuse || item.channel) && item.magic)
+				if ((item.autoReuse || item.channel) && item.IsMagic())
 				{
 					TooltipLine line = new TooltipLine(Mod, "isAutoreused", "Autofire: [c/64FF64:✔]");
 					tooltips.Add(line);
 				}
-				else if (!item.autoReuse && item.magic)
+				else if (!item.autoReuse && item.IsMagic())
 				{
 					TooltipLine line2 = new TooltipLine(Mod, "isntAutoreused", "Autofire: [c/FF505A:✘]");
 					tooltips.Add(line2);
 				}	
 
-				if ((item.autoReuse || item.channel) && item.summon)
+				if ((item.autoReuse || item.channel) && item.IsSummon())
 				{
 					TooltipLine line = new TooltipLine(Mod, "isAutoreused", "Autofire: [c/64FF64:✔]");
 					tooltips.Add(line);
 				}
-				else if (!item.autoReuse && item.summon)
+				else if (!item.autoReuse && item.IsSummon())
 				{
 					TooltipLine line2 = new TooltipLine(Mod, "isntAutoreused", "Autofire: [c/FF505A:✘]");
 					tooltips.Add(line2);

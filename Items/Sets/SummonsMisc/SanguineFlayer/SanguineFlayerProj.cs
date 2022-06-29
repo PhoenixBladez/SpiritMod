@@ -292,7 +292,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 			if (AiState != STATE_HOOKED) //Skip if not hooked in
 				return;
 
-			Texture2D glow = ModContent.Request<Texture2D>(Texture + "_glow");
+			Texture2D glow = ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Texture2D projTexture = TextureAssets.Projectile[Projectile.type].Value;
 			Vector2 origin = new Vector2(projTexture.Width / 2, projTexture.Height);
 			Vector2 originGlow = new Vector2(glow.Width / 2, glow.Height);
@@ -326,7 +326,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 		private Vector2 _chainMidB;
 		private void DrawChainCurve(SpriteBatch spriteBatch, Vector2 projBottom, out Vector2[] chainPositions)
 		{
-			Texture2D chainTex = ModContent.Request<Texture2D>(Texture + "_chain");
+			Texture2D chainTex = ModContent.Request<Texture2D>(Texture + "_chain", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			switch (AiState)
 			{

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles.Hostile;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -16,17 +17,12 @@ namespace SpiritMod.Tiles.Ambient
 			Main.tileNoFail[Type] = true;
 
 			DustType = DustID.Demonite;
-			soundType = SoundID.Grass;
+			HitSound = SoundID.Grass;
 			AnimationFrameHeight = 54;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.Height = 3;
 			TileObjectData.newTile.Width = 2;
-			TileObjectData.newTile.CoordinateHeights = new int[]
-			{
-			16,
-			16,
-			16
-			};
+			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
 			TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.CorruptGrass, TileID.Ebonstone };
 			TileObjectData.addTile(Type);
 
@@ -56,7 +52,7 @@ namespace SpiritMod.Tiles.Ambient
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			for(int num = 1; num <= 6; num++)
-				Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), Mod.Find<ModGore>("Gores/CorpseBloom/CorpseBloom" + num.ToString()).Type, 1f);
+				Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), Mod.Find<ModGore>("Gores/CorpseBloom/CorpseBloom" + num.ToString()).Type, 1f);
 		}
 
 		public int cloudtimer;
@@ -76,13 +72,13 @@ namespace SpiritMod.Tiles.Ambient
 
 					if (++cloudtimer > 500) {
 						if(!Main.dedServ)
-							SoundEngine.PlaySound(SoundID.Item, new Vector2(i * 16, j * 16), 95);
+							SoundEngine.PlaySound(SoundID.Item95, new Vector2(i * 16, j * 16));
 
 						cloudtimer = 0;
 						for(int num = 1; num <= 3; num++)
-							Gore.NewGore(new Vector2(num * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), Mod.Find<ModGore>("Gores/CorpseBloom/Belch" + num.ToString()).Type, 1f);
+							Gore.NewGore(new EntitySource_TileUpdate(i, j), new Vector2(num * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), Mod.Find<ModGore>("Gores/CorpseBloom/Belch" + num.ToString()).Type, 1f);
 
-						Projectile.NewProjectile(new Vector2(i * 16, j * 16), Vector2.Zero, ModContent.ProjectileType<CorpsebloomExplosion>(), 0, 0f);
+						Projectile.NewProjectile(new EntitySource_TileUpdate(i, j), new Vector2(i * 16, j * 16), Vector2.Zero, ModContent.ProjectileType<CorpsebloomExplosion>(), 0, 0f);
 					}
 				}
 			}

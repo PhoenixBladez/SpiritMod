@@ -5,6 +5,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Buffs.Summon
 {
@@ -40,12 +41,12 @@ namespace SpiritMod.Buffs.Summon
 			ActiveMinionDict = dummy;
 		}
 
-		public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			if (AutoloadMinionDictionary.BuffDictionary.TryGetValue(type, out int buffType))
 				Player.AddBuff(buffType, 180);
 
-			return base.Shoot(item, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+			return base.Shoot(item, source, position, velocity, type, damage, knockback);
 		}
 	}
 

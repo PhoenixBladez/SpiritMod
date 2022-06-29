@@ -64,8 +64,8 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			Lighting.AddLight(Item.position, 0.2f, .142f, .032f);
 
-			Texture2D glow = ModContent.Request<Texture2D>(Texture + "_Glow");
-			Texture2D outline = ModContent.Request<Texture2D>(Texture + "_Outline");
+			Texture2D glow = ModContent.Request<Texture2D>(Texture + "_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D outline = ModContent.Request<Texture2D>(Texture + "_Outline", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			float Timer = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 2 + 0.5f;
 
 			void DrawTex(Texture2D tex, float opacity, Vector2? offset = null) => spriteBatch.Draw(tex, Item.Center + (offset ?? Vector2.Zero) - Main.screenPosition, null, Color.White * opacity, rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);

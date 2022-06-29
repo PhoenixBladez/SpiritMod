@@ -147,8 +147,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 				glowStrength = Math.Max(glowStrength, glowStrengthMin); //Finally, if too low, increase it
 			}
 
-			Texture2D projGlow = ModContent.Request<Texture2D>(Texture + "_glow");
-			Texture2D projMask = ModContent.Request<Texture2D>(Texture + "_mask");
+			Texture2D projGlow = ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D projMask = ModContent.Request<Texture2D>(Texture + "_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Color additiveWhite = new Color(255, 255, 255, 0) * glowStrength;
 			void DrawGlow(Texture2D tex, Vector2? offset = null, float opacityMod = 1f) => //Use a method for a bit less copy paste
 				Main.spriteBatch.Draw(tex, Projectile.Center + (offset ?? Vector2.Zero) - Main.screenPosition, null, additiveWhite * opacityMod, Projectile.rotation,

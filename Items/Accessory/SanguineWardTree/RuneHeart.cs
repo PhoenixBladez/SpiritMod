@@ -111,11 +111,11 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 			for (int i = 0; i < 5; i++)
 			{
 				Vector2 offset = Vector2.UnitX.RotatedBy((i / 5f) * MathHelper.TwoPi) * Timer * 8;
-				DrawTex(ModContent.Request<Texture2D>(Texture + "_outline"), Projectile.Center + offset - Main.screenPosition, color * (1 - Timer));
+				DrawTex(ModContent.Request<Texture2D>(Texture + "_outline", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, Projectile.Center + offset - Main.screenPosition, color * (1 - Timer));
 			}
 			DrawTex(projTex, Projectile.Center - Main.screenPosition, Color.Lerp(color, Color.White, 0.25f));
 
-			DrawTex(ModContent.Request<Texture2D>(Texture + "_mask"), Projectile.Center - Main.screenPosition, color * (1 - Projectile.Opacity) * 2);
+			DrawTex(ModContent.Request<Texture2D>(Texture + "_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, Projectile.Center - Main.screenPosition, color * (1 - Projectile.Opacity) * 2);
 			return false;
 		}
 	}

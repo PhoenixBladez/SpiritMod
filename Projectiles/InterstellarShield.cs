@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles
 		}
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
+			SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
 			for (int k = 0; k < 15; k++) {
 				Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.DungeonSpirit, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
 			}

@@ -90,7 +90,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Topaz_Bow
 		{
 			for (int index = 0; index < 5; ++index)
 			{
-				int i = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.AmethystBolt, 0.0f, 0.0f, 0, Color.Purple, 1f);
+				int i = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.GemAmethyst, 0.0f, 0.0f, 0, Color.Purple, 1f);
 				Main.dust[i].noGravity = true;
 			}
 			SoundEngine.PlaySound(SoundID.Trackable, (int)Projectile.position.X, (int)Projectile.position.Y, 193, 1f, -0.2f);

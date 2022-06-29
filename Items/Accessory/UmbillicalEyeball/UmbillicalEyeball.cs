@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 		{
 			if (EyeballMinion)
 				if (Player.ownedProjectileCounts[ModContent.ProjectileType<UmbillicalEyeballProj>()] < 3)
-					Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<UmbillicalEyeballProj>(), (int)(55 * Player.minionDamage), 1.5f, Player.whoAmI, Player.ownedProjectileCounts[ModContent.ProjectileType<UmbillicalEyeballProj>()], 0);
+					Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<UmbillicalEyeballProj>(), (int)(55 * Player.GetDamage(DamageClass.Summon)), 1.5f, Player.whoAmI, Player.ownedProjectileCounts[ModContent.ProjectileType<UmbillicalEyeballProj>()], 0);
 		}
 	}
 

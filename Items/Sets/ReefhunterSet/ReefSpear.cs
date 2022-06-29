@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			{
 				Item.shoot = ModContent.ProjectileType<ReefSpearThrown>();
 				//Item.DamageType = DamageClass.Throwing; 
-				//item.ranged = false;
+				//item.IsRanged() = false;
 				Item.damage = 24;
 				Item.shootSpeed = 12f;
 				Item.channel = false;
@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 			else
 			{
 				Item.shoot = ModContent.ProjectileType<ReefSpearProjectile>();
-				//item.thrown = false;
+				//item.IsThrown() = false;
 				//Item.DamageType = DamageClass.Ranged;
 				Item.damage = 18;
 				Item.shootSpeed = 0f;

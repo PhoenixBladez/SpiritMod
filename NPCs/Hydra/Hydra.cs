@@ -446,11 +446,11 @@ namespace SpiritMod.NPCs.Hydra
 			string texturePath = Texture + colorString;
 			Texture2D headTex;
 			if (attacking)
-				headTex = ModContent.Request<Texture2D>(texturePath);
+				headTex = ModContent.Request<Texture2D>(texturePath, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			else
-				headTex = ModContent.Request<Texture2D>(texturePath + "_Idle");
+				headTex = ModContent.Request<Texture2D>(texturePath + "_Idle", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-			Texture2D neckTex = ModContent.Request<Texture2D>(texturePath + "_Neck");
+			Texture2D neckTex = ModContent.Request<Texture2D>(texturePath + "_Neck", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			BezierCurve curve = GetCurve(drawRotation);
 
@@ -594,7 +594,7 @@ namespace SpiritMod.NPCs.Hydra
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			float scale = Projectile.scale;
-			Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/Hydra/HydraFireGlob_Glow");
+			Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/Hydra/HydraFireGlob_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Color color = Color.White * 0.65f;
 			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
 			Rectangle frameRect = new Rectangle(0, Projectile.frame * frameHeight, tex.Width, frameHeight);

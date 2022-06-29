@@ -57,7 +57,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			mainPanel.Append(panelBackground);
 			mainPanel.AddDragTarget(panelBackground);
 
-			Texture2D closeTexture = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/SlotMachine/Close");
+			var closeTexture = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/SlotMachine/Close", ReLogic.Content.AssetRequestMode.ImmediateLoad);
 			UIImageButton closeButton = new UIImageButton(closeTexture);
 			closeButton.Left.Set(-50, 1f);
 			closeButton.Top.Set(5, 0f);
@@ -66,7 +66,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			closeButton.OnClick += CloseButton_OnClick;
 			panelBackground.Append(closeButton);
 
-			Texture2D pullTexture = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/SlotMachine/SlotMachineBaseFramer");
+			var pullTexture = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/SlotMachine/SlotMachineBaseFramer", ReLogic.Content.AssetRequestMode.ImmediateLoad);
 			UIImageButton pullButton = new UIImageButton(pullTexture);
 			pullButton.Left.Set(-10, 1f);
 			pullButton.Top.Set(-8, 0f);
@@ -163,14 +163,14 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			int width = spriteBatch.GraphicsDevice.Viewport.Width;
 			int height = spriteBatch.GraphicsDevice.Viewport.Height;
 			Vector2 position = new Vector2(width, height) * new Vector2(mainPanel.HAlign, mainPanel.VAlign);
-			Texture2D texturebase = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/SlotMachine/SlotMachineBase");
+			Texture2D texturebase = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/SlotMachine/SlotMachineBase", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			spriteBatch.Draw(texturebase, new Vector2(offsetX, offsetY) + position, rectbase, Color.White, 0, new Vector2(texturebase.Width / 4, texturebase.Height / 2), 1, SpriteEffects.None, 0f);
 
-			Texture2D texturepull = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/SlotMachine/SlotMachinePulley");
+			Texture2D texturepull = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/SlotMachine/SlotMachinePulley", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			var rectpull = new Rectangle(26 * Clamp((int)pulleyCounter, 0, 6), 0, 26, 80);
 			spriteBatch.Draw(texturepull, new Vector2(offsetX, offsetY) + position + new Vector2(texturebase.Width / 4, texturebase.Height / -2), rectpull, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0f);
 
-			Texture2D texturesymbols = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/SlotMachine/SlotMachineSymbols");
+			Texture2D texturesymbols = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/SlotMachine/SlotMachineSymbols", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			Vector2 symbolOffsetOne = new Vector2(29, 70);
 			Vector2 symbolOffsetTwo = symbolOffsetOne + new Vector2(68, 0);

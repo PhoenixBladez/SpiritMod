@@ -70,7 +70,7 @@ namespace SpiritMod.NPCs.Critters
 			NPC.spriteDirection = -NPC.direction;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/Critters/CrystalSerpent_Glow"));
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/Critters/CrystalSerpent_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 
 		public override void OnKill()
 		{

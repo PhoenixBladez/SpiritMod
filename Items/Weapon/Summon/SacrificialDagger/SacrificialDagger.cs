@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Weapon.Summon.SacrificialDagger
             texture = TextureAssets.Item[Item.type].Value;
             spriteBatch.Draw
             (
-                ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Summon/SacrificialDagger/SacrificialDagger_Glow"),
+                ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Summon/SacrificialDagger/SacrificialDagger_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
                 new Vector2
                 (
                     Item.position.X - Main.screenPosition.X + Item.width * 0.5f,

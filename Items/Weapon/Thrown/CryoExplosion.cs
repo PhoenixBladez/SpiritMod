@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
+			SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
 			for (int i = 0; i < 40; i++)
 			{
 				int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.BlueCrystalShard, 0f, -2f, 0, default, 2f);
@@ -49,14 +49,14 @@ namespace SpiritMod.Projectiles.Thrown
 			}
 
 			for (int i = 0; i < 3; i++)
-				Gore.NewGore(Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("Gores/CryoBomb/CryoShard1").Type, 1f);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("Gores/CryoBomb/CryoShard1").Type, 1f);
 			for (int i = 0; i < 3; i++)
-				Gore.NewGore(Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("Gores/CryoBomb/CryoShard2").Type, 1f);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("Gores/CryoBomb/CryoShard2").Type, 1f);
 			for (int i = 0; i < 3; i++)
-				Gore.NewGore(Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("Gores/CryoBomb/CryoShard3").Type, 1f);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("Gores/CryoBomb/CryoShard3").Type, 1f);
 		}
 
-		public override void DrawBehind(int index, List<int> behindTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overWires) => behindTiles.Add(index);
+		public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindNPCsAndTiles.Add(index);
 		public override Color? GetAlpha(Color lightColor) => new Color(220, 220, 220, 100);
 
 		public override bool PreAI()

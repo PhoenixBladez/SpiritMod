@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Consumable
 			Texture2D texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.Request<Texture2D>("SpiritMod/Items/Consumable/StarWormSummon_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Consumable/StarWormSummon_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
 				new Vector2
 				(
 					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,

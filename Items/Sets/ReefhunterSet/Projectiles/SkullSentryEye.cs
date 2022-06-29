@@ -185,14 +185,14 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		public void DrawChain(SpriteBatch spriteBatch)
 		{ 
 			if (chain != null)
-				chain.Draw(spriteBatch, ModContent.Request<Texture2D>(Texture + "_Segment"), scale : Projectile.scale* 0.75f);
+				chain.Draw(spriteBatch, ModContent.Request<Texture2D>(Texture + "_Segment", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, scale : Projectile.scale* 0.75f);
 		}
 
 		public void Draw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Projectile.QuickDraw(spriteBatch);
 
-			Texture2D pupil = ModContent.Request<Texture2D>(Texture + "_Pupil");
+			Texture2D pupil = ModContent.Request<Texture2D>(Texture + "_Pupil", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Vector2 origin = TextureAssets.Projectile[Projectile.type].Value.Size() / 2f;
 			Vector2 pos = Projectile.Center - Main.screenPosition + origin - new Vector2(2) + pupilPos;
 

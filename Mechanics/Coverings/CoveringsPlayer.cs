@@ -70,7 +70,7 @@ namespace SpiritMod.Mechanics.Coverings
             if (randomY > 5)
             {
                 int emptyUp = EmptyInDirection(randomX, randomY, new Point(0, -1), 60);
-                int emptyHor = EmptyInDirection(randomX, randomY, new Point(-Math.Sign(Main.windSpeed), 0));
+                int emptyHor = EmptyInDirection(randomX, randomY, new Point(-Math.Sign(Main.windSpeedCurrent), 0));
 
                 bool coverUp = emptyUp >= 55;
                 bool coverSide = emptyHor >= 15;
@@ -86,7 +86,7 @@ namespace SpiritMod.Mechanics.Coverings
                         frameVariation = data.Variation % 4;
                     }
                     // set snow up
-                    SpiritMod.Coverings.SetData(randomX, randomY, Snow.MakeVariation(frameVariation, alpha), SpiritMod.Coverings.GetOrientationFor(coverUp, Main.windSpeed > 0 && coverSide, Main.windSpeed < 0 && coverSide, false), snowCoveringID);
+                    SpiritMod.Coverings.SetData(randomX, randomY, Snow.MakeVariation(frameVariation, alpha), SpiritMod.Coverings.GetOrientationFor(coverUp, Main.windSpeedCurrent > 0 && coverSide, Main.windSpeedCurrent < 0 && coverSide, false), snowCoveringID);
                 }
             }
         }

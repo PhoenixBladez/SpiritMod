@@ -110,7 +110,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 				
 				for (int k = 0; k < 10; k++) { //dust ring
 					Vector2 offset = Vector2.UnitX.RotatedBy(owner.AngleTo(Projectile.Center)) * 36;
-					int dust = Dust.NewDust(owner.MountedCenter + offset, owner.width, owner.height, DustID.TopazBolt, 0f, 0f, 0, default, 1f);
+					int dust = Dust.NewDust(owner.MountedCenter + offset, owner.width, owner.height, DustID.GemTopaz, 0f, 0f, 0, default, 1f);
 					Main.dust[dust].shader = GameShaders.Armor.GetSecondaryShader(9, Main.LocalPlayer);
 					Main.dust[dust].velocity *= -1f;
 					Main.dust[dust].noGravity = true;
@@ -149,7 +149,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 		{
 			Main.spriteBatch.End();
 			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-			Texture2D bloom = TextureAssets.Extra[49];
+			Texture2D bloom = TextureAssets.Extra[49].Value;
 			SpiritMod.SunOrbShader.Parameters["colorMod"].SetValue(new Color(255, 245, 158).ToVector4());
 			SpiritMod.SunOrbShader.Parameters["colorMod2"].SetValue(Color.LightGoldenrodYellow.ToVector4());
 			SpiritMod.SunOrbShader.Parameters["timer"].SetValue(Main.GlobalTimeWrappedHourly / 3 % 1);

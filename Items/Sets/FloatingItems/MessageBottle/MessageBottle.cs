@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
-			Texture2D tex = ModContent.Request<Texture2D>(Texture + "_World");
+			Texture2D tex = ModContent.Request<Texture2D>(Texture + "_World", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			spriteBatch.Draw(tex, Item.Center - Main.screenPosition, null, lightColor, rotation, new Vector2(Item.width, Item.height) / 2, scale, SpriteEffects.None, 0f);
 			return false;
 		}

@@ -65,7 +65,7 @@ namespace SpiritMod.Projectiles.Magic
 			//Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			// vector9 += value19 * 16f;
 			for (int num257 = 0; num257 < 20; num257++) {
-				int newDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.TopazBolt, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 0, default, 1f);
+				int newDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GemTopaz, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 0, default, 1f);
 				Main.dust[newDust].position = (Main.dust[newDust].position + Projectile.Center) / 2f;
 				// Main.dust[newDust].velocity += value19 * 2f;
 				//  Main.dust[newDust].velocity *= 0.5f;

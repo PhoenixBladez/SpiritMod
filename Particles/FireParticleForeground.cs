@@ -16,7 +16,7 @@ namespace SpiritMod.Particles
 			if (TimeActive >= MaxTime)
 				Kill();
 
-			Velocity.X += Main.windSpeed/4;
+			Velocity.X += Main.windSpeedCurrent/4;
 			Velocity.X *= 0.97f;
 			Velocity.Y *= 0.998f;
 			if (Main.rand.NextBool(6))

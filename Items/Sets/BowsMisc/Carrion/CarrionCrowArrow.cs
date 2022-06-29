@@ -176,9 +176,8 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Projectile.penetrate > 4)
-            {
-				SoundEngine.PlaySound(new LegacySoundStyle(4, 6).WithPitchVariance(0.3f), Projectile.Center);
-			}
+				SoundEngine.PlaySound(SoundID.NPCDeath6 with { PitchVariance = 0.2f }, Projectile.Center);
+
 			if (Projectile.penetrate > 4 || Projectile.penetrate == 3)
 			{ 
 				looping = true;

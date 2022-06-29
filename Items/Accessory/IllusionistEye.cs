@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Accessory
 			texture = TextureAssets.Item[Item.type].Value;
 			spriteBatch.Draw
 			(
-				ModContent.Request<Texture2D>("SpiritMod/Items/Accessory/IllusionistEye_Glow"),
+				ModContent.Request<Texture2D>("SpiritMod/Items/Accessory/IllusionistEye_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
 				new Vector2
 				(
 					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,

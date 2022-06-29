@@ -125,7 +125,7 @@ namespace SpiritMod
 		{
 			if (Main.netMode != NetmodeID.Server) {
 				float rotation = Main.rand.NextFloat(0 - rot, rot);
-				Texture2D glyphTexture = ModContent.Request<Texture2D>(imagePath);
+				Texture2D glyphTexture = ModContent.Request<Texture2D>(imagePath, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				Color[] data = new Color[glyphTexture.Width * glyphTexture.Height];
 				glyphTexture.GetData(data);
 				for (int i = 0; i < glyphTexture.Width; i += 2) {
@@ -151,7 +151,7 @@ namespace SpiritMod
 			Color color = new Color(red, green, blue);
 			if (Main.netMode != NetmodeID.Server) {
 				float rotation = Main.rand.NextFloat(0 - rot, rot);
-				Texture2D glyphTexture = ModContent.Request<Texture2D>(imagePath);
+				Texture2D glyphTexture = ModContent.Request<Texture2D>(imagePath, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				Color[] data = new Color[glyphTexture.Width * glyphTexture.Height];
 				glyphTexture.GetData(data);
 				for (int i = 0; i < glyphTexture.Width; i += 2) {

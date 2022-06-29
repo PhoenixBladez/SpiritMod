@@ -88,7 +88,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 				if (Collision.CanHit(pos, 0, 0, pos + muzzleOffset, 0, 0))
 					pos += muzzleOffset;
 
-				var p = Projectile.NewProjectileDirect(pos, baseVel, ModContent.ProjectileType<GranitechGunBullet>(), player.HeldItem.damage, 0f, player.whoAmI);
+				var p = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), pos, baseVel, ModContent.ProjectileType<GranitechGunBullet>(), player.HeldItem.damage, 0f, player.whoAmI);
 				if (p.ModProjectile is GranitechGunBullet bullet)
 					bullet.spawnRings = true;
 
@@ -157,7 +157,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 			Main.spriteBatch.Draw(t, drawPos, frame, lightColor, realRot, new Vector2(42, 22), 1f, _effect, 1f);
 
-			Texture2D glowmask = ModContent.Request<Texture2D>(Texture + "_glow");
+			Texture2D glowmask = ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Main.spriteBatch.Draw(glowmask, drawPos, frame, Color.White, realRot, new Vector2(42, 22), 1f, _effect, 1f);
 
 			return false;

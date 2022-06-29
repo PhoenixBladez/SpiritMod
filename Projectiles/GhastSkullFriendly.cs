@@ -81,11 +81,11 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Zombie, (int)Projectile.position.X, (int)Projectile.position.Y, 53);
+			SoundEngine.PlaySound(SoundID.Zombie53, Projectile.Center);
 			ProjectileExtras.Explode(Projectile.whoAmI, 40, 40,
 				delegate {
 					for (int i = 0; i < 40; i++) {
-						int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Ultrabright, 0f, -2f, 117, new Color(0, 255, 142), .6f);
+						int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.UltraBrightTorch, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 						Main.dust[num].noGravity = true;
 						Dust dust = Main.dust[num];
 						dust.position.X += ((Main.rand.Next(-50, 51) / 20) - 1.5f);
@@ -102,7 +102,7 @@ namespace SpiritMod.Projectiles
 			for (int k = 0; k < Projectile.oldPos.Length; k++) {
 				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
 				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

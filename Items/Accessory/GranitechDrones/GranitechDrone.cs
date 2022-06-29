@@ -254,8 +254,8 @@ namespace SpiritMod.Items.Accessory.GranitechDrones
             else if (Projectile.ai[0] == 1f) // MINING
                 color = MiningColor;
 
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture), Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, new Vector2(16, 25), Projectile.scale, Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
-			Main.spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Items/Accessory/GranitechDrones/GranitechDroneModeGlowmask"), Projectile.Center - Main.screenPosition, null, color, Projectile.rotation, new Vector2(16, 25), Projectile.scale, Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, new Vector2(16, 25), Projectile.scale, Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+			Main.spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Items/Accessory/GranitechDrones/GranitechDroneModeGlowmask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, Projectile.Center - Main.screenPosition, null, color, Projectile.rotation, new Vector2(16, 25), Projectile.scale, Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             
             foreach (var t in laserData)
 			{

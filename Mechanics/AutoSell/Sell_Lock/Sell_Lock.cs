@@ -13,7 +13,7 @@ namespace SpiritMod.Mechanics.AutoSell.Sell_Lock
 		public static bool visible = false;
 		public override void OnInitialize()
 		{
-			Texture2D buttonPlayTexture = SpiritModAutoSellTextures.sellLockButton;
+			var buttonPlayTexture = SpiritModAutoSellTextures.sellLockButton;
 			UIImageButton playButton = new UIImageButton(buttonPlayTexture);
 			playButton.Left.Set(502, 0f);
 			playButton.Top.Set(356, 0f);

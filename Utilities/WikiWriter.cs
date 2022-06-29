@@ -89,15 +89,15 @@ namespace SpiritMod.Utilities
 
 		private static string GetItemClass(Item item)
 		{
-			if (item.melee)
+			if (item.IsMelee())
 				return "melee";
-			else if (item.ranged)
+			else if (item.IsRanged())
 				return "ranged";
-			else if (item.summon)
+			else if (item.IsSummon())
 				return "summon";
-			else if (item.magic)
+			else if (item.IsMagic())
 				return "magic";
-			else if (item.thrown)
+			else if (item.IsThrown())
 				return "thrown";
 			return "None";
 		}

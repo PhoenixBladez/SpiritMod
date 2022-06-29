@@ -141,19 +141,19 @@ namespace SpiritMod.GlobalClasses.Players
 			if (Player.HasAccessory<ShadowGauntlet>())
 			{
 				Player.kbGlove = true;
-				Player.meleeDamage += 0.07F;
+				Player.GetDamage(DamageClass.Melee) += 0.07F;
 				Player.meleeSpeed += 0.07F;
 			}
 
 			// Cimmerian Scepter
 			if (!Player.dead && Player.HasAccessory<CimmerianScepter>() && Player.ownedProjectileCounts[ModContent.ProjectileType<CimmerianScepterProjectile>()] < 1)
-				Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<CimmerianScepterProjectile>(), (int)(22 * Player.minionDamage), 1.5f, Player.whoAmI);
+				Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<CimmerianScepterProjectile>(), (int)(22 * Player.GetDamage(DamageClass.Summon)), 1.5f, Player.whoAmI);
 		}
 
 		public override void MeleeEffects(Item item, Rectangle hitbox)
 		{
 			// Shadow Gauntlet
-			if (Player.HasAccessory<ShadowGauntlet>() && item.melee)
+			if (Player.HasAccessory<ShadowGauntlet>() && item.IsMelee())
 				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Shadowflame);
 		}
 

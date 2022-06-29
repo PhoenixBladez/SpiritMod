@@ -143,7 +143,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 
 		public override void PostDraw(Color lightColor)
 		{
-			Texture2D texture = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/CoilSet/CoilHook_Chain");
+			Texture2D texture = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/CoilSet/CoilHook_Chain", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Vector2 vector = Projectile.Center;
 			Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
 			Rectangle? sourceRectangle = null;

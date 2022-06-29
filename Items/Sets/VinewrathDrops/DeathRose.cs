@@ -10,11 +10,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 {
 	public class DeathRose : ModItem
 	{
-		public override bool Autoload(ref string name)
-		{
-			DoubleTapPlayer.OnDoubleTap += DoubleTapPlayer_OnDoubleTap;
-			return base.Autoload(ref name);
-		}
+		public override void Load() => DoubleTapPlayer.OnDoubleTap += DoubleTapPlayer_OnDoubleTap;
 
 		public override void SetStaticDefaults()
 		{
@@ -49,7 +45,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 			{
 				player.AddBuff(ModContent.BuffType<DeathRoseCooldown>(), 240);
 				Vector2 mouse = Main.MouseScreen + Main.screenPosition;
-				Projectile.NewProjectile(mouse, Vector2.Zero, ModContent.ProjectileType<Projectiles.BrambleTrap>(), 30, 0, Main.myPlayer, mouse.X, mouse.Y);
+				Projectile.NewProjectile(player.GetSource_FromThis("DoubleTap"), mouse, Vector2.Zero, ModContent.ProjectileType<Projectiles.BrambleTrap>(), 30, 0, Main.myPlayer, mouse.X, mouse.Y);
 			}
 		}
 

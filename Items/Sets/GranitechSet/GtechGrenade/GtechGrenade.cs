@@ -193,12 +193,12 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 		{
 			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 94).WithPitchVariance(0.2f).WithVolume(.6f), Projectile.Center);
 			SoundEngine.PlaySound(SoundID.DD2_SkyDragonsFurySwing, Projectile.Center);
-			Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GtechGrenadeExplode>(), Projectile.damage, 0, Projectile.owner);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GtechGrenadeExplode>(), Projectile.damage, 0, Projectile.owner);
 		}
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D aura = ModContent.Request<Texture2D>(Texture + "_Aura");
+			Texture2D aura = ModContent.Request<Texture2D>(Texture + "_Aura", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			if (DamageAura)
 				Main.spriteBatch.Draw(aura, Projectile.Center - Main.screenPosition, null, Color.White * 0.3f, Projectile.rotation, new Vector2(aura.Width, aura.Height) / 2, Projectile.scale, SpriteEffects.None, 0f);
 
@@ -210,7 +210,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			{
 				float startScale = 1f;
 				float endScale = 1.3f;
-				tex = ModContent.Request<Texture2D>(Texture + "_Core");
+				tex = ModContent.Request<Texture2D>(Texture + "_Core", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				for (int i = 0; i < 15; i++)
 					Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, Color.Lerp(Color.White * 0.5f, Color.White * 0.2f, i / 15f), Projectile.rotation, new Vector2(tex.Width, frameHeight) / 2, Projectile.scale * MathHelper.Lerp(startScale, endScale, i / 15f), SpriteEffects.None, 0f);
 			}
@@ -218,7 +218,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			tex = TextureAssets.Projectile[Projectile.type].Value;
 			Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, lightColor, Projectile.rotation, new Vector2(tex.Width, frameHeight) / 2, Projectile.scale, SpriteEffects.None, 0f);
 
-			tex = ModContent.Request<Texture2D>(Texture + "_Glow");
+			tex = ModContent.Request<Texture2D>(Texture + "_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			DrawAberration.DrawChromaticAberration(Vector2.UnitY, 2.5f, delegate (Vector2 offset, Color colorMod)
 			{
 				Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, frame, Color.White.MultiplyRGBA(colorMod),

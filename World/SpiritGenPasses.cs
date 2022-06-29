@@ -1179,7 +1179,7 @@ namespace SpiritMod.World
 		{
 			ushort iron = WorldExtras.GetOreCounterpart(WorldGen.IronTierOre);
 			ushort silver = WorldExtras.GetOreCounterpart(WorldGen.SilverTierOre);
-			ushort gold = WorldExtras.GetOreCounterpart(WorldGen.GoldTierOre);
+			ushort gold = WorldExtras.GetOreCounterpart(WorldGen.SavedOreTiers.Gold);
 
 			int roll = Main.rand.Next(1120);
 			if (roll < 250)
@@ -1287,7 +1287,7 @@ namespace SpiritMod.World
 				}
 			}
 
-			if (WorldGen.GoldTierOre == TileID.Gold)
+			if (WorldGen.SavedOreTiers.Gold == TileID.Gold)
 			{
 				for (int i = 0; i < Main.maxTilesX * 7.5f; i++)
 				{
@@ -1301,7 +1301,7 @@ namespace SpiritMod.World
 					}
 				}
 			}
-			else if (WorldGen.GoldTierOre == TileID.Platinum)
+			else if (WorldGen.SavedOreTiers.Gold == TileID.Platinum)
 			{
 				for (int i = 0; i < Main.maxTilesX * 7.5f; i++)
 				{

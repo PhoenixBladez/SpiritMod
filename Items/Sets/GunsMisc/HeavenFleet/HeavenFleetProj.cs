@@ -149,7 +149,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 					Color color = Color.White * 0.75f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 
 					float scale = Projectile.scale;
-					Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/GunsMisc/HeavenFleet/HeavenFleet_Glow");
+					Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/GunsMisc/HeavenFleet/HeavenFleet_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value; ;
 
 					Main.spriteBatch.Draw(tex, Offset - Main.screenPosition, null, color, player.itemRotation, tex.Size() / 2, num107, default, default);
 				}
@@ -169,7 +169,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 					Color color = Color.White * 0.75f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 
 					float scale = Projectile.scale;
-					Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/GunsMisc/HeavenFleet/HeavenFleet_Lights");
+					Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/GunsMisc/HeavenFleet/HeavenFleet_Lights", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 					spriteBatch.Draw(tex, Offset - Main.screenPosition, null, color, player.itemRotation, tex.Size() / 2, 1f, default, default);
 				}

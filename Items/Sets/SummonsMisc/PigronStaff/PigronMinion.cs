@@ -164,16 +164,16 @@ namespace SpiritMod.Items.Sets.SummonsMisc.PigronStaff
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D drawTex = ModContent.Request<Texture2D>(Texture);
+			Texture2D drawTex = ModContent.Request<Texture2D>(Texture, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Color trailColor = Color.Pink;
 			switch (BiomeType) {
 				case 1:
 					trailColor = Color.Purple;
-					drawTex = ModContent.Request<Texture2D>(Texture + "_corrupt");
+					drawTex = ModContent.Request<Texture2D>(Texture + "_corrupt", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 					break;
 				case 2:
 					trailColor = Color.Red;
-					drawTex = ModContent.Request<Texture2D>(Texture + "_crim");
+					drawTex = ModContent.Request<Texture2D>(Texture + "_crim", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 					break;
 			}
 
@@ -229,7 +229,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.PigronStaff
 		public override void Kill(int timeLeft)
 		{
 			if (Main.netMode != NetmodeID.Server)
-				SoundEngine.PlaySound(SoundID.Item54.WithPitchVariance(0.3f), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item54 with { PitchVariance = 0.3f }, Projectile.Center);
 
 			for(int i = 0; i < 12; i++)
 			{
