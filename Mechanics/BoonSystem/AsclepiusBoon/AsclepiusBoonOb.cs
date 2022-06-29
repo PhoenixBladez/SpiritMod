@@ -106,7 +106,7 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 			if (Main.dedServ)
 				return;
 
-			SoundEngine.PlaySound(SoundID.Item27.WithPitchVariance(0.3f).WithVolume(0.6f), NPC.Center);
+			SoundEngine.PlaySound(SoundID.Item27 with { PitchVariance = 0.3f, Volume = 0.6f }, NPC.Center); ;
 			for (int i = 0; i < 15; i++)
 			{
 				Vector2 direction = Main.rand.NextVector2Circular(20, 20);
@@ -116,7 +116,7 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 				new Color(49, 212, 76),
 				Main.rand.NextFloat(0.08f, 0.23f),
 				Main.rand.Next(20, 40));
-				SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 3);
+				SoundEngine.PlaySound(SoundID.NPCHit3, NPC.Center);
 
 				ParticleHandler.SpawnParticle(particle);
 			}

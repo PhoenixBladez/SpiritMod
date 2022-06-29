@@ -97,10 +97,10 @@ namespace SpiritMod.NPCs.Undead_Warlock
 						projectileTimer++;
 					if (crystalTimer == 45 && Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 8, 1f, 0f);
-						crystal1 = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y - 90, 0f, 0f, ModContent.ProjectileType<Undead_Warlock_Crystal>(), 10, 3f, 0);
-						crystal2 = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y - 90, 0f, 0f, ModContent.ProjectileType<Undead_Warlock_Crystal>(), 10, 3f, 0);
-						crystal3 = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y - 90, 0f, 0f, ModContent.ProjectileType<Undead_Warlock_Crystal>(), 10, 3f, 0);
+						SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+						crystal1 = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y - 90, 0f, 0f, ModContent.ProjectileType<Undead_Warlock_Crystal>(), 10, 3f, 0);
+						crystal2 = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y - 90, 0f, 0f, ModContent.ProjectileType<Undead_Warlock_Crystal>(), 10, 3f, 0);
+						crystal3 = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y - 90, 0f, 0f, ModContent.ProjectileType<Undead_Warlock_Crystal>(), 10, 3f, 0);
 						Main.projectile[crystal1].Center += new Vector2(0, 35).RotatedBy(MathHelper.ToRadians(120));
 						Main.projectile[crystal2].Center += new Vector2(0, 35).RotatedBy(MathHelper.ToRadians(240));
 						Main.projectile[crystal3].Center += new Vector2(0, 35).RotatedBy(MathHelper.ToRadians(360));
