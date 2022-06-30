@@ -46,7 +46,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BladetongueGore").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BladetongueGore").Type, 1f);
 			}
 			for (int k = 0; k < 11; k++)
 			{
@@ -60,13 +60,13 @@ namespace SpiritMod.NPCs.Critters
 				target.AddBuff(BuffID.Bleeding, 1200);
 			}
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
-			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Bladetongue, 1);
+			npcLoot.AddCommon(ItemID.Bladetongue, 2);
+			npcLoot.AddCommon<RawFish>(2);
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return spawnInfo.Player.ZoneCrimson && spawnInfo.Water && Main.hardMode ? 0.0075f : 0f;

@@ -79,7 +79,7 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 
 			SoundEngine.PlaySound(SoundID.Item109);
 
-			Projectile.NewProjectile(player.Center, dir, ModContent.ProjectileType<DarkAnima>(), 70, 0, player.whoAmI);
+			Projectile.NewProjectile(player.GetSource_FromThis("DoubleTap"), player.Center, dir, ModContent.ProjectileType<DarkAnima>(), 70, 0, player.whoAmI);
 		}
 	}
 }

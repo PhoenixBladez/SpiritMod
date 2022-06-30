@@ -81,12 +81,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 			if(Projectile.ai[1] > 50 && Collision.CanHit(Projectile.Center, 0, 0, target.Center, 0, 0))
             {
 				if (Main.netMode != NetmodeID.Server)
-					SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starCast").WithPitchVariance(0.3f).WithVolume(0.6f), Projectile.position);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/starCast") with { PitchVariance = 0.3f, Volume = 0.6f }, Projectile.position);
 
 				Vector2 vel = Projectile.GetArcVel(target.Center, 0.1f, heightabovetarget : Main.rand.Next(50, 100));
 				Projectile.velocity = Projectile.DirectionFrom(target.Center).RotatedByRandom(MathHelper.PiOver2) * 8;
 
-				Projectile.NewProjectileDirect(Projectile.Center, vel, ModContent.ProjectileType<JinxprobeEnergy>(), Projectile.damage, Projectile.knockBack, Projectile.owner).netUpdate = true;
+				Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, vel, ModContent.ProjectileType<JinxprobeEnergy>(), Projectile.damage, Projectile.knockBack, Projectile.owner).netUpdate = true;
 				Projectile.ai[1] = 0;
 				Projectile.netUpdate = true;
             }
@@ -94,8 +94,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D glow = Mod.Assets.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1).Value + "_glow");
-			Texture2D glow2 = Mod.Assets.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1).Value + "_glow2");
+			Texture2D glow = Mod.Assets.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1) + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D glow2 = Mod.Assets.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1) + "_glow2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Rectangle rect = glow.Bounds;
 
 			//draw beam to player

@@ -129,7 +129,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 					Projectile.frameCounter = 0;
 					Projectile.Center = target.Center;
 					Projectile.rotation = Main.rand.NextFloat(6.28f);
-					Projectile.NewProjectile(Projectile.Center - (Projectile.rotation.ToRotationVector2() * 150), (Projectile.rotation + 1.57f).ToRotationVector2(), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
+					Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center - (Projectile.rotation.ToRotationVector2() * 150), (Projectile.rotation + 1.57f).ToRotationVector2(), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
 				}
 				else
 					frameY++;
@@ -146,7 +146,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 				{
 					Projectile.Center = target.Center;
 					Projectile.rotation = Main.rand.NextFloat(6.28f);
-					Projectile.NewProjectile(Projectile.Center - (Projectile.rotation.ToRotationVector2() * 150), (Projectile.rotation + 1.57f).ToRotationVector2(), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
+					Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center - (Projectile.rotation.ToRotationVector2() * 150), (Projectile.rotation + 1.57f).ToRotationVector2(), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
 					frameY = 0;
 					Projectile.frameCounter = 0;
 				}
@@ -167,7 +167,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SoulDagger
 					frameY = 0;
 					Projectile.frameCounter = 0;
 					Projectile.Center = player.Center + Main.rand.NextVector2Circular(80, 80);
-					Projectile.NewProjectile(Projectile.Center, new Vector2(0, 1), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
+					Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(0, 1), ModContent.ProjectileType<SoulDaggerSummon>(), 0, 0, player.whoAmI);
 				}
 				else
 					frameY++;

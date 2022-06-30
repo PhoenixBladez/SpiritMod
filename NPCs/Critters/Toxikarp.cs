@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs.Critters
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ToxikarpGore").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ToxikarpGore").Type, 1f);
 			}
 			for (int k = 0; k < 11; k++) {
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Plantera_Green, NPC.direction, -1f, 1, default, .61f);
@@ -71,15 +71,13 @@ namespace SpiritMod.NPCs.Critters
 		{
 			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/Critters/Toxikarp_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(2) == 1) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
-			}
-    		if (Main.rand.Next(2) == 1) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Toxikarp, 1);
-			}
+			npcLoot.AddCommon(ItemID.Toxikarp, 2);
+			npcLoot.AddCommon<RawFish>(2);
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return spawnInfo.Player.ZoneCorrupt && spawnInfo.Water && Main.hardMode ? 0.005f : 0f;

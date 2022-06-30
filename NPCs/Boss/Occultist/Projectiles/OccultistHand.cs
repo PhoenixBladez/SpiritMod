@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 			if (Main.dedServ)
 				return;
 
-			SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt.WithPitchVariance(0.3f).WithVolume(0.5f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt with { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);
 			for (int i = 0; i < 10; i++)
 				ParticleHandler.SpawnParticle(new GlowParticle(Projectile.Center + Main.rand.NextVector2Circular(20, 10),
 					Main.rand.NextVector2Unit() * Main.rand.NextFloat(2), Color.Magenta, Main.rand.NextFloat(0.02f, 0.04f), 30));

@@ -36,12 +36,11 @@ namespace SpiritMod.NPCs.DeadeyeMarksman
             BannerItem = ModContent.ItemType<Items.Banners.DeadeyeMarksmanBanner>();
         }
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<OldLeather>());
-			if (Main.rand.NextBool(100))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.BlackLens);
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.WoodenArrow, Main.rand.Next(5, 10));
+			npcLoot.AddCommon<OldLeather>();
+			npcLoot.AddCommon(ItemID.BlackLens, 100);
+			npcLoot.AddCommon(ItemID.WoodenArrow, 1, 5, 9);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -62,8 +61,8 @@ namespace SpiritMod.NPCs.DeadeyeMarksman
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, .45f);
 			}
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Archer2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Archer1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Archer2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Archer1").Type, 1f);
 				for (int k = 0; k < 80; k++) {
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, .85f);
 				}

@@ -30,8 +30,8 @@ namespace SpiritMod.Items.Sets.AvianDrops
 
 		public override void RightClick(Player player)
         {
-            player.QuickSpawnItem(ModContent.ItemType<AvianHook>());
-            player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(5, 9));
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick")ModContent.ItemType<AvianHook>());
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ItemID.GoldCoin, Main.rand.Next(5, 9));
 
             int[] lootTable = {
                 ModContent.ItemType<TalonBlade>(),
@@ -46,13 +46,13 @@ namespace SpiritMod.Items.Sets.AvianDrops
                 ModContent.ItemType<TalonGarb>()
             };
             int loot1 = Main.rand.Next(lootTable1.Length);
-            player.QuickSpawnItem(lootTable[loot]);
-            player.QuickSpawnItem(lootTable1[loot1]);
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick")lootTable[loot]);
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick")lootTable1[loot1]);
 
             if (Main.rand.NextDouble() < 1d / 7)
-                player.QuickSpawnItem(ModContent.ItemType<FlierMask>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick")ModContent.ItemType<FlierMask>());
             if (Main.rand.NextDouble() < 1d / 10)
-                player.QuickSpawnItem(ModContent.ItemType<Trophy2>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick")ModContent.ItemType<Trophy2>());
 
 			int[] vanityTable = {
 				ModContent.ItemType<WaasephiVanity>(),
@@ -62,7 +62,7 @@ namespace SpiritMod.Items.Sets.AvianDrops
 			};
 			int vanityloot = Main.rand.Next(vanityTable.Length);
 			if (Main.rand.NextBool(20))
-				player.QuickSpawnItem(vanityTable[vanityloot]);
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick")vanityTable[vanityloot]);
 		}
     }
 }

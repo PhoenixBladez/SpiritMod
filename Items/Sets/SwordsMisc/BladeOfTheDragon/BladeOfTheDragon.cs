@@ -200,7 +200,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			comboActivated = true;
-			Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DragonSlash>(), 0, 0, Projectile.whoAmI, target.whoAmI);
+			Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<DragonSlash>(), 0, 0, Projectile.whoAmI, target.whoAmI);
 		}
 	}
 

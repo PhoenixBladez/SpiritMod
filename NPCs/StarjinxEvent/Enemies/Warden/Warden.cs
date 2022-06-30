@@ -104,7 +104,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				Background = new WardenBG(NPC.Center, NPC);
 				BackgroundItemManager.AddItem(Background);
 
-				archonWhoAmI = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y + 300, ModContent.NPCType<Archon.Archon>());
+				archonWhoAmI = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 300, ModContent.NPCType<Archon.Archon>());
 
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, archonWhoAmI);
@@ -271,7 +271,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			Vector2 portal = Main.projectile[GetVoidPortalHitLine()].Center;
 
 			Vector2 vel = NPC.DirectionTo(portal) * 7;
-			Projectile.NewProjectile(NPC.Center, vel, ModContent.ProjectileType<Projectiles.VoidProjectile>(), 20, 1f);
+			Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vel, ModContent.ProjectileType<Projectiles.VoidProjectile>(), 20, 1f);
 		}
 
 		private int GetVoidPortalHitLine()
@@ -299,7 +299,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				while ((voidPortals.Count > 0 && voidPortals.Any(x => Vector2.DistanceSquared(Main.projectile[x].Center, center + pos) < PortalDist)) || pos.Length() < MinDist)
 					pos = Main.rand.NextVector2Circular(StarjinxMeteorite.EVENT_RADIUS * 0.9f, StarjinxMeteorite.EVENT_RADIUS * 0.9f);
 
-				int p = Projectile.NewProjectile(center + pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidPortal>(), 0, 0);
+				int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), center + pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidPortal>(), 0, 0);
 				Main.projectile[p].timeLeft = VoidDuoMaxTime - (int)timers["DUO"];
 
 				voidPortals.Add(p);
@@ -351,7 +351,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 				CalculateBouncePosition(true);
 
 				int type = ModContent.ProjectileType<Archon.Projectiles.MeteorCastProjectile>();
-				int p = Projectile.NewProjectile(NPC.Center, NPC.DirectionTo(archonMeteorPongPosition) * MeteorPongSpeed, type, 20, 1f, Main.myPlayer);
+				int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.DirectionTo(archonMeteorPongPosition) * MeteorPongSpeed, type, 20, 1f, Main.myPlayer);
 				Main.projectile[p].timeLeft = MeteorDuoMaxTime;
 				Main.projectile[p].scale = 10f;
 
@@ -422,7 +422,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 			if (timers["DUO"] == (int)(duoMaxTime * 0.05f))
 			{
-				int p = Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.SplitStar>(), 20, 1f);
+				int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.SplitStar>(), 20, 1f);
 				Main.projectile[p].timeLeft = StarlightDuoMaxTime;
 				Main.projectile[p].scale = 20f;
 
@@ -481,7 +481,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 			if (timers["ARCHATK"] == 50) //Spawn projectile
 			{
-				int p = Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidCastProjectile>(), 60, 1f, Main.myPlayer);
+				int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.VoidCastProjectile>(), 60, 1f, Main.myPlayer);
 				Main.projectile[p].timeLeft = ArchonAttackMaxTime - 50;
 
 				blackHoleWhoAmI = p;
@@ -514,7 +514,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 				for (int i = 0; i < npcCount; ++i)
 				{
-					int id = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y - 200, Main.rand.Next(types), Main.rand.Next(10) * 10);
+					int id = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y - 200, Main.rand.Next(types), Main.rand.Next(10) * 10);
 
 					Main.npc[id].hide = true;
 					doppelgangers.Add(id);
@@ -545,7 +545,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 					{
 						npc.active = false;
 
-						int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileID.Dynamite, 120, 1f);
+						int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.Zero, ProjectileID.Dynamite, 120, 1f);
 						Main.projectile[p].timeLeft = 3;
 					}
 				}
@@ -604,7 +604,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 
 		public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
 		{
-			if (GetArchon.enchantment == Archon.Archon.Enchantment.Void && item.melee && blackHoleWhoAmI != -1)
+			if (GetArchon.enchantment == Archon.Archon.Enchantment.Void && item.IsMelee() && blackHoleWhoAmI != -1)
 			{
 				BlackHole.Kill();
 				blackHoleWhoAmI = -1;
@@ -637,7 +637,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		{
 			Main.spriteBatch.End();
 
-			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, SpiritMod.stardustOverlayEffect, Main.GameViewMatrix.TransformationMatrix);
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, SpiritMod.stardustOverlayEffect, Main.GameViewMatrix.TransformationMatrix);
 
 			foreach (int item in doppelgangers)
 			{
@@ -659,7 +659,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 			}
 
 			Main.spriteBatch.End();
-			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 		}
 
 		//public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, npc, mod.GetTexture("NPCs/StarjinxEvent/Enemies/Pathfinder/Pathfinder_Glow"), Color.White * 0.75f);

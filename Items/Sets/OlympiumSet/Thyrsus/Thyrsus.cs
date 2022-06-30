@@ -98,7 +98,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.Thyrsus
 				direction.Normalize();
 				for (int i = 0; i < 3; i++)
 				{
-					Projectile proj = Projectile.NewProjectileDirect(Projectile.Center, direction.RotatedBy(Main.rand.NextFloat(-1f, 1f)) * 5, ModContent.ProjectileType<ThyrsusProjTwo>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.whoAmI);
+					Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_Misc("TileHit"), Projectile.Center, direction.RotatedBy(Main.rand.NextFloat(-1f, 1f)) * 5, ModContent.ProjectileType<ThyrsusProjTwo>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.whoAmI);
 					if (proj.ModProjectile is ThyrsusProjTwo modProj)
 					{
 						modProj.InitializeChain(Projectile.Center);

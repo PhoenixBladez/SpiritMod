@@ -138,14 +138,14 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		{
 			if (!Main.dedServ)
 			{
-				SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 3, 1f, 0f);
-				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/skullscrem").WithPitchVariance(0.2f).WithVolume(0.7f), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.NPCDeath3, Projectile.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/skullscrem") with { PitchVariance = 0.2f, Volume = 0.7f }, Projectile.Center);
 			}
 
-			Projectile.NewProjectileDirect(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GraveyardBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+			Projectile.NewProjectileDirect(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GraveyardBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 			for (int i = 0; i <= 3; i++)
 			{
-				Gore gore = Gore.NewGoreDirect(Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)),
+				Gore gore = Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)),
 					Main.rand.NextVector2Circular(-1, 1),
 					Mod.Find<ModGore>("Gores/Skelet/grave" + Main.rand.Next(1, 5)).Type,
 					Projectile.scale);

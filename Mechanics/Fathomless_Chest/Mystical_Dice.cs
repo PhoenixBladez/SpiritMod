@@ -52,7 +52,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			}
 			else {
 				CombatText.NewText(new Rectangle((int)player.Center.X, (int)player.Center.Y, 2, 2), Color.Cyan, "No Shrines Left!");
-				player.QuickSpawnItem(ModContent.ItemType<Black_Stone_Item>(), 15);
+				player.QuickSpawnItem(player.GetSource_ItemUse(), ModContent.ItemType<Black_Stone_Item>(), 15);
 				SoundEngine.PlaySound(SoundID.Item110, player.Center);
 				return;
 			}

@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using SpiritMod.Items.Armor.DiverSet;
 
 namespace SpiritMod.NPCs.ZombieVariants
 {
@@ -39,7 +40,7 @@ namespace SpiritMod.NPCs.ZombieVariants
 			if (NPC.life <= 0)
 			{
 				for (int i = 1; i < 4; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DiverZombie/DiverZombie" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DiverZombie/DiverZombie" + i).Type, 1f);
 			}
 		}
 
@@ -87,17 +88,12 @@ namespace SpiritMod.NPCs.ZombieVariants
 
 		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(50) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Shackle);
-			if (Main.rand.Next(250) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.ZombieArm);
-			if (Main.rand.Next(100) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Flipper);
-
-			if (Main.rand.Next(65) == 0)
-				NPC.DropItem(Mod.Find<ModItem>(Main.rand.Next(new string[]{ "DiverLegs", "DiverHead", "DiverBody" })).Type);
+			npcLoot.AddCommon(ItemID.Shackle, 50);
+			npcLoot.AddCommon(ItemID.ZombieArm, 250);
+			npcLoot.AddCommon(ItemID.Flipper, 100);
+			npcLoot.AddOneFromOptions(65, ModContent.ItemType<DiverLegs>(), ModContent.ItemType<DiverHead>(), ModContent.ItemType<DiverBody>());
 		}
 	}
 }

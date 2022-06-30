@@ -87,7 +87,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 				{
 					NPC.ai[2] = 1;
 					Main.NewText("The Vulture Matriarch has been disturbed!", 175, 75, 255);
-					SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 28, 1.5f, -0.4f);
+					SoundEngine.PlaySound(SoundID.NPCHit28, NPC.Center);
 					NPC.netUpdate = true;
 				}
 
@@ -117,7 +117,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 					int interval = NPC.life < NPC.lifeMax / 2 ? 55 : 110;
 					if (NPC.ai[3] % interval == 0)
 					{
-						SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 73, 1f, -0.5f);
+						SoundEngine.PlaySound(SoundID.Item73, NPC.Center);
 						Vector2 toPlayer = Vector2.Normalize(player.Center - NPC.Center) * 12f;
 
 						int numberProjectiles = 3 + Main.rand.Next(4);
@@ -127,7 +127,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 							{
 								float scale = 1f - (Main.rand.NextFloat() * .3f);
 								Vector2 perturbedSpeed = toPlayer.RotatedByRandom(MathHelper.ToRadians(32)) * scale;
-								Projectile.NewProjectile(NPC.Center.X + 23 * NPC.direction, NPC.Center.Y + 16, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Sharp_Feather>(), 22, 3f, Main.myPlayer);
+								Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + 23 * NPC.direction, NPC.Center.Y + 16, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Sharp_Feather>(), 22, 3f, Main.myPlayer);
 							}
 						}
 					}
@@ -251,7 +251,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 			gliding = true;
 
 			if (NPC.ai[1] == 481)
-				SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 28, 1.5f, -0.4f);
+				SoundEngine.PlaySound(SoundID.NPCHit28, NPC.Center);
 
 			Vector2 center = NPC.Center;
 			Vector2 v = Vector2.Normalize(Main.player[NPC.target].Center - center) * 10f;
@@ -335,23 +335,22 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore1").Type, 1f);
 				for (int i = 0; i < 2; ++i)
 				{
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore2").Type, 1f);
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore3").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore2").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore3").Type, 1f);
 				}
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore4").Type, 1f);
 			}
 		}
 
 		public override void OnKill()
 		{
 			NPC.DropItemInstanced(NPC.position, NPC.Size, ModContent.ItemType<GoldenEgg>(), 1, true);
-
-			if (Main.rand.Next(12) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Vulture_Matriarch_Mask>(), 1);
 		}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<Vulture_Matriarch_Mask>(12);
 
 		public override void FindFrame(int frameHeight)
 		{
@@ -373,7 +372,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 					else if (NPC.frameCounter < AnimSpeed * 5)
 					{
 						NPC.frame.Y = 4 * frameHeight;
-						SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 32, 1f, 0f);
+						SoundEngine.PlaySound(SoundID.Item32, NPC.Center);
 					}
 					else
 						NPC.frameCounter = 0;

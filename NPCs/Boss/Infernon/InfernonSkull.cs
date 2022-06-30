@@ -66,12 +66,12 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					for (int i = 0; i < 4; i++)
 					{
 						offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
-						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<InfernalWave>(), 28, 0, Main.myPlayer);
 						NPC.netUpdate = true;
 					}
 					bool expertMode = Main.expertMode;
-					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 33);
+					SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
 					Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 12f;
 
 					int amountOfProjectiles = 2;
@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 						float A = Main.rand.Next(-200, 200) * 0.01f;
 						float B = Main.rand.Next(-200, 200) * 0.01f;
 						int damage = expertMode ? 20 : 24;
-						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SunBlast>(), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SunBlast>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 				}
 

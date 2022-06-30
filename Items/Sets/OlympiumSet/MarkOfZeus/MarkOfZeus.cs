@@ -167,7 +167,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 
 			if (Projectile.owner == Main.myPlayer)
 			{
-				int proj = Projectile.NewProjectile(Projectile.Center, direction, ModContent.ProjectileType<MarkOfZeusProj2>(), (int)(Projectile.damage * Math.Sqrt(counter) * 0.5f), Projectile.knockBack, Projectile.owner);
+				int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, direction, ModContent.ProjectileType<MarkOfZeusProj2>(), (int)(Projectile.damage * Math.Sqrt(counter) * 0.5f), Projectile.knockBack, Projectile.owner);
 				if (Main.projectile[proj].ModProjectile is MarkOfZeusProj2 modItem)
 					modItem.charge = counter;
 			}
@@ -275,7 +275,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 
 			for (double i = 0; i < 6.28; i += Main.rand.NextFloat(1f, 2f))
 			{
-				int lightningproj = Projectile.NewProjectile(Projectile.Center + Projectile.velocity - (new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 5f), new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<MarkOfZeusProj3>(), Projectile.damage, Projectile.knockBack, Projectile.owner, charge);
+				int lightningproj = Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center + Projectile.velocity - (new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 5f), new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<MarkOfZeusProj3>(), Projectile.damage, Projectile.knockBack, Projectile.owner, charge);
 				Main.projectile[lightningproj].timeLeft = (int)(30 * Math.Sqrt(charge));
 			}
 

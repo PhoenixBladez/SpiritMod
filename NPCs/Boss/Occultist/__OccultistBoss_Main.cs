@@ -273,14 +273,9 @@ namespace SpiritMod.NPCs.Boss.Occultist
 		
 		public override void OnKill()
 		{
-			string[] lootTable = { "Handball", "SacrificialDagger", "BloodWard" };
-			int loot = Main.rand.Next(lootTable.Length);
-			{
-				NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
-			}
 			for(int i = 0; i < 4; i++)
 			{
-				int n = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<DreamstrideWisp>());
+				int n = NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<DreamstrideWisp>());
 				if(Main.npc[n].type == ModContent.NPCType<DreamstrideWisp>() && Main.npc[n].active)
 				{
 					Main.npc[n].velocity = Main.rand.NextVector2Circular(3, 3);
@@ -289,6 +284,8 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				}
 			}
 		}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddOneFromOptions(1, ModContent.ItemType<Handball>(), ModContent.ItemType<SacrificialDagger>(), ModContent.ItemType<BloodWard>());
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => Main.bloodMoon && spawnInfo.Player.Center.Y / 16f < Main.worldSurface ? 0.02f : 0f;
 

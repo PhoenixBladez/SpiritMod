@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Weapon.Summon.WyvernStaff
 				{
 					Projectile.timeLeft = 0;
 					Projectile.active = false;
-					Gore.NewGore(Projectile.Center, Projectile.velocity, Main.rand.Next(11, 13), 1f);
+					Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity, Main.rand.Next(11, 13), 1f);
 					// NetMessage.SendData(28, -1, -1, "", projectile.whoAmI, -1f, 0.0f, 0.0f, 0, 0, 0);
 				}
 			}

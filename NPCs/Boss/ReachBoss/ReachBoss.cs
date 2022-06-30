@@ -207,7 +207,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			}
 			if (NPC.ai[0] == 561 || NPC.ai[0] == 690)
 			{
-				SoundEngine.PlaySound(SoundID.Grass, (int)NPC.position.X, (int)NPC.position.Y);
+				SoundEngine.PlaySound(SoundID.Grass, NPC.Center);
 				SoundEngine.PlaySound(SoundID.Trackable, (int)NPC.Center.X, (int)NPC.Center.Y, 139, 1f, 0.4f);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -233,7 +233,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			int damage = expertMode ? 13 : 16;
 			if (NPC.ai[0] % 15 == 0)
 			{
-				SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 104).WithPitchVariance(0.2f), NPC.Center);
+				SoundEngine.PlaySound(SoundID.Item104 with { PitchVariance = 0.2f }, NPC.Center);
 	            if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
 					int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + Main.rand.Next(-60, 60), NPC.Center.Y+ Main.rand.Next(-60, 60), Main.rand.NextFloat(-5.3f, 5.3f), Main.rand.NextFloat(-5.3f, 5.3f), ModContent.ProjectileType<ReachBossFlower>(), damage, 1, Main.myPlayer, 0, 0);		
@@ -275,7 +275,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 
 				else if (NPC.ai[0] == 1320 || NPC.ai[0] == 1641) {
-					SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Roar, 0), NPC.Center);
+					SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
 					NPC.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - NPC.Center.X) / 10), 24, 36) * NPC.spriteDirection;
 					NPC.netUpdate = true;
 					trailbehind = true;
@@ -304,7 +304,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				SoundEngine.PlaySound(new LegacySoundStyle(42, 4), NPC.Center);
 				SoundEngine.PlaySound(new LegacySoundStyle(6, 0).WithPitchVariance(0.2f), NPC.Center);
 				SoundEngine.PlaySound(new LegacySoundStyle(4, 55).WithPitchVariance(0.2f), NPC.Center);
-				int p = NPC.NewNPC((int)NPC.Center.X + Main.rand.Next(-100, 100), (int)NPC.Center.Y + Main.rand.Next(-200, -100), ModContent.NPCType<ExplodingSpore>());
+				int p = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + Main.rand.Next(-100, 100), (int)NPC.Center.Y + Main.rand.Next(-200, -100), ModContent.NPCType<ExplodingSpore>());
 				DustHelper.DrawStar(new Vector2(Main.npc[p].Center.X, Main.npc[p].Center.Y), DustID.GoldCoin, pointAmount: 4, mainSize: .9425f, dustDensity: 2, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
 				Main.npc[p].ai[1] = NPC.whoAmI;
 				Main.npc[p].netUpdate = true;

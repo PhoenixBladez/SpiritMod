@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			if (NPC.ai[0] == 150)
 			{
 				SoundEngine.PlaySound(SoundID.Grass, (int)NPC.position.X, (int)NPC.position.Y);
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 104).WithPitchVariance(0.2f), NPC.Center);
+				SoundEngine.PlaySound(SoundID.Item104 with { PitchVariance = 0.2f }, NPC.Center);
 			    DustHelper.DrawStar(NPC.Center, 163, pointAmount: 163, mainSize: 2.7425f, dustDensity: 4, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -99,7 +99,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
                         float A = (float)Main.rand.Next(-200, 200) * 0.01f;
                         float B = (float)Main.rand.Next(-200, 200) * 0.01f;
                         int damage = expertMode ? 15 : 17;
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<BouncingSpore>(), damage, 1, Main.myPlayer, 0, 0);
                     }
                 }
 			}
@@ -155,20 +155,21 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		}
 		public void CircleSpikeAttack(Player player)
 		{
-			bool expertMode = Main.expertMode;	
+			bool expertMode = Main.expertMode;
 			if (NPC.ai[0] == 489 || NPC.ai[0] == 690)
 			{
-			    DustHelper.DrawStar(NPC.Center, 163, pointAmount: 163, mainSize: 2.7425f, dustDensity: 4, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 55).WithPitchVariance(0.2f), NPC.Center);				
+				DustHelper.DrawStar(NPC.Center, 163, pointAmount: 163, mainSize: 2.7425f, dustDensity: 4, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 55).WithPitchVariance(0.2f), NPC.Center);
 				float spread = 10f * 0.0174f;
 				double startAngle = Math.Atan2(6, 6) - spread / 2;
 				double deltaAngle = spread / 8f;
-				for (int i = 0; i < 6; i++) {
-				double offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-                int damage = expertMode ? 15 : 17;
-				Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), ModContent.ProjectileType<Yikes>(), damage, 0, player.whoAmI);
-				Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)(-Math.Sin(offsetAngle) * 3f), (float)(-Math.Cos(offsetAngle) * 3f), ModContent.ProjectileType<Yikes>(), damage, 0, player.whoAmI);
-				}				
+				for (int i = 0; i < 6; i++)
+				{
+					double offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+					int damage = expertMode ? 15 : 17;
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), ModContent.ProjectileType<Yikes>(), damage, 0, player.whoAmI);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)(-Math.Sin(offsetAngle) * 3f), (float)(-Math.Cos(offsetAngle) * 3f), ModContent.ProjectileType<Yikes>(), damage, 0, player.whoAmI);
+				}
 			}
 		}
 		void DashAttack(Player player) //basically just copy pasted from scarabeus mostly
@@ -193,7 +194,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 
 				else if (NPC.ai[0] == 420 || NPC.ai[0] == 621 || NPC.ai[0] == 822) {
-					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Roar, 0), NPC.Center);
+					SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
 					NPC.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - NPC.Center.X) / 10), 27, 40) * NPC.spriteDirection;
 					NPC.netUpdate = true;
 				}

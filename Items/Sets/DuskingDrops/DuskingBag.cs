@@ -30,9 +30,9 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 
 		public override void RightClick(Player player)
 		{
-			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(3, 7));
-			player.QuickSpawnItem(ModContent.ItemType<DuskPendant>());
-			player.QuickSpawnItem(ModContent.ItemType<DuskStone>(), Main.rand.Next(25, 36));
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ItemID.GoldCoin, Main.rand.Next(3, 7));
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<DuskPendant>());
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<DuskStone>(), Main.rand.Next(25, 36));
 
 			int[] lootTable = {
 				ModContent.ItemType<ShadowflameSword>(),
@@ -41,12 +41,12 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 				ModContent.ItemType<Shadowmoor>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
-			player.QuickSpawnItem(lootTable[loot]);
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable[loot]);
 			
 			if (Main.rand.NextDouble() < 1d / 7)
-				player.QuickSpawnItem(ModContent.ItemType<DuskingMask>());
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<DuskingMask>());
 			if (Main.rand.NextDouble() < 1d / 10)
-				player.QuickSpawnItem(ModContent.ItemType<Trophy6>());
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<Trophy6>());
 
 			int[] vanityTable = {
 				ModContent.ItemType<WaasephiVanity>(),
@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 			};
 			int vanityloot = Main.rand.Next(vanityTable.Length);
 			if (Main.rand.NextBool(20))
-				player.QuickSpawnItem(vanityTable[vanityloot]);
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), vanityTable[vanityloot]);
 		}
 	}
 }

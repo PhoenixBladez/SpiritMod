@@ -80,7 +80,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 					//Only make one projectile shot directly at the player, by checking if it's the first rune that was spawned in
 					if (RuneNumber == 0 && !playerUntargettable)
 					{
-						Projectile p = Projectile.NewProjectileDirect(Parent.Center, Vector2.Zero, ModContent.ProjectileType<HecateBoonProj>(), 
+						Projectile p = Projectile.NewProjectileDirect(Parent.GetSource_FromAI("Boon"), Parent.Center, Vector2.Zero, ModContent.ProjectileType<HecateBoonProj>(), 
 							NPCUtils.ToActualDamage(Parent.damage), 1, Main.myPlayer, Parent.target);
 
 						if (!Main.dedServ)

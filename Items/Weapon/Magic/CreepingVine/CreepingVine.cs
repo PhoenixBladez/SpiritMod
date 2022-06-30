@@ -97,14 +97,14 @@ namespace SpiritMod.Items.Weapon.Magic.CreepingVine
 				Vector2 velocity = new Vector2(oldVelocity.X == Projectile.velocity.X ? 0 : Math.Sign(oldVelocity.X), oldVelocity.Y == Projectile.velocity.Y ? 0 : Math.Sign(oldVelocity.Y));
 				//Main.NewText("X: " + velocity.X.ToString());
 				//Main.NewText("Y: " + velocity.Y.ToString());
-				Projectile proj = Projectile.NewProjectileDirect(Projectile.Center, Projectile.velocity, ModContent.ProjectileType<CreepingVineProjTwo>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+				Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_Misc("TileHit"), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<CreepingVineProjTwo>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 				if (proj.ModProjectile is CreepingVineProjTwo modproj)
 				{
 					velocity = velocity.RotatedBy(-1.57f / 2);
 					velocity.Normalize();
 					modproj.moveDirection = velocity;
 				}
-				proj = Projectile.NewProjectileDirect(Projectile.Center, Projectile.velocity, ModContent.ProjectileType<CreepingVineProjTwo>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+				proj = Projectile.NewProjectileDirect(Projectile.GetSource_Misc("TileHit"), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<CreepingVineProjTwo>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 				if (proj.ModProjectile is CreepingVineProjTwo modproj2)
 				{
 					velocity = velocity.RotatedBy(1.57f);

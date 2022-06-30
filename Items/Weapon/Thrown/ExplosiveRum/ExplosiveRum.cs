@@ -69,16 +69,16 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/rumboom"), Projectile.Center);
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/rumboom"), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
 
 			for (int i = 1; i < 5; ++i)
-				Gore.NewGore(Projectile.Center, Vector2.Zero, Mod.Find<ModGore>("Gores/Rum/RumGore" + i).Type, 1f);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, Mod.Find<ModGore>("Gores/Rum/RumGore" + i).Type, 1f);
 
-			Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<RumExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<RumExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 
-			Projectile.NewProjectileDirect(Projectile.Center - new Vector2(0, 15), new Vector2(0.25f, 15), ModContent.ProjectileType<RumFire>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner, 1, 12).timeLeft = 60;
-			Projectile.NewProjectileDirect(Projectile.Center - new Vector2(0, 15), new Vector2(-0.25f, 15), ModContent.ProjectileType<RumFire>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner, -1, 12).timeLeft = 60;
+			Projectile.NewProjectileDirect(Projectile.GetSource_Death(), Projectile.Center - new Vector2(0, 15), new Vector2(0.25f, 15), ModContent.ProjectileType<RumFire>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner, 1, 12).timeLeft = 60;
+			Projectile.NewProjectileDirect(Projectile.GetSource_Death(), Projectile.Center - new Vector2(0, 15), new Vector2(-0.25f, 15), ModContent.ProjectileType<RumFire>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner, -1, 12).timeLeft = 60;
 		}
 	}
 
@@ -141,7 +141,7 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 			{
 				lightUp = true;
 				Vector2 pos = Projectile.Center + new Vector2(Projectile.ai[0] * 20, 0);
-				Projectile.NewProjectile(pos, new Vector2(Projectile.ai[0] * 0.25f, 15), ModContent.ProjectileType<RumFire>(), Math.Max((int)(Projectile.damage * 0.98f), 1), Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1] - 1);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), pos, new Vector2(Projectile.ai[0] * 0.25f, 15), ModContent.ProjectileType<RumFire>(), Math.Max((int)(Projectile.damage * 0.98f), 1), Projectile.knockBack, Projectile.owner, Projectile.ai[0], Projectile.ai[1] - 1);
 			}
 			if (lightUp)
 				Lighting.AddLight(Projectile.Center, 245 * 0.00361f, 99 * 0.00361f, 66 * 0.00361f);

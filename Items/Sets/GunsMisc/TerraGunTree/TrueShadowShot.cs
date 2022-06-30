@@ -99,7 +99,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 				Vector2 direction9 = target.Center - (player.Center + offset);
 				direction9.Normalize();
 				direction9 *= 10;
-				Projectile.NewProjectile(player.Center + offset, direction9, ModContent.ProjectileType<BaneBullet>(), Projectile.damage, 0, Projectile.owner);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), player.Center + offset, direction9, ModContent.ProjectileType<BaneBullet>(), Projectile.damage, 0, Projectile.owner);
 			}
 
 			public override void Kill(int timeLeft)

@@ -46,13 +46,14 @@ namespace SpiritMod.NPCs.WinterbornHerald
 
 		public override void OnKill()
 		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<CryoliteOre>(), 1 + Main.rand.Next(3, 7));
+			if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.IceDeityQuest>().IsActive && Main.rand.NextBool(5)) //Item spawn not part of NPCLoot but it feels odd to put a quest drop there
+				Item.NewItem(NPC.GetSource_Death("Quest"), NPC.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.IceDeityShard1>());
+		}
 
-			if (Main.rand.Next(5) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<WintryCharmMage>());
-
-			if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.IceDeityQuest>().IsActive && Main.rand.NextBool(5))
-				Item.NewItem(NPC.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.IceDeityShard1>());
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddCommon<CryoliteOre>(1, 3, 6);
+			npcLoot.AddCommon<WintryCharmMage>(5);
 		}
 
 		public override bool PreAI()
@@ -68,7 +69,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 			if (NPC.ai[2] != 0 && NPC.ai[3] != 0)
 			{
 				// Teleport effects: away.
-				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 8);
+				SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
 				for (int index1 = 0; index1 < 50; ++index1)
 				{
 					int newDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Flare_Blue, 0.0f, 0.0f, 100, new Color(), 1.5f);
@@ -82,7 +83,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 				NPC.ai[2] = 0.0f;
 				NPC.ai[3] = 0.0f;
 				// Teleport effects: arrived.
-				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 8);
+				SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
 				for (int index1 = 0; index1 < 50; ++index1)
 				{
 					int newDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Flare_Blue, 0.0f, 0.0f, 100, new Color(), 1.5f);
@@ -115,7 +116,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 				--NPC.ai[1];
 				if (NPC.ai[1] == 15)
 				{
-					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 8);
+					SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int amountOfProjectiles = 1;
@@ -126,7 +127,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 							if (Main.rand.Next(2) == 0)
 							{
 								int somedamage = expertMode ? 15 : 30;
-								int p = Projectile.NewProjectile(Main.player[NPC.target].Center.X, Main.player[NPC.target].Center.Y - 300, 0, 0, ModContent.ProjectileType<IceCloudHostile>(), somedamage, 1, Main.myPlayer, 0, 0);
+								int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center.X, Main.player[NPC.target].Center.Y - 300, 0, 0, ModContent.ProjectileType<IceCloudHostile>(), somedamage, 1, Main.myPlayer, 0, 0);
 								Main.projectile[p].hostile = true;
 								Main.projectile[p].friendly = false;
 								Main.projectile[p].tileCollide = false;
@@ -138,7 +139,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 								direction.X *= 4.9f;
 								direction.Y *= 4.9f;
 								int somedamage = expertMode ? 17 : 34;
-								int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y - 30, direction.X, direction.Y, ProjectileID.IceBolt, somedamage, 1, Main.myPlayer, 0, 0);
+								int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y - 30, direction.X, direction.Y, ProjectileID.IceBolt, somedamage, 1, Main.myPlayer, 0, 0);
 								Main.projectile[p].hostile = true;
 								Main.projectile[p].friendly = false;
 								Main.projectile[p].tileCollide = false;
@@ -236,13 +237,13 @@ namespace SpiritMod.NPCs.WinterbornHerald
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore4").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore5").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Winterborn/WinterbornGore5").Type, 1f);
 
 				NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
 				NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);

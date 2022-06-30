@@ -110,8 +110,8 @@ namespace SpiritMod.NPCs.FrozenSouls
 							Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 13);
 							if (!player.HasItem(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.IceDeityShard1>()))
 							{ 
-								player.QuickSpawnItem(ItemID.WarmthPotion, 2);
-								player.QuickSpawnItem(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.IceDeityShard1>(), 1);
+								player.QuickSpawnItem(player.GetSource_GiftOrReward("Quest"), ItemID.WarmthPotion, 2);
+								player.QuickSpawnItem(player.GetSource_GiftOrReward("Quest"), ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.IceDeityShard1>(), 1);
 							}
 						}
 					}

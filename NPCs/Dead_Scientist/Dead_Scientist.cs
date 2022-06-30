@@ -76,7 +76,7 @@ namespace SpiritMod.NPCs.Dead_Scientist
 					float num15 = num5 / num14;
 					float num16 = num6 * num15;
 					float SpeedY = num8 * num15;
-					Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, ModContent.ProjectileType<Zombie_Puke>(), 10, 0.0f, Main.myPlayer, 0.0f, 0.0f);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), vector2.X, vector2.Y, num16, SpeedY, ModContent.ProjectileType<Zombie_Puke>(), 10, 0.0f, Main.myPlayer, 0.0f, 0.0f);
 				}
 			}
 
@@ -90,13 +90,12 @@ namespace SpiritMod.NPCs.Dead_Scientist
 					delayTimer = 0;
 			}
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(3) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 216, 1);
-			if (Main.rand.Next(10) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 1304, 1);
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.ThrownMisc.FlaskofGore.FlaskOfGore>(), Main.rand.Next(108, 163));
+			npcLoot.AddCommon(216, 3);
+			npcLoot.AddCommon(1304, 10);
+			npcLoot.AddCommon<Items.Sets.ThrownMisc.FlaskofGore.FlaskOfGore>(1, 108, 162);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -104,7 +103,7 @@ namespace SpiritMod.NPCs.Dead_Scientist
 			if (NPC.life <= 0)
 			{
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/UndeadScientist/UndeadScientistGore" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/UndeadScientist/UndeadScientistGore" + i).Type, 1f);
 				SoundEngine.PlaySound(SoundID.Item9.SoundId, (int)NPC.position.X, (int)NPC.position.Y, 22, 1f, -0.9f);
 			}
 

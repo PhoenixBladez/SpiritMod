@@ -80,14 +80,14 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 			for (int i = 0; i < 30; i++)
 				SpawnGore(new Vector2(Main.rand.NextFloat(6, 8), 0).RotatedByRandom(MathHelper.TwoPi));
 
-			Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HealingSplash>(), 0, 0f);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HealingSplash>(), 0, 0f);
 		}
 
 		public void SpawnGore(Vector2? overrideVel = null)
 		{
 			var pos = new Vector2(Projectile.position.X + Main.rand.Next(Projectile.width), Projectile.position.Y + Main.rand.Next(Projectile.height));
 			var vel = new Vector2(Main.rand.Next(-10, 11) * 0.1f, Main.rand.Next(-20, -10) * 0.1f);
-			Gore.NewGore(pos, overrideVel ?? vel, 331, Main.rand.Next(80, 120) * 0.01f);
+			Gore.NewGore(Projectile.GetSource_Death(), pos, overrideVel ?? vel, 331, Main.rand.Next(80, 120) * 0.01f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -182,7 +182,7 @@ namespace SpiritMod.Items.Sets.Explosives.Thrown
 		{
 			var pos = new Vector2(Projectile.position.X + Main.rand.Next(Projectile.width), Projectile.position.Y + Main.rand.Next(Projectile.height));
 			var vel = new Vector2(Main.rand.Next(-10, 11) * 0.1f, Main.rand.Next(-20, -10) * 0.1f);
-			Gore.NewGore(pos, overrideVel ?? vel, 331, Main.rand.Next(80, 120) * 0.01f);
+			Gore.NewGore(Projectile.GetSource_Death(), pos, overrideVel ?? vel, 331, Main.rand.Next(80, 120) * 0.01f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

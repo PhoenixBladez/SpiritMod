@@ -78,7 +78,7 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Liberty
 							ParticleHandler.SpawnParticle(new SmokeParticle(Projectile.Center - (Projectile.velocity * 40), -Projectile.velocity.RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(4), new Color(60, 60, 60) * 0.5f, Main.rand.NextFloat(0.3f, 0.5f), 25));
 					}
 
-					Projectile.NewProjectile(shootPos, Projectile.velocity * (speed + Owner.HeldItem.shootSpeed), shoot, damage + Projectile.damage, knockback + Projectile.knockBack, Owner.whoAmI);
+					Projectile.NewProjectile(Projectile.GetSource_FromAI(), shootPos, Projectile.velocity * (speed + Owner.HeldItem.shootSpeed), shoot, damage + Projectile.damage, knockback + Projectile.knockBack, Owner.whoAmI);
 
 					Projectile.velocity = (Projectile.direction > 0) ? Projectile.velocity.RotatedBy(-MathHelper.PiOver4) : Projectile.velocity.RotatedBy(MathHelper.PiOver4); //recoil effect
 					Owner.PickAmmo(Owner.HeldItem, ref shoot, ref speed, ref canShoot, ref damage, ref knockback, true); //second to determine if another shot can be fired
@@ -87,7 +87,7 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Liberty
 
 					if (!Main.dedServ) //fire burst after recoil
 					{
-						SoundEngine.PlaySound(SoundID.Item14.WithPitchVariance(0.3f).WithVolume(0.5f), Projectile.Center);
+						SoundEngine.PlaySound(SoundID.Item14with { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);
 
 						for (int i = 0; i < 5; i++)
 							ParticleHandler.SpawnParticle(new FireParticle(shootPos, Projectile.velocity.RotatedByRandom(MathHelper.Pi / 5) * Main.rand.NextFloat(6),

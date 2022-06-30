@@ -92,7 +92,7 @@ namespace SpiritMod.Projectiles.BaseProj
 				if (predictor != -1 && counter % 5 == 0)
 				{
 					float velocity = LerpFloat(minVelocity, maxVelocity, charge);
-					Projectile.NewProjectile(player.Center, direction * velocity, predictor, 0, 0, Projectile.owner);
+					Projectile.NewProjectile(Projectile.GetSource_FromAI(), player.Center, direction * velocity, predictor, 0, 0, Projectile.owner);
 				}
 			}
 			else
@@ -124,9 +124,9 @@ namespace SpiritMod.Projectiles.BaseProj
 		{
 			Player player = Main.player[Projectile.owner];
 			float velocity = LerpFloat(minVelocity, maxVelocity, charge);
-			int damage = (int)(LerpFloat(minDamage, maxDamage, charge) * player.GetDamage(DamageClass.Ranged)) + Projectile.damage;
+			int damage = (int)(player.GetDamage(DamageClass.Ranged).ApplyTo(LerpFloat(minDamage, maxDamage, charge))) + Projectile.damage;
 			SoundEngine.PlaySound(soundtype, Projectile.Center);
-			return Projectile.NewProjectile(player.Center, direction * velocity, AmmoType, damage, Projectile.knockBack, Projectile.owner, (charge >= 1) ? 1 : 0);
+			return Projectile.NewProjectile(player.GetSource_ItemUse(player.HeldItem), player.Center, direction * velocity, AmmoType, damage, Projectile.knockBack, Projectile.owner, (charge >= 1) ? 1 : 0);
 		}
 		protected static float LerpFloat(float min, float max, float val)
 		{

@@ -82,7 +82,7 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 
 					for (int i = 0; i < 3; i++)
 					{
-						int n = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 40, ModContent.NPCType<AsclepiusBoonOrb>(), 0, npc.whoAmI, i * 2.08f);
+						int n = NPC.NewNPC(npc.GetSource_FromAI("Boon"), (int)npc.Center.X, (int)npc.Center.Y - 40, ModContent.NPCType<AsclepiusBoonOrb>(), 0, npc.whoAmI, i * 2.08f);
 						if (Main.netMode != NetmodeID.SinglePlayer)
 							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, n);
 					}

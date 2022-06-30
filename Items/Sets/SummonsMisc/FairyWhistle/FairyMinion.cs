@@ -72,13 +72,13 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 			Projectile.velocity = Vector2.Lerp(Projectile.velocity, Vector2.Lerp(Projectile.Center, desiredPosition, 0.15f) - Projectile.Center, 0.1f);
 			if (++AiTimer >= SHOOTTIME)
 			{
-				Projectile.NewProjectile(Projectile.Center, Projectile.DirectionTo(target.Center) * 7, ModContent.ProjectileType<FairyProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+				Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.DirectionTo(target.Center) * 7, ModContent.ProjectileType<FairyProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 				Projectile.velocity -= Projectile.DirectionTo(target.Center) * 4;
 				AiTimer = 0;
 
 				if (!Main.dedServ)
 				{
-					SoundEngine.PlaySound(SoundID.Item9.WithPitchVariance(0.3f), Projectile.Center);
+					SoundEngine.PlaySound(SoundID.Item9 with { PitchVariance = 0.3f }, Projectile.Center);
 
 					for (int i = 0; i < 10; i++)
 						ParticleHandler.SpawnParticle(new FireParticle(Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1f, 2f),

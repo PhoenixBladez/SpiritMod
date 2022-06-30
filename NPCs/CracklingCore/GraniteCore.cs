@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.CracklingCore
 
 		public override bool CheckDead()
 		{
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 110));
+			SoundEngine.PlaySound(SoundID.Item110);
 			for (int i = 0; i < 20; i++)
 			{
 				int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, 0f, -2f, 0, default, 2f);
@@ -100,7 +100,7 @@ namespace SpiritMod.NPCs.CracklingCore
 			{
 				float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
 				Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-				int proj = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y,
+				int proj = Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center.X, NPC.Center.Y,
 					velocity.X, velocity.Y, ModContent.ProjectileType<GraniteShard1>(), 13, 1, Main.myPlayer, 0, 0);
 				Main.projectile[proj].friendly = false;
 				Main.projectile[proj].hostile = true;

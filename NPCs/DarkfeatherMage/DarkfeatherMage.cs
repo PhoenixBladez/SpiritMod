@@ -204,7 +204,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
                     direction.Y *= 8f;
                     bool expertMode = Main.expertMode;
                     int damage = expertMode ? 11 : 18;
-                    Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<DarkfeatherBoltRegular>(), damage, 1, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<DarkfeatherBoltRegular>(), damage, 1, Main.myPlayer, 0, 0);
                 }
                 if (NPC.ai[0] > 420f)
                 {
@@ -226,7 +226,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
                 {
                     SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.Center, Mod.GetSoundSlot(SoundType.Custom, "Sounds/CoilRocket"));
                     int damage = Main.expertMode ? 13 : 20;
-                    Projectile.NewProjectile(NPC.Center.X + 21 * NPC.direction, NPC.Center.Y + 12, Main.rand.Next(0, 2) * NPC.spriteDirection, -1, ModContent.ProjectileType<DarkfeatherBomb>(), damage, 1, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + 21 * NPC.direction, NPC.Center.Y + 12, Main.rand.Next(0, 2) * NPC.spriteDirection, -1, ModContent.ProjectileType<DarkfeatherBomb>(), damage, 1, Main.myPlayer, 0, 0);
                 }
                 if (NPC.ai[0] > 270)
                 {
@@ -274,7 +274,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
                         {
                             float A = (float)Main.rand.Next(-150, 150) * 0.01f;
                             float B = (float)Main.rand.Next(-150, 150) * 0.01f;
-                            Projectile.NewProjectile(NPC.Center.X + 21 * NPC.direction, NPC.Center.Y + 12, direction.X + A, direction.Y + B, ModContent.ProjectileType<DarkfeatherBoltRegular>(), damage, 1, Main.myPlayer, 0, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + 21 * NPC.direction, NPC.Center.Y + 12, direction.X + A, direction.Y + B, ModContent.ProjectileType<DarkfeatherBoltRegular>(), damage, 1, Main.myPlayer, 0, 0);
                         }
                     }
                 }
@@ -291,7 +291,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
 
             if (NPC.life > NPC.lifeMax * .15f)
             {
-                if (Main.tile[num184, num185] != null && (Main.tile[num184, num185].HasUnactuatedTile && (Main.tileSolid[Main.tile[num184, num185].TileType] || Main.tileSolidTop[Main.tile[num184, num185].TileType])) && (NPC.ai[1] != 2f && NPC.ai[1] != 4f))
+                if ((Main.tile[num184, num185].HasUnactuatedTile && (Main.tileSolid[Main.tile[num184, num185].TileType] || Main.tileSolidTop[Main.tile[num184, num185].TileType])) && (NPC.ai[1] != 2f && NPC.ai[1] != 4f))
                 {
                     Teleport();
                     SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, NPC.Center);
@@ -299,7 +299,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
             }
 			else
             {
-                if (Main.tile[num184, num185] != null && (Main.tile[num184, num185].HasUnactuatedTile && (Main.tileSolid[Main.tile[num184, num185].TileType] || Main.tileSolidTop[Main.tile[num184, num185].TileType])) && (NPC.ai[1] != 2f || NPC.ai[1] != 4f))
+                if ((Main.tile[num184, num185].HasUnactuatedTile && (Main.tileSolid[Main.tile[num184, num185].TileType] || Main.tileSolidTop[Main.tile[num184, num185].TileType])) && (NPC.ai[1] != 2f || NPC.ai[1] != 4f))
                 {
                     Teleport();
                     SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, NPC.Center);
@@ -307,11 +307,11 @@ namespace SpiritMod.NPCs.DarkfeatherMage
             }
         }
 
-        public override void OnKill()
-        {
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Accessory.DarkfeatherVisage.DarkfeatherVisage>());
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Mechanics.Fathomless_Chest.Mystical_Dice>());
-        }
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddCommon<Mechanics.Fathomless_Chest.Mystical_Dice>();
+			npcLoot.AddCommon<Items.Accessory.DarkfeatherVisage.DarkfeatherVisage>();
+		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
@@ -327,12 +327,12 @@ namespace SpiritMod.NPCs.DarkfeatherMage
         {
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Darkfeather/DarkfeatherMage3").Type, 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Darkfeather/DarkfeatherMage4").Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Darkfeather/DarkfeatherMage3").Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Darkfeather/DarkfeatherMage4").Type, 1f);
                 for (int k = 0; k < 6; k++)
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Darkfeather/DarkfeatherMage1").Type, Main.rand.NextFloat(.6f, 1f));
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Darkfeather/DarkfeatherMage1").Type, Main.rand.NextFloat(.6f, 1f));
                 for (int z = 0; z < 2; z++)
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Darkfeather/DarkfeatherMage2").Type, Main.rand.NextFloat(.8f, 1f));
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Darkfeather/DarkfeatherMage2").Type, Main.rand.NextFloat(.8f, 1f));
             }
         }
 

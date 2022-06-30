@@ -87,22 +87,18 @@ namespace SpiritMod.NPCs.DiseasedSlime
 			Vector2 extraOffset = new Vector2(-26, -17);
 			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height * 0.5f));
 			Vector2 drawPos = NPC.Center - Main.screenPosition + drawOrigin + extraOffset;
-			Color color = NPC.GetAlpha(lightColor);
+			Color color = NPC.GetAlpha(drawColor);
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			return false;
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<BismiteCrystal>(), Main.rand.Next(4, 7));
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Gel, Main.rand.Next(1, 3) + 1);
-
-			if (Main.rand.Next(10000) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.SlimeStaff);
-
-			if (Main.rand.NextBool(25))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Cake>());
+			npcLoot.AddCommon<BismiteCrystal>(1, 4, 6);
+			npcLoot.AddCommon(ItemID.Gel, 1, 2, 3);
+			npcLoot.AddCommon(ItemID.SlimeStaff, 10000);
+			npcLoot.AddCommon<Cake>(25);
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -122,8 +118,8 @@ namespace SpiritMod.NPCs.DiseasedSlime
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<NoxiousGas>(), 0, 1, Main.myPlayer, 0, 0);
-					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<NoxiousIndicator>(), 0, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<NoxiousGas>(), 0, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<NoxiousIndicator>(), 0, 1, Main.myPlayer, 0, 0);
 					SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/GasHiss"));
 				}
 				for (int k = 0; k < 25; k++)

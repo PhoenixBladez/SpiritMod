@@ -97,7 +97,7 @@ namespace SpiritMod.NPCs.CrystalDrifter
 			{
 				Vector2 velocity = Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2) * new Vector2(5f, 3f);
 				int damage = Main.expertMode ? 12 : 18;
-				int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, velocity.X, velocity.Y, ModContent.ProjectileType<FrostOrbiterHostile>(), damage, 0.0f, Main.myPlayer, 0.0f, NPC.whoAmI);
+				int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, velocity.X, velocity.Y, ModContent.ProjectileType<FrostOrbiterHostile>(), damage, 0.0f, Main.myPlayer, 0.0f, NPC.whoAmI);
 				Main.projectile[p].hostile = true;
 
 				NPC.ai[0] = 0;
@@ -113,7 +113,7 @@ namespace SpiritMod.NPCs.CrystalDrifter
 			{
 				var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-				Color color = NPC.GetAlpha(lightColor) * (((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+				Color color = NPC.GetAlpha(drawColor) * (((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			}
 			return true;
@@ -123,7 +123,7 @@ namespace SpiritMod.NPCs.CrystalDrifter
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 51);
+			SoundEngine.PlaySound(SoundID.Item51, NPC.Center);
 
 			for (int k = 0; k < 20; k++)
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.BlueCrystalShard, hitDirection * 2f, -1f, 0, default, 1f);
@@ -131,9 +131,9 @@ namespace SpiritMod.NPCs.CrystalDrifter
 			if (NPC.life <= 0)
 			{
 				for (int i = 1; i < 6; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Drifter/Drifter" + i).Type, .5f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Drifter/Drifter" + i).Type, .5f);
 
-				SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 41);
+				SoundEngine.PlaySound(SoundID.NPCHit41, NPC.Center);
 				NPC.position.X = NPC.position.X + (NPC.width / 2);
 				NPC.position.Y = NPC.position.Y + (NPC.height / 2);
 				NPC.width = 30;
@@ -169,10 +169,10 @@ namespace SpiritMod.NPCs.CrystalDrifter
 
 		public override void OnKill()
 		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<CryoliteOre>(), Main.rand.Next(8, 14) + 1);
-
-			if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.IceDeityQuest>().IsActive)
-				Item.NewItem(NPC.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.IceDeityShard2>());
+			if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.IceDeityQuest>().IsActive) //Quest item not a loot item
+				Item.NewItem(NPC.GetSource_Death(), NPC.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.IceDeityShard2>());
 		}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<CryoliteOre>(1, 9, 14);
 	}
 }

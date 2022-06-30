@@ -116,16 +116,16 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.Champagne
 					{
 						stopped = true;
 						Projectile.timeLeft = 60;
-						Projectile.NewProjectile(player.Center, direction * (charge / 6f), ModContent.ProjectileType<ChampagneCork>(), 1, Projectile.knockBack, player.whoAmI);
+						Projectile.NewProjectile(Projectile.GetSource_FromAI(), player.Center, direction * (charge / 6f), ModContent.ProjectileType<ChampagneCork>(), 1, Projectile.knockBack, player.whoAmI);
 						//for (int i = 0; i < 15; i++)
-							Projectile.NewProjectile(player.Center + direction * 20, direction * (float)Math.Sqrt(Projectile.timeLeft), ModContent.ProjectileType<ChampagneLiquid>(), Projectile.damage, Projectile.knockBack, player.whoAmI);
+							Projectile.NewProjectile(Projectile.GetSource_FromAI(), player.Center + direction * 20, direction * (float)Math.Sqrt(Projectile.timeLeft), ModContent.ProjectileType<ChampagneLiquid>(), Projectile.damage, Projectile.knockBack, player.whoAmI);
 					}
 				}
 			}
 			else
 			{
 				if (Projectile.timeLeft % 2 == 0)
-					Projectile.NewProjectile(player.Center + direction * 20, direction * (float)Math.Sqrt(Projectile.timeLeft), ModContent.ProjectileType<ChampagneLiquid>(), Projectile.damage, Projectile.knockBack, player.whoAmI);
+					Projectile.NewProjectile(Projectile.GetSource_FromAI(), player.Center + direction * 20, direction * (float)Math.Sqrt(Projectile.timeLeft), ModContent.ProjectileType<ChampagneLiquid>(), Projectile.damage, Projectile.knockBack, player.whoAmI);
 				player.itemAnimation++;
 				if (Projectile.timeLeft == 2)
 				{

@@ -101,7 +101,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 							int num946 = ModContent.ProjectileType<Starshock>();
 							vector104.X += num942 * 4f;
 							vector104.Y += num943 * 2.5f;
-							int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, NPCUtils.ToActualDamage(30, 1.25f), 0f, Main.myPlayer, 0f, 0f);
+							int num947 = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector104.X, vector104.Y, num942, num943, num946, NPCUtils.ToActualDamage(30, 1.25f), 0f, Main.myPlayer, 0f, 0f);
 							Main.projectile[num947].timeLeft = 350;
 						}
 					}
@@ -247,7 +247,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = Main.rand.Next(-150, 150) * 0.01f;
 					float B = Main.rand.Next(-80, 0) * 0.0f;
-					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SteamBodyFallingProj>(), 15, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SteamBodyFallingProj>(), 15, 1, Main.myPlayer, 0, 0);
 				}
 			}
 		}

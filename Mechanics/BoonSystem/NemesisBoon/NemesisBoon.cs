@@ -24,7 +24,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 			Lighting.AddLight(npc.Center, Color.Blue.ToVector3() * 0.3f);
 			if (!initialized)
 			{
-				proj = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<NemesisBoonSword>(), NPCUtils.ToActualDamage(npc.damage), 5, 255);
+				proj = Projectile.NewProjectileDirect(npc.GetSource_FromAI("Boon"), npc.Center, Vector2.Zero, ModContent.ProjectileType<NemesisBoonSword>(), NPCUtils.ToActualDamage(npc.damage), 5, 255);
 				proj.ai[0] = npc.whoAmI;
 				initialized = true;
 			}

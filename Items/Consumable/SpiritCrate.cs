@@ -49,7 +49,7 @@ namespace SpiritMod.Items.Consumable
 			};
 			int loot = Main.rand.Next(lootTable.Length);
 
-			player.QuickSpawnItem(lootTable[loot], Main.rand.Next(3, 5));
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable[loot], Main.rand.Next(3, 5));
 			if (Main.rand.Next(4) == 1) {
 				int[] lootTable3 = {
 					ModContent.ItemType<SpiritOre>(),
@@ -59,11 +59,11 @@ namespace SpiritMod.Items.Consumable
 				};
 				int loot3 = Main.rand.Next(lootTable3.Length);
 
-				player.QuickSpawnItem(lootTable3[loot3], Main.rand.Next(3, 5));
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable3[loot3], Main.rand.Next(3, 5));
 			}
             if (Main.rand.Next(10) == 0)
             {
-                player.QuickSpawnItem(ModContent.ItemType<Items.Books.Book_SpiritArt>());
+                player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<Items.Books.Book_SpiritArt>());
             }
             if (Main.rand.Next(6) == 0) {
 				int[] lootTable2 = {
@@ -72,7 +72,7 @@ namespace SpiritMod.Items.Consumable
 				};
 				int loot2 = Main.rand.Next(lootTable2.Length);
 
-				player.QuickSpawnItem(lootTable2[loot2], Main.rand.Next(30, 80));
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable2[loot2], Main.rand.Next(30, 80));
 			}
 		}
 	}

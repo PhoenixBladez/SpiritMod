@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 
 			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<CosmicRattlerPet>()] <= 0;
 			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {
-				Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicRattlerPet>(), 0, 0f, player.whoAmI);
+				Projectile.NewProjectile(Projectile.GetSource_NaturalSpawn(), player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicRattlerPet>(), 0, 0f, player.whoAmI);
 			}
 		}
 	}

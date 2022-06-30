@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs.DesertBandit
 			NPC.alpha = 255;
 			NPC.dontTakeDamage = false;
 			NPC.DeathSound = SoundID.NPCDeath1;
-        }
+		}
 
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(NPC.localAI[2]);
 		public override void ReceiveExtraAI(BinaryReader reader) => NPC.localAI[2] = reader.ReadInt32();
@@ -53,7 +53,7 @@ namespace SpiritMod.NPCs.DesertBandit
 			var textPos = new Rectangle((int)NPC.position.X, (int)NPC.position.Y - 60, NPC.width, NPC.height);
 
 			if (NPC.alpha == 255)
-            {
+			{
 				for (int i = 0; i < 10; i++)
 				{
 					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.LavaMoss, 0f, -2f, 0, default, 1.1f);
@@ -89,7 +89,7 @@ namespace SpiritMod.NPCs.DesertBandit
 					NPC.spriteDirection = 1;
 			}
 			else
-            {
+			{
 				NPC.aiStyle = 0;
 				NPC.townNPC = true;
 				NPC.homeless = true;
@@ -202,7 +202,7 @@ namespace SpiritMod.NPCs.DesertBandit
 			}
 		}
 
-		public override void OnHitPlayer (Player target, int damage, bool crit)
+		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(18, 0));
 			int num1 = 0;
@@ -210,10 +210,10 @@ namespace SpiritMod.NPCs.DesertBandit
 			{
 				if (target.inventory[index].type >= ItemID.CopperCoin && target.inventory[index].type <= ItemID.PlatinumCoin)
 				{
-					int number = Item.NewItem((int) target.position.X, (int) target.position.Y, target.width, target.height, target.inventory[index].type, 1, false, 0, false, false);
+					int number = Item.NewItem(NPC.GetSource_Loot("Steal"), (int)target.position.X, (int)target.position.Y, target.width, target.height, target.inventory[index].type, 1, false, 0, false, false);
 					int num2 = target.inventory[index].stack / 8;
 					if (Main.expertMode)
-						num2 = (int) (target.inventory[index].stack * 0.2);
+						num2 = (int)(target.inventory[index].stack * 0.2);
 					int num3 = target.inventory[index].stack - num2;
 					target.inventory[index].stack -= num3;
 					if (target.inventory[index].type == ItemID.CopperCoin)

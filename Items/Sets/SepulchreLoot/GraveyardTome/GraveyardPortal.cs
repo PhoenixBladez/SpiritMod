@@ -73,7 +73,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 						if (player.CheckMana(player.HeldItem.mana, true)) //Fire a projectile if player has enough mana
 						{
 							if (!Main.dedServ) //Dont do sounds on server
-								SoundEngine.PlaySound(SoundID.Item104.WithPitchVariance(0.3f).WithVolume(0.5f), Projectile.Center);
+								SoundEngine.PlaySound(SoundID.Item104 with { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);
 
 							if (player == Main.LocalPlayer) //Spawn in projectiles only if the client is the owner, due to using the mouse position
 							{

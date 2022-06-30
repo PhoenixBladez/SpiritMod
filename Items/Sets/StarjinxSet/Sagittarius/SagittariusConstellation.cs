@@ -79,7 +79,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			{
 				if (Timer == 10 && StarsLeft > 1) //spawn next constellation star
 				{
-					Projectile.NewProjectileDirect(Owner.MountedCenter - Owner.DirectionTo(Main.MouseWorld).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(70, 100),
+					Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Owner.MountedCenter - Owner.DirectionTo(Main.MouseWorld).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(70, 100),
 						Vector2.Zero, ModContent.ProjectileType<SagittariusConstellation>(), Projectile.damage, Projectile.knockBack, Projectile.owner, StarsLeft - 1, Projectile.whoAmI).netUpdate = true;
 					Projectile.netUpdate = true;
 				}
@@ -89,7 +89,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 					float baseAngle = Owner.AngleTo(Main.MouseWorld);
 					float starAngle = Projectile.AngleTo(Main.MouseWorld);
 					float angletoshoot = (MathHelper.WrapAngle(baseAngle - starAngle) > 0) ? MathHelper.PiOver2 : -MathHelper.PiOver2;
-					Projectile proj = Projectile.NewProjectileDirect(Projectile.Center, Projectile.DirectionTo(Main.MouseWorld).RotatedBy(angletoshoot) * 16,
+					Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.DirectionTo(Main.MouseWorld).RotatedBy(angletoshoot) * 16,
 						ModContent.ProjectileType<SagittariusConstellationArrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner, StarsLeft % 2);
 
 					if (proj.ModProjectile is SagittariusConstellationArrow)

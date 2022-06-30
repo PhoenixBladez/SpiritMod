@@ -132,7 +132,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 						spawnedProjectiles++;
 						SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 28, 1f, 0f);
 						int chosenDust = Main.rand.Next(2) == 0 ? 173 : 157;
-						int p = Projectile.NewProjectile(NPC.Center.X + 2, NPC.Center.Y - 88, 0f, 0f, chosenProjectile, 20, 3f, 0);
+						int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + 2, NPC.Center.Y - 88, 0f, 0f, chosenProjectile, 20, 3f, 0);
 						Main.projectile[p].ai[1] = NPC.whoAmI;
 						int num = 10;
 						for (int index1 = 0; index1 < num; ++index1)
@@ -200,22 +200,21 @@ namespace SpiritMod.NPCs.Undead_Warlock
 				}
 			}
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(3) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 216, 1);
-			if (Main.rand.Next(10) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 1304, 1);
+			npcLoot.AddCommon(216, 3);
+			npcLoot.AddCommon(1304, 10);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/UndeadScientist/UndeadScientistGore4").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/UndeadScientist/UndeadScientistGore3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/UndeadScientist/UndeadScientistGore2").Type, 1f);
-				SoundEngine.PlaySound(SoundID.Item9.SoundId, (int)NPC.position.X, (int)NPC.position.Y, 22, 1f, -0.9f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/UndeadScientist/UndeadScientistGore4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/UndeadScientist/UndeadScientistGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/UndeadScientist/UndeadScientistGore2").Type, 1f);
+				SoundEngine.PlaySound(SoundID.Item9, NPC.Center);
 			}
 			for (int k = 0; k < 7; k++)
 			{

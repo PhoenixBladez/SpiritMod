@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.Furniture;
 using Terraria.Enums;
 using Terraria.ObjectData;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.FloatingItems
 {
@@ -52,7 +53,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 					ItemID.Sextant
 				};
 				int loot = Main.rand.Next(lootTable.Length);
-				player.QuickSpawnItem(lootTable[loot]);
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable[loot]);
 			}
 
 			if (Main.rand.Next(4) == 0)
@@ -67,7 +68,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 				int Booty = Main.rand.Next(6, 10);
 
 				for (int j = 0; j < Booty; j++)
-					player.QuickSpawnItem(lootTable2[loot2]);
+					player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable2[loot2]);
 			}
 
 			if (Main.rand.Next(6) == 1)
@@ -85,7 +86,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 						ItemID.Amber
 					};
 					int loot3 = Main.rand.Next(lootTable3.Length);
-					player.QuickSpawnItem(lootTable3[loot3]);
+					player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable3[loot3]);
 				}
 			}
 
@@ -93,16 +94,16 @@ namespace SpiritMod.Items.Sets.FloatingItems
 			{
 				int Coins = Main.rand.Next(1, 3);
 				for (int K = 0; K < Coins; K++)
-					player.QuickSpawnItem(ItemID.GoldCoin);
+					player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ItemID.GoldCoin);
 			}
 			else
 			{
 				int cobweb = Main.rand.Next(8, 12);
 				for (int K = 0; K < cobweb; K++)
-					player.QuickSpawnItem(ItemID.Cobweb);
+					player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ItemID.Cobweb);
 			}
-			Item.NewItem(player.Center, Vector2.Zero, ModContent.ItemType<Items.Weapon.Thrown.ExplosiveRum.ExplosiveRum>(), Main.rand.Next(45, 70));
 
+			Item.NewItem(player.GetSource_OpenItem(Item.type, "RightClick"), player.Center, Vector2.Zero, ModContent.ItemType<Weapon.Thrown.ExplosiveRum.ExplosiveRum>(), Main.rand.Next(45, 70));
 		}
 	}
 
@@ -129,6 +130,6 @@ namespace SpiritMod.Items.Sets.FloatingItems
 		}
 
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
-		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<SunkenTreasure>());
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, ModContent.ItemType<SunkenTreasure>());
 	}
 }

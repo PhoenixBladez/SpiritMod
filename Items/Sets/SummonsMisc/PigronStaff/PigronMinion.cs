@@ -105,7 +105,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.PigronStaff
 						Projectile.Center = target.Center + target.DirectionTo(player.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(350, 400);
 						Projectile.velocity = Projectile.DirectionTo(target.Center) * Main.rand.NextFloat(11, 16);
 						if (Main.netMode != NetmodeID.Server)
-							SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDown.WithPitchVariance(0.3f).WithVolume(0.5f), Projectile.Center);
+							SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDownwith { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);
 						Projectile.netUpdate = true;
 					}
 					break;
@@ -126,7 +126,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.PigronStaff
 					{
 						Projectile.localAI[1] = (Main.rand.NextBool()? 1 : -1);
 						if (Main.netMode != NetmodeID.Server)
-							SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDown.WithPitchVariance(0.3f).WithVolume(0.5f), Projectile.Center);
+							SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDownwith { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);
 
 						Projectile.netUpdate = true;
 					}
@@ -135,7 +135,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.PigronStaff
 					{
 						Projectile.velocity = Projectile.velocity.RotatedBy(Projectile.localAI[1] * MathHelper.TwoPi / 20);
 						if(Projectile.localAI[0] % 7 == 0){
-							Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PigronBubble>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner, target.whoAmI, BiomeType);
+							Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PigronBubble>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner, target.whoAmI, BiomeType);
 							Projectile.netUpdate = true;
 						}
 					}

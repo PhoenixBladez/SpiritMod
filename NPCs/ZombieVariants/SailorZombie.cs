@@ -38,22 +38,18 @@ namespace SpiritMod.NPCs.ZombieVariants
 			}
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SailorZombie/SailorZombie1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SailorZombie/SailorZombie2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SailorZombie/SailorZombie3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SailorZombie/SailorZombie1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SailorZombie/SailorZombie2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SailorZombie/SailorZombie3").Type, 1f);
 			}
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(10) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.FloatingItems.Kelp>(), Main.rand.Next(1, 3));
-			if (Main.rand.Next(50) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Armor.Masks.SailorCap>());
-			if (Main.rand.Next(50) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Shackle);
-			if (Main.rand.Next(250) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.ZombieArm);
+			npcLoot.AddCommon(ItemID.Shackle, 50);
+			npcLoot.AddCommon(ItemID.ZombieArm, 250);
+			npcLoot.AddCommon<Items.Sets.FloatingItems.Kelp>(10, 1, 2);
+			npcLoot.AddCommon<Items.Armor.Masks.SailorCap>(50);
 		}
 	}
 }
