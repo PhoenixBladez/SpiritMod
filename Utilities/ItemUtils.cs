@@ -58,27 +58,28 @@ namespace SpiritMod
 			return NewItemWithSync(owner, x, y, width, height, type, stack, noBroadcast, prefix, noGrabDelay, reverseLookup);
 		}
 
-		public static void DropCandy(Player player)
+		public static void DropCandy(Player player, IEntitySource source)
 		{
 			int effect = Main.rand.Next(100);
+			
 			if (effect < 9)
-				player.QuickSpawnItem(ModContent.ItemType<Taffy>());
+				player.QuickSpawnItem(source, ModContent.ItemType<Taffy>());
 			else if (effect < 29)
-				player.QuickSpawnItem(ModContent.ItemType<Candy>());
+				player.QuickSpawnItem(source, ModContent.ItemType<Candy>());
 			else if (effect < 49)
-				player.QuickSpawnItem(ModContent.ItemType<ChocolateBar>());
+				player.QuickSpawnItem(source, ModContent.ItemType<ChocolateBar>());
 			else if (effect < 59)
-				player.QuickSpawnItem(ModContent.ItemType<HealthCandy>());
+				player.QuickSpawnItem(source, ModContent.ItemType<HealthCandy>());
 			else if (effect < 69)
-				player.QuickSpawnItem(ModContent.ItemType<ManaCandy>());
+				player.QuickSpawnItem(source, ModContent.ItemType<ManaCandy>());
 			else if (effect < 79)
-				player.QuickSpawnItem(ModContent.ItemType<Lollipop>());
+				player.QuickSpawnItem(source, ModContent.ItemType<Lollipop>());
 			else if (effect < 83)
-				player.QuickSpawnItem(ModContent.ItemType<Apple>());
+				player.QuickSpawnItem(source, ModContent.ItemType<Apple>());
 			else if (effect < 95)
-				player.QuickSpawnItem(ModContent.ItemType<MysteryCandy>());
+				player.QuickSpawnItem(source, ModContent.ItemType<MysteryCandy>());
 			else
-				player.QuickSpawnItem(ModContent.ItemType<GoldCandy>());
+				player.QuickSpawnItem(source, ModContent.ItemType<GoldCandy>());
 		}
 
 		public static Color RarityColor(this Item item, float alpha = 1)

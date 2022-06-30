@@ -13,7 +13,8 @@ namespace SpiritMod
 			int frameY = tile.TileFrameY / (data.CoordinateFullHeight / data.Height);
 			if (frameY == (data.Height - 1)) { //check if this tile is the lowest frame of the tile
 				for (int x = 0 - frameX; x < data.Width - frameX; x++) { //iterate through all the tiles beneath this tile, starting from the leftmost and ending at the rightmost
-					Main.tile[i + x, j + 1].IsActuated = false; //prevent tiles from being actuated
+					Tile tile2 = Main.tile[i + x, j + 1];
+					tile2.IsActuated = false; //prevent tiles from being actuated
 				}
 			}
 		}

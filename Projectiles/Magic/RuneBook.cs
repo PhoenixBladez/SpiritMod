@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
+			SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
 			for (int k = 0; k < 15; k++) {
 				Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.UnusedWhiteBluePurple, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
 			}
@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Magic
 				float rand = Main.rand.NextFloat() * (float)Math.PI;
 				vel = vel.RotatedBy(rand);
 				vel *= 6f;
-				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y + 20, vel.X, vel.Y, ModContent.ProjectileType<Rune>(), Projectile.damage, 0, Projectile.owner);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y + 20, vel.X, vel.Y, ModContent.ProjectileType<Rune>(), Projectile.damage, 0, Projectile.owner);
 			}
 		}
 

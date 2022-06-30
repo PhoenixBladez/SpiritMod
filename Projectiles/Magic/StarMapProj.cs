@@ -52,13 +52,13 @@ namespace SpiritMod.Projectiles.Magic
 				if (counter > 80) {
 					DoDustEffect(Projectile.Center, 54f);
 					if (counter % 3 == 0) {
-						Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<StarMapTrail>(), 0, 0, Projectile.owner);
+						Projectile.NewProjectile(Projectile.GetSource_FromAI(), player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<StarMapTrail>(), 0, 0, Projectile.owner);
 					}
 				}
 			}
 			else {
 				if (counter > 80) {
-					Projectile.NewProjectile(player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<TeleportBolt>(), 0, 0, Projectile.owner);
+					Projectile.NewProjectile(Projectile.GetSource_FromAI(), player.Center - new Vector2(4, 4), direction, ModContent.ProjectileType<TeleportBolt>(), 0, 0, Projectile.owner);
 				}
 				Projectile.active = false;
 			}

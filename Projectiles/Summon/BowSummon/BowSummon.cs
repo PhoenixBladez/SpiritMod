@@ -166,7 +166,7 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
 						int shootType = selectedItem.shoot;
 						int proj2 = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, direction.X, direction.Y, shootType, Projectile.damage, Projectile.knockBack, Main.myPlayer);
 						Main.projectile[proj2].minion = true;
-						Main.projectile[proj2].ranged = false;
+						Main.projectile[proj2].DamageType = DamageClass.Summon;
 						Main.projectile[proj2].netUpdate = true;
 
 						GItem.UseAmmoDirect(Main.player[Projectile.owner], selectedIndex);

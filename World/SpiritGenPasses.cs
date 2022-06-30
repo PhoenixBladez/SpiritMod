@@ -754,7 +754,8 @@ namespace SpiritMod.World
 				{
 					for (int y = 0; y < 2; y++)
 					{
-						Main.tile[chestLocation.X + x, chestLocation.Y + y].HasTile = false;
+						Tile tile = Main.tile[chestLocation.X + x, chestLocation.Y + y];
+						tile.HasTile = false;
 						Main.tile[chestLocation.X + x, chestLocation.Y + y].TileType = 0;
 					}
 				}
@@ -1177,8 +1178,8 @@ namespace SpiritMod.World
 
 		private static ushort OreRoller(ushort glowstone)
 		{
-			ushort iron = WorldExtras.GetOreCounterpart(WorldGen.IronTierOre);
-			ushort silver = WorldExtras.GetOreCounterpart(WorldGen.SilverTierOre);
+			ushort iron = WorldExtras.GetOreCounterpart(WorldGen.SavedOreTiers.Iron);
+			ushort silver = WorldExtras.GetOreCounterpart(WorldGen.SavedOreTiers.Silver);
 			ushort gold = WorldExtras.GetOreCounterpart(WorldGen.SavedOreTiers.Gold);
 
 			int roll = Main.rand.Next(1120);
@@ -1200,7 +1201,7 @@ namespace SpiritMod.World
 		{
 			progress.Message = "Spirit Mod: Adding Ambient Objects...";
 
-			if (WorldGen.CopperTierOre == TileID.Copper)
+			if (WorldGen.SavedOreTiers.Copper == TileID.Copper)
 			{
 				for (int i = 0; i < Main.maxTilesX * 22.5; i++)
 				{
@@ -1214,7 +1215,7 @@ namespace SpiritMod.World
 					}
 				}
 			}
-			else if (WorldGen.CopperTierOre == TileID.Tin)
+			else if (WorldGen.SavedOreTiers.Copper == TileID.Tin)
 			{
 				for (int i = 0; i < Main.maxTilesX * 22.5; i++)
 				{
@@ -1229,7 +1230,7 @@ namespace SpiritMod.World
 				}
 			}
 
-			if (WorldGen.IronTierOre == TileID.Iron)
+			if (WorldGen.SavedOreTiers.Iron == TileID.Iron)
 			{
 				for (int i = 0; i < Main.maxTilesX * 15; i++)
 				{
@@ -1243,7 +1244,7 @@ namespace SpiritMod.World
 					}
 				}
 			}
-			else if (WorldGen.IronTierOre == TileID.Lead)
+			else if (WorldGen.SavedOreTiers.Iron == TileID.Lead)
 			{
 				for (int i = 0; i < Main.maxTilesX * 15; i++)
 				{
@@ -1258,7 +1259,7 @@ namespace SpiritMod.World
 				}
 			}
 
-			if (WorldGen.SilverTierOre == TileID.Silver)
+			if (WorldGen.SavedOreTiers.Silver == TileID.Silver)
 			{
 				for (int i = 0; i < Main.maxTilesX * 11.75f; i++)
 				{
@@ -1272,7 +1273,7 @@ namespace SpiritMod.World
 					}
 				}
 			}
-			else if (WorldGen.SilverTierOre == TileID.Tungsten)
+			else if (WorldGen.SavedOreTiers.Silver == TileID.Tungsten)
 			{
 				for (int i = 0; i < Main.maxTilesX * 11.75f; i++)
 				{

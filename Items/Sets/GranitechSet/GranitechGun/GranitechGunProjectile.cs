@@ -79,7 +79,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		private void Fire(Player player)
 		{
-			if (GItem.UseAmmo(player, AmmoID.Bullet))
+			if (player.PickAmmo(player.HeldItem, out int _, out int _, out int _, out float _, out int _))
 			{
 				var baseVel = player.DirectionTo(Main.MouseWorld).RotatedByRandom(0.02f) * player.HeldItem.shootSpeed;
 

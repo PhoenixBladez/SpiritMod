@@ -93,7 +93,7 @@ namespace SpiritMod.Projectiles.Summon
 					vel7 = vel7.RotatedBy(System.Math.PI / 13);
 					for (int K = 0; K < 18; K++) {
 						vel7 = vel7.RotatedBy(System.Math.PI / 13);
-						int proj2 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, vel7.X, vel7.Y, ProjectileID.Twinkle, Projectile.damage, 0, Projectile.owner);
+						int proj2 = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, vel7.X, vel7.Y, ProjectileID.Twinkle, Projectile.damage, 0, Projectile.owner);
 						Projectile newProj2 = Main.projectile[proj2];
 						newProj2.friendly = true;
 						newProj2.hostile = false;

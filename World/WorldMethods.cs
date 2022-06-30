@@ -37,14 +37,15 @@ namespace SpiritMod.World
 		{
 			float trueslope = 1 / slope;
 			float truesloperight = 1 / sloperight;
-			int Xstray = length / 2;
 			for (int level = 0; level <= height; level++)
 			{
-				Main.tile[X, (int)(Y + level - (slope / 2))].HasTile = true;
+				Tile tile = Main.tile[X, (int)(Y + level - (slope / 2))];
+				tile.HasTile = true;
 				Main.tile[X, (int)(Y + level - (slope / 2))].TileType = type2;
 				for (int I = X - (int)(length + (level * trueslope)); I < X + (int)(length + (level * truesloperight)); I++)
 				{
-					Main.tile[I, (Y + level)].HasTile = true;
+					Tile tile2 = Main.tile[I, (Y + level)];
+					tile2.HasTile = true;
 					Main.tile[I, (Y + level)].TileType = type2;
 				}
 			}

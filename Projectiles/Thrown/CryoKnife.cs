@@ -28,9 +28,9 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 69);
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
-			Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<CryoExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+			SoundEngine.PlaySound(SoundID.Item69, Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<CryoExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 			for (int i = 0; i < 5; i++) {
 				int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.DungeonSpirit);
 				Main.dust[d].scale = .5f;
@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 				target.AddBuff(ModContent.BuffType<CryoCrush>(), 240);
 		}
 

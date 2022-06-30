@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<Wrath>(), (int)(Projectile.damage), 0, Main.myPlayer);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ModContent.ProjectileType<Wrath>(), (int)(Projectile.damage), 0, Main.myPlayer);
 
 			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 			{

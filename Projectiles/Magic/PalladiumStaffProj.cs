@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			effectTimer++;
 			if (effectTimer >= 50) {
-				int p = Projectile.NewProjectile(Projectile.Center.X + Main.rand.Next(-27, 17), Projectile.Center.Y + 22, Projectile.velocity.X + Main.rand.Next(-2, 2), Projectile.velocity.Y + Main.rand.Next(-2, -1), ModContent.ProjectileType<PalladiumRuneEffect>(), 0, 0, Projectile.owner, 0f, 0f);
+				int p = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X + Main.rand.Next(-27, 17), Projectile.Center.Y + 22, Projectile.velocity.X + Main.rand.Next(-2, 2), Projectile.velocity.Y + Main.rand.Next(-2, -1), ModContent.ProjectileType<PalladiumRuneEffect>(), 0, 0, Projectile.owner, 0f, 0f);
 				Main.projectile[p].scale = Main.rand.NextFloat(.4f, .8f);
 				Main.projectile[p].frame = Main.rand.Next(0, 8);
 				effectTimer = 0;

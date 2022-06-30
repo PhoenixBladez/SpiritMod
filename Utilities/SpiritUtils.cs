@@ -15,7 +15,7 @@ namespace SpiritMod
 
 		public static float GetDamageBoost(this Player player)
 		{
-			float[] damageTypes = new float[] { player.GetDamage(DamageClass.Melee), player.GetDamage(DamageClass.Magic), player.GetDamage(DamageClass.Ranged), player.GetDamage(DamageClass.Summon), player.GetDamage(DamageClass.Throwing) };
+			float[] damageTypes = new float[] { player.GetDamage(DamageClass.Melee).ApplyTo(1), player.GetDamage(DamageClass.Magic).ApplyTo(1), player.GetDamage(DamageClass.Ranged).ApplyTo(1), player.GetDamage(DamageClass.Summon).ApplyTo(1), player.GetDamage(DamageClass.Throwing).ApplyTo(1) };
 			return damageTypes.Min();
 		}
 

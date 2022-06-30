@@ -65,7 +65,7 @@ namespace SpiritMod.Projectiles.Magic
 					vector.Normalize();
 					vector.X *= 4.5f;
 					vector.Y *= 4.5f;
-					int p = Projectile.NewProjectile(base.Projectile.Center.X, base.Projectile.Center.Y, vector.X, vector.Y, num24, Projectile.damage / 5 * 4, 0f, 0);
+					int p = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center.X, Projectile.Center.Y, vector.X, vector.Y, num24, Projectile.damage / 5 * 4, 0f, 0);
 					Main.projectile[p].hostile = false;
 					Main.projectile[p].friendly = true;
 					Main.projectile[p].magic = true;

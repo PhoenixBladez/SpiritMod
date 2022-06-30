@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -55,7 +56,7 @@ namespace SpiritMod.Tiles.Furniture
 			if (modPlayer.candyInBowl <= 0)
 				return false;
 
-			ItemUtils.DropCandy(player);
+			ItemUtils.DropCandy(player, new EntitySource_TileInteraction(Main.LocalPlayer, i, j));
 			modPlayer.candyInBowl--;
 			return true;
 		}

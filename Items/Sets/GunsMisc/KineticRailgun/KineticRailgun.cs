@@ -104,7 +104,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 				{
 					Projectile.soundDelay = 20;
 					SoundEngine.PlaySound(SoundID.Item15, Projectile.position);
-					GItem.UseAmmo(player, AmmoID.Gel);
+					player.PickAmmo(player.HeldItem, out int _, out float _, out int _, out float _, out int _, false);
 				}
 
 				Projectile.timeLeft = 2;

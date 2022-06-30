@@ -33,7 +33,7 @@ namespace SpiritMod.Projectiles.Magic
 				Vector2 targetDir = ((((float)Math.PI * 2) / 8) * i).ToRotationVector2();
 				targetDir.Normalize();
 				targetDir *= 4;
-				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<OrichHoming>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, targetDir.X, targetDir.Y, ModContent.ProjectileType<OrichHoming>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
 			}
 		}
 

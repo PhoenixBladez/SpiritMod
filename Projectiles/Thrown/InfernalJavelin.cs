@@ -65,7 +65,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y, 1);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			Vector2 vector9 = Projectile.position;
 			Vector2 value19 = (Projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
@@ -80,7 +80,7 @@ namespace SpiritMod.Projectiles.Thrown
 			}
 			for (int i = 0; i < 2; ++i) {
 				int randFire = Main.rand.Next(3);
-				int newProj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y,
+				int newProj = Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y,
 					Main.rand.Next(-1000, 1000) / 100, Main.rand.Next(-8, 8),
 					ProjectileID.GreekFire1 + randFire, 20, 0, Projectile.owner);
 				Main.projectile[newProj].hostile = false;

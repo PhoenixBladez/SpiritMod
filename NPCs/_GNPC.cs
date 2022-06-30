@@ -436,12 +436,12 @@ namespace SpiritMod.NPCs
 				if (npc.type == NPCID.Guide && !player.HasItem(ModContent.ItemType<CandyBag>()))
 				{
 					chat = "Take this bag; you can use it to store your Candy. \"How do I get candy?\", you ask? Try talking to the other villagers.";
-					player.QuickSpawnItem(ModContent.ItemType<CandyBag>());
+					player.QuickSpawnItem(npc.GetSource_GiftOrReward(), ModContent.ItemType<CandyBag>());
 				}
 				else
 				{
 					chat = TrickOrTreat(modPlayer, npc);
-					ItemUtils.DropCandy(player);
+					ItemUtils.DropCandy(player, npc.GetSource_GiftOrReward());
 				}
 			}
 		}
@@ -887,7 +887,7 @@ namespace SpiritMod.NPCs
 				if (Main.rand.NextBool(4))
 				{
 					if (Main.netMode != NetmodeID.Server)
-						SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 71).WithPitchVariance(0.2f).WithVolume(0.5f), target.Center);
+						SoundEngine.PlaySound(SoundID.Item71 with { PitchVariance = 0.2f, Volume = 0.5f }, target.Center);
 
 					int direction = target.position.X > Main.player[projectile.owner].position.X ? 1 : -1;
 
@@ -895,7 +895,7 @@ namespace SpiritMod.NPCs
 					var dir = Vector2.Normalize(target.Center - randPos) * 6;
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						Projectile.NewProjectile(randPos.X, randPos.Y, dir.X, dir.Y, ModContent.ProjectileType<SacrificialDaggerProjectile>(), (int)(damage * 0.75f), 0, projectile.owner);
+						Projectile.NewProjectile(projectile.GetSource_OnHit(target), randPos.X, randPos.Y, dir.X, dir.Y, ModContent.ProjectileType<SacrificialDaggerProjectile>(), (int)(damage * 0.75f), 0, projectile.owner);
 
 					DustHelper.DrawTriangle(target.Center, 173, 5, 1.5f, 1f);
 				}
@@ -937,10 +937,10 @@ namespace SpiritMod.NPCs
 			Player closest = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
 
 			if (NPC.killCount[Item.NPCtoBanner(npc.BannerID())] == 50)
-				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BannerSfx"), NPC.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BannerSfx"), npc.Center);
 
 			if (bloodInfused)
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
+				Projectile.NewProjectile(npc.GetSource_Death(), npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
 
 			if (closest.GetSpiritPlayer().wayfarerSet)
 				closest.AddBuff(ModContent.BuffType<Buffs.Armor.ExplorerFight>(), 240);

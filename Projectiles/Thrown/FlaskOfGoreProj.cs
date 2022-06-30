@@ -32,11 +32,11 @@ namespace SpiritMod.Projectiles.Thrown
 		{
 			Player player = Main.player[Projectile.owner];
 			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 19));
-            SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 107));
+            SoundEngine.PlaySound(SoundID.Item107);
             for (int j = 0; j < 4; j++)
-				Gore.NewGore(Projectile.position, new Vector2(), Main.rand.Next(134, 137), 1);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, new Vector2(), Main.rand.Next(134, 137), 1);
 			if (Main.rand.Next(4) == 0 && !player.HasBuff(ModContent.BuffType<CrimsonSkullBuff>()) && Projectile.friendly)
-				Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y - 20, Projectile.width, Projectile.height, ModContent.ItemType<CrimsonSkull>());
+				Item.NewItem(Projectile.GetSource_Death(), (int)Projectile.position.X, (int)Projectile.position.Y - 20, Projectile.width, Projectile.height, ModContent.ItemType<CrimsonSkull>());
 		}
 	}
 }

@@ -8,6 +8,7 @@ using System.Linq;
 using Terraria;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
+using Terraria.IO;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
@@ -724,9 +725,10 @@ namespace SpiritMod.World
 				int top = (int)(MathHelper.Lerp(bottom, moundTop, sin) + _noise.Noise(sinAmt * 2.7f, 0.8f) * 4f);
 				for (int tileY = top; tileY <= bottom; tileY++)
 				{
-					Main.tile[tileX, tileY].HasTile = true;
+					Tile tile = Main.tile[tileX, tileY];
+					tile.HasTile = true;
 					Main.tile[tileX, tileY].TileType = TileID.Dirt;
-					Main.tile[tileX, tileY].Slope = 0;
+					tile.Slope = 0;
 					if (tileY != top)
 					{
 						Main.tile[tileX, tileY].WallType = WallID.DirtUnsafe;
@@ -1320,7 +1322,7 @@ namespace SpiritMod.World
 				}
 			}
 
-			int adv = NPC.NewNPC(new EntitySource_TileBreak(i, j), (x + 1) * 16 + 8, (y - 1) * 16 + 8, ModContent.NPCType<NPCs.Town.BoundAdventurer>());
+			int adv = NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (x + 1) * 16 + 8, (y - 1) * 16 + 8, ModContent.NPCType<NPCs.Town.BoundAdventurer>());
 			Main.npc[adv].homeTileX = -1;
 			Main.npc[adv].homeTileY = -1;
 			Main.npc[adv].direction = WorldGen.genRand.NextBool() ? 1 : -1;
@@ -1617,9 +1619,8 @@ namespace SpiritMod.World
 				_size = new Point(460, 940);
 
 			_halfSize = new Point(_size.X / 2, _size.Y / 2);
-
 			tasks.Insert(++index, new PassLegacy("Briar",
-				delegate (GenerationProgress progress)
+				delegate (GenerationProgress progress, GameConfiguration config)
 				{
 					progress.Message = "Growing The Briar...";
 
@@ -1659,7 +1660,7 @@ namespace SpiritMod.World
 				}, 300f));
 
 			tasks.Insert(index + 2, new PassLegacy("Briar Grass",
-				delegate (GenerationProgress progress)
+				delegate (GenerationProgress progress, GameConfiguration config)
 				{
 					progress.Message = "Growing Hostile Settlements...";
 
@@ -2227,8 +2228,9 @@ namespace SpiritMod.World
 					int num4 = WorldGen.genRand.Next(minHeight, maxHeight);
 					for (int i1 = num1 - num4; i1 < num1; i1++)
 					{
-						Main.tile[i, i1].TileFrameNumber = (byte)WorldGen.genRand.Next(3);
-						Main.tile[i, i1].HasTile = true;
+						Tile tile = Main.tile[i, i1];
+						tile.TileFrameNumber = (byte)WorldGen.genRand.Next(3);
+						tile.HasTile = true;
 						Main.tile[i, i1].TileType = 5;
 						num = WorldGen.genRand.Next(3);
 
@@ -2399,7 +2401,7 @@ namespace SpiritMod.World
 						}
 						if (num5 == 5 || num5 == 7)
 						{
-							Main.tile[i - 1, i1].HasTile = true;
+							tile.HasTile = true;
 							Main.tile[i - 1, i1].TileType = 5;
 							num = WorldGen.genRand.Next(3);
 							if (WorldGen.genRand.Next(3) >= 2)
@@ -2441,7 +2443,8 @@ namespace SpiritMod.World
 						}
 						if (num5 == 6 || num5 == 7)
 						{
-							Main.tile[i + 1, i1].HasTile = true;
+							Tile tile = Main.tile[i + 1, i1];
+							tile.HasTile = true;
 							Main.tile[i + 1, i1].TileType = 5;
 							num = WorldGen.genRand.Next(3);
 							if (WorldGen.genRand.Next(3) >= 2)
@@ -2517,7 +2520,8 @@ namespace SpiritMod.World
 
 					if (num6 == 0 || num6 == 1)
 					{
-						Main.tile[i + 1, num1 - 1].HasTile = true;
+						Tile tile = Main.tile[i + 1, num1 - 1];
+						tile.HasTile = true;
 						Main.tile[i + 1, num1 - 1].TileType = 5;
 						num = WorldGen.genRand.Next(3);
 						if (num == 0)
@@ -2538,7 +2542,8 @@ namespace SpiritMod.World
 					}
 					if (num6 == 0 || num6 == 2)
 					{
-						Main.tile[i - 1, num1 - 1].HasTile = true;
+						Tile tile = Main.tile[i - 1, num1 - 1];
+						tile.HasTile = true;
 						Main.tile[i - 1, num1 - 1].TileType = 5;
 						num = WorldGen.genRand.Next(3);
 						if (num == 0)

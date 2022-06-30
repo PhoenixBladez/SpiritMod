@@ -11,6 +11,7 @@ using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
+using Terraria.IO;
 
 namespace SpiritMod.World.Sepulchre
 {
@@ -48,7 +49,7 @@ namespace SpiritMod.World.Sepulchre
 			//plz scale for me cause im so out of the loop rn
 
 			tasks.Insert(++index, new PassLegacy("Sepulchure",
-				delegate (GenerationProgress progress)
+				delegate (GenerationProgress progress, GameConfiguration config)
 				{
 					progress.Message = "Spirit Mod: Generating Dark Sepulchres...";
 
@@ -137,9 +138,16 @@ namespace SpiritMod.World.Sepulchre
 
 			WallCleanup(i, j);
 			for (int x = i - 50; x < i + 50; x++)
+			{
 				for (int y = j - 90; y < j + 50; y++)
+				{
 					if (Main.rand.Next(25) == 0 && (Main.tile[x, y].TileType == Tile || Main.tile[x, y].TileType == TileTwo) && Main.tile[x, y].HasTile)
-						Main.tile[x, y].HasTile = false;
+					{
+						Terraria.Tile tile = Main.tile[x, y];
+						tile.HasTile = false;
+					}
+				}
+			}
 			CreateChests(i, j);
 			PolishSepulchre(i, j);
 			PlaceHauntedTome(i, j);
@@ -184,7 +192,8 @@ namespace SpiritMod.World.Sepulchre
 						if ((Main.tile[x, y + 1].TileType == Tile || Main.tile[x, y + 1].TileType == TileTwo)
 							&& !placedchest && Main.rand.Next(100) == 0 && Main.tile[x, y].WallType == Wall)
 						{
-							Main.tile[x + 1, y + 1].HasTile = true;
+							Tile tile = Main.tile[x + 1, y + 1];
+							tile.HasTile = true;
 							Main.tile[x + 1, y + 1].TileType = Main.tile[x, y + 1].TileType;
 							WorldGen.PlaceChest(x, y, (ushort)ModContent.TileType<SepulchreChestTile>(), false, 0);
 							if (Main.tile[x, y - 1].TileType == (ushort)ModContent.TileType<SepulchreChestTile>())
@@ -297,7 +306,8 @@ namespace SpiritMod.World.Sepulchre
 				{
 					if (noiseType2.Noise2D((x * 100) / (float)1200, (y * 100) / (float)1200) > 0.70f && Main.tile[x, y].WallType == Wall && !Main.tile[x, y].HasTile)
 					{
-						Main.tile[x, y].HasTile = true;
+						Tile tile = Main.tile[x, y];
+						tile.HasTile = true;
 						Main.tile[x, y].TileType = 51;
 					}
 				},

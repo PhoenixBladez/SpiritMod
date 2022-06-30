@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			if (target.life <= target.lifeMax / 2 && !target.boss) {
 				target.life = 0;
-				NPC.NewNPC((int)target.position.X, (int)target.position.Y, NPCID.Bunny);
+				NPC.NewNPC(Projectile.GetSource_OnHit(target), (int)target.position.X, (int)target.position.Y, NPCID.Bunny);
 			}
 			for (int i = 0; i < 10; i++) {
 				int num = Dust.NewDust(target.position, target.width, target.height, DustID.TerraBlade, 0f, -2f, 0, Color.White, .9f);

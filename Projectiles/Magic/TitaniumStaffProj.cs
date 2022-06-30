@@ -242,7 +242,7 @@ namespace SpiritMod.Projectiles.Magic
 				Vector2 dir = target.Center - randPos;
 				dir.Normalize();
 				dir *= 14;
-				int newProj = Projectile.NewProjectile(randPos.X, randPos.Y, dir.X, dir.Y, ModContent.ProjectileType<TitaniumStaffProj2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 1);
+				int newProj = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), randPos.X, randPos.Y, dir.X, dir.Y, ModContent.ProjectileType<TitaniumStaffProj2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 1);
 				Main.projectile[newProj].tileCollide = false;
 				Main.projectile[newProj].penetrate = 1;
 				Main.projectile[newProj].timeLeft = 40;

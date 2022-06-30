@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles.Magic
 			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			for (int i = 0; i < 5; i++) {
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
-				int a = Gore.NewGore(Projectile.position, Projectile.velocity, 911, goreScale);
+				int a = Gore.NewGore(Projectile.GetSource_Misc("TileHit"), Projectile.position, Projectile.velocity, 911, goreScale);
 				Main.gore[a].timeLeft = 15;
 			}
 			Projectile.scale -= .06f;
@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Magic
 			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			for (int i = 0; i < 5; i++) {
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
-				int a = Gore.NewGore(Projectile.position, Projectile.velocity, 911, goreScale);
+				int a = Gore.NewGore(Projectile.GetSource_OnHit(target), Projectile.position, Projectile.velocity, 911, goreScale);
 				Main.gore[a].timeLeft = 15;
 			}
 			{
@@ -71,7 +71,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			for (int i = 0; i < 5; i++) {
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
-				int a = Gore.NewGore(Projectile.position, Projectile.velocity, 911, goreScale);
+				int a = Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, 911, goreScale);
 				Main.gore[a].timeLeft = 15;
 			}
 			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);

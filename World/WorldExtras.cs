@@ -227,7 +227,7 @@ namespace SpiritMod.World
 			}
 		}
 
-		public static ushort GetOreCounterpart(ushort ore)
+		public static ushort GetOreCounterpart(int ore)
 		{
 			switch (ore) {
 				case TileID.Copper: //copper ==> tin

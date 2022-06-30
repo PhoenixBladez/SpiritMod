@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Thrown
 		{
 			if (Main.rand.Next(6) == 0) {
 				for (int k = 0; k < 5; k++) {
-					int p = Projectile.NewProjectile(target.Center.X + Main.rand.Next(-20, 20), target.position.Y - 60, 0f, 8f, ModContent.ProjectileType<PoisonCloud>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
+					int p = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X + Main.rand.Next(-20, 20), target.position.Y - 60, 0f, 8f, ModContent.ProjectileType<PoisonCloud>(), Projectile.damage / 2, 0f, Projectile.owner, 0f, 0f);
 					Main.projectile[p].penetrate = 2;
 
 				}

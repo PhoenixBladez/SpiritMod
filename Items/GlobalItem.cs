@@ -246,7 +246,7 @@ namespace SpiritMod.Items
 		{
 			if (context != "goodieBag")
 				return;
-			ItemUtils.DropCandy(player);
+			ItemUtils.DropCandy(player, player.GetSource_OpenItem(arg));
 			if (Main.rand.Next(3) == 0)
 			{
 				int[] lootTable = {
@@ -262,7 +262,7 @@ namespace SpiritMod.Items
 					ModContent.ItemType<MaskLeemyy>()
 				};
 				int loot = Main.rand.Next(lootTable.Length);
-				player.QuickSpawnItem(lootTable[loot]);
+				player.QuickSpawnItem(player.GetSource_OpenItem(arg), lootTable[loot]);
 			}
 		}
 
@@ -286,12 +286,11 @@ namespace SpiritMod.Items
 				float boost = 0.005f * spirit.SpeedMPH;
 				if (boost > 0.5f)
 					boost = 0.5f;
-				mult = 1 + 1 * boost;
+				damage *= 1 + 1 * boost;
 			}
+
 			if (item.IsSummon() && spirit.silkenSet)
-			{
-				flat += 1;
-			}
+				damage += 1;
 		}
 
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
@@ -698,40 +697,6 @@ namespace SpiritMod.Items
 					spriteBatch.Draw(texture, position, null, alpha, rotation, origin, scale, SpriteEffects.None, 0f);
 				}
 			}
-		}
-
-		/// <summary>Uses ammo, given vanilla ammo effects and ModPlayer hooks. Returns true if ammo is found, false if no valid ammo is found.</summary>
-		/// <param name="p">Player to check against.</param>
-		/// <param name="ammoType">Ammo type to check for.</param>
-		public static bool UseAmmo(Player p, int ammoType)
-		{
-			bool TryAmmo(Item item)
-			{
-				if (!item.IsAir && item.ammo == ammoType)
-				{
-					if (item.consumable && VanillaAmmoConsumption(p, item.ammo) && PlayerLoader.ConsumeAmmo(p, p.HeldItem, item)) //Do not consume ammo if possible
-					{
-						item.stack--;
-						if (item.stack <= 0)
-							item.TurnToAir();
-					}
-					return true;
-				}
-				return false;
-			}
-
-			for (int i = p.inventory.Length - 5; i < p.inventory.Length - 1; ++i) //Try ammo slots first
-			{
-				if (TryAmmo(p.inventory[i]))
-					return true;
-			}
-
-			for (int i = 0; i < p.inventory.Length - 5; ++i)
-			{
-				if (TryAmmo(p.inventory[i]))
-					return true;
-			}
-			return false;
 		}
 
 		/// <summary>Directly uses ammo given an index.</summary>

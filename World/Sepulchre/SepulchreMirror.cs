@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace SpiritMod.World.Sepulchre
 {

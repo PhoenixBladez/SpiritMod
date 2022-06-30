@@ -37,16 +37,12 @@ namespace SpiritMod.Projectiles.Thrown
 				perturbedSpeed.Normalize();
 				perturbedSpeed.X *= 5.5f;
 				perturbedSpeed.Y *= 5.5f;
-				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.TinyEater, 11, Projectile.knockBack, Projectile.owner);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.TinyEater, 11, Projectile.knockBack, Projectile.owner);
 			}
 
 			for (int i = 0; i < 5; i++) {
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Everscream);
 			}
 		}
-
 	}
 }
-
-
-
