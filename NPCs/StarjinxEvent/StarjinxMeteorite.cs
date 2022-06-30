@@ -100,7 +100,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				}
 				else
 				{
-					int boss = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y - 400, ModContent.NPCType<Enemies.Warden.Warden>());
+					int boss = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y - 400, ModContent.NPCType<Enemies.Warden.Warden>());
 
 					StarjinxEventWorld.SetMaxEnemies(2);
 					StarjinxEventWorld.SetComets(comets.Count);
@@ -276,7 +276,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 				while ((spawns.Count > 0 && spawns.Any(x => Vector2.DistanceSquared(x, pos) < MinPlatformDistance * MinPlatformDistance)) || pos.Length() < MinPlatformOffset)
 					pos = Main.rand.NextVector2Circular(EVENT_RADIUS * 0.9f, EVENT_RADIUS * 0.9f);
 
-				int n = NPC.NewNPC((int)(NPC.Center.X + pos.X), (int)(NPC.Center.Y + pos.Y), Main.rand.Next(platformTypes));
+				int n = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.Center.X + pos.X), (int)(NPC.Center.Y + pos.Y), Main.rand.Next(platformTypes));
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, n);
 

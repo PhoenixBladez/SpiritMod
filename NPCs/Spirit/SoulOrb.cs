@@ -52,9 +52,9 @@ namespace SpiritMod.NPCs.Spirit
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, 13);
-				Gore.NewGore(NPC.position, NPC.velocity, 12);
-				Gore.NewGore(NPC.position, NPC.velocity, 11);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 13);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 12);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 11);
 			}
 		}
 

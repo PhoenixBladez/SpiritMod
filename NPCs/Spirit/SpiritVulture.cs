@@ -60,9 +60,9 @@ namespace SpiritMod.NPCs.Spirit
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (Main.netMode != NetmodeID.MultiplayerClient && NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, 13);
-				Gore.NewGore(NPC.position, NPC.velocity, 12);
-				Gore.NewGore(NPC.position, NPC.velocity, 11);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 13);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 12);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 11);
 				NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
 				NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
 				NPC.width = 30;
@@ -88,11 +88,7 @@ namespace SpiritMod.NPCs.Spirit
 			}
 		}
 
-		public override void OnKill()
-		{
-			if (Main.rand.Next(25) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SoulWeaver>());
-		}
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon(ModContent.ItemType<SoulWeaver>(), 25);
 
 		public override void AI()
 		{
@@ -107,7 +103,7 @@ namespace SpiritMod.NPCs.Spirit
 				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-1, 1) * 0.01f;
 					float B = (float)Main.rand.Next(-1, 1) * 0.01f;
-					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SpiritRockBlast>(), 19, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SpiritRockBlast>(), 19, 1, Main.myPlayer, 0, 0);
 				}
 			}
 			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0f, 0.675f, 2.50f);

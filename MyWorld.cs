@@ -1605,9 +1605,9 @@ namespace SpiritMod
 				{
 					spawnedPagodaEnemies = true;
 					for (int i = 0; i < Main.rand.Next(8, 10); i++)
-						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, NPCType<NPCs.Yurei.PagodaGhostPassive>());
+						NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, NPCType<NPCs.Yurei.PagodaGhostPassive>());
 					for (int i = 0; i < 3; i++)
-						NPC.NewNPC((pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, NPCType<NPCs.SamuraiGhost.SamuraiPassive>());
+						NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, NPCType<NPCs.SamuraiGhost.SamuraiPassive>());
 				}
 			}
 

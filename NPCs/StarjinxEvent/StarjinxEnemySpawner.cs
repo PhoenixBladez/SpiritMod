@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			{
 				if(Timer == IDLETIME + FADEINTIME + 1)
 				{
-					int id = NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, enemyToSpawn);
+					int id = NPC.NewNPC(Projectile.GetSource_FromAI(), (int)spawnPosition.X, (int)spawnPosition.Y, enemyToSpawn);
 					NPC n = Main.npc[id];
 					n.GetGlobalNPC<StarjinxGlobalNPC>().spawnedByComet = true;
 

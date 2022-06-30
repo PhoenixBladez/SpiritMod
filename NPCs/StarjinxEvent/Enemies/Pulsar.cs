@@ -50,7 +50,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			SoundEngine.PlaySound(SoundID.NPCHit, NPC.Center, 4);
+			SoundEngine.PlaySound(SoundID.NPCHit4, NPC.Center);
 			for (int k = 0; k < 10; k++)
 			{
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, 2.5f * hitDirection, -2.5f, 0, default, 0.7f);
@@ -58,11 +58,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 			}
 			if (NPC.life <= 0)
 			{
-				SoundEngine.PlaySound(SoundID.Item, NPC.Center, 14);
+				SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
 				for (int i = 0; i < 3; ++i)
 				{
-					Gore.NewGore(NPC.position, NPC.velocity, 99);
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pulsar/Pulsar" + (i + 1)).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Pulsar/Pulsar" + (i + 1)).Type, 1f);
 				}
 			}
 		}
@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 			if (NPC.ai[0] >= 150 && !Filters.Scene["PulsarShockwave"].IsActive())
 			{
 				SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDown, NPC.Center);
-				Projectile.NewProjectile(NPC.Center - new Vector2(NPC.rotation * 40, 0), Vector2.Zero, ModContent.ProjectileType<PulsarShockwave>(), 0, 0, NPC.target);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - new Vector2(NPC.rotation * 40, 0), Vector2.Zero, ModContent.ProjectileType<PulsarShockwave>(), 0, 0, NPC.target);
 				NPC.ai[0] = 1;
 				NPC.ai[2] = 0;
 				NPC.netUpdate = true;

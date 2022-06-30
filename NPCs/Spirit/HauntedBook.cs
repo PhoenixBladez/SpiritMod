@@ -59,9 +59,9 @@ namespace SpiritMod.NPCs.Spirit
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, 13);
-				Gore.NewGore(NPC.position, NPC.velocity, 12);
-				Gore.NewGore(NPC.position, NPC.velocity, 11);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 13);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 12);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 11);
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace SpiritMod.NPCs.Spirit
 				for (int i = 0; i < amountOfProjectiles; ++i) {
 					float A = (float)Main.rand.Next(-1, 1) * 0.03f;
 					float B = (float)Main.rand.Next(-1, 1) * 0.03f;
-					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<RuneHostile>(), 38, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<RuneHostile>(), 38, 1, Main.myPlayer, 0, 0);
 				}
 			}
 			NPC.spriteDirection = NPC.direction;
@@ -99,13 +99,10 @@ namespace SpiritMod.NPCs.Spirit
 			}
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.RunicSet.Rune>(), Main.rand.Next(1) + 2);
-
-			if (Main.rand.Next(20) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<PossessedBook>());
+			npcLoot.AddCommon(ModContent.ItemType<Items.Sets.RunicSet.Rune>(), 2, 1, 2);
+			npcLoot.AddCommon(ModContent.ItemType<PossessedBook>(), 20);
 		}
 	}
 }

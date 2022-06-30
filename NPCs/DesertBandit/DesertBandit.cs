@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.DesertBandit
 			NPC.noTileCollide = false;
 			NPC.alpha = 255;
 			NPC.dontTakeDamage = false;
-			NPC.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 1);
+			NPC.DeathSound = SoundID.NPCDeath1;
         }
 
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(NPC.localAI[2]);
@@ -100,7 +100,7 @@ namespace SpiritMod.NPCs.DesertBandit
 					NPC.DropItem(ModContent.ItemType<Items.Sets.AccessoriesMisc.DustboundRing.Dustbound_Ring>());
 
 					for (int i = 0; i < 3; ++i)
-						Gore.NewGore(NPC.position, NPC.velocity, 99);
+						Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 99);
 
 					NPC.localAI[2] = 0f;
 					NPC.active = false;
@@ -117,11 +117,7 @@ namespace SpiritMod.NPCs.DesertBandit
 			return true;
 		}
 
-        public override void OnKill()
-        {
-            if (Main.rand.NextBool(24))
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.MagicLantern);
-        }
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon(ItemID.MagicLantern, 24);
 
 		int frame = 0;
 
@@ -193,10 +189,10 @@ namespace SpiritMod.NPCs.DesertBandit
 			}
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DesertBandit/DesertBanditGore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DesertBandit/DesertBanditGore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DesertBandit/DesertBanditGore3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DesertBandit/DesertBanditGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DesertBandit/DesertBanditGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DesertBandit/DesertBanditGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DesertBandit/DesertBanditGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DesertBandit/DesertBanditGore2").Type, 1f);
 			}
 			for (int k = 0; k < 7; k++)
 			{

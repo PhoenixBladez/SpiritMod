@@ -1,39 +1,31 @@
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using Terraria;
+using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Block
 {
 	public class SpookyTree : ModTree
 	{
-		private Mod mod {
-			get {
-				return ModLoader.GetMod("SpiritMod");
-			}
-		}
-
-		public override int CreateDust()
+		public override TreePaintingSettings TreeShaderSettings => new TreePaintingSettings
 		{
-			return 1;
-		}
+			UseSpecialGroups = true,
+			SpecialGroupMinimalHueValue = 11f / 72f,
+			SpecialGroupMaximumHueValue = 0.25f,
+			SpecialGroupMinimumSaturationValue = 0.88f,
+			SpecialGroupMaximumSaturationValue = 1f
+		};
 
-		public override int DropWood()
-		{
-			return 1729;
-		}
+		public override void SetStaticDefaults() => GrowsOnTileId = new int[] { TileID.None };
+		public override int CreateDust() => 1;
+		public override int DropWood() => ItemID.SpookyWood;
+		public override void SetTreeFoliageSettings(Tile tile, int xoffset, ref int treeFrame, ref int floorY, ref int topTextureFrameWidth, ref int topTextureFrameHeight) { }
 
-		public override Texture2D GetTexture()
-		{
-			return mod.GetTexture("Tiles/Block/SpookyTree");
-		}
+		public override Asset<Texture2D> GetTexture() => ModContent.Request<Texture2D>("Tiles/Block/SpookyTree", AssetRequestMode.ImmediateLoad);
+		public override Asset<Texture2D> GetTopTextures() => ModContent.Request<Texture2D>("Tiles/Block/SpookyTree_Tops", AssetRequestMode.ImmediateLoad);
+		public override Asset<Texture2D> GetBranchTextures() => ModContent.Request<Texture2D>("Tiles/Block/SpookyTree_Branches", AssetRequestMode.ImmediateLoad);
 
-		public override Texture2D GetTopTextures(int i, int j, ref int frame, ref int frameWidth, ref int frameHeight, ref int xOffsetLeft, ref int yOffset)
-		{
-			return mod.GetTexture("Tiles/Block/SpookyTree_Tops");
-		}
-
-		public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame)
-		{
-			return mod.GetTexture("Tiles/Block/SpookyTree_Branches");
-		}
 	}
 }

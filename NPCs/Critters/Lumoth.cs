@@ -55,7 +55,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (NPC.life <= 0) {
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth1").Type);
-				Gore.NewGoreNPC.GetSource_Death(),(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth2").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth2").Type);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth3").Type);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Lumoth/Lumoth4").Type);
 				NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
@@ -93,11 +93,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), .4f, .4f, .4f);
 		}
-		public override void OnKill()
-		{
-			if (Main.rand.Next(3) == 1) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Brightbulb>(), 1);
-			}
-		}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<Brightbulb>(3);
 	}
 }

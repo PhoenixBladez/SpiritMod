@@ -72,9 +72,9 @@ namespace SpiritMod.NPCs.Hemophora
                 NPC.ai[0]++;
                 if (NPC.ai[0] == 172)
                 {
-                    SoundEngine.PlaySound(SoundID.Item, NPC.Center, 95);
+                    SoundEngine.PlaySound(SoundID.Item95, NPC.Center);
                     int type = ModContent.ProjectileType<HemophoraProj>();
-                    int p = Terraria.Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, -(NPC.position.X - target.position.X) / distance * 4, -(NPC.position.Y - target.position.Y) / distance * 4, type, (int)((NPC.damage * .5)), 0);
+                    int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, -(NPC.position.X - target.position.X) / distance * 4, -(NPC.position.Y - target.position.Y) / distance * 4, type, (int)((NPC.damage * .5)), 0);
                     for (int k = 0; k < 20; k++)
                     {
                         int d = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, -(NPC.position.X - target.position.X) / distance * 2, -(NPC.position.Y - target.position.Y) / distance * 4, 0, default, Main.rand.NextFloat(.65f, .85f));
@@ -105,7 +105,7 @@ namespace SpiritMod.NPCs.Hemophora
         {
             for (int i = 0; i < 6; i++)
             {
-                int a = Gore.NewGore(new Vector2(NPC.Center.X + Main.rand.Next(-10, 10), NPC.Center.Y + Main.rand.Next(-10, 10)), NPC.velocity, 911);
+                int a = Gore.NewGore(NPC.GetSource_OnHit(NPC), new Vector2(NPC.Center.X + Main.rand.Next(-10, 10), NPC.Center.Y + Main.rand.Next(-10, 10)), NPC.velocity, 911);
                 Main.gore[a].timeLeft = 20;
                 Main.gore[a].scale = Main.rand.NextFloat(.5f, 1f);
             }
@@ -113,7 +113,7 @@ namespace SpiritMod.NPCs.Hemophora
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    int a = Gore.NewGore(new Vector2(NPC.Center.X + Main.rand.Next(-10, 10), NPC.Center.Y + Main.rand.Next(-10, 10)), NPC.velocity/4, 386);
+                    int a = Gore.NewGore(NPC.GetSource_Death(), new Vector2(NPC.Center.X + Main.rand.Next(-10, 10), NPC.Center.Y + Main.rand.Next(-10, 10)), NPC.velocity/4, 386);
                     Main.gore[a].timeLeft = 20;
                     Main.gore[a].scale = Main.rand.NextFloat(.5f, 1f);
                 }
@@ -126,21 +126,14 @@ namespace SpiritMod.NPCs.Hemophora
             }
         }
 
-        public override void OnKill()
-        {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Vine);
-            }
-            if (Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.JungleSpores, Main.rand.Next(2,5));
-            }
-            Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.ThrownMisc.FlaskofGore.FlaskOfGore>(), Main.rand.Next(21, 43));
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddCommon(ItemID.Vine, 2);
+			npcLoot.AddCommon(ItemID.JungleSpores, 3, 2, 4);
+			npcLoot.AddCommon(ModContent.ItemType<Items.Sets.ThrownMisc.FlaskofGore.FlaskOfGore>(), 1, 21, 42);
+		}
 
-        }
-
-        public override void FindFrame(int frameHeight)
+		public override void FindFrame(int frameHeight)
         {
             NPC.frame.Y = frameHeight * frame;
         }

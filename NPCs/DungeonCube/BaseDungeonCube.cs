@@ -6,7 +6,6 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.DungeonCube
 {
-
 	public abstract class BaseDungeonCube : ModNPC
 	{
 		private bool xacc = true;
@@ -159,22 +158,21 @@ namespace SpiritMod.NPCs.DungeonCube
 			return 0f;
 		}
 
-		public virtual int TileDropType => 134;
-		public override void OnKill()
+		protected virtual int TileDrop => ItemID.BlueBrick;
+		protected virtual string CubeColor => "Blue";
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(10) == 1) Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.GoldenKey);
-			if (Main.rand.Next(75) == 1) Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Nazar);
-			if (Main.rand.Next(100) == 1) Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.TallyCounter);
-
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, TileDropType, Main.rand.Next(4));
+			npcLoot.AddCommon(ItemID.GoldenKey, 10);
+			npcLoot.AddCommon(ItemID.Nazar, 75);
+			npcLoot.AddCommon(ItemID.TallyCounter, 100);
+			npcLoot.AddCommon(TileDrop, 1, 2, 5);
 		}
 
-		public virtual string GoreColor => "Blue";
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) 
 				for (int i = 1; i <= 4; i++) 
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DungeonCube" + GoreColor + "Gore" + i.ToString()).Type);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DungeonCube" + CubeColor + "Gore" + i.ToString()).Type);
 		}
 	}
 }

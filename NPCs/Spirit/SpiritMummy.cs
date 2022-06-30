@@ -45,9 +45,9 @@ namespace SpiritMod.NPCs.Spirit
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, 13);
-				Gore.NewGore(NPC.position, NPC.velocity, 12);
-				Gore.NewGore(NPC.position, NPC.velocity, 11);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 13);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 12);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 11);
 			}
 		}
 
@@ -58,11 +58,6 @@ namespace SpiritMod.NPCs.Spirit
 			}
 		}
 
-		public override void OnKill()
-		{
-			if (Main.rand.Next(3) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.RunicSet.Rune>());
-		}
-
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon(ModContent.ItemType<Items.Sets.RunicSet.Rune>(), 3);
 	}
 }

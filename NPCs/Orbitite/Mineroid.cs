@@ -1,10 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Accessory;
+using SpiritMod.Items.Armor.AstronautVanity;
 using SpiritMod.Items.Weapon.Summon;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -41,21 +43,13 @@ namespace SpiritMod.NPCs.Orbitite
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneMeteor && spawnInfo.SpawnTileY < Main.rockLayer && NPC.downedBoss2 ? 0.15f : 0f;
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(20) == 0) 
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<OrbiterStaff>());
-
-			if (Main.rand.Next(1) == 400) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GravityModulator>());
-			}
-
-			string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
-			if (Main.rand.Next(40) == 0) {
-				int loot = Main.rand.Next(lootTable.Length);
-				NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
-			}
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<OrbiterStaff>(), 20));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GravityModulator>(), 400));
+			npcLoot.Add(ItemDropRule.OneFromOptions(ModContent.ItemType<AstronautLegs>(), ModContent.ItemType<AstronautHelm>(), ModContent.ItemType<AstronautBody>()));
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -72,12 +66,12 @@ namespace SpiritMod.NPCs.Orbitite
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CorruptionThorns, hitDirection, -1f, 0, default, .61f);
 			}
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Mineroid/Mineroid1").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Mineroid/Mineroid2").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Mineroid/Mineroid3").Type);
-				Gore.NewGore(NPC.position, NPC.velocity, 61);
-				Gore.NewGore(NPC.position, NPC.velocity, 62);
-				Gore.NewGore(NPC.position, NPC.velocity, 63);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Mineroid/Mineroid1").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Mineroid/Mineroid2").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Mineroid/Mineroid3").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 61);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 62);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 63);
 				NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
 				NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
 				NPC.width = 30;
@@ -111,7 +105,7 @@ namespace SpiritMod.NPCs.Orbitite
 				bool expertMode = Main.expertMode;
 				int damage = expertMode ? 10 : 16;
 				Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
-				int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, vector2_2.X, vector2_2.Y, ModContent.ProjectileType<MeteorShardHostile1>(), damage, 0.0f, Main.myPlayer, 0.0f, (float)NPC.whoAmI);
+				int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, vector2_2.X, vector2_2.Y, ModContent.ProjectileType<MeteorShardHostile1>(), damage, 0.0f, Main.myPlayer, 0.0f, (float)NPC.whoAmI);
 				Main.projectile[p].hostile = true;
 				timer = 0;
 				NPC.netUpdate = true;

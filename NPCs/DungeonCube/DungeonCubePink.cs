@@ -1,5 +1,6 @@
 ﻿using Terraria.ModLoader;
 using Terraria;
+using Terraria.ID;
 
 namespace SpiritMod.NPCs.DungeonCube
 {
@@ -25,8 +26,7 @@ namespace SpiritMod.NPCs.DungeonCube
 			return 0f;
 		}
 
-		public override int TileDropType => 139;
-
-		public override string GoreColor => "Pink";
+		protected override int TileDrop => TileID.PinkDungeonBrick;
+		protected override string CubeColor => "Pink";
 	}
 }

@@ -56,9 +56,9 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 			if (NPC.life <= 0)
 			{
 				for (int i = 0; i < 3; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, 99);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladSpirit/GladSpirit1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladSpirit/GladSpirit2").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladSpirit/GladSpirit1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladSpirit/GladSpirit2").Type, 1f);
 			}
 		}
 
@@ -104,19 +104,16 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
+			var effects = NPC.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+				drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+
+			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
+			for (int k = 0; k < NPC.oldPos.Length; k++)
 			{
-				var effects = NPC.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-								 lightColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
-				{
-					Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
-					for (int k = 0; k < NPC.oldPos.Length; k++)
-					{
-						Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-						Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
-						spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
-					}
-				}
+				Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+				Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			}
 		}
 
@@ -140,6 +137,12 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 				int[] lootTable = new int[] { 3187, 3188, 3189 };
 				NPC.DropItem(lootTable[Main.rand.Next(3)]);
 			}
+		}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddCommon<MarbleChunk>();
+			npcLoot.AddOneFromOptions(120, 3187, 3188, 3189);
 		}
 	}
 }

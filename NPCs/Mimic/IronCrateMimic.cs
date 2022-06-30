@@ -104,9 +104,9 @@ namespace SpiritMod.NPCs.Mimic
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity / 6, 220);
-				Gore.NewGore(NPC.position, NPC.velocity / 6, 221);
-				Gore.NewGore(NPC.position, NPC.velocity / 6, 222);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity / 6, 220);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity / 6, 221);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity / 6, 222);
 			}
 
 			if (NPC.life <= 0 || NPC.life >= 0)
@@ -120,6 +120,6 @@ namespace SpiritMod.NPCs.Mimic
 			}
 		}
 
-		public override void OnKill() => Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.IronCrate);
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(Terraria.GameContent.ItemDropRules.ItemDropRule.Common(ItemID.IronCrate));
 	}
 }

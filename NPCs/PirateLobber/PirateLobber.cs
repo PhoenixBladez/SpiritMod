@@ -82,9 +82,9 @@ namespace SpiritMod.NPCs.PirateLobber
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				var vel = new Vector2(NPC.direction * 5, 0);
-				Projectile.NewProjectile(NPC.Center - vel, vel, ModContent.ProjectileType<PirateLobberBarrel>(), NPCUtils.ToActualDamage(60, 1.3f), 5);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - vel, vel, ModContent.ProjectileType<PirateLobberBarrel>(), NPCUtils.ToActualDamage(60, 1.3f), 5);
 			}
-			SoundEngine.PlaySound(SoundID.Item, NPC.Center, 1);
+			SoundEngine.PlaySound(SoundID.Item1, NPC.Center);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -137,8 +137,8 @@ namespace SpiritMod.NPCs.PirateLobber
 			if (NPC.life <= 0)
 			{
 				for (int i = 0; i < 3; ++i)
-					Gore.NewGore(NPC.position + new Vector2(Main.rand.Next(NPC.width), Main.rand.Next(NPC.height)), Vector2.UnitX * hitDirection * Main.rand.NextFloat(0.9f, 1f), Mod.Find<ModGore>("Gores/PirateLobber/PirateLobber" + i).Type);
-				Gore.NewGore(NPC.position + new Vector2(Main.rand.Next(NPC.width), Main.rand.Next(NPC.height)), Vector2.UnitX * hitDirection * Main.rand.NextFloat(0.9f, 1f), Mod.Find<ModGore>("Gores/PirateLobber/PirateLobber1").Type);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position + new Vector2(Main.rand.Next(NPC.width), Main.rand.Next(NPC.height)), Vector2.UnitX * hitDirection * Main.rand.NextFloat(0.9f, 1f), Mod.Find<ModGore>("Gores/PirateLobber/PirateLobber" + i).Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position + new Vector2(Main.rand.Next(NPC.width), Main.rand.Next(NPC.height)), Vector2.UnitX * hitDirection * Main.rand.NextFloat(0.9f, 1f), Mod.Find<ModGore>("Gores/PirateLobber/PirateLobber1").Type);
 			}
 
 			int dustCount = Main.rand.Next(2, 5);
@@ -227,7 +227,7 @@ namespace SpiritMod.NPCs.PirateLobber
 
 			int goreCount = Main.rand.Next(1, 4);
 			for (int i = 0; i < goreCount; ++i)
-				Gore.NewGore(Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)), Projectile.velocity, Mod.Find<ModGore>("Gores/PirateLobber/Barrel" + Main.rand.Next(3)).Type);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)), Projectile.velocity, Mod.Find<ModGore>("Gores/PirateLobber/Barrel" + Main.rand.Next(3)).Type);
 		}
 	}
 }

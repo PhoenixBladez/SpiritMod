@@ -88,9 +88,9 @@ namespace SpiritMod.NPCs.SamuraiGhost
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Wraith, 2.5f * hitDirection, -2.5f, 54, new Color(0, 255, 142), .6f);
 			}
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
 				for (int i = 0; i < 40; i++) {
 					int num = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Wraith, 0f, -2f, 117, new Color(0, 255, 142), .6f);
 					Main.dust[num].noGravity = true;
@@ -103,14 +103,10 @@ namespace SpiritMod.NPCs.SamuraiGhost
 				}
 			}
 		}
-        public override void OnKill()
-        {
-            if (Main.rand.NextBool(16))
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Ramen>());
-            }
-        }
-        private static int[] SpawnTiles = { };
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddFood(ModContent.ItemType<Ramen>(), 16);
+
+		private static int[] SpawnTiles = { };
 		Vector2 targetLocation = Vector2.Zero;
 		float chargeRotation = 0;
 		public override void AI()
@@ -198,7 +194,7 @@ namespace SpiritMod.NPCs.SamuraiGhost
 					NPC.rotation = chargeRotation;
 				}
 				if (NPC.ai[2] == chargeTime - 40) {
-					SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/SamuraiUnsheathe"));
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/SamuraiUnsheathe"), NPC.Center);
 				}
 				if (NPC.ai[2] > chargeTime - 50 && NPC.ai[2] < chargeTime - 40) {
 					chargeRotation = NPC.rotation;

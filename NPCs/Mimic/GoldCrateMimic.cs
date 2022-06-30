@@ -120,7 +120,7 @@ namespace SpiritMod.NPCs.Mimic
 				{
 					var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-					Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+					Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
@@ -131,9 +131,9 @@ namespace SpiritMod.NPCs.Mimic
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity / 6, 220);
-				Gore.NewGore(NPC.position, NPC.velocity / 6, 221);
-				Gore.NewGore(NPC.position, NPC.velocity / 6, 222);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity / 6, 220);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity / 6, 221);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity / 6, 222);
 			}
 			if (NPC.life <= 0 || NPC.life >= 0)
 			{
@@ -146,6 +146,6 @@ namespace SpiritMod.NPCs.Mimic
 			}
 		}
 
-		public override void OnKill() => Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.GoldenCrate);
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(Terraria.GameContent.ItemDropRules.ItemDropRule.Common(ItemID.GoldenCrate));
 	}
 }

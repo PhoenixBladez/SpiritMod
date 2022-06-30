@@ -33,11 +33,7 @@ namespace SpiritMod.NPCs.Spirit
 			NPC.noTileCollide = true;
 			NPC.npcSlots = 0.75f;
 		}
-        public override void OnKill()
-        {
-              if (Main.rand.NextBool(90))
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.SpiritBiomeDrops.SpiritFlameStaff>());
-        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -148,12 +144,14 @@ namespace SpiritMod.NPCs.Spirit
 			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0.05f, 0.09f, 0.4f);
 		}
 
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon(ModContent.ItemType<Items.Sets.SpiritBiomeDrops.SpiritFlameStaff>(), 90);
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, 13);
-				Gore.NewGore(NPC.position, NPC.velocity, 12);
-				Gore.NewGore(NPC.position, NPC.velocity, 11);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 13);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 12);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 11);
 			}
 		}
 	}

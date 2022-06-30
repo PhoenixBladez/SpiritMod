@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 
 			Main.NewText("An enchanted comet has appeared in the sky!", 252, 150, 255);
 
-			int id = NPC.NewNPC((int)finalPos.X, (int)finalPos.Y, ModContent.NPCType<StarjinxMeteorite>());
+			int id = NPC.NewNPC(player.GetSource_ItemUse(Item), (int)finalPos.X, (int)finalPos.Y, ModContent.NPCType<StarjinxMeteorite>());
 
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);

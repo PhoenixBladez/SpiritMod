@@ -63,10 +63,10 @@ namespace SpiritMod.NPCs.HellEater
 						Main.dust[num].velocity = NPC.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}
-				SoundEngine.PlaySound(SoundID.Item, NPC.Center, 14);
+				SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
 
 				for(int i = 1; i <= 3; i++) {
-					Gore.NewGore(NPC.Center, NPC.velocity, Mod.Find<ModGore>("Gores/GluttonousDevourer/DevourerGore" + i).Type);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, Mod.Find<ModGore>("Gores/GluttonousDevourer/DevourerGore" + i).Type);
 				}
             }
 		}
@@ -99,7 +99,7 @@ namespace SpiritMod.NPCs.HellEater
 			for (int k = 0; k < NPC.oldPos.Length; k++) {
 				var effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-				Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+				Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			}
 			return true;
@@ -122,17 +122,11 @@ namespace SpiritMod.NPCs.HellEater
 			}
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<CarvedRock>(), Main.rand.Next(2) + 2);
-
-			if (Main.rand.Next(20) == 0) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Accessory.HellEater>());
-            }
-            if (Main.rand.NextBool(16))
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GhostPepper>());
-            }
-        }
+			npcLoot.AddCommon(ModContent.ItemType<CarvedRock>(), 1, 1, 2);
+			npcLoot.AddCommon(ModContent.ItemType<Items.Accessory.HellEater>(), 20);
+			npcLoot.AddCommon(ModContent.ItemType<GhostPepper>(), 16);
+		}
 	}
 }

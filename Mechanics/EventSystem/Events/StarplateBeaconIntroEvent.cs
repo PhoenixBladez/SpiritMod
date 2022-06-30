@@ -122,7 +122,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					Main.NewText("The Starplate Voyager has awoken!", 175, 75, 255, true);
-					int npcID = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SteamRaiderHead>());
+					int npcID = NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SteamRaiderHead>());
 					Main.npc[npcID].Center = player.Center - new Vector2(600, 600);
 					Main.npc[npcID].netUpdate2 = true;
 				}

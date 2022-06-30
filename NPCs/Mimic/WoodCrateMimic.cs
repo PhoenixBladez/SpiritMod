@@ -84,15 +84,17 @@ namespace SpiritMod.NPCs.Mimic
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity / 6, 220);
-				Gore.NewGore(NPC.position, NPC.velocity / 6, 221);
-				Gore.NewGore(NPC.position, NPC.velocity / 6, 222);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity / 6, 220);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity / 6, 221);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity / 6, 222);
 			}
 
 			for (int k = 0; k < 30; k++)
-				Dust.NewDust(NPC.position, NPC.width, NPC.height, 7, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.WoodFurniture, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.47f);
 		}
 
 		public override void OnKill() => Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.WoodenCrate);
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(Terraria.GameContent.ItemDropRules.ItemDropRule.Common(ItemID.WoodenCrate));
 	}
 }

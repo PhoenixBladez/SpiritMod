@@ -38,10 +38,10 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			Projectile.ai[0]++;
 			if(Projectile.ai[0] > passivetime && Projectile.ai[1] == 0) {
 				Projectile.ai[1]++;
-				SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 14).WithVolume(0.5f).WithPitchVariance(0.2f), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item14 with { Volume = 0.5f, PitchVariance = 0.2f }, Projectile.Center);
 				Projectile.velocity.Y = -12;
 				for(int i = 0; i < 3; i++) {
-					Gore gore = Gore.NewGoreDirect(Projectile.Center + Main.rand.NextVector2Square(-18, 18), Main.rand.NextVector2Circular(3, 3), GoreID.ChimneySmoke1);
+					Gore gore = Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.Center + Main.rand.NextVector2Square(-18, 18), Main.rand.NextVector2Circular(3, 3), GoreID.ChimneySmoke1);
 					gore.timeLeft = 20;
 				}
 			}
@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			if (Projectile.ai[1] == 0) {
 				startingpoint = Projectile.Center;
 				Vector2 dustvel = -Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 5) * 3;
-				Gore gore = Gore.NewGoreDirect(Projectile.Center + Main.rand.NextVector2Square(-18, 18), Main.rand.NextVector2Circular(3, 3), GoreID.ChimneySmoke1, 0.6f);
+				Gore gore = Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.Center + Main.rand.NextVector2Square(-18, 18), Main.rand.NextVector2Circular(3, 3), GoreID.ChimneySmoke1, 0.6f);
 				gore.timeLeft = 20;
 				for (int i = 0; i < 4; i++) {
 					Dust dust = Dust.NewDustPerfect(Projectile.Center + (Vector2.UnitY * 20), Mod.Find<ModDust>("SandDust").Type, dustvel);
@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				Projectile.alpha = (activetime - Projectile.timeLeft) * (255 / activetime);
 				Projectile.rotation += 0.1f + Projectile.direction;
 				if (Main.rand.Next(4) == 0)
-					Gore.NewGorePerfect(Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.Pi / 14) / 2, Mod.Find<ModGore>("Gores/SandBall").Type, Main.rand.NextFloat(0.6f, 0.8f));
+					Gore.NewGorePerfect(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.Pi / 14) / 2, Mod.Find<ModGore>("Gores/SandBall").Type, Main.rand.NextFloat(0.6f, 0.8f));
 
 				for (int i = 0; i < 3; i++) {
 					Dust dust = Dust.NewDustPerfect(Projectile.Center + (Vector2.UnitY * 16), Mod.Find<ModDust>("SandDust").Type, Projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * 0.2f);
@@ -77,7 +77,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override bool PreDraw(ref Color lightColor)
 		{
 			Texture2D texture2D = TextureAssets.Projectile[Projectile.type].Value;
-			spriteBatch.Draw(texture2D, Projectile.Center - Main.screenPosition, null, lightColor * Projectile.Opacity, Projectile.rotation, texture2D.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(texture2D, Projectile.Center - Main.screenPosition, null, lightColor * Projectile.Opacity, Projectile.rotation, texture2D.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
 			return false;
 		}
 	}

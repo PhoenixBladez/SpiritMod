@@ -16,6 +16,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 			Main.projFrames[Projectile.type] = 5;
 			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
 			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
+			ProjectileID.Sets.SentryShot[Projectile.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -23,7 +24,6 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 			Projectile.width = 42;
 			Projectile.height = 42;
 			Projectile.scale = Main.rand.NextFloat(.7f, 1.1f);
-			ProjectileID.Sets.SentryShot[Projectile.type] = true;
 			Projectile.friendly = true;
 			Projectile.ignoreWater = true;
 			Projectile.tileCollide = true;
@@ -129,10 +129,10 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Poisoned);
 			for(int i = 1; i <= Main.rand.Next(2, 5); i++)
 			{
-				Gore gore = Gore.NewGoreDirect(Projectile.position, Projectile.velocity / 2, Mod.Find<ModGore>("Gores/Skelet/skeler" + i).Type);
+				Gore gore = Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity / 2, Mod.Find<ModGore>("Gores/Skelet/skeler" + i).Type);
 				gore.timeLeft = 40;
 			}
-			SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 2, 0.75f, 0.25f);
+			SoundEngine.PlaySound(SoundID.NPCDeath2, Projectile.Center);
 		}
 		public override bool MinionContactDamage() => true;
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)

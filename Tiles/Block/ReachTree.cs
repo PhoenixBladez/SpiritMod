@@ -9,7 +9,8 @@ namespace SpiritMod.Tiles.Block
 {
 	public class ReachTree : ModTree
 	{
-		public override TreePaintingSettings TreeShaderSettings => new TreePaintingSettings {
+		public override TreePaintingSettings TreeShaderSettings => new TreePaintingSettings 
+		{
 			UseSpecialGroups = true,
 			SpecialGroupMinimalHueValue = 11f / 72f,
 			SpecialGroupMaximumHueValue = 0.25f,

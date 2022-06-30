@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SwordfishGore").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SwordfishGore").Type);
 			}
 			for (int k = 0; k < 5; k++)
 			{
@@ -64,16 +64,11 @@ namespace SpiritMod.NPCs.Critters
 		{
 			NPC.spriteDirection = NPC.direction;
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(2) == 1)
-			{
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
-			}
-			if (Main.rand.Next(2) == 1)
-			{
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Swordfish, 1);
-			}
+			npcLoot.AddCommon<RawFish>(2);
+			npcLoot.AddCommon(ItemID.Swordfish, 2);
 		}
 	}
 }

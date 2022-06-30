@@ -60,19 +60,19 @@ namespace SpiritMod.NPCs.Cystal
 			if (NPC.active && player.active && !shieldSpawned)
 			{
 				shieldSpawned = true;
-				int shield1 = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y + (NPC.height / 2), ModContent.NPCType<Cystal_Shield>());
+				int shield1 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + (NPC.height / 2), ModContent.NPCType<Cystal_Shield>());
 				Main.npc[shield1].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(90));
 				Main.npc[shield1].ai[1] = NPC.whoAmI;
 
-				int shield2 = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y + (NPC.height / 2), ModContent.NPCType<Cystal_Shield>());
+				int shield2 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + (NPC.height / 2), ModContent.NPCType<Cystal_Shield>());
 				Main.npc[shield2].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(180));
 				Main.npc[shield2].ai[1] = NPC.whoAmI;
 
-				int shield3 = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y + (NPC.height / 2), ModContent.NPCType<Cystal_Shield>());
+				int shield3 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + (NPC.height / 2), ModContent.NPCType<Cystal_Shield>());
 				Main.npc[shield3].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(270));
 				Main.npc[shield3].ai[1] = NPC.whoAmI;
 
-				int shield4 = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y + (NPC.height / 2), ModContent.NPCType<Cystal_Shield>());
+				int shield4 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + (NPC.height / 2), ModContent.NPCType<Cystal_Shield>());
 				Main.npc[shield4].Center += new Vector2(0, 150).RotatedBy(MathHelper.ToRadians(360));
 				Main.npc[shield4].ai[1] = NPC.whoAmI;
 			}
@@ -181,7 +181,7 @@ namespace SpiritMod.NPCs.Cystal
 			if (NPC.life <= 0)
 			{
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/CystalGore" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/CystalGore" + i).Type, 1f);
 
 				Player player = Main.player[NPC.target];
 				Filters.Scene.Deactivate("CystalTower", player.position);
@@ -209,12 +209,11 @@ namespace SpiritMod.NPCs.Cystal
 			Filters.Scene.Deactivate("CystalTower", Main.player[NPC.target].position);
 			Filters.Scene.Deactivate("CystalBloodMoon", Main.player[NPC.target].position);
 
-			if (Main.rand.Next(2) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 68, Main.rand.Next(1, 3));
-
 			//if (QuestManager.GetQuest<StylistQuestCorrupt>().IsActive)
 			//	Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.CorruptDyeMaterial>());
 		}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon(68, 2, 1, 2);
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{

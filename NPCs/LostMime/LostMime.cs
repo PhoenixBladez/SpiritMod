@@ -60,20 +60,18 @@ namespace SpiritMod.NPCs.LostMime
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/LostMimeGore").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
-				Gore.NewGore(NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/LostMimeGore").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
 			}
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.NextBool(16))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MimeMask>(), 1);
-			if (Main.rand.NextBool(30))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Consumable.Food.Baguette>());
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MimeBomb>(), Main.rand.Next(12, 23));
+			npcLoot.AddCommon(ModContent.ItemType<MimeMask>(), 16);
+			npcLoot.AddFood(ModContent.ItemType<Items.Consumable.Food.Baguette>(), 30);
+			npcLoot.AddCommon(ModContent.ItemType<MimeBomb>(), 16, 12, 22);
 		}
 	}
 }

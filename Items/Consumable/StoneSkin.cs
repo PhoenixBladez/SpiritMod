@@ -40,8 +40,8 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			SoundEngine.PlaySound(SoundID.Roar, (int)player.Center.X, (int)player.Center.Y, 0);
-			NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 600, ModContent.NPCType<Atlas>());
+			SoundEngine.PlaySound(SoundID.Roar, player.Center);
+			NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X, (int)player.Center.Y - 600, ModContent.NPCType<Atlas>());
 
 			Main.NewText("The earth is trembling!", 255, 60, 255);
 			return true;

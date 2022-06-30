@@ -62,10 +62,10 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/FishCrate/FishCrate1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/FishCrate/FishCrate1").Type, 1f);
 				for (int i = 0; i < 6; i++)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/FishCrate/FishCrate2").Type, Main.rand.NextFloat(.5f, 1f));
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/FishCrate/FishCrate3").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/FishCrate/FishCrate2").Type, Main.rand.NextFloat(.5f, 1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/FishCrate/FishCrate3").Type, 1f);
 			}
 		}
 
@@ -80,28 +80,10 @@ namespace SpiritMod.NPCs.Critters
 			int[] lootTable = { ItemID.Shrimp, ItemID.Salmon, ItemID.Bass, ItemID.RedSnapper, ItemID.Trout };
 			NPC.DropItem(Main.rand.Next(lootTable), Main.rand.Next(3, 5));
 
-			if (Main.rand.Next(4) == 1)
-			{
-				int[] lootTable3 = { ItemID.ArmoredCavefish, ItemID.Damselfish, ItemID.DoubleCod, ItemID.FrostMinnow };
-				NPC.DropItem(Main.rand.Next(lootTable3));
-			}
-
-			if (Main.rand.Next(27) == 0)
-			{
-				int[] lootTable4 = { ItemID.ReaverShark, ItemID.Swordfish, ItemID.SawtoothShark };
-				NPC.DropItem(Main.rand.Next(lootTable4));
-			}
-
 			if (Main.rand.Next(14) == 0)
 			{
 				string[] lootTable2123 = { "DiverLegs", "DiverHead", "DiverBody" };
 				NPC.DropItem(Mod.Find<ModItem>(Main.rand.Next(lootTable2123)).Type);
-			}
-
-			if (Main.rand.Next(3) == 0)
-			{
-				int[] lootTable2 = { ItemID.FrostDaggerfish, ItemID.BombFish };
-				NPC.DropItem(Main.rand.Next(lootTable2), Main.rand.Next(9, 12));
 			}
 
 			if (Main.hardMode && Main.rand.Next(10) == 0)
@@ -109,12 +91,15 @@ namespace SpiritMod.NPCs.Critters
 				int[] lootTable51 = { ItemID.FlarefinKoi, ItemID.Obsidifish, ItemID.Prismite, ItemID.PrincessFish };
 				NPC.DropItem(Main.rand.Next(lootTable51), 1);
 			}
+		}
 
-			if (Main.rand.Next(3) == 0)
-				NPC.DropItem(ItemID.GoldCoin, Main.rand.Next(10, 90));
-
-			if (Main.rand.Next(7) == 0)
-				NPC.DropItem(ItemID.GoldCoin, Main.rand.Next(1, 3));
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddCommon<RawFish>(2);
+			npcLoot.AddCommon(ItemID.GoldCoin, 5, 20);
+			npcLoot.AddOneFromOptions(27, ItemID.ReaverShark, ItemID.Swordfish, ItemID.SawtoothShark);
+			npcLoot.AddOneFromOptions(3, ItemID.FrostDaggerfish, ItemID.BombFish);
+			npcLoot.AddOneFromOptions(4, ItemID.ArmoredCavefish, ItemID.Damselfish, ItemID.DoubleCod, ItemID.FrostMinnow);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.OceanMonster.Chance * 0.05f;

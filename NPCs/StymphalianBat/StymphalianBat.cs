@@ -230,19 +230,19 @@ namespace SpiritMod.NPCs.StymphalianBat
             if (NPC.life <= 0)
             {
 				for (int i = 0; i < 3; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, 99);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
 				for (int i = 1; i < 4; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/StymphalianBat/StymphalianBat" + i).Type, 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/StymphalianBat/StymphalianBat1").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/StymphalianBat/StymphalianBat" + i).Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/StymphalianBat/StymphalianBat1").Type, 1f);
             }
         }
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.NextBool(100))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.AdhesiveBandage);
-			if (Main.rand.NextBool(85))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Accessory.GoldenApple>());
+			npcLoot.AddCommon(ItemID.AdhesiveBandage, 100);
+			npcLoot.AddCommon<Items.Accessory.GoldenApple>(85);
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (NPC.ai[2] == 1f && !NPC.collideX && !NPC.collideY)
@@ -252,7 +252,7 @@ namespace SpiritMod.NPCs.StymphalianBat
                 {
                     var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                     Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-                    Color color = NPC.GetAlpha(lightColor) * (float)(((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2f);
+                    Color color = NPC.GetAlpha(drawColor) * (float)(((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2f);
                     spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
                 }
             }

@@ -81,8 +81,8 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		private void DrawBubble(SpriteBatch spriteBatch, Vector2 position, Color baseColor)
 		{
 			Texture2D outline = ModContent.Request<Texture2D>(TexturePath + "_Outline", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			Texture2D inner = ModContent.Request<Texture2D>(TexturePath + "_Inner", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value
-			Texture2D shine = ModContent.Request<Texture2D>(TexturePath + "_Shine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value
+			Texture2D inner = ModContent.Request<Texture2D>(TexturePath + "_Inner", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D shine = ModContent.Request<Texture2D>(TexturePath + "_Shine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			Vector2 squishScale = BubbleSquishScale(0.35f, 0.1f);
 			Color innerColor = baseColor * 0.05f;
@@ -210,7 +210,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			}
 
 			if (!Main.dedServ)
-				SoundEngine.PlaySound(SoundID.Item54.WithPitchVariance(0.3f).WithVolume(0.5f * dustMult), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item54 with { PitchVariance = 0.3f, Volume = 0.5f * dustMult }, Projectile.Center);
 		}
 
 		public override bool OnTileCollide(Vector2 oldVelocity)

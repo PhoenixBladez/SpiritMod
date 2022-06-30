@@ -86,10 +86,9 @@ namespace SpiritMod.NPCs.Midknight
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			{
-				target.AddBuff(BuffID.Darkness, 120, true);
-			}
+			target.AddBuff(BuffID.Darkness, 120, true);
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 40; k++) {
@@ -97,10 +96,10 @@ namespace SpiritMod.NPCs.Midknight
 			}
 			if (NPC.life <= 0) {
 				for (int k = 0; k < 10; k++) {
-					Gore.NewGore(NPC.position, NPC.velocity, 99);
-					Gore.NewGore(NPC.position, NPC.velocity, 99);
-					Gore.NewGore(NPC.position, NPC.velocity, 99);
-					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ShadowbeamStaff, hitDirection * 6f, -1f, 0, default, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
+					Dust.NewDust(NPC.GetSource_Death(), NPC.position, NPC.width, NPC.height, DustID.ShadowbeamStaff, hitDirection * 6f, -1f, 0, default, 1f);
 				}
 			}
 		}

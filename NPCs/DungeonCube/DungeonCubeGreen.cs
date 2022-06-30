@@ -25,7 +25,8 @@ namespace SpiritMod.NPCs.DungeonCube
 			}
 			return 0f;
 		}
-		public override int TileDropType => 137;
-		public override string GoreColor => "Green";
+
+		protected override int TileDrop => TileID.GreenDungeonBrick;
+		protected override string CubeColor => "Green";
 	}
 }

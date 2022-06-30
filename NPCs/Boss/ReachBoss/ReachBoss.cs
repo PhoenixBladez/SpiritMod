@@ -220,9 +220,9 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
                     {
                         int damage = expertMode ? 14 : 19;
                         if(i == 0)
-							Projectile.NewProjectileDirect(NPC.Center, direction, ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0).netUpdate = true;
+							Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, direction, ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0).netUpdate = true;
 						else
-							Projectile.NewProjectileDirect(NPC.Center, direction.RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(0.5f, 1f), ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0).netUpdate = true;
+							Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, direction.RotatedByRandom(MathHelper.Pi / 4) * Main.rand.NextFloat(0.5f, 1f), ModContent.ProjectileType<BossRedSpike>(), damage, 1, Main.myPlayer, 0, 0).netUpdate = true;
                     }
                 }
 			}
@@ -236,7 +236,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 104).WithPitchVariance(0.2f), NPC.Center);
 	            if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-					int p = Projectile.NewProjectile(NPC.Center.X + Main.rand.Next(-60, 60), NPC.Center.Y+ Main.rand.Next(-60, 60), Main.rand.NextFloat(-5.3f, 5.3f), Main.rand.NextFloat(-5.3f, 5.3f), ModContent.ProjectileType<ReachBossFlower>(), damage, 1, Main.myPlayer, 0, 0);		
+					int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + Main.rand.Next(-60, 60), NPC.Center.Y+ Main.rand.Next(-60, 60), Main.rand.NextFloat(-5.3f, 5.3f), Main.rand.NextFloat(-5.3f, 5.3f), ModContent.ProjectileType<ReachBossFlower>(), damage, 1, Main.myPlayer, 0, 0);		
 					Main.projectile[p].scale = Main.rand.NextFloat(.6f, .8f);
 					DustHelper.DrawStar(Main.projectile[p].Center, 272, pointAmount: 6, mainSize: .9425f, dustDensity: 2, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
 					if (Main.projectile[p].velocity == Vector2.Zero)
@@ -417,19 +417,19 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 
 				Vector2 spawnAt = NPC.Center + new Vector2(0f, (float)NPC.height / 2f);
-				NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<ReachBoss1>());
+				NPC.NewNPC(NPC.GetSource_Death(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<ReachBoss1>());
 
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss").Type, 1f);
 
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReachBoss1").Type, 1f);
 				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Grass, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
@@ -442,12 +442,12 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			for (int j = 0; j < 2; j++)
 			{
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
-				int a = Gore.NewGore(NPC.Center + new Vector2(Main.rand.Next(-50, 50), Main.rand.Next(-50, 50)), NPC.velocity, 386, goreScale);
+				int a = Gore.NewGore(NPC.GetSource_Death(), NPC.Center + new Vector2(Main.rand.Next(-50, 50), Main.rand.Next(-50, 50)), NPC.velocity, 386, goreScale);
 				Main.gore[a].timeLeft = 15;
 				Main.gore[a].rotation = 10f;
 				Main.gore[a].velocity = new Vector2(hitDirection * 2.5f, Main.rand.NextFloat(1f, 2f));
 				
-				int a1 = Gore.NewGore(NPC.Center + new Vector2(Main.rand.Next(-50, 50), Main.rand.Next(-50, 50)), NPC.velocity, 911, goreScale);
+				int a1 = Gore.NewGore(NPC.GetSource_Death(), NPC.Center + new Vector2(Main.rand.Next(-50, 50), Main.rand.Next(-50, 50)), NPC.velocity, 911, goreScale);
 				Main.gore[a1].timeLeft = 15;
 				Main.gore[a1].rotation = 1f;
 				Main.gore[a1].velocity = new Vector2(hitDirection * 2.5f, Main.rand.NextFloat(10f, 20f));
