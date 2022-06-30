@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles
 				perturbedSpeed.Normalize();
 				perturbedSpeed.X *= 5.5f;
 				perturbedSpeed.Y *= 5.5f;
-				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<NovaBeam5>(), Projectile.damage / 10 * 9, 1, Projectile.owner);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<NovaBeam5>(), Projectile.damage / 10 * 9, 1, Projectile.owner);
 			}
 		}
 	}

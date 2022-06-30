@@ -96,9 +96,9 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override bool PreDraw(ref Color lightColor)
 		{
 			if(Projectile.ai[1] > 170)
-				Projectile.QuickDrawTrail(spriteBatch);
+				Projectile.QuickDrawTrail(Main.spriteBatch);
 
-			Projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDraw(Main.spriteBatch);
 			return false;
 		}
 	}

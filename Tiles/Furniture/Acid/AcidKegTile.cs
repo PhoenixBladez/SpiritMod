@@ -26,7 +26,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-			Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidKeg>());
+			Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidKeg>());
 		}
 	}
 }

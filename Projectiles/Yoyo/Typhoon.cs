@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Yoyo
 							num5 = num4 / num5;
 						}
 						value *= num5;
-						Terraria.Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, value.X, value.Y, ProjectileID.MiniSharkron, Projectile.damage, Projectile.knockBack / 2f, Projectile.owner, 0f, 0f);
+						Terraria.Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, value.X, value.Y, ProjectileID.MiniSharkron, Projectile.damage, Projectile.knockBack / 2f, Projectile.owner, 0f, 0f);
 					}
 				}
 			}

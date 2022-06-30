@@ -36,10 +36,10 @@ namespace SpiritMod.Tiles.Ambient.HangingChimes
 				WorldGen.KillTile(i, j + 1);
 
 			if (Main.rand.NextBool(250))
-				Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Weapon.Magic.CrystalWindpipe.CrystalWindpipe>());
+				Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Weapon.Magic.CrystalWindpipe.CrystalWindpipe>());
 
 			if (Main.rand.NextBool(10))
-				Item.NewItem(i * 16, j * 16, 48, 48, ItemID.CrystalShard);
+				Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, ItemID.CrystalShard);
 		}
 
 		public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)

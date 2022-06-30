@@ -26,8 +26,8 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 
 		public override void PostDraw(Color lightColor)
 		{
-			base.PostDraw(spriteBatch, lightColor);
-			Projectile.QuickDraw(spriteBatch, drawColor: Color.Black * Projectile.Opacity);
+			base.PostDraw(Main.spriteBatch, lightColor);
+			Projectile.QuickDraw(Main.spriteBatch, drawColor: Color.Black * Projectile.Opacity);
 		}
 
 		public void AdditiveCall(SpriteBatch sB)

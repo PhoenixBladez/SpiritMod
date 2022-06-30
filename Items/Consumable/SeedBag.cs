@@ -32,9 +32,9 @@ namespace SpiritMod.Items.Consumable
 
 		public override void RightClick(Player player)
 		{
-			player.QuickSpawnItem(ItemID.MushroomGrassSeeds, Main.rand.Next(1, 5));
-			player.QuickSpawnItem(ItemID.JungleGrassSeeds, Main.rand.Next(1, 5));
-			player.QuickSpawnItem(ModContent.ItemType<Items.Placeable.Tiles.BriarGrassSeeds>(), Main.rand.Next(1, 5));
+			player.QuickSpawnItem(player.GetSource_ItemUse(Item), ItemID.MushroomGrassSeeds, Main.rand.Next(1, 5));
+			player.QuickSpawnItem(player.GetSource_ItemUse(Item), ItemID.JungleGrassSeeds, Main.rand.Next(1, 5));
+			player.QuickSpawnItem(player.GetSource_ItemUse(Item), ModContent.ItemType<Items.Placeable.Tiles.BriarGrassSeeds>(), Main.rand.Next(1, 5));
 		}
 	}
 }

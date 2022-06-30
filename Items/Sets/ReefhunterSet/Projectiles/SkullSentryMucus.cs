@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDraw(Main.spriteBatch);
 
 			int trailLength = ProjectileID.Sets.TrailCacheLength[Projectile.type];
 			for (int i = trailLength - 1; i >= 0; i--)
@@ -49,7 +49,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 				Vector2 drawPos = Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition;
 				float opacity = Utilities.EaseFunction.EaseCubicOut.Ease(progress);
 				float scale = progress * Projectile.scale;
-				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, Projectile.GetAlpha(lightColor) * opacity, 
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, Projectile.GetAlpha(lightColor) * opacity, 
 					Projectile.oldRot[i], TextureAssets.Projectile[Projectile.type].Value.Size() / 2, scale, SpriteEffects.None, 0);
 			}
 			return false;

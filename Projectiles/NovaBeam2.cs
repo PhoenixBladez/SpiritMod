@@ -98,7 +98,7 @@ namespace SpiritMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			for (int i = 0; i < 4; ++i)
-				Projectile.NewProjectile(target.Center.X + Main.rand.Next(-80, 80), target.Center.Y - 1400 + Main.rand.Next(-50, 50), 0, Main.rand.Next(8, 18), ModContent.ProjectileType<NovaBeam3>(), Projectile.damage / 5 * 2, Projectile.knockBack, Projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X + Main.rand.Next(-80, 80), target.Center.Y - 1400 + Main.rand.Next(-50, 50), 0, Main.rand.Next(8, 18), ModContent.ProjectileType<NovaBeam3>(), Projectile.damage / 5 * 2, Projectile.knockBack, Projectile.owner, 0f, 0f);
 
 			target.AddBuff(ModContent.BuffType<StarFlame>(), 179);
 		}

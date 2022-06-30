@@ -1320,7 +1320,7 @@ namespace SpiritMod.World
 				}
 			}
 
-			int adv = NPC.NewNPC((x + 1) * 16 + 8, (y - 1) * 16 + 8, ModContent.NPCType<NPCs.Town.BoundAdventurer>());
+			int adv = NPC.NewNPC(new EntitySource_TileBreak(i, j), (x + 1) * 16 + 8, (y - 1) * 16 + 8, ModContent.NPCType<NPCs.Town.BoundAdventurer>());
 			Main.npc[adv].homeTileX = -1;
 			Main.npc[adv].homeTileY = -1;
 			Main.npc[adv].direction = WorldGen.genRand.NextBool() ? 1 : -1;

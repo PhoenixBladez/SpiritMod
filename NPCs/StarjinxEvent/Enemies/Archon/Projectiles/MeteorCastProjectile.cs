@@ -60,14 +60,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 8; ++i)
-				Projectile.NewProjectile(Projectile.Center, new Vector2(0, Main.rand.NextFloat(7f, 14f)).RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<MeteorEnchantment_Meteor>(), 20, 1f);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, new Vector2(0, Main.rand.NextFloat(7f, 14f)).RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<MeteorEnchantment_Meteor>(), 20, 1f);
 
 			Mechanics.EventSystem.EventManager.PlayEvent(new Mechanics.EventSystem.Events.ScreenShake(6f, 0.6f));
 		}
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Destination - Main.screenPosition, null, lightColor * 0.4f);
+			Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Destination - Main.screenPosition, null, lightColor * 0.4f);
 			return true;
 		}
 	}

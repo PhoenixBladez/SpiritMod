@@ -107,7 +107,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			}
 			ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Vector2.Zero, Color.White, Main.rand.NextFloat(0.2f, 0.3f), 10));
 
-			SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithPitchVariance(0.2f).WithVolume(0.33f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item12.WithPitchVariance(0.2f).WithVolume(0.33f), Projectile.Center);
 
 			for (int i = 0; i < 3; i++)
 				ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f), Color.White, Main.rand.NextFloat(0.1f, 0.2f), 20));

@@ -105,7 +105,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 			Texture2D projTex = TextureAssets.Projectile[Projectile.type].Value;
 			Color color = Color.Lerp(new Color(252, 3, 102), Color.White, 1 - Projectile.Opacity);
 			void DrawTex(Texture2D tex, Vector2 position, Color drawcolor, float Scale = 1f) =>
-				spriteBatch.Draw(tex, position, null, drawcolor * Projectile.Opacity, 0, projTex.Size() / 2, Projectile.scale * Scale, SpriteEffects.None, 0);
+				Main.spriteBatch.Draw(tex, position, null, drawcolor * Projectile.Opacity, 0, projTex.Size() / 2, Projectile.scale * Scale, SpriteEffects.None, 0);
 
 			float Timer = (float)(Math.Sin(Main.GameUpdateCount / 15f) / 2) + 0.5f;
 			for (int i = 0; i < 5; i++)

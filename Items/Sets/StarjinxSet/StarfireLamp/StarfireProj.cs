@@ -161,7 +161,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 					SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly - 1), Main.rand.NextFloat(0.2f, 0.4f), 25));
 			}
 
-			SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithPitchVariance(0.2f).WithVolume(0.3f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item12.WithPitchVariance(0.2f).WithVolume(0.3f), Projectile.Center);
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

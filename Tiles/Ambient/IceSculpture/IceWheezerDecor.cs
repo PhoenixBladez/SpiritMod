@@ -41,7 +41,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture
 		{
 			if (Vector2.Distance(new Vector2(i * 16, j * 16), Main.LocalPlayer.Center) < 56)
 				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
-			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<IceWheezerSculpture>());
+			Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, ModContent.ItemType<IceWheezerSculpture>());
 		}
 	}
 }

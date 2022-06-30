@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override bool PreDraw(ref Color lightColor)
 		{
 			Texture2D texture2D = TextureAssets.Projectile[Projectile.type].Value;
-			spriteBatch.Draw(texture2D, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, texture2D.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(texture2D, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, texture2D.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
 				return false;
 		}
 	}

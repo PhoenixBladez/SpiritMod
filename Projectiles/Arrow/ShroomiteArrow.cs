@@ -70,7 +70,7 @@ namespace SpiritMod.Projectiles.Arrow
 				Vector2 drawPos = Projectile.oldPos[k] + drawOrigin;
 				drawPos -= Main.screenPosition;
 				Color color = preColor * (float)(Projectile.oldPos.Length - k);
-				spriteBatch.Draw(texture, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(texture, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return true;
 		}

@@ -74,7 +74,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 		public override bool PreDraw(ref Color lightColor)
 		{
 			Texture2D t = TextureAssets.Projectile[Projectile.type].Value;
-			spriteBatch.Draw(t, Projectile.Center - Main.screenPosition, null, lightColor, RealDirection.ToRotation() - MathHelper.Pi, new Vector2(16, 14), 1f, SpriteEffects.None, 1f);
+			Main.spriteBatch.Draw(t, Projectile.Center - Main.screenPosition, null, lightColor, RealDirection.ToRotation() - MathHelper.Pi, new Vector2(16, 14), 1f, SpriteEffects.None, 1f);
 			return false;
 		}
 	}

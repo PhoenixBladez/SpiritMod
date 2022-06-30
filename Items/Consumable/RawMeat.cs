@@ -14,7 +14,6 @@ namespace SpiritMod.Items.Consumable
 			DisplayName.SetDefault("Raw Meat");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = Item.height = 24;
@@ -33,18 +32,18 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool OnPickup(Player player)
 		{
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 2));
-			{
-				player.statLife += 10;
-				player.HealEffect(10, true);
-				player.AddBuff(BuffID.WellFed, 540);
-			}
+			SoundEngine.PlaySound(SoundID.Item2);
+			player.statLife += 10;
+			player.HealEffect(10, true);
+			player.AddBuff(BuffID.WellFed, 540);
 			return false;
 		}
+
 		public override Color? GetAlpha(Color lightColor)
 		{
 			return new Color(189, 191, 174, 100);
 		}
+
 		public override bool ItemSpace(Player player)
 		{
 			return true;

@@ -195,7 +195,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 			Texture2D projTexture = TextureAssets.Projectile[Projectile.type].Value;
 			var origin = new Vector2(Projectile.DrawFrame().Width / 2, Projectile.DrawFrame().Height);
 			float headRotation = (_posArray[0] - _posArray[1]).ToRotation() + MathHelper.PiOver2;
-			spriteBatch.Draw(projTexture, _posArray[0] - Main.screenPosition, Projectile.DrawFrame(), Projectile.GetAlpha(Color.White), headRotation, origin, Projectile.scale, SpriteEffects.None, 0);
+			Main.spriteBatch.Draw(projTexture, _posArray[0] - Main.screenPosition, Projectile.DrawFrame(), Projectile.GetAlpha(Color.White), headRotation, origin, Projectile.scale, SpriteEffects.None, 0);
 			
 			return false;
 		}

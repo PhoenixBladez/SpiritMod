@@ -68,7 +68,7 @@ namespace SpiritMod.Items.Glyphs
 				velocity *= scale;
 
 			velocity *= 8f;
-			Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<SlicingGust>(), damage, 8f, Main.myPlayer);
+			Projectile.NewProjectile(player.Player.GetSource_ItemUse(item), position, velocity, ModContent.ProjectileType<SlicingGust>(), damage, 8f, Main.myPlayer);
 		}
 	}
 }

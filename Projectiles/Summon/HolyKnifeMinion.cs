@@ -126,10 +126,10 @@ namespace SpiritMod.Projectiles.Summon
 				{
 					Vector2 drawPos = Projectile.oldPos[k] + Projectile.Size/2 - Main.screenPosition;
 					Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-					spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color * .6f, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color * .6f, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 				}
 			}
-			spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 
 			return false;
         }

@@ -195,7 +195,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 			DrawAberration.DrawChromaticAberration(Projectile.velocity, 3, delegate (Vector2 offset, Color colorMod)
 			{
-				spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, colorMod * opacity, Projectile.rotation, tex.Size() / 2, Projectile.scale, spriteEffects, 0);
+				Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, colorMod * opacity, Projectile.rotation, tex.Size() / 2, Projectile.scale, spriteEffects, 0);
 			});
 
 			return false;

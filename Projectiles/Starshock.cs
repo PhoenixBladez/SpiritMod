@@ -55,7 +55,7 @@ namespace SpiritMod.Projectiles
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, TextureAssets.Projectile[Projectile.type].Value.Bounds, Projectile.GetAlpha(Color.White), Projectile.rotation, 
+			Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, TextureAssets.Projectile[Projectile.type].Value.Bounds, Projectile.GetAlpha(Color.White), Projectile.rotation, 
 				TextureAssets.Projectile[Projectile.type].Value.Size()/2, Projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}

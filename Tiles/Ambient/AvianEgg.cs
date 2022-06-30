@@ -39,7 +39,7 @@ namespace SpiritMod.Tiles.Ambient
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Main.NewText("The Ancient Avian has awoken!", 175, 75, 255, true);
-			int n = NPC.NewNPC(i * 16 + Main.rand.Next(-60, 60), j * 16 - 120, ModContent.NPCType<AncientFlyer>(), 0, 2, 1, 0, 0, Main.myPlayer);
+			int n = NPC.NewNPC(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16 + Main.rand.Next(-60, 60), j * 16 - 120, ModContent.NPCType<AncientFlyer>(), 0, 2, 1, 0, 0, Main.myPlayer);
 			Main.npc[n].netUpdate = true;
 
 			for (int l = 0; l < 2; l++)
@@ -52,7 +52,7 @@ namespace SpiritMod.Tiles.Ambient
 
 				for (int k = 0; k < 2; ++k)
 				{
-					Gore gore = Main.gore[Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-60, 60), j * 16 - 120), default, Main.rand.Next(61, 64), 1f)];
+					Gore gore = Main.gore[Gore.NewGore(new Terraria.DataStructures.EntitySource_TileBreak(i, j), new Vector2(i * 16 + Main.rand.Next(-60, 60), j * 16 - 120), default, Main.rand.Next(61, 64), 1f)];
 					gore.velocity *= scale;
 					gore.velocity.X += 1f;
 					gore.velocity.Y += i == 0 ? -1f : 1f;
@@ -65,7 +65,7 @@ namespace SpiritMod.Tiles.Ambient
 			for (int k = 0; k < 20; k++)
 			{
 				Dust.NewDust(new Vector2(i * 16, j * 16 - 10), 0, 16, DustID.Dirt, 0.0f, -1, 0, new Color(), 0.5f);
-				Gore.NewGore(new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-10, 10)), new Vector2(-1, 1), Mod.Find<ModGore>("Gores/Apostle2").Type, Main.rand.NextFloat(.7f, 1.8f));
+				Gore.NewGore(new Terraria.DataStructures.EntitySource_TileBreak(i, j), new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-10, 10)), new Vector2(-1, 1), Mod.Find<ModGore>("Gores/Apostle2").Type, Main.rand.NextFloat(.7f, 1.8f));
 			}
 		}
 	}

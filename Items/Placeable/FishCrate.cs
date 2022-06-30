@@ -47,56 +47,59 @@ namespace SpiritMod.Items.Placeable
 
 		public override void RightClick(Player player)
 		{
-			if (Main.rand.Next(2) == 0)
-				player.QuickSpawnItem(ModContent.ItemType<RawFish>());
+			var source = player.GetSource_ItemUse(
+				Item, "RightClick");
 
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(2))
+				player.QuickSpawnItem(source, ModContent.ItemType<RawFish>());
+
+			if (Main.rand.NextBool(4))
 			{
 				if (Main.rand.NextBool())
-					player.QuickSpawnItem(ModContent.ItemType<FloaterItem>());
+					player.QuickSpawnItem(source, ModContent.ItemType<FloaterItem>());
 				else
-					player.QuickSpawnItem(ModContent.ItemType<LuvdiscItem>());
+					player.QuickSpawnItem(source, ModContent.ItemType<LuvdiscItem>());
 			}
 
 			int[] lootTable = { ItemID.Shrimp, ItemID.Salmon, ItemID.Bass, ItemID.RedSnapper, ItemID.Trout };
-			player.QuickSpawnItem(lootTable[Main.rand.Next(lootTable.Length)], Main.rand.Next(3, 5));
+			player.QuickSpawnItem(source, lootTable[Main.rand.Next(lootTable.Length)], Main.rand.Next(3, 5));
 
-			if (Main.rand.Next(4) == 1)
+			if (Main.rand.NextBool(4))
 			{
 				int[] lootTable3 = { ItemID.ArmoredCavefish, ItemID.Damselfish, ItemID.DoubleCod, ItemID.FrostMinnow };
-				player.QuickSpawnItem(lootTable3[Main.rand.Next(lootTable3.Length)], Main.rand.Next(1, 2));
+				player.QuickSpawnItem(source, lootTable3[Main.rand.Next(lootTable3.Length)], Main.rand.Next(1, 2));
 			}
 
-			if (Main.rand.Next(27) == 0)
+			if (Main.rand.NextBool(27))
 			{
 				int[] lootTable4 = { ItemID.ReaverShark, ItemID.Swordfish, ItemID.SawtoothShark };
-				player.QuickSpawnItem(lootTable4[Main.rand.Next(lootTable4.Length)]);
+				player.QuickSpawnItem(source, lootTable4[Main.rand.Next(lootTable4.Length)]);
 			}
 
-			if (Main.rand.Next(14) == 0)
+			if (Main.rand.NextBool(14))
 			{
 				string[] lootTable2123 = { "DiverLegs", "DiverHead", "DiverBody" };
 				int loot443 = Main.rand.Next(lootTable2123.Length);
-				player.QuickSpawnItem(Mod.Find<ModItem>(lootTable2123[loot443]).Type);
+				player.QuickSpawnItem(source, Mod.Find<ModItem>(lootTable2123[loot443]).Type);
 			}
 
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				int[] lootTable2 = { ItemID.FrostDaggerfish, ItemID.BombFish };
-				player.QuickSpawnItem(lootTable2[Main.rand.Next(lootTable2.Length)], Main.rand.Next(9, 12));
+				player.QuickSpawnItem(source, lootTable2[Main.rand.Next(lootTable2.Length)], Main.rand.Next(9, 12));
 			}
 
-			if (Main.hardMode && Main.rand.Next(10) == 0)
+			if (Main.hardMode && Main.rand.NextBool(10))
 			{
 				int[] lootTable51 = { ItemID.FlarefinKoi, ItemID.Obsidifish, ItemID.Prismite, ItemID.PrincessFish };
-				player.QuickSpawnItem(lootTable51[Main.rand.Next(lootTable51.Length)], Main.rand.Next(1, 3));
+				player.QuickSpawnItem(source, lootTable51[Main.rand.Next(lootTable51.Length)], Main.rand.Next(1, 3));
 			}
 
-			if (Main.rand.Next(3) == 0)
-				player.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(10, 90));
+			if (Main.rand.NextBool(3))
+				player.QuickSpawnItem(source, ItemID.SilverCoin, Main.rand.Next(10, 90));
 
-			if (Main.rand.Next(7) == 0)
-				player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(1, 3));
+			if (Main.rand.NextBool(7))
+				player.QuickSpawnItem(source, ItemID.GoldCoin, Main.rand.Next(1, 3));
 		}
 	}
 }

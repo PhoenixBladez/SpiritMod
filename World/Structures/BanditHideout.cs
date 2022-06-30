@@ -180,7 +180,7 @@ namespace SpiritMod.World
 					continue;
 
 				Place(towerX, towerY);
-				int num = NPC.NewNPC((towerX + 31) * 16, (towerY - 20) * 16, ModContent.NPCType<BoundRogue>());
+				int num = NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (towerX + 31) * 16, (towerY - 20) * 16, ModContent.NPCType<BoundRogue>());
 				Main.npc[num].homeTileX = -1;
 				Main.npc[num].homeTileY = -1;
 				Main.npc[num].direction = 1;

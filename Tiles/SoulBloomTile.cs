@@ -40,11 +40,11 @@ namespace SpiritMod.Tiles
 		{
 			int stage = Main.tile[i, j].TileFrameX / 18;
 			if (stage == 1) {
-				Item.NewItem(i * 16, j * 16, 64, 32, ItemType<SoulBloom>());
+				Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 32, ItemType<SoulBloom>());
 			}
 			if (stage == 2) {
-				Item.NewItem(i * 16, j * 16, 64, 32, ItemType<SoulBloom>());
-				Item.NewItem(i * 16, j * 16, 0, 0, ItemType<Items.Placeable.SoulSeeds>());
+				Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 32, ItemType<SoulBloom>());
+				Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 0, 0, ItemType<Items.Placeable.SoulSeeds>());
 			}
 			return false;
 		}

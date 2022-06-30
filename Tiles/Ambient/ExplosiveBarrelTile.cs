@@ -60,7 +60,7 @@ namespace SpiritMod.Tiles.Ambient
                 {
 					int x = i * 16 + 8;
 					int y = j * 16 + 46;
-					NPC.NewNPC(x, y, ModContent.NPCType<NPCs.ExplosiveBarrel.ExplosiveBarrel>(), 0, 2, 1, 0, 0);
+					NPC.NewNPC(new Terraria.DataStructures.EntitySource_TileBreak(i, j), x, y, ModContent.NPCType<NPCs.ExplosiveBarrel.ExplosiveBarrel>(), 0, 2, 1, 0, 0);
                     WorldGen.KillTile(i, j);
 
 					if (Main.netMode == NetmodeID.MultiplayerClient)

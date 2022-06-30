@@ -73,7 +73,7 @@ namespace SpiritMod.Items.Glyphs
 			{
 				Vector2 vel = Vector2.UnitY.RotatedByRandom(Math.PI * 2);
 				vel *= Main.rand.Next(8, 40) * .125f;
-				int projectile = Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<PoisonCloud>(), Main.hardMode ? 35 : 20, 0, owner, target.whoAmI);
+				int projectile = Projectile.NewProjectile(Main.player[owner].GetSource_OnHit(target), target.Center, vel, ModContent.ProjectileType<PoisonCloud>(), Main.hardMode ? 35 : 20, 0, owner, target.whoAmI);
 				if (Main.netMode == NetmodeID.Server)
 				{
 					Main.projectile[projectile].ai[0] = target.whoAmI;

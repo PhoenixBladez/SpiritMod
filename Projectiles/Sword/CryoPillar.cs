@@ -59,10 +59,10 @@ namespace SpiritMod.Projectiles.Sword
 				}
 				if (Projectile.timeLeft == 10 && Projectile.ai[0] > 0) {
 					if (Projectile.ai[1] == 1 || Projectile.ai[1] == 0) {
-						Projectile.NewProjectile(Projectile.Center.X - Projectile.width, startposY, 0, 0, ModContent.ProjectileType<CryoPillar>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] - 1, 1);
+						Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X - Projectile.width, startposY, 0, 0, ModContent.ProjectileType<CryoPillar>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] - 1, 1);
 					}
 					if (Projectile.ai[1] == 2 || Projectile.ai[1] == 0) {
-						Projectile.NewProjectile(Projectile.Center.X + Projectile.width, startposY, 0, 0, ModContent.ProjectileType<CryoPillar>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] - 1, 2);
+						Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X + Projectile.width, startposY, 0, 0, ModContent.ProjectileType<CryoPillar>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] - 1, 2);
 					}
 				}
 			}

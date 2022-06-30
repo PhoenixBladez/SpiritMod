@@ -37,9 +37,9 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		{
 			Vector2 prePos = player.position;
 			Vector2 pos = prePos;
-			for (int x = 0; x < Main.tile.GetLength(0); ++x)
+			for (int x = 0; x < Main.maxTilesX; ++x)
 			{
-				for (int y = (int)Main.rockLayer; y < Main.tile.GetLength(1); ++y) 
+				for (int y = (int)Main.rockLayer; y < Main.maxTilesY; ++y) 
 				{
 					if (Main.tile[x, y] == null) continue;
 					if (Main.tile[x, y].TileType != Mod.Find<ModTile>("Fathomless_Chest").Type) continue;

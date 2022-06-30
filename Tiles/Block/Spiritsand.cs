@@ -54,7 +54,7 @@ namespace SpiritMod.Tiles.Block
                 if (Main.netMode == NetmodeID.SinglePlayer)
                 {
                     Main.tile[i, j].ClearTile();
-                    int proj = Projectile.NewProjectile(positionX, positionY, 0f, 0.41f, projectileType, 10, 0f, Main.myPlayer);
+                    int proj = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_TileBreak(i, j), positionX, positionY, 0f, 0.41f, projectileType, 10, 0f, Main.myPlayer);
                     Main.projectile[proj].ai[0] = 1f;
                     WorldGen.SquareTileFrame(i, j);
                 }
@@ -76,7 +76,7 @@ namespace SpiritMod.Tiles.Block
 
                     if (spawnProj)
                     {
-                        int proj = Projectile.NewProjectile(positionX, positionY, 0f, 2.5f, projectileType, 10, 0f, Main.myPlayer);
+                        int proj = Projectile.NewProjectile(new Terraria.DataStructures.EntitySource_TileBreak(i, j), positionX, positionY, 0f, 2.5f, projectileType, 10, 0f, Main.myPlayer);
                         Main.projectile[proj].velocity.Y = 0.5f;
                         Main.projectile[proj].position.Y += 2f;
                         Main.projectile[proj].netUpdate = true;

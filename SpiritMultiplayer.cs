@@ -208,7 +208,8 @@ namespace SpiritMod
 					MyWorld.superSunFlowerPositions.Remove(new Point16(reader.ReadUInt16(), reader.ReadUInt16()));
 					break;
 				case MessageType.SpawnExplosiveBarrel: // this packet is only meant to be received by the server
-					NPC.NewNPC(reader.ReadInt32(), reader.ReadInt32(), ModContent.NPCType<ExplosiveBarrel>(), 0, 2, 1, 0, 0); // gets forwarded to all clients
+					(int x, int y) = (reader.ReadInt32(), reader.ReadInt32());
+					NPC.NewNPC(new EntitySource_TileBreak(x / 16, y / 16), x, y, ModContent.NPCType<ExplosiveBarrel>(), 0, 2, 1, 0, 0); // gets forwarded to all clients
 					break;
 				case MessageType.StarjinxData:
 					//TBD in future

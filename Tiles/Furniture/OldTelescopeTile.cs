@@ -51,7 +51,7 @@ namespace SpiritMod.Tiles.Furniture
 				frame %= 14;
 			}
 		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<OldTelescope>());
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ModContent.ItemType<OldTelescope>());
 
 		public override bool RightClick(int i, int j)
 		{

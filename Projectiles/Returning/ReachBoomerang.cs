@@ -40,15 +40,15 @@ namespace SpiritMod.Projectiles.Returning
 				Main.dust[dust2].noGravity = true;
 			}
 		}
-		 public override bool PreDraw(ref Color lightColor)
+		public override bool PreDraw(ref Color lightColor)
         {
             Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
             for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
-				 Color color = Projectile.GetAlpha(Color.White) * (((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * 0.5f);
+				Color color = Projectile.GetAlpha(Color.White) * (((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * 0.5f);
                 float scale = Projectile.scale * (float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length;
 
-                spriteBatch.Draw(GlowingTrail,
+				Main.spriteBatch.Draw(GlowingTrail,
                 Projectile.oldPos[k] + drawOrigin - Main.screenPosition,
                 new Rectangle(0, (TextureAssets.Projectile[Projectile.type].Value.Height / 2) * Projectile.frame, TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / 2),
                 color,

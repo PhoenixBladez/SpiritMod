@@ -38,7 +38,7 @@ namespace SpiritMod.Tiles.Ambient.Pillars
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.MarblePillars.Pillar6>());
+			Terraria.Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.MarblePillars.Pillar6>());
 		}
 	}
 }

@@ -103,7 +103,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 			if (!Main.dedServ)
 			{
-				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.65f).WithPitchVariance(0.3f), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item12.WithVolume(0.65f).WithPitchVariance(0.3f), Projectile.Center);
 
 				for(int i = 0; i < 10; i++)
 					ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Main.rand.NextVector2Circular(6, 6), Color.White, Color.Goldenrod, Main.rand.NextFloat(0.1f, 0.2f), 25));

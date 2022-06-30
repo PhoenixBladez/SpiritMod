@@ -39,7 +39,7 @@ namespace SpiritMod.Tiles.Ambient
 		{
 			{
 				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
-				Item.NewItem(i * 16, j * 16, 48, 48, 441);
+				Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, 441);
 			}
 		}
 

@@ -1,48 +1,36 @@
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using SpiritMod.Items.Placeable.Tiles;
+using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Block
 {
 	public class SpiritTree : ModTree
 	{
-		private Mod mod {
-			get {
-				return ModLoader.GetMod("SpiritMod");
-			}
-		}
-
-		public override int CreateDust()
+		public override TreePaintingSettings TreeShaderSettings => new TreePaintingSettings
 		{
-			return 1;
-		}
+			UseSpecialGroups = true,
+			SpecialGroupMinimalHueValue = 11f / 72f,
+			SpecialGroupMaximumHueValue = 0.25f,
+			SpecialGroupMinimumSaturationValue = 0.88f,
+			SpecialGroupMaximumSaturationValue = 1f
+		};
 
-		//public override int GrowthFXGore()
-		//{
-		//	return mod.GetGoreSlot("Gores/ExampleTreeFX");
-		//}
+		public override void SetStaticDefaults() => GrowsOnTileId = new int[] { ModContent.TileType<SpiritGrass>() };
 
-		public override int DropWood()
+		public override int CreateDust() => 1;
+		public override int DropWood() => ModContent.ItemType<SpiritWoodItem>();
+
+		public override Asset<Texture2D> GetTexture() => ModContent.Request<Texture2D>("Tiles/Block/SpiritTree", AssetRequestMode.ImmediateLoad);
+		public override Asset<Texture2D> GetTopTextures() => ModContent.Request<Texture2D>("Tiles/Block/SpiritTree_Tops", AssetRequestMode.ImmediateLoad);
+		public override Asset<Texture2D> GetBranchTextures() => ModContent.Request<Texture2D>("Tiles/Block/SpiritTree_Branches", AssetRequestMode.ImmediateLoad);
+
+		public override void SetTreeFoliageSettings(Tile tile, int xoffset, ref int treeFrame, ref int floorY, ref int topTextureFrameWidth, ref int topTextureFrameHeight)
 		{
-			return ModContent.ItemType<SpiritWoodItem>();
-		}
-
-		public override Texture2D GetTexture()
-		{
-			return mod.GetTexture("Tiles/Block/SpiritTree");
-		}
-
-		public override Texture2D GetTopTextures(int i, int j, ref int frame, ref int frameWidth, ref int frameHeight, ref int xOffsetLeft, ref int yOffset)
-		{
-			frameWidth = 114;
-			frameHeight = 96;
-			xOffsetLeft = 48;
-			return mod.GetTexture("Tiles/Block/SpiritTree_Tops");
-		}
-
-		public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame)
-		{
-			return mod.GetTexture("Tiles/Block/SpiritTree_Branches");
+			topTextureFrameWidth = 114;
+			topTextureFrameHeight = 96;
 		}
 	}
 }

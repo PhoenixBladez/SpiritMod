@@ -84,7 +84,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.JinxprobeWand
         public override void Kill(int timeLeft)
         {
             if (Main.netMode != NetmodeID.Server)
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.25f).WithPitchVariance(0.3f), Projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item12.WithVolume(0.25f).WithPitchVariance(0.3f), Projectile.Center);
         }
     }
 }

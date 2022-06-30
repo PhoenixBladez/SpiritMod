@@ -52,7 +52,6 @@ namespace SpiritMod.Items.Glyphs
 			Item.maxStack = 999;
 		}
 
-
 		public static void CreateIceSpikes(Player player, NPC target, bool crit)
 		{
 			if (!crit || player.whoAmI != Main.myPlayer || !target.CanLeech())
@@ -75,7 +74,7 @@ namespace SpiritMod.Items.Glyphs
 				velocity *= 5;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					Projectile.NewProjectileDirect(player.MountedCenter, velocity, ModContent.ProjectileType<FrostSpike>(),
+					Projectile.NewProjectileDirect(player.GetSource_OnHit(target), player.MountedCenter, velocity, ModContent.ProjectileType<FrostSpike>(),
 						damage, 2f, player.whoAmI, -1);
 				}
 				modPlayer.frostCooldown = 3 * COOLDOWN;
@@ -86,7 +85,7 @@ namespace SpiritMod.Items.Glyphs
 			float rotation = modPlayer.frostRotation + spikes * sector;
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ModContent.ProjectileType<FrostSpike>(),
+				Projectile.NewProjectileDirect(player.GetSource_OnHit(target), player.Center, Vector2.Zero, ModContent.ProjectileType<FrostSpike>(),
 					damage, 2f, player.whoAmI, spikes)
 					.rotation = rotation;
 			}

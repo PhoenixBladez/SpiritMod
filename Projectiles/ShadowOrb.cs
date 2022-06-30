@@ -46,8 +46,8 @@ namespace SpiritMod.Projectiles
 
 			timer--;
 			if (timer == 0) {
-				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 8);
-				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X + Main.rand.Next(-3, 5), Projectile.velocity.Y + Main.rand.Next(-3, 5), ModContent.ProjectileType<VoidStar>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+				SoundEngine.PlaySound(SoundID.Item8, Projectile.Center);
+				Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X + Main.rand.Next(-3, 5), Projectile.velocity.Y + Main.rand.Next(-3, 5), ModContent.ProjectileType<VoidStar>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
 				timer = 21;
 			}
 

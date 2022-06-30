@@ -35,7 +35,7 @@ namespace SpiritMod.Tiles.Ambient.GraniteSpike
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Terraria.Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.GraniteSpikes.GraniteSpike3>());
+			Terraria.Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.GraniteSpikes.GraniteSpike3>());
 		}
 	}
 }

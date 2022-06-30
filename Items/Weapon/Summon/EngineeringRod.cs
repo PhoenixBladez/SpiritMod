@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Weapon.Summon
 		{
 			player.FindSentryRestingSpot(type, out int worldX, out int worldY, out int pushYUp);
 			worldY -= 16;
-			Projectile.NewProjectile(worldX, worldY - pushYUp, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+			Projectile.NewProjectile(source, worldX, worldY - pushYUp, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 			player.UpdateMaxTurrets();
 			return false;
 		}

@@ -33,7 +33,7 @@ namespace SpiritMod.Tiles.Furniture.Fountains
             AdjTiles = new int[] { TileID.WaterFountain };
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(i * 16, j * 16, 32, 48, DropType);
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, DropType);
 
 		public sealed override void NearbyEffects(int i, int j, bool closer)
 		{

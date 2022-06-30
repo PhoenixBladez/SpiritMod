@@ -58,10 +58,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D Mask = ModContent.Request<Texture2D>(Texture + "_Glow");
-			Projectile.QuickDraw(spriteBatch);
+			Texture2D Mask = ModContent.Request<Texture2D>(Texture + "_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Projectile.QuickDraw(Main.spriteBatch);
 			void DrawGlow(Vector2 positionOffset, Color Color) =>
-				spriteBatch.Draw(Mask, Projectile.Center - Main.screenPosition + positionOffset, Projectile.DrawFrame(), Color, Projectile.rotation,
+				Main.spriteBatch.Draw(Mask, Projectile.Center - Main.screenPosition + positionOffset, Projectile.DrawFrame(), Color, Projectile.rotation,
 				Projectile.DrawFrame().Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 
 			Color additiveWhite = Color.White;

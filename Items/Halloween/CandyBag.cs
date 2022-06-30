@@ -142,7 +142,7 @@ namespace SpiritMod.Items.Halloween
 
 				remove -= candy[i];
 			}
-			int slot = Item.NewItem((int)player.position.X, (int)player.position.Y, player.width, player.height, SlotToType(i), 1, true);
+			int slot = Item.NewItem(player.GetSource_ItemUse(Item, "RightClick"), (int)player.position.X, (int)player.position.Y, player.width, player.height, SlotToType(i), 1, true);
 			Item item = Main.item[slot];
 			if (i == 0) {
 				remove = Main.rand.Next(candy[0]);
@@ -186,12 +186,10 @@ namespace SpiritMod.Items.Halloween
 			tooltips.Add(line);
 		}
 
-		public override void SaveData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
+		public override void SaveData(TagCompound tag)
 		{
-			TagCompound tag = new TagCompound();
 			tag.Add("candy", candy);
 			tag.Add("variants", variants);
-			return tag;
 		}
 
 		public override void LoadData(TagCompound tag)

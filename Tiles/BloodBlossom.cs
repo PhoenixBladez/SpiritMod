@@ -68,7 +68,7 @@ namespace SpiritMod.Tiles
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				Main.NewText("The Vinewrath Bane has awoken!", 175, 75, 255, true);
-				int npcID = NPC.NewNPC(i * 16, (j * 16) - 600, ModContent.NPCType<ReachBoss>());
+				int npcID = NPC.NewNPC(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, (j * 16) - 600, ModContent.NPCType<ReachBoss>());
 				Main.npc[npcID].netUpdate2 = true;
 			}
 			else

@@ -39,8 +39,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Projectile.QuickDrawTrail(spriteBatch, 0.25f);
-			Projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDrawTrail(Main.spriteBatch, 0.25f);
+			Projectile.QuickDraw(Main.spriteBatch);
 			return false;
 		}
 

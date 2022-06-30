@@ -58,7 +58,7 @@ namespace SpiritMod.Mechanics.Coverings
 		public void Update(GameTime gameTime)
         {
             // update array if necessary
-            if (Main.tile.GetLength(0) != _dataWidth || Main.tile.GetLength(1) != _dataHeight)
+            if (Main.maxTilesX != _dataWidth || Main.maxTilesY != _dataHeight)
                 UpdateChunksArray();
 
             // padding area of 20 for updates
@@ -143,8 +143,8 @@ namespace SpiritMod.Mechanics.Coverings
 
         private void UpdateChunksArray()
         {
-            int width = Main.tile.GetLength(0);
-            int height = Main.tile.GetLength(1);
+            int width = Main.maxTilesX;
+            int height = Main.maxTilesY;
 
             _dataWidth = width;
             _dataHeight = height;

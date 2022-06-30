@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Yoyo
 			}
 
 			if ((int)Projectile.localAI[1] == 20) {
-				int num5 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, num, num2, ModContent.ProjectileType<SpikeBall>(), 50, Projectile.knockBack, Projectile.owner, 0f, 0f);
+				int num5 = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, num, num2, ModContent.ProjectileType<SpikeBall>(), 50, Projectile.knockBack, Projectile.owner, 0f, 0f);
 				Main.projectile[num5].localAI[0] = Projectile.whoAmI;
 			}
 

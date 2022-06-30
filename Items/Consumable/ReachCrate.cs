@@ -35,18 +35,18 @@ namespace SpiritMod.Items.Consumable
 		{
 			string[] lootTable = { "AncientBark", "EnchantedLeaf", "BismiteCrystal" };
 			int loot = Main.rand.Next(lootTable.Length);
-			player.QuickSpawnItem(Mod.Find<ModItem>(lootTable[loot]).Type, Main.rand.Next(3, 5));
+			player.QuickSpawnItem(source, Mod.Find<ModItem>(lootTable[loot]).Type, Main.rand.Next(3, 5));
 			if (NPC.downedBoss1 && Main.rand.Next(2) == 0) {
 				string[] lootTable1 = { "TwigStaff", "ReachBrooch", "ReachBoomerang", "ThornHook", "ReachStaffChest", "ReachChestMagic" };
 				int loot1 = Main.rand.Next(lootTable1.Length);
-				player.QuickSpawnItem(Mod.Find<ModItem>(lootTable1[loot1]).Type);
+				player.QuickSpawnItem(source, Mod.Find<ModItem>(lootTable1[loot1]).Type);
 			}
 			{
 				int[] lootTable3 = { 2674, 2675 };
 				int loot3 = Main.rand.Next(lootTable3.Length);
 				int baitamt = Main.rand.Next(2, 6);
 				for (int j = 0; j < baitamt; j++) {
-					player.QuickSpawnItem(lootTable3[loot3]);
+					player.QuickSpawnItem(source, lootTable3[loot3]);
 				}
 			}
 			if (Main.rand.Next(2) == 0) {
@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Consumable
 				int loot2 = Main.rand.Next(lootTable2.Length);
 				int oreamt = Main.rand.Next(5, 9);
 				for (int j = 0; j < oreamt; j++) {
-					player.QuickSpawnItem(lootTable2[loot2]);
+					player.QuickSpawnItem(source, lootTable2[loot2]);
 				}
 			}
 			if (Main.rand.Next(2) == 0) {
@@ -62,16 +62,16 @@ namespace SpiritMod.Items.Consumable
 				potions = Main.rand.Next(new int[] { 288, 290, 292, 304, 298, 2322, 2323, 291, 2329 });
 				int potamt = Main.rand.Next(2, 3);
 				for (int j = 0; j < potamt; j++) {
-					player.QuickSpawnItem(potions);
+					player.QuickSpawnItem(source, potions);
 				}
 			}
 			if (Main.rand.Next(20) == 1)
-				player.QuickSpawnItem(3200);
+				player.QuickSpawnItem(source, 3200);
 			if (Main.rand.Next(20) == 1)
-				player.QuickSpawnItem(3201);
+				player.QuickSpawnItem(source, 3201);
 			if (Main.rand.Next(23) == 1)
-				player.QuickSpawnItem(997);
-			player.QuickSpawnItem(72, Main.rand.Next(7, 16));
+				player.QuickSpawnItem(source, 997);
+			player.QuickSpawnItem(source, 72, Main.rand.Next(7, 16));
 		}
 	}
 }

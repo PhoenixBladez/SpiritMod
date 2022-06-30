@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Tiles.Ambient.IceSculpture.Hostile;
 using SpiritMod.Tiles.Ambient.IceSculpture;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Tiles
 {
@@ -85,7 +86,7 @@ namespace SpiritMod.Tiles
 							tremorItem = Main.rand.Next(new int[] { 11, 12, 13, 14, 699, 700, 701, 702, 999, 182, 178, 179, 177, 180, 181, 364, 365, 366, 1104, 1105, 1106 });
 
 						SoundEngine.PlaySound(SoundLoader.customSoundType, new Vector2(i * 16, j * 16), Mod.GetSoundSlot(SoundType.Custom, "Sounds/PositiveOutcome"));
-						Item.NewItem(i * 16, j * 16, 64, 48, tremorItem, Main.rand.Next(1, 3));
+						Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, tremorItem, Main.rand.Next(1, 3));
 					}
 				}
 
@@ -95,11 +96,11 @@ namespace SpiritMod.Tiles
 					player.AddBuff(ModContent.BuffType<Buffs.Armor.ExplorerMine>(), 600);
 
 				if (player.cordage && type == ModContent.TileType<Tiles.Ambient.Briar.BriarVines>())
-					Item.NewItem(i * 16, j * 16, 64, 48, ItemID.VineRope);
+					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ItemID.VineRope);
 				if (Main.rand.NextBool(40) && type == ModContent.TileType<Tiles.Ambient.HangingChimes.HangingChimes>())
-					Item.NewItem(i * 16, j * 16, 64, 48, ItemID.CrystalShard);
+					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ItemID.CrystalShard);
 				if (player.inventory[player.selectedItem].type == ItemID.Sickle && (type == ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage>() || type == ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage1>()))
-					Item.NewItem(i * 16, j * 16, 64, 48, ItemID.Hay);
+					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ItemID.Hay);
 			}
 		}
 
@@ -120,15 +121,15 @@ namespace SpiritMod.Tiles
 				if (type == TileID.PalmTree && Main.rand.Next(3) == 0 && player.ZoneBeach)
 				{
 					if (Main.rand.Next(2) == 1)
-						Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<Coconut>(), Main.rand.Next(5, 8));
+						Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ModContent.ItemType<Coconut>(), Main.rand.Next(5, 8));
 					if (NPC.CountNPCS(ModContent.NPCType<OceanSlime>()) < 1)
-						NPC.NewNPC(i * 16, (j - 10) * 16, ModContent.NPCType<OceanSlime>(), 0, 0.0f, -8.5f, 0.0f, 0.0f, (int)byte.MaxValue);
+						NPC.NewNPC(new EntitySource_TileBreak(i, j), i * 16, (j - 10) * 16, ModContent.NPCType<OceanSlime>(), 0, 0.0f, -8.5f, 0.0f, 0.0f, (int)byte.MaxValue);
 				}
 
 				if (type == 72)
-					Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<GlowRoot>(), Main.rand.Next(0, 2));
+					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ModContent.ItemType<GlowRoot>(), Main.rand.Next(0, 2));
 				if (type == TileID.Trees && Main.rand.Next(25) == 0 && player.ZoneSnow && Main.rand.Next(4) == 1)
-					Item.NewItem(i * 16, j * 16, 64, 48, ModContent.ItemType<IceBerries>(), Main.rand.Next(1, 3));
+					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ModContent.ItemType<IceBerries>(), Main.rand.Next(1, 3));
 			}
 			return true;
 		}

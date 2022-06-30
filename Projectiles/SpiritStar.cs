@@ -65,7 +65,7 @@ namespace SpiritMod.Projectiles
 				perturbedSpeed.Normalize();
 				perturbedSpeed.X *= 4.5f;
 				perturbedSpeed.Y *= 4.5f;
-				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<StarSoul>(), Projectile.damage / 3, 2, Projectile.owner);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<StarSoul>(), Projectile.damage / 3, 2, Projectile.owner);
 			}
 
 			Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);

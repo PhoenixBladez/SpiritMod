@@ -50,7 +50,7 @@ namespace SpiritMod.Tiles
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 0, 0, ModContent.ItemType<SuperSunFlowerItem>());
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 0, 0, ModContent.ItemType<SuperSunFlowerItem>());
 			// no need to sync this back to clients
 			MyWorld.superSunFlowerPositions.Remove(new Point16(i + 1, j + 5));
 		}

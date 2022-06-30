@@ -49,8 +49,8 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		{
 			if (active && proj.type != ModContent.ProjectileType<UkeleleProj>() && Main.rand.Next(4) == 0 && overcharge < 30)
 			{
-				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Ukulele").WithPitchVariance(0.8f).WithVolume(0.7f), Player.Center);
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 12).WithVolume(0.6f), target.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Ukulele") with { PitchVariance = 0.8f, Volume = 0.7f }, Player.Center);
+				SoundEngine.PlaySound(SoundID.Item12 with { Volume = 0.6f }, target.Center);
 				SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
 				DoLightningChain(target, damage);
 			}
@@ -60,8 +60,8 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		{
 			if (active && Main.rand.Next(4) == 0 && overcharge < 30)
 			{
-				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Ukulele").WithPitchVariance(0.8f).WithVolume(0.7f), Player.Center);
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 12).WithVolume(0.6f), target.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Ukulele") with { PitchVariance = 0.8f, Volume = 0.7f }, Player.Center);
+				SoundEngine.PlaySound(SoundID.Item12 with { Volume = 0.6f }, target.Center);
 				SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
 	
 				DoLightningChain(target, damage);
@@ -79,8 +79,8 @@ namespace SpiritMod.Items.Accessory.Ukelele
 				Velocity = Vector2.Zero
 			});
 
-			Projectile.NewProjectile(target.Center + new Vector2(0, 16), Vector2.Zero, ModContent.ProjectileType<UkeleleProjTwo>(), 0, 0, Player.whoAmI);
-			int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<UkeleleProj>(), damage / 2, 0, Player.whoAmI);
+			Projectile.NewProjectile(Player.GetSource_OnHit(target), target.Center + new Vector2(0, 16), Vector2.Zero, ModContent.ProjectileType<UkeleleProjTwo>(), 0, 0, Player.whoAmI);
+			int proj = Projectile.NewProjectile(Player.GetSource_OnHit(target), target.Center, Vector2.Zero, ModContent.ProjectileType<UkeleleProj>(), damage / 2, 0, Player.whoAmI);
 			if (Main.projectile[proj].ModProjectile is UkeleleProj lightning)
 			{
 				lightning.currentEnemy = target;
@@ -219,7 +219,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 				RingColor = Color.Cyan,
 				Velocity = Vector2.Zero
 			});
-			Projectile.NewProjectile(target.Center + new Vector2(0, 16), Vector2.Zero, ModContent.ProjectileType<UkeleleProjTwo>(), 0, 0, Projectile.owner);
+			Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center + new Vector2(0, 16), Vector2.Zero, ModContent.ProjectileType<UkeleleProjTwo>(), 0, 0, Projectile.owner);
 			SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap, target.position);
 
 			Projectile.netUpdate = true;
@@ -257,7 +257,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 		{
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 			int frameHeight = tex.Height / 4;
-			sb.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle(0, Projectile.frame * frameHeight, tex.Width, frameHeight), Color.White, Projectile.rotation, new Vector2(tex.Width - (Projectile.width / 2), frameHeight), Projectile.scale, SpriteEffects.None, 0);
+			Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Rectangle(0, Projectile.frame * frameHeight, tex.Width, frameHeight), Color.White, Projectile.rotation, new Vector2(tex.Width - (Projectile.width / 2), frameHeight), Projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 	}

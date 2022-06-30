@@ -100,20 +100,20 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 					Main.rand.NextVector2Unit() * Main.rand.NextFloat(2), Color.Magenta, Main.rand.NextFloat(0.02f, 0.04f), 30));
 
 			for (int j = 0; j < 6; j++)
-				Gore.NewGore(Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/Skelet/grave" + Main.rand.Next(1, 5)).Type, 0.5f);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/Skelet/grave" + Main.rand.Next(1, 5)).Type, 0.5f);
 		}
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Projectile.QuickDrawTrail(spriteBatch, 0.2f, drawColor: new Color(99, 23, 51));
-			Projectile.QuickDraw(spriteBatch);
+			Projectile.QuickDrawTrail(Main.spriteBatch, 0.2f, drawColor: new Color(99, 23, 51));
+			Projectile.QuickDraw(Main.spriteBatch);
 			return false;
 		}
 
 		public override void PostDraw(Color lightColor)
 		{
-			Texture2D maskTex = ModContent.Request<Texture2D>(Texture + "_mask");
-			spriteBatch.Draw(maskTex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(new Color(252, 68, 166)) * Math.Max(1 - AiTimer / 20f, 0), Projectile.rotation,
+			Texture2D maskTex = ModContent.Request<Texture2D>(Texture + "_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Main.spriteBatch.Draw(maskTex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(new Color(252, 68, 166)) * Math.Max(1 - AiTimer / 20f, 0), Projectile.rotation,
 				maskTex.Size() / 2, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 		}
 	}

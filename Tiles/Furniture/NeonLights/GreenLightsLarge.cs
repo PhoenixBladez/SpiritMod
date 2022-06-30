@@ -42,7 +42,7 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Placeable.Furniture.Neon.GreenNeonLamp>());
+			Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Placeable.Furniture.Neon.GreenNeonLamp>());
 		}
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {

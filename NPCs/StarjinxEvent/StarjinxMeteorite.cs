@@ -358,7 +358,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 			IterateComets(delegate (SmallComet comet) //Then draw base textures
 			{
-				comet.PreDraw(spriteBatch, Lighting.GetColor((int)comet.NPC.position.X / 16, (int)comet.NPC.position.Y / 16));
+				comet.PreDraw(spriteBatch, Main.screenPosition, Lighting.GetColor((int)comet.NPC.position.X / 16, (int)comet.NPC.position.Y / 16));
 			});
 			return false;
 		}

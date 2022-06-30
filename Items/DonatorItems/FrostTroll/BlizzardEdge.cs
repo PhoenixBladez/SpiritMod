@@ -58,12 +58,12 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 				if (counter <= 0)
 				{
 					player.GetModPlayer<MyPlayer>().Shake += 8;
-					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 45));
+					SoundEngine.PlaySound(SoundID.Item45);
 
 					if (Main.netMode != NetmodeID.Server)
-						SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BlizzardLoop").WithVolume(0.65f).WithPitchVariance(0.54f), player.Center);
+						SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BlizzardLoop") with { Volume = 0.65f, PitchVariance = 0.54f }, player.Center);
 
-					int p = Projectile.NewProjectile(position.X + (110 * player.direction), position.Y - 8, 0, 0, ModContent.ProjectileType<BlizzardProjectile>(), damage / 3, knockBack / 4, player.whoAmI);
+					int p = Projectile.NewProjectile(source, position.X + (110 * player.direction), position.Y - 8, 0, 0, ModContent.ProjectileType<BlizzardProjectile>(), damage / 3, knockback / 4, player.whoAmI);
 					Main.projectile[p].direction = player.direction;
 					counter = 5;
 				}
@@ -72,8 +72,8 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 			{
 				if (Main.netMode != NetmodeID.Server)
 				{
-					SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/MagicCast1").WithVolume(0.5f).WithPitchVariance(0.54f), player.Center);
-					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 46));
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/MagicCast1") with { Volume = 0.5f, PitchVariance = 0.54f }, player.Center);
+					SoundEngine.PlaySound(SoundID.Item46);
 				}
 
 			}

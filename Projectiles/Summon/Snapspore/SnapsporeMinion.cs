@@ -17,8 +17,9 @@ namespace SpiritMod.Projectiles.Summon.Snapspore
 		{
 			DisplayName.SetDefault("Snapspore");
 			Main.projFrames[base.Projectile.type] = 1;
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;    //The length of old position to be recorded
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
+			Main.projPet[Projectile.type] = true;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
             ProjectileID.Sets.MinionSacrificable[base.Projectile.type] = true;
 			ProjectileID.Sets.CultistIsResistantTo[base.Projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
@@ -30,7 +31,6 @@ namespace SpiritMod.Projectiles.Summon.Snapspore
 			Projectile.width = 28;
 			Projectile.height = 28;
 			Projectile.friendly = true;
-			Main.projPet[Projectile.type] = true;
 			Projectile.minion = true;
 			Projectile.minionSlots = 1;
 			Projectile.penetrate = -1;
@@ -130,7 +130,7 @@ namespace SpiritMod.Projectiles.Summon.Snapspore
                         Projectile.velocity.Y -= 3.95f;
 						for (int z = 0; z < 2; z++)
                         {
-                            int a = Gore.NewGore(new Vector2(Projectile.Center.X + Main.rand.Next(-10, 10), Projectile.Center.Y + Main.rand.Next(-10, 10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, 2)), 915, Main.rand.NextFloat(.4f, .95f));
+                            int a = Gore.NewGore(Projectile.GetSource_FromAI(), new Vector2(Projectile.Center.X + Main.rand.Next(-10, 10), Projectile.Center.Y + Main.rand.Next(-10, 10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, 2)), 915, Main.rand.NextFloat(.4f, .95f));
                             Main.gore[a].timeLeft = 10;
                         }
                     }
@@ -181,14 +181,14 @@ namespace SpiritMod.Projectiles.Summon.Snapspore
                     SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 95);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                         for (int i = 0; i < amountOfProjectiles; ++i)
-                            Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), ModContent.ProjectileType<Projectiles.PoisonCloud>(), Projectile.damage / 2, 1, Main.myPlayer, 0, 0);
+                            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), ModContent.ProjectileType<Projectiles.PoisonCloud>(), Projectile.damage / 2, 1, Main.myPlayer, 0, 0);
                 }
 				if (counter > Main.rand.Next(300, 320))
                 {
 
                     for (int z = 0; z < 2; z++)
                     {
-                        int a = Gore.NewGore(new Vector2(Projectile.Center.X + Main.rand.Next(-10, 10), Projectile.Center.Y + Main.rand.Next(-10, 10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, 2)), 915, Main.rand.NextFloat(.4f, .95f));
+                        int a = Gore.NewGore(Projectile.GetSource_FromAI(), new Vector2(Projectile.Center.X + Main.rand.Next(-10, 10), Projectile.Center.Y + Main.rand.Next(-10, 10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, 2)), 915, Main.rand.NextFloat(.4f, .95f));
                         Main.gore[a].timeLeft = 10;
                     }
                     Projectile.velocity.Y -= 4.95f;
@@ -202,7 +202,7 @@ namespace SpiritMod.Projectiles.Summon.Snapspore
                     Projectile.velocity.Y -= 4.95f;
                     for (int z = 0; z < 2; z++)
                     {
-                        int a = Gore.NewGore(new Vector2(Projectile.Center.X + Main.rand.Next(-10, 10), Projectile.Center.Y + Main.rand.Next(-10, 10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, 2)), 915, Main.rand.NextFloat(.4f, .95f));
+                        int a = Gore.NewGore(Projectile.GetSource_FromAI(), new Vector2(Projectile.Center.X + Main.rand.Next(-10, 10), Projectile.Center.Y + Main.rand.Next(-10, 10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, 2)), 915, Main.rand.NextFloat(.4f, .95f));
                         Main.gore[a].timeLeft = 10;
                     }
                 }
@@ -243,7 +243,7 @@ namespace SpiritMod.Projectiles.Summon.Snapspore
                 Color color = Projectile.GetAlpha(Color.White) * (((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * 0.35f);
                 float scale = Projectile.scale * (float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length;
 
-                spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Projectiles/Summon/Snapspore/SnapsporeMinion_Trail"),
+				Main.spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Projectiles/Summon/Snapspore/SnapsporeMinion_Trail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
                 Projectile.oldPos[k] + drawOrigin - Main.screenPosition,
                 new Rectangle(0, (TextureAssets.Projectile[Projectile.type].Value.Height / 2) * Projectile.frame, TextureAssets.Projectile[Projectile.type].Value.Width, TextureAssets.Projectile[Projectile.type].Value.Height / 2),
                 color,

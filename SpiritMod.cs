@@ -800,18 +800,18 @@ namespace SpiritMod
 
 			if (Main.netMode != NetmodeID.Server)
 			{
-				Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(new Ref<Effect>(GetEffect("Effects/ShockwaveEffect")), "Shockwave"), EffectPriority.VeryHigh);
+				Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("Effects/ShockwaveEffect", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "Shockwave"), EffectPriority.VeryHigh);
 				Filters.Scene["Shockwave"].Load();
 
-				Filters.Scene["PulsarShockwave"] = new Filter(new ScreenShaderData(new Ref<Effect>(GetEffect("Effects/PulsarShockwave")), "PulsarShockwave"), EffectPriority.VeryHigh);
+				Filters.Scene["PulsarShockwave"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("Effects/PulsarShockwave", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "PulsarShockwave"), EffectPriority.VeryHigh);
 				Filters.Scene["PulsarShockwave"].Load();
 
 				SlotUserInterface = new UserInterface();
 
-				Filters.Scene["ShockwaveTwo"] = new Filter(new ScreenShaderData(new Ref<Effect>(GetEffect("Effects/ShockwaveTwo")), "ShockwaveTwo"), EffectPriority.VeryHigh);
+				Filters.Scene["ShockwaveTwo"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("Effects/ShockwaveTwo", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "ShockwaveTwo"), EffectPriority.VeryHigh);
 				Filters.Scene["ShockwaveTwo"].Load();
 
-				Filters.Scene["SpiritMod:AshRain"] = new Filter(new ScreenShaderData(new Ref<Effect>(GetEffect("Effects/AshRain")), "AshRain"), EffectPriority.VeryLow);
+				Filters.Scene["SpiritMod:AshRain"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("Effects/AshRain", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "AshRain"), EffectPriority.VeryLow);
 				Filters.Scene["SpiritMod:AshRain"].Load();
 			}
 
@@ -834,14 +834,14 @@ namespace SpiritMod
 			{
 				TrailManager = new TrailManager(this);
 				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Sets/AvianDrops/ApostleArmor/TalonGarb_Legs");
-				EmptyTexture = GetTexture("Empty");
-				auroraEffect = GetEffect("Effects/aurora");
+				EmptyTexture = ModContent.Request<Texture2D>("Empty", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value; 
+				auroraEffect = ModContent.Request<Effect>("Effects/aurora", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				ShaderDict = new Dictionary<string, Effect>();
 				var tmodfile = (TmodFile)typeof(SpiritMod).GetProperty("File", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Instance);
 				var files = (IDictionary<string, FileEntry>)typeof(TmodFile).GetField("files", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(tmodfile);
 				foreach (KeyValuePair<string, FileEntry> kvp in files.Where(x => x.Key.Contains("Effects/") && x.Key.Contains(".xnb")))
-					ShaderDict.Add(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length).Remove(0, "Effects/".Length), GetEffect(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length)));
+					ShaderDict.Add(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length).Remove(0, "Effects/".Length), ModContent.Request<Effect>(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length)));
 
 				int width = Main.graphics.GraphicsDevice.Viewport.Width;
 				int height = Main.graphics.GraphicsDevice.Viewport.Height;
@@ -856,7 +856,7 @@ namespace SpiritMod
 					Projection = projection
 				};
 
-				noise = GetTexture("Textures/noise");
+				noise = ModContent.Request<Texture2D>("Textures/noise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				SpiritModAutoSellTextures.Load();
 
@@ -884,40 +884,40 @@ namespace SpiritMod
 				SellLock_SHORTCUT.Activate();
 				SellWeapons_SHORTCUT.Activate();
 
-				stardustOverlayEffect = GetEffect("Effects/StardustOverlay");
+				stardustOverlayEffect = ModContent.Request<Effect>("Effects/StardustOverlay", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-				glitchEffect = GetEffect("Effects/glitch");
+				glitchEffect = ModContent.Request<Effect>("Effects/glitch", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				glitchScreenShader = new GlitchScreenShader(glitchEffect);
 				Filters.Scene["SpiritMod:Glitch"] = new Filter(glitchScreenShader, (EffectPriority)50);
 
-				starjinxBorderEffect = GetEffect("Effects/StarjinxBorder");
+				starjinxBorderEffect = ModContent.Request<Effect>("Effects/StarjinxBorder", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				starjinxBorderShader = new StarjinxBorderShader(starjinxBorderEffect, "MainPS");
 				Filters.Scene["SpiritMod:StarjinxBorder"] = new Filter(starjinxBorderShader, (EffectPriority)50);
 
 				Filters.Scene["SpiritMod:StarjinxBorderFade"] = new Filter(new StarjinxBorderShader(starjinxBorderEffect, "FadePS"), (EffectPriority)70);
 
-				vignetteEffect = GetEffect("Effects/Vignette");
+				vignetteEffect = ModContent.Request<Effect>("Effects/Vignette", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				vignetteShader = new Vignette(vignetteEffect, "MainPS");
 				Filters.Scene["SpiritMod:Vignette"] = new Filter(vignetteShader, (EffectPriority)100);
 
-				StarjinxNoise = Instance.GetEffect("Effects/StarjinxNoise");
-				CircleNoise = Instance.GetEffect("Effects/CircleNoise");
-				StarfirePrims = Instance.GetEffect("Effects/StarfirePrims");
-				ScreamingSkullTrail = Instance.GetEffect("Effects/ScreamingSkullTrail");
-				RipperSlugShader = Instance.GetEffect("Effects/RipperSlugShader");
-				RepeatingTextureShader = Instance.GetEffect("Effects/RepeatingTextureShader");
-				PrimitiveTextureMap = Instance.GetEffect("Effects/PrimitiveTextureMap");
-				EyeballShader = Instance.GetEffect("Effects/EyeballShader");
-				ArcLashShader = Instance.GetEffect("Effects/ArcLashShader");
-				ConicalNoise = Instance.GetEffect("Effects/ConicalNoise");
-				JemShaders = Instance.GetEffect("Effects/JemShaders");
-				SunOrbShader = Instance.GetEffect("Effects/SunOrbShader");
-				ThyrsusShader = Instance.GetEffect("Effects/ThyrsusShader");
-				JetbrickTrailShader = Instance.GetEffect("Effects/JetbrickTrailShader");
-				OutlinePrimShader = Instance.GetEffect("Effects/OutlinePrimShader");
-				GSaber = Instance.GetEffect("Effects/GSaber");
-				AnthemCircle = Instance.GetEffect("Effects/AnthemCircle");
-				TeslaShader = Instance.GetEffect("Effects/TeslaShader");
+				StarjinxNoise = ModContent.Request<Effect>("Effects/StarjinxNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				CircleNoise = ModContent.Request<Effect>("Effects/CircleNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				StarfirePrims = ModContent.Request<Effect>("Effects/StarfirePrims", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				ScreamingSkullTrail = ModContent.Request<Effect>("Effects/ScreamingSkullTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				RipperSlugShader = ModContent.Request<Effect>("Effects/RipperSlugShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				RepeatingTextureShader = ModContent.Request<Effect>("Effects/RepeatingTextureShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				PrimitiveTextureMap = ModContent.Request<Effect>("Effects/PrimitiveTextureMap", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				EyeballShader = ModContent.Request<Effect>("Effects/EyeballShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				ArcLashShader = ModContent.Request<Effect>("Effects/ArcLashShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				ConicalNoise = ModContent.Request<Effect>("Effects/ConicalNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				JemShaders = ModContent.Request<Effect>("Effects/JemShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				SunOrbShader = ModContent.Request<Effect>("Effects/SunOrbShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				ThyrsusShader = ModContent.Request<Effect>("Effects/ThyrsusShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				JetbrickTrailShader = ModContent.Request<Effect>("Effects/JetbrickTrailShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				OutlinePrimShader = ModContent.Request<Effect>("Effects/OutlinePrimShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				GSaber = ModContent.Request<Effect>("Effects/GSaber", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				AnthemCircle = ModContent.Request<Effect>("Effects/AnthemCircle", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				TeslaShader = ModContent.Request<Effect>("Effects/TeslaShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
 				Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
@@ -1107,10 +1107,10 @@ namespace SpiritMod
 				Texture2D[] textures = new Texture2D[texCount + 1];
 
 				if (TextureExists(path))
-					textures[0] = GetTexture(path);
+					textures[0] = ModContent.Request<Texture2D>(path, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				for (int i = 1; i <= texCount; i++)
-					textures[i] = GetTexture(path + "_" + i);
+					textures[i] = ModContent.Request<Texture2D>(path + "_" + i);
 
 				_texField.SetValue(null, textures);
 			}
@@ -1434,7 +1434,7 @@ namespace SpiritMod
 
 						if (Main.playerInventory && QuestManager.QuestBookUnlocked)
 						{
-							Texture2D bookTexture = Instance.GetTexture("UI/QuestUI/Textures/QuestBookInventoryButton");
+							Texture2D bookTexture = Instance.ModContent.Request<Texture2D>("UI/QuestUI/Textures/QuestBookInventoryButton");
 							Vector2 bookSize = new Vector2(50, 52);
 							QuestUtils.QuestInvLocation loc = ModContent.GetInstance<SpiritClientConfig>().QuestBookLocation;
 							Vector2 position = Vector2.Zero;
@@ -1729,7 +1729,7 @@ namespace SpiritMod
 				const int OffsetX = 20;
 				const int OffsetY = 20;
 
-				Texture2D EventIcon = Instance.GetTexture("Textures/InvasionIcons/Depths_Icon");
+				Texture2D EventIcon = Instance.ModContent.Request<Texture2D>("Textures/InvasionIcons/Depths_Icon");
 				Color descColor = new Color(77, 39, 135);
 				Color waveColor = new Color(255, 241, 51);
 
@@ -1743,10 +1743,10 @@ namespace SpiritMod
 				Utils.DrawBorderString(spriteBatch, waveText, new Vector2(waveBackground.Center.X, waveBackground.Y + 5), Color.White, Scale, 0.5f, -0.1f);
 				Rectangle waveProgressBar = Utils.CenteredRectangle(new Vector2(waveBackground.Center.X, waveBackground.Y + waveBackground.Height * 0.75f), TextureAssets.ColorBar.Size());
 
-				var waveProgressAmount = new Rectangle(0, 0, (int)(TextureAssets.ColorBar.Width * 0.01f * MathHelper.Clamp(TideWorld.TidePoints, 0f, 100f)), TextureAssets.ColorBar.Height);
+				var waveProgressAmount = new Rectangle(0, 0, (int)(TextureAssets.ColorBar.Width() * 0.01f * MathHelper.Clamp(TideWorld.TidePoints, 0f, 100f)), TextureAssets.ColorBar.Height());
 				var offset = new Vector2((waveProgressBar.Width - (int)(waveProgressBar.Width * Scale)) * 0.5f, (waveProgressBar.Height - (int)(waveProgressBar.Height * Scale)) * 0.5f);
-				spriteBatch.Draw(TextureAssets.ColorBar, waveProgressBar.Location.ToVector2() + offset, null, Color.White * Alpha, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
-				spriteBatch.Draw(TextureAssets.ColorBar, waveProgressBar.Location.ToVector2() + offset, waveProgressAmount, waveColor, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(TextureAssets.ColorBar.Value, waveProgressBar.Location.ToVector2() + offset, null, Color.White * Alpha, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(TextureAssets.ColorBar.Value, waveProgressBar.Location.ToVector2() + offset, waveProgressAmount, waveColor, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
 
 				Vector2 descSize = new Vector2(154, 40) * Scale;
 				Rectangle barrierBackground = Utils.CenteredRectangle(new Vector2(Main.screenWidth - OffsetX - 100f, Main.screenHeight - OffsetY - 19f), new Vector2(width, height));
@@ -1755,7 +1755,7 @@ namespace SpiritMod
 
 				int descOffset = (descBackground.Height - (int)(32f * Scale)) / 2;
 				var icon = new Rectangle(descBackground.X + descOffset + 7, descBackground.Y + descOffset, (int)(32 * Scale), (int)(32 * Scale));
-				spriteBatch.Draw(EventIcon, icon, Color.White);
+				spriteBatch.Draw(EventIcon, icon, Color.White); 
 				Utils.DrawBorderString(spriteBatch, "The Tide", new Vector2(barrierBackground.Center.X, barrierBackground.Y - InternalOffset - descSize.Y * 0.5f), Color.White, 0.8f, 0.3f, 0.4f);
 			}
 		}
@@ -1769,7 +1769,7 @@ namespace SpiritMod
 			{
 				var pos = pins.Get<Vector2>(pair.Key);
 				// No, I don't know why it draws one tile to the right, but that's how it is
-				DrawMirrorOnFullscreenMap((int)pos.X - 1, (int)pos.Y, true, GetTexture($"Items/Pins/Textures/Pin{pair.Key}Map"));
+				DrawMirrorOnFullscreenMap((int)pos.X - 1, (int)pos.Y, true, ModContent.Request<Texture2D>($"Items/Pins/Textures/Pin{pair.Key}Map"));
 			}
 		}
 

@@ -45,13 +45,13 @@ namespace SpiritMod.Projectiles.Summon.Zones
                 if (Main.rand.NextBool(30))
                 {
 					var pos = new Vector2(Projectile.Center.X + Main.rand.Next(-50, 50), Projectile.Center.Y + Main.rand.Next(-50, 50));
-					Gore.NewGore(pos, new Vector2(Main.rand.Next(-10, 11) * 0.1f, Main.rand.Next(-20, -10) * 0.1f), 331, Main.rand.Next(80, 120) * 0.01f);
+					Gore.NewGore(Projectile.GetSource_FromAI(), pos, new Vector2(Main.rand.Next(-10, 11) * 0.1f, Main.rand.Next(-20, -10) * 0.1f), 331, Main.rand.Next(80, 120) * 0.01f);
                 }
             }
 		}
 
 		public void AdditiveCall(SpriteBatch spriteBatch) => ZoneHelper.ZoneAdditiveDraw(spriteBatch, Projectile, new Color(194, 21, 85), "SpiritMod/Projectiles/Summon/Zones/HealingZone");
-		public override bool PreDraw(ref Color lightColor) => ZoneHelper.ZonePreDraw(Projectile, Mod.Assets.Request<Texture2D>("Projectiles/Summon/Zones/HealingZone_Glow").Value);
+		public override bool PreDraw(ref Color lightColor) => ZoneHelper.ZonePreDraw(Projectile, Mod.Assets.Request<Texture2D>("Projectiles/Summon/Zones/HealingZone_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 
         public override void Kill(int timeLeft)
         {

@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void Kill(int timeLeft)
 		{
 			if (Main.rand.Next(0, 4) == 0)
-				Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<Items.Sets.SeraphSet.WayfinderTorch>(), 1, false, 0, false, false);
+				Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<Items.Sets.SeraphSet.WayfinderTorch>(), 1, false, 0, false, false);
 
 			for (int i = 0; i < 5; i++) {
 				int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Flare_Blue);
@@ -62,7 +62,7 @@ namespace SpiritMod.Projectiles.Thrown
 					perturbedSpeed.Normalize();
 					perturbedSpeed.X *= 5.5f;
 					perturbedSpeed.Y *= 5.5f;
-					int newProj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<BlueEmber>(), Projectile.damage / 4, 2, Projectile.owner);
+					int newProj = Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<BlueEmber>(), Projectile.damage / 4, 2, Projectile.owner);
 
 					Main.projectile[newProj].hostile = false;
 					Main.projectile[newProj].friendly = true;
@@ -75,7 +75,7 @@ namespace SpiritMod.Projectiles.Thrown
 			for (int k = 0; k < Projectile.oldPos.Length; k++) {
 				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
 				Color color = Projectile.GetAlpha(lightColor) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

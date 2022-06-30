@@ -88,10 +88,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Texture2D Mask = ModContent.Request<Texture2D>(Texture + "_Glow");
-			Projectile.QuickDraw(spriteBatch);
+			Texture2D Mask = ModContent.Request<Texture2D>(Texture + "_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Projectile.QuickDraw(Main.spriteBatch);
 			void DrawGlow(Vector2 positionOffset, Color Color) => 
-				spriteBatch.Draw(Mask, Projectile.Center - Main.screenPosition + positionOffset, Projectile.DrawFrame(), Color, Projectile.rotation, 
+				Main.spriteBatch.Draw(Mask, Projectile.Center - Main.screenPosition + positionOffset, Projectile.DrawFrame(), Color, Projectile.rotation, 
 				Projectile.DrawFrame().Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 
 			Color additiveWhite = Color.White;
@@ -132,7 +132,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		{
 			if (Main.netMode != NetmodeID.Server)
 			{
-				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.65f).WithPitchVariance(0.3f), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item12 with { Volume = 0.65f, PitchVariance = 0.3f }, Projectile.Center);
 
 				for (int i = 0; i < 8; i++)
 					MakeEmberParticle(-Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f), 0.96f);

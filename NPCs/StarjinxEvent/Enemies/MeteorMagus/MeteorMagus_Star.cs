@@ -88,7 +88,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		{
 			if (!Main.dedServ)
 			{
-				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.65f).WithPitchVariance(0.3f), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item12.WithVolume(0.65f).WithPitchVariance(0.3f), Projectile.Center);
 
 				for (int i = 0; i < 6; i++)
 					ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Main.rand.NextVector2Circular(6, 6), new Color(241, 153, 255),
@@ -116,7 +116,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Projectile.QuickDraw(spriteBatch, drawColor: Color.White);
+			Projectile.QuickDraw(Main.spriteBatch, drawColor: Color.White);
 			return false;
 		}
 	}

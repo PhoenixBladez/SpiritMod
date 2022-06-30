@@ -192,7 +192,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 					ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(3),
 						Main.rand.NextBool(3) ? Orange : Yellow, Main.rand.NextFloat(0.2f, 0.3f), 25));
 
-				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/starHit").WithVolume(0.35f).WithPitchVariance(0.3f), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item12.WithVolume(0.35f).WithPitchVariance(0.3f), Projectile.Center);
 			}
 
 			//Make projectile stop moving and begin fadeout
