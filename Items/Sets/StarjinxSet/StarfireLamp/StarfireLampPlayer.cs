@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -123,7 +124,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 				float rotation = Player.direction * (TwinkleTime / (float)MaxTwinkleTime) * MathHelper.Pi;
 				float opacity = 0.8f * (MaxTwinkleTime - Math.Abs((MaxTwinkleTime / 2) - TwinkleTime)) / (MaxTwinkleTime / 2);
 				Vector2 scale = new Vector2(1, 0.6f) * ((MaxTwinkleTime / 2) - Math.Abs((MaxTwinkleTime / 2) - TwinkleTime)) / (MaxTwinkleTime / 2);
-				Texture2D startex = TextureAssets.Extra[49][89];
+				Texture2D startex = TextureAssets.Extra[89].Value;
 				Vector2 twinkleOffset = new Vector2(0, 26);
 
 				DrawData data = new DrawData(

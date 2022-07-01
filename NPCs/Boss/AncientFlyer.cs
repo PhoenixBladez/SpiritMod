@@ -53,7 +53,7 @@ namespace SpiritMod.NPCs.Boss
 			NPC.buffImmune[ModContent.BuffType<BloodInfusion>()] = true;
 
 			NPC.noGravity = true;
-			Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AncientAvian");
+			Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/AncientAvian");
 			NPC.noTileCollide = true;
 			NPC.npcSlots = 15;
 			NPC.HitSound = SoundID.NPCHit2;

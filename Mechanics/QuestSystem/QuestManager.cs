@@ -50,7 +50,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			// register our categories]
 			if (!Main.dedServ)
 			{
-				Texture2D iconTexture = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/Icons");
+				Texture2D iconTexture = ModContent.Request<Texture2D>("UI/QuestUI/Textures/Icons");
 				RegisterCategory("Main", new Color(234, 194, 107), iconTexture, new Rectangle(0, 0, 18, 18));
 				RegisterCategory("Explorer", new Color(186, 141, 117), iconTexture, new Rectangle(54, 0, 18, 18));
 				RegisterCategory("Forager", new Color(153, 196, 102), iconTexture, new Rectangle(36, 0, 18, 18));
@@ -69,7 +69,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 				string tex = "UI/QuestUI/Textures/Quests/" + type.Name;
 				if (SpiritMod.Instance.HasAsset(tex) && !Main.dedServ)
 				
-					q.QuestImage = SpiritMod.Instance.GetTexture(tex);
+					q.QuestImage = ModContent.Request<Texture2D>(tex);
 
 				q.WhoAmI = Quests.Count;
 

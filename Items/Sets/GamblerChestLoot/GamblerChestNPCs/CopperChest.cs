@@ -103,11 +103,11 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 					int donatorloot = Main.rand.Next(lootTable.Length);
 					if (Main.rand.NextBool(100))
 					{
-						NPC.DropItem(Mod.Find<ModItem>(donatorLootTable[donatorloot]).Type);
+						NPC.DropItem(Mod.Find<ModItem>(donatorLootTable[donatorloot]).Type, NPC.GetSource_FromAI());
 					}
 					if (Main.rand.Next(250) == 0)
 					{
-						NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
+						NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type, NPC.GetSource_FromAI());
 						for (int value = 0; value < 32; value++)
 						{
 							int num = Dust.NewDust(new Vector2(NPC.Center.X, NPC.Center.Y - 20), 50, 50, DustID.ShadowbeamStaff, 0f, -2f, 0, default, 2f);
@@ -118,20 +118,20 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 							Main.dust[num].fadeIn += .1f;
 						}
 					}
-					NPC.DropItem(ModContent.ItemType<Jem.Jem>(), 0.0025f);
-					NPC.DropItem(ModContent.ItemType<Consumable.Food.GoldenCaviar>(), 0.05f);
-					NPC.DropItem(ModContent.ItemType<FunnyFirework.FunnyFirework>(), 0.05f, Main.rand.Next(5, 9));
-					NPC.DropItem(ItemID.AngelStatue, 0.05f);
-					NPC.DropItem(ModContent.ItemType<Champagne.Champagne>(), 0.04f, Main.rand.Next(1, 3));
-					NPC.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.01f);
+					NPC.DropItem(ModContent.ItemType<Jem.Jem>(), 0.0025f, NPC.GetSource_FromAI());
+					NPC.DropItem(ModContent.ItemType<Consumable.Food.GoldenCaviar>(), 0.05f, NPC.GetSource_FromAI());
+					NPC.DropItem(ModContent.ItemType<FunnyFirework.FunnyFirework>(), 0.05f, NPC.GetSource_FromAI(), Main.rand.Next(5, 9));
+					NPC.DropItem(ItemID.AngelStatue, 0.05f, NPC.GetSource_FromAI());
+					NPC.DropItem(ModContent.ItemType<Champagne.Champagne>(), 0.04f, NPC.GetSource_FromAI(), Main.rand.Next(1, 3));
+					NPC.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.01f, NPC.GetSource_FromAI());
 
 					switch (Main.rand.NextBool())
 					{ //mutually exclusive
 						case true:
-							NPC.DropItem(ModContent.ItemType<GildedMustache.GildedMustache>(), 0.01f);
+							NPC.DropItem(ModContent.ItemType<GildedMustache.GildedMustache>(), 0.01f, NPC.GetSource_FromAI());
 							break;
 						case false:
-							NPC.DropItem(ModContent.ItemType<RegalCane.RegalCane>(), 0.01f);
+							NPC.DropItem(ModContent.ItemType<RegalCane.RegalCane>(), 0.01f, NPC.GetSource_FromAI());
 							break;
 					}
 				}

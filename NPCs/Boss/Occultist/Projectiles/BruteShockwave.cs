@@ -44,16 +44,16 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 
 		public static void MakeShockwave(Projectile proj, Vector2 center, int direction, int damage, int projsLeft)
 		{
-			Projectile proj = Projectile.NewProjectileDirect(proj.GetSource_FromAI(), center + new Vector2(direction * 100, 0), direction * Vector2.UnitX,
+			Projectile project = Projectile.NewProjectileDirect(proj.GetSource_FromAI(), center + new Vector2(direction * 100, 0), direction * Vector2.UnitX,
 				ModContent.ProjectileType<BruteShockwave>(), damage, 1, Main.myPlayer, projsLeft - 1);
-			if (proj.ModProjectile is BruteShockwave shockwave)
+			if (project.ModProjectile is BruteShockwave shockwave)
 			{
 				if (!shockwave.SetTilePos())
-					proj.active = false;
+					project.active = false;
 			}
 
 			if (Main.netMode != NetmodeID.SinglePlayer)
-				NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, proj.whoAmI);
+				NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, project.whoAmI);
 
 			if (!Main.dedServ)
 				SoundEngine.PlaySound(SoundID.Item14 with { Volume = 0.5f, PitchVariance = 0.2f }, center);

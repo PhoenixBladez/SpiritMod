@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			NPC.HitSound = SoundID.NPCHit4;
 			NPC.DeathSound = SoundID.NPCDeath14;
 			NPC.netAlways = true;
-			Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Starplate");
+			Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/Starplate");
 			for (int k = 0; k < NPC.buffImmune.Length; k++)
 			{
 				NPC.buffImmune[k] = true;

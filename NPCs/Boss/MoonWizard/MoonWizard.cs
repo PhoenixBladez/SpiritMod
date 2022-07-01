@@ -57,7 +57,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			NPC.noTileCollide = true;
 			NPC.HitSound = SoundID.NPCHit13;
 			NPC.DeathSound = SoundID.NPCDeath2;
-            Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/MoonJelly");
+            Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/MoonJelly");
             NPC.boss = true;
 		}
 

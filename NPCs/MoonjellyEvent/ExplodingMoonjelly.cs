@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Sets.ClubSubclass;
 using SpiritMod.NPCs.Spirit;
+using SpiritMod.Items.Consumable.Potion;
 
 namespace SpiritMod.NPCs.MoonjellyEvent
 {
@@ -143,17 +144,15 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             }
             return true;
         }
-        public override void OnKill()
-        {
-            NPC.DropItem(ItemID.Gel, Main.rand.Next(1, 4));
 
-			if(Main.rand.NextBool(5))
-				NPC.DropItem(Mod.Find<ModItem>("MoonJelly").Type);
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddCommon(ItemID.Gel, 1, 1, 3);
+			npcLoot.AddCommon<MoonJelly>(5);
+			npcLoot.AddCommon<NautilusClub>(25);
+		}
 
-			if (Main.rand.NextBool(25))
-                NPC.DropItem(ModContent.ItemType<NautilusClub>());
-        }
-        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,

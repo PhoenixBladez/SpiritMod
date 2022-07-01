@@ -61,7 +61,7 @@ namespace SpiritMod.NPCs.Town
 		}
 
 		public override List<string> SetNPCNameList() => new List<string>() { "Morgan", "Adam", "Aziz", "Temir", "Evan", "Senzen", "Johanovic", "Adrian", "Christopher" };
-		public override void OnKill() => NPC.DropItem(ItemType<AdventurerMap>());
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<AdventurerMap>();
 
 		public override string GetChat()
 		{

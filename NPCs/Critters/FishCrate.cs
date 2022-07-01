@@ -71,15 +71,6 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void OnKill()
 		{
-			if (Main.rand.Next(2) == 0)
-				NPC.DropItem(ModContent.ItemType<RawFish>());
-
-			if (Main.rand.Next(4) == 0)
-				NPC.DropItem(Main.rand.NextBool() ? ModContent.ItemType<FloaterItem>() : ModContent.ItemType<LuvdiscItem>());
-
-			int[] lootTable = { ItemID.Shrimp, ItemID.Salmon, ItemID.Bass, ItemID.RedSnapper, ItemID.Trout };
-			NPC.DropItem(Main.rand.Next(lootTable), Main.rand.Next(3, 5));
-
 			if (Main.rand.Next(14) == 0)
 			{
 				string[] lootTable2123 = { "DiverLegs", "DiverHead", "DiverBody" };
@@ -99,7 +90,9 @@ namespace SpiritMod.NPCs.Critters
 			npcLoot.AddCommon(ItemID.GoldCoin, 5, 20);
 			npcLoot.AddOneFromOptions(27, ItemID.ReaverShark, ItemID.Swordfish, ItemID.SawtoothShark);
 			npcLoot.AddOneFromOptions(3, ItemID.FrostDaggerfish, ItemID.BombFish);
+			npcLoot.AddOneFromOptions(4, ModContent.ItemType<FloaterItem>(), ModContent.ItemType<FloaterItem>());
 			npcLoot.AddOneFromOptions(4, ItemID.ArmoredCavefish, ItemID.Damselfish, ItemID.DoubleCod, ItemID.FrostMinnow);
+			npcLoot.AddOneFromOptions(1, ItemID.Shrimp, ItemID.Salmon, ItemID.Bass, ItemID.RedSnapper, ItemID.Trout);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.OceanMonster.Chance * 0.05f;

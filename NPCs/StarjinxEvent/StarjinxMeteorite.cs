@@ -413,9 +413,9 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			}
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-			SpiritMod.Instance.GetEffect("Effects/SjinxShield").Parameters["vnoiseTex"].SetValue(Mod.Assets.Request<Texture2D>("Textures/voronoiLooping").Value);
-			SpiritMod.Instance.GetEffect("Effects/SjinxShield").Parameters["timer"].SetValue(Main.GlobalTimeWrappedHourly / 3);
-			SpiritMod.Instance.GetEffect("Effects/SjinxShield").CurrentTechnique.Passes[0].Apply();
+			ModContent.Request<Effect>("Effects/SjinxShield").Value.Parameters["vnoiseTex"].SetValue(Mod.Assets.Request<Texture2D>("Textures/voronoiLooping", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			ModContent.Request<Effect>("Effects/SjinxShield").Value.Parameters["timer"].SetValue(Main.GlobalTimeWrappedHourly / 3);
+			ModContent.Request<Effect>("Effects/SjinxShield").Value.CurrentTechnique.Passes[0].Apply();
 			IterateComets(delegate (SmallComet comet)
 			{
 				comet.DrawShield(Main.spriteBatch);

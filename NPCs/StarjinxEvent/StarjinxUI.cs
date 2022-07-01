@@ -4,6 +4,7 @@ using Terraria.ModLoader.IO;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System;
+using Terraria.GameContent;
 
 namespace SpiritMod.NPCs.StarjinxEvent
 {
@@ -28,7 +29,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		private const float OffsetX = 20; //Horizontal offset
 		private const float OffsetY = 20; //Vertical offset
 
-		private static Texture2D EventIcon => SpiritMod.Instance.GetTexture("Textures/InvasionIcons/Starjinx_Icon");
+		private static Texture2D EventIcon => ModContent.Request<Texture2D>("Textures/InvasionIcons/Starjinx_Icon", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 		//Array of textures used to draw the comets
 		private static readonly Texture2D[] Comets;
@@ -43,9 +44,9 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			{
 				Comets = new Texture2D[]
 				{
-					SpiritMod.Instance.GetTexture("Textures/InvasionIcons/Starjinx_CometS"),
-					SpiritMod.Instance.GetTexture("Textures/InvasionIcons/Starjinx_CometM"),
-					SpiritMod.Instance.GetTexture("Textures/InvasionIcons/Starjinx_CometL")
+					ModContent.Request<Texture2D>("Textures/InvasionIcons/Starjinx_CometS", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
+					ModContent.Request<Texture2D>("Textures/InvasionIcons/Starjinx_CometM", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
+					ModContent.Request<Texture2D>("Textures/InvasionIcons/Starjinx_CometL", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value
 				};
 
 				UiComets = new StarjinxUIComet[]
@@ -134,14 +135,14 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			Rectangle waveProgressBar = Utils.CenteredRectangle(new Vector2(progressBarBackground.Center.X, progressBarBackground.Y + progressBarBackground.Height * 0.75f), TextureAssets.ColorBar.Size());
 
 			//Scale the amount of the bar drawn based on progress
-			var waveProgressAmount = new Rectangle(0, 0, (int)(TextureAssets.ColorBar.Width * BarProgress), TextureAssets.ColorBar.Height);
+			var waveProgressAmount = new Rectangle(0, 0, (int)(TextureAssets.ColorBar.Width() * BarProgress), TextureAssets.ColorBar.Height());
 			var offset = new Vector2((waveProgressBar.Width - (int)(waveProgressBar.Width * Scale)) * 0.5f, (waveProgressBar.Height - (int)(waveProgressBar.Height * Scale)) * 0.5f);
 
 			//Make the part of the bar not filled out black, by drawing a full length black bar beneath the color bar
-			spriteBatch.Draw(TextureAssets.ColorBar, waveProgressBar.Location.ToVector2() + offset, null, Color.White * Alpha, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(TextureAssets.ColorBar.Value, waveProgressBar.Location.ToVector2() + offset, null, Color.White * Alpha, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
 
 			//Bloom underneath shader bar
-			Texture2D bloom = SpiritMod.Instance.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = ModContent.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			float sineCounter = (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 4) * 0.05f) + 1f;
 
 			Color bloomColor = Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 0.75f), Color.White, 0.33f) * BarProgress * sineCounter;
@@ -153,14 +154,14 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			bloomScale.Y *= 1.75f;
 			bloomScale.X *= BarProgress; //Match progress bar effective width
 
-			Vector2 bloomPos = waveProgressBar.Location.ToVector2() + offset + new Vector2((TextureAssets.ColorBar.Width / 2) * BarProgress * 0.95f, TextureAssets.ColorBar.Height / 2) * Scale;
+			Vector2 bloomPos = waveProgressBar.Location.ToVector2() + offset + new Vector2((TextureAssets.ColorBar.Width() / 2) * BarProgress * 0.95f, TextureAssets.ColorBar.Height() / 2) * Scale;
 			spriteBatch.Draw(bloom, bloomPos, null, bloomColor, 0f, bloom.Size() / 2, bloomScale, SpriteEffects.None, 0);
 
 			//Draw the colored part of the bar, with a shader
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.UIScaleMatrix);
 
-			Effect progressbarEffect = SpiritMod.Instance.GetEffect("Effects/SjinxProgressBar");
-			progressbarEffect.Parameters["vnoiseTex"].SetValue(SpiritMod.Instance.GetTexture("Textures/Trails/Trail_2"));
+			Effect progressbarEffect = ModContent.Request<Effect>("Effects/SjinxProgressBar", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			progressbarEffect.Parameters["vnoiseTex"].SetValue(ModContent.Request<Texture2D>("Textures/Trails/Trail_2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			progressbarEffect.Parameters["timer"].SetValue(Main.GlobalTimeWrappedHourly * 0.75f);
 			progressbarEffect.Parameters["progress"].SetValue(BarProgress);
 			progressbarEffect.Parameters["Yellow"].SetValue(new Color(245, 236, 74).ToVector4());
@@ -168,7 +169,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			progressbarEffect.Parameters["Pink"].SetValue(new Color(255, 84, 231).ToVector4());
 			progressbarEffect.CurrentTechnique.Passes[0].Apply();
 
-			spriteBatch.Draw(TextureAssets.ColorBar, waveProgressBar.Location.ToVector2() + offset, waveProgressAmount, Color.White, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(TextureAssets.ColorBar.Value, waveProgressBar.Location.ToVector2() + offset, waveProgressAmount, Color.White, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.UIScaleMatrix);
 

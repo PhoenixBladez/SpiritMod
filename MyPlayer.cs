@@ -1140,7 +1140,7 @@ namespace SpiritMod
 
 			if (AceOfHearts && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue)
 			{
-				ItemUtils.NewItemWithSync(Player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, Main.halloween ? ItemID.CandyApple : ItemID.Heart);
+				ItemUtils.NewItemWithSync(Player.GetSource_OnHit(target), Player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, Main.halloween ? ItemID.CandyApple : ItemID.Heart);
 				for (int i = 0; i < 3; i++)
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<HeartDust>(), 0, -0.8f);
 			}
@@ -1150,7 +1150,7 @@ namespace SpiritMod
 
 			if (AceOfDiamonds && target.life <= 0 && crit && !target.friendly && target.lifeMax > 15 && !target.SpawnedFromStatue)
 			{
-				ItemUtils.NewItemWithSync(Player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ModContent.ItemType<Items.Accessory.AceCardsSet.DiamondAce>());
+				ItemUtils.NewItemWithSync(Player.GetSource_OnHit(target), Player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ModContent.ItemType<Items.Accessory.AceCardsSet.DiamondAce>());
 				for (int i = 0; i < 3; i++)
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<DiamondDust>(), 0, -0.8f);
 			}
@@ -1160,13 +1160,13 @@ namespace SpiritMod
 				int money = (int)(300 * MathHelper.Clamp((float)damage / target.lifeMax, 1 / 300f, 1f));
 				for (int i = 0; i < 3; i++)
 					Dust.NewDust(target.position, target.width, target.height, ModContent.DustType<ClubDust>(), 0, -0.8f);
-				if (money / 1000000 > 0) ItemUtils.NewItemWithSync(Player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.PlatinumCoin, money / 1000000);
+				if (money / 1000000 > 0) ItemUtils.NewItemWithSync(Player.GetSource_OnHit(target), Player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.PlatinumCoin, money / 1000000);
 				money %= 1000000;
-				if (money / 10000 > 0) ItemUtils.NewItemWithSync(Player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.GoldCoin, money / 10000);
+				if (money / 10000 > 0) ItemUtils.NewItemWithSync(Player.GetSource_OnHit(target), Player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.GoldCoin, money / 10000);
 				money %= 10000;
-				if (money / 100 > 0) ItemUtils.NewItemWithSync(Player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.SilverCoin, money / 100);
+				if (money / 100 > 0) ItemUtils.NewItemWithSync(Player.GetSource_OnHit(target), Player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.SilverCoin, money / 100);
 				money %= 100;
-				if (money > 0) ItemUtils.NewItemWithSync(Player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.CopperCoin, money);
+				if (money > 0) ItemUtils.NewItemWithSync(Player.GetSource_OnHit(target), Player.whoAmI, (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.CopperCoin, money);
 			}
 
 			if (astralSet && crit)

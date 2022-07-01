@@ -51,8 +51,8 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			if (Projectile.timeLeft > 35) {
 				Rectangle? sourceRectangle = null;
-				Main.spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Effects/LargeHand"), Projectile.Center - Main.screenPosition, sourceRectangle, new Color(100, 185, 205, 0), minuteHand * (float)(Math.PI / 180), new Vector2(23, 148), 1f, SpriteEffects.None, 0f);
-				Main.spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Effects/SmallHand"), Projectile.Center - Main.screenPosition, sourceRectangle, new Color(100, 185, 205, 0), hourHand * (float)(Math.PI / 180), new Vector2(20, 88), 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Effects/LargeHand", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, Projectile.Center - Main.screenPosition, sourceRectangle, new Color(100, 185, 205, 0), minuteHand * (float)(Math.PI / 180), new Vector2(23, 148), 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Effects/SmallHand", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, Projectile.Center - Main.screenPosition, sourceRectangle, new Color(100, 185, 205, 0), hourHand * (float)(Math.PI / 180), new Vector2(20, 88), 1f, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

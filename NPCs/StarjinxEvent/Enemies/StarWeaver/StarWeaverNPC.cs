@@ -266,15 +266,15 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 			PulseDraw.DrawPulseEffect(PulseDraw.BloomConstant, 12, 16, delegate (Vector2 posOffset, float opacityMod)
 			{
-				spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glow"), NPC.Center + posOffset - Main.screenPosition, NPC.frame, NPC.GetAlpha(bloomColor) * opacityMod * AttackProgress,
+				spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, NPC.Center + posOffset - Main.screenPosition, NPC.frame, NPC.GetAlpha(bloomColor) * opacityMod * AttackProgress,
 					NPC.rotation, NPC.frame.Size() / 2, scale, (NPC.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 			});
 
 			Color glowmaskColor = Color.Lerp(Color.White, bloomColor, AttackProgress);
-			spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glow"), NPC.Center - Main.screenPosition, NPC.frame, NPC.GetAlpha(glowmaskColor), NPC.rotation, NPC.frame.Size() / 2,
+			spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, NPC.Center - Main.screenPosition, NPC.frame, NPC.GetAlpha(glowmaskColor), NPC.rotation, NPC.frame.Size() / 2,
 				scale, (NPC.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
-			spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_mask"), NPC.Center - Main.screenPosition, NPC.frame, NPC.GetAlpha(Color.White) * TeleportMaskOpacity(), NPC.rotation, NPC.frame.Size() / 2,
+			spriteBatch.Draw(ModContent.Request<Texture2D>(Texture + "_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, NPC.Center - Main.screenPosition, NPC.frame, NPC.GetAlpha(Color.White) * TeleportMaskOpacity(), NPC.rotation, NPC.frame.Size() / 2,
 				scale, (NPC.spriteDirection > 0) ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 		}
 

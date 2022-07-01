@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Effects.Stargoop
 {
@@ -35,22 +36,22 @@ namespace SpiritMod.Effects.Stargoop
 		}
 		public void LoadContent()
 		{
-			Mask = SpiritMod.Instance.GetTexture("Effects/Masks/Mask");
+			Mask = ModContent.Request<Texture2D>("Effects/Masks/Mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-			Galaxy0 = SpiritMod.Instance.GetTexture("Effects/Masks/Galaxy0");
-			Galaxy1 = SpiritMod.Instance.GetTexture("Effects/Masks/Galaxy1");
-			Galaxy2 = SpiritMod.Instance.GetTexture("Effects/Masks/Galaxy2");
+			Galaxy0 = ModContent.Request<Texture2D>("Effects/Masks/Galaxy0", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Galaxy1 = ModContent.Request<Texture2D>("Effects/Masks/Galaxy1", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Galaxy2 = ModContent.Request<Texture2D>("Effects/Masks/Galaxy2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-			metaballColorCode = SpiritMod.Instance.GetEffect("Effects/MetaballColorCode");
-			metaballEdgeDetection = SpiritMod.Instance.GetEffect("Effects/MetaballEdgeDetection");
-			borderNoise = SpiritMod.Instance.GetEffect("Effects/BorderNoise");
-			galaxyParallax = SpiritMod.Instance.GetEffect("Effects/GalaxyParallax");
+			metaballColorCode = ModContent.Request<Effect>("Effects/MetaballColorCode", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			metaballEdgeDetection = ModContent.Request<Effect>("Effects/MetaballEdgeDetection", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			borderNoise = ModContent.Request<Effect>("Effects/BorderNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			galaxyParallax = ModContent.Request<Effect>("Effects/GalaxyParallax", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			FriendlyLayer = new StargoopLayer(FriendlyBorderColor, Galaxy0, Galaxy1, Galaxy2);
 			EnemyLayer = new StargoopLayer(EnemyBorderColor, Galaxy0, Galaxy1, Galaxy2);
-			NebulaLayer = new StargoopLayer(NebulaBorderColor, SpiritMod.Instance.GetTexture("Effects/Masks/Nebula0"),
-															  SpiritMod.Instance.GetTexture("Effects/Masks/Nebula1"),
-															  SpiritMod.Instance.GetTexture("Effects/Masks/Nebula2"));
+			NebulaLayer = new StargoopLayer(NebulaBorderColor, ModContent.Request<Texture2D>("Effects/Masks/Nebula0", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
+															  ModContent.Request<Texture2D>("Effects/Masks/Nebula1", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
+															  ModContent.Request<Texture2D>("Effects/Masks/Nebula2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 		}
 
 		public void UpdateWindowSize(GraphicsDevice graphicsDevice, int width, int height)

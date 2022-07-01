@@ -61,10 +61,10 @@ namespace SpiritMod.UI.QuestUI
 			_imageMasks = new Texture2D[15];
 			for (int i = 0; i < _imageMasks.Length; i++)
 			{
-				_imageMasks[i] = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/ImageMask" + i);
+				_imageMasks[i] = ModContent.Request<Texture2D>("UI/QuestUI/Textures/ImageMask" + i, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			}
 
-            UIMoveExpandWindow mainWindow = new UIMoveExpandWindow(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/AdventurerBook"), false, false, 10);
+            UIMoveExpandWindow mainWindow = new UIMoveExpandWindow(ModContent.Request<Texture2D>("UI/QuestUI/Textures/AdventurerBook", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, false, false, 10);
             mainWindow.Left.Set(450, 0);
             mainWindow.Top.Set(230, 0);
             mainWindow.Width.Set(1098, 0);
@@ -236,7 +236,7 @@ namespace SpiritMod.UI.QuestUI
 
 			// image
 			_questImage = new UIShaderImage(null);
-			_questImage.Effect = SpiritMod.Instance.GetEffect("Effects/QuestShaders");
+			_questImage.Effect = ModContent.Request<Effect>("Effects/QuestShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			_questImage.Pass = _questImage.Effect.CurrentTechnique.Passes["Sepia"];
 			_questImage.PointSample = true;
 			_questImage.Top.Set(50f, 0f);
@@ -250,7 +250,7 @@ namespace SpiritMod.UI.QuestUI
 			_questObjectivesTitle.Colour = new Color(43, 28, 17);
             rightPage.Append(_questObjectivesTitle);
 
-			_questObjectivesLeftArrow = new UIImageButton(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/LeftArrow"));
+			_questObjectivesLeftArrow = new UIImageButton(ModContent.Request<Texture2D>("UI/QuestUI/Textures/LeftArrow"));
 			_questObjectivesLeftArrow.Left.Set(-60f, 1f);
 			_questObjectivesLeftArrow.Top.Set(188f, 0f);
 			_questObjectivesLeftArrow.SetVisibility(1f, 0.5f);
@@ -264,7 +264,7 @@ namespace SpiritMod.UI.QuestUI
 			};
 			rightPage.Append(_questObjectivesLeftArrow);
 
-			_questObjectivesRightArrow = new UIImageButton(SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/RightArrow"));
+			_questObjectivesRightArrow = new UIImageButton(ModContent.Request<Texture2D>("UI/QuestUI/Textures/RightArrow"));
 			_questObjectivesRightArrow.Left.Set(-14f, 1f);
 			_questObjectivesRightArrow.Top.Set(188f, 0f);
 			_questObjectivesRightArrow.SetVisibility(1f, 0.5f);
@@ -410,8 +410,8 @@ namespace SpiritMod.UI.QuestUI
 			_obnoxiousTutorialGlow.Left.Set(-150f, 1f);
 			_obnoxiousTutorialGlow.Height.Set(102f, 0f);
 			_obnoxiousTutorialGlow.Width.Set(189f, 0f);
-			_obnoxiousTutorialGlow.Effect = SpiritMod.Instance.GetEffect("Effects/QuestShaders");
-			_obnoxiousTutorialGlow.Effect.Parameters["NoiseTexture"].SetValue(SpiritMod.Instance.GetTexture("Utilities/Noise/noise"));
+			_obnoxiousTutorialGlow.Effect = ModContent.Request<Effect>("Effects/QuestShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			_obnoxiousTutorialGlow.Effect.Parameters["NoiseTexture"].SetValue(ModContent.Request<Texture2D>("Utilities/Noise/noise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			_obnoxiousTutorialGlow.Effect.Parameters["NoiseWidth"].SetValue(489f);
 			_obnoxiousTutorialGlow.Pass = _obnoxiousTutorialGlow.Effect.CurrentTechnique.Passes["GodRays"];
 			_obnoxiousTutorialGlow.PreDraw += () =>

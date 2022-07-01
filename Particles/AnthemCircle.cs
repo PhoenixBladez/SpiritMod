@@ -42,7 +42,7 @@ namespace SpiritMod.Particles
 
 		public override void CustomDraw(SpriteBatch sB)
 		{
-			Texture2D basetexture = SpiritMod.Instance.GetTexture("Particles/AnthemCircle");
+			Texture2D basetexture = ModContent.Request<Texture2D>("Particles/AnthemCircle");
 
 			sB.End();
 

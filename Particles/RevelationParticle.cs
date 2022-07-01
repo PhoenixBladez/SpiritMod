@@ -59,7 +59,7 @@ namespace SpiritMod.Particles
 		public override void CustomDraw(SpriteBatch spriteBatch)
 		{
 			Texture2D basetexture = ParticleHandler.GetTexture(Type);
-			Texture2D bloomtexture = SpiritMod.Instance.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloomtexture = ModContent.Request<Texture2D>("Effects/Masks/CircleGradient");
 
 			spriteBatch.Draw(bloomtexture, Position - Main.screenPosition, null, bloomColor * opacity * 0.5f, 0, bloomtexture.Size() / 2, Scale/2, SpriteEffects.None, 0);
 

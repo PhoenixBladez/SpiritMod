@@ -52,7 +52,7 @@ namespace SpiritMod.UI.Elements
             float prevScale = Main.inventoryScale;
 			Texture2D prevTexture = TextureAssets.InventoryBack.Value;
 
-			TextureAssets.InventoryBack.Value = SpiritMod.Instance.GetTexture("UI/QuestUI/Textures/RewardItemBack");
+			TextureAssets.InventoryBack.Value = ModContent.Request<Texture2D>("UI/QuestUI/Textures/RewardItemBack");
 			Main.inventoryScale = 0.8f;
 
             CalculatedStyle style = GetDimensions();

@@ -28,10 +28,10 @@ namespace SpiritMod.Skies.Starjinx
 
 		public override void OnLoad()
 		{
-			_bgTexture = SpiritMod.Instance.GetTexture("Skies/Starjinx/StarjinxSky");
-			_planet = SpiritMod.Instance.GetTexture("Skies/Starjinx/StarjinxPlanet");
-			_planetGlow = SpiritMod.Instance.GetTexture("Skies/Starjinx/StarjinxPlanet_glow");
-			_planetBloom = SpiritMod.Instance.GetTexture("Effects/Ripple");
+			_bgTexture = ModContent.Request<Texture2D>("Skies/Starjinx/StarjinxSky", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			_planet = ModContent.Request<Texture2D>("Skies/Starjinx/StarjinxPlanet", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			_planetGlow = ModContent.Request<Texture2D>("Skies/Starjinx/StarjinxPlanet_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			_planetBloom = ModContent.Request<Texture2D>("Effects/Ripple", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 		}
 
 		private List<StarjinxBGStar> Stars = new List<StarjinxBGStar>();
@@ -180,8 +180,8 @@ namespace SpiritMod.Skies.Starjinx
 
 	public class StarjinxBGStar
 	{
-		private readonly Texture2D Texture = SpiritMod.Instance.GetTexture("Effects/Masks/Star");
-		private readonly Texture2D BloomTexture = SpiritMod.Instance.GetTexture("Effects/Masks/CircleGradient");
+		private readonly Texture2D Texture = ModContent.Request<Texture2D>("Effects/Masks/Star", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+		private readonly Texture2D BloomTexture = ModContent.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 		public Vector2 Position;
 		public Vector2 Velocity;
 		public float Scale = 0;

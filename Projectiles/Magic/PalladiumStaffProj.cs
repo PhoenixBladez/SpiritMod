@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,7 +37,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override bool PreDraw(ref Color lightColor)
 		{
 			if (hitGround) {
-				Main.spriteBatch.Draw(SpiritMod.Instance.GetTexture("Effects/Masks/Extra_60"), new Vector2((int)Projectile.position.X - (int)Main.screenPosition.X - 44, (int)Projectile.position.Y - (int)Main.screenPosition.Y - 22), null, new Color(252 + alphaCounter * 2, 152 + alphaCounter, 3, 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Extra[60].Value, new Vector2((int)Projectile.position.X - (int)Main.screenPosition.X - 44, (int)Projectile.position.Y - (int)Main.screenPosition.Y - 22), null, new Color(252 + alphaCounter * 2, 152 + alphaCounter, 3, 0), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
 			return false;
 		}

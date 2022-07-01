@@ -75,7 +75,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			}
 		}
 
-		private Texture2D SwordExtra => enchantment == Enchantment.Void ? ModContent.Request<Texture2D>(Texture + "_Sword_Void") : ModContent.Request<Texture2D>(Texture + "_Sword");
+		private Texture2D SwordExtra => enchantment == Enchantment.Void ? ModContent.Request<Texture2D>(Texture + "_Sword_Void", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value 
+			: ModContent.Request<Texture2D>(Texture + "_Sword", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 		public void SetDuo(float d) => timers["DUO"] = (int)d;
 
@@ -678,8 +679,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			if (threads.Count == 0 || attack != AttackType.StarlightConstellation)
 				return;
 
-			Texture2D tex = SpiritMod.Instance.GetTexture("Textures/Trails/Trail_4");
-			Texture2D star = SpiritMod.Instance.GetTexture("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar");
+			Texture2D tex = ModContent.Request<Texture2D>("Textures/Trails/Trail_4");
+			Texture2D star = ModContent.Request<Texture2D>("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar");
 
 			Vector2 threadScale = new Vector2(1 / (float)tex.Width, 30 / (float)tex.Height); //Base scale of the thread based on the texture's size, stretched horizontally depending on thread length
 			for (int i = 0; i < threads.Count; ++i)

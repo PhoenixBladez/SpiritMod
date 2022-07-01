@@ -31,7 +31,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			NPC.noGravity = true;
 			NPC.noTileCollide = true;
 			NPC.dontTakeDamage = true;
-			Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Infernon");
+			Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/Infernon");
 		}
 
 		public override bool PreAI()

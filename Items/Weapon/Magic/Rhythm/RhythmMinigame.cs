@@ -100,13 +100,13 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm
 		{
 			if (Main.netMode != NetmodeID.Server)
 			{
-				RhythmComboCounter = SpiritMod.Instance.GetTexture("Items/Weapon/Magic/Rhythm/RhythmMid");
-				RhythmTrack = SpiritMod.Instance.GetTexture("Items/Weapon/Magic/Rhythm/RhythmTrack");
-				RhythmTrackOutline = SpiritMod.Instance.GetTexture("Items/Weapon/Magic/Rhythm/RhythmTrackOutline");
-				RhythmBeatCircle = SpiritMod.Instance.GetTexture("Items/Weapon/Magic/Rhythm/BeatCircle");
+				RhythmComboCounter = ModContent.Request<Texture2D>("Items/Weapon/Magic/Rhythm/RhythmMid");
+				RhythmTrack = ModContent.Request<Texture2D>("Items/Weapon/Magic/Rhythm/RhythmTrack");
+				RhythmTrackOutline = ModContent.Request<Texture2D>("Items/Weapon/Magic/Rhythm/RhythmTrackOutline");
+				RhythmBeatCircle = ModContent.Request<Texture2D>("Items/Weapon/Magic/Rhythm/BeatCircle");
 
-				RhythmNote.Note = SpiritMod.Instance.GetTexture("Items/Weapon/Magic/Rhythm/Note");
-				RhythmNote.SideNote = SpiritMod.Instance.GetTexture("Items/Weapon/Magic/Rhythm/SideNote");
+				RhythmNote.Note = ModContent.Request<Texture2D>("Items/Weapon/Magic/Rhythm/Note");
+				RhythmNote.SideNote = ModContent.Request<Texture2D>("Items/Weapon/Magic/Rhythm/SideNote");
 			}
 		}
 

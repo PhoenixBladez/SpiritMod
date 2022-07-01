@@ -104,7 +104,7 @@ namespace SpiritMod.Tiles.Ambient.HangingChimes
 			Color col = Lighting.GetColor(i, j, Color.White);
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
-			spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/HangingChimes/HangingChimes"), drawPos + zero - new Vector2(xOff, 0), realSource, new Color(col.R, col.G, col.B, 255), 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/HangingChimes/HangingChimes", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, drawPos + zero - new Vector2(xOff, 0), realSource, new Color(col.R, col.G, col.B, 255), 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
 			return false;
 		}
 
@@ -116,7 +116,7 @@ namespace SpiritMod.Tiles.Ambient.HangingChimes
 			Color colour = new Color(246, 194, 255) * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
 			float xOff = GetOffset(i, j); //Sin offset.
 
-			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/HangingChimes/HangingChimes");
+			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/HangingChimes/HangingChimes", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero - new Vector2(xOff, 0), new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), colour * .6f);
 		}

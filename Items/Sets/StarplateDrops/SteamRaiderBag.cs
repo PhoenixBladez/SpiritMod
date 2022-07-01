@@ -25,12 +25,12 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 
 		public override void RightClick(Player player)
 		{
-			player.QuickSpawnItem(player.GetSource_OpenItem("RightClick"), ItemID.GoldCoin, Main.rand.Next(2, 4));
-			player.QuickSpawnItem(player.GetSource_OpenItem("RightClick"), ModContent.ItemType<StarMap>());
-			player.QuickSpawnItem(player.GetSource_OpenItem("RightClick"), ModContent.ItemType<CosmiliteShard>(), Main.rand.Next(6, 10));
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ItemID.GoldCoin, Main.rand.Next(2, 4));
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<StarMap>());
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<CosmiliteShard>(), Main.rand.Next(6, 10));
 
-			if (Main.rand.NextBool(7)) player.QuickSpawnItem(player.GetSource_OpenItem("RightClick"), ModContent.ItemType<StarplateMask>());
-			if (Main.rand.NextBool(10)) player.QuickSpawnItem(player.GetSource_OpenItem("RightClick"), ModContent.ItemType<Trophy3>());
+			if (Main.rand.NextBool(7)) player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<StarplateMask>());
+			if (Main.rand.NextBool(10)) player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<Trophy3>());
 
 			int[] vanityTable = {
 				ModContent.ItemType<WaasephiVanity>(),

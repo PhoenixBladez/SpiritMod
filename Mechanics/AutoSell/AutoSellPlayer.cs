@@ -27,14 +27,14 @@ namespace SpiritMod.Mechanics.AutoSell
 						{
 							if (sell_NoValue)
 							{
-								Player.SellItem(Player.inventory[index].value, Player.inventory[index].stack);
+								Player.SellItem(Player.inventory[index], Player.inventory[index].stack);
 								Player.inventory[index].TurnToAir();
 							}
 							else
 							{
 								if (Player.inventory[index].value > 0)
 								{
-									Player.SellItem(Player.inventory[index].value, Player.inventory[index].stack);
+									Player.SellItem(Player.inventory[index], Player.inventory[index].stack);
 									Player.inventory[index].TurnToAir();
 								}
 							}
@@ -46,14 +46,14 @@ namespace SpiritMod.Mechanics.AutoSell
 						{
 							if (sell_NoValue)
 							{
-								Player.SellItem(Player.inventory[index].value, Player.inventory[index].stack);
+								Player.SellItem(Player.inventory[index], Player.inventory[index].stack);
 								Player.inventory[index].TurnToAir();
 							}
 							else
 							{
 								if (Player.inventory[index].value > 0)
 								{
-									Player.SellItem(Player.inventory[index].value, Player.inventory[index].stack);
+									Player.SellItem(Player.inventory[index], Player.inventory[index].stack);
 									Player.inventory[index].TurnToAir();
 								}
 							}

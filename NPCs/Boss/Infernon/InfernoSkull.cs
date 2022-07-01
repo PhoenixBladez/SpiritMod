@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			NPC.noTileCollide = true;
 
 			bossBag = ModContent.ItemType<InfernonBag>();
-			Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Infernon");
+			Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/Infernon");
 		}
 
 		public override void FindFrame(int frameHeight)

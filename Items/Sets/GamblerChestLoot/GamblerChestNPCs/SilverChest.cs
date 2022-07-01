@@ -122,20 +122,20 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 
 				if (counter == 25)
 				{
-					NPC.DropItem(ModContent.ItemType<Jem.Jem>(), 0.005f, 1, NPC.GetSource_FromAI());
-					NPC.DropItem(ModContent.ItemType<Consumable.Food.GoldenCaviar>(), 0.07f, 1, NPC.GetSource_FromAI());
-					NPC.DropItem(ModContent.ItemType<FunnyFirework.FunnyFirework>(), 0.07f, Main.rand.Next(5, 9), NPC.GetSource_FromAI());
-					NPC.DropItem(ItemID.AngelStatue, 0.03f, 1, NPC.GetSource_FromAI());
-					NPC.DropItem(ModContent.ItemType<Champagne.Champagne>(), 0.06f, Main.rand.Next(1, 3), NPC.GetSource_FromAI());
-					NPC.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.04f, 1, NPC.GetSource_FromAI());
+					NPC.DropItem(ModContent.ItemType<Jem.Jem>(), 0.005f, NPC.GetSource_FromAI(), 1);
+					NPC.DropItem(ModContent.ItemType<Consumable.Food.GoldenCaviar>(), 0.07f, NPC.GetSource_FromAI(), 1);
+					NPC.DropItem(ModContent.ItemType<FunnyFirework.FunnyFirework>(), 0.07f, NPC.GetSource_FromAI(), Main.rand.Next(5, 9));
+					NPC.DropItem(ItemID.AngelStatue, 0.03f, NPC.GetSource_FromAI(), 1);
+					NPC.DropItem(ModContent.ItemType<Champagne.Champagne>(), 0.06f, NPC.GetSource_FromAI(), Main.rand.Next(1, 3));
+					NPC.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.04f, NPC.GetSource_FromAI(), 1);
 
 					switch (Main.rand.NextBool())
 					{ //mutually exclusive
 						case true:
-							NPC.DropItem(ModContent.ItemType<GildedMustache.GildedMustache>(), 0.03f);
+							NPC.DropItem(ModContent.ItemType<GildedMustache.GildedMustache>(), 0.03f, NPC.GetSource_FromAI());
 							break;
 						case false:
-							NPC.DropItem(ModContent.ItemType<RegalCane.RegalCane>(), 0.03f);
+							NPC.DropItem(ModContent.ItemType<RegalCane.RegalCane>(), 0.03f, NPC.GetSource_FromAI());
 							break;
 					}
 					string[] lootTable = { "DiverLegs", "DiverHead", "DiverBody", "AstronautBody", "AstronautHelm", "AstronautLegs", "BeekeeperBody", "BeekeeperHead", "BeekeeperLegs", "CapacitorBody", "CapacitorHead", "CapacitorLegs", "CenturionBody", "CenturionlLegs", "CenturionHead", "CommandoHead", "CommandoBody", "CommandoLegs", 
@@ -149,12 +149,12 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 					int donatorloot = Main.rand.Next(lootTable.Length);
 					if (Main.rand.NextBool(50))
 					{
-						NPC.DropItem(Mod.Find<ModItem>(donatorLootTable[donatorloot]).Type);
+						NPC.DropItem(Mod.Find<ModItem>(donatorLootTable[donatorloot]).Type, NPC.GetSource_FromAI());
 					}
 
 					if (Main.rand.Next(100) == 0)
 					{
-						NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
+						NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type, NPC.GetSource_FromAI());
 						for (int value = 0; value < 32; value++)
 						{
 							int num = Dust.NewDust(new Vector2(NPC.Center.X, NPC.Center.Y - 20), 50, 50, DustID.ShadowbeamStaff, 0f, -2f, 0, default, 2f);

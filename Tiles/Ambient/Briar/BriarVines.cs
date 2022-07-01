@@ -92,7 +92,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			Color col = Lighting.GetColor(i, j, Color.White); 
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
-			spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/Briar/BriarVines"), drawPos + zero - new Vector2(xOff, 0), realSource, new Color(col.R, col.G, col.B, 255), 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/Briar/BriarVines", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, drawPos + zero - new Vector2(xOff, 0), realSource, new Color(col.R, col.G, col.B, 255), 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -104,7 +104,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 
             float xOff = GetOffset(i, j, tile.TileFrameX); //Sin offset.
 
-			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/Briar/BriarVinesGlow");
+			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/Briar/BriarVinesGlow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero - new Vector2(xOff, 0), new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), colour * .6f);
 		}

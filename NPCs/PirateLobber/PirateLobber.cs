@@ -110,26 +110,19 @@ namespace SpiritMod.NPCs.PirateLobber
 			NPC.frame.Y = frameHeight * frame;
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.NextBool(8000)) NPC.DropItem(ItemID.CoinGun);
-			if (Main.rand.NextBool(4000)) NPC.DropItem(ItemID.LuckyCoin);
-			if (Main.rand.NextBool(2000)) NPC.DropItem(ItemID.DiscountCard);
-			if (Main.rand.NextBool(1500)) NPC.DropItem(ItemID.PirateStaff);
-			if (Main.rand.NextBool(200)) NPC.DropItem(ItemID.Cutlass);
-			if (Main.rand.NextBool(100)) NPC.DropItem(ItemID.GoldRing);
+			npcLoot.AddCommon(ItemID.CoinGun, 8000);
+			npcLoot.AddCommon(ItemID.LuckyCoin, 4000);
+			npcLoot.AddCommon(ItemID.DiscountCard, 2000);
+			npcLoot.AddCommon(ItemID.PirateStaff, 1500);
+			npcLoot.AddCommon(ItemID.Cutlass, 200);
+			npcLoot.AddCommon(ItemID.GoldRing, 200);
 
-			if (Main.rand.NextBool(333))
-			{
-				int[] GoldFurniture = new int[] { ItemID.GoldenBathtub, ItemID.GoldenBed, ItemID.GoldenBookcase, ItemID.GoldenCandelabra, ItemID.GoldenCandle, ItemID.GoldenChair, ItemID.GoldenChandelier,
+			int[] GoldFurniture = new int[] { ItemID.GoldenBathtub, ItemID.GoldenBed, ItemID.GoldenBookcase, ItemID.GoldenCandelabra, ItemID.GoldenCandle, ItemID.GoldenChair, ItemID.GoldenChandelier,
 					ItemID.GoldenChest, ItemID.GoldenClock, ItemID.GoldenDoor, ItemID.GoldenDresser, ItemID.GoldenLamp, ItemID.GoldenLantern, ItemID.GoldenPiano, ItemID.GoldenShower, ItemID.GoldenSink,
 					ItemID.GoldenSofa, ItemID.GoldenTable, ItemID.GoldenToilet, ItemID.GoldenWorkbench };
-
-				if (Main.rand.NextBool(GoldFurniture.Length + 1))
-					NPC.DropItem(ItemID.GoldenPlatform, Main.rand.Next(20, 40));
-				else
-					NPC.DropItem(Main.rand.Next(GoldFurniture));
-			}
+			npcLoot.AddOneFromOptions(333, GoldFurniture);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

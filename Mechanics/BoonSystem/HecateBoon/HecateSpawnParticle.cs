@@ -48,7 +48,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 			float blurLength = 150 * reverseProgress;
 			float blurWidth = 25 * reverseProgress;
 
-			Effect blurEffect = SpiritMod.Instance.GetEffect("Effects/BlurLine");
+			Effect blurEffect = ModContent.Request<Effect>("Effects/BlurLine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Prim.SquarePrimitive blurLine = new Prim.SquarePrimitive()
 			{
 				Position = Position - Main.screenPosition,

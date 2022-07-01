@@ -46,7 +46,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			NPC.DeathSound = SoundID.NPCDeath5;
 
 			bossBag = ModContent.ItemType<DuskingBag>();
-			Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DuskingTheme");
+			Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/DuskingTheme");
 		}
 
 		public override bool CheckActive() => NPC.Center.Y < -2000;

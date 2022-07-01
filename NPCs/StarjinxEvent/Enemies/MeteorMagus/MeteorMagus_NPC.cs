@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			NPC.aiStyle = -1;
 			NPC.value = 1100;
 			NPC.knockBackResist = .55f;
-			NPC.HitSound = new LegacySoundStyle(SoundID.NPCHit, 55).WithPitchVariance(0.2f);
+			NPC.HitSound = SoundID.NPCHit55 with { PitchVariance = 0.2f };
 			NPC.DeathSound = SoundID.NPCDeath51;
 		}
 
@@ -165,7 +165,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		private void PlayCastSound(Vector2 position)
 		{
 			if (Main.netMode != NetmodeID.Server)
-				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/starCast").WithPitchVariance(0.3f).WithVolume(0.7f), position);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/starCast") with { PitchVariance = 0.3f, Volume = 0.7f }, position);
 		}
 
 		private void MakeMagicCircle(Color color, Vector2 offset, float size, int fadeTime, int totalLifetime, float ySpeed, float rotationalVelocity)

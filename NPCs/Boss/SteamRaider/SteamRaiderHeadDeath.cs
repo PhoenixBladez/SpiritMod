@@ -20,11 +20,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			NPC.width = 64; //324
 			NPC.height = 56; //216
-			bossBag = ModContent.ItemType<SteamRaiderBag>();
 			NPC.boss = true;
 			NPC.damage = 0;
 			NPC.defense = 12;
-			Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/null");
+			Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/null");
 			NPC.noTileCollide = true;
 			NPC.dontTakeDamage = true;
 			NPC.lifeMax = 65;
@@ -58,27 +57,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			timeLeft--;
 			if (timeLeft <= 0) {
-                if (Main.expertMode) {
-					if (Main.netMode != NetmodeID.SinglePlayer)
-					{
-						for (int i = 0; i < Main.maxPlayers; i++)
-						{
-							if (Main.player[i].active)
-								playersActive++;
-						}
-						Item.NewItem(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SteamRaiderBag>(), playersActive);
-					}
-					else
-						NPC.DropBossBags();
-                }
-                NPC.DropItem(ItemID.Heart);
-				NPC.DropItem(ItemID.Heart);
-				NPC.DropItem(ItemID.Heart);
-				NPC.DropItem(ItemID.Heart);
-				NPC.DropItem(ItemID.Heart);
-				NPC.DropItem(ItemID.Heart);
-				NPC.DropItem(ItemID.Heart);
-				NPC.DropItem(ItemID.LesserHealingPotion, 10, 12);
 				if (!Main.expertMode) {
 					NPC.DropItem(ModContent.ItemType<CosmiliteShard>(), 6, 10);
 					NPC.DropItem(ModContent.ItemType<StarplateMask>(), 1f / 7);
@@ -107,8 +85,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
                 NPC.active = false;
 			}
 		}
-		public override void OnKill()
-        {
-        }
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddBossBag<SteamRaiderBag>();
+			npcLoot.AddCommon(ItemID.Heart, 1, 7);
+			npcLoot.AddCommon(ItemID.LesserHealingPotion, 1, 10, 12);
+		}
 	}
 }

@@ -60,8 +60,8 @@ namespace SpiritMod.Mechanics.Boids
 				int big = (seed + i) % 14;
 
 				Texture2D[] textures = new Texture2D[Main.rand.Next(1, 5)];
-				Texture2D[] sardineTexture = new Texture2D[] { SpiritMod.Instance.GetTexture($"Textures/AmbientFish/sardine") };
-				Texture2D[] shrimpTexture = new Texture2D[] { SpiritMod.Instance.GetTexture($"Textures/AmbientFish/shrimp") };
+				Texture2D[] sardineTexture = new Texture2D[] { ModContent.Request<Texture2D>($"Textures/AmbientFish/sardine") };
+				Texture2D[] shrimpTexture = new Texture2D[] { ModContent.Request<Texture2D>($"Textures/AmbientFish/shrimp") };
 
 
 				bool[] addedIDs = new bool[AmbientFishTextureCount];
@@ -72,7 +72,7 @@ namespace SpiritMod.Mechanics.Boids
 
 					if (!addedIDs[id]) //So we don't have multiple of the same texture
 					{
-						textures[j] = SpiritMod.Instance.GetTexture($"Textures/AmbientFish/fish_{id}");
+						textures[j] = ModContent.Request<Texture2D>($"Textures/AmbientFish/fish_{id}");
 						addedIDs[id] = true;
 					}
 					else

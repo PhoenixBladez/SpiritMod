@@ -16,6 +16,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs.DoT;
+using SpiritMod.Items.Armor.JackSet;
 
 namespace SpiritMod.NPCs.Boss.Atlas
 {
@@ -42,7 +43,6 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		{
 			NPC.width = 290;
 			NPC.height = 450;
-			bossBag = ModContent.ItemType<AtlasBag>();
 			NPC.damage = 100;
 			NPC.lifeMax = 41000;
 			NPC.defense = 48;
@@ -61,7 +61,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			NPC.alpha = 255;
 			NPC.HitSound = SoundID.NPCHit7;
 			NPC.DeathSound = SoundID.NPCDeath5;
-            Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Atlas");
+            Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Atlas");
         }
 
 		private int Counter;
@@ -340,34 +340,15 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			return true;
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.expertMode) {
-				NPC.DropBossBags();
-				return;
-			}
-
-			NPC.DropItem(ModContent.ItemType<ArcaneGeyser>(), Main.rand.Next(32, 44));
-
-			int[] lootTable = {
-				ModContent.ItemType<Mountain>(),
-				ModContent.ItemType<TitanboundBulwark>(),
-				ModContent.ItemType<CragboundStaff>(),
-				ModContent.ItemType<QuakeFist>(),
-				ModContent.ItemType<Earthshatter>()
-			};
-			int loot = Main.rand.Next(lootTable.Length);
-			NPC.DropItem(lootTable[loot]);
-            NPC.DropItem(ModContent.ItemType<AtlasMask>(), 1f / 7);
-			NPC.DropItem(ModContent.ItemType<Trophy8>(), 1f / 10);
-
-            string[] lootTable1 = { "JackHead", "JackBody", "JackLegs" };
-            int loot1 = Main.rand.Next(lootTable1.Length);
-            if (Main.rand.NextBool(12))
-            {
-                NPC.DropItem(Mod.Find<ModItem>(lootTable1[loot1]).Type);
-            }
-        }
+			npcLoot.AddBossBag<AtlasBag>();
+			npcLoot.AddCommon<AtlasMask>(7);
+			npcLoot.AddCommon<Trophy8>(10);
+			npcLoot.AddCommon<ArcaneGeyser>(1, 32, 43);
+			npcLoot.AddOneFromOptions(ModContent.ItemType<Mountain>(), ModContent.ItemType<TitanboundBulwark>(), ModContent.ItemType<CragboundStaff>(), ModContent.ItemType<QuakeFist>(), ModContent.ItemType<Earthshatter>());
+			npcLoot.AddCommon(ModContent.ItemType<JackHead>(), ModContent.ItemType<JackBody>(), ModContent.ItemType<JackLegs>());
+		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{

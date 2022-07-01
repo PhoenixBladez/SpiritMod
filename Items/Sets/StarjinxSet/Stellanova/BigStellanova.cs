@@ -231,7 +231,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 		private void DrawOrb(SpriteBatch spriteBatch, float scale, Color lightColor, Color darkColor)
 		{
-			Effect effect = SpiritMod.Instance.GetEffect("Effects/StellanovaOrb");
+			Effect effect = ModContent.Request<Effect>("Effects/StellanovaOrb");
 			effect.Parameters["uTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/MilkyNoise").Value);
 			effect.Parameters["distortTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/noiseNormal").Value);
 			effect.Parameters["timer"].SetValue(Main.GlobalTimeWrappedHourly * 0.33f);

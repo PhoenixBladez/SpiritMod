@@ -13,7 +13,7 @@ namespace SpiritMod.Mechanics.AutoSell.Sell_Weapons
 		public static bool visible = false;
 		public override void OnInitialize()
 		{
-			Texture2D buttonPlayTexture = SpiritModAutoSellTextures.sellWeaponsButton;
+			var buttonPlayTexture = SpiritModAutoSellTextures.sellWeaponsButton;
 			UIImageButton playButton = new UIImageButton(buttonPlayTexture);
 			playButton.Left.Set(502, 0f);
 			playButton.Top.Set(394, 0f);

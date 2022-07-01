@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			NPC.defense = 10;
 			NPC.lifeMax = 1750;
 			NPC.aiStyle = -1;
-			Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Scarabeus");
+			Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/Scarabeus");
 			NPC.boss = true;
 			//npc.stepSpeed /= 20;
 			NPC.npcSlots = 15f;

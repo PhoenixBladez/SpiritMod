@@ -235,22 +235,22 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		}
 
 		/// <summary>Just a little test I did. Don't mind this. :)</summary>
-		private static void DrawReflectedPlayer()
-		{
-			Player plr = Main.LocalPlayer;
-			plr.direction = plr.direction == -1 ? 1 : -1;
+		//private static void DrawReflectedPlayer()
+		//{
+		//	Player plr = Main.LocalPlayer;
+		//	plr.direction = plr.direction == -1 ? 1 : -1;
 
-			Main.instance.DrawPlayer(plr, plr.position, MathHelper.Pi, new Vector2(plr.width / 2f, plr.height), 0);
+		//	Main.instance.DrawPlayer(plr, plr.position, MathHelper.Pi, new Vector2(plr.width / 2f, plr.height), 0);
 
-			plr.direction = plr.direction == -1 ? 1 : -1;
-		}
+		//	plr.direction = plr.direction == -1 ? 1 : -1;
+		//}
 
 		private static void SetShader(bool back)
 		{
 			transparencyEffect = ModContent.GetInstance<SpiritMod>().GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX");
 			transparencyEffect.Parameters["transparency"].SetValue(GetTransparency());
 
-			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, transparencyEffect, Main.GameViewMatrix.ZoomMatrix);
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, transparencyEffect, Main.GameViewMatrix.ZoomMatrix);
 		}
 
 		private static float GetTransparency()

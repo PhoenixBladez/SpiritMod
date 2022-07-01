@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Particles
 		public override void CustomDraw(SpriteBatch spriteBatch)
 		{
 			Texture2D tex = ParticleHandler.GetTexture(Type);
-			Texture2D bloom = SpiritMod.Instance.GetTexture("Effects/Masks/CircleGradient");
+			Texture2D bloom = ModContent.Request<Texture2D>("Effects/Masks/CircleGradient");
 			float bloomOpacity = Math.Abs(_displayTime / 2f - TimeActive) / (_displayTime / 2f);
 			bloomOpacity = 1 - bloomOpacity;
 			spriteBatch.Draw(bloom, Position - Main.screenPosition, null, new Color(255, 116, 156) * bloomOpacity, Rotation, bloom.Size() / 2, Scale * 1.5f, SpriteEffects.None, 0);

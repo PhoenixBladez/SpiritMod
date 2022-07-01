@@ -13,7 +13,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 		public ArchonBG(Vector2 pos, NPC parent) : base(pos, 0f, new Point(0, 0))
 		{
-			tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/StarjinxEvent/Enemies/Archon/Archon");
+			tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/StarjinxEvent/Enemies/Archon/Archon", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			source = new Rectangle(0, 0, tex.Width, tex.Height);
 			scale = 1f;
 

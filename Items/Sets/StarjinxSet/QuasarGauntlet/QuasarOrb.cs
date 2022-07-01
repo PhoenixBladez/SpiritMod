@@ -174,7 +174,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 
 			//Set parameters for radial noise shader
-			Effect effect = SpiritMod.Instance.GetEffect("Effects/PortalShader");
+			Effect effect = ModContent.Request<Effect>("Effects/PortalShader");
 			effect.Parameters["PortalNoise"].SetValue(Mod.Assets.Request<Texture2D>("Utilities/Noise/SpiralNoise").Value);
 			effect.Parameters["Timer"].SetValue(MathHelper.WrapAngle(Main.GlobalTimeWrappedHourly / 3));
 			effect.Parameters["DistortionStrength"].SetValue(0);

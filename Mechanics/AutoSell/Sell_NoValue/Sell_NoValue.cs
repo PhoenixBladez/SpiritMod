@@ -13,7 +13,7 @@ namespace SpiritMod.Mechanics.AutoSell.Sell_NoValue
 		public static bool visible = false;
 		public override void OnInitialize()
 		{
-			Texture2D buttonPlayTexture = SpiritModAutoSellTextures.sellNoValueButton;
+			var buttonPlayTexture = SpiritModAutoSellTextures.sellNoValueButton;
 			UIImageButton playButton = new UIImageButton(buttonPlayTexture);
 			playButton.Left.Set(502, 0f);
 			playButton.Top.Set(432, 0f);

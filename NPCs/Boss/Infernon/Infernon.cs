@@ -35,7 +35,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			NPC.noGravity = true;
 			NPC.noTileCollide = true;
 			bossBag = ModContent.ItemType<InfernonBag>();
-			Music = Mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Infernon");
+			Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/Infernon");
 			NPC.npcSlots = 10;
 
 			NPC.HitSound = SoundID.NPCHit7;

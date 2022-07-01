@@ -102,7 +102,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
         }
         public override void SetShaders()
         {
-			Effect effect = SpiritMod.Instance.GetEffect("Effects/HeliosPrims");
+			Effect effect = ModContent.Request<Effect>("Effects/HeliosPrims");
 			effect.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/Trails/Trail_3"));
 			PrepareShader(effect, "Edge2", Counter / 7.5f, new Color(233, 99, 28));
         }

@@ -43,8 +43,8 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			_center = center;
 
 			// set up the screen shaders
-			_ripContrastData = new BeaconShaderData(new Ref<Effect>(SpiritMod.Instance.GetEffect("Effects/EventShaders")), "BeaconStartScreen");
-			_burstData = new BeaconShaderData(new Ref<Effect>(SpiritMod.Instance.GetEffect("Effects/EventShaders")), "BeaconBurstScreen");
+			_ripContrastData = new BeaconShaderData(new Ref<Effect>(ModContent.Request<Effect>("Effects/EventShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "BeaconStartScreen");
+			_burstData = new BeaconShaderData(new Ref<Effect>(ModContent.Request<Effect>("Effects/EventShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "BeaconBurstScreen");
 			Filters.Scene["SpiritMod:Event-BeaconDistortion"] = new Filter(_ripContrastData, (EffectPriority)20);
 			Filters.Scene["SpiritMod:Event-BeaconBurst"] = new Filter(_burstData, (EffectPriority)35);
 
@@ -121,8 +121,8 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 				Player player = Main.LocalPlayer;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					Main.NewText("The Starplate Voyager has awoken!", 175, 75, 255, true);
-					int npcID = NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SteamRaiderHead>());
+					Main.NewText("The Starplate Voyager has awoken!", 175, 75, 255);
+					int npcID = NPC.NewNPC(player.GetSource_ReleaseEntity(), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SteamRaiderHead>());
 					Main.npc[npcID].Center = player.Center - new Vector2(600, 600);
 					Main.npc[npcID].netUpdate2 = true;
 				}
@@ -161,12 +161,12 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 
 			// update shader parameters
 			_ripContrastData.Shader.Parameters["Time"].SetValue(_currentTime);
-			_ripContrastData.Shader.Parameters["NoiseTexture"].SetValue(SpiritMod.Instance.GetTexture("Textures/Events/BigNoise"));
+			_ripContrastData.Shader.Parameters["NoiseTexture"].SetValue(ModContent.Request<Texture2D>("Textures/Events/BigNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			_ripContrastData.Shader.Parameters["FieldCenter"].SetValue(_center);
 			_ripContrastData.Shader.Parameters["ScreenRipStrength"].SetValue(_screenRipStrength.Ease(_currentTime));
 			_ripContrastData.Shader.Parameters["ContrastBubbleStrength"].SetValue(_contrastBubbleStrength.Ease(_currentTime));
 			_ripContrastData.Shader.Parameters["ScreenRipOffsetMultiplier"].SetValue((_currentTime < BUILDUP_LENGTH + PAUSE_TIME * 0.5f) ? 1f : -1f);
-			_burstData.Shader.Parameters["FieldTexture"].SetValue(SpiritMod.Instance.GetTexture("Textures/Events/BeaconBurstTexture"));
+			_burstData.Shader.Parameters["FieldTexture"].SetValue(ModContent.Request<Texture2D>("Textures/Events/BeaconBurstTexture", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			_burstData.Shader.Parameters["BurstRadius"].SetValue(_burstRadius.Ease(_currentTime));
 			_burstData.Shader.Parameters["BurstStrength"].SetValue(_burstStrength.Ease(_currentTime));
 
@@ -228,7 +228,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			{
 				if (beginSB) spriteBatch.Begin();
 
-				spriteBatch.Draw(SpiritMod.Instance.GetTexture("Textures/Events/BeaconOverlay"), _center - new Vector2(16f, 10f) - Main.screenPosition, Color.White * _overlayOpacity.Ease(_currentTime));
+				spriteBatch.Draw(ModContent.Request<Texture2D>("Textures/Events/BeaconOverlay", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, _center - new Vector2(16f, 10f) - Main.screenPosition, Color.White * _overlayOpacity.Ease(_currentTime));
 
 				float overlayOpacity = 1.0f - _overlayOpacity.Ease(_currentTime);
 				if (_currentTime < BUILDUP_LENGTH + PAUSE_TIME * 0.5f)
@@ -294,7 +294,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 				Shader.Parameters["ScreenPosition"].SetValue(Main.screenPosition);
 				Shader.Parameters["ScreenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
 
-				Shader.CurrentTechnique.Passes[_passName].Apply();
+				Shader.CurrentTechnique.Passes[pass].Apply();
 			}
 		}
 	}
