@@ -352,7 +352,7 @@ namespace SpiritMod.NPCs.Hydra
 						Main.dust[d].velocity *= .95f;
 						Main.dust[d].noGravity = true;
 					}
-					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 23).WithPitchVariance(0.2f), NPC.Center);
+					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 23) with { PitchVariance = 0.2f }, NPC.Center);
 					SoundEngine.PlaySound(SoundID.DD2_LightningBugZap, NPC.Center);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, direction * 15, ModContent.ProjectileType<HydraVenomGlob>(), NPCUtils.ToActualDamage(NPC.damage), 3);
@@ -620,7 +620,7 @@ namespace SpiritMod.NPCs.Hydra
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 45).WithPitchVariance(0.2f), Projectile.Center);
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 45) with { PitchVariance = 0.2f }, Projectile.Center);
 			SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, Projectile.Center);
 
 			for (int i = 0; i < 20; i++)
@@ -738,7 +738,7 @@ namespace SpiritMod.NPCs.Hydra
 		public override void Kill(int timeLeft)
 		{
 			SoundEngine.PlaySound(SoundID.Item54 with { PitchVariance = 0.2f }, Projectile.Center);
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 3).WithPitchVariance(0.2f), Projectile.Center);
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 3) with { PitchVariance = 0.2f }, Projectile.Center);
 			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 112).WithPitchVariance(0.2f).WithVolume(.6f), Projectile.Center);
 
 			for (int i = 0; i < 18; i++)
@@ -790,7 +790,7 @@ namespace SpiritMod.NPCs.Hydra
 			}
 		}
 
-		public override void Kill(int timeLeft) => SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 3).WithPitchVariance(0.2f), Projectile.Center);
+		public override void Kill(int timeLeft) => SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 3) with { PitchVariance = 0.2f }, Projectile.Center);
 
 		public override bool PreDraw(ref Color lightColor)
 		{

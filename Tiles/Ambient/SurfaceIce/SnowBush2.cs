@@ -27,7 +27,7 @@ namespace SpiritMod.Tiles.Ambient.SurfaceIce
 				16
 			};
 			TileObjectData.addTile(Type);
-            soundType = SoundID.Grass;
+            HitSound = SoundID.Grass;
             DustType = DustID.GrassBlades;
 			TileID.Sets.DisableSmartCursor[Type] = true;
 		}

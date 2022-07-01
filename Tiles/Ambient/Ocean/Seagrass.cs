@@ -29,7 +29,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			TileObjectData.addTile(Type);
 
 			DustType = DustID.JungleGrass;
-			soundType = SoundID.Grass;
+			HitSound = SoundID.Grass;
 
 		}
 

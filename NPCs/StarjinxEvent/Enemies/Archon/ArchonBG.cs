@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Mechanics.BackgroundSystem.BGItem;
 using Terraria;
 using Terraria.ModLoader;
@@ -33,7 +34,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			if (ArchonParent.inFG)
 				return;
 
-			drawColor = Color.Lerp(Main.bgColor, Color.White, 0.5f);
+			drawColor = Color.Lerp(Main.ColorOfTheSkies, Color.White, 0.5f);
 			base.Draw(GetParallax());
 		}
 	}

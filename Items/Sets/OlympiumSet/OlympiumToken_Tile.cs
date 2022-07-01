@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet
 			name.SetDefault("Olympium Token");
 			AddMapEntry(new Color(200, 200, 200), name);
 			DustType = -1;
-			soundType = SoundID.Coins;
+			HitSound = SoundID.Coins;
 		}
 	}
 }

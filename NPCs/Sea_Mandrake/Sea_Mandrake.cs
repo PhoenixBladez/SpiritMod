@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 			Player player = Main.player[NPC.target];
 
 			if (Main.rand.Next(500) == 0)
-				SoundEngine.PlaySound(SoundLoader.customSoundType, (int)NPC.position.X, (int)NPC.position.Y, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Mandrake_Idle"));
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Mandrake_Idle"), NPC.Center);
 
 			NPC.rotation = NPC.velocity.X * .1f;
 

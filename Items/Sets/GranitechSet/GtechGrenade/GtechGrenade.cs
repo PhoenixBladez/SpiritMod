@@ -80,7 +80,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			if (Timer < ACTIVATION_TIME)
 			{
 				Timer = ACTIVATION_TIME;
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92).WithPitchVariance(0.2f), Projectile.Center);
+				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92) with { PitchVariance = 0.2f }, Projectile.Center);
 				Projectile.velocity = Vector2.Zero;
 			}
 			return false;
@@ -119,7 +119,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			else
 			{
 				if (Timer == ACTIVATION_TIME)
-					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92).WithPitchVariance(0.2f), Projectile.Center);
+					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92) with { PitchVariance = 0.2f }, Projectile.Center);
 
 				Projectile.velocity = Vector2.Zero;
 				Projectile.frameCounter++;

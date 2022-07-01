@@ -59,7 +59,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			++Timer;
 			if (Timer == 3)
             {
-				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergySwordSlash").WithPitchVariance(0.4f).WithVolume(0.8f), Projectile.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/EnergySwordSlash") with { PitchVariance = 0.4f, Volume = 0.8f }, Projectile.Center);
 			}
 			Projectile.timeLeft = 2;
 
@@ -109,7 +109,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 		public void HitEffect(Vector2 position)
 		{
-			SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/GranitechImpact").WithPitchVariance(0.4f).WithVolume(0.4f), Projectile.Center);
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/GranitechImpact") with { PitchVariance = 0.4f, Volume = 0.4f }, Projectile.Center);
 
 			Projectile.damage = (int)(Projectile.damage * 0.75f);
 			if (Main.dedServ)
@@ -119,7 +119,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 			Vector2 direction = Vector2.Normalize(newPos - BasePosition);
 			if (_hitTimer == 0)
 			{
-				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.4f), Projectile.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/EnergyImpact") with { PitchVariance = 0.1f, Volume = 0.4f }, Projectile.Center);
 
 				_hitTimer = MAX_HITTIMER;
 				ParticleHandler.SpawnParticle(new GranitechSaber_Hit(position, Main.rand.NextFloat(0.9f, 1.1f), direction.ToRotation()));

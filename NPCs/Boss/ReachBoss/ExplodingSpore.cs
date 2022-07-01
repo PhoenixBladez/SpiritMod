@@ -71,7 +71,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		}
 		public void Explode()
 		{
-			SoundEngine.PlaySound(new LegacySoundStyle(2, 14).WithPitchVariance(0.2f), NPC.Center);
+			SoundEngine.PlaySound(new LegacySoundStyle(2, 14) with { PitchVariance = 0.2f }, NPC.Center);
 			NPC.life = 0;
 			NPC.active = false;
 			DustHelper.DrawStar(new Vector2(NPC.Center.X, NPC.Center.Y), DustID.GoldCoin, pointAmount: 5, mainSize: 8f, dustDensity: 2.5f, dustSize: .75f, pointDepthMult: 0.4f, noGravity: true);

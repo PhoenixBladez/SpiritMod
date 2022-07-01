@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Ambient
 			Main.tileLighted[Type] = false;
 
 			DustType = DustID.Blood;
-			soundType = SoundID.Grass;
+			HitSound = SoundID.Grass;
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.newTile.LavaDeath = true;

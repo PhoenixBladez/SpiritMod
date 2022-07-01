@@ -51,7 +51,7 @@ namespace SpiritMod.Mechanics.BackgroundSystem.BGItem.Asteroid
 
         internal override void Draw(Vector2 off)
         {
-            drawColor = Color.Lerp(new Color(0.6f, 0.24f, 0.42f), Main.bgColor, (drawColor.R - 10) / 245f);
+            drawColor = Color.Lerp(new Color(0.6f, 0.24f, 0.42f), Main.ColorOfTheSkies, (drawColor.R - 10) / 245f);
             base.Draw(GetParallax());
             Color col = Color.Lerp(new Color(0.72f, 0.230f, 0.50f), Color.White, (drawColor.R - 10) / 245f);
             Main.spriteBatch.Draw(tex, DrawPosition + GetParallax() - Main.screenPosition, new Rectangle(source.X, 90, 62, 23), col, rotation, tex.Bounds.Center.ToVector2(), scale, SpriteEffects.None, 0f);

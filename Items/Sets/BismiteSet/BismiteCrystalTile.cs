@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Sets.BismiteSet
 			TileObjectData.addTile(Type);
 			ItemDrop = ModContent.ItemType<BismiteCrystal>();
 			DustType = DustID.Plantera_Green;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

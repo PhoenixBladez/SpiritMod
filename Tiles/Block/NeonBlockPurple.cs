@@ -20,7 +20,7 @@ namespace SpiritMod.Tiles.Block
 
 			AddMapEntry(new Color(53, 59, 74));
 			DustType = -1;
-            soundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
             ItemDrop = ModContent.ItemType<NeonBlockPurpleItem>();
 		}
 

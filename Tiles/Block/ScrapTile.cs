@@ -16,7 +16,7 @@ namespace SpiritMod.Tiles.Block
 			AddMapEntry(new Color(150, 150, 150));
 			Main.tileBlockLight[Type] = true;
 			ItemDrop = ModContent.ItemType<ScrapItem>();
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 		}
 		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{

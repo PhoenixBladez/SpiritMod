@@ -13,7 +13,7 @@ namespace SpiritMod.World.Sepulchre
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
 			AddMapEntry(new Color(87, 85, 81));
 			ItemDrop = ModContent.ItemType<SepulchreBrickItem>();

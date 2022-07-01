@@ -1607,13 +1607,13 @@ namespace SpiritMod
 
 			if (MyWorld.spiritLight > 0f)
 			{
-				int r = Main.bgColor.R - ColorAdjustment(Main.bgColor.R, MyWorld.spiritLight);
-				int g = Main.bgColor.G - ColorAdjustment(Main.bgColor.G, MyWorld.spiritLight);
-				int b = Main.bgColor.B - ColorAdjustment(Main.bgColor.B, MyWorld.spiritLight);
+				int r = Main.ColorOfTheSkies.R - ColorAdjustment(Main.ColorOfTheSkies.R, MyWorld.spiritLight);
+				int g = Main.ColorOfTheSkies.G - ColorAdjustment(Main.ColorOfTheSkies.G, MyWorld.spiritLight);
+				int b = Main.ColorOfTheSkies.B - ColorAdjustment(Main.ColorOfTheSkies.B, MyWorld.spiritLight);
 
-				Main.bgColor.R = (byte)r;
-				Main.bgColor.G = (byte)g;
-				Main.bgColor.B = (byte)b;
+				Main.ColorOfTheSkies.R = (byte)r;
+				Main.ColorOfTheSkies.G = (byte)g;
+				Main.ColorOfTheSkies.B = (byte)b;
 			}
 
 			if (MyWorld.AsteroidTiles > 0)
@@ -1634,18 +1634,18 @@ namespace SpiritMod
 
 			if (MyWorld.asteroidLight > 0f)
 			{
-				int r = Main.bgColor.R - ColorAdjustment(Main.bgColor.R, MyWorld.asteroidLight);
-				if (Main.bgColor.R > r)
-					Main.bgColor.R = (byte)r;
+				int r = Main.ColorOfTheSkies.R - ColorAdjustment(Main.ColorOfTheSkies.R, MyWorld.asteroidLight);
+				if (Main.ColorOfTheSkies.R > r)
+					Main.ColorOfTheSkies.R = (byte)r;
 
-				int g = Main.bgColor.G - ColorAdjustment(Main.bgColor.G, MyWorld.asteroidLight);
-				if (Main.bgColor.G > g)
-					Main.bgColor.G = (byte)g;
+				int g = Main.ColorOfTheSkies.G - ColorAdjustment(Main.ColorOfTheSkies.G, MyWorld.asteroidLight);
+				if (Main.ColorOfTheSkies.G > g)
+					Main.ColorOfTheSkies.G = (byte)g;
 
-				int b = Main.bgColor.B - ColorAdjustment(Main.bgColor.B, MyWorld.asteroidLight);
+				int b = Main.ColorOfTheSkies.B - ColorAdjustment(Main.ColorOfTheSkies.B, MyWorld.asteroidLight);
 
-				if (Main.bgColor.B > b)
-					Main.bgColor.B = (byte)b;
+				if (Main.ColorOfTheSkies.B > b)
+					Main.ColorOfTheSkies.B = (byte)b;
 			}
 		}
 

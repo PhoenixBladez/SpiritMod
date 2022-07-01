@@ -407,7 +407,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 						CombatText.NewText(new Rectangle(x * 16, y * 16, 20, 10), Color.GreenYellow, "Unlocked!");
 
 						if (Main.netMode != NetmodeID.Server) //custom sounds bad on server
-							SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+							SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.Center);
 					}
 				});
 			}

@@ -40,7 +40,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			NPC.defense = 10;
 			NPC.value = 40000;
 			NPC.aiStyle = -1;
-            bossBag = ModContent.ItemType<MJWBag>();
             NPC.knockBackResist = 0f;
 			NPC.width = 17;
 			NPC.height = 35;
@@ -300,32 +299,16 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		}
 		public override void BossLoot(ref string name, ref int potionType) => potionType = ModContent.ItemType<MoonJelly>();
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.expertMode)
-			{
-				NPC.DropBossBags();
-				return;
-			}
-
-			NPC.DropItem(ModContent.ItemType<MJWMask>(), 1f / 7);
-			NPC.DropItem(ModContent.ItemType<MJWTrophy>(), 1f / 10);
-			int[] lootTable = {
-				ModContent.ItemType<Moonshot>(),
-				ModContent.ItemType<Moonburst>(),
-				ModContent.ItemType<JellynautBubble>(),
-				ModContent.ItemType<MoonjellySummonStaff>()
-				};
-			int loot = Main.rand.Next(lootTable.Length);
-			int lunazoastack = Main.rand.Next(5, 7);
-			NPC.DropItem(lootTable[loot]);
-			if (lootTable[loot] == ModContent.ItemType<Moonshot>())
-				lunazoastack += Main.rand.Next(55, 75);
-
-			NPC.DropItem(ModContent.ItemType<TinyLunazoaItem>(), lunazoastack);
+			npcLoot.AddCommon<MJWBag>();
+			npcLoot.AddCommon<MJWMask>(7);
+			npcLoot.AddCommon<MJWTrophy>(10);
+			npcLoot.AddOneFromOptions<Moonshot, Moonburst, JellynautBubble, MoonjellySummonStaff>(7);
+			npcLoot.AddCommon<TinyLunazoaItem>(1, 30, 40);
 		}
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
 		{
             for (int k = 0; k < 20; k++)
             {
@@ -396,7 +379,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			Player player = Main.player[NPC.target];
 
 			if (attackCounter == 0) {
-                SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/BossSFX/MoonWizard_Laugh1"));
+                SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BossSFX/MoonWizard_Laugh1"), NPC.Center);
                 SkyPos = (int)(player.position.X - 1000);
 				SkyPosY = (int)(player.position.Y - 500);
 			}
@@ -444,7 +427,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			UpdateFrame(0.15f, 10, 13);
 			if (attackCounter == 10)
             {
-                SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/BossSFX/MoonWizard_Laugh1"));
+                SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BossSFX/MoonWizard_Laugh1"), NPC.Center);
             }
 			attackCounter++;
 			if (attackCounter % 30 == 0) {
@@ -491,7 +474,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			{
 				UpdateFrame(0.4f, 4, 9);
 				if (attackCounter == 55) {
-                    SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/BossSFX/MoonWizard_Attack"));
+                    SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BossSFX/MoonWizard_Attack"), NPC.Center);
                     NPC.velocity.Y = 13;
                     NPC.velocity.Y += 1.6f;
 					if (phaseTwo) {
@@ -703,7 +686,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			if (attackCounter > 82) {
 				attackCounter = 0;
                 int a = Gore.NewGore(NPC.GetSource_FromAI(), new Vector2(NPC.Center.X, NPC.Center.Y - 50), new Vector2(0, 3), Mod.Find<ModGore>("Gores/WizardHat_Gore").Type);
-                SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/BossSFX/MoonWizard_Taunt"));
+                SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BossSFX/MoonWizard_Taunt"), NPC.Center);
                 NPC.position = TeleportPos - new Vector2(NPC.width / 2, NPC.height / 2);
 				SoundEngine.PlaySound(SoundID.Item94, NPC.position);
 				numMoves--;
@@ -723,7 +706,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 
 		void Teleport()
 		{
-			SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 66);
+			SoundEngine.PlaySound(SoundID.Item66, NPC.Center);
 			Player player = Main.player[NPC.target];
 			int distance = Main.rand.Next(300, 500);
 			bool teleported = false;

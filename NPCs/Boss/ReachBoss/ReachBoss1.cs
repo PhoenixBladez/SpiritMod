@@ -37,8 +37,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			NPC.noTileCollide = true;
 			NPC.npcSlots = 20;
 			NPC.defense = 10;
-			bossBag = ModContent.ItemType<ReachBossBag>();
-			Music = Mod.GetSoundSlot(Terraria.ModLoader.SoundType.Music, "Sounds/Music/ReachBoss");
+			Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ReachBoss");
 			NPC.buffImmune[20] = true;
 			NPC.buffImmune[31] = true;
 			NPC.buffImmune[70] = true;
@@ -79,7 +78,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			}
 			if (NPC.ai[0] == 150)
 			{
-				SoundEngine.PlaySound(SoundID.Grass, (int)NPC.position.X, (int)NPC.position.Y);
+				SoundEngine.PlaySound(SoundID.Grass, NPC.Center);
 				SoundEngine.PlaySound(SoundID.Item104 with { PitchVariance = 0.2f }, NPC.Center);
 			    DustHelper.DrawStar(NPC.Center, 163, pointAmount: 163, mainSize: 2.7425f, dustDensity: 4, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -116,9 +115,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			if (NPC.life <= (NPC.lifeMax / 2)) {
 				if (NPC.ai[3] == 0) {
 					NPC.ai[0] = 0;
-					CombatText.NewText(new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height), new Color(0, 200, 80, 100),
-					"The Bramble shall consume you...");
-					SoundEngine.PlaySound(SoundID.Grass, (int)NPC.position.X, (int)NPC.position.Y);
+					CombatText.NewText(new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height), new Color(0, 200, 80, 100), "The Bramble shall consume you...");
+					SoundEngine.PlaySound(SoundID.Grass, NPC.Center);
 					SoundEngine.PlaySound(SoundID.Trackable, (int)NPC.position.X, (int)NPC.position.Y, 39);
                     NPC.ai[3]++;
 					NPC.netUpdate = true;
@@ -159,7 +157,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			if (NPC.ai[0] == 489 || NPC.ai[0] == 690)
 			{
 				DustHelper.DrawStar(NPC.Center, 163, pointAmount: 163, mainSize: 2.7425f, dustDensity: 4, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 55).WithPitchVariance(0.2f), NPC.Center);
+				SoundEngine.PlaySound(SoundID.NPCDeath55 with { PitchVariance = 0.2f }, NPC.Center);
 				float spread = 10f * 0.0174f;
 				double startAngle = Math.Atan2(6, 6) - spread / 2;
 				double deltaAngle = spread / 8f;
@@ -330,7 +328,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				Color color28 = color29;
 				color28 = NPC.GetAlpha(color28);
 				color28 *= 1f - num107;
-				Vector2 vector29 = NPC.Center + ((float)num103 / (float)num108 * 6.28318548f + NPC.rotation + num106).ToRotationVector2() * (7f * num107 + 2f) - Main.screenPosition + Drawoffset - NPC.velocity * (float)num103;
+				Vector2 vector29 = NPC.Center + (num103 / (float)num108 * 6.28318548f + NPC.rotation + num106).ToRotationVector2() * (7f * num107 + 2f) - Main.screenPosition + Drawoffset - NPC.velocity * (float)num103;
 				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/ReachBoss/ReachBoss1_Glow").Value, vector29, NPC.frame, color28, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, spriteEffects3, 0f);
 			}
 			if (NPC.ai[0] > 400 && NPC.ai[0] < 500 || NPC.ai[0] > 600 && NPC.ai[0] < 700)
@@ -353,24 +351,12 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			potionType = ItemID.HealingPotion;
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.expertMode) {
-				NPC.DropBossBags();
-				return;
-			}
-
-			int[] lootTable = {
-				ModContent.ItemType<ThornBow>(),
-				ModContent.ItemType<SunbeamStaff>(),
-				ModContent.ItemType<ReachVineStaff>(),
-				ModContent.ItemType<ReachBossSword>()
-			};
-			int loot = Main.rand.Next(lootTable.Length);
-			NPC.DropItem(lootTable[loot]);
-
-			NPC.DropItem(ModContent.ItemType<ReachMask>(), 1f / 7);
-			NPC.DropItem(ModContent.ItemType<Trophy5>(), 1f / 10);
+			npcLoot.AddBossBag<ReachBossBag>();
+			npcLoot.AddCommon<ReachMask>(7);
+			npcLoot.AddCommon<Trophy5>(10);
+			npcLoot.AddOneFromOptions<ThornBow, SunbeamStaff, ReachVineStaff, ReachBossSword>();
 		}
 	}
 }

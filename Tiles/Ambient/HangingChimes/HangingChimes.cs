@@ -22,7 +22,7 @@ namespace SpiritMod.Tiles.Ambient.HangingChimes
 			Main.tileNoAttach[Type] = true;
 			Main.tileLighted[Type] = true;
 
-			soundType = SoundID.Shatter;
+			HitSound = SoundID.Shatter;
 			DustType = DustID.BoneTorch;
 
 			AddMapEntry(new Color(246, 194, 255));

@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Sets.GraniteSet
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Enchanted Granite Chunk");
 			AddMapEntry(new Color(30, 144, 255), name);
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			MinPick = 65;
 			DustType = DustID.Electric;
 		}

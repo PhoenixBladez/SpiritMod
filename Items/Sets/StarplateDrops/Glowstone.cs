@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Cosmilite");
 			ItemDrop = ModContent.ItemType<CosmiliteShard>();
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			DustType = DustID.Electric;
 		}
 		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)

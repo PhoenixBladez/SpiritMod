@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			NPC.aiStyle = -1;
 			NPC.value = 1100;
 			NPC.knockBackResist = .4f;
-			NPC.HitSound = new LegacySoundStyle(SoundID.NPCHit, 55).WithPitchVariance(0.2f);
+			NPC.HitSound = SoundID.NPCHit55 with { PitchVariance = 0.2f };
 			NPC.DeathSound = SoundID.NPCDeath51;
 		}
 
@@ -164,7 +164,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 							Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<WeaverStarChannel>(), NPCUtils.ToActualDamage(80, 1.5f), 1f, Main.myPlayer, NPC.whoAmI);
 
 						if (!Main.dedServ)
-							SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/starCast").WithVolume(0.65f).WithPitchVariance(0.3f), NPC.Center);
+							SoundEngine.PlaySound(new SoundStyle("SpiritMods/Sounds/starCast") with { Volume = 0.65f, PitchVariance = 0.3f }, NPC.Center);
 					}
 
 					if(AiTimer > STARBURST_CHANNELTIME)
@@ -307,14 +307,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 			PathfinderOutlineDraw.DrawAfterImage(spriteBatch, NPC, NPC.frame, Vector2.Zero, NPC.frame.Size() / 2);
 		}
-
 		#endregion
 
-		public override void OnKill()
-		{
-			float chance = Main.expertMode ? 0.1f : 0.05f;
-			NPC.DropItem(ModContent.ItemType<StargloopHead>(), chance);
-		}
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<StargloopHead>(20);
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

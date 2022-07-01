@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Sets.FloranSet
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Floran Ore");
 			AddMapEntry(new Color(30, 200, 25), name);
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			DustType = DustID.GrassBlades;
 			MinPick = 40;
 		}

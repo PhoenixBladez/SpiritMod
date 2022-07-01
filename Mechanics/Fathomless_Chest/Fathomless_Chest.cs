@@ -41,7 +41,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			AddMapEntry(new Color(112, 216, 238), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			Main.tileLighted[Type] = true;
-			soundType = SoundID.Trackable;
+			HitSound = SoundID.Trackable;
 			soundStyle = 170;
 		}
 		public override bool CanExplode(int i, int j) => false;

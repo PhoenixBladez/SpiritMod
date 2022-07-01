@@ -262,7 +262,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 		public override bool PreKill()
         {
-            SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+            SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.Center);
             MyWorld.downedOccultist = true;
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);

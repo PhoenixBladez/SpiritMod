@@ -203,7 +203,7 @@ namespace SpiritMod.NPCs.Mechromancer
         public override bool PreKill()
         {
             MyWorld.downedMechromancer = true;
-            SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+            SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.Center);
             return true;
         }
 

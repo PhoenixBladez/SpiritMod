@@ -76,7 +76,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
 						AiState++;
 						Projectile.velocity = Vector2.UnitX.RotatedBy(RotationToCursor) * Main.rand.NextFloat(6, 8);
 						if (!Main.dedServ)
-							SoundEngine.PlaySound(SoundID.Item1.WithPitchVariance(0.2f), Projectile.Center);
+							SoundEngine.PlaySound(SoundID.Item1 with { PitchVariance = 0.2f }, Projectile.Center);
 
 						Projectile.netUpdate = true;
 					}

@@ -15,7 +15,7 @@ namespace SpiritMod.Tiles.Block
 			AddMapEntry(new Color(163, 191, 164));
 			Main.tileBlockLight[Type] = true;
 			ItemDrop = ModContent.ItemType<AcidBrick>();
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 		}
 	}
 }

@@ -112,7 +112,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 					direction.Normalize();
 					direction *= DISTANCE;
 					endPos = player.Center + direction;
-					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), Projectile.Center);
+					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash") with { PitchVariance = 0.4f, Volume = 0.4f }), Projectile.Center);
 					SpiritMod.primitives.CreateTrail(new DragonPrimTrail(Projectile));
 					oldCenter = player.Center;
 				}

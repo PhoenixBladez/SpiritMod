@@ -26,7 +26,7 @@ namespace SpiritMod.Tiles.Ambient
 			};
 			TileObjectData.addTile(Type);
             DustType = -1;
-            soundType = -1;
+            HitSound = -1;
 
 			AddMapEntry(new Color(219, 31, 31));
 		}

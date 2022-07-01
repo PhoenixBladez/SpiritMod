@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			NPC.npcSlots = 30;
 			NPC.defense = 9;
 			NPC.aiStyle = -1;
-			Music = Mod.GetSoundSlot(Terraria.ModLoader.SoundType.Music, "Sounds/Music/ReachBoss");
+			Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ReachBoss");
 			NPC.buffImmune[20] = true;
 			NPC.buffImmune[31] = true;
 			NPC.buffImmune[70] = true;
@@ -98,7 +98,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			{
 				NPC.ai[0] = 0;
 			    DustHelper.DrawStar(NPC.Center, 235, pointAmount: 7, mainSize: 2.7425f, dustDensity: 6, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 55).WithPitchVariance(0.2f), NPC.Center);
+				SoundEngine.PlaySound(SoundID.NPCDeath55 with { PitchVariance = 0.2f }, NPC.Center);
 				SoundEngine.PlaySound(SoundID.Trackable, (int)NPC.position.X, (int)NPC.position.Y, 180, 1f, -0.9f);
 				NPC.netUpdate = true;
 				NPC.ai[3]++;
@@ -133,7 +133,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			if (NPC.ai[0] == 880)
 			{
 			    DustHelper.DrawStar(NPC.Center, 272, pointAmount: 8, mainSize: 3.7425f, dustDensity: 6, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 55).WithPitchVariance(0.2f), NPC.Center);
+				SoundEngine.PlaySound(SoundID.NPCDeath55 with { PitchVariance = 0.2f }, NPC.Center);
 			}
 
 			if (NPC.ai[0] > 900 && NPC.ai[0] < 1050)
@@ -302,8 +302,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			{
 				
 				SoundEngine.PlaySound(new LegacySoundStyle(42, 4), NPC.Center);
-				SoundEngine.PlaySound(new LegacySoundStyle(6, 0).WithPitchVariance(0.2f), NPC.Center);
-				SoundEngine.PlaySound(new LegacySoundStyle(4, 55).WithPitchVariance(0.2f), NPC.Center);
+				SoundEngine.PlaySound(new LegacySoundStyle(6, 0) with { PitchVariance = 0.2f }, NPC.Center);
+				SoundEngine.PlaySound(new LegacySoundStyle(4, 55) with { PitchVariance = 0.2f }, NPC.Center);
 				int p = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + Main.rand.Next(-100, 100), (int)NPC.Center.Y + Main.rand.Next(-200, -100), ModContent.NPCType<ExplodingSpore>());
 				DustHelper.DrawStar(new Vector2(Main.npc[p].Center.X, Main.npc[p].Center.Y), DustID.GoldCoin, pointAmount: 4, mainSize: .9425f, dustDensity: 2, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
 				Main.npc[p].ai[1] = NPC.whoAmI;

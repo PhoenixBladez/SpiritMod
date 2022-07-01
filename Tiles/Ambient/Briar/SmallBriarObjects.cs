@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			Main.tileMergeDirt[Type] = true;
             TileObjectData.newTile.RandomStyleRange = 10;
             DustType = DustID.Stone;
-			soundType = SoundID.Grass;
+			HitSound = SoundID.Grass;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.addTile(Type);
             /*

@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Sets.MarbleSet
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Enchanted Marble Chunk");
 			AddMapEntry(new Color(227, 191, 75), name);
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			MinPick = 65;
 			DustType = DustID.GoldCoin;
 

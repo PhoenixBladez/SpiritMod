@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileLighted[Type] = false;
 			AddMapEntry(new Color(53, 59, 74));
 			DustType = -1;
-            soundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
 			ItemDrop = ModContent.ItemType<TechBlockItem>();
 		}
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)

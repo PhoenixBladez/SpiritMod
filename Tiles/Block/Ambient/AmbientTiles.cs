@@ -49,7 +49,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
             AddMapEntry(new Color(79, 55, 59));
@@ -119,7 +119,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
             AddMapEntry(new Color(79, 55, 59));
@@ -189,7 +189,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
             AddMapEntry(new Color(79, 55, 59));
@@ -247,7 +247,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(60, 60, 60));
 			ItemDrop = ModContent.ItemType<MottledStoneItem>();
@@ -286,7 +286,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
             AddMapEntry(new Color(79, 55, 59));
@@ -357,7 +357,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(60, 60, 60));
 			ItemDrop = ModContent.ItemType<ObsidianBlockItem>();
@@ -394,7 +394,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(74, 60, 50));
 			ItemDrop = ModContent.ItemType<OldStoneItem>();
@@ -431,7 +431,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(74, 60, 50));
 			ItemDrop = ModContent.ItemType<OutlandStoneItem>();
@@ -470,7 +470,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(115, 76, 48));
 			ItemDrop = ModContent.ItemType<RuinstoneItem>();
@@ -509,7 +509,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(69, 74, 60));
 			ItemDrop = ModContent.ItemType<VinestoneItem>();
@@ -548,7 +548,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(100, 100, 100));
 			ItemDrop = ModContent.ItemType<WornStoneItem>();
@@ -586,7 +586,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(100, 100, 100));
 			ItemDrop = ModContent.ItemType<IvyStoneItem>();
@@ -683,7 +683,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			soundType = SoundID.Grass;
+			HitSound = SoundID.Grass;
             AddMapEntry(new Color(80, 55, 82));
 			ItemDrop = ModContent.ItemType<DarkFoliageItem>();
 			ModTranslation name = CreateMapEntryName();
@@ -832,7 +832,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(100, 100, 100));
 			ItemDrop = ModContent.ItemType<StalactiteStoneItem>();
@@ -871,7 +871,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(100, 100, 100));
 			ItemDrop = ModContent.ItemType<CragstoneItem>();
@@ -910,7 +910,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
             AddMapEntry(new Color(100, 100, 100));
 			ItemDrop = ModContent.ItemType<FracturedStoneItem>();
@@ -1447,7 +1447,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			soundType = SoundID.Grass;
+			HitSound = SoundID.Grass;
             AddMapEntry(new Color(92, 36, 49));
 			ItemDrop = ModContent.ItemType<BloodyFoliageItem>();
 			ModTranslation name = CreateMapEntryName();

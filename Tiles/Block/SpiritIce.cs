@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles.Block
 			TileID.Sets.Conversion.Ice[Type] = true;
 			AddMapEntry(new Color(70, 130, 180));
 			ItemDrop = ModContent.ItemType<SpiritIceItem>();
-            soundType = -1;
+            HitSound = -1;
             DustType = DustID.SnowBlock;
 		}
 

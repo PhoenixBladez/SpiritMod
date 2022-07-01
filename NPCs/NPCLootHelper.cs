@@ -21,5 +21,15 @@ namespace SpiritMod.NPCs
 		public static void AddBossBag<T>(this NPCLoot loot) where T : ModItem => loot.Add(ItemDropRule.BossBag(ModContent.ItemType<T>()));
 
 		public static LeadingConditionRule NightCondition(this NPCLoot loot) => new LeadingConditionRule(new DropRuleConditions.NotDay());
+
+		//Uh on no params generics!!!
+		public static void AddOneFromOptions<T1, T2>(this NPCLoot loot, int chance = 1) where T1 : ModItem where T2 : ModItem => loot.AddOneFromOptions(chance, ModContent.ItemType<T1>(), ModContent.ItemType<T2>());
+		public static void AddOneFromOptions<T1, T2, T3>(this NPCLoot loot, int chance = 1) where T1 : ModItem where T2 : ModItem where T3 : ModItem => loot.AddOneFromOptions(chance, ModContent.ItemType<T1>(), ModContent.ItemType<T2>(), ModContent.ItemType<T3>());
+		public static void AddOneFromOptions<T1, T2, T3, T4>(this NPCLoot loot, int chance = 1) where T1 : ModItem where T2 : ModItem where T3 : ModItem where T4 : ModItem
+			=> loot.AddOneFromOptions(chance, ModContent.ItemType<T1>(), ModContent.ItemType<T2>(), ModContent.ItemType<T3>(), ModContent.ItemType<T4>());
+		public static void AddOneFromOptions<T1, T2, T3, T4, T5>(this NPCLoot loot, int chance = 1) where T1 : ModItem where T2 : ModItem where T3 : ModItem where T4 : ModItem where T5 : ModItem
+			=> loot.AddOneFromOptions(chance, ModContent.ItemType<T1>(), ModContent.ItemType<T2>(), ModContent.ItemType<T3>(), ModContent.ItemType<T4>(), ModContent.ItemType<T5>());
+		public static void AddOneFromOptions<T1, T2, T3, T4, T5, T6>(this NPCLoot loot, int chance = 1) where T1 : ModItem where T2 : ModItem where T3 : ModItem where T4 : ModItem where T5 : ModItem where T6 : ModItem
+			=> loot.AddOneFromOptions(chance, ModContent.ItemType<T1>(), ModContent.ItemType<T2>(), ModContent.ItemType<T3>(), ModContent.ItemType<T4>(), ModContent.ItemType<T5>(), ModContent.ItemType<T6>());
 	}
 }

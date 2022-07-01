@@ -87,7 +87,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 
                 if (charge == 60)
                 {
-					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), Projectile.Center);
+					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash") with { PitchVariance = 0.4f, Volume = 0.4f }), Projectile.Center);
 					SpiritMod.primitives.CreateTrail(new AnimePrimTrail(Projectile));
 					if (Projectile.owner == Main.myPlayer)
 					{

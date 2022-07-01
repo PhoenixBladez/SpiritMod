@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechSword
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SwordSlash1").WithPitchVariance(0.6f).WithVolume(0.8f), player.Center);
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/SwordSlash1") with { PitchVariance = 0.6f, Volume = 0.8f }, player.Center);
 
 			type = ModContent.ProjectileType<GranitechSaberProjectile>();
 			GranitechSaberPlayer modplayer = player.GetModPlayer<GranitechSaberPlayer>();

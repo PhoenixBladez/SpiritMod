@@ -240,7 +240,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			if (Main.netMode == NetmodeID.Server)
 				return;
 
-			SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.6f), target.Center);
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.6f), target.Center);
 			float scale = Main.rand.NextFloat(0.8f, 1f);
 			DrawAberration.DrawChromaticAberration(BeamDirection, 2f, delegate (Vector2 offset, Color colorMod) 
 			{

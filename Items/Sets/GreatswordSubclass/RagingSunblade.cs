@@ -363,7 +363,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 		{
 			if (Main.mouseRight && !dashing && player == Main.LocalPlayer)
 			{
-				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash").WithPitchVariance(0.4f).WithVolume(0.4f), player.Center);
+				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash") with { PitchVariance = 0.4f, Volume = 0.4f }), player.Center);
 				dashing = true;
 				player.GetModPlayer<MyPlayer>().AnimeSword = true;
 				Projectile.NewProjectile(Projectile.GetSource_FromAI(), player.Center, Vector2.Zero, ModContent.ProjectileType<HeliosDash>(), Projectile.damage * 3, 0, player.whoAmI);

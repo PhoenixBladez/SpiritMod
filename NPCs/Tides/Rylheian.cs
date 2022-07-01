@@ -74,9 +74,9 @@ namespace SpiritMod.NPCs.Tides
 					if (Main.netMode != NetmodeID.Server)
 					{
 						if (Main.rand.NextBool(2))
-							SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/RlyehianCry2").WithVolume(0.85f).WithPitchVariance(0.4f), NPC.Center);
+							SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/RlyehianCry2") with { Volume = 0.85f, PitchVariance = 0.4f }, NPC.Center);
 						else
-							SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/RlyehianCry").WithVolume(0.85f).WithPitchVariance(0.4f), NPC.Center);
+							SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/RlyehianCry") with { Volume = 0.85f, PitchVariance = 0.4f }, NPC.Center);
 					}
 					NPC.ai[3] = Main.rand.Next(360);
 						double anglex = Math.Sin(NPC.ai[3] * (Math.PI / 180));
@@ -132,7 +132,7 @@ namespace SpiritMod.NPCs.Tides
 			}
 			if (NPC.ai[1] == 1) {
 				if (NPC.ai[0] % 12 == 0 && NPC.ai[0] % 400 < 300) {
-					SoundEngine.PlaySound(SoundID.Item, NPC.Center, 8);
+					SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
 					Vector2 offset = new Vector2((float)Math.Cos(NPC.ai[2]), (float)Math.Sin(NPC.ai[2])) * 90f;
 					DustHelper.DrawTriangle(NPC.Center + offset, 173, 4);
 					NPC.ai[2] += 0.785f;
@@ -158,7 +158,7 @@ namespace SpiritMod.NPCs.Tides
 				if (NPC.ai[0] % 25 == 10) {
 					if (Main.netMode != NetmodeID.MultiplayerClient) {
 						NPC.ai[3] = Main.rand.Next(360);
-						SoundEngine.PlaySound(SoundID.Item, NPC.Center, 8);
+						SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
 						double squidAnglex = Math.Sin(NPC.ai[3] * (Math.PI / 180));
 						double squidAngley = 0 - Math.Abs(Math.Cos(NPC.ai[3] * (Math.PI / 180)));
 						Vector2 direction = player.Center - new Vector2(player.Center.X + (int)(500 * squidAnglex), player.Center.Y + (int)(500 * squidAngley));
@@ -208,7 +208,7 @@ namespace SpiritMod.NPCs.Tides
 
 		public override bool PreKill()
         {
-            SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/DownedMiniboss"));
+            SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.Center);
             return true;
         }
 

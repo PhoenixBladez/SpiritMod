@@ -121,7 +121,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			for(int i = 0; i< 4; i++)
 				ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, -oldVelocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.25f), Color.White, Main.rand.NextFloat(0.1f, 0.2f), 20));
 
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 3).WithPitchVariance(0.2f), Projectile.Center);
+			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 3) with { PitchVariance = 0.2f }, Projectile.Center);
 			return true;
 		}
 

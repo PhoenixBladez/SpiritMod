@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			Main.tileMergeDirt[Type] = true;
 
 			DustType = DustID.Plantera_Green;
-			soundType = SoundID.Grass;
+			HitSound = SoundID.Grass;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };

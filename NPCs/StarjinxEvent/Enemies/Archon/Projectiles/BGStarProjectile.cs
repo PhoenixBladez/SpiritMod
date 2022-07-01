@@ -99,7 +99,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 			if (ModParent == null || Parent == null || ModParent.Z >= 0.5f)
 				return;
 
-			drawColor = Color.Lerp(Main.bgColor, Color.White, 0.5f);
+			drawColor = Color.Lerp(Main.ColorOfTheSkies, Color.White, 0.5f);
 
 			if (ModParent.Z < 0.2f)
 				drawColor *= ModParent.Z * 5;

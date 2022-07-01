@@ -14,7 +14,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileMergeDirt[Type] = true;
 			AddMapEntry(new Color(99, 79, 49));
 			Main.tileBlockLight[Type] = true;
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			MinPick = 100;
 			ItemDrop = ModContent.ItemType<AsteroidBlock>();
 		}

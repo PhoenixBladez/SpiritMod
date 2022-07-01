@@ -50,10 +50,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			NPC.npcSlots = 15f;
 			NPC.HitSound = SoundID.NPCHit31;
 			NPC.DeathSound = SoundID.NPCDeath5;
-
 			NPC.buffImmune[BuffID.Confused] = true;
-
-			bossBag = ModContent.ItemType<BagOScarabs>();
 		}
 
 		bool trailbehind;
@@ -507,7 +504,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 				if (AiTimer == 120 || AiTimer == 210) {
 					trailbehind = true;
-					SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1"), NPC.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BossSFX/Scarab_Roar1"), NPC.Center);
 					NPC.velocity = ToPlayer * MathHelper.Clamp(NPC.Distance(player.Center) / 22, 16, 30);
 				}
 
@@ -1078,27 +1075,14 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			return true;
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			Gores();
-			if (Main.expertMode) {
-				NPC.DropBossBags();
-				return;
-			}
-			NPC.DropItem(ModContent.ItemType<Chitin>(), 25, 36);
-
-			int[] lootTable = {
-				ModContent.ItemType<ScarabBow>(),
-				ModContent.ItemType<LocustCrook>(),
-				ModContent.ItemType<RoyalKhopesh>(),
-				ModContent.ItemType<RadiantCane>()
-			};
-			int loot = Main.rand.Next(lootTable.Length);
-			NPC.DropItem(lootTable[loot]);
-
-			NPC.DropItem(ModContent.ItemType<ScarabMask>(), 1f / 7);
-			NPC.DropItem(ModContent.ItemType<Trophy1>(), 1f / 10);
-			NPC.DropItem(ModContent.ItemType<SandsOfTime>(), 1f / 15);
+			npcLoot.AddBossBag<BagOScarabs>();
+			npcLoot.AddCommon<ScarabMask>(7);
+			npcLoot.AddCommon<Trophy1>(10);
+			npcLoot.AddCommon<SandsOfTime>(15);
+			npcLoot.AddCommon<Chitin>(1, 25, 36);
+			npcLoot.AddOneFromOptions<ScarabBow, LocustCrook, RoyalKhopesh, RadiantCane>();
 		}
 
 		private void Gores()

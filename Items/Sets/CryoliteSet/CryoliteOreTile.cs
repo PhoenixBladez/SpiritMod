@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Cryolite Ore");
 			AddMapEntry(new Color(40, 0, 205), name);
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			MinPick = 65;
 			DustType = DustID.BlueCrystalShard;
 		}

@@ -247,7 +247,7 @@ namespace SpiritMod.Skies
                 }
                 if (num3 != -1)
                 {
-                    Color value5 = new Color(Main.bgColor.ToVector4() * 0.9f + new Vector4(0.1f));
+                    Color value5 = new Color(Main.ColorOfTheSkies.ToVector4() * 0.9f + new Vector4(0.1f));
                     Vector2 value4 = Main.screenPosition + new Vector2((float)(Main.screenWidth >> 1), (float)(Main.screenHeight >> 1));
                     Rectangle rectangle = new Rectangle(-1000, -1000, 4000, 4000);
                     for (int i = num3; i < num2; i++)

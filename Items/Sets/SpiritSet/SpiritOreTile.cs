@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Sets.SpiritSet
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Spirit Ore");
 			AddMapEntry(new Color(30, 144, 255), name);
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			MinPick = 180;
 
 		}

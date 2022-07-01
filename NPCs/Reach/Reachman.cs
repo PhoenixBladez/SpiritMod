@@ -38,7 +38,7 @@ namespace SpiritMod.NPCs.Reach
 			NPC.knockBackResist = .34f;
 			NPC.aiStyle = 3;
 			AIType = NPCID.SnowFlinx;
-			NPC.HitSound = new LegacySoundStyle(SoundID.NPCHit, 2).WithPitchVariance(0.2f);
+			NPC.HitSound = SoundID.NPCHit2 with { PitchVariance = 0.2f };
 			Banner = NPC.type;
             BannerItem = ModContent.ItemType<Items.Banners.ReachmanBanner>();
         }
@@ -93,7 +93,7 @@ namespace SpiritMod.NPCs.Reach
 				if (aiTimer == 360)
 				{
 					if (Main.netMode != NetmodeID.Server)
-						SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/EnemyHeal"));
+						SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/EnemyHeal"), NPC.Center);
 					NPC.life += 10;
 					NPC.HealEffect(10, true);
 				}

@@ -121,7 +121,7 @@ namespace SpiritMod.NPCs.Tides.Tide
 						DustHelper.DrawDiamond(new Vector2(rylheian.Center.X, rylheian.Center.Y), 173, 8);
 						DustHelper.DrawTriangle(new Vector2(rylheian.Center.X, rylheian.Center.Y), 173, 8);
 						if (Main.netMode != NetmodeID.Server) 
-							SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/RlyehianCry").WithVolume(0.5f).WithPitchVariance(0.2f), npc.Center);
+							SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/RlyehianCry") with { Volume = 0.5f, PitchVariance = 0.2f }, npc.Center);
 					}
 				}
 

@@ -13,14 +13,13 @@ namespace SpiritMod.Items.Sets.BismiteSet
 			Main.tileSpelunker[Type] = true;
 			Main.tileSolid[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			ItemDrop = ModContent.ItemType<BismiteCrystal>();   //put your CustomBlock name
+			ItemDrop = ModContent.ItemType<BismiteCrystal>();
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Bismite Crystal");
 			AddMapEntry(new Color(30, 100, 25), name);
-			soundType = SoundID.Tink;
+			HitSound = SoundID.Tink;
 			DustType = DustID.Plantera_Green;
-			Main.tileBlendAll[this.Type] = true;
-
+			Main.tileBlendAll[Type] = true;
 		}
 	}
 }

@@ -13,7 +13,6 @@ namespace SpiritMod.Sounds.Kakamora
 			soundInstance.Pan = pan;
 			soundInstance.Pitch = Main.rand.Next(-1, 8) / 25f;
 			return soundInstance;
-
 		}
 	}
 }

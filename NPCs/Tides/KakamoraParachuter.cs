@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs.Tides
 		{
 			if (NPC.ai[3] == 1 && NPC.velocity.Y == 0)
 			{
-				Projectile.NewProjectile(NPC.Center, new Vector2(NPC.direction * -4, -0.5f), ModContent.ProjectileType<StrayGlider>(), 0, 0);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(NPC.direction * -4, -0.5f), ModContent.ProjectileType<StrayGlider>(), 0, 0);
 				switch (Main.rand.Next(4))
 				{
 					case 0:
@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs.Tides
 
 			if (NPC.collideY)
 			{
-				Projectile.NewProjectile(NPC.Center, new Vector2(NPC.direction * -4, -0.5f), ModContent.ProjectileType<StrayGlider>(), 0, 0);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(NPC.direction * -4, -0.5f), ModContent.ProjectileType<StrayGlider>(), 0, 0);
 				switch (Main.rand.Next(4))
 				{
 					case 0:
@@ -128,7 +128,7 @@ namespace SpiritMod.NPCs.Tides
 
 			if (NPC.life <= 0)
 			{
-				SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Kakamora/KakamoraDeath"), NPC.Center);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore").Type, 1f);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore1").Type, 1f);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_GoreGlider").Type, 1f);

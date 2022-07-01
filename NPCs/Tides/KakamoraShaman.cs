@@ -100,7 +100,7 @@ namespace SpiritMod.NPCs.Tides
 					{
 						NPC.velocity.X = npc2.direction * 7;
 						NPC.velocity.Y = -2;
-						SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraHit"));
+						SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Kakamora/KakamoraHit"), NPC.Center);
 					}
 				}
 			}
@@ -175,7 +175,7 @@ namespace SpiritMod.NPCs.Tides
 
 			if (NPC.life <= 0)
 			{
-				SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Kakamora/KakamoraDeath"), NPC.Center);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore1").Type, 1f);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore2").Type, 1f);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore3").Type, 1f);
