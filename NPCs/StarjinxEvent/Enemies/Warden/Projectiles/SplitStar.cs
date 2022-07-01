@@ -69,7 +69,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden.Projectiles
 
 			Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.PiOver2) * 2f;
 
-			int newProj = Projectile.NewProjectile(Projectile.position, -Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+			int newProj = Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.position, -Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner);
 			Main.projectile[newProj].timeLeft = Projectile.timeLeft;
 			Main.projectile[newProj].scale = Projectile.scale;
 			return newProj;

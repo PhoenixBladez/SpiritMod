@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.MarbleSet;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -125,17 +126,6 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 				projectile.friendly = false;
 				projectile.penetrate = 2;
 				projectile.velocity.X *= -1f;
-			}
-		}
-
-		public override void OnKill()
-		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MarbleChunk>());
-
-			if (Main.rand.Next(120) == 2)
-			{
-				int[] lootTable = new int[] { 3187, 3188, 3189 };
-				NPC.DropItem(lootTable[Main.rand.Next(3)]);
 			}
 		}
 

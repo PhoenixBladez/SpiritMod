@@ -87,7 +87,7 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Liberty
 
 					if (!Main.dedServ) //fire burst after recoil
 					{
-						SoundEngine.PlaySound(SoundID.Item14with { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);
+						SoundEngine.PlaySound(SoundID.Item14 with { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);
 
 						for (int i = 0; i < 5; i++)
 							ParticleHandler.SpawnParticle(new FireParticle(shootPos, Projectile.velocity.RotatedByRandom(MathHelper.Pi / 5) * Main.rand.NextFloat(6),

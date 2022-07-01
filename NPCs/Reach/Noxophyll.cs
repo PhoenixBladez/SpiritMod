@@ -51,12 +51,8 @@ namespace SpiritMod.NPCs.Reach
 		}
 
 		public override void AI() => NPC.spriteDirection = NPC.direction;
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<RawFish>(2);
 
-		public override void OnKill()
-		{
-			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
-		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.GetSpiritPlayer().ZoneReach && spawnInfo.Water ? 0.511f : 0f;
 	}
 }

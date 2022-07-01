@@ -40,17 +40,14 @@ namespace SpiritMod.NPCs.Tides
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crocomount/CrocomountGore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crocomount/CrocomountGore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crocomount/CrocomountGore3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crocomount/CrocomountGore4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crocomount/CrocomountGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crocomount/CrocomountGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crocomount/CrocomountGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crocomount/CrocomountGore4").Type, 1f);
 			}
 		}
-		public override void OnKill()
-		{
-			if (Main.rand.NextBool(78))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<CrocodrilloMountItem>());
-		}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<CrocodrilloMountItem>(78);
 
 		int frame = 0;
 		int timer = 0;

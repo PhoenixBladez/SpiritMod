@@ -99,7 +99,7 @@ namespace SpiritMod.Projectiles.Magic
 					Main.dust[num].scale *= .25f;
 					Main.dust[num].velocity = Projectile.DirectionTo(Main.dust[num].position) * 6f;
 				}
-				int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, 0, ModContent.ProjectileType<GraniteSpike1>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
+				int proj = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X, target.Center.Y, 0, 0, ModContent.ProjectileType<GraniteSpike1>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
 				Main.projectile[proj].timeLeft = 2;
 			}
 		}

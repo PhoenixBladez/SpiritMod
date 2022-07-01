@@ -140,11 +140,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 
 				if (NPC.ai[0] == 110) //change to frame related later
 				{
-					SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 53);
-					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), NPCUtils.ToActualDamage(55, 1.5f), 1, Main.myPlayer);
+					SoundEngine.PlaySound(SoundID.NPCHit53, NPC.Center);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)direction9.X * 40, (float)direction9.Y * 40, ModContent.ProjectileType<StarLaser>(), NPCUtils.ToActualDamage(55, 1.5f), 1, Main.myPlayer);
 				}
 				if (NPC.ai[0] < 110 && NPC.ai[0] > 75 && NPC.ai[0] % 3 == 0)
-					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<StarLaserTrace>(), NPCUtils.ToActualDamage(27, 1.5f), 1, Main.myPlayer);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)direction9.X * 30, (float)direction9.Y * 30, ModContent.ProjectileType<StarLaserTrace>(), NPCUtils.ToActualDamage(27, 1.5f), 1, Main.myPlayer);
 				NPC.rotation = direction9.ToRotation() - 1.57f;
 			}
 			return false;

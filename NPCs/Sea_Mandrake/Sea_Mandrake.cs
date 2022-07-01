@@ -175,14 +175,14 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 
 		public override void OnKill()
 		{
-			if (Main.rand.NextBool(20))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<LuminanceSeacone>(), 1);
+			if (QuestManager.GetQuest<StylistQuestSeafoam>().IsActive) //Quest not loot
+				Item.NewItem(NPC.GetSource_Death(), NPC.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.SeaMandrakeSac>());
+		}
 
-			if (Main.rand.NextBool(2))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
-
-			if (QuestManager.GetQuest<StylistQuestSeafoam>().IsActive)
-				Item.NewItem(NPC.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.SeaMandrakeSac>());
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddCommon<LuminanceSeacone>(20);
+			npcLoot.AddCommon<RawFish>(2);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

@@ -69,7 +69,7 @@ namespace SpiritMod.Projectiles.Arrow
 				velocity /= (float)Math.Sqrt((double)(xVel * xVel + yVel * yVel));
 				xVel *= velocity;
 				yVel *= velocity;
-				Projectile.NewProjectile(target.position.X, target.position.Y, xVel, yVel, ProjectileID.SpectreWrath, dmg, 0f, Projectile.owner, (float)npc, 0f);
+				Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.position.X, target.position.Y, xVel, yVel, ProjectileID.SpectreWrath, dmg, 0f, Projectile.owner, (float)npc, 0f);
 				Projectile.Kill();
 			}
 		}

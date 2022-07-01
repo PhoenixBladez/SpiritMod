@@ -158,7 +158,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 				SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, NPC.Center);
 				initialized = true;
 				NewThread(true, true);
-				Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<StarachnidProj>(), Main.expertMode ? 20 : 45, 0, NPC.target, NPC.whoAmI);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<StarachnidProj>(), Main.expertMode ? 20 : 45, 0, NPC.target, NPC.whoAmI);
 			}
 
 			TraverseThread(); //Walk along thread
@@ -177,7 +177,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			if (NPC.life <= 0)
 			{
                 for (int k = 0; k < 4; k++)
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/StarjinxEvent/Starachnid/Starachnid1").Type, Main.rand.NextFloat(.6f, 1f));
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/StarjinxEvent/Starachnid/Starachnid1").Type, Main.rand.NextFloat(.6f, 1f));
 				ThreadDeathDust();
 			}
 		}
@@ -573,11 +573,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			StarBreakParticles(currentThread.EndPoint);
 		}
 
-		public override void OnKill()
-		{
-			if (Main.rand.NextBool(15))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Pets.CosmicRattler.CosmicRattler>());
-		}
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<Items.Pets.CosmicRattler.CosmicRattler>(15);
 	}
 
 	public class StarachnidProj : ModProjectile

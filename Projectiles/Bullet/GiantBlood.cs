@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles.Bullet
 		{
 			if (target.lifeMax <= 5 || target.dontTakeDamage || target.friendly || target.immortal)
 				return;
-			Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, Projectile.owner, Projectile.owner, (int)(damage * .2f));
+			Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, Projectile.owner, Projectile.owner, (int)(damage * .2f));
 		}
 
 		public override bool PreAI()

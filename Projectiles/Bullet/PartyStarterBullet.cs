@@ -82,7 +82,7 @@ namespace SpiritMod.Projectiles.Bullet
 		{
 			SoundEngine.PlaySound(SoundLoader.customSoundType, Projectile.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Firework"));
 			for (int i = 0; i < 3; i++) {
-				int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y,
+				int proj = Projectile.NewProjectile(Projectile.GetSource_Misc("TileHit"), Projectile.Center.X, Projectile.Center.Y,
 					Main.rand.Next(-2, 2), Main.rand.Next(-2, 1), ModContent.ProjectileType<PartyExplosives>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
 				Main.projectile[proj].friendly = true;
 				Main.projectile[proj].hostile = false;

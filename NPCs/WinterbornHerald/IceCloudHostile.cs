@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 		{
 			timer--;
 			if (timer <= 0) {
-				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0f, Main.rand.Next(5, 9), ProjectileID.FrostShard, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, 0f, Main.rand.Next(5, 9), ProjectileID.FrostShard, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
 				timer = 20;
 			}
 			Projectile.ai[1] += 1f;

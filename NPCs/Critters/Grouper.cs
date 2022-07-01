@@ -5,6 +5,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using SpiritMod.Items.Consumable.Fish;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -89,11 +90,9 @@ namespace SpiritMod.NPCs.Critters
 				}
 			}
 		}
-		public override void OnKill()
-		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("RawFish").Type, Main.rand.Next(2, 4));
 
-		}
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<RawFish>();
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return spawnInfo.Player.ZoneBeach && spawnInfo.Water ? 0.029f : 0f;

@@ -2443,8 +2443,8 @@ namespace SpiritMod.World
 						}
 						if (num5 == 6 || num5 == 7)
 						{
-							Tile tile = Main.tile[i + 1, i1];
-							tile.HasTile = true;
+							Tile tile2 = Main.tile[i + 1, i1];
+							tile2.HasTile = true;
 							Main.tile[i + 1, i1].TileType = 5;
 							num = WorldGen.genRand.Next(3);
 							if (WorldGen.genRand.Next(3) >= 2)

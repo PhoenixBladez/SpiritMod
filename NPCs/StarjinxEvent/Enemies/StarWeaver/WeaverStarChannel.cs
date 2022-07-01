@@ -47,8 +47,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 				return;
 			}
 
-			if(Timer % 20 == 0 && !Main.dedServ)
-				SoundEngine.PlaySound(SoundID.Item15.WithVolume(0.8f).WithPitchVariance(0.3f), Projectile.Center);
+			if (Timer % 20 == 0 && !Main.dedServ)
+				SoundEngine.PlaySound(SoundID.Item12 with { Volume = 0.65f, PitchVariance = 0.3f }, Projectile.Center);
 
 			Lighting.AddLight(Projectile.Center, Color.Goldenrod.ToVector3() / 3);
 			Projectile.rotation += Parent.spriteDirection * 0.1f;
@@ -103,7 +103,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 
 			if (!Main.dedServ)
 			{
-				SoundEngine.PlaySound(SoundID.Item12.WithVolume(0.65f).WithPitchVariance(0.3f), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item12 with { Volume = 0.65f, PitchVariance = 0.3f }, Projectile.Center);
 
 				for(int i = 0; i < 10; i++)
 					ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Main.rand.NextVector2Circular(6, 6), Color.White, Color.Goldenrod, Main.rand.NextFloat(0.1f, 0.2f), 25));
@@ -112,13 +112,13 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			for(int i = 0; i < 5; i++)
 			{
 				Vector2 vel = 26 * Vector2.UnitX.RotatedBy(TargetAngle + (MathHelper.TwoPi * (i / 5f)));
-				Projectile.NewProjectileDirect(Projectile.Center, vel, ModContent.ProjectileType<WeaverStarFragment>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 1f).netUpdate = true;
+				Projectile.NewProjectileDirect(Projectile.GetSource_Death(), Projectile.Center, vel, ModContent.ProjectileType<WeaverStarFragment>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 1f).netUpdate = true;
 			}
 
 			for (int i = 0; i < 5; i++)
 			{
 				Vector2 vel = Main.rand.NextFloat(8, 12) * Vector2.UnitX.RotatedBy(TargetAngle + (MathHelper.TwoPi * ((i + 0.5f) / 5f)));
-				Projectile.NewProjectileDirect(Projectile.Center, vel, ModContent.ProjectileType<WeaverStarFragment>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner, 0.5f).netUpdate = true;
+				Projectile.NewProjectileDirect(Projectile.GetSource_Death(), Projectile.Center, vel, ModContent.ProjectileType<WeaverStarFragment>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner, 0.5f).netUpdate = true;
 			}
 		}
 	}

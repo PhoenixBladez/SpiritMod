@@ -272,7 +272,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					Vector2 sjinx = Target.GetModPlayer<StarjinxPlayer>().StarjinxPosition;
 					Vector2 realPos = sjinx + new Vector2(StarjinxMeteorite.EVENT_RADIUS, 0).RotatedByRandom(MathHelper.TwoPi);
 
-					int p = Projectile.NewProjectile(realPos, NPC.DirectionFrom(realPos) * 8, ModContent.ProjectileType<MeteorEnchantment_Meteor>(), 40, 1f, Main.myPlayer);
+					int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), realPos, NPC.DirectionFrom(realPos) * 8, ModContent.ProjectileType<MeteorEnchantment_Meteor>(), 40, 1f, Main.myPlayer);
 					Main.projectile[p].timeLeft = 200;
 				}
 			}

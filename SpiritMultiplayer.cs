@@ -168,7 +168,7 @@ namespace SpiritMod
 						if (NPC.AnyNPCs(bossType))
 							return;
 
-						int npcID = NPC.NewNPC(npcCenterX, npcCenterY, bossType);
+						int npcID = NPC.NewNPC(NPC.GetSource_NaturalSpawn(), npcCenterX, npcCenterY, bossType);
 						Main.npc[npcID].netUpdate2 = true;
 						ChatHelper.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", Main.npc[npcID].GetTypeNetName()), new Color(175, 75, 255));
 					}

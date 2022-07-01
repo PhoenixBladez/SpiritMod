@@ -61,7 +61,7 @@ namespace SpiritMod.Projectiles.Magic
 			for (int i = 0; i < 4; i++) {
 				float rotation = (float)(Main.rand.Next(180, 361) * (Math.PI / 180));
 				Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-				int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y,
+				int proj = Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y,
 					velocity.X, velocity.Y, ModContent.ProjectileType<GraniteShard1>(), Projectile.damage/2, Projectile.knockBack, Projectile.owner);
 				Main.projectile[proj].friendly = true;
 				Main.projectile[proj].hostile = false;

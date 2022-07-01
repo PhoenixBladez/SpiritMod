@@ -805,7 +805,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				NetMessage.SendData(MessageID.WorldData);
 
 			NPC.PlayDeathSound("StarplateDeathSound");
-			NPC.NewNPC((int)NPC.position.X + NPC.width - 20, (int)NPC.position.Y + NPC.height, ModContent.NPCType<SteamRaiderHeadDeath>(), NPC.whoAmI);
+			NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.position.X + NPC.width - 20, (int)NPC.position.Y + NPC.height, ModContent.NPCType<SteamRaiderHeadDeath>(), NPC.whoAmI);
 			return true;
 		}
 

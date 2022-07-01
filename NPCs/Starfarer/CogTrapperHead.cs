@@ -83,9 +83,9 @@ namespace SpiritMod.NPCs.Starfarer
 					for (int num36 = 0; num36 < maxLength; num36++) {
 						int trailing = 0;
 						if (num36 >= 0 && num36 < minLength)
-							trailing = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<CogTrapperBody>(), NPC.whoAmI);
+							trailing = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<CogTrapperBody>(), NPC.whoAmI);
 						else
-							trailing = NPC.NewNPC((int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<CogTrapperTail>(), NPC.whoAmI);
+							trailing = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<CogTrapperTail>(), NPC.whoAmI);
 						Main.npc[trailing].realLife = NPC.whoAmI;
 						Main.npc[trailing].ai[2] = (float)NPC.whoAmI;
 						Main.npc[trailing].ai[1] = (float)current;
@@ -313,35 +313,24 @@ namespace SpiritMod.NPCs.Starfarer
 					}
 				}
 			}
-			NPC.rotation = (float)System.Math.Atan2((double)NPC.velocity.Y, (double)NPC.velocity.X) + 1.57f;
+			NPC.rotation = (float)Math.Atan2((double)NPC.velocity.Y, (double)NPC.velocity.X) + 1.57f;
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(1) == 400) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GravityModulator>());
-			}
-            if (Main.rand.Next(2) == 0) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<StarEnergy>());
-			}
-			int[] lootTable = {
-				ModContent.ItemType<ProtectorateBody>(),
-				ModContent.ItemType<ProtectorateLegs>()
-			};
-			if (Main.rand.Next(30) == 0) {
-				int loot = Main.rand.Next(lootTable.Length);
-				{
-					NPC.DropItem(lootTable[loot]);
-				}
-			}
+			npcLoot.AddCommon<GravityModulator>(400);
+			npcLoot.AddCommon<StarEnergy>(400);
+			npcLoot.AddOneFromOptions(30, ModContent.ItemType<ProtectorateBody>(), ModContent.ItemType<ProtectorateLegs>());
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++) {
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, hitDirection, -1f, 0, default, 1f);
 			}
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Stardancer/Stardancer1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Stardancer/Stardancer2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Stardancer/Stardancer1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Stardancer/Stardancer2").Type, 1f);
 				NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
 				NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
 				NPC.width = 20;
@@ -395,17 +384,14 @@ namespace SpiritMod.NPCs.Starfarer
 				Microsoft.Xna.Framework.Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
 				drawOrigin = r2.Size() / 2f;
 				Vector2 position3 = position1 + new Vector2(0.0f, -20f);
-				Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color(84, 207, 255) * 1.6f;
+				Microsoft.Xna.Framework.Color color3 = new Color(84, 207, 255) * 1.6f;
 				Main.spriteBatch.Draw(texture2D2, position3, r2, color3, NPC.rotation, drawOrigin, NPC.scale * 0.35f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 				float num15 = 1f + num11 * 0.75f;
 				Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num12, NPC.rotation, drawOrigin, NPC.scale * 0.5f * num15, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 				float num16 = 1f + num13 * 0.75f;
 				Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num14, NPC.rotation, drawOrigin, NPC.scale * 0.5f * num16, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
-				Texture2D texture2D3 = TextureAssets.Extra[49][89];
+				Texture2D texture2D3 = TextureAssets.Extra[89];
 				Microsoft.Xna.Framework.Rectangle r3 = texture2D3.Frame(1, 1, 0, 0);
-				drawOrigin = r3.Size() / 2f;
-				Vector2 scale = new Vector2(0.75f, 1f + num16) * 1.5f;
-				float num17 = 1f + num13 * 0.75f;
 				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Starfarer/CogTrapperHead_Glow").Value);
 
 			}

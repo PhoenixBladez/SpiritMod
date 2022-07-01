@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles.Magic
 				float rand = Main.rand.NextFloat() * 6.283f;
 				vel = vel.RotatedBy(rand);
 				vel *= 5f;
-				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y,
+				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y,
 					vel.X, vel.Y, ProjectileID.GoldenShowerFriendly, Projectile.damage, 0, Main.myPlayer);
 			}
 		}

@@ -56,7 +56,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 				{
 					for (int i = 0; i < 5; i++)
 					{
-						int p = Projectile.NewProjectile(NPC.Center.X + Main.rand.Next(-10, 10), NPC.Center.Y + Main.rand.Next(-10, 10), Main.rand.NextFloat(-1.1f, 1.1f), Main.rand.NextFloat(-1.1f, 1.1f), ModContent.ProjectileType<JellyfishOrbiter>(), NPCUtils.ToActualDamage(25, 1.5f), 0.0f, Main.myPlayer, 0.0f, (float)NPC.whoAmI);
+						int p = Projectile.NewProjectile(NPC.GetSource_OnHurt(null), NPC.Center.X + Main.rand.Next(-10, 10), NPC.Center.Y + Main.rand.Next(-10, 10), Main.rand.NextFloat(-1.1f, 1.1f), Main.rand.NextFloat(-1.1f, 1.1f), ModContent.ProjectileType<JellyfishOrbiter>(), NPCUtils.ToActualDamage(25, 1.5f), 0.0f, Main.myPlayer, 0.0f, (float)NPC.whoAmI);
 						Main.projectile[p].scale = Main.rand.NextFloat(.5f, .8f);
 						Main.projectile[p].timeLeft = Main.rand.Next(75, 95);
 					}

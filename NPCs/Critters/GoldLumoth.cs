@@ -16,9 +16,10 @@ namespace SpiritMod.NPCs.Critters
         {
             DisplayName.SetDefault("Gold Lumoth");
             Main.npcFrameCount[NPC.type] = 4;
-        }
+            Main.npcCatchable[NPC.type] = true;
+		}
 
-        public override void SetDefaults()
+		public override void SetDefaults()
         {
             NPC.width = 32;
             NPC.height = 32;
@@ -28,14 +29,12 @@ namespace SpiritMod.NPCs.Critters
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath4;
             NPC.dontCountMe = true;
-            Main.npcCatchable[NPC.type] = true;
             NPC.catchItem = (short)Mod.Find<ModItem>("GoldLumothItem").Type;
             NPC.knockBackResist = .45f;
             NPC.aiStyle = 64;
             NPC.npcSlots = 0;
             NPC.noGravity = true;
             AIType = NPCID.Firefly;
-            Main.npcFrameCount[NPC.type] = 4;
 			NPC.dontTakeDamageFromHostiles = false;
 		}
 
@@ -97,12 +96,7 @@ namespace SpiritMod.NPCs.Critters
             Main.dust[dust].velocity *= 0f;
             Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), .4f, .4f, .4f);
         }
-        public override void OnKill()
-        {
-            if (Main.rand.Next(3) == 1)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Brightbulb").Type, 1);
-            }
-        }
-    }
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<Brightbulb>(3);
+	}
 }

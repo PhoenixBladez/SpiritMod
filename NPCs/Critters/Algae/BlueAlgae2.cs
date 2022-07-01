@@ -53,7 +53,7 @@ namespace SpiritMod.NPCs.Critters.Algae
 
 					int npcChoice = Main.rand.Next(npcChoices.Length);
 
-					int newNPC = NPC.NewNPC((int)NPC.Center.X + (Main.rand.Next(-55, 55)), (int)NPC.Center.Y + (Main.rand.Next(-20, 20)), Mod.Find<ModNPC>(npcChoices[npcChoice]).Type, NPC.whoAmI);
+					int newNPC = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + (Main.rand.Next(-55, 55)), (int)NPC.Center.Y + (Main.rand.Next(-20, 20)), Mod.Find<ModNPC>(npcChoices[npcChoice]).Type, NPC.whoAmI);
 					Main.npc[newNPC].velocity = dir;
 				}
 				txt = true;

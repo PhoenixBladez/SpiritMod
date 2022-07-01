@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Magic
 			timer--;
 			if (timer <= 0) {
 				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 8);
-				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X + Main.rand.Next(-3, 5), Projectile.velocity.Y + Main.rand.Next(-3, 5), ModContent.ProjectileType<NightSpit>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X + Main.rand.Next(-3, 5), Projectile.velocity.Y + Main.rand.Next(-3, 5), ModContent.ProjectileType<NightSpit>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
 				timer = 50;
 			}
 			Projectile.ai[1] += 1f;
@@ -99,7 +99,7 @@ namespace SpiritMod.Projectiles.Magic
 					perturbedSpeed.Normalize();
 					perturbedSpeed.X *= 2.5f;
 					perturbedSpeed.Y *= 2.5f;
-					Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<CorruptPortal_Star>(), Projectile.damage / 5 * 4, 2, Projectile.owner);
+					Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<CorruptPortal_Star>(), Projectile.damage / 5 * 4, 2, Projectile.owner);
 				}
 
 				SoundEngine.PlaySound(SoundID.Item14, Projectile.position);

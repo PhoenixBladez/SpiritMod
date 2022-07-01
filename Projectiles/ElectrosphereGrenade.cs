@@ -21,12 +21,12 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			int proj = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, 0, 0, ProjectileID.Electrosphere, Projectile.damage, 0, Main.myPlayer);
+			int proj = Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, 0, 0, ProjectileID.Electrosphere, Projectile.damage, 0, Main.myPlayer);
 			Main.projectile[proj].friendly = true;
 			Main.projectile[proj].hostile = false;
 			Main.projectile[proj].timeLeft = 180;
 
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 12);
+			SoundEngine.PlaySound(SoundID.Item12, Projectile.Center);
 			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 		}
 

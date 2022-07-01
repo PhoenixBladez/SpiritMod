@@ -96,7 +96,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 					direction.Normalize();
 					direction.X *= shootVelocity;
 					direction.Y *= shootVelocity;
-					int proj2 = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, direction.X, direction.Y, ProjectileID.VortexLightning, Projectile.damage, .5f, Projectile.owner, direction.ToRotation(), Main.rand.Next(100));
+					int proj2 = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, direction.X, direction.Y, ProjectileID.VortexLightning, Projectile.damage, .5f, Projectile.owner, direction.ToRotation(), Main.rand.Next(100));
 					Projectile newProj2 = Main.projectile[proj2];
 					newProj2.friendly = true;
 					newProj2.hostile = false;

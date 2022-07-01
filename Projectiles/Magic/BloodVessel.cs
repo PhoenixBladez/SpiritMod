@@ -106,7 +106,7 @@ namespace SpiritMod.Projectiles.Magic
 			for (int i = 0; i < 4; i++)
 			{
 				Vector2 perturbedSpeed = Main.rand.NextVector2CircularEdge(2.5f, 2.5f);
-				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Blood3>(), Projectile.damage / 5 * 4, 2, Projectile.owner);
+				Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Blood3>(), Projectile.damage / 5 * 4, 2, Projectile.owner);
 			}
 		}
 	}

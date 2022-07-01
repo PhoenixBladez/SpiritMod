@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.PigronStaff
 		public override bool PreAI()
 		{
 			if (Main.rand.Next(600) == 0 && Main.netMode != NetmodeID.Server)
-				SoundEngine.PlaySound(SoundID.Zombie, (int)Projectile.Center.X, (int)Projectile.Center.Y, Main.rand.Next(39, 41), 0.33f, 0.5f);
+				SoundEngine.PlaySound(Main.rand.NextBool() ? SoundID.Zombie39 : SoundID.Zombie40, Projectile.Center);
 
 			return true;
 		}
@@ -105,7 +105,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.PigronStaff
 						Projectile.Center = target.Center + target.DirectionTo(player.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(350, 400);
 						Projectile.velocity = Projectile.DirectionTo(target.Center) * Main.rand.NextFloat(11, 16);
 						if (Main.netMode != NetmodeID.Server)
-							SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDownwith { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);
+							SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDown with { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);
 						Projectile.netUpdate = true;
 					}
 					break;
@@ -126,7 +126,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.PigronStaff
 					{
 						Projectile.localAI[1] = (Main.rand.NextBool()? 1 : -1);
 						if (Main.netMode != NetmodeID.Server)
-							SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDownwith { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);
+							SoundEngine.PlaySound(SoundID.DD2_WyvernDiveDown with { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);
 
 						Projectile.netUpdate = true;
 					}

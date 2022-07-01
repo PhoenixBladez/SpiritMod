@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Arrow
 		{
 			target.AddBuff(ModContent.BuffType<BloodInfusion>(), 151, true);
 			if (target.life < damage - (target.defense / 2)) {
-				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
+				Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X, target.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
 			}
 		}
 		public override void Kill(int timeLeft)

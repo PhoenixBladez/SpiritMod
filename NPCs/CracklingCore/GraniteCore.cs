@@ -110,7 +110,7 @@ namespace SpiritMod.NPCs.CracklingCore
 		}
 
 		public override Color? GetAlpha(Color lightColor) => Color.White;
-		public override void OnKill() => Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GraniteChunk>(), 1);
 		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.Confused, 160);
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<GraniteChunk>();
 	}
 }

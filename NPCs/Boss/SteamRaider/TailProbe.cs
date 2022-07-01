@@ -214,7 +214,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						direction.Y *= 6f;
 
 						if(Main.netMode != NetmodeID.MultiplayerClient)
-							Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<GlitchLaser>(), NPCUtils.ToActualDamage(32, 1.5f), 1, Main.myPlayer, 0, 0);
+							Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<GlitchLaser>(), NPCUtils.ToActualDamage(32, 1.5f), 1, Main.myPlayer, 0, 0);
 
 						if (!Main.expertMode || shoottimer >= 200)
 							shoottimer = 0;

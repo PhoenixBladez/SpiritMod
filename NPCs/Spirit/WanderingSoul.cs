@@ -75,14 +75,6 @@ namespace SpiritMod.NPCs.Spirit
 			}
 		}
 
-		public override void OnKill()
-		{
-			if (Main.rand.Next(3) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.RunicSet.Rune>());
-			if (Main.rand.NextBool(100))
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<StoneOfSpiritsPast>());
-        }
-
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
 			npcLoot.AddCommon<Items.Sets.RunicSet.Rune>(3);

@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.Magic
 							num5 = num4 / num5;
 						}
 						value *= num5;
-						int p = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y,
+						int p = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y,
 							value.X, value.Y, ProjectileID.GoldenShowerFriendly,
 							Projectile.damage, Projectile.knockBack * .5f, Projectile.owner);
 						Main.projectile[p].friendly = true;

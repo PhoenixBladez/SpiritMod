@@ -78,7 +78,7 @@ namespace SpiritMod.Items.Glyphs
 			if (player.whoAmI == Main.myPlayer && modPlayer.voidStacks > 1 && Main.rand.Next(14) == 0) {
 				Vector2 vel = Vector2.UnitY.RotatedByRandom(Math.PI * 2);
 				vel *= (float)Main.rand.NextDouble() * 3f;
-				Projectile.NewProjectile(target.Center, vel, ModContent.ProjectileType<VoidStar>(), damage >> 1, 0, Main.myPlayer);
+				Projectile.NewProjectile(player.GetSource_ItemUse(player.HeldItem), target.Center, vel, ModContent.ProjectileType<VoidStar>(), damage >> 1, 0, Main.myPlayer);
 			}
 
 			if (Main.rand.Next(10) == 1)

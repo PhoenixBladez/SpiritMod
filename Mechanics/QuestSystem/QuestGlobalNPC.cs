@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			{
 				if (!QuestManager.GetQuest<ZombieOriginQuest>().IsUnlocked && QuestManager.GetQuest<FirstAdventure>().IsCompleted && Main.rand.Next(40) == 0)
 				{
-					int slot = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<OccultistMap>());
+					int slot = Item.NewItem(npc.GetSource_Death("Quest"), (int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<OccultistMap>());
 
 					if (Main.netMode == NetmodeID.Server)
 						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, slot, 1f);

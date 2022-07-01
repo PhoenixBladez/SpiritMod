@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.Spirit
 		public override bool CheckDead()
 		{
 			Vector2 center = NPC.Center;
-			Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<UnstableWisp_Explosion>(), 100, 0f, Main.myPlayer);
+			Projectile.NewProjectile(NPC.GetSource_Death(), center.X, center.Y, 0f, 0f, ModContent.ProjectileType<UnstableWisp_Explosion>(), 100, 0f, Main.myPlayer);
 			return true;
 		}
 

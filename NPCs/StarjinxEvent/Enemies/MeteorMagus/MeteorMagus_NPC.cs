@@ -129,7 +129,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			}
 
 			if (AiTimer == IDLETIME && Main.netMode != NetmodeID.Server)
-				SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 123).WithPitchVariance(0.2f).WithVolume(1.3f), NPC.Center);
+				SoundEngine.PlaySound(SoundID.Item123 with { PitchVariance = 0.2f, Volume = 1.3f }, NPC.Center);
 
 			if (AiTimer > IDLETIME)
 			{
@@ -219,7 +219,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					var pos = npc.Center + new Vector2(Main.rand.Next(-40, 40), Main.rand.Next(-120, -90));
-					Projectile.NewProjectileDirect(pos, Vector2.Zero, ModContent.ProjectileType<MeteorMagus_Comet>(), npc.damage / 4, 1, Main.myPlayer, npc.whoAmI, player.whoAmI);
+					Projectile.NewProjectileDirect(npc.GetSource_FromAI(), pos, Vector2.Zero, ModContent.ProjectileType<MeteorMagus_Comet>(), npc.damage / 4, 1, Main.myPlayer, npc.whoAmI, player.whoAmI);
 				}
 			}
 
@@ -255,7 +255,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						var proj = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ModContent.ProjectileType<MeteorMagus_Star>(), npc.damage / 4, 1, Main.myPlayer, npc.whoAmI, player.whoAmI);
+						var proj = Projectile.NewProjectileDirect(npc.GetSource_FromAI(), player.Center, Vector2.Zero, ModContent.ProjectileType<MeteorMagus_Star>(), npc.damage / 4, 1, Main.myPlayer, npc.whoAmI, player.whoAmI);
 
 						var star = proj.ModProjectile as MeteorMagus_Star;
 						star.Direction = direction;
@@ -353,7 +353,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 							delay = Main.rand.Next(30, 60);
 						}
 
-						int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<MeteorMagus_Meteor>(), npc.damage / 4, 1f, Main.myPlayer, 0, delay);
+						int p = Projectile.NewProjectile(npc.GetSource_FromAI(), position, velocity, ModContent.ProjectileType<MeteorMagus_Meteor>(), npc.damage / 4, 1f, Main.myPlayer, 0, delay);
 						if (Main.netMode != NetmodeID.SinglePlayer)
 							NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, p);
 					}
@@ -369,7 +369,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		public override void OnHitKill(int hitDirection, double damage)
 		{
 			for (int i = 0; i < 6; i++)
-				Gore.NewGore(NPC.Center, NPC.velocity * .5f, 99, Main.rand.NextFloat(.75f, 1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity * .5f, 99, Main.rand.NextFloat(.75f, 1f));
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -398,8 +398,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Texture2D baseGlow = ModContent.Request<Texture2D>(Texture + "_glow");
-			Texture2D whiteGlow = ModContent.Request<Texture2D>(Texture + "_glowWhite");
+			Texture2D baseGlow = ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D whiteGlow = ModContent.Request<Texture2D>(Texture + "_glowWhite", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			DrawGlowmask(spriteBatch, baseGlow, NPC.Center, Color.White);
 
@@ -417,7 +417,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
-			Texture2D whiteGlow = ModContent.Request<Texture2D>(Texture + "_glowWhite");
+			Texture2D whiteGlow = ModContent.Request<Texture2D>(Texture + "_glowWhite", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			Color additiveGlow = _attackGlowColor;
 

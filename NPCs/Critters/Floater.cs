@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs.Critters
 				for (int i = 0; i < 8; ++i)
 				{
 					Vector2 dir = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center);
-					int newNPC = NPC.NewNPC((int)NPC.Center.X + (Main.rand.Next(-20, 20)), (int)NPC.Center.Y + (Main.rand.Next(-20, 20)), ModContent.NPCType<Floater1>(), NPC.whoAmI);
+					int newNPC = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + (Main.rand.Next(-20, 20)), (int)NPC.Center.Y + (Main.rand.Next(-20, 20)), ModContent.NPCType<Floater1>(), NPC.whoAmI);
 					Main.npc[newNPC].velocity = dir;
 				}
 				txt = true;
@@ -95,9 +95,6 @@ namespace SpiritMod.NPCs.Critters
 			}
 		}
 
-		public override void OnKill()
-		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
-		}
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<RawFish>();
 	}
 }

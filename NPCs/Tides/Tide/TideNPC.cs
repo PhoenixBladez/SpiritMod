@@ -117,7 +117,7 @@ namespace SpiritMod.NPCs.Tides.Tide
 					if (TideWorld.TideWave == 5 && !NPC.AnyNPCs(NPCType<Rylheian>()))
 					{
 						Player player = Main.rand.Next(Main.player.Where(x => x.active && !x.dead && x.ZoneBeach).ToArray());
-						NPC rylheian = Main.npc[NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, NPCType<Rylheian>(), 0, 2, 1, 0, 0, player.whoAmI)];
+						NPC rylheian = Main.npc[NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (int)player.Center.X, (int)player.Center.Y - 400, NPCType<Rylheian>(), 0, 2, 1, 0, 0, player.whoAmI)];
 						DustHelper.DrawDiamond(new Vector2(rylheian.Center.X, rylheian.Center.Y), 173, 8);
 						DustHelper.DrawTriangle(new Vector2(rylheian.Center.X, rylheian.Center.Y), 173, 8);
 						if (Main.netMode != NetmodeID.Server) 

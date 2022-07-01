@@ -69,7 +69,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						NPC.TargetClosest(true);
 						if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height)) {
 
-							SoundEngine.PlaySound(SoundID.Item, (int)NPC.Center.X, (int)NPC.Center.Y, 12);
+							SoundEngine.PlaySound(SoundID.Item12, NPC.Center);
 							float num941 = 4f; //speed
 							Vector2 vector104 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)(NPC.height / 2));
 							float num942 = player.position.X + (float)player.width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 							//int num946 = 440;
 							vector104.X += num942 * 5f;
 							vector104.Y += num943 * 5f;
-							int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, ModContent.ProjectileType<GlitchLaser>(), NPCUtils.ToActualDamage(25, 1.5f), 0f, Main.myPlayer, 0f, 0f);
+							int num947 = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector104.X, vector104.Y, num942, num943, ModContent.ProjectileType<GlitchLaser>(), NPCUtils.ToActualDamage(25, 1.5f), 0f, Main.myPlayer, 0f, 0f);
 							Main.projectile[num947].timeLeft = 300;
 							NPC.netUpdate = true;
 						}
@@ -92,13 +92,13 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				NPC.localAI[0] = 0;
 			}
 			if ((Main.npc[parent].life <= Main.npc[parent].lifeMax * 0.75f)) {
-				SoundEngine.PlaySound(SoundID.Item, (int)NPC.Center.X, (int)NPC.Center.Y, 14);
+				SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
 				NPC.life = 0;
 				NPC.HitEffect(0, 10.0);
 				NPC.active = false;
-				NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TailProbe>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
-				SoundEngine.PlaySound(SoundID.Roar, (int)NPC.position.X, (int)NPC.position.Y, 0);
-				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 4);
+				NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TailProbe>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+				SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
+				SoundEngine.PlaySound(SoundID.Item4, NPC.Center);
 				NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
 				NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
 				NPC.width = 30;

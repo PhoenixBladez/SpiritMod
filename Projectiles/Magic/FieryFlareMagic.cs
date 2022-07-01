@@ -69,7 +69,7 @@ namespace SpiritMod.Projectiles.Magic
 					perturbedSpeed.Normalize();
 					perturbedSpeed.X *= 2.5f;
 					perturbedSpeed.Y *= 2.5f;
-					Projectile.NewProjectile(target.Center.X, target.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.Spark, Projectile.damage / 2, 2, Projectile.owner);
+					Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center.X, target.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.Spark, Projectile.damage / 2, 2, Projectile.owner);
 				}
 			}
 		}

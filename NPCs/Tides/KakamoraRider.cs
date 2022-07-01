@@ -46,7 +46,7 @@ namespace SpiritMod.NPCs.Tides
 			{
 
 				NPC.localAI[0] = 1f;
-				int newNPC = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Crocomount>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+				int newNPC = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Crocomount>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
 				NPC.ai[0] = (float)newNPC;
 				checkSpawn = true;
 				NPC.netUpdate = true;
@@ -111,7 +111,7 @@ namespace SpiritMod.NPCs.Tides
 								vector188 = -Vector2.UnitY;
 
 							vector188 *= scaleFactor20;
-							Projectile.NewProjectile(value26.X, value26.Y, vector188.X, vector188.Y, projectileType, projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(NPC.GetSource_FromAI(), value26.X, value26.Y, vector188.X, vector188.Y, projectileType, projectileDamage, 0f, Main.myPlayer, 0f, 0f);
 							NPC.netUpdate = true;
 						}
 						else
@@ -174,9 +174,9 @@ namespace SpiritMod.NPCs.Tides
 
 				SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
 
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore3").Type, 1f);
 			}
 		}
 	}

@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs.SkeletonBrute
 
 			if (NPC.life <= 0)
 				for (int i = 1; i < 6; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SkeletonBrute/SkeletonBruteGore" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SkeletonBrute/SkeletonBruteGore" + i).Type, 1f);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

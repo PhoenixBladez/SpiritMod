@@ -18,6 +18,6 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 			Projectile.scale = 1f;
 		}
 
-		public override void Kill(int timeLeft) => Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y - 40, 0f, 0f, ModContent.ProjectileType<Earth_Slam_Projectile>(), 23, 10f, Projectile.owner);
+		public override void Kill(int timeLeft) => Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y - 40, 0f, 0f, ModContent.ProjectileType<Earth_Slam_Projectile>(), 23, 10f, Projectile.owner);
 	}
 }

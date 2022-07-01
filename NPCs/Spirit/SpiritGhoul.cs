@@ -87,11 +87,6 @@ namespace SpiritMod.NPCs.Spirit
 			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0f, 0.675f, 2.50f);
 		}
 
-		public override void OnKill()
-		{
-			if (Main.rand.Next(3) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Sets.RunicSet.Rune>());
-		}
-
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<Items.Sets.RunicSet.Rune>();
 	}
 }

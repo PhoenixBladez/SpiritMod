@@ -72,7 +72,7 @@ namespace SpiritMod.Projectiles.Hostile
 
 				for (int i = 0; i < 2; ++i)
 				{
-					int num626 = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+					int num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 					Main.gore[num626].velocity *= scaleFactor10;
 					Gore expr_13AB6_cp_0 = Main.gore[num626];
 					expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
@@ -87,7 +87,7 @@ namespace SpiritMod.Projectiles.Hostile
 				Main.dust[num624].scale *= 0.3f;
 			}
 			if (Main.rand.Next(0, 20) == 0)
-				Item.NewItem((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<SpaceJunkItem>(), 1, false, 0, false, false);
+				Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<SpaceJunkItem>(), 1, false, 0, false, false);
 		}
 		public override bool PreDraw(ref Color lightColor)
 		{

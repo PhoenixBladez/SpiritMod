@@ -88,7 +88,7 @@ namespace SpiritMod.Projectiles.Arrow
 				pos.X += (float)Main.rand.Next(-20, 21);
 				DustHelper.DrawCircle(new Vector2(pos.X, pos.Y), 222, 1, 1f, 1.35f, .85f, .85f);
 
-				Projectile.NewProjectile(pos.X, pos.Y, spX * Projectile.direction, spY, ModContent.ProjectileType<MorningtideProjectile2>(), Projectile.damage / 3 * 2, 2, Main.player[Projectile.owner].whoAmI);
+				Projectile.NewProjectile(Projectile.GetSource_OnHit(target), pos.X, pos.Y, spX * Projectile.direction, spY, ModContent.ProjectileType<MorningtideProjectile2>(), Projectile.damage / 3 * 2, 2, Main.player[Projectile.owner].whoAmI);
 			}
 		}
 

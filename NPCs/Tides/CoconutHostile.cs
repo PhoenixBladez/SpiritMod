@@ -19,9 +19,9 @@ namespace SpiritMod.NPCs.Tides
 			Vector2 GoreVel = Projectile.velocity;
 			GoreVel.X = 2f;
 			GoreVel.Y *= -0.2f;
-			Gore.NewGore(Projectile.position, GoreVel, Mod.Find<ModGore>("Gores/Coconut/CoconutSpurtGore").Type, 1f);
+			Gore.NewGore(Projectile.GetSource_Misc("TileHit"), Projectile.position, GoreVel, Mod.Find<ModGore>("Gores/Coconut/CoconutSpurtGore").Type, 1f);
 			GoreVel.X = -2f;
-			Gore.NewGore(Projectile.position, GoreVel, Mod.Find<ModGore>("Gores/Coconut/CoconutSpurtGore").Type, 1f);
+			Gore.NewGore(Projectile.GetSource_Misc("TileHit"), Projectile.position, GoreVel, Mod.Find<ModGore>("Gores/Coconut/CoconutSpurtGore").Type, 1f);
 			return true;
 		}
 		public override void SetDefaults()

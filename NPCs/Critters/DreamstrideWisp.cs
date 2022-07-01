@@ -38,8 +38,8 @@ namespace SpiritMod.NPCs.Critters
 
 			if (!Main.dedServ)
 			{
-				NPC.HitSound = SoundID.NPCHit36.WithVolume(0.5f);
-				NPC.DeathSound = SoundID.NPCDeath39.WithVolume(0.5f);
+				NPC.HitSound = SoundID.NPCHit36 with { Volume = 0.5f };
+				NPC.DeathSound = SoundID.NPCDeath39 with { Volume = 0.5f };
 			}
 		}
 
@@ -83,6 +83,6 @@ namespace SpiritMod.NPCs.Critters
 			}
 		}
 
-		public override void OnKill() => Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<DreamstrideEssence>());
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<DreamstrideEssence>();
 	}
 }

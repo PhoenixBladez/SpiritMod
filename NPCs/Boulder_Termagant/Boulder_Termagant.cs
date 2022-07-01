@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using System.IO;
 using Terraria.GameContent.ItemDropRules;
+using System.Collections.Generic;
 
 namespace SpiritMod.NPCs.Boulder_Termagant
 {
@@ -180,28 +181,30 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 				NPC.defense = 28;
 			}
 		}
-		public override void OnKill()
-		{
-			if (Main.rand.NextBool(4))
-			{
-				if (r == 219)
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Amethyst, Main.rand.Next(1, 5));
-				if (r == 255)
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Topaz, Main.rand.Next(1, 5));
-				if (r == 23)
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Sapphire, Main.rand.Next(1, 5));
-				if (r == 33)
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 179, Main.rand.Next(1, 5));
-				if (r == 238)
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 178, Main.rand.Next(1, 5));
-				if (r == 223)
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 182, Main.rand.Next(1, 5));
-			}
-		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
 			npcLoot.Add(ItemDropRule.Common(ItemID.StoneBlock, 1, 10, 25));
+
+			LeadingConditionRule r219Rule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("", (npc) => npc.ModNPC is Boulder_Termagant bold && bold.r == 219));
+			r219Rule.OnSuccess(ItemDropRule.Common(ItemID.Amethyst, 1, 4));
+
+			LeadingConditionRule r255Rule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("", (npc) => npc.ModNPC is Boulder_Termagant bold && bold.r == 255));
+			r255Rule.OnSuccess(ItemDropRule.Common(ItemID.Topaz, 1, 4));
+
+			LeadingConditionRule r23Rule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("", (npc) => npc.ModNPC is Boulder_Termagant bold && bold.r == 23));
+			r23Rule.OnSuccess(ItemDropRule.Common(ItemID.Sapphire, 1, 4));
+
+			LeadingConditionRule r33Rule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("", (npc) => npc.ModNPC is Boulder_Termagant bold && bold.r == 33));
+			r33Rule.OnSuccess(ItemDropRule.Common(ItemID.Emerald, 1, 4));
+
+			LeadingConditionRule r238Rule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("", (npc) => npc.ModNPC is Boulder_Termagant bold && bold.r == 238));
+			r238Rule.OnSuccess(ItemDropRule.Common(ItemID.Ruby, 1, 4));
+
+			LeadingConditionRule r223Rule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("", (npc) => npc.ModNPC is Boulder_Termagant bold && bold.r == 223));
+			r223Rule.OnSuccess(ItemDropRule.Common(ItemID.Diamond, 1, 4));
+
+			npcLoot.Add(r219Rule, r255Rule, r23Rule, r33Rule, r238Rule, r223Rule);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

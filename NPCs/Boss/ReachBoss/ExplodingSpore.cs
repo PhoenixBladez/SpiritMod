@@ -77,7 +77,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			DustHelper.DrawStar(new Vector2(NPC.Center.X, NPC.Center.Y), DustID.GoldCoin, pointAmount: 5, mainSize: 8f, dustDensity: 2.5f, dustSize: .75f, pointDepthMult: 0.4f, noGravity: true);
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<SporeExplosion>(), 24, 1, Main.myPlayer, 0, 0);	
+				int p = Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<SporeExplosion>(), 24, 1, Main.myPlayer, 0, 0);	
 			}	
 			Vector2 spinningpoint1 = ((float)Main.rand.NextDouble() * 6.283185f).ToRotationVector2();
 			Vector2 spinningpoint2 = spinningpoint1;

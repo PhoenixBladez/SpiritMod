@@ -83,14 +83,6 @@ namespace SpiritMod.NPCs.Spirit
 			NPC.spriteDirection = NPC.direction;
 		}
 
-		public override void OnKill()
-		{
-			if (Main.rand.Next(14) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<NetherCrystal>());
-            if (Main.rand.Next(3) == 1)
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SoulShred>(), Main.rand.Next(1) + 1);
-        }
-
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
 			npcLoot.AddCommon<NetherCrystal>(14);

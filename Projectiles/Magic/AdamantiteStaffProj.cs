@@ -49,7 +49,7 @@ namespace SpiritMod.Projectiles.Magic
 				if (i != 3 && i != 7) {
 					Vector2 BaseSpeed = new Vector2(0, 7.5f);
 					BaseSpeed = BaseSpeed.RotatedBy(i * MathHelper.TwoPi / maxprojs);
-					Projectile.NewProjectile(Projectile.Center, BaseSpeed, ModContent.ProjectileType<AdamantiteStaffProj2>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, BaseSpeed, ModContent.ProjectileType<AdamantiteStaffProj2>(), Projectile.damage, 0f, Projectile.owner, 0f, 0f);
 				}
 			}
 		}

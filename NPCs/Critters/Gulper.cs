@@ -98,11 +98,6 @@ namespace SpiritMod.NPCs.Critters
 			return SpawnCondition.OceanMonster.Chance * 0.31f;
 		}
 
-		public override void OnKill()
-		{
-			if (Main.rand.Next(2) == 1) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
-			}
-		}
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<RawFish>(2);
 	}
 }

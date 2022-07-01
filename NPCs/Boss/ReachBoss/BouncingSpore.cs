@@ -27,7 +27,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			float goreScale = 0.01f * Main.rand.Next(20, 70);
-			int a = Gore.NewGore(Projectile.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Projectile.velocity, 386, goreScale);
+			int a = Gore.NewGore(Projectile.GetSource_Misc("TileHit"), Projectile.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Projectile.velocity, 386, goreScale);
 			Main.gore[a].timeLeft = 15;
 			Main.gore[a].rotation = 10f;
 			Main.gore[a].velocity = new Vector2(Projectile.direction * 2.5f, Main.rand.NextFloat(1f, 2f));

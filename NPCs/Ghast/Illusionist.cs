@@ -124,7 +124,7 @@ namespace SpiritMod.NPCs.Ghast
 						SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 8);
 						SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 53);
 						if (Main.netMode != NetmodeID.MultiplayerClient) {
-							NPC.NewNPC((int)NPC.position.X + NPC.width / 2, (int)NPC.Center.Y - 16, ModContent.NPCType<IllusionistSpectre>(), 0, 0, 0, 0, 0, 255);
+							NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + NPC.width / 2, (int)NPC.Center.Y - 16, ModContent.NPCType<IllusionistSpectre>(), 0, 0, 0, 0, 0, 255);
 						}
 						switch (Main.rand.Next(3)) {
 							case 0:

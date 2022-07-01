@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles
 			if (Projectile.timeLeft % 7 == 0 && Main.rand.NextBool(2))
 			{
 				int type = Main.rand.Next(new int[] { ModContent.ItemType<Items.Sets.CascadeSet.DeepCascadeShard>(), ModContent.ItemType<SulfurDeposit>() });
-				int slot = Item.NewItem(new Vector2(Projectile.Center.X + Main.rand.Next(-10, 10), Projectile.Center.Y + Main.rand.Next(-10, 10)), 0, 0, type, 1, false, 0, false);
+				int slot = Item.NewItem(Projectile.GetSource_FromAI(), new Vector2(Projectile.Center.X + Main.rand.Next(-10, 10), Projectile.Center.Y + Main.rand.Next(-10, 10)), 0, 0, type, 1, false, 0, false);
 
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncItem, -1, -1, null, slot, 1f);

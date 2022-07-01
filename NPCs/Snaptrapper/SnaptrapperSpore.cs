@@ -54,7 +54,7 @@ namespace SpiritMod.NPCs.Snaptrapper
             int amountOfProjectiles = Main.rand.Next(2, 5);
             for (int i = 0; i < amountOfProjectiles; ++i)
             {
-                int p = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-3, 3), Main.rand.Next(-4, -1), ModContent.ProjectileType<SnaptrapperGas>(), 12, 1, Main.myPlayer, 0, 0);
+                int p = Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-3, 3), Main.rand.Next(-4, -1), ModContent.ProjectileType<SnaptrapperGas>(), 12, 1, Main.myPlayer, 0, 0);
                 Main.projectile[p].hostile = true;
                 Main.projectile[p].friendly = false;
             }

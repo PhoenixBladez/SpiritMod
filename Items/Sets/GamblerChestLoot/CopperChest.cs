@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot
 
 		public override void RightClick(Player player)
 		{
-			Main.npc[NPC.NewNPC((int)player.Center.X + player.direction * 30, (int)player.Center.Y, ModContent.NPCType<CopperChestBottom>(), 0)].netUpdate = true;
+			Main.npc[NPC.NewNPC(player.GetSource_OpenItem(Item.type, "RightClick"), (int)player.Center.X + player.direction * 30, (int)player.Center.Y, ModContent.NPCType<CopperChestBottom>(), 0)].netUpdate = true;
 		}
 	}
 }

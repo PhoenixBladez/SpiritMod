@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs.ScreechOwl
                 direction.Y *= 2.7f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    Projectile.NewProjectile(NPC.Center.X + (10 * NPC.spriteDirection), NPC.Center.Y - 12, direction.X, direction.Y, ModContent.ProjectileType<ScreechOwlNote>(), 9, 1, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (10 * NPC.spriteDirection), NPC.Center.Y - 12, direction.X, direction.Y, ModContent.ProjectileType<ScreechOwlNote>(), 9, 1, Main.myPlayer, 0, 0);
 					for (int i = 0; i < 10; i++)
                     {
                         float angle = Main.rand.NextFloat(MathHelper.PiOver4, -MathHelper.Pi - MathHelper.PiOver4);
@@ -161,7 +161,7 @@ namespace SpiritMod.NPCs.ScreechOwl
         {
             if (NPC.life <= 0)
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ScreechOwl/ScreechOwl" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ScreechOwl/ScreechOwl" + i).Type, 1f);
         }
 	}
 }

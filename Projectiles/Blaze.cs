@@ -72,7 +72,7 @@ namespace SpiritMod.Projectiles
 				});
 
 			for (int i = 0; i < 2; i++) {
-				int gore = Gore.NewGore(new Vector2(Projectile.Center.X - 24f, Projectile.Center.Y - 24f), default, Main.rand.Next(61, 64), 1f);
+				int gore = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.Center.X - 24f, Projectile.Center.Y - 24f), default, Main.rand.Next(61, 64), 1f);
 				Main.gore[gore].velocity *= 1 / 3f * (i + 1);
 				Main.gore[gore].velocity.X += 1f;
 			}

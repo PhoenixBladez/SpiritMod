@@ -150,7 +150,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 				timer++;
 
 				if (timer % 70 == 1 && Main.netMode != NetmodeID.MultiplayerClient)
-					Projectile.NewProjectile(Projectile.Center, new Vector2(0, 3), ModContent.ProjectileType<AquaBall>(), Projectile.damage, 0, Main.myPlayer);
+					Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(0, 3), ModContent.ProjectileType<AquaBall>(), Projectile.damage, 0, Main.myPlayer);
 
 				if (Projectile.ai[1] == -1f)
 					Projectile.ai[1] = 17f;

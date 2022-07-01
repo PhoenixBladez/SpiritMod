@@ -55,7 +55,7 @@ namespace SpiritMod.NPCs.Spirit
 				{
 					float A = Main.rand.Next(-1, 1) * 0.01f;
 					float B = Main.rand.Next(-1, 1) * 0.01f;
-					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SpiritScythe>(), 30, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<SpiritScythe>(), 30, 1, Main.myPlayer, 0, 0);
 				}
 			}
 			NPC.spriteDirection = NPC.direction;

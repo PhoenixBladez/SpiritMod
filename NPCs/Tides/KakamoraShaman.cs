@@ -105,25 +105,15 @@ namespace SpiritMod.NPCs.Tides
 				}
 			}
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.NextBool(50))
-			{
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<CoconutGun>());
-			}
-			if (Main.rand.NextBool(50))
-			{
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<TikiJavelin>());
-			}
-			if (Main.rand.NextBool(15))
-			{
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MagicConch>());
-			}
-			if (Main.rand.Next(3) != 0)
-			{
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<TribalScale>(), Main.rand.Next(2) + 2);
-			}
+			npcLoot.AddCommon<CoconutGun>(50);
+			npcLoot.AddCommon<TikiJavelin>(50);
+			npcLoot.AddCommon<MagicConch>(15);
+			npcLoot.AddCommon<TribalScale>(3, 2, 3);
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			if ((NPC.collideY || NPC.wet) && !blocking)
@@ -149,7 +139,7 @@ namespace SpiritMod.NPCs.Tides
 						{
 							if (Math.Abs(npc2.position.X - NPC.position.X) < 500 && npc2.active && npc2.life < npc2.lifeMax) //500 is distance away he heals
 							{
-								int bolt = Terraria.Projectile.NewProjectile(NPC.Center.X + Main.rand.Next(-66, 66), NPC.Center.Y - Main.rand.Next(60, 120), 0, 0, ModContent.ProjectileType<ShamanBolt>(), 0, 0);
+								int bolt = Terraria.Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + Main.rand.Next(-66, 66), NPC.Center.Y - Main.rand.Next(60, 120), 0, 0, ModContent.ProjectileType<ShamanBolt>(), 0, 0);
 								Projectile p = Main.projectile[bolt];
 								Vector2 direction = npc2.Center - p.Center;
 								direction.Normalize();
@@ -186,11 +176,11 @@ namespace SpiritMod.NPCs.Tides
 			if (NPC.life <= 0)
 			{
 				SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ShamanGore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ShamanGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ShamanGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ShamanGore2").Type, 1f);
 			}
 		}
 	}

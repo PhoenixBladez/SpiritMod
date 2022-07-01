@@ -28,7 +28,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 			{
 				for (int i = 0; i < 3; i++)
 				{
-					int p = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<HecateBoonRune>(), 0, 0, npc.target, npc.whoAmI, i);
+					int p = Projectile.NewProjectile(npc.GetSource_FromAI("Boon"), npc.Center, Vector2.Zero, ModContent.ProjectileType<HecateBoonRune>(), 0, 0, npc.target, npc.whoAmI, i);
 					if (Main.netMode != NetmodeID.SinglePlayer)
 						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, p);
 				}

@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Magic
 			timer--;
 
 			if (timer == 0) {
-				Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y,
+				Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y,
 					Projectile.velocity.X + 10, Projectile.velocity.Y + 10,
 					ProjectileID.ChlorophyteBullet, Projectile.damage, Projectile.knockBack, Projectile.owner);
 				timer = 20;

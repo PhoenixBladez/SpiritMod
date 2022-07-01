@@ -69,7 +69,7 @@ namespace SpiritMod.Projectiles.Arrow
 								Main.dust[dust].velocity = Projectile.DirectionTo(Main.dust[num].position) * 6f;
 						}
 					}
-					int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0, 0, ModContent.ProjectileType<GraniteSpike1>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
+					int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center.X, target.Center.Y, 0, 0, ModContent.ProjectileType<GraniteSpike1>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
 					Main.projectile[proj].timeLeft = 2;
 				}
 				if (Projectile.localAI[0] >= (float)(60 * num996))
@@ -139,7 +139,7 @@ namespace SpiritMod.Projectiles.Arrow
 							Main.dust[num].velocity = Projectile.DirectionTo(Main.dust[num].position) * 6f;
 					}
 				}
-				int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y,
+				int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center.X, target.Center.Y,
 					0, 0, ModContent.ProjectileType<GraniteSpike1>(), Projectile.damage / 3 * 2, Projectile.knockBack, Projectile.owner);
 				Main.projectile[proj].timeLeft = 2;
 			}
@@ -149,8 +149,8 @@ namespace SpiritMod.Projectiles.Arrow
 			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 
 			for (int k = 0; k < 6; k++) {
-				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Electric, 2.5f * 1, -2.5f, 0, default, 0.27f);
-				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Electric, 2.5f * 1, -2.5f, 0, default, 0.37f);
+				Dust.NewDust(Projectile.GetSource_Death(), Projectile.position, Projectile.width, Projectile.height, DustID.Electric, 2.5f * 1, -2.5f, 0, default, 0.27f);
+				Dust.NewDust(Projectile.GetSource_Death(), Projectile.position, Projectile.width, Projectile.height, DustID.Electric, 2.5f * 1, -2.5f, 0, default, 0.37f);
 			}
 		}
 	}

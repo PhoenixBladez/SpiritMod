@@ -133,7 +133,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
         {
 			for (int i = 0; i<4; i++)
 			{
-				int index4 = Gore.NewGore(new Vector2(Projectile.position.X, Projectile.position.Y), new Vector2(), Main.rand.Next(61, 64), 1f);
+				int index4 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X, Projectile.position.Y), new Vector2(), Main.rand.Next(61, 64), 1f);
 				Main.gore[index4].velocity *= 0.4f;
 				Main.gore[index4].velocity.X += (float) Main.rand.Next(-10, 11) * 0.1f;
 				Main.gore[index4].velocity.Y += (float) Main.rand.Next(-10, 11) * 0.1f;		

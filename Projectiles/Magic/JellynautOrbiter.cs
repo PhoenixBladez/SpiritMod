@@ -109,7 +109,7 @@ namespace SpiritMod.Projectiles.Magic
             {
                 float A = (float)Main.rand.Next(-200, 200) * 0.05f;
                 float B = (float)Main.rand.Next(-200, 200) * 0.05f;
-                int p = Projectile.NewProjectile(Projectile.Center, direction,
+                int p = Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, direction,
                 ModContent.ProjectileType<JellyfishOrbiter_Projectile>(), 16, 3, Main.myPlayer);
                 Main.projectile[p].friendly = true;
                 Main.projectile[p].hostile = false;

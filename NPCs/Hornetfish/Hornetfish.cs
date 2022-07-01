@@ -132,7 +132,7 @@ namespace SpiritMod.NPCs.Hornetfish
 			{
 				SoundEngine.PlaySound(SoundID.Item97, NPC.Center);
 				int distance = (int)Math.Sqrt((NPC.Center.X - player.Center.X) * (NPC.Center.X - player.Center.X) + (NPC.Center.Y - player.Center.Y) * (NPC.Center.Y - player.Center.Y));
-				Projectile.NewProjectile(NPC.Center.X, NPC.position.Y, -(NPC.position.X - player.position.X) / distance * 8, -(NPC.position.Y - player.position.Y) / distance * 8, ProjectileID.Stinger, (int)((NPC.damage / 2)), 0);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.position.Y, -(NPC.position.X - player.position.X) / distance * 8, -(NPC.position.Y - player.position.Y) / distance * 8, ProjectileID.Stinger, (int)((NPC.damage / 2)), 0); ;
 				NPC.ai[2] = 0;
 			}
 		}
@@ -156,7 +156,7 @@ namespace SpiritMod.NPCs.Hornetfish
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, lightColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 
 			if (trailing)
 			{
@@ -164,7 +164,7 @@ namespace SpiritMod.NPCs.Hornetfish
 				for (int k = 0; k < NPC.oldPos.Length; k++)
 				{
 					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-					Color color = NPC.GetAlpha(lightColor) * (((float)(NPC.oldPos.Length - k) / NPC.oldPos.Length) / 2);
+					Color color = NPC.GetAlpha(drawColor) * (((float)(NPC.oldPos.Length - k) / NPC.oldPos.Length) / 2);
 					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
@@ -181,7 +181,7 @@ namespace SpiritMod.NPCs.Hornetfish
 
 			if (NPC.life <= 0)
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hornetfish/Hornetfish" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hornetfish/Hornetfish" + i).Type, 1f);
 		}
 	}
 }

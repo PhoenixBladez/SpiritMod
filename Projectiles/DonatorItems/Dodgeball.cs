@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 				int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.t_Honey);
 				Main.dust[d].scale = .5f;
 			}
-			int g = Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/Dodgeball").Type, 1f);
+			int g = Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/Dodgeball").Type, 1f);
 			Main.gore[g].timeLeft = 1;
 			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}

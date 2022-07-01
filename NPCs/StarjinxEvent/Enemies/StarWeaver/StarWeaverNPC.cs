@@ -161,7 +161,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 					if(AiTimer == 1)
 					{
 						if(Main.netMode != NetmodeID.MultiplayerClient)
-							Projectile.NewProjectileDirect(NPC.Center, Vector2.Zero, ModContent.ProjectileType<WeaverStarChannel>(), NPCUtils.ToActualDamage(80, 1.5f), 1f, Main.myPlayer, NPC.whoAmI);
+							Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<WeaverStarChannel>(), NPCUtils.ToActualDamage(80, 1.5f), 1f, Main.myPlayer, NPC.whoAmI);
 
 						if (!Main.dedServ)
 							SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/starCast").WithVolume(0.65f).WithPitchVariance(0.3f), NPC.Center);
@@ -193,7 +193,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 				if (Main.netMode == NetmodeID.MultiplayerClient)
 					return;
 
-				var proj = Projectile.NewProjectileDirect(NPC.Top - new Vector2(0, 20), Vector2.Zero, ModContent.ProjectileType<StarWeaverHead>(), NPCUtils.ToActualDamage(NPC.damage, 1), 1f, Main.myPlayer, NPC.whoAmI);
+				var proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Top - new Vector2(0, 20), Vector2.Zero, ModContent.ProjectileType<StarWeaverHead>(), NPCUtils.ToActualDamage(NPC.damage, 1), 1f, Main.myPlayer, NPC.whoAmI);
 				_headIndex = proj.whoAmI;
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, _headIndex);

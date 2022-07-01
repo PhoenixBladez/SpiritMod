@@ -118,7 +118,7 @@ namespace SpiritMod.Mounts
 				player.mount._abilityCooldown -= (int)Math.Abs(player.velocity.X);
 				if (player.mount._abilityCooldown <= -15) {
 					Vector2 vector = player.Center + new Vector2((26 * -(float)player.direction), 26f * player.gravDir);
-					Projectile.NewProjectile(vector.X, vector.Y, 0f, 0f, ModContent.ProjectileType<DrakomireFlame>(), player.statDefense / 2, 0f, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(player.GetSource_Misc("Mount"), vector.X, vector.Y, 0f, 0f, ModContent.ProjectileType<DrakomireFlame>(), player.statDefense / 2, 0f, player.whoAmI, 0f, 0f);
 					player.mount._abilityCooldown = 0;
 				}
 			}

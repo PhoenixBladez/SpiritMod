@@ -49,18 +49,13 @@ namespace SpiritMod.NPCs.Reach
 				return spawnInfo.Player.GetSpiritPlayer().ZoneReach && Main.dayTime ? 2.1f : 0f;
 			return 0f;
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Gel, Main.rand.Next(1, 4));
-
-			if (Main.rand.Next(2) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<AncientBark>(), Main.rand.Next(1, 4));
-
-			if (Main.rand.Next(10000) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.SlimeStaff);
-
-			if (Main.rand.NextBool(90))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Bezoar);
+			npcLoot.AddCommon(ItemID.GenderChangePotion, 1, 1, 3);
+			npcLoot.AddCommon<AncientBark>(2, 1, 3);
+			npcLoot.AddCommon(ItemID.SlimeStaff, 10000);
+			npcLoot.AddCommon(ItemID.Bezoar, 90);
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)

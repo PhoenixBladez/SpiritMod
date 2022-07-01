@@ -34,12 +34,12 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 
 		public override void RightClick(Player player)
 		{
-			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(4, 5));
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ItemID.GoldCoin, Main.rand.Next(4, 5));
 			if (Main.rand.NextDouble() < 1d / 7)
-				player.QuickSpawnItem(ModContent.ItemType<MJWMask>());
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<MJWMask>());
 			if (Main.rand.NextDouble() < 1d / 10)
-				player.QuickSpawnItem(ModContent.ItemType<MJWTrophy>());
-            player.QuickSpawnItem(ModContent.ItemType<Cornucopion>());
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<MJWTrophy>());
+            player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<Cornucopion>());
             int[] lootTable = {
                 ModContent.ItemType<Moonshot>(),
                 ModContent.ItemType<Moonburst>(),
@@ -48,11 +48,11 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
             };
             int loot = Main.rand.Next(lootTable.Length);
 			int lunazoastack = Main.rand.Next(10, 12);
-			player.QuickSpawnItem(lootTable[loot]);
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable[loot]);
 			if (lootTable[loot] == ModContent.ItemType<Moonshot>())
 				lunazoastack += Main.rand.Next(10, 20);
 
-			player.QuickSpawnItem(ModContent.ItemType<TinyLunazoaItem>(), lunazoastack);
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<TinyLunazoaItem>(), lunazoastack);
 
 			int[] vanityTable = {
 				ModContent.ItemType<WaasephiVanity>(),
@@ -62,7 +62,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 			};
 			int vanityloot = Main.rand.Next(vanityTable.Length);
 			if (Main.rand.NextBool(20))
-				player.QuickSpawnItem(vanityTable[vanityloot]);
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), vanityTable[vanityloot]);
 		}
 	}
 }

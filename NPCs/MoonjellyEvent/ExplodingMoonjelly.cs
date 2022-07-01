@@ -121,7 +121,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
                 }
                 if (Main.player[NPC.target].Hitbox.Intersects(NPC.Hitbox))
                 {
-                    int p = Projectile.NewProjectile(Main.player[NPC.target].Center.X, Main.player[NPC.target].Center.Y, 0f, 0f, ModContent.ProjectileType<UnstableWisp_Explosion>(), 15, 0f, Main.myPlayer);
+                    int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center.X, Main.player[NPC.target].Center.Y, 0f, 0f, ModContent.ProjectileType<UnstableWisp_Explosion>(), 15, 0f, Main.myPlayer);
                     Main.projectile[p].hide = true;
                     Main.projectile[p].timeLeft = 20;
 

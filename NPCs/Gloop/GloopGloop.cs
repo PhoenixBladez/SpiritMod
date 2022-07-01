@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Accessory;
 using System;
+using SpiritMod.Items.Armor.AstronautVanity;
 
 namespace SpiritMod.NPCs.Gloop
 {
@@ -66,19 +67,13 @@ namespace SpiritMod.NPCs.Gloop
 					NPC.rotation = NPC.velocity.ToRotation() + 1.57f;
 				}
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(1) == 400) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<GravityModulator>());
-			}
-			string[] lootTable = { "AstronautLegs", "AstronautHelm", "AstronautBody" };
-			if (Main.rand.Next(50) == 0) {
-				int loot = Main.rand.Next(lootTable.Length);
-				{
-					NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
-				}
-			}
+			npcLoot.AddCommon<GravityModulator>(400);
+			npcLoot.AddOneFromOptions(ModContent.ItemType<AstronautLegs>(), ModContent.ItemType<AstronautHelm>(), ModContent.ItemType<AstronautBody>());
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 11; k++) {

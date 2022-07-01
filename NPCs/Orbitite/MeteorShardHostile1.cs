@@ -85,7 +85,7 @@ namespace SpiritMod.NPCs.Orbitite
 					for (int i = 0; i < amountOfProjectiles; ++i) {
 						//float A = (float)Main.rand.Next(-200, 200) * 0.05f;
 						//float B = (float)Main.rand.Next(-200, 200) * 0.05f;
-						Projectile.NewProjectile(Projectile.Center, direction, ModContent.ProjectileType<MeteorShardHostile2>(), Projectile.damage, 0, Main.myPlayer);
+						Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, direction, ModContent.ProjectileType<MeteorShardHostile2>(), Projectile.damage, 0, Main.myPlayer);
 					}
 				}
 				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 89);

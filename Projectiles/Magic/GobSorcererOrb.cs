@@ -69,7 +69,7 @@ namespace SpiritMod.Projectiles.Magic
                 }
 
                 Vector2 velocity = Vector2.Normalize(Main.MouseWorld - pos) * 8f;
-                int p = Projectile.NewProjectile(pos.X, pos.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Magic.ShadowflameOrbBolt>(), Projectile.damage, Projectile.knockBack, 0, 0.0f, 0.0f);
+                int p = Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.GetSource_Death(), pos.X, pos.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.Magic.ShadowflameOrbBolt>(), Projectile.damage, Projectile.knockBack, 0, 0.0f, 0.0f);
                 for (float num2 = 0.0f; (double)num2 < 10; ++num2)
                 {
                     int dustIndex = Dust.NewDust(pos, 2, 2, DustID.ShadowbeamStaff, 0f, 0f, 0, default, 1f);

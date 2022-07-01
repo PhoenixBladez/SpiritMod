@@ -44,7 +44,7 @@ namespace SpiritMod
 				NetMessage.SendData(MessageID.SyncItem, -1, -1, null, i);
 		}
 
-		public static int NewItemWithSync(int owner, int x, int y, int width, int height, int type, int stack = 1, bool noBroadcast = false, int prefix = 0, bool noGrabDelay = false, bool reverseLookup = false)
+		public static int NewItemWithSync(IEntitySource source, int owner, int x, int y, int width, int height, int type, int stack = 1, bool noBroadcast = false, int prefix = 0, bool noGrabDelay = false, bool reverseLookup = false)
 		{
 			int item = Item.NewItem(x, y, width, height, type, stack, noBroadcast, prefix, noGrabDelay, reverseLookup);
 			if (Main.netMode == NetmodeID.MultiplayerClient && Main.myPlayer == owner)
@@ -52,10 +52,10 @@ namespace SpiritMod
 			return item;
 		}
 
-		public static int NewItemWithSync(int owner, Rectangle area, int type, int stack = 1, bool noBroadcast = false, int prefix = 0, bool noGrabDelay = false, bool reverseLookup = false)
+		public static int NewItemWithSync(IEntitySource source, int owner, Rectangle area, int type, int stack = 1, bool noBroadcast = false, int prefix = 0, bool noGrabDelay = false, bool reverseLookup = false)
 		{
 			(int x, int y, int width, int height) = (area.X, area.Y, area.Width, area.Height);
-			return NewItemWithSync(owner, x, y, width, height, type, stack, noBroadcast, prefix, noGrabDelay, reverseLookup);
+			return NewItemWithSync(source, owner, x, y, width, height, type, stack, noBroadcast, prefix, noGrabDelay, reverseLookup);
 		}
 
 		public static void DropCandy(Player player, IEntitySource source)

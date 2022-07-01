@@ -93,7 +93,7 @@ namespace SpiritMod.NPCs.ExplosiveBarrel
 
         public void Explode()
 		{
-            Projectile.NewProjectile(new Vector2(NPC.Center.X, NPC.Center.Y - 48), Vector2.Zero, ModContent.ProjectileType<BarrelExplosionLarge>(), 100, 8, Main.myPlayer);
+            Projectile.NewProjectile(NPC.GetSource_Death(), new Vector2(NPC.Center.X, NPC.Center.Y - 48), Vector2.Zero, ModContent.ProjectileType<BarrelExplosionLarge>(), 100, 8, Main.myPlayer);
             NPC.active = false;
         }
 

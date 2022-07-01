@@ -73,15 +73,10 @@ namespace SpiritMod.NPCs.Critters
 			return true;
 		}
 
-
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			{
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
-			}
-			{
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.GoldCoin, 5);
-			}
+			npcLoot.AddCommon<RawFish>();
+			npcLoot.AddCommon(ItemID.GoldCoin, 1, 5);
 		}
 	}
 }

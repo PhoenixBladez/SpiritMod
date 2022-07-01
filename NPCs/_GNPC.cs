@@ -164,7 +164,7 @@ namespace SpiritMod.NPCs
 				if (bloodInfusion > 150)
 				{
 					bloodInfusion = 0;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
+					Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, 0, 0, ModContent.ProjectileType<FlayedExplosion>(), 25, 0, Main.myPlayer);
 				}
 			}
 

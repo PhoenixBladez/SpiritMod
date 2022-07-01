@@ -303,7 +303,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			{
 				Vector2 spawnPos = NPC.Center + Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * FindDistance();
 
-				int id = NPC.NewNPC((int)spawnPos.X, (int)spawnPos.Y, type, NPC.whoAmI, NPC.whoAmI, comets.Count * 2, 0, -1);
+				int id = NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnPos.X, (int)spawnPos.Y, type, NPC.whoAmI, NPC.whoAmI, comets.Count * 2, 0, -1);
 				Main.npc[id].Center = spawnPos;
 				Main.npc[id].dontTakeDamage = true;
 
@@ -437,7 +437,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		{
 			if (NPC.life <= 0)
 				for (int k = 0; k < 14; k++)
-					Gore.NewGore(NPC.Center + new Vector2(0, Main.rand.NextFloat(42)).RotatedByRandom(MathHelper.Pi), new Vector2(2 * hitDirection, Main.rand.NextFloat(-1, 1f)), Mod.Find<ModGore>($"Gores/StarjinxEvent/Meteorite/Meteor_{Main.rand.Next(5)}").Type, Main.rand.NextFloat(.6f, 1f));
+					Gore.NewGore(NPC.GetSource_Death(), NPC.Center + new Vector2(0, Main.rand.NextFloat(42)).RotatedByRandom(MathHelper.Pi), new Vector2(2 * hitDirection, Main.rand.NextFloat(-1, 1f)), Mod.Find<ModGore>($"Gores/StarjinxEvent/Meteorite/Meteor_{Main.rand.Next(5)}").Type, Main.rand.NextFloat(.6f, 1f));
 		}
 
 		public override void OnKill()
@@ -449,11 +449,10 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			NetMessage.SendData(MessageID.WorldData);
 
 			int drops = Main.expertMode ? 9 : 7;
-			Item.NewItem(new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height), Mod.Find<ModItem>("Starjinx").Type, Main.rand.Next(4, 6) * drops);
-
 			Main.NewText("The asteroids return to their tranquil state...", 252, 150, 255);
 		}
 
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<Items.Material.Starjinx>();
 		public override bool CheckActive() => false;
 
 		public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit) => CheckTakeDamage(ref damage, ref crit);

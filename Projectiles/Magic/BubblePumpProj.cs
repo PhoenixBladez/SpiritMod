@@ -111,7 +111,7 @@ namespace SpiritMod.Projectiles.Magic
 							ModContent.ProjectileType<GunBubble5>()
 						});
 						SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 85);
-						Projectile.NewProjectile(player.Center + (direction * 5), direction.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.85f, 1.15f), bubbleproj, Projectile.damage, Projectile.knockBack, Projectile.owner);
+						Projectile.NewProjectile(Projectile.GetSource_FromAI(), player.Center + (direction * 5), direction.RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(0.85f, 1.15f), bubbleproj, Projectile.damage, Projectile.knockBack, Projectile.owner);
 					}
 				}
 				else {
