@@ -1,3 +1,4 @@
+using SpiritMod.Items.Material;
 using System;
 using System.IO;
 using Terraria;
@@ -75,10 +76,10 @@ namespace SpiritMod.NPCs.ChestZombie
 			}
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("Zombie_Chest").Type);
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("OldLeather").Type, 5);
+			npcLoot.AddCommon<Zombie_Chest>();
+			npcLoot.AddCommon<OldLeather>(1, 5);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -92,7 +93,7 @@ namespace SpiritMod.NPCs.ChestZombie
 
 			if (NPC.life <= 0)
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ChestZombie/ChestZombieGore" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ChestZombie/ChestZombieGore" + i).Type, 1f);
 		}
 
 		public override void FindFrame(int frameHeight)

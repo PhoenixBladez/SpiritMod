@@ -45,7 +45,7 @@ namespace SpiritMod.NPCs.Tides
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if (NPC.ai[3] == 1)
-				Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Extra[49].Value, (NPC.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(22.5f * bloomCounter), (int)(13.8f * bloomCounter), (int)(21.6f * bloomCounter), 0), 0f, new Vector2(50, 50), 0.125f * (bloomCounter + 3), SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Extra[49].Value, (NPC.Center - Main.screenPosition) - new Vector2(-2, 8), null, new Color((int)(22.5f * bloomCounter), (int)(13.8f * bloomCounter), (int)(21.6f * bloomCounter), 0), 0f, new Vector2(50, 50), 0.125f * (bloomCounter + 3), SpriteEffects.None, 0f);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -55,7 +55,7 @@ namespace SpiritMod.NPCs.Tides
 
 			if (NPC.life <= 0)
 				for (int i = 1; i < 7; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MangoJelly/MangoJelly" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MangoJelly/MangoJelly" + i).Type, 1f);
 		}
 
 		public override void AI()
@@ -85,10 +85,10 @@ namespace SpiritMod.NPCs.Tides
 				{
 					NPC.ai[3] = 0;
 					Vector2 vel = new Vector2(30f, 0).RotatedBy((float)(Main.rand.Next(90) * Math.PI / 180));
-					SoundEngine.PlaySound(SoundID.Item, NPC.Center, 91);
+					SoundEngine.PlaySound(SoundID.Item91, NPC.Center);
 					for (int i = 0; i < 4; i++)
 					{
-						int lozar = Projectile.NewProjectile(NPC.position + vel.RotatedBy(i * 1.57f) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), NPC.damage / 3, 0, Main.myPlayer);
+						int lozar = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.position + vel.RotatedBy(i * 1.57f) + new Vector2(xoffset, 6), Vector2.Zero, ModContent.ProjectileType<MangoLaser>(), NPC.damage / 3, 0, Main.myPlayer);
 						Main.projectile[lozar].netUpdate = true;
 					}
 					NPC.netUpdate = true;
@@ -142,13 +142,11 @@ namespace SpiritMod.NPCs.Tides
 				#endregion
 			}
 		}
-		public override void OnKill()
-		{
-			if (Main.rand.NextBool(25))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MagicConch>());
 
-			if (Main.rand.NextBool(25))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<MangoJellyStaff>());
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddCommon<MagicConch>(25);
+			npcLoot.AddCommon<MangoJellyStaff>(25);
 		}
 
 		public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255);
@@ -160,7 +158,7 @@ namespace SpiritMod.NPCs.Tides
 			{
 				var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-				Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+				Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			}
 			return true;

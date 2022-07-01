@@ -180,15 +180,15 @@ namespace SpiritMod.NPCs.Hookbat
             if (NPC.life <= 0)
             {
 				for (int i = 1; i < 4; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hookbat/Hookbat" + i).Type, 1f);
-                Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hookbat/Hookbat1").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hookbat/Hookbat" + i).Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hookbat/Hookbat1").Type, 1f);
             }
         }
 
 		public override void OnKill()
 		{
 			if (QuestManager.GetQuest<FirstAdventure>().IsActive)
-				Item.NewItem(NPC.getRect(), ModContent.ItemType<DurasilkSheaf>());
+				Item.NewItem(NPC.GetSource_Death(), NPC.getRect(), ModContent.ItemType<DurasilkSheaf>());
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

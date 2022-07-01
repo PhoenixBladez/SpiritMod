@@ -68,6 +68,7 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 				groundSlamming = false;
 			}
 		}
+
 		public void slam()
 		{
 			Player player = Main.player[NPC.target];
@@ -85,7 +86,7 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 
 			if (NPC.ai[1] >= 321)
 			{
-				Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 4f * NPC.spriteDirection, 0f, ModContent.ProjectileType<Earth_Slam_Invisible>(), 0, 0, player.whoAmI);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, 4f * NPC.spriteDirection, 0f, ModContent.ProjectileType<Earth_Slam_Invisible>(), 0, 0, player.whoAmI);
 				NPC.ai[1] = 0;
 				NPC.netUpdate = true;
 			}
@@ -198,30 +199,6 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 				position.X += NPC.velocity.X;
 				int index1 = (int)(((double)position.X + (double)(NPC.width / 2) + (double)((NPC.width / 2 + 1) * num8)) / 16.0);
 				int index2 = (int)(((double)position.Y + (double)NPC.height - 1.0) / 16.0);
-				if (Main.tile[index1, index2] == null)
-				{
-					Main.tile[index1, index2] = new Tile();
-				}
-
-				if (Main.tile[index1, index2 - 1] == null)
-				{
-					Main.tile[index1, index2 - 1] = new Tile();
-				}
-
-				if (Main.tile[index1, index2 - 2] == null)
-				{
-					Main.tile[index1, index2 - 2] = new Tile();
-				}
-
-				if (Main.tile[index1, index2 - 3] == null)
-				{
-					Main.tile[index1, index2 - 3] = new Tile();
-				}
-
-				if (Main.tile[index1, index2 + 1] == null)
-				{
-					Main.tile[index1, index2 + 1] = new Tile();
-				}
 
 				if ((double)(index1 * 16) < (double)position.X + (double)NPC.width && (double)(index1 * 16 + 16) > (double)position.X && (Main.tile[index1, index2].HasUnactuatedTile && !Main.tile[index1, index2].TopSlope && (!Main.tile[index1, index2 - 1].TopSlope && Main.tileSolid[(int)Main.tile[index1, index2].TileType]) && !Main.tileSolidTop[(int)Main.tile[index1, index2].TileType] || Main.tile[index1, index2 - 1].IsHalfBlock && Main.tile[index1, index2 - 1].HasUnactuatedTile) && ((!Main.tile[index1, index2 - 1].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1, index2 - 1].TileType] || Main.tileSolidTop[(int)Main.tile[index1, index2 - 1].TileType] || Main.tile[index1, index2 - 1].IsHalfBlock && (!Main.tile[index1, index2 - 4].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1, index2 - 4].TileType] || Main.tileSolidTop[(int)Main.tile[index1, index2 - 4].TileType])) && ((!Main.tile[index1, index2 - 2].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1, index2 - 2].TileType] || Main.tileSolidTop[(int)Main.tile[index1, index2 - 2].TileType]) && (!Main.tile[index1, index2 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1, index2 - 3].TileType] || Main.tileSolidTop[(int)Main.tile[index1, index2 - 3].TileType]) && (!Main.tile[index1 - num8, index2 - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[index1 - num8, index2 - 3].TileType]))))
 				{
@@ -253,31 +230,8 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 				int index1 = (int)(((double)NPC.position.X + (double)(NPC.width / 2) + (double)(15 * NPC.direction)) / 16.0);
 				int index2 = (int)(((double)NPC.position.Y + (double)NPC.height - 15.0) / 16.0);
 
-				if (Main.tile[index1, index2] == null)
-					Main.tile[index1, index2] = new Tile();
-
-				if (Main.tile[index1, index2 - 1] == null)
-					Main.tile[index1, index2 - 1] = new Tile();
-
-				if (Main.tile[index1, index2 - 2] == null)
-					Main.tile[index1, index2 - 2] = new Tile();
-
-				if (Main.tile[index1, index2 - 3] == null)
-					Main.tile[index1, index2 - 3] = new Tile();
-
-				if (Main.tile[index1, index2 + 1] == null)
-					Main.tile[index1, index2 + 1] = new Tile();
-
-				if (Main.tile[index1 + NPC.direction, index2 - 1] == null)
-					Main.tile[index1 + NPC.direction, index2 - 1] = new Tile();
-
-				if (Main.tile[index1 + NPC.direction, index2 + 1] == null)
-					Main.tile[index1 + NPC.direction, index2 + 1] = new Tile();
-
-				if (Main.tile[index1 - NPC.direction, index2 + 1] == null)
-					Main.tile[index1 - NPC.direction, index2 + 1] = new Tile();
-
-				Main.tile[index1, index2 + 1].IsHalfBlock;
+				Tile tile = Main.tile[index1, index2 + 1];
+				tile.IsHalfBlock;
 				int spriteDirection = NPC.spriteDirection;
 				if ((double)NPC.velocity.X < 0.0 || (double)NPC.velocity.X > 0.0)
 				{
@@ -331,21 +285,21 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 			for (int i = 0; i < 4; i++)
 			{
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
-				int a = Gore.NewGore(new Vector2(NPC.position.X, NPC.position.Y + (Main.rand.Next(-50, 10))), new Vector2(hitDirection * 3f, 0f), 386, goreScale);
+				int a = Gore.NewGore(NPC.GetSource_OnHurt(null), new Vector2(NPC.position.X, NPC.position.Y + (Main.rand.Next(-50, 10))), new Vector2(hitDirection * 3f, 0f), 386, goreScale);
 				Main.gore[a].timeLeft = 5;
 			}
 			for (int i = 0; i < 4; i++)
 			{
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
-				int a = Gore.NewGore(new Vector2(NPC.position.X, NPC.position.Y + (Main.rand.Next(-50, 10))), new Vector2(hitDirection * 3f, 0f), 387, goreScale);
+				int a = Gore.NewGore(NPC.GetSource_OnHurt(null), new Vector2(NPC.position.X, NPC.position.Y + (Main.rand.Next(-50, 10))), new Vector2(hitDirection * 3f, 0f), 387, goreScale);
 				Main.gore[a].timeLeft = 5;
 			}
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MangroveDefender/ForestSentryGore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MangroveDefender/ForestSentryGore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MangroveDefender/ForestSentryGore3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MangroveDefender/ForestSentryGore4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MangroveDefender/ForestSentryGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MangroveDefender/ForestSentryGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MangroveDefender/ForestSentryGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MangroveDefender/ForestSentryGore4").Type, 1f);
 			}
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

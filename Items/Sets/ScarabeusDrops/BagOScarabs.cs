@@ -35,9 +35,9 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 
 		public override void RightClick(Player player)
 		{
-			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(3, 5));
-			player.QuickSpawnItem(ModContent.ItemType<ScarabPendant>());
-			player.QuickSpawnItem(ModContent.ItemType<Chitin>(), Main.rand.Next(24, 37));
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ItemID.GoldCoin, Main.rand.Next(3, 5));
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<ScarabPendant>());
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<Chitin>(), Main.rand.Next(24, 37));
 
 			int[] lootTable = {
 				ModContent.ItemType<ScarabBow>(),
@@ -46,15 +46,15 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 				ModContent.ItemType<RadiantCane.RadiantCane>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
-			player.QuickSpawnItem(lootTable[loot]);
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable[loot]);
 
 			if (Main.rand.NextDouble() < 1 / 7f)
-				player.QuickSpawnItem(ModContent.ItemType<ScarabMask>());
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<ScarabMask>());
 			if (Main.rand.NextDouble() < 1 / 10f)
-				player.QuickSpawnItem(ModContent.ItemType<Trophy1>());
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<Trophy1>());
 
 			if(Main.rand.NextBool(3))
-				player.QuickSpawnItem(ModContent.ItemType<SandsOfTime>());
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<SandsOfTime>());
 
 			int[] vanityTable = {
 				ModContent.ItemType<WaasephiVanity>(),
@@ -64,7 +64,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 			};
 			int vanityloot = Main.rand.Next(vanityTable.Length);
 			if (Main.rand.NextBool(20))
-				player.QuickSpawnItem(vanityTable[vanityloot]);
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), vanityTable[vanityloot]);
 		}
 	}
 }

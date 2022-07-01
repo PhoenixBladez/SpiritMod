@@ -90,7 +90,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 						launchDirection.Normalize();
 						launchDirection = launchDirection.RotatedBy(Main.rand.NextFloat(-0.5f, 0.5f));
 						launchDirection *= 10;
-						Projectile.NewProjectile(NPC.Center, launchDirection, ModContent.ProjectileType<AzureJelly>(), 35, 4, 255, player.whoAmI);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, launchDirection, ModContent.ProjectileType<AzureJelly>(), 35, 4, 255, player.whoAmI);
 					}
 				}
 			}
@@ -102,7 +102,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 					launchDirection.Normalize();
 					launchDirection = launchDirection.RotatedBy(Main.rand.NextFloat(-0.5f, 0.5f));
 					launchDirection *= 15;
-					Projectile.NewProjectile(NPC.Center, launchDirection, ModContent.ProjectileType<AzureJelly>(), 35, 4, 255, player.whoAmI);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, launchDirection, ModContent.ProjectileType<AzureJelly>(), 35, 4, 255, player.whoAmI);
 				}
 				NPC.active = false;
 			}

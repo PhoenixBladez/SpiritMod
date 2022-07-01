@@ -160,5 +160,27 @@ namespace SpiritMod.NPCs
 			public bool CanShowItemDropInUI() => true;
 			public string GetConditionDescription() => condition;
 		}
+
+		public class NPCConditional : IItemDropRuleCondition, IProvideItemConditionDescription
+		{
+			public bool CanDrop(DropAttemptInfo info)
+			{
+				if (!info.IsInSimulation)
+					return canDrop(info.npc);
+				return false;
+			}
+
+			public Func<NPC, bool> canDrop;
+			public readonly string condition = "";
+
+			public NPCConditional(string cond, Func<NPC, bool> func)
+			{
+				condition = cond;
+				canDrop = func;
+			}
+
+			public bool CanShowItemDropInUI() => true;
+			public string GetConditionDescription() => condition;
+		}
 	}
 }

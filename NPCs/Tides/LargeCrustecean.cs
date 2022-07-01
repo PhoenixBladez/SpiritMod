@@ -83,13 +83,10 @@ namespace SpiritMod.NPCs.Tides
 			}
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.NextBool(15))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<PumpBubbleGun>());
-
-			if (Main.rand.Next(3) != 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<TribalScale>(), Main.rand.Next(2) + 1);
+			npcLoot.AddCommon<PumpBubbleGun>(15);
+			npcLoot.AddCommon<TribalScale>(3, 1, 2);
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -114,7 +111,7 @@ namespace SpiritMod.NPCs.Tides
 				if (NPC.frameCounter > 2 && blockTimer % 5 == 0)
 				{
 					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 85);
-					Projectile.NewProjectile(NPC.Center.X + (NPC.direction * 34), NPC.Center.Y - 4, NPC.direction * Main.rand.NextFloat(3, 6), 0 - Main.rand.NextFloat(1), ModContent.ProjectileType<LobsterBubbleSmall>(), NPC.damage / 2, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (NPC.direction * 34), NPC.Center.Y - 4, NPC.direction * Main.rand.NextFloat(3, 6), 0 - Main.rand.NextFloat(1), ModContent.ProjectileType<LobsterBubbleSmall>(), NPC.damage / 2, 1, Main.myPlayer, 0, 0);
 				}
 			}
 		}
@@ -129,7 +126,7 @@ namespace SpiritMod.NPCs.Tides
 
 			if (NPC.life <= 0)
 				for (int i = 1; i < 8; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/LargeCrustacean/lobster" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/LargeCrustacean/lobster" + i).Type, 1f);
 		}
 	}
 }

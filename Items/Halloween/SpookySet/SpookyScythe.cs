@@ -36,17 +36,13 @@ namespace SpiritMod.Items.Halloween.SpookySet
 		{
 			counter++;
 			if (counter % 10 == 1) {
-				int newProj = Projectile.NewProjectile(new Vector2(hitbox.X, hitbox.Y), new Vector2(0, 0), ModContent.ProjectileType<Pumpkin>(), Item.damage, 0, player.whoAmI);
+				int newProj = Projectile.NewProjectile(player.GetSource_ItemUse(Item), new Vector2(hitbox.X, hitbox.Y), new Vector2(0, 0), ModContent.ProjectileType<Pumpkin>(), Item.damage, 0, player.whoAmI);
 				Main.projectile[newProj].magic = false;
 				Main.projectile[newProj].melee = true;
 
 			}
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
-		{
-			// counter = 0;
-			return false;
-		}
+
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);

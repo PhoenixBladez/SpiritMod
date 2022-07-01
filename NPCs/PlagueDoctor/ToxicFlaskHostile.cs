@@ -58,7 +58,7 @@ namespace SpiritMod.NPCs.PlagueDoctor
 				perturbedSpeed.Normalize();
 				perturbedSpeed.X *= Main.rand.NextFloat(1.5f, 3.5f);
 				perturbedSpeed.Y *= Main.rand.NextFloat(1.5f, 3.5f);
-				int p = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.CursedDartFlame, Projectile.damage, 2, Projectile.owner);
+				int p = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.CursedDartFlame, Projectile.damage, 2, Projectile.owner);
 				Main.projectile[p].hostile = true;
 				Main.projectile[p].friendly = false;
 			}

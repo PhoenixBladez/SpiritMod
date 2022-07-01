@@ -59,7 +59,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			SoundEngine.PlaySound(SoundID.DD2_WitherBeastHurt, NPC.Center);
 			if (NPC.life <= 0)
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/CrystalSerpentGore").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/CrystalSerpentGore").Type, 1f);
 			for (int k = 0; k < 11; k++)
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Clentaminator_Purple, NPC.direction, -1f, 1, default, .61f);
 		}
@@ -72,12 +72,10 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/Critters/CrystalSerpent_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
-			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.CrystalSerpent, 1);
+			npcLoot.AddCommon<RawFish>(2);
+			npcLoot.AddCommon(ItemID.CrystalSerpent, 2);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneHallow && spawnInfo.Water && Main.hardMode ? 0.005f : 0f;

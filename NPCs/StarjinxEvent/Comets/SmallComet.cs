@@ -228,7 +228,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 				if (!Collision.SolidCollision(spawnPos - (new Vector2(temp.width, temp.height) / 2f), temp.width * 2, temp.height * 2))
 				{
-					var p = Projectile.NewProjectileDirect(spawnPos, Vector2.Zero, ModContent.ProjectileType<StarjinxEnemySpawner>(), 0, 0);
+					var p = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), spawnPos, Vector2.Zero, ModContent.ProjectileType<StarjinxEnemySpawner>(), 0, 0);
 
 					if (p.ModProjectile != null && p.ModProjectile is StarjinxEnemySpawner spawner)
 					{
@@ -261,7 +261,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 			if (NPC.life <= 0)
 				for (int k = 0; k < NPC.lifeMax / 60; k++)
-					Gore.NewGore(NPC.Center + new Vector2(0, Main.rand.NextFloat(NPC.width / 2f)).RotatedByRandom(MathHelper.Pi), new Vector2(2 * hitDirection, Main.rand.NextFloat(-0.5f, 0.5f)), Mod.Find<ModGore>($"Gores/StarjinxEvent/Meteorite/Meteor_{Main.rand.Next(5)}").Type, Main.rand.NextFloat(.6f, 1f));
+					Gore.NewGore(NPC.GetSource_Death(), NPC.Center + new Vector2(0, Main.rand.NextFloat(NPC.width / 2f)).RotatedByRandom(MathHelper.Pi), new Vector2(2 * hitDirection, Main.rand.NextFloat(-0.5f, 0.5f)), Mod.Find<ModGore>($"Gores/StarjinxEvent/Meteorite/Meteor_{Main.rand.Next(5)}").Type, Main.rand.NextFloat(.6f, 1f));
 		}
 
         public float Timer => Main.GlobalTimeWrappedHourly + TimerOffset; //Used to offset the beam/sine wave motion
@@ -288,11 +288,11 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 			SpriteEffects effects = NPC.spriteDirection > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition, null, NPC.GetAlpha(Color.Lerp(drawColor, Color.White, 0.5f)), NPC.rotation, center, NPC.scale, effects, 0f);
-			spriteBatch.Draw(ModContent.Request<Texture2D>($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}CometGlow"), NPC.Center - Main.screenPosition, null, col * glowOpacity, NPC.rotation, center, NPC.scale, effects, 0f);
+			spriteBatch.Draw(ModContent.Request<Texture2D>($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}CometGlow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, NPC.Center - Main.screenPosition, null, col * glowOpacity, NPC.rotation, center, NPC.scale, effects, 0f);
             for (int i = 0; i < 6; i++)
             {
                 var drawPos = NPC.Center + ((i / 6f) * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * (4f * cos + 2f) - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - NPC.velocity * i;
-				spriteBatch.Draw(ModContent.Request<Texture2D>($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}CometGlow"), drawPos, NPC.frame, col * glowOpacity * (1f - cos), NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, effects, 0f);
+				spriteBatch.Draw(ModContent.Request<Texture2D>($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}CometGlow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, drawPos, NPC.frame, col * glowOpacity * (1f - cos), NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, effects, 0f);
             }
 
 			return false;
@@ -313,7 +313,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 				float blurLength = MathHelper.Lerp(texture.Width * 3, texture.Width * 4, DeathGlowStrength);
 				float blurWidth = MathHelper.Lerp(texture.Height / 5, texture.Height / 4, DeathGlowStrength);
 
-				Effect blurEffect = Mod.GetEffect("Effects/BlurLine");
+				Effect blurEffect = ModContent.Request<Effect>("Effects/BlurLine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				var blurLine = new SquarePrimitive()
 				{
 					Position = NPC.Center - Main.screenPosition,
@@ -327,7 +327,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			}
 
 			SpriteEffects effects = NPC.spriteDirection > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			sB.Draw(ModContent.Request<Texture2D>($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}Comet_mask"), NPC.Center - Main.screenPosition, null, Color.White * DeathGlowStrength, NPC.rotation, texture.Size()/2, NPC.scale, effects, 0f);
+			sB.Draw(ModContent.Request<Texture2D>($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}Comet_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, NPC.Center - Main.screenPosition, null, Color.White * DeathGlowStrength, NPC.rotation, texture.Size()/2, NPC.scale, effects, 0f);
 		}
 
 		private Color EnergyColor => Color.Lerp(SpiritMod.StarjinxColor(Timer * 0.8f), Color.White, 0.33f);
@@ -336,7 +336,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 
 		public void DrawRing()
 		{
-			Effect effect = Mod.GetEffect("Effects/SjinxRing");
+			Effect effect = ModContent.Request<Effect>("Effects/SjinxRing", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			float width = 70f * (((1 - CosTimer) * 0.25f) + 0.75f);
 			float size = (NPC.Distance(Parent.Center) * 2) + width;
 			effect.Parameters["Size"].SetValue(size);

@@ -57,9 +57,9 @@ namespace SpiritMod.NPCs.ElectricEel
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Eel_Gore").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Eel_Gore_2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Eel_Gore_1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Eel_Gore").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Eel_Gore_2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Eel_Gore_1").Type, 1f);
 			}
 		}
 
@@ -84,15 +84,11 @@ namespace SpiritMod.NPCs.ElectricEel
 			Lighting.AddLight(NPC.Center / 16f, 0.46f, 0.32f, .1f);
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(20) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<EelRod>(), 1);
-
-			if (Main.rand.Next(110) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Consumable.Food.GoldenCaviar>(), 1);
-
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<IridescentScale>(), Main.rand.Next(2, 5));
+			npcLoot.AddCommon<IridescentScale>(1, 2, 4);
+			npcLoot.AddCommon<EelRod>(20);
+			npcLoot.AddCommon<Items.Consumable.Food.GoldenCaviar>(110);
 		}
 	}
 }

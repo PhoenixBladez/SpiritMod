@@ -130,7 +130,7 @@ namespace SpiritMod.NPCs.Hornetfish
 
 			if (NPC.life <= NPC.lifeMax / 2 && NPC.ai[2] >= 140)
 			{
-				SoundEngine.PlaySound(SoundID.Item, NPC.Center, 97);
+				SoundEngine.PlaySound(SoundID.Item97, NPC.Center);
 				int distance = (int)Math.Sqrt((NPC.Center.X - player.Center.X) * (NPC.Center.X - player.Center.X) + (NPC.Center.Y - player.Center.Y) * (NPC.Center.Y - player.Center.Y));
 				Projectile.NewProjectile(NPC.Center.X, NPC.position.Y, -(NPC.position.X - player.position.X) / distance * 8, -(NPC.position.Y - player.position.Y) / distance * 8, ProjectileID.Stinger, (int)((NPC.damage / 2)), 0);
 				NPC.ai[2] = 0;
@@ -142,18 +142,15 @@ namespace SpiritMod.NPCs.Hornetfish
 		public override void OnKill()
 		{
 			if (!Main.LocalPlayer.HasItem(ModContent.ItemType<HornetfishQuest>()))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<HornetfishQuest>());
+				Item.NewItem(NPC.GetSource_Death(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<HornetfishQuest>());
+		}
 
-			if (Main.rand.Next(150) == 5)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Compass);
-
-			if (Main.rand.Next(100) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.RobotHat);
-
-			if (Main.rand.Next(100) == 6)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Hook);
-
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Stinger);
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddCommon(ItemID.Compass, 150);
+			npcLoot.AddCommon(ItemID.RobotHat, 100);
+			npcLoot.AddCommon(ItemID.Hook, 100);
+			npcLoot.AddCommon(ItemID.Stinger);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

@@ -34,7 +34,7 @@ namespace SpiritMod.NPCs.OceanSlime
 			BannerItem = ModContent.ItemType<Items.Banners.CoconutSlimeBanner>();
 		}
 
-		public override void OnKill() => Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Coconut>(), Main.rand.Next(3) + 6);
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<Coconut>(6, 9);
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
@@ -46,9 +46,9 @@ namespace SpiritMod.NPCs.OceanSlime
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/OceanSlime1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/OceanSlime2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/OceanSlime3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/OceanSlime1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/OceanSlime2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/OceanSlime3").Type, 1f);
 			}
 		}
 	}

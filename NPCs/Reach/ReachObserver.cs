@@ -59,13 +59,13 @@ namespace SpiritMod.NPCs.Reach
 				for (int i = 0; i < 4; i++)
 				{
 					float goreScale = 0.01f * Main.rand.Next(20, 70);
-					int a = Gore.NewGore(new Vector2(NPC.position.X, NPC.position.Y + (Main.rand.Next(-50, 10))), new Vector2(hitDirection * 3f, 0f), 386, goreScale);
+					int a = Gore.NewGore(NPC.GetSource_FromAI(), new Vector2(NPC.position.X, NPC.position.Y + (Main.rand.Next(-50, 10))), new Vector2(hitDirection * 3f, 0f), 386, goreScale);
 					Main.gore[a].timeLeft = 5;
 				}
 				for (int i = 0; i < 4; i++)
 				{
 					float goreScale = 0.01f * Main.rand.Next(20, 70);
-					int a = Gore.NewGore(new Vector2(NPC.position.X, NPC.position.Y + (Main.rand.Next(-50, 10))), new Vector2(hitDirection * 3f, 0f), 387, goreScale);
+					int a = Gore.NewGore(NPC.GetSource_FromAI(), new Vector2(NPC.position.X, NPC.position.Y + (Main.rand.Next(-50, 10))), new Vector2(hitDirection * 3f, 0f), 387, goreScale);
 					Main.gore[a].timeLeft = 5;
 				}
 			}
@@ -77,20 +77,13 @@ namespace SpiritMod.NPCs.Reach
 			if (NPC.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			Vector2 vector2_3 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
-			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Reach/ReachObserver_Glow").Value, new Vector2((float)(NPC.position.X - Main.screenPosition.X + (NPC.width / 2) - TextureAssets.Npc[NPC.type].Value.Width * NPC.scale / 2.0 + vector2_3.X * NPC.scale), (float)(NPC.position.Y - Main.screenPosition.Y + NPC.height - TextureAssets.Npc[NPC.type].Value.Height * NPC.scale / Main.npcFrameCount[NPC.type] + 4.0 + vector2_3.Y * NPC.scale)), new Microsoft.Xna.Framework.Rectangle?(NPC.frame), Microsoft.Xna.Framework.Color.White * .485f, NPC.rotation, vector2_3, NPC.scale, spriteEffects, 0.0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Reach/ReachObserver_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, new Vector2((float)(NPC.position.X - Main.screenPosition.X + (NPC.width / 2) - TextureAssets.Npc[NPC.type].Value.Width * NPC.scale / 2.0 + vector2_3.X * NPC.scale), (float)(NPC.position.Y - Main.screenPosition.Y + NPC.height - TextureAssets.Npc[NPC.type].Value.Height * NPC.scale / Main.npcFrameCount[NPC.type] + 4.0 + vector2_3.Y * NPC.scale)), new Microsoft.Xna.Framework.Rectangle?(NPC.frame), Microsoft.Xna.Framework.Color.White * .485f, NPC.rotation, vector2_3, NPC.scale, spriteEffects, 0.0f);
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(2) == 1)
-			{
-				int Bark = Main.rand.Next(1) + 1;
-				for (int J = 0; J <= Bark; J++)
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<AncientBark>());
-			}
-
-			if (Main.rand.NextBool(33))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<CaesarSalad>());
+			npcLoot.AddCommon<AncientBark>(2);
+			npcLoot.AddFood<CaesarSalad>(33);
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -118,7 +111,7 @@ namespace SpiritMod.NPCs.Reach
 			for (int k = 0; k < NPC.oldPos.Length; k++)
 			{
 				Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-				Color color = NPC.GetAlpha(lightColor) * ((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length);
+				Color color = NPC.GetAlpha(drawColor) * ((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length);
 				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, null, color, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0f);
 			}
 			return true;

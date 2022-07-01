@@ -64,12 +64,12 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			for (int j = 0; j < 2; j++)
 			{
 				float goreScale = 0.01f * Main.rand.Next(20, 70);
-				int a = Gore.NewGore(Projectile.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Projectile.velocity, 386, goreScale);
+				int a = Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Projectile.velocity, 386, goreScale);
 				Main.gore[a].timeLeft = 15;
 				Main.gore[a].rotation = 10f;
 				Main.gore[a].velocity = new Vector2(Projectile.direction * 2.5f, Main.rand.NextFloat(1f, 2f));
 				
-				int a1 = Gore.NewGore(Projectile.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Projectile.velocity, 911, goreScale);
+				int a1 = Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), Projectile.velocity, 911, goreScale);
 				Main.gore[a1].timeLeft = 15;
 				Main.gore[a1].rotation = 1f;
 				Main.gore[a1].velocity = new Vector2(Projectile.direction * 2.5f, Main.rand.NextFloat(10f, 20f));

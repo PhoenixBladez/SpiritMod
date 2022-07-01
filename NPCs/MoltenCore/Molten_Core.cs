@@ -61,7 +61,7 @@ namespace SpiritMod.NPCs.MoltenCore
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					NPC.ai[2]++;
-					int p = Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<Molten_Core_Projectile>(), 8, 0, 0);
+					int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<Molten_Core_Projectile>(), 8, 0, 0);
 					Main.projectile[p].ai[1] = NPC.whoAmI;
 				}
 				NPC.netUpdate = true;
@@ -221,10 +221,10 @@ namespace SpiritMod.NPCs.MoltenCore
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MoltenCore/MoltenCoreGore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MoltenCore/MoltenCoreGore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MoltenCore/MoltenCoreGore3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MoltenCore/MoltenCoreGore4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MoltenCore/MoltenCoreGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MoltenCore/MoltenCoreGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MoltenCore/MoltenCoreGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MoltenCore/MoltenCoreGore4").Type, 1f);
 			}
 			for (int k = 0; k < 7; k++)
 			{
@@ -234,16 +234,16 @@ namespace SpiritMod.NPCs.MoltenCore
 			}
 		}
 
-		public override void OnKill()
+		//public override void OnKill()
+		//{
+		//	if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.StylistQuestMeteor>().IsActive && Main.rand.NextBool(3))
+		//		Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>());
+		//}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(10) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 116, 1);
-
-			if (Main.rand.Next(33) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("MeteoriteSpewer").Type, 1);
-
-			//if (QuestManager.GetQuest<Mechanics.QuestSystem.Quests.StylistQuestMeteor>().IsActive && Main.rand.NextBool(3))
-			//	Item.NewItem(npc.Center, ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.MeteorDyeMaterial>());
+			npcLoot.AddCommon<Items.Sets.GunsMisc.MeteoriteSpewer.Meteorite_Spewer>(33);
+			npcLoot.AddCommon(116, 10);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.Meteor.Chance * 0.15f;

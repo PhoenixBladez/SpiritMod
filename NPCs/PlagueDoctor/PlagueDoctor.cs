@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Armor.PlagueDoctor;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -47,34 +48,20 @@ namespace SpiritMod.NPCs.PlagueDoctor
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PDoctor1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PDoctor2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PDoctor3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PDoctor1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PDoctor2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PDoctor3").Type, 1f);
 			}
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(153) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.GoldenKey);
-
-			if (Main.rand.Next(75) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Nazar);
-
-			if (Main.rand.Next(100) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.TallyCounter);
-
-			if (Main.rand.Next(250) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.BoneWand);
-
-			string[] lootTable = { "PlagueDoctorCowl", "PlagueDoctorRobe", "PlagueDoctorLegs" };
-			if (Main.rand.Next(6) == 0)
-			{
-				int loot = Main.rand.Next(lootTable.Length);
-				NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
-			}
-
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Weapon.Thrown.PlagueVial>(), Main.rand.Next(26, 43));
+			npcLoot.AddCommon(ItemID.GoldenKey, 153);
+			npcLoot.AddCommon(ItemID.Nazar, 75);
+			npcLoot.AddCommon(ItemID.TallyCounter, 100);
+			npcLoot.AddCommon(ItemID.BoneWand, 250);
+			npcLoot.AddCommon<Items.Weapon.Thrown.PlagueVial>(1, 26, 42);
+			npcLoot.AddOneFromOptions(ModContent.ItemType<PlagueDoctorCowl>(), ModContent.ItemType<PlagueDoctorRobe>(), ModContent.ItemType<PlagueDoctorLegs>());
 		}
 
 
@@ -100,13 +87,13 @@ namespace SpiritMod.NPCs.PlagueDoctor
 
 				if (frame == 3 && timer == 0)
 				{
-					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 106);
+					SoundEngine.PlaySound(SoundID.Item106, NPC.Center);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 7f;
 						float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 						float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-						int p = Projectile.NewProjectile(NPC.Center.X + (NPC.direction * 12), NPC.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<ToxicFlaskHostile>(), 13, 1, Main.myPlayer, 0, 0);
+						int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (NPC.direction * 12), NPC.Center.Y - 10, direction.X + A, direction.Y + B, ModContent.ProjectileType<ToxicFlaskHostile>(), 13, 1, Main.myPlayer, 0, 0);
 						for (int k = 0; k < 11; k++)
 							Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CursedTorch, (float)direction.X + A, (float)direction.Y + B, 0, default, .61f);
 						Main.projectile[p].hostile = true;

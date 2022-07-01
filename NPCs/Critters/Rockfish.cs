@@ -75,26 +75,25 @@ namespace SpiritMod.NPCs.Critters
 			NPC.frame.Y = frame * frameHeight;
 		}
 
-
 		public override void HitEffect(int hitDirection, double damage)
 		{
-    		SoundEngine.PlaySound(SoundID.DD2_WitherBeastHurt, NPC.Center);
-			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/RockfishGore").Type, 1f);
+			SoundEngine.PlaySound(SoundID.DD2_WitherBeastHurt, NPC.Center);
+			if (NPC.life <= 0)
+			{
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/RockfishGore").Type, 1f);
 			}
-			for (int k = 0; k < 11; k++) {
-					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, NPC.direction, -1f, 1, Color.Black, .61f);
-				}
+			for (int k = 0; k < 11; k++)
+			{
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, NPC.direction, -1f, 1, Color.Black, .61f);
+			}
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(2) == 1) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
-			}
-			if (Main.rand.Next(2) == 1) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Rockfish, 1);
-			}
+			npcLoot.AddCommon<RawFish>(2);
+			npcLoot.AddCommon(ItemID.Rockfish, 2);
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return spawnInfo.Player.ZoneRockLayerHeight && spawnInfo.Water ? 0.009f : 0f;

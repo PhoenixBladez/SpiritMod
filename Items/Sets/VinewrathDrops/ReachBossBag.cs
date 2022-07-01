@@ -28,8 +28,8 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 
 		public override void RightClick(Player player)
 		{
-			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(4, 8));
-			player.QuickSpawnItem(ModContent.ItemType<DeathRose>());
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ItemID.GoldCoin, Main.rand.Next(4, 8));
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<DeathRose>());
 
 			int[] lootTable = {
 				ModContent.ItemType<ThornBow>(),
@@ -38,12 +38,12 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 				ModContent.ItemType<ReachBossSword>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
-			player.QuickSpawnItem(lootTable[loot]);
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable[loot]);
 
 			if (Main.rand.NextDouble() < 1 / 7f)
-				player.QuickSpawnItem(ModContent.ItemType<ReachMask>());
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<ReachMask>());
 			if (Main.rand.NextDouble() < 1 / 10f)
-				player.QuickSpawnItem(ModContent.ItemType<Trophy5>());
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<Trophy5>());
 
 			int[] vanityTable = {
 				ModContent.ItemType<WaasephiVanity>(),
@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 			};
 			int vanityloot = Main.rand.Next(vanityTable.Length);
 			if (Main.rand.NextBool(20))
-				player.QuickSpawnItem(vanityTable[vanityloot]);
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), vanityTable[vanityloot]);
 		}
 	}
 }

@@ -46,7 +46,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SawtoothSharkGore").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/SawtoothSharkGore").Type, 1f);
 			}
 			for (int k = 0; k < 11; k++)
 			{
@@ -60,19 +60,14 @@ namespace SpiritMod.NPCs.Critters
 				target.AddBuff(BuffID.Bleeding, 200);
 			}
 		}
-		public override void OnKill()
-		{
-			if (Main.rand.Next(2) == 1)
-			{
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
-			}
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.SharkFin, 1);
 
-			if (Main.rand.Next(2) == 1)
-			{
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.SawtoothShark, 1);
-			}
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddCommon(ItemID.SharkFin);
+			npcLoot.AddCommon<RawFish>(2);
+			npcLoot.AddCommon(ItemID.SawtoothShark, 2);
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return spawnInfo.Player.ZoneBeach && spawnInfo.Water ? 0.0035f : 0f;

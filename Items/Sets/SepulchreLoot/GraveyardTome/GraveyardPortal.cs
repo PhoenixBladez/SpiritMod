@@ -78,7 +78,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 							if (player == Main.LocalPlayer) //Spawn in projectiles only if the client is the owner, due to using the mouse position
 							{
 								bool straightline = Main.rand.NextBool(3);
-								var p = Projectile.NewProjectileDirect(Projectile.Center, Projectile.DirectionTo(Main.MouseWorld) * (straightline ? 1.5f : 1) * Main.rand.NextFloat(10, 12), ModContent.ProjectileType<GraveyardSkull>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+								var p = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.DirectionTo(Main.MouseWorld) * (straightline ? 1.5f : 1) * Main.rand.NextFloat(10, 12), ModContent.ProjectileType<GraveyardSkull>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 								if (p.ModProjectile is GraveyardSkull)
 									(p.ModProjectile as GraveyardSkull).Movement = new GraveyardSkull.SkullMovement(straightline ? 0 : Main.rand.NextFloat(20, 30), Main.rand.NextFloat(60, 120));
 

@@ -77,10 +77,10 @@ namespace SpiritMod.NPCs.MycelialBotanist
 			}
 			//Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 45, 1f, 0f);
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MycelialBotanistGore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MycelialBotanistGore2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MycelialBotanistGore3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MycelialBotanistGore4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MycelialBotanistGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MycelialBotanistGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MycelialBotanistGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/MycelialBotanistGore4").Type, 1f);
 			}
 		}
 		int frame = 0;
@@ -110,14 +110,14 @@ namespace SpiritMod.NPCs.MycelialBotanist
 					NPC.frameCounter = 0;
 				}
 				if (frame == 10 && NPC.frameCounter == 6) {
-					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 1);
+					SoundEngine.PlaySound(SoundID.Item1, NPC.Center);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 						float distance = MathHelper.Clamp(direction.Length(), -250, 250);
 						direction.Normalize();
 						direction *= distance / 20;
-						int p = Projectile.NewProjectile(NPC.Center.X + (NPC.direction * 12), NPC.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<MyceliumHat>(), 15, 1, Main.myPlayer, NPC.whoAmI);
+						int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (NPC.direction * 12), NPC.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<MyceliumHat>(), 15, 1, Main.myPlayer, NPC.whoAmI);
 					}
 				}
 				if (frame >= 11) {

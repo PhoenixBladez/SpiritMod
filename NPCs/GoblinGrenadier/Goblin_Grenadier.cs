@@ -58,7 +58,6 @@ namespace SpiritMod.NPCs.GoblinGrenadier
 		
 		public override void OnKill()
 		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, 168, Main.rand.Next(5, 15));
 			if (Main.invasionType == 1)
 			{
 				Main.invasionSize -= 1;
@@ -71,6 +70,8 @@ namespace SpiritMod.NPCs.GoblinGrenadier
 			}
 		}
 
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon(168, 1, 5, 14);
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 7; k++)
@@ -81,7 +82,7 @@ namespace SpiritMod.NPCs.GoblinGrenadier
 			}
 			if (NPC.life <= 0) //Kill gores
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GoblinGrenadier/GoblinGrenadierGore" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GoblinGrenadier/GoblinGrenadierGore" + i).Type, 1f);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.GoblinArmy.Chance * 0.15f;
@@ -141,7 +142,7 @@ namespace SpiritMod.NPCs.GoblinGrenadier
 						float num15 = num5 / num14;
 						float num16 = num6 * num15;
 						float SpeedY = num8 * num15;
-						int p = Projectile.NewProjectile(vector2.X, vector2.Y, num16, SpeedY, ModContent.ProjectileType<GoblinGrenadierGrenade>(), 20, 0.0f, Main.myPlayer, 0.0f, 0.0f);
+						int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector2.X, vector2.Y, num16, SpeedY, ModContent.ProjectileType<GoblinGrenadierGrenade>(), 20, 0.0f, Main.myPlayer, 0.0f, 0.0f);
 						Main.projectile[p].friendly = false;
 						Main.projectile[p].hostile = true;
 						Main.projectile[p].timeLeft = 45;

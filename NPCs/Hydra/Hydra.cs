@@ -12,6 +12,7 @@ using SpiritMod.Utilities;
 using SpiritMod.Mechanics.Trails;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Mechanics.BoonSystem;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Hydra
 {
@@ -106,7 +107,7 @@ namespace SpiritMod.NPCs.Hydra
 				return;
 
 			headsSpawned++;
-			int npcIndex = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<HydraHead>(), 0, NPC.whoAmI);
+			int npcIndex = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<HydraHead>(), 0, NPC.whoAmI);
 
 			NPC head = Main.npc[npcIndex];
 			head.life = head.lifeMax = life;
@@ -312,7 +313,7 @@ namespace SpiritMod.NPCs.Hydra
 					}
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						Projectile.NewProjectile(NPC.Center, direction, ModContent.ProjectileType<HydraFireGlob>(), NPCUtils.ToActualDamage(NPC.damage), 3);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, direction, ModContent.ProjectileType<HydraFireGlob>(), NPCUtils.ToActualDamage(NPC.damage), 3);
 
 					break;
 				case HeadColor.Green:
@@ -333,13 +334,13 @@ namespace SpiritMod.NPCs.Hydra
 						{
 							float rotationOffset = Main.rand.NextFloat(0.25f, 0.5f);
 							for (float i = -rotationOffset; i <= rotationOffset; i += rotationOffset)
-								Projectile.NewProjectile(NPC.Center, direction.RotatedBy(i) * 8, ModContent.ProjectileType<HydraPoisonGlob>(), NPCUtils.ToActualDamage(NPC.damage), 3);
+								Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, direction.RotatedBy(i) * 8, ModContent.ProjectileType<HydraPoisonGlob>(), NPCUtils.ToActualDamage(NPC.damage), 3);
 						}
 						else
 						{
 							float rotationOffset = Main.rand.NextFloat(0.15f, 0.4f);
-							Projectile.NewProjectile(NPC.Center, direction.RotatedBy(rotationOffset) * 8, ModContent.ProjectileType<HydraPoisonGlob>(), NPCUtils.ToActualDamage(NPC.damage), 3);
-							Projectile.NewProjectile(NPC.Center, direction.RotatedBy(-rotationOffset) * 8, ModContent.ProjectileType<HydraPoisonGlob>(), NPCUtils.ToActualDamage(NPC.damage), 3);
+							Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, direction.RotatedBy(rotationOffset) * 8, ModContent.ProjectileType<HydraPoisonGlob>(), NPCUtils.ToActualDamage(NPC.damage), 3);
+							Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, direction.RotatedBy(-rotationOffset) * 8, ModContent.ProjectileType<HydraPoisonGlob>(), NPCUtils.ToActualDamage(NPC.damage), 3);
 						}
 					}
 					break;
@@ -354,7 +355,7 @@ namespace SpiritMod.NPCs.Hydra
 					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 23).WithPitchVariance(0.2f), NPC.Center);
 					SoundEngine.PlaySound(SoundID.DD2_LightningBugZap, NPC.Center);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						Projectile.NewProjectile(NPC.Center, direction * 15, ModContent.ProjectileType<HydraVenomGlob>(), NPCUtils.ToActualDamage(NPC.damage), 3);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, direction * 15, ModContent.ProjectileType<HydraVenomGlob>(), NPCUtils.ToActualDamage(NPC.damage), 3);
 					break;
 				default:
 					break;
@@ -392,40 +393,34 @@ namespace SpiritMod.NPCs.Hydra
 			}
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (headColor == HeadColor.Green)
-			{
-				if (Main.rand.NextBool(50))
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.PoisonStaff);
-				if (Main.rand.NextBool(33))
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<HydraMaskAcid>());
-			}
-			else if (headColor == HeadColor.Purple)
-			{
-				if (Main.rand.NextBool(3))
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.VialofVenom, Main.rand.Next(1, 4));
-				if (Main.rand.NextBool(33))
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<HydraMaskVenom>());
-			}
-			else if (headColor == HeadColor.Red)
-			{
-				if (Main.rand.NextBool(50))
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.MagmaStone);
-				if (Main.rand.NextBool(33))
-					Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<HydraMaskFire>());
-			}
+			LeadingConditionRule greenCondition = new LeadingConditionRule(new DropRuleConditions.NPCConditional("[Acid Hydra]", (npc) => CheckHeadColor(npc, HeadColor.Green)));
+			greenCondition.OnSuccess(ItemDropRule.Common(ItemID.PoisonStaff, 50));
+			greenCondition.OnSuccess(ItemDropRule.Common(ModContent.ItemType<HydraMaskAcid>(), 33));
 
-			if (Main.rand.NextBool(100))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Accessory.GoldenApple>());
+			LeadingConditionRule redCondition = new LeadingConditionRule(new DropRuleConditions.NPCConditional("[Flame Hydra]", (npc) => CheckHeadColor(npc, HeadColor.Red)));
+			redCondition.OnSuccess(ItemDropRule.Common(ItemID.MagmaStone, 50));
+			redCondition.OnSuccess(ItemDropRule.Common(ModContent.ItemType<HydraMaskFire>(), 33));
+
+			LeadingConditionRule purpleCondition = new LeadingConditionRule(new DropRuleConditions.NPCConditional("[Acid Hydra]", (npc) => CheckHeadColor(npc, HeadColor.Purple)));
+			purpleCondition.OnSuccess(ItemDropRule.Common(ItemID.VialofVenom, 3, 1, 3));
+			purpleCondition.OnSuccess(ItemDropRule.Common(ModContent.ItemType<HydraMaskAcid>(), 33));
+
+			npcLoot.Add(greenCondition);
+			npcLoot.Add(redCondition);
+			npcLoot.Add(purpleCondition);
+			npcLoot.AddCommon<Items.Accessory.GoldenApple>(100);
 		}
+
+		private static bool CheckHeadColor(NPC npc, HeadColor col) => npc.ModNPC is HydraHead hydra && hydra.headColor == col;
 
 		private void SpawnGores()
 		{
 			string headGore = GetColor() + "HydraHead";
 			string neckGore = GetColor() + "HydraNeck";
 
-			Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hydra/" + headGore).Type, 1f);
+			Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hydra/" + headGore).Type, 1f);
 
 			float goreRotation = NPC.rotation - (NPC.direction == -1 ? 3.14f : 0);
 
@@ -435,7 +430,7 @@ namespace SpiritMod.NPCs.Hydra
 			for (int i = 1; i < numPoints; i++)
 			{
 				Vector2 position = chainPositions[i];
-				Gore.NewGore(position, Vector2.Zero, Mod.Find<ModGore>("Gores/Hydra/" + neckGore).Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), position, Vector2.Zero, Mod.Find<ModGore>("Gores/Hydra/" + neckGore).Type, 1f);
 			}
 		}
 
@@ -630,7 +625,7 @@ namespace SpiritMod.NPCs.Hydra
 
 			for (int i = 0; i < 20; i++)
 				Dust.NewDustPerfect(Projectile.Center, DustID.Torch, Main.rand.NextVector2Circular(4, 4));
-			Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HydraExplosion>(), NPCUtils.ToActualDamage(Projectile.damage), 3, Projectile.owner);
+			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HydraExplosion>(), NPCUtils.ToActualDamage(Projectile.damage), 3, Projectile.owner);
 		}
 	}
 
@@ -742,7 +737,7 @@ namespace SpiritMod.NPCs.Hydra
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 54).WithPitchVariance(0.2f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item54 with { PitchVariance = 0.2f }, Projectile.Center);
 			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 3).WithPitchVariance(0.2f), Projectile.Center);
 			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 112).WithPitchVariance(0.2f).WithVolume(.6f), Projectile.Center);
 

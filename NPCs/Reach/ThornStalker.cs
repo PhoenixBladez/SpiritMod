@@ -9,6 +9,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -42,16 +43,16 @@ namespace SpiritMod.NPCs.Reach
 		int shootTimer = 0;
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			SoundEngine.PlaySound(SoundID.NPCHit, NPC.Center, 7);
+			SoundEngine.PlaySound(SoundID.NPCHit7, NPC.Center);
 			for (int k = 0; k < 11; k++) {
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Plantera_Green, hitDirection, -1f, 0, Color.Green, .61f);
 			}
             if (NPC.life <= 0) {
                 SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, 7);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ThornStalker/ThornStalker1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ThornStalker/ThornStalker2").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ThornStalker/ThornStalker3").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ThornStalker/ThornStalker4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ThornStalker/ThornStalker1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ThornStalker/ThornStalker2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ThornStalker/ThornStalker3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ThornStalker/ThornStalker4").Type, 1f);
 			}
 		}
 
@@ -79,7 +80,7 @@ namespace SpiritMod.NPCs.Reach
 							direction *= Main.rand.NextFloat(7, 10);
 							bool expertMode = Main.expertMode;
 							int damage = expertMode ? 9 : 13;
-							int knife = Terraria.Projectile.NewProjectile(knifePos, direction, ModContent.ProjectileType<ThornKnife>(), damage, 0);
+							int knife = Terraria.Projectile.NewProjectile(NPC.GetSource_FromAI(), knifePos, direction, ModContent.ProjectileType<ThornKnife>(), damage, 0);
 						}
 					}
 					timer++;
@@ -138,7 +139,7 @@ namespace SpiritMod.NPCs.Reach
 			for (int k = 0; k < NPC.oldPos.Length; k++) {
 				var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 				Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-				Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+				Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			}
 			return true;
@@ -147,19 +148,17 @@ namespace SpiritMod.NPCs.Reach
 		{
 			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Reach/ThornStalker_Glow").Value);
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (!Main.dayTime) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<EnchantedLeaf>());
-			}
-			if (Main.rand.Next(33) == 3) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<VineChain>());
-			}
-            if (Main.rand.Next(20) == 1)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<LeafPaddyHat>());
-            }
-        }
+			var night = npcLoot.NightCondition();
+			night.OnSuccess(ItemDropRule.Common(ModContent.ItemType<EnchantedLeaf>()));
+
+			npcLoot.AddCommon<VineChain>(33);
+			npcLoot.AddCommon<LeafPaddyHat>(20);
+			npcLoot.Add(night);
+		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.Player;

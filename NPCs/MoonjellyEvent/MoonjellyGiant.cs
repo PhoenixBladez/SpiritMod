@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Consumable.Potion;
 using SpiritMod.NPCs.Boss.MoonWizard.Projectiles;
 using Terraria;
 using Terraria.GameContent;
@@ -77,7 +78,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 				for (int i = 0; i < 5; i++)
 				{
 					Vector2 vel = Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * new Vector2(Main.rand.Next(3, 8), Main.rand.Next(3, 8));
-					int p = Projectile.NewProjectile(NPC.Center.X + Main.rand.Next(-20, 20), NPC.Center.Y + Main.rand.Next(-20, 20), vel.X, vel.Y, ModContent.ProjectileType<ElectricJellyfishOrbiter>(), NPCUtils.ToActualDamage(30, 1.5f), 0.0f, Main.myPlayer, 0.0f, NPC.whoAmI);
+					int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + Main.rand.Next(-20, 20), NPC.Center.Y + Main.rand.Next(-20, 20), vel.X, vel.Y, ModContent.ProjectileType<ElectricJellyfishOrbiter>(), NPCUtils.ToActualDamage(30, 1.5f), 0.0f, Main.myPlayer, 0.0f, NPC.whoAmI);
 					Main.projectile[p].scale = Main.rand.NextFloat(.6f, .95f);
 					Main.projectile[p].ai[0] = NPC.whoAmI;
 
@@ -106,15 +107,12 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 				for (int k = 0; k < 30; k++)
 					Dust.NewDustPerfect(NPC.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(7), 0, default, 0.95f).noGravity = true;
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Gel, Main.rand.Next(2, 5));
-
-			if (Main.rand.NextBool(2))
-				NPC.DropItem(Mod.Find<ModItem>("MoonJelly").Type);
-
-			if (Main.rand.NextBool(18))
-				NPC.DropItem(Mod.Find<ModItem>("Moonlight_Sack").Type);
+			npcLoot.AddCommon(ItemID.Gel, 1, 2, 4);
+			npcLoot.AddCommon<MoonJelly>(2);
+			npcLoot.AddCommon<Items.Accessory.MoonlightSack.Moonlight_Sack>(12);
 		}
 	}
 }

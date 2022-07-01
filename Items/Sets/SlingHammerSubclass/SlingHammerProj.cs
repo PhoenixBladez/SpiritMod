@@ -101,7 +101,7 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
                 {
                     Projectile.active = false;
                     direction *= throwSpeed;
-                    Projectile.NewProjectile(player.Center, direction, thrownProj, (int)(Projectile.damage * damageMult), Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), player.Center, direction, thrownProj, (int)(Projectile.damage * damageMult), Projectile.knockBack, Projectile.owner);
 				}
             }
 		}

@@ -11,6 +11,7 @@ using SpiritMod.Items.Consumable.Fish;
 using SpiritMod.Items.Sets.ReefhunterSet;
 using SpiritMod.Mechanics.QuestSystem;
 using Terraria.ModLoader.Utilities;
+using SpiritMod.Items.Weapon.Magic.LuminanceSeacone;
 
 namespace SpiritMod.NPCs.Horned_Crustacean
 {
@@ -239,14 +240,11 @@ namespace SpiritMod.NPCs.Horned_Crustacean
 			}
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(25) == 0)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, Mod.Find<ModItem>("LuminanceSeacone").Type, 1);
-			if (Main.rand.Next(2) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
-
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<IridescentScale>(), Main.rand.Next(3, 6));
+			npcLoot.AddCommon<RawFish>(2);
+			npcLoot.AddCommon<LuminanceSeacone>(25);
+			npcLoot.AddCommon<IridescentScale>(1, 3, 5);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

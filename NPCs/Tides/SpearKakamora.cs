@@ -160,13 +160,10 @@ namespace SpiritMod.NPCs.Tides
 			}
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.NextBool(50))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<CoconutGun>());
-
-			if (Main.rand.NextBool(50))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<TikiJavelin>());
+			npcLoot.AddCommon<CoconutGun>(50);
+			npcLoot.AddCommon<TikiJavelin>(50);
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -200,7 +197,7 @@ namespace SpiritMod.NPCs.Tides
 					Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 9f;
 					float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 					float B = (float)Main.rand.Next(-50, 50) * 0.02f;
-					Projectile.NewProjectile(NPC.Center.X + (NPC.direction * 12), NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<CoconutHostile>(), NPC.damage / 2, 1, Main.myPlayer, 0, 0);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (NPC.direction * 12), NPC.Center.Y, direction.X + A, direction.Y + B, ModContent.ProjectileType<CoconutHostile>(), NPC.damage / 2, 1, Main.myPlayer, 0, 0);
 					thrownCoconut = true;
 				}
 				NPC.frameCounter %= 3;
@@ -219,9 +216,9 @@ namespace SpiritMod.NPCs.Tides
 			if (NPC.life <= 0)
 			{
 				SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Kakamora/KakamoraDeath"));
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_GoreSpear").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_Gore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Kakamora_GoreSpear").Type, 1f);
 			}
 		}
 	}

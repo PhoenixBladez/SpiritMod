@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.Critters
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CorruptPlants, 2.5f * hitDirection, -2.5f, 0, Color.White, Main.rand.NextFloat(.2f, .8f));
 
 			if (NPC.life <= 0)
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Vibeshroom1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Vibeshroom1").Type, 1f);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

@@ -67,19 +67,13 @@ namespace SpiritMod.NPCs.Mechromancer
 				if (Main.netMode == NetmodeID.Server)
 					NetMessage.SendData(MessageID.InvasionProgressReport, -1, -1, null, Main.invasionProgress, Main.invasionProgressMax, Main.invasionProgressIcon, 0f, 0, 0, 0);
 			}
+		}
 
-			if (Main.rand.NextBool(2))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<KnocbackGun>());
-			else
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<Items.Accessory.UnstableTeslaCoil.Unstable_Tesla_Coil>());
-			
-			if (Main.rand.NextBool(25))
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.RocketBoots);
-
-			int[] lootTable = { ModContent.ItemType<CoiledMask>(), ModContent.ItemType<CoiledChestplate>(), ModContent.ItemType<CoiledLeggings>() };
-			NPC.DropItem(Main.rand.Next(lootTable));
-
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<TechDrive>(), Main.rand.Next(7, 12));
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddOneFromOptions(1, ModContent.ItemType<KnocbackGun>(), ModContent.ItemType<Items.Accessory.UnstableTeslaCoil.Unstable_Tesla_Coil>());
+			npcLoot.AddCommon(ItemID.RocketBoots, 25);
+			npcLoot.AddCommon<TechDrive>(1, 7, 11);
 		}
 
 		int timer;
@@ -100,17 +94,17 @@ namespace SpiritMod.NPCs.Mechromancer
 				{
 					Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 					direction.Normalize();
-					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 0, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
-					Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, 3, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, 0, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, 3, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
 					if (Main.rand.Next(3) == 0)
-						Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, -3, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, -3, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
 				}
 			}
 
 			if (timer > 420 && timer < 840) {
 				NPC.noTileCollide = true;
 				if (Main.rand.Next(60) == 0 && Main.netMode != NetmodeID.MultiplayerClient)
-					Projectile.NewProjectile(NPC.position.X, NPC.position.Y + 40, 0, 1, ProjectileID.GreekFire1, (int)(NPC.damage * 0.5f), 0);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.position.X, NPC.position.Y + 40, 0, 1, ProjectileID.GreekFire1, (int)(NPC.damage * 0.5f), 0);
 
 				Player player = Main.player[NPC.target];
 				if (Main.rand.Next(20) == 0)
@@ -171,7 +165,7 @@ namespace SpiritMod.NPCs.Mechromancer
 						Vector2 vel = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 2;
 						float xAdj = Main.rand.Next(-50, 50) * 0.23f;
 						float yAdj = Main.rand.Next(-50, 50) * 0.23f;
-						Projectile.NewProjectile(NPC.Center.X + Main.rand.Next(-50, 50), NPC.Center.Y + Main.rand.Next(-50, 50), vel.X + xAdj, vel.Y + yAdj, ModContent.ProjectileType<CoilRocket>(), damage, 1, Main.myPlayer, 0, 0);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + Main.rand.Next(-50, 50), NPC.Center.Y + Main.rand.Next(-50, 50), vel.X + xAdj, vel.Y + yAdj, ModContent.ProjectileType<CoilRocket>(), damage, 1, Main.myPlayer, 0, 0);
 					}
 				}
 			}
@@ -187,7 +181,7 @@ namespace SpiritMod.NPCs.Mechromancer
 				for (int k = 0; k < NPC.oldPos.Length; k++)
 				{
 					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-					Color color = NPC.GetAlpha(lightColor) * ((NPC.oldPos.Length - k) / NPC.oldPos.Length / 2f);
+					Color color = NPC.GetAlpha(drawColor) * ((NPC.oldPos.Length - k) / NPC.oldPos.Length / 2f);
 					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
@@ -197,7 +191,7 @@ namespace SpiritMod.NPCs.Mechromancer
 		{
 			if (NPC.life <= 0)
 				for (int i = 1; i < 7; ++i)
-					Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Mech" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Mech" + i).Type, 1f);
 		}
 
 		public override void FindFrame(int frameHeight)

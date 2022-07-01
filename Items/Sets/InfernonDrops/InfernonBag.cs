@@ -32,9 +32,9 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 
 		public override void RightClick(Player player)
 		{
-			player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(2, 5));
-			player.QuickSpawnItem(ModContent.ItemType<HellsGaze>()); //expert drop
-			player.QuickSpawnItem(ModContent.ItemType<InfernalAppendage>(), Main.rand.Next(25, 36));
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ItemID.GoldCoin, Main.rand.Next(2, 5));
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<HellsGaze>()); //expert drop
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<InfernalAppendage>(), Main.rand.Next(25, 36));
 
 			int[] lootTable = {
 				ModContent.ItemType<InfernalJavelin>(),
@@ -46,12 +46,12 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 				ModContent.ItemType<EyeOfTheInferno>()
 			};
 			int loot = Main.rand.Next(lootTable.Length);
-			player.QuickSpawnItem(lootTable[loot]);
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable[loot]);
 
 			if (Main.rand.NextDouble() < 1d / 7)
-				player.QuickSpawnItem(ModContent.ItemType<InfernonMask>());
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<InfernonMask>());
 			if (Main.rand.NextDouble() < 1d / 10)
-				player.QuickSpawnItem(ModContent.ItemType<Trophy4>());
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<Trophy4>());
 
 			int[] vanityTable = {
 				ModContent.ItemType<WaasephiVanity>(),
@@ -61,7 +61,7 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 			};
 			int vanityloot = Main.rand.Next(vanityTable.Length);
 			if (Main.rand.NextBool(20))
-				player.QuickSpawnItem(vanityTable[vanityloot]);
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), vanityTable[vanityloot]);
 		}
 	}
 }

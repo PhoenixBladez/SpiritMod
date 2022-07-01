@@ -212,7 +212,7 @@ namespace SpiritMod.NPCs
 							Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 					}
 					Vector2 spawnAt = npc.Center + new Vector2(0f, npc.height / 2f);
-					NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y,ModContent.NPCType<NPCs.CracklingCore.GraniteCore>());
+					NPC.NewNPC(npc.GetSource_OnHurt(null), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<NPCs.CracklingCore.GraniteCore>()); ;
 				}
 			}
 			if (npc.life <= 0 && npc.FindBuffIndex(ModContent.BuffType<WanderingPlague>()) >= 0)

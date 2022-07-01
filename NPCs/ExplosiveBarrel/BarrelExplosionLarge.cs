@@ -29,8 +29,8 @@ namespace SpiritMod.NPCs.ExplosiveBarrel
         {
             if (Projectile.timeLeft == 29)
             {
-            SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 14);
-            SoundEngine.PlaySound(SoundID.NPCHit, Projectile.Center, 4);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.NPCHit4, Projectile.Center);
             for (int num625 = 0; num625 < 2; num625++)
             {
                 float scaleFactor10 = 0.33f;
@@ -39,19 +39,19 @@ namespace SpiritMod.NPCs.ExplosiveBarrel
                 else if (num625 == 2)
                     scaleFactor10 = 1f;
 
-                int num626 = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+                int num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
                 Main.gore[num626].velocity *= scaleFactor10;
                 Gore expr_13AB6_cp_0 = Main.gore[num626];
                 expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
                 Gore expr_13AD6_cp_0 = Main.gore[num626];
                 expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
-                num626 = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+                num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
                 Main.gore[num626].velocity *= scaleFactor10;
                 Gore expr_13B79_cp_0 = Main.gore[num626];
                 expr_13B79_cp_0.velocity.X = expr_13B79_cp_0.velocity.X - 1f;
                 Gore expr_13B99_cp_0 = Main.gore[num626];
                 expr_13B99_cp_0.velocity.Y = expr_13B99_cp_0.velocity.Y + 1f;
-                num626 = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+                num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
                 Main.gore[num626].velocity *= scaleFactor10;
                 Gore expr_13C3C_cp_0 = Main.gore[num626];
                 expr_13C3C_cp_0.velocity.X = expr_13C3C_cp_0.velocity.X + 1f;

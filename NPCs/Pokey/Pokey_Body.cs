@@ -7,6 +7,7 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Pokey
 {
@@ -151,19 +152,19 @@ namespace SpiritMod.NPCs.Pokey
             if (LowerChain == 0 && UpperChain == 0)   
             {
                 LowerChain = -1;
-                int latestSegment = NPC.NewNPC((int)NPC.position.X, (int)NPC.position.Y - NPC.height, ModContent.NPCType<Pokey_Body>(), 0, -1, NPC.whoAmI);
+                int latestSegment = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y - NPC.height, ModContent.NPCType<Pokey_Body>(), 0, -1, NPC.whoAmI);
                 UpperChain = latestSegment;
                 for (int i = 2; i < segments; i++)
                 {
 
-                    Main.npc[latestSegment].ai[0] = NPC.NewNPC((int)NPC.position.X, (int)NPC.position.Y - (i * NPC.height), ModContent.NPCType<Pokey_Body>(), 0,-1, latestSegment);
+                    Main.npc[latestSegment].ai[0] = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X, (int)NPC.position.Y - (i * NPC.height), ModContent.NPCType<Pokey_Body>(), 0,-1, latestSegment);
                     latestSegment = (int)Main.npc[latestSegment].ai[0];
                 }
             }
             if (!Head.active || Head.life <= 0)
             {
                 NPC.life = 0;
-				NPCLoot();
+				NPC.NPCLoot();
                 return;
             }
             int queue = QueueFromBottom();
@@ -296,33 +297,36 @@ namespace SpiritMod.NPCs.Pokey
 
 		public override void OnKill()
         {
-            if(Head.active && Head.life > 0) 
-            {//no overlapping death sfx on head kill
+            if(Head.active && Head.life > 0) //no overlapping death sfx on head kill
                 SoundEngine.PlaySound(SoundID.Dig, (int)NPC.Center.X, (int)NPC.Center.Y, 1, 1f, -0.25f);
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Cactus, Main.rand.Next(0, 3) + 1);
-            }
-            if (Head.life <= 0)
-            {
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.CopperCoin, Main.rand.Next(10, 20) + 6);
-                if (Main.rand.NextBool(5))
-                {
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.PinkPricklyPear);
-                }
-            }
+
             switch (NPC.frame.Y)
             {
                 case 0:
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/Pokey1_Gore1").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/Pokey1_Gore2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/Pokey1_Gore1").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/Pokey1_Gore2").Type, 1f);
                     break;
                 case 32:
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/Pokey2_Gore1").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/Pokey2_Gore1").Type, 1f);
                     break;
                 case 64:
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/PokeyHead_Gore1").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/PokeyHead_Gore2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/PokeyHead_Gore1").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/PokeyHead_Gore2").Type, 1f);
                     break;
             }
         }
-    }
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			LeadingConditionRule headfulRule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("", (npc) => npc.ModNPC is Pokey_Body body && body.Head.active && Head.life > 0));
+			headfulRule.OnSuccess(ItemDropRule.Common(ItemID.Cactus, 1, 1, 3));
+
+			LeadingConditionRule headlessRule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("Once completely killed", (npc) => npc.ModNPC is Pokey_Body body && Head.life <= 0));
+			headlessRule.OnSuccess(ItemDropRule.Common(ItemID.CopperCoin, 1, 16, 25));
+			headlessRule.OnSuccess(ItemDropRule.Common(ItemID.PinkPricklyPear));
+
+			npcLoot.Add(headlessRule);
+			npcLoot.Add(headfulRule);
+		}
+	}
 }

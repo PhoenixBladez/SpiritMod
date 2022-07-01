@@ -66,7 +66,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			NPC.velocity.Y = 0;
 			if (lifeSpan % fireRate == 0) {
-				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 91);
+				SoundEngine.PlaySound(SoundID.Item91, NPC.Center);
 				for (int i = 0; i < 16; i++) {
 					int dust = Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.GoldCoin);
 
@@ -81,7 +81,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					Vector2 vector2_3 = vector2_2 * 34f;
 					Main.dust[dust].position = (NPC.Center) - vector2_3;
 				}
-				Projectile.NewProjectile(NPC.Center, new Vector2(0, 10), ModContent.ProjectileType<GlitchLaser>(), NPCUtils.ToActualDamage(55, 1.5f), 1, Main.myPlayer, 0, 0);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, 10), ModContent.ProjectileType<GlitchLaser>(), NPCUtils.ToActualDamage(55, 1.5f), 1, Main.myPlayer, 0, 0);
 			}
 			lifeSpan--;
 			return false;

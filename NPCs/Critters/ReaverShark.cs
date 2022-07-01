@@ -44,15 +44,18 @@ namespace SpiritMod.NPCs.Critters
         }
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReaverSharkGore").Type, 1f);
+			if (NPC.life <= 0)
+			{
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/ReaverSharkGore").Type, 1f);
 			}
-			for (int k = 0; k < 11; k++) {
-					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, NPC.direction, -1f, 1, default, .61f);
-				}
-			for (int k = 0; k < 5; k++) {
-					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, NPC.direction, -1f, 1, default, .91f);
-				}
+			for (int k = 0; k < 11; k++)
+			{
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, NPC.direction, -1f, 1, default, .61f);
+			}
+			for (int k = 0; k < 5; k++)
+			{
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, NPC.direction, -1f, 1, default, .91f);
+			}
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
@@ -60,17 +63,14 @@ namespace SpiritMod.NPCs.Critters
 				target.AddBuff(BuffID.Bleeding, 200);
 			}
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(2) == 1) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<RawFish>(), 1);
-			}
-			Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.SharkFin, 1);
-			
-			if (Main.rand.Next(2) == 1) {
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.ReaverShark, 1);
-			}
+			npcLoot.AddCommon(ItemID.SharkFin);
+			npcLoot.AddCommon<RawFish>(2);
+			npcLoot.AddCommon(ItemID.ReaverShark, 2);
 		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			return spawnInfo.Player.ZoneBeach && spawnInfo.Water ? 0.0035f : 0f;

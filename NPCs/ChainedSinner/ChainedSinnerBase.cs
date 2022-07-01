@@ -31,7 +31,7 @@ namespace SpiritMod.NPCs.ChainedSinner
 			if (!spawnedHead && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				spawnedHead = true;
-				int child = NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ChainedSinner>());
+				int child = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ChainedSinner>());
 				if (Main.npc[child].ModNPC is ChainedSinner head)
 				{
 					head.parentid = NPC.whoAmI;

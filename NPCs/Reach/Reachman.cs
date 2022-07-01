@@ -10,6 +10,7 @@ using SpiritMod.Items.Consumable.Food;
 using Terraria.Audio;
 using System.IO;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -147,14 +148,15 @@ namespace SpiritMod.NPCs.Reach
 			Main.dust[dust].velocity = vel;
 			Main.dust[dust].customData = follow;
 		}
-		public override void OnKill()
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.rand.Next(20) == 1)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<SanctifiedStabber>());
-            if (Main.rand.NextBool(33))
-                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<CaesarSalad>());
-            if (!Main.dayTime)
-				Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ModContent.ItemType<EnchantedLeaf>());
+			npcLoot.AddCommon<SanctifiedStabber>(20);
+			npcLoot.AddFood<CaesarSalad>(33);
+
+			LeadingConditionRule notDay = new LeadingConditionRule(new DropRuleConditions.NotDay());
+			notDay.OnSuccess(ItemDropRule.Common(ModContent.ItemType<EnchantedLeaf>()));
+			npcLoot.Add(notDay);
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -180,8 +182,8 @@ namespace SpiritMod.NPCs.Reach
 			}
 
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Reach1").Type, 1f);
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Reach2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Reach1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Reach2").Type, 1f);
 			}
 		}
 	}

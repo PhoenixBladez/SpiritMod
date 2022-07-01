@@ -243,7 +243,7 @@ namespace SpiritMod.NPCs.GraniTech
 							NPC.rotation = (float)(Math.Sin(scanTimer + recoil) * MathHelper.PiOver2) + MathHelper.PiOver2;
 							break;
 					}
-					Projectile.NewProjectile(laserOrigin, (NPC.rotation + 3.14f).ToRotationVector2() * 20, ModContent.ProjectileType<GraniteSentryBolt>(), NPCUtils.ToActualDamage(90), 3, Main.myPlayer);
+					Projectile.NewProjectile(NPC.GetSource_FromAI(), laserOrigin, (NPC.rotation + 3.14f).ToRotationVector2() * 20, ModContent.ProjectileType<GraniteSentryBolt>(), NPCUtils.ToActualDamage(90), 3, Main.myPlayer);
 
 					laserRotations = null;
 					NPC.netUpdate = true;
@@ -252,7 +252,7 @@ namespace SpiritMod.NPCs.GraniTech
 				//Client side visuals and sound
 				if (Main.netMode != NetmodeID.Server)
 				{
-					SoundEngine.PlaySound(SoundID.Item, (int)NPC.Center.X, (int)NPC.Center.Y, 91, 0.5f, 0.5f);
+					SoundEngine.PlaySound(SoundID.Item91, NPC.Center);
 
 					Vector2 origin = laserOrigin + (NPC.rotation + 3.14f).ToRotationVector2() * 20;
 					ParticleHandler.SpawnParticle(new PulseCircle(NPC, new Color(25, 132, 247) * 0.4f, 100, 15, PulseCircle.MovementType.OutwardsSquareRooted, origin)
@@ -307,7 +307,7 @@ namespace SpiritMod.NPCs.GraniTech
 		public override void OnKill()
 		{
 			for (int i = 1; i <= 2; i++)
-				Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>($"Gores/GraniTech/GraniteSentryGore{i}").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>($"Gores/GraniTech/GraniteSentryGore{i}").Type, 1f);
 
 			NPC.DropItem(ModContent.ItemType<GranitechMaterial>(), Main.rand.Next(1, 4));
 		}
@@ -319,7 +319,7 @@ namespace SpiritMod.NPCs.GraniTech
 			if (BaseState != STATE_FALLING)
 				DrawLaser(spriteBatch);
 
-			Texture2D npcGlow = ModContent.Request<Texture2D>(Texture + "_glow");
+			Texture2D npcGlow = ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Vector2 realPos = NPC.position - Main.screenPosition;
 			Vector2 offset;
 			Rectangle baseRect = new Rectangle(0, 32, 44, 18);
