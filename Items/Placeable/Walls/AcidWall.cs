@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Placeable.Walls
 			recipe.AddTile(TileID.HeavyWorkBench);
 			recipe.Register();
 
-			Recipe recipe1 = Mod.CreateRecipe(ModContent.ItemType<AcidBrick>());
+			Recipe recipe1 = Recipe.Create(ModContent.ItemType<AcidBrick>());
 			recipe1.AddIngredient(this, 4);
 			recipe1.AddTile(TileID.HeavyWorkBench);
 			recipe1.Register();

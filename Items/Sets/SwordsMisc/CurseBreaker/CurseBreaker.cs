@@ -263,7 +263,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			float progress = GetProgress();
 
 			List<PrimitiveSlashArc> slashArcs = new List<PrimitiveSlashArc>();
-			Effect effect = Mod.GetEffect("Effects/NemesisBoonShader");
+			Effect effect = ModContent.Request<Effect>("Effects/NemesisBoonShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			effect.Parameters["white"].SetValue(Color.OrangeRed.ToVector4());
 			effect.Parameters["opacity"].SetValue((float)Math.Sqrt(1 - progress));
 			PrimitiveSlashArc slash = new PrimitiveSlashArc

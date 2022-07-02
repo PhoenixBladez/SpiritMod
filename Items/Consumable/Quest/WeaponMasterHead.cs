@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Consumable.Quest
 		{
 			if (!QuestManager.GetQuest<MurderMysteryQuest>().IsCompleted)
 			{
-				Texture2D tex = mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
+				Texture2D tex = ModContent.Request<Texture2D>("UI/QuestUI/Textures/ExclamationMark");
 				float excscale = (float)Math.Sin(Main.time * 0.08f) * 0.14f;
 				spriteBatch.Draw(tex, new Vector2(item.Center.X, item.Center.Y - 40) - Main.screenPosition, new Rectangle(0, 0, 6, 24), Color.White, 0f, new Vector2(3, 12), 1f + excscale, SpriteEffects.None, 0f);			
 			}

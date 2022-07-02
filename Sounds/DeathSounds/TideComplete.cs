@@ -1,7 +1,7 @@
-﻿namespace SpiritMod.Sounds.DeathSounds
-{
-	public class TideComplete : DeathSound
-	{
+﻿//namespace SpiritMod.Sounds.DeathSounds
+//{
+//	public class TideComplete : DeathSound
+//	{
 
-	}
-}
+//	}
+//}

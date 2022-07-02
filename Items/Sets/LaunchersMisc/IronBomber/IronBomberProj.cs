@@ -76,7 +76,7 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.IronBomber
 
 		public override void ExplodeEffect()
 		{
-			SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BassBoom").WithVolume(0.7f) with { PitchVariance = 0.2f }, Projectile.Center);
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BassBoom") with { Volume = 0.7f, PitchVariance = 0.2f }, Projectile.Center);
 
 			for (int i = 1; i <= 3; i++)
 				ParticleHandler.SpawnParticle(new PulseCircle(Projectile.Center, Color.Cyan * 0.5f, (ExplosionRange / 3) * i, 15, PulseCircle.MovementType.OutwardsQuadratic));

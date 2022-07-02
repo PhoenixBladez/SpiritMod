@@ -60,7 +60,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 			float blurLength = 100 * Projectile.scale * Projectile.Opacity;
 			float blurWidth = 25 * Projectile.scale * Projectile.Opacity;
 
-			Effect blurEffect = Mod.GetEffect("Effects/BlurLine");
+			Effect blurEffect = ModContent.Request<Effect>("Effects/BlurLine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			SquarePrimitive blurLine = new SquarePrimitive()
 			{
 				Position = Projectile.Center - Main.screenPosition,

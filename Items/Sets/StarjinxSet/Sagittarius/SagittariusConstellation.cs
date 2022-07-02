@@ -67,7 +67,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 
 			if (Timer == 30 && !Main.dedServ) //particle effects on arrow shot time
 			{
-				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/MagicCast1") with { PitchVariance = 0.2f }, Projectile.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/MagicCast1") with { PitchVariance = 0.2f }, Projectile.Center);
 				Color color = Color.Lerp(BloomColor, Color.White, 0.5f);
 				for (int i = 0; i < 7; i++)
 					ParticleHandler.SpawnParticle(new ImpactLine(Projectile.Center, Main.rand.NextVector2Unit(), color * 0.7f, new Vector2(0.2f, Main.rand.NextFloat(0.3f, 0.4f)), 10, Projectile));

@@ -36,7 +36,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe.Register();
 
-			Recipe recipe1 = Mod.CreateRecipe(ItemID.StoneBlock, 50);
+			Recipe recipe1 = Recipe.Create(ItemID.StoneBlock, 50);
 			recipe1.AddIngredient(this, 50);
 			recipe1.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe1.Register();
@@ -106,7 +106,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe.Register();
 
-			Recipe recipe1 = Mod.CreateRecipe(ItemID.StoneBlock, 50);
+			Recipe recipe1 = Recipe.Create(ItemID.StoneBlock, 50);
 			recipe1.AddIngredient(this, 50);
 			recipe1.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe1.Register();
@@ -176,7 +176,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe.Register();
 
-			Recipe recipe1 = Mod.CreateRecipe(ItemID.StoneBlock, 50);
+			Recipe recipe1 = Recipe.Create(ItemID.StoneBlock, 50);
 			recipe1.AddIngredient(this, 50);
 			recipe1.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe1.Register();
@@ -344,7 +344,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe.Register();
 
-			Recipe recipe1 = Mod.CreateRecipe(ItemID.StoneBlock, 50);
+			Recipe recipe1 = Recipe.Create(ItemID.StoneBlock, 50);
 			recipe1.AddIngredient(this, 50);
 			recipe1.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe1.Register();
@@ -1738,7 +1738,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe.Register();
 
-			Recipe recipe1 = Mod.CreateRecipe(ItemID.Hive, 1);
+			Recipe recipe1 = Recipe.Create(ItemID.Hive, 1);
 			recipe1.AddIngredient(this, 1);
 			recipe1.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe1.Register();
@@ -1787,7 +1787,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe.Register();
 
-			Recipe recipe1 = Mod.CreateRecipe(ItemID.ArcaneRuneWall, 1);
+			Recipe recipe1 = Recipe.Create(ItemID.ArcaneRuneWall, 1);
 			recipe1.AddIngredient(this, 1);
 			recipe1.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe1.Register();
@@ -1837,7 +1837,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe.Register();
 
-			Recipe recipe1 = Mod.CreateRecipe(ItemID.KrampusHornWallpaper, 1);
+			Recipe recipe1 = Recipe.Create(ItemID.KrampusHornWallpaper, 1);
 			recipe1.AddIngredient(this, 1);
 			recipe1.AddTile(ModContent.TileType<Furniture.ForagerTableTile>());
 			recipe1.Register();

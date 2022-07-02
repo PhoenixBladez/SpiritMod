@@ -40,7 +40,7 @@ namespace SpiritMod.Tiles.Furniture
 			AddMapEntry(new Color(70, 130, 180), name, MapChestName);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
-			chest = "Glowplate Chest";
+			ContainerName.SetDefault("Glowplate Chest");
 		}
 
 		public string MapChestName(string name, int i, int j)

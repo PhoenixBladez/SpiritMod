@@ -31,10 +31,8 @@ namespace SpiritMod.Items.Sets.ClubSubclass.ClubSandwich
 		}
 		public override bool OnPickup(Player player)
 		{
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 2));
-			{
-				player.AddBuff(BuffID.WellFed, 240);
-			}
+			SoundEngine.PlaySound(SoundID.Item2);
+			player.AddBuff(BuffID.WellFed, 240);
 			return false;
 		}
 	}

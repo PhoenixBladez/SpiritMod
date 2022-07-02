@@ -40,9 +40,9 @@ namespace SpiritMod.Mechanics.EventSystem
 			}
 		}
 
-		private static void Main_DoUpdate(On.Terraria.Main.orig_DoUpdate orig, Terraria.Main self, GameTime gameTime)
+		private static void Main_DoUpdate(On.Terraria.Main.orig_DoUpdate orig, Main self, ref GameTime gameTime)
 		{
-			orig(self, gameTime);
+			orig(self, ref gameTime);
 
 			if (_activeEvents != null)
 			{

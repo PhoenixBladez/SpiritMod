@@ -32,24 +32,22 @@ namespace SpiritMod.Items.Sets.ReefhunterSet
 
 		public override void AddRecipes()
 		{
-			var recipe = Mod.CreateRecipe(ItemID.Grenade, 5);
+			var recipe = Recipe.Create(ItemID.Grenade, 5);
 			recipe.AddIngredient(this, 5);
 			recipe.AddRecipeGroup("SpiritMod:CopperBars", 3);
 			recipe.AddTile(TileID.Anvils);
 			recipe.Register();
 
-			recipe = Mod.CreateRecipe(ItemID.Bomb, 3);
+			recipe = Recipe.Create(ItemID.Bomb, 3);
 			recipe.AddIngredient(this, 3);
-			recipe.AddIngredient(ItemID.IronBar, 3);
-			recipe.anyIronBar = true;
+			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 3);
 			recipe.AddTile(TileID.Anvils);
 			recipe.Register();
 
-			recipe = Mod.CreateRecipe(ItemID.Dynamite, 3);
+			recipe = Recipe.Create(ItemID.Dynamite, 3);
 			recipe.AddIngredient(this, 5);
 			recipe.AddIngredient(ItemID.Rope, 1);
-			recipe.AddIngredient(ItemID.IronBar, 3);
-			recipe.anyIronBar = true;
+			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 3);
 			recipe.AddTile(TileID.Anvils);
 			recipe.Register();
 		}

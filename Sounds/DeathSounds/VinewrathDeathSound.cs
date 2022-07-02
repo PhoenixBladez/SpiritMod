@@ -1,6 +1,6 @@
-﻿namespace SpiritMod.Sounds.DeathSounds
-{
-    public class VinewrathDeathSound : DeathSound
-    {
-    }
-}
+﻿//namespace SpiritMod.Sounds.DeathSounds
+//{
+//    public class VinewrathDeathSound : DeathSound
+//    {
+//    }
+//}

@@ -120,7 +120,7 @@ namespace SpiritMod.NPCs.DiseasedSlime
 				{
 					Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<NoxiousGas>(), 0, 1, Main.myPlayer, 0, 0);
 					Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center.X, NPC.Center.Y, 0f, 0f, ModContent.ProjectileType<NoxiousIndicator>(), 0, 1, Main.myPlayer, 0, 0);
-					SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/GasHiss"));
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/GasHiss"), NPC.Center);
 				}
 				for (int k = 0; k < 25; k++)
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.SlimeBunny, 2 * hitDirection, -2.5f, 0, Color.Green * .14f, 0.7f);

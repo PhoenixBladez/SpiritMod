@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height * 0.5f));
 			Vector2 drawPos = NPC.Center - Main.screenPosition + drawOrigin + new Vector2(-14, -12);
-			Color color = NPC.GetAlpha(lightColor);
+			Color color = NPC.GetAlpha(drawColor);
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			return false;

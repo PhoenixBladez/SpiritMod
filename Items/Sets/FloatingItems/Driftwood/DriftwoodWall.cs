@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.Register();
 
-			Recipe recipe1 = Mod.CreateRecipe(ModContent.ItemType<DriftwoodTileItem>());
+			Recipe recipe1 = Recipe.Create(ModContent.ItemType<DriftwoodTileItem>());
 			recipe1.AddIngredient(this, 4);
 			recipe1.AddTile(TileID.WorkBenches);
 			recipe1.Register();

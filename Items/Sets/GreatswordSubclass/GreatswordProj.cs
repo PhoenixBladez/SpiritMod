@@ -93,7 +93,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
             player.ChangeDir(Main.MouseWorld.X > player.position.X ? 1 : -1);
 
             Projectile.Center = player.MountedCenter + (direction.RotatedBy(offset * player.direction) * (charge));
-            Projectile.damage = minDamage + (int)((maxDamage - minDamage) * (charge / (float)chargeMax) * player.GetDamage(DamageClass.Melee));
+            Projectile.damage = (int)player.GetDamage(DamageClass.Melee).ApplyTo(minDamage + ((maxDamage - minDamage) * (charge / chargeMax)));
             if (player.channel && !released)
             {
                 direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
@@ -110,14 +110,14 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
                 if(charge >= chargeMax && !maxcharge)
                 {
                     maxcharge = true;
-                    SoundEngine.PlaySound(SoundID.MaxMana, (int)player.MountedCenter.X, (int)player.MountedCenter.Y, 1, 1.5f, -0.2f);
+                    SoundEngine.PlaySound(SoundID.MaxMana, player.MountedCenter);
                 }
             }
             else
             {
                 if (!released)
                 {
-                    SoundEngine.PlaySound(SoundID.Item, (int)player.MountedCenter.X, (int)player.MountedCenter.Y, 105, 0.5f + charge / (chargeMax / 2), 0.5f - charge / chargeMax);
+                    SoundEngine.PlaySound(SoundID.Item105, player.MountedCenter);
                     released = true;
                 }
                 offset += 0.2f;

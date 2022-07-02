@@ -87,8 +87,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 
 		public void DoTrailCreation(TrailManager tManager)
 		{
-			tManager.CreateTrail(projectile, new GradientTrail(new Color(255, 94, 206), new Color(255, 48, 176)), new RoundCap(), new DefaultTrailPosition(), 6f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
-			tManager.CreateTrail(projectile, new GradientTrail(Color.HotPink * .6f, Color.HotPink * .12f), new RoundCap(), new DefaultTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+			tManager.CreateTrail(projectile, new GradientTrail(new Color(255, 94, 206), new Color(255, 48, 176)), new RoundCap(), new DefaultTrailPosition(), 6f, 150f, new ImageShader(ModContent.Request<Texture2D>("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+			tManager.CreateTrail(projectile, new GradientTrail(Color.HotPink * .6f, Color.HotPink * .12f), new RoundCap(), new DefaultTrailPosition(), 90f, 180f, new ImageShader(ModContent.Request<Texture2D>("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
 		}
 	}
 
@@ -149,8 +149,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.Revelation
 
 		public void DoTrailCreation(TrailManager tManager)
 		{
-			tManager.CreateTrail(projectile, new GradientTrail(new Color(255, 94, 206), new Color(255, 48, 176)), new RoundCap(), new DefaultTrailPosition(), 3f, 150f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
-			tManager.CreateTrail(projectile, new GradientTrail(Color.HotPink * .6f, Color.HotPink * .12f), new RoundCap(), new DefaultTrailPosition(), 90f, 180f, new ImageShader(mod.GetTexture("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
+			tManager.CreateTrail(projectile, new GradientTrail(new Color(255, 94, 206), new Color(255, 48, 176)), new RoundCap(), new DefaultTrailPosition(), 3f, 150f, new ImageShader(ModContent.Request<Texture2D>("Textures/Trails/Trail_2"), 0.01f, 1f, 1f));
+			tManager.CreateTrail(projectile, new GradientTrail(Color.HotPink * .6f, Color.HotPink * .12f), new RoundCap(), new DefaultTrailPosition(), 90f, 180f, new ImageShader(ModContent.Request<Texture2D>("Textures/Trails/Trail_4"), 0.01f, 1f, 1f));
 		}
 	}
 }*/

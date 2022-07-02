@@ -111,12 +111,9 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 		}
 
-		public override void SaveWorldData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
+		public override void SaveWorldData(TagCompound tag)
 		{
-			var tag = new TagCompound
-			{
-				{ "downedWeaponsMaster", downedWeaponsMaster }
-			};
+			tag.Add("downedWeaponsMaster", downedWeaponsMaster);
 
 			List<string> allQuestNames = new List<string>();
 
@@ -142,7 +139,6 @@ namespace SpiritMod.Mechanics.QuestSystem
 			tag.Add("SpiritMod:AllQuests", allQuestNames);
 
 			SaveQueue(tag);
-			return tag;
 		}
 
 		private void SaveQueue(TagCompound tag)

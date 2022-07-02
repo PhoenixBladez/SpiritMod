@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs.Tides
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 18);
+			SoundEngine.PlaySound(SoundID.NPCHit18, Projectile.Center);
 		}
 	}
 }

@@ -71,11 +71,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 
 	internal class RadiantOrb : ModProjectile, IDrawAdditive
 	{
-		public override bool Autoload(ref string name)
-		{
-			name = name.Remove(name.Length - "RadiantOrb".Length, "RadiantOrb".Length) + "RadiantCane";
-			return base.Autoload(ref name);
-		}
+		public override string Name => base.Name.Remove(name.Length - "RadiantOrb".Length, "RadiantOrb".Length) + "RadiantCane";
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Radiant Orb");
 

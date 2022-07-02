@@ -41,7 +41,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
 			ChestDrop = ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachChest>();
-			chest = "Elderbark Chest";
+			ContainerName.SetDefault("Elderbark Chest");
             TileID.Sets.HasOutlines[Type] = true;
         }
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;

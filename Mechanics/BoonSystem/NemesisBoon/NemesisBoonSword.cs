@@ -173,7 +173,7 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 				Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
 				List<PrimitiveSlashArc> slashArcs = new List<PrimitiveSlashArc>();
-				Effect effect = Mod.GetEffect("Effects/NemesisBoonShader");
+				Effect effect = ModContent.Request<Effect>("Effects/NemesisBoonShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				effect.Parameters["white"].SetValue(Color.White.ToVector4());
 				effect.Parameters["opacity"].SetValue(1);
 				PrimitiveSlashArc slash = new PrimitiveSlashArc

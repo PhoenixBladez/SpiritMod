@@ -99,7 +99,7 @@ namespace SpiritMod.NPCs.Tides
 			if (timer == 300)
 			{
 				charging = true;
-				SoundEngine.PlaySound(SoundID.NPCHit, NPC.Center, 51);
+				SoundEngine.PlaySound(SoundID.NPCHit51, NPC.Center);
 				NPC.velocity.X = 0;
 				if (player.position.X > NPC.position.X)
 				{

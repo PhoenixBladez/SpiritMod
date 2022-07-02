@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.Midknight
 			}
 			if (distance > 640 && Main.rand.Next(6) == 1) {
 				if (Main.netMode != NetmodeID.MultiplayerClient) {
-					SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 53);
+					SoundEngine.PlaySound(SoundID.Zombie53, NPC.Center);
 					NPC.position.X = target.position.X + Main.rand.Next(50, 100) * -target.direction;
 					NPC.position.Y = target.position.Y - Main.rand.Next(30, 60);
 					NPC.netUpdate = true;
@@ -99,7 +99,7 @@ namespace SpiritMod.NPCs.Midknight
 					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
 					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
 					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
-					Dust.NewDust(NPC.GetSource_Death(), NPC.position, NPC.width, NPC.height, DustID.ShadowbeamStaff, hitDirection * 6f, -1f, 0, default, 1f);
+					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ShadowbeamStaff, hitDirection * 6f, -1f, 0, default, 1f);
 				}
 			}
 		}

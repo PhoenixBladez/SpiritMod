@@ -80,7 +80,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			if (Timer < ACTIVATION_TIME)
 			{
 				Timer = ACTIVATION_TIME;
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92) with { PitchVariance = 0.2f }, Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item92 with { PitchVariance = 0.2f }, Projectile.Center);
 				Projectile.velocity = Vector2.Zero;
 			}
 			return false;
@@ -119,7 +119,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 			else
 			{
 				if (Timer == ACTIVATION_TIME)
-					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 92) with { PitchVariance = 0.2f }, Projectile.Center);
+					SoundEngine.PlaySound(SoundID.Item92 with { PitchVariance = 0.2f }, Projectile.Center);
 
 				Projectile.velocity = Vector2.Zero;
 				Projectile.frameCounter++;
@@ -191,7 +191,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GtechGrenade
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(SoundID.Item, 94).WithPitchVariance(0.2f).WithVolume(.6f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item94 with { PitchVariance = 0.2f, Volume = 0.6f }, Projectile.Center);
 			SoundEngine.PlaySound(SoundID.DD2_SkyDragonsFurySwing, Projectile.Center);
 			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GtechGrenadeExplode>(), Projectile.damage, 0, Projectile.owner);
 		}

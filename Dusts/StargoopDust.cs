@@ -23,11 +23,7 @@ namespace SpiritMod.Dusts
             positions = new Dictionary<int, Vector2>();
             scales = new Dictionary<int, float>();
         }
-		public override bool Autoload(ref string name, ref string texture)
-		{
-            texture = "SpiritMod/Dusts/StargoopDust";
-			return base.Autoload(ref name, ref texture);
-		}
+
 		public override Color? GetAlpha(Dust dust, Color lightColor) => Color.Transparent;
 
         public override bool Update(Dust dust)

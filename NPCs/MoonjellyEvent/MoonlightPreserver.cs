@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Consumable.Potion;
 
 namespace SpiritMod.NPCs.MoonjellyEvent
 {
@@ -101,13 +102,18 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 		public override void OnKill()
 		{
 			if (tremorItem == ModContent.ItemType<Items.Weapon.Summon.ElectricGun.ElectricGun>() || tremorItem == ModContent.ItemType<Items.Sets.MagicMisc.Arclash.ArcLash>())
-				NPC.DropItem(tremorItem);
-			else
+			//else
 				NPC.DropItem(tremorItem, Main.rand.Next(3, 9));
 
-			NPC.DropItem(ItemID.Gel, Main.rand.Next(1, 4));
-			NPC.DropItem(Mod.Find<ModItem>("MoonJelly").Type);
 		}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddOneFromOptions<Items.Weapon.Summon.ElectricGun.ElectricGun, Items.Sets.MagicMisc.Arclash.ArcLash>();
+			npcLoot.AddCommon(ItemID.Gel, 1, 1, 3);
+			npcLoot.AddCommon<MoonJelly>();
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			Color color9 = Lighting.GetColor((int)(NPC.position.X + NPC.width * 0.5) / 16, (int)((NPC.position.Y + NPC.height * 0.5) / 16.0));

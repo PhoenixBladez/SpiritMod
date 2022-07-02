@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Sets.FrigidSet
 
 		public override void AddRecipes()
 		{
-			var recipe = Mod.CreateRecipe(ItemID.FrostburnArrow, 15);
+			var recipe = Recipe.Create(ItemID.FrostburnArrow, 15);
 			recipe.AddIngredient(ItemID.WoodenArrow, 15);
 			recipe.AddIngredient(this, 1);
 			recipe.Register();

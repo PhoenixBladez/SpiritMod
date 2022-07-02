@@ -67,7 +67,7 @@ namespace SpiritMod.Prim
 		public override void SetShaders()
 		{
 			Effect effect = SpiritMod.PrimitiveTextureMap;
-			effect.Parameters["uTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/FlameTrail"));
+			effect.Parameters["uTexture"].SetValue(ModContent.Request<Texture2D>("Textures/FlameTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			effect.Parameters["additive"].SetValue(true);
 			effect.Parameters["repeats"].SetValue(4);
 			effect.Parameters["intensify"].SetValue(true);

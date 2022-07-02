@@ -73,8 +73,7 @@ namespace SpiritMod.Projectiles.Summon
 				Vector2 direction = Vector2.Normalize(target.Center - ShootArea) * shootVelocity;
 				if(Main.netMode != NetmodeID.MultiplayerClient) {
 					int proj2 = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y - 13, direction.X, direction.Y, ModContent.ProjectileType<CoilBullet1>(), Projectile.damage, 0, Main.myPlayer);
-					Main.projectile[proj2].ranged = false;
-					Main.projectile[proj2].minion = true;
+					Main.projectile[proj2].DamageType = DamageClass.Summon;
 				}
 				
 				SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 12);  //make bow shooty sound

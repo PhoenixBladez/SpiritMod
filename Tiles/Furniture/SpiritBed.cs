@@ -22,7 +22,9 @@ namespace SpiritMod.Tiles.Furniture
 			AddMapEntry(new Color(200, 200, 200), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Beds };
-			bed = true;
+			TileID.Sets.CanBeSleptIn[Type] = true;
+			TileID.Sets.InteractibleByNPCs[Type] = true;
+			TileID.Sets.IsValidSpawnPoint[Type] = true;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = 1;
@@ -43,12 +45,12 @@ namespace SpiritMod.Tiles.Furniture
 			if (player.SpawnX == spawnX && player.SpawnY == spawnY)
 			{
 				player.RemoveSpawn();
-				Main.NewText("Spawn point removed!", 255, 240, 20, false);
+				Main.NewText("Spawn point removed!", 255, 240, 20);
 			}
 			else if (Player.CheckSpawn(spawnX, spawnY))
 			{
 				player.ChangeSpawn(spawnX, spawnY);
-				Main.NewText("Spawn point set!", 255, 240, 20, false);
+				Main.NewText("Spawn point set!", 255, 240, 20);
 			}
 			return true;
 		}

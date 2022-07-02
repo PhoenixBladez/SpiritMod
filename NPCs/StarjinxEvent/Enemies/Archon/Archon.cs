@@ -340,7 +340,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					{
 						Vector2 vel = NPC.DirectionFrom(meteorDashBegin).RotatedByRandom(0.1f) * Main.rand.NextFloat(6f, 17f);
 						Vector2 pos = meteorDashBegin - (vel * 30) - new Vector2(Main.rand.Next(-300, 300), 0);
-						Projectile.NewProjectile(pos, vel, ModContent.ProjectileType<MeteorEnchantment_Meteor>(), 20, 1f);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, vel, ModContent.ProjectileType<MeteorEnchantment_Meteor>(), 20, 1f);
 					}
 				}
 
@@ -388,7 +388,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 
 			if (timers["ATTACK"] == (int)(attackTimeMax * CastWaitThreshold)) //Shoot bg star
 			{
-				Projectile.NewProjectile(Target.Center, Vector2.Zero, ModContent.ProjectileType<BGStarProjectile>(), 20, 1f);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), Target.Center, Vector2.Zero, ModContent.ProjectileType<BGStarProjectile>(), 20, 1f);
 			}
 			else if (timers["ATTACK"] >= attackTimeMax)
 			{
@@ -498,7 +498,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 						float angularOffset = Main.rand.NextFloat(-1, 1) * maxAngularOffset;
 						Vector2 velocity = baseVel.RotatedBy(angularOffset) * (1 - Math.Abs(angularOffset / maxAngularOffset)) * Main.rand.NextFloat(0.75f, 1.1f);
 
-						Projectile.NewProjectile(NPC.Center, velocity, ModContent.ProjectileType<ArchonStarFragment>(), 20, 1f);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, ModContent.ProjectileType<ArchonStarFragment>(), 20, 1f);
 
 						if (!Main.dedServ)
 							for (int j = 0; j < 2; j++)
@@ -515,7 +515,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 					Vector2 velocity = Vector2.Normalize(Target.Center - spawnPos) * Speed;
 					Vector2 destination = spawnPos + (velocity * (Vector2.Distance(Target.Center, spawnPos) / Speed));
 
-					Projectile proj = Main.projectile[Projectile.NewProjectile(spawnPos, velocity, ModContent.ProjectileType<MeteorCastProjectile>(), 20, 1f)];
+					Projectile proj = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), spawnPos, velocity, ModContent.ProjectileType<MeteorCastProjectile>(), 20, 1f)];
 
 					if (proj.ModProjectile != null && proj.ModProjectile is MeteorCastProjectile)
 					{

@@ -54,7 +54,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage.Projectiles
             delegate
             {
                 if (Projectile.friendly)
-                    SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 3);
+                    SoundEngine.PlaySound(SoundID.NPCHit3, Projectile.Center);
                 else
                     SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 74);
 

@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Material
 
 		public override void AddRecipes()
 		{
-			Recipe recipe1 = Mod.CreateRecipe(ItemID.LifeforcePotion, 1);
+			Recipe recipe1 = Recipe.Create(ItemID.LifeforcePotion, 1);
 			recipe1.AddIngredient(ItemID.BottledWater, 1);
 			recipe1.AddIngredient(ModContent.ItemType<HeartScale>(), 3);
 			recipe1.AddIngredient(ItemID.Waterleaf, 1);

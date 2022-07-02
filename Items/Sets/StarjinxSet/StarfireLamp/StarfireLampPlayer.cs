@@ -102,7 +102,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 		}
 
 		//Prevent the texture from being drawn if the player is dead or under other conditions where held items would typically not be drawn
-		private bool CanDraw => Player.shadow == 0f && !Player.frozen && !Player.dead;
+		private bool CanDraw => !Player.frozen && !Player.dead;
 
 		public void DrawItem(PlayerDrawSet info)
 		{
@@ -113,7 +113,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			Vector2 drawPosition = GetHoldPosition - Main.screenPosition;
 			Color lightColor = Lighting.GetColor(GetHoldPosition.ToTileCoordinates().X, GetHoldPosition.ToTileCoordinates().Y);
 
-			Main.playerDrawData.Add(new DrawData(texture, drawPosition, DrawRectangle, lightColor, 0, Origin, Player.HeldItem.scale, info.spriteEffects, 0));
+			info.DrawDataCache.Add(new DrawData(texture, drawPosition, DrawRectangle, lightColor, 0, Origin, Player.HeldItem.scale, info.spriteEffects, 0));
 			DrawTwinkle(info);
 		}
 
@@ -138,10 +138,10 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 					 info.spriteEffects,
 					 0);
 
-				Main.playerDrawData.Add(data);
+				info.DrawDataCache.Add(data);
 
 				data.rotation += MathHelper.PiOver2;
-				Main.playerDrawData.Add(data);
+				info.DrawDataCache.Add(data);
 			}
 		}
 

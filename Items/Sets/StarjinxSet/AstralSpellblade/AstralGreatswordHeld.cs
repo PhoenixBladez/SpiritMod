@@ -178,7 +178,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.AstralSpellblade
 		{
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
-			Effect effect = Mod.GetEffect("Effects/AstralSpellblade");
+			Effect effect = ModContent.Request<Effect>("Effects/AstralSpellblade", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			effect.Parameters["baseTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/noise").Value);
 			effect.Parameters["baseColorDark"].SetValue(new Color(67, 37, 143).ToVector4());
 			effect.Parameters["baseColorLight"].SetValue(new Color(230, 55, 166).ToVector4());

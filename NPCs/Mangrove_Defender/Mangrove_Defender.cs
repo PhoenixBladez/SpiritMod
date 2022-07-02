@@ -38,7 +38,7 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 			NPC.alpha = 0;
 			NPC.HitSound = new Terraria.Audio.LegacySoundStyle(6, 1);
 			NPC.dontTakeDamage = false;
-			NPC.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 6);
+			NPC.DeathSound = SoundID.NPCDeath6;
 		}
 		/*public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
 		{
@@ -231,7 +231,6 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 				int index2 = (int)(((double)NPC.position.Y + (double)NPC.height - 15.0) / 16.0);
 
 				Tile tile = Main.tile[index1, index2 + 1];
-				tile.IsHalfBlock;
 				int spriteDirection = NPC.spriteDirection;
 				if ((double)NPC.velocity.X < 0.0 || (double)NPC.velocity.X > 0.0)
 				{

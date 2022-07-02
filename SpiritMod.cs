@@ -215,12 +215,6 @@ namespace SpiritMod
 
 			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
 
-			if (NPC.AnyNPCs(NPCID.SkeletronPrime) && config.SkeletronPrimeMusic)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/SkeletronPrime");
-				priority = SceneEffectPriority.BossMedium; 
-			}
-
 			if (player.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent)
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starjinx");
@@ -588,12 +582,6 @@ namespace SpiritMod
 				case "Atlas": return MyWorld.downedAtlas;
 			}
 			throw new ArgumentException("Invalid boss name:" + name);
-		}
-
-		public override void ModifyLightingBrightness(ref float scale)
-		{
-			if (Main.LocalPlayer.GetSpiritPlayer().ZoneReach && !Main.dayTime)
-				scale *= .96f;
 		}
 
 		private static void SetGlyph(object[] args)
@@ -1110,7 +1098,7 @@ namespace SpiritMod
 					textures[0] = ModContent.Request<Texture2D>(path, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				for (int i = 1; i <= texCount; i++)
-					textures[i] = ModContent.Request<Texture2D>(path + "_" + i);
+					textures[i] = ModContent.Request<Texture2D>(path + "_" + i, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				_texField.SetValue(null, textures);
 			}
@@ -1245,12 +1233,6 @@ namespace SpiritMod
 				TrailManager.UpdateTrails();
 				primitives.UpdateTrails();
 			}
-		}
-
-		public override void UpdateUI(GameTime gameTime)
-		{
-			BookUserInterface?.Update(gameTime);
-			SlotUserInterface?.Update(gameTime);
 		}
 
 		public override void AddRecipeGroups()
@@ -1434,7 +1416,7 @@ namespace SpiritMod
 
 						if (Main.playerInventory && QuestManager.QuestBookUnlocked)
 						{
-							Texture2D bookTexture = Instance.ModContent.Request<Texture2D>("UI/QuestUI/Textures/QuestBookInventoryButton");
+							Texture2D bookTexture = ModContent.Request<Texture2D>("UI/QuestUI/Textures/QuestBookInventoryButton", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 							Vector2 bookSize = new Vector2(50, 52);
 							QuestUtils.QuestInvLocation loc = ModContent.GetInstance<SpiritClientConfig>().QuestBookLocation;
 							Vector2 position = Vector2.Zero;
@@ -1579,100 +1561,10 @@ namespace SpiritMod
 			}
 		}
 
-		public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
-		{
-			if (MyWorld.SpiritTiles > 0)
-			{
-				float strength = MyWorld.SpiritTiles / 160f;
-				if (strength > MyWorld.spiritLight)
-					MyWorld.spiritLight += 0.01f;
-				if (strength < MyWorld.spiritLight)
-					MyWorld.spiritLight -= 0.01f;
-			}
-			else
-				MyWorld.spiritLight -= 0.02f;
-
-			if (MyWorld.spiritLight < 0f)
-				MyWorld.spiritLight = 0f;
-			else if (MyWorld.spiritLight > .9f)
-				MyWorld.spiritLight = .9f;
-
-			int ColorAdjustment(int col, float light)
-			{
-				float val = 250f / 1.14f * light * (col / 255f);
-				if (val < 0)
-					val = 0;
-				return (int)val;
-			}
-
-			if (MyWorld.spiritLight > 0f)
-			{
-				int r = Main.ColorOfTheSkies.R - ColorAdjustment(Main.ColorOfTheSkies.R, MyWorld.spiritLight);
-				int g = Main.ColorOfTheSkies.G - ColorAdjustment(Main.ColorOfTheSkies.G, MyWorld.spiritLight);
-				int b = Main.ColorOfTheSkies.B - ColorAdjustment(Main.ColorOfTheSkies.B, MyWorld.spiritLight);
-
-				Main.ColorOfTheSkies.R = (byte)r;
-				Main.ColorOfTheSkies.G = (byte)g;
-				Main.ColorOfTheSkies.B = (byte)b;
-			}
-
-			if (MyWorld.AsteroidTiles > 0)
-			{
-				float strength = MyWorld.AsteroidTiles / 160f;
-				if (strength > MyWorld.asteroidLight)
-					MyWorld.asteroidLight += 0.01f;
-				if (strength < MyWorld.asteroidLight)
-					MyWorld.asteroidLight -= 0.01f;
-			}
-			else
-				MyWorld.asteroidLight -= 0.02f;
-
-			if (MyWorld.asteroidLight < 0f)
-				MyWorld.asteroidLight = 0f;
-			else if (MyWorld.asteroidLight > 1f)
-				MyWorld.asteroidLight = 1f;
-
-			if (MyWorld.asteroidLight > 0f)
-			{
-				int r = Main.ColorOfTheSkies.R - ColorAdjustment(Main.ColorOfTheSkies.R, MyWorld.asteroidLight);
-				if (Main.ColorOfTheSkies.R > r)
-					Main.ColorOfTheSkies.R = (byte)r;
-
-				int g = Main.ColorOfTheSkies.G - ColorAdjustment(Main.ColorOfTheSkies.G, MyWorld.asteroidLight);
-				if (Main.ColorOfTheSkies.G > g)
-					Main.ColorOfTheSkies.G = (byte)g;
-
-				int b = Main.ColorOfTheSkies.B - ColorAdjustment(Main.ColorOfTheSkies.B, MyWorld.asteroidLight);
-
-				if (Main.ColorOfTheSkies.B > b)
-					Main.ColorOfTheSkies.B = (byte)b;
-			}
-		}
+		public void InvokeModifyTransform(SpriteViewMatrix matrix) => OnModifyTransformMatrix.Invoke(matrix);
 
 		public static float tremorTime;
 		public int screenshakeTimer = 0;
-
-		public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
-		{
-			if (!Main.gameMenu)
-			{
-				screenshakeTimer++;
-
-				if (tremorTime > 0 && screenshakeTimer >= 20) // so it doesnt immediately decrease
-					tremorTime -= 0.5f;
-				if (tremorTime < 0)
-					tremorTime = 0;
-
-				Main.screenPosition += new Vector2(tremorTime * Main.rand.NextFloat(), tremorTime * Main.rand.NextFloat());
-			}
-			else // dont shake on the menu
-			{
-				tremorTime = 0;
-				screenshakeTimer = 0;
-			}
-
-			OnModifyTransformMatrix?.Invoke(Transform);
-		}
 
 		internal void DrawUpdateToggles()
 		{
@@ -1729,7 +1621,7 @@ namespace SpiritMod
 				const int OffsetX = 20;
 				const int OffsetY = 20;
 
-				Texture2D EventIcon = Instance.ModContent.Request<Texture2D>("Textures/InvasionIcons/Depths_Icon");
+				Texture2D EventIcon = ModContent.Request<Texture2D>("Textures/InvasionIcons/Depths_Icon", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				Color descColor = new Color(77, 39, 135);
 				Color waveColor = new Color(255, 241, 51);
 

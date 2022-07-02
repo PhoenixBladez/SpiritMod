@@ -19,6 +19,8 @@ namespace SpiritMod.NPCs.Town.Oracle
 	[AutoloadHead]
 	public class Oracle : ModNPC
 	{
+		public override string Name => "Oracle";
+
 		public const int AuraRadius = 263;
 
 		private float RealAuraRadius => AuraRadius * RealAuraScale;
@@ -36,12 +38,6 @@ namespace SpiritMod.NPCs.Town.Oracle
 		private ref Player NearestPlayer => ref Main.player[NPC.target];
 
 		private Rectangle[] runeSources = null;
-
-		public override bool Autoload(ref string name)
-		{
-			name = "Oracle";
-			return Mod.Properties.Autoload;
-		}
 
 		public override void SetStaticDefaults()
 		{

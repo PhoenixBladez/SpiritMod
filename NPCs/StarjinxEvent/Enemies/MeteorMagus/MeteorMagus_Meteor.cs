@@ -112,7 +112,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			/*float progress = (Timer - Delay) / TELEGRAPH_TIME; 
 			progress = MathHelper.Clamp(progress, 0, 1);
 
-			Texture2D telegraphTex = mod.GetTexture("Textures/GlowTrail");
+			Texture2D telegraphTex = ModContent.Request<Texture2D>("Textures/GlowTrail");
 
 			Vector2 scale = new Vector2(3000 / telegraphTex.Width, MathHelper.Lerp(120, 15, EaseFunction.EaseCubicOut.Ease(progress)) / telegraphTex.Height);
 			float opacity = EaseFunction.EaseCubicOut.Ease(progress) * EaseFunction.EaseQuinticIn.Ease(1 - projectile.Opacity) * 0.75f;

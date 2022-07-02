@@ -121,7 +121,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 			 Starjinx.YuyutsuShader.Parameters["progress"].SetValue(counter);
 			 Starjinx.YuyutsuShader.Parameters["color1"].SetValue(color.ToVector4());
 			 Starjinx.YuyutsuShader.Parameters["color2"].SetValue(color2.ToVector4());
-			 Starjinx.YuyutsuShader.Parameters["noise"].SetValue(mod.GetTexture("Textures/noise"));
+			 Starjinx.YuyutsuShader.Parameters["noise"].SetValue(ModContent.Request<Texture2D>("Textures/noise"));
 			 Starjinx.YuyutsuShader.CurrentTechnique.Passes[0].Apply();*/
 			Color bloomColor = Color.DarkGreen;
 			bloomColor.A = 0;

@@ -99,7 +99,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			float blurLength = 180 * Projectile.scale;
 			float blurWidth = 8 * Projectile.scale;
 			float flickerStrength = (((float)Math.Sin(Main.GlobalTimeWrappedHourly * 12) % 1) * 0.1f) + 1f;
-			Effect blurEffect = Mod.GetEffect("Effects/BlurLine");
+			Effect blurEffect = ModContent.Request<Effect>("Effects/BlurLine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			IPrimitiveShape[] blurLines = new IPrimitiveShape[]
 			{
@@ -192,7 +192,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 					ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(3),
 						Main.rand.NextBool(3) ? Orange : Yellow, Main.rand.NextFloat(0.2f, 0.3f), 25));
 
-				SoundEngine.PlaySound(SoundID.Item12.WithVolume(0.35f).WithPitchVariance(0.3f), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item12 with { Volume = 0.35f, PitchVariance = 0.3f }, Projectile.Center);
 			}
 
 			//Make projectile stop moving and begin fadeout

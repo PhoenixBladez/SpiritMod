@@ -142,7 +142,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			if (Main.netMode == NetmodeID.Server)
 				return;
 
-			SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GranitechLaserBlast").WithPitchVariance(0.1f).WithVolume(0.8f), Projectile.Center);
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Item/GranitechLaserBlast") with { PitchVariance = 0.1f, Volume = 0.8f }, Projectile.Center);
 
 			float beamLengthLerp = MathHelper.Clamp(BeamLength / 800f, 0, 1);
 			int maxRings = 3;
@@ -240,7 +240,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			if (Main.netMode == NetmodeID.Server)
 				return;
 
-			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/EnergyImpact").WithPitchVariance(0.1f).WithVolume(0.6f), target.Center);
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/EnergyImpact") with { PitchVariance = 0.1f, Volume = 0.6f }, target.Center);
 			float scale = Main.rand.NextFloat(0.8f, 1f);
 			DrawAberration.DrawChromaticAberration(BeamDirection, 2f, delegate (Vector2 offset, Color colorMod) 
 			{
@@ -333,7 +333,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			Vector2 position = Projectile.Center + StaffTipDirection + (BeamDirection * BeamLength / 2) - Main.screenPosition; //Center between staff tip and beam end
 
 			//Draw the beam and apply shader parameters
-			Effect beamEffect = Mod.GetEffect("Effects/Laser");
+			Effect beamEffect = ModContent.Request<Effect>("Effects/Laser", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			beamEffect.Parameters["uTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_1").Value);
 			beamEffect.Parameters["Progress"].SetValue(Main.GlobalTimeWrappedHourly * 3f);
 			beamEffect.Parameters["xMod"].SetValue(BeamLength / 150f);
@@ -355,14 +355,14 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			if (HittingTile)
 			{
 				float scaleMod = scale.Y / 60;
-				Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
+				Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				Vector2 endPos = Projectile.Center + StaffTipDirection + BeamDirection * BeamLength;
 				Main.spriteBatch.Draw(bloom, endPos - Main.screenPosition, null, darkBlue, 0, bloom.Size() / 2, 0.5f * scaleMod, SpriteEffects.None, 0);
 
 				float blurLength = 400 * scaleMod;
 				float blurWidth = 12 * scaleMod;
 				float flickerStrength = (((float)Math.Sin(Main.GlobalTimeWrappedHourly * 20) % 1) * 0.3f) + 1f;
-				Effect blurEffect = Mod.GetEffect("Effects/BlurLine");
+				Effect blurEffect = ModContent.Request<Effect>("Effects/BlurLine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				for(int i = -1; i <= 1; i++)
 				{

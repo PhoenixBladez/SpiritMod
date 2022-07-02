@@ -19,7 +19,6 @@ namespace SpiritMod.Projectiles.Returning
 			Projectile.aiStyle = 3;
 			Projectile.friendly = true;
 			Projectile.DamageType = DamageClass.Melee;
-			Projectile.magic = false;
 			Projectile.penetrate = 2;
 			Projectile.timeLeft = 700;
 			Projectile.extraUpdates = 1;

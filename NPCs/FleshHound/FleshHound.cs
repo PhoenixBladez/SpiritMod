@@ -90,7 +90,7 @@ namespace SpiritMod.NPCs.FleshHound
 
 			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 7);
+				SoundEngine.PlaySound(SoundID.Zombie7, NPC.Center);
 				NPC.netUpdate = true;
 			}
 

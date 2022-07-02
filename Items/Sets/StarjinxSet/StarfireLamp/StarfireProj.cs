@@ -161,7 +161,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 					SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly - 1), Main.rand.NextFloat(0.2f, 0.4f), 25));
 			}
 
-			SoundEngine.PlaySound(SoundID.Item12.WithPitchVariance(0.2f).WithVolume(0.3f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item12 with { PitchVariance = 0.2f, Volume = 0.3f }, Projectile.Center);
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -182,7 +182,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			float blurLength = 100 * Projectile.scale;
 			float blurWidth = 5 * Projectile.scale;
 			float flickerStrength = (((float)Math.Sin(Main.GlobalTimeWrappedHourly * 10) % 1) * 0.1f) + 1f;
-			Effect blurEffect = Mod.GetEffect("Effects/BlurLine");
+			Effect blurEffect = ModContent.Request<Effect>("Effects/BlurLine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			IPrimitiveShape[] blurLines = new IPrimitiveShape[]
 			{

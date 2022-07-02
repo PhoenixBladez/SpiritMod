@@ -148,7 +148,7 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 			}
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-			Effect effect = Mod.GetEffect("Effects/RotateSprite");
+			Effect effect = ModContent.Request<Effect>("Effects/RotateSprite", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			effect.Parameters["rotation"].SetValue(-NPC.rotation);
 			effect.CurrentTechnique.Passes[0].Apply();
 

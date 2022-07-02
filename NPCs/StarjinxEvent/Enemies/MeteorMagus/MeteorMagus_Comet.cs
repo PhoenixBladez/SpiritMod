@@ -121,7 +121,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			float blurLength = 200 * Projectile.scale * whiteMaskOpacity * Projectile.Opacity;
 			float blurWidth = 25 * Projectile.scale * whiteMaskOpacity * Projectile.Opacity;
 
-			Effect blurEffect = Mod.GetEffect("Effects/BlurLine");
+			Effect blurEffect = ModContent.Request<Effect>("Effects/BlurLine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			SquarePrimitive blurLine = new SquarePrimitive()
 			{
 				Position = Projectile.Center - Main.screenPosition,
@@ -137,7 +137,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		{
 			if (Main.netMode != NetmodeID.Server)
 			{
-				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/starHit").WithVolume(0.65f).WithPitchVariance(0.3f), Projectile.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/starHit") with { Volume = 0.65f, PitchVariance = 0.3f }, Projectile.Center);
 
 				for (int i = 0; i < 8; i++)
 					MakeEmberParticle(-Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f), 0.96f);

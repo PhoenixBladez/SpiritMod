@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles.Arrow
 			if (distance < 20f)
             {
                 DustHelper.DrawDiamond(new Vector2(Projectile.Center.X, Projectile.Center.Y), 173, 4, .8f, .75f);
-                SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 6);
+                SoundEngine.PlaySound(SoundID.NPCDeath6, Projectile.Center);
                 if (!escaped && Main.rand.NextBool(2))
                 {
                     Projectile.ai[1] = 10;
@@ -119,7 +119,7 @@ namespace SpiritMod.Projectiles.Arrow
 		}
 		public override void Kill (int timLeft)
         {
-            SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 3);
+            SoundEngine.PlaySound(SoundID.NPCHit3, Projectile.Center);
         }
 	}
 }

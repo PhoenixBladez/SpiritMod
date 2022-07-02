@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Placeable.Walls
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.Register();
 
-			Recipe recipe1 = Mod.CreateRecipe(ModContent.ItemType<ScrapItem>());
+			Recipe recipe1 = Recipe.Create(ModContent.ItemType<ScrapItem>());
 			recipe1.AddIngredient(this, 4);
 			recipe1.AddTile(TileID.WorkBenches);
 			recipe1.Register();

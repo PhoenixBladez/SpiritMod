@@ -123,7 +123,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.AccursedBlade
         public override bool OnPickup(Player player)
 		{
 			player.GetModPlayer<AccursedBladePlayer>().charge += 0.15f;
-			SoundEngine.PlaySound(SoundID.NPCDeath, (int)player.position.X, (int)player.position.Y, 52, 1f, -0.9f);
+			SoundEngine.PlaySound(SoundID.NPCDeath52, player.Center);
 			return false;
 		}
 	}

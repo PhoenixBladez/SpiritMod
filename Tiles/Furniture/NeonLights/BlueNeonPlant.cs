@@ -35,7 +35,7 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
             AddMapEntry(new Color(77, 255, 88), name);
             AdjTiles = new int[] { TileID.Torches };
             DustType = -1;
-            //TODO	Main.highlightMaskTexture[Type] = mod.GetTexture("Tiles/ScoreBoard_Outline");
+            //TODO	Main.highlightMaskTexture[Type] = ModContent.Request<Texture2D>("Tiles/ScoreBoard_Outline");
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {

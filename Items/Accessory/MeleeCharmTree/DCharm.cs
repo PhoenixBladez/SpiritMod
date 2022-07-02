@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 
 		public override void AddRecipes()
 		{
-			Recipe modRecipe = base.Mod.CreateRecipe(this.Type, 1);
+			Recipe modRecipe = Recipe.Create(this.Type, 1);
 			modRecipe.AddIngredient(ItemID.RottenChunk, 8);
 			modRecipe.AddIngredient(ItemID.ShadowScale, 4);
 			modRecipe.AddIngredient(ItemID.Chain, 3);

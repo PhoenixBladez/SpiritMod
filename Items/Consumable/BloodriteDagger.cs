@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Consumable
 		public override bool CanUseItem(Player player)
 		{
 			if (Main.dayTime) {
-				Main.NewText("The Blood Moon only emerges at night.", 150, 80, 80, true);
+				Main.NewText("The Blood Moon only emerges at night.", 150, 80, 80);
 				return false;
 			}
 			if (Main.bloodMoon)
@@ -44,8 +44,8 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			Main.NewText("The Blood Moon is Rising...", 220, 0, 51, true);
-			SoundEngine.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 0);
+			Main.NewText("The Blood Moon is Rising...", 220, 0, 51);
+			SoundEngine.PlaySound(SoundID.Roar, player.Center);
 			if (!Main.dayTime)
 				Main.bloodMoon = true;
 			return true;
@@ -54,8 +54,7 @@ namespace SpiritMod.Items.Consumable
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(ItemID.IronBar, 5);
-			recipe.anyIronBar = true;
+			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 5);
 			recipe.AddIngredient(ModContent.ItemType<Items.Sets.BloodcourtSet.DreamstrideEssence>(), 6);
 			recipe.AddTile(TileID.Anvils);
 			recipe.Register();

@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 				}
 				y += 40;
 
-				ItemUtils.NewItemWithSync(Main.myPlayer, x, y, 4, 4, floatingItemPool);
+				ItemUtils.NewItemWithSync(Item.GetSource_NaturalSpawn(), Main.myPlayer, x, y, 4, 4, floatingItemPool);
 			}
 		}
 	}

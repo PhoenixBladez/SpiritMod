@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				Projectile.gfxOffY = MathHelper.Lerp(Projectile.gfxOffY, 0, 0.1f);
 				Projectile.velocity = Vector2.Lerp(Projectile.velocity, -Vector2.UnitY * 5, 0.15f);
 				if(Projectile.ai[1] == 130)
-					SoundEngine.PlaySound(SoundID.Zombie, (int)Projectile.position.X, (int)Projectile.position.Y, 44);
+					SoundEngine.PlaySound(SoundID.Zombie44, Projectile.Center);
 			}
 			else if (Projectile.ai[1] == 170) {
 				Projectile.spriteDirection = Projectile.direction;

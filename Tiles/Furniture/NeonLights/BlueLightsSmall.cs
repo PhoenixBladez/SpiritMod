@@ -31,7 +31,7 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
             AddMapEntry(new Color(82, 125, 255), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             DustType = -1;
-            //TODO	Main.highlightMaskTexture[Type] = mod.GetTexture("Tiles/ScoreBoard_Outline");
+            //TODO	Main.highlightMaskTexture[Type] = ModContent.Request<Texture2D>("Tiles/ScoreBoard_Outline");
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -58,7 +58,7 @@ namespace SpiritMod.Tiles.Furniture.NeonLights
             {
                 Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
 
-                Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/NeonLights/BlueLightsSmall_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad);
+                Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/NeonLights/BlueLightsSmall_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
                 Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
                 spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), colour);

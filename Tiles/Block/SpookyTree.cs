@@ -18,10 +18,10 @@ namespace SpiritMod.Tiles.Block
 			SpecialGroupMaximumSaturationValue = 1f
 		};
 
-		public override void SetStaticDefaults() => GrowsOnTileId = new int[] { TileID.None };
+		public override void SetStaticDefaults() => GrowsOnTileId = new int[] {  };
 		public override int CreateDust() => 1;
 		public override int DropWood() => ItemID.SpookyWood;
-		public override void SetTreeFoliageSettings(Tile tile, int xoffset, ref int treeFrame, ref int floorY, ref int topTextureFrameWidth, ref int topTextureFrameHeight) { }
+		public override void SetTreeFoliageSettings(Tile tile, ref int xoffset, ref int treeFrame, ref int floorY, ref int topTextureFrameWidth, ref int topTextureFrameHeight) { }
 
 		public override Asset<Texture2D> GetTexture() => ModContent.Request<Texture2D>("Tiles/Block/SpookyTree", AssetRequestMode.ImmediateLoad);
 		public override Asset<Texture2D> GetTopTextures() => ModContent.Request<Texture2D>("Tiles/Block/SpookyTree_Tops", AssetRequestMode.ImmediateLoad);

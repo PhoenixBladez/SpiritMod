@@ -131,7 +131,7 @@ namespace SpiritMod
 				info.drawPlayer.itemRotation + rotOffset,
 				origin,
 				item.scale,
-				info.spriteEffects,
+				info.playerEffect,
 				0
 			));
 		}

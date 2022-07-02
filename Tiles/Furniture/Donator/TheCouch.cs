@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -23,7 +24,9 @@ namespace SpiritMod.Tiles.Furniture.Donator
 			name.SetDefault("The Couch");
 			AddMapEntry(new Color(200, 200, 200), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
-			bed = true;
+			TileID.Sets.CanBeSleptIn[Type] = true;
+			TileID.Sets.InteractibleByNPCs[Type] = true;
+			TileID.Sets.IsValidSpawnPoint[Type] = true;
 		}
 
 		public override void NearbyEffects(int i, int j, bool closer)

@@ -142,7 +142,7 @@ namespace SpiritMod.NPCs.Tides
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
 			if (blocking)
-				SoundEngine.PlaySound(SoundID.NPCHit, NPC.position, 4);
+				SoundEngine.PlaySound(SoundID.NPCHit4, NPC.position);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

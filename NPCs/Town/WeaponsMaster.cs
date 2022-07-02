@@ -115,7 +115,7 @@ namespace SpiritMod.NPCs.Town
 		}
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) //Draws the exclamation mark on the NPC when they have a quest
 		{
-            Texture2D tex = mod.GetTexture("UI/QuestUI/Textures/ExclamationMark");
+            Texture2D tex = ModContent.Request<Texture2D>("UI/QuestUI/Textures/ExclamationMark");
 			float scale = (float)Math.Sin(Main.time * 0.08f) * 0.14f;
 			spriteBatch.Draw(tex, new Vector2(npc.Center.X - 2, npc.Center.Y - 40) - Main.screenPosition, new Rectangle(0, 0, 6, 24), Color.White, 0f, new Vector2(3, 12), 1f + scale, SpriteEffects.None, 0f);
 

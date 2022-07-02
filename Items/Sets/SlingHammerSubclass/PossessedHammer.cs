@@ -101,7 +101,7 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 			if (!Main.dedServ)
 			{
 				if (Projectile.timeLeft % 9 == 0)
-					SoundEngine.PlaySound(SoundID.Item19.WithPitchVariance(0.3f).WithVolume(0.7f), Projectile.Center);
+					SoundEngine.PlaySound(SoundID.Item19 with { PitchVariance = 0.3f, Volume = 0.7f }, Projectile.Center);
 
 				if(Main.rand.NextBool(3) && _glowOpacity > 0)
 				{

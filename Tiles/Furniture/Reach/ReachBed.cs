@@ -24,8 +24,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Beds };
-			bed = true;
-            TileID.Sets.HasOutlines[Type] = true;
+			TileID.Sets.CanBeSleptIn[Type] = true;
+			TileID.Sets.InteractibleByNPCs[Type] = true;
+			TileID.Sets.IsValidSpawnPoint[Type] = true;
+			TileID.Sets.HasOutlines[Type] = true;
         }
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
@@ -52,11 +54,11 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			player.FindSpawn();
 			if (player.SpawnX == spawnX && player.SpawnY == spawnY) {
 				player.RemoveSpawn();
-				Main.NewText("Spawn point removed!", 255, 240, 20, false);
+				Main.NewText("Spawn point removed!", 255, 240, 20);
 			}
 			else if (Player.CheckSpawn(spawnX, spawnY)) {
 				player.ChangeSpawn(spawnX, spawnY);
-				Main.NewText("Spawn point set!", 255, 240, 20, false);
+				Main.NewText("Spawn point set!", 255, 240, 20);
 			}
 			return true;
 		}

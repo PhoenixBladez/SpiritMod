@@ -67,7 +67,7 @@ namespace SpiritMod.NPCs.ScreechOwl
             {
                 if (Vector2.Distance(NPC.Center, player.Center) < 480)
                 {
-                    SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/ScreechOwlScreech"));
+                    SoundEngine.PlaySound(new SoundStyle("Sounds/ScreechOwlScreech"), NPC.Center);
                 }
                 Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
                 direction.Normalize();

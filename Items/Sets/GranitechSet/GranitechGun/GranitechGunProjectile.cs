@@ -79,7 +79,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 		private void Fire(Player player)
 		{
-			if (player.PickAmmo(player.HeldItem, out int _, out int _, out int _, out float _, out int _))
+			if (player.PickAmmo(player.HeldItem, out int _, out float _, out int _, out float _, out int _))
 			{
 				var baseVel = player.DirectionTo(Main.MouseWorld).RotatedByRandom(0.02f) * player.HeldItem.shootSpeed;
 
@@ -94,7 +94,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 
 				//Main.PlaySound(Terraria.ID.SoundID.Item11, projectile.Center);
 				if (!Main.dedServ)
-					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/EnergyShoot").WithPitchVariance(0.1f).WithVolume(0.25f), pos);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/EnergyShoot") with { PitchVariance = 0.1f, Volume = 0.25f }, pos);
 
 				VFX(pos + muzzleOffset, baseVel * 0.2f);
 			}

@@ -220,7 +220,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			}
 			else if (AiTimer == ChargeTime)
 			{
-				NPCLoot();
+				NPC.NPCLoot();
 				frame.X = 4;
 				frame.Y = 0;
 				_whiteGlow = 0;
@@ -232,7 +232,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				if (!Main.dedServ)
 				{
 					CombatText.NewText(new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height), CombatText.DamagedHostileCrit, 9999, true);
-					SoundEngine.PlaySound(NPC.DeathSound, NPC.Center);
+					SoundEngine.PlaySound(NPC.DeathSound.Value, NPC.Center);
 					ParticleHandler.SpawnParticle(new OccultistDeathBoom(NPC.Center, 0.8f));
 
 					//omnidirectional particle burst
@@ -303,7 +303,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			if (Main.dedServ)
 				return;
 
-			SoundEngine.PlaySound(SoundID.NPCHit, NPC.Center, 2);
+			SoundEngine.PlaySound(SoundID.NPCHit2, NPC.Center);
 			for (int i = 0; i < 3; i++)
 				ParticleHandler.SpawnParticle(new GlowParticle(NPC.Center + Main.rand.NextVector2Circular(15, 20),
 					(Vector2.UnitX * hitDirection).RotatedByRandom(MathHelper.Pi / 3) * Main.rand.NextFloat(2, 3), Color.Red, Main.rand.NextFloat(0.02f, 0.04f), 30));
@@ -345,10 +345,10 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 			//draw ritual circle and a bloom
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			spriteBatch.Draw(bloom, NPC.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.66f, 0, bloom.Size() / 2, _ritualCircle * 1.25f, SpriteEffects.None, 0);
 
-			Texture2D circle = ModContent.Request<Texture2D>(Texture + "_circle");
+			Texture2D circle = ModContent.Request<Texture2D>(Texture + "_circle", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			spriteBatch.Draw(circle, NPC.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.75f, Main.GlobalTimeWrappedHourly * 2, circle.Size() / 2, _ritualCircle, SpriteEffects.None, 0);
 			spriteBatch.Draw(circle, NPC.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.75f, Main.GlobalTimeWrappedHourly * -2, circle.Size() / 2, _ritualCircle, SpriteEffects.None, 0);
 
@@ -360,9 +360,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
 
-
-
-			Texture2D mask = ModContent.Request<Texture2D>(Texture + "_mask");
+			Texture2D mask = ModContent.Request<Texture2D>(Texture + "_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			for (int j = 0; j < NPCID.Sets.TrailCacheLength[NPC.type]; j++)
 			{
@@ -385,7 +383,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Texture2D glow = ModContent.Request<Texture2D>(Texture + "_glow");
+			Texture2D glow = ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			for (int i = 0; i < 6; i++)
 			{
 				Vector2 offset = Vector2.UnitX.RotatedBy((i / 6f) * MathHelper.TwoPi) * DrawTimer * 2;
@@ -393,7 +391,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			}
 			DrawTex(spriteBatch, glow, Color.White);
 
-			Texture2D mask = ModContent.Request<Texture2D>(Texture + "_mask");
+			Texture2D mask = ModContent.Request<Texture2D>(Texture + "_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			DrawTex(spriteBatch, mask, Color.Black * _whiteGlow);
 		}
 

@@ -79,7 +79,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 							RingColor = color,
 							Velocity = Vector2.Zero - (pulseUnit * 1.5f)
 						});
-						SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/EnergyCharge1").WithPitchVariance(0.1f).WithVolume(0.275f), player.Center);
+						SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/EnergyCharge1") with { PitchVariance = 0.1f, Volume = 0.275f }, player.Center);
 					}
 
 				}
@@ -95,7 +95,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 
 				if (Projectile.localAI[0] > 0)
 				{
-					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/EnergyBlastMedium").WithPitchVariance(0.1f).WithVolume(0.275f), player.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/EnergyBlastMedium") with { PitchVariance = 0.1f, Volume = 0.275f }, player.Center);
 					ParticleHandler.SpawnParticle(new PulseCircle(dustOffset + (pulseUnit * 10), color * 0.4f, (.5f + .8f * (float)Math.Sqrt(Projectile.localAI[0] / 100f)) * 100, 20, PulseCircle.MovementType.OutwardsQuadratic)
 					{
 						Angle = player.itemRotation,

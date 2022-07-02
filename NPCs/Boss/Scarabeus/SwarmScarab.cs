@@ -120,11 +120,11 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			if (NPC.ai[1] == 1) {
 				for (int k = 0; k < NPC.oldPos.Length; k++) {
 					Vector2 drawPos = Vector2.Lerp(NPC.oldPos[k], NPC.position, 0.5f) - Main.screenPosition + new Vector2(NPC.width / 2, NPC.height / 2);
-					Color color = NPC.GetAlpha(lightColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+					Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, spriteeffects, 0f);
 				}
 			}
-			spriteBatch.Draw(texture2D, NPC.Center - Main.screenPosition, NPC.frame, NPC.GetAlpha(lightColor), rotation, NPC.frame.Size() / 2f, NPC.scale, spriteeffects, 0f);
+			spriteBatch.Draw(texture2D, NPC.Center - Main.screenPosition, NPC.frame, NPC.GetAlpha(drawColor), rotation, NPC.frame.Size() / 2f, NPC.scale, spriteeffects, 0f);
 			return false;
 		}
 

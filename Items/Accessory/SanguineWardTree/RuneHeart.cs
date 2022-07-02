@@ -78,7 +78,7 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 						if (!Main.dedServ)
 						{
 							Particles.ParticleHandler.SpawnParticle(new Particles.PulseCircle(Owner, Color.Lerp(new Color(252, 3, 102), Color.White, 0.25f), 70, 20));
-							SoundEngine.PlaySound(SoundID.Item29.WithPitchVariance(0.2f).WithVolume(0.6f), Owner.Center);
+							SoundEngine.PlaySound(SoundID.Item29 with { PitchVariance = 0.2f, Volume = 0.6f }, Owner.Center);
 						}
 
 						int healAmount = Math.Min(Projectile.damage, Owner.statLifeMax2 - Owner.statLife);

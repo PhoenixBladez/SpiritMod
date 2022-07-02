@@ -38,8 +38,8 @@ namespace SpiritMod.Mounts
             MountData.playerHeadOffset = 22;
             if (Main.netMode != NetmodeID.Server)
             {
-                MountData.textureWidth = MountData.frontTexture.Width;
-                MountData.textureHeight = MountData.frontTexture.Height;
+                MountData.textureWidth = MountData.frontTexture.Width();
+                MountData.textureHeight = MountData.frontTexture.Height();
             }
         }
 

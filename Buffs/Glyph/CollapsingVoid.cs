@@ -1,4 +1,6 @@
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 
@@ -42,15 +44,17 @@ namespace SpiritMod.Buffs.Glyph
 			if (modPlayer.voidStacks <= 1) {
 				Main.buffNoTimeDisplay[Type] = true;
 			}
+		}
 
-			if (player.whoAmI == Main.myPlayer && !Main.dedServ) {
-				if (modPlayer.voidStacks == 0) {
-					TextureAssets.Buff[Type].Value = Mod.Assets.Request<Texture2D>("CollapsingVoid").Value;
-				}
-				else {
-					TextureAssets.Buff[Type].Value = Mod.Assets.Request<Texture2D>("CollapsingVoid_" + modPlayer.voidStacks.ToString().Value);
-				}
-			}
+		public override bool PreDraw(SpriteBatch spriteBatch, int buffIndex, ref BuffDrawParams drawParams)
+		{
+			MyPlayer modPlayer = Main.LocalPlayer.GetSpiritPlayer();
+			var texture = Mod.Assets.Request<Texture2D>("Buffs/Glyph/CollapsingVoid_" + (modPlayer.voidStacks - 1)).Value;
+			if (modPlayer.divineStacks == 1)
+				texture = Mod.Assets.Request<Texture2D>("Buffs/Glyph/CollapsingVoid").Value;
+
+			spriteBatch.Draw(texture, drawParams.Position, drawParams.DrawColor);
+			return false;
 		}
 
 		public override void ModifyBuffTip(ref string tip, ref int rare)

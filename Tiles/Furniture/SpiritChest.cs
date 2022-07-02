@@ -38,7 +38,7 @@ namespace SpiritMod.Tiles.Furniture
 			AddMapEntry(new Color(70, 130, 180), name, MapChestName);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
-			chest = "Duskwood Chest";
+			ContainerName.SetDefault("Duskwood Chest");
 		}
 
 		public string MapChestName(string name, int i, int j)

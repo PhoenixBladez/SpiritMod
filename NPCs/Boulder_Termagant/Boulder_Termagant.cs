@@ -45,11 +45,12 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 			NPC.buffImmune[BuffID.Poisoned] = true;
 			NPC.lavaImmune = false;
 			NPC.noTileCollide = false;
-			NPC.HitSound = new Terraria.Audio.LegacySoundStyle(3, 6);
-			NPC.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 5);
+			NPC.HitSound = SoundID.NPCHit6;
+			NPC.DeathSound = SoundID.NPCDeath5;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.BoulderBehemothBanner>();
 		}
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(hasGottenColor);

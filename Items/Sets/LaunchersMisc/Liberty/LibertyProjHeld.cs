@@ -53,10 +53,10 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Liberty
 				case STATE_LAUNCH:
 					int shoot = 0;
 					float speed = 0;
-					bool canShoot = true;
 					int damage = 0;
+					float kb = 0;
 					float knockback = 0;
-					Owner.PickAmmo(Owner.HeldItem, ref shoot, ref speed, ref canShoot, ref damage, ref knockback); //first pickammo to find stats and actually consume the ammo
+					bool canShoot = Owner.PickAmmo(Owner.HeldItem, out shoot, out speed, out damage, out kb, out int ammo); //first pickammo to find stats and actually consume the ammo
 
 					void FixDumbVanillaRocketIDS() => shoot += 134; //required, as for god knows what reason vanilla rockets shoot the wrong projectile(but not modded rockets!!!)
 					if (shoot <= 0) //rocket 1
@@ -81,7 +81,7 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Liberty
 					Projectile.NewProjectile(Projectile.GetSource_FromAI(), shootPos, Projectile.velocity * (speed + Owner.HeldItem.shootSpeed), shoot, damage + Projectile.damage, knockback + Projectile.knockBack, Owner.whoAmI);
 
 					Projectile.velocity = (Projectile.direction > 0) ? Projectile.velocity.RotatedBy(-MathHelper.PiOver4) : Projectile.velocity.RotatedBy(MathHelper.PiOver4); //recoil effect
-					Owner.PickAmmo(Owner.HeldItem, ref shoot, ref speed, ref canShoot, ref damage, ref knockback, true); //second to determine if another shot can be fired
+					Owner.PickAmmo(Owner.HeldItem, out shoot, out speed, out canShoot, out damage, out knockback, true); //second to determine if another shot can be fired
 					if (!canShoot) //if no ammo left, stop channelling, so weapon use can end when wanted
 						Owner.channel = false;
 

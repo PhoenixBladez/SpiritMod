@@ -8,6 +8,7 @@ using SpiritMod.Utilities;
 using System;
 using System.Reflection;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.Shaders;
 using Terraria.Graphics;
 using Terraria.ModLoader;
@@ -316,7 +317,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 		{
 			ILCursor cursor = new ILCursor(il);
 
-			cursor.TryGotoNext(i => i.MatchLdsfld<Main>(nameof(Main.liquidTexture)));
+			cursor.TryGotoNext(i => i.MatchLdsfld<Main>(nameof(TextureAssets.Liquid)));
 			cursor.TryGotoNext(i => i.MatchCallvirt<SpriteBatch>("Draw"));
 
 			// remove spritebatch draw

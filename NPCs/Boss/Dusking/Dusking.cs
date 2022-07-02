@@ -451,30 +451,13 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 		public override void BossLoot(ref string name, ref int potionType) => potionType = ItemID.GreaterHealingPotion;
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			if (Main.expertMode)
-			{
-				NPC.DropBossBags();
-				return;
-			}
-
-			NPC.DropItem(ModContent.ItemType<DuskStone>(), Main.rand.Next(25, 36));
-
-			int[] lootTable = {
-				ModContent.ItemType<ShadowflameSword>(),
-				ModContent.ItemType<UmbraStaff>(),
-				ModContent.ItemType<ShadowSphere>(),
-				ModContent.ItemType<Shadowmoor>(),
-			};
-			int loot = Main.rand.Next(lootTable.Length);
-			if (loot == 0)
-				NPC.DropItem(lootTable[0], Main.rand.Next(74, 121));
-			else
-				NPC.DropItem(lootTable[loot]);
-
-			NPC.DropItem(ModContent.ItemType<DuskingMask>(), 1f / 7);
-			NPC.DropItem(ModContent.ItemType<Trophy6>(), 1f / 10);
+			npcLoot.AddBossBag<DuskingBag>();
+			npcLoot.AddCommon<DuskStone>(1, 25, 35);
+			npcLoot.AddCommon<DuskingMask>(7);
+			npcLoot.AddCommon<Trophy6>(10);
+			npcLoot.AddOneFromOptions<ShadowflameSword, UmbraStaff, ShadowSphere, Shadowmoor>();
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Shadowflame>(), 150);

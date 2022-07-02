@@ -105,7 +105,7 @@ namespace SpiritMod.Items.Weapon.Swung.Punching_Bag
 		
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 3);
+			SoundEngine.PlaySound(SoundID.NPCHit3, Projectile.Center);
 			Vector2 vector9 = Projectile.position;
 			Vector2 value19 = (Projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;
@@ -137,7 +137,7 @@ namespace SpiritMod.Items.Weapon.Swung.Punching_Bag
 				Main.dust[index2].noGravity = true;
 				Main.dust[index2].velocity *= 0.8f;
 			}
-			SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 3);
+			SoundEngine.PlaySound(SoundID.NPCHit3, Projectile.Center);
 			Vector2 vector9 = Projectile.position;
 			Vector2 value19 = (Projectile.rotation - 1.57079637f).ToRotationVector2();
 			vector9 += value19 * 16f;

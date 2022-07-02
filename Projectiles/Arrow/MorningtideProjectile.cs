@@ -131,7 +131,7 @@ namespace SpiritMod.Projectiles.Arrow
 
 		public override void Kill(int timLeft)
 		{
-			SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 3);
+			SoundEngine.PlaySound(SoundID.NPCHit3, Projectile.Center);
 
 			for (int k = 0; k < 18; k++)
 			{

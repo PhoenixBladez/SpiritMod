@@ -30,7 +30,7 @@ namespace SpiritMod.NPCs.Dead_Scientist
 			NPC.height = 36;
 			NPC.damage = 28;
 			NPC.lavaImmune = false;
-			NPC.HitSound = new Terraria.Audio.LegacySoundStyle(3, 1);
+			NPC.HitSound = SoundID.NPCHit1;
 		}
 
 		public override void AI()
@@ -41,11 +41,11 @@ namespace SpiritMod.NPCs.Dead_Scientist
 			pukeTimer++;
 			
 			if (Main.rand.Next(300)==0)
-				SoundEngine.PlaySound(SoundID.Item9.SoundId, (int)NPC.position.X, (int)NPC.position.Y, 1, 1f, -0.9f);
+				SoundEngine.PlaySound(SoundID.Item9, NPC.Center);
 			
 			if (Vector2.Distance(player.Center, NPC.Center) < 300f && !isPuking && player.position.Y > NPC.position.Y - 100 && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0) && delayTimer < 180) 
 			{
-				SoundEngine.PlaySound(SoundID.Item9.SoundId, (int)NPC.position.X, (int)NPC.position.Y, 9, 1f, -0.9f);
+				SoundEngine.PlaySound(SoundID.Item9, NPC.Center);
 				NPC.frameCounter = 0;
 				isPuking = true;
 			}
@@ -104,7 +104,7 @@ namespace SpiritMod.NPCs.Dead_Scientist
 			{
 				for (int i = 1; i < 5; ++i)
 					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/UndeadScientist/UndeadScientistGore" + i).Type, 1f);
-				SoundEngine.PlaySound(SoundID.Item9.SoundId, (int)NPC.position.X, (int)NPC.position.Y, 22, 1f, -0.9f);
+				SoundEngine.PlaySound(SoundID.Item9, NPC.Center);
 			}
 
 			for (int k = 0; k < 20; k++)

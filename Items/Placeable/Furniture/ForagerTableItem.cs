@@ -33,10 +33,8 @@ namespace SpiritMod.Items.Placeable.Furniture
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(ItemID.Wood, 20);
-			recipe.anyWood = true;
-			recipe.AddIngredient(ItemID.IronBar, 2);
-			recipe.anyIronBar = true;
+			recipe.AddRecipeGroup(RecipeGroupID.Wood, 20);
+			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 2);
             recipe.AddIngredient(ModContent.ItemType<EnchantedLeaf>(), 6);
 			recipe.Register();
 		}

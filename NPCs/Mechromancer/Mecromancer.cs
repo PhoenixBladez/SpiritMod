@@ -82,13 +82,13 @@ namespace SpiritMod.NPCs.Mechromancer
 		public override void AI()
 		{
 			if (Main.rand.Next(250) == 2)
-				SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 7);
+				SoundEngine.PlaySound(SoundID.Zombie7, NPC.Center);
 
 			timer++;
 			if (timer == 100 || timer == 300)
 			{
-				SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 7);
-				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 92);
+				SoundEngine.PlaySound(SoundID.Zombie7, NPC.Center);
+				SoundEngine.PlaySound(SoundID.Item92, NPC.Center);
 				NPC.TargetClosest();
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -155,7 +155,7 @@ namespace SpiritMod.NPCs.Mechromancer
 			{
 				int damage = Main.expertMode ? 13 : 22;
 				timer = 0;
-				SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/CoilRocket"));
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/CoilRocket"), NPC.Center);
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -176,7 +176,7 @@ namespace SpiritMod.NPCs.Mechromancer
 			if (flying)
 			{
 				var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, lightColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 				var drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
 				for (int k = 0; k < NPC.oldPos.Length; k++)
 				{

@@ -54,7 +54,7 @@ namespace SpiritMod.NPCs.MoltenCore
 				float addHeight = -4f;
 				float addWidth = 0f;
 				Vector2 vector2_3 = new Vector2((float) (TextureAssets.Projectile[Projectile.type].Value.Width / 2), (float) (TextureAssets.Projectile[Projectile.type].Value.Height / 1 / 2));
-				Texture2D texture2D = TextureAssets.Extra[49][55];
+				Texture2D texture2D = TextureAssets.Extra[55].Value;
 				if (Projectile.velocity.X == 0)
 				{
 					addHeight = -8f;

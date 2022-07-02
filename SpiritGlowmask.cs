@@ -16,7 +16,7 @@ namespace SpiritMod
 
 		public static void AddGlowMask(int itemType, string texturePath)
 		{
-			ItemGlowMask[itemType] = ModContent.Request<Texture2D>(texturePath);
+			ItemGlowMask[itemType] = ModContent.Request<Texture2D>(texturePath, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 		}
 
 		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)

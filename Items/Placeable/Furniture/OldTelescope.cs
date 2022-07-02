@@ -35,10 +35,8 @@ namespace SpiritMod.Items.Placeable.Furniture
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(ItemID.Wood, 20);
-			recipe.anyWood = true;
-			recipe.AddIngredient(ItemID.IronBar, 3);
-			recipe.anyIronBar = true;
+			recipe.AddRecipeGroup(RecipeGroupID.Wood, 20);
+			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 3);
 			recipe.AddIngredient(ItemID.BlackLens, 1);
 			recipe.AddTile(TileID.Sawmill);
 			recipe.Register();

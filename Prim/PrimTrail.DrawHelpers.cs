@@ -24,16 +24,16 @@ namespace SpiritMod.Prim
 			public void ApplyShader<T>(Effect effect, T trail, List<Vector2> positions, string esp, float progressParam)
 			{
 				if (effect.HasParameter("vnoise"))
-					effect.Parameters["vnoise"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Utilities/Noise/vnoise"));
+					effect.Parameters["vnoise"].SetValue(ModContent.Request<Texture2D>("Utilities/Noise/vnoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 
 				if (effect.HasParameter("noiseTexture"))
-					effect.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Utilities/Noise/noise"));
+					effect.Parameters["noiseTexture"].SetValue(ModContent.Request<Texture2D>("Utilities/Noise/noise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 
 				if (effect.HasParameter("spotTexture"))
-					effect.Parameters["spotTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Utilities/Noise/Spot"));
+					effect.Parameters["spotTexture"].SetValue(ModContent.Request<Texture2D>("Utilities/Noise/Spot", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 
 				if (effect.HasParameter("ripperTexture"))
-					effect.Parameters["ripperTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/RipperSlug"));
+					effect.Parameters["ripperTexture"].SetValue(ModContent.Request<Texture2D>("Textures/RipperSlug", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 
 				if (effect.HasParameter("arcLashColorTwo"))
 					effect.Parameters["arcLashColorTwo"].SetValue(new Vector3(1.0f, 1.0f, 1.0f));

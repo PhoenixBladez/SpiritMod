@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Consumable
 				SpiritMultiplayer.SpawnBossFromClient((byte)player.whoAmI, ModContent.NPCType<MoonWizard>(), (int)spawnPos.X, (int)spawnPos.Y);
 			}
 
-			SoundEngine.PlaySound(SoundID.Roar, player.position, 0);
+			SoundEngine.PlaySound(SoundID.Roar, player.position);
 			return true;
 		}
 	}

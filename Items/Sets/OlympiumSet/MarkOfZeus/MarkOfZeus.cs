@@ -76,7 +76,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 			growCounter++;
 
 			if (growCounter == 10)
-				SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/ElectricCharge").WithPitchVariance(0.4f).WithVolume(0.2f), Projectile.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/ElectricCharge") with { PitchVariance = 0.4f, Volume = 0.2f }, Projectile.Center);
 
 			Player player = Main.player[Projectile.owner];
 
@@ -163,7 +163,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 
 		private void Launch(Player player, Vector2 direction)
 		{
-			SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/Thunder").WithPitchVariance(0.6f).WithVolume(0.6f), Projectile.Center);
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Thunder") with { PitchVariance = 0.6f, Volume = 0.6f }, Projectile.Center);
 
 			if (Projectile.owner == Main.myPlayer)
 			{

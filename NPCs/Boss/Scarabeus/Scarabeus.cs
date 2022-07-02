@@ -775,7 +775,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 						for (int i = 0; i < numwaves; i++) {
 							Vector2 spawnpos = statictarget[0].RotatedBy(MathHelper.PiOver2 * i) + statictarget[1];
 							Projectile proj = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), spawnpos, Vector2.Normalize(statictarget[1] - spawnpos) * 6, ModContent.ProjectileType<SwarmTelegraph>(), 0, 0, Main.myPlayer);
-							SoundEngine.PlaySound(SoundID.Item, (int)statictarget[1].X, (int)statictarget[1].Y, 117, 1, 2);
+							SoundEngine.PlaySound(SoundID.Item117, statictarget[1]);
 							proj.netUpdate = true;
 						}
 					}
@@ -789,13 +789,13 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				NPC.velocity = BaseVel.RotatedBy(MathHelper.ToRadians((AiTimer - 60) * 12));
 
 				if(AiTimer >= 90 && AiTimer % 7 == 0) { //spawn the swarm of beetles, going from the stored random position to the player's center
-					SoundEngine.PlaySound(SoundID.Item, (int)statictarget[1].X, (int)statictarget[1].Y, 1, 1, Main.rand.NextFloat(1.5f, 2f));
+					SoundEngine.PlaySound(SoundID.Item1, statictarget[1]);
 					if (Main.netMode != NetmodeID.MultiplayerClient) {
 						for (int i = 0; i < numwaves; i++) {
 							Vector2 spawnpos = statictarget[0].RotatedBy(MathHelper.PiOver2 * i) + Main.rand.NextVector2Circular(60, 60) + statictarget[1];
 							NPC Npc = Main.npc[NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnpos.X, (int)spawnpos.Y, ModContent.NPCType<SwarmScarab>(), NPC.whoAmI,
 								Vector2.Normalize(statictarget[1] - spawnpos).ToRotation(), 1)];
-							SoundEngine.PlaySound(SoundID.Zombie, (int)Npc.position.X, (int)Npc.position.Y, 44, 0.5f);
+							SoundEngine.PlaySound(SoundID.Zombie44 with { Volume = 0.5f }, NPC.Center);
 							Npc.netUpdate = true;
 						}
 					}
@@ -835,7 +835,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			else if(AiTimer == hometime + 28) { //dash towards sprite direction
 				NPC.velocity.X = MathHelper.Clamp(Math.Abs((player.Center.X - NPC.Center.X) / 14), 14, 26) * NPC.spriteDirection;
 				canhitplayer = true;
-				SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/BossSFX/Scarab_Roar1"), NPC.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BossSFX/Scarab_Roar1"), NPC.Center);
 				trailbehind = true;
 				NPC.rotation = NPC.velocity.X * 0.04f;
 			}

@@ -149,8 +149,8 @@ namespace SpiritMod.Projectiles.Arrow
 			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 
 			for (int k = 0; k < 6; k++) {
-				Dust.NewDust(Projectile.GetSource_Death(), Projectile.position, Projectile.width, Projectile.height, DustID.Electric, 2.5f * 1, -2.5f, 0, default, 0.27f);
-				Dust.NewDust(Projectile.GetSource_Death(), Projectile.position, Projectile.width, Projectile.height, DustID.Electric, 2.5f * 1, -2.5f, 0, default, 0.37f);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Electric, 2.5f * 1, -2.5f, 0, default, 0.27f);
+				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Electric, 2.5f * 1, -2.5f, 0, default, 0.37f);
 			}
 		}
 	}

@@ -29,7 +29,7 @@ namespace SpiritMod.Projectiles
 		{
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(Projectile.Hitbox));
 			foreach (var proj in list) {
-				if (Projectile != proj && proj.friendly && proj.ranged && !proj.GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon) {
+				if (Projectile != proj && proj.friendly && proj.IsRanged() && !proj.GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon) {
 					proj.GetGlobalProjectile<SpiritGlobalProjectile>().shotFromMaliwanShockCommon = true;
 					proj.damage += (int)(proj.damage * 0.15);
 				}

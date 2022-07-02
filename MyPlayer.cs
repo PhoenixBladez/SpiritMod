@@ -279,7 +279,7 @@ namespace SpiritMod
 		public int attackTimer;
 		// Armor set booleans.
 		public bool chitinSet;
-		static int ChitinDashTicks;
+		public static int ChitinDashTicks;
 		public bool duskSet;
 		public bool runicSet;
 		public bool darkfeatherVisage;
@@ -4172,7 +4172,7 @@ namespace SpiritMod
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 1.8f;
 					Main.dust[dust].velocity.Y -= 0.5f;
-					Main.playerDrawDust.Add(dust);
+					drawInfo.DustCache.Add(dust);
 				}
 
 				r *= 0f;
@@ -4186,7 +4186,7 @@ namespace SpiritMod
 				if (Main.rand.Next(4) == 0)
 				{
 					int dust = Dust.NewDust(Player.position, Player.width + 26, 30, DustID.Torch, Player.velocity.X, Player.velocity.Y, 100, default, 1f);
-					Main.playerDrawDust.Add(dust);
+					drawInfo.DustCache.Add(dust);
 				}
 
 				r *= 0f;
@@ -4201,140 +4201,26 @@ namespace SpiritMod
 			if (camoCounter > 0)
 			{
 				float camo = 1 - .75f / CAMO_DELAY * camoCounter;
-				drawInfo.upperArmorColor = Color.Multiply(drawInfo.upperArmorColor, camo);
-				drawInfo.middleArmorColor = Color.Multiply(drawInfo.middleArmorColor, camo);
-				drawInfo.lowerArmorColor = Color.Multiply(drawInfo.lowerArmorColor, camo);
+				drawInfo.colorArmorHead = Color.Multiply(drawInfo.colorArmorHead, camo);
+				drawInfo.colorArmorBody = Color.Multiply(drawInfo.colorArmorBody, camo);
+				drawInfo.colorArmorLegs = Color.Multiply(drawInfo.colorArmorLegs, camo);
 				camo *= camo;
-				drawInfo.hairColor = Color.Multiply(drawInfo.hairColor, camo);
-				drawInfo.eyeWhiteColor = Color.Multiply(drawInfo.eyeWhiteColor, camo);
-				drawInfo.eyeColor = Color.Multiply(drawInfo.eyeColor, camo);
-				drawInfo.faceColor = Color.Multiply(drawInfo.faceColor, camo);
-				drawInfo.bodyColor = Color.Multiply(drawInfo.bodyColor, camo);
-				drawInfo.legColor = Color.Multiply(drawInfo.legColor, camo);
-				drawInfo.shirtColor = Color.Multiply(drawInfo.shirtColor, camo);
-				drawInfo.underShirtColor = Color.Multiply(drawInfo.underShirtColor, camo);
-				drawInfo.pantsColor = Color.Multiply(drawInfo.pantsColor, camo);
-				drawInfo.shoeColor = Color.Multiply(drawInfo.shoeColor, camo);
-				drawInfo.headGlowMaskColor = Color.Multiply(drawInfo.headGlowMaskColor, camo);
-				drawInfo.bodyGlowMaskColor = Color.Multiply(drawInfo.bodyGlowMaskColor, camo);
+				drawInfo.colorHair = Color.Multiply(drawInfo.colorHair, camo);
+				drawInfo.colorEyeWhites = Color.Multiply(drawInfo.colorEyeWhites, camo);
+				drawInfo.colorEyes = Color.Multiply(drawInfo.colorEyes, camo);
+				drawInfo.colorHead = Color.Multiply(drawInfo.colorHead, camo);
+				drawInfo.colorBodySkin = Color.Multiply(drawInfo.colorBodySkin, camo);
+				drawInfo.colorLegs = Color.Multiply(drawInfo.colorLegs, camo);
+				drawInfo.colorShirt = Color.Multiply(drawInfo.colorShirt, camo);
+				drawInfo.colorUnderShirt = Color.Multiply(drawInfo.colorUnderShirt, camo);
+				drawInfo.colorPants = Color.Multiply(drawInfo.colorPants, camo);
+				drawInfo.colorShoes = Color.Multiply(drawInfo.colorShoes, camo);
+				drawInfo.headGlowMask = Color.Multiply(drawInfo.headGlowMask, camo);
+				drawInfo.bodyGlowMask = Color.Multiply(drawInfo.bodyGlowMask, camo);
 				drawInfo.armGlowMaskColor = Color.Multiply(drawInfo.armGlowMaskColor, camo);
 				drawInfo.legGlowMaskColor = Color.Multiply(drawInfo.legGlowMaskColor, camo);
 			}
 		}
-
-		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
-		{
-			for (int i = 0; i < layers.Count; i++)
-			{
-				if ((drakomireMount || basiliskMount) && layers[i].Name == "Wings")
-					layers[i].visible = false;
-			}
-
-			if (bubbleTimer > 0)
-			{
-				BubbleLayer.visible = true;
-				layers.Add(BubbleLayer);
-			}
-			if (ChitinDashTicks > 0 && Player.active && !Player.dead)
-			{
-				TornadoLayer.Visible = true;
-				layers.Add(TornadoLayer);
-			}
-		}
-
-		public static readonly PlayerDrawLayer WeaponLayer = new PlayerDrawLayer("SpiritMod", "WeaponLayer", PlayerLayer.HeldItem, delegate (PlayerDrawSet drawInfo)
-		{
-			if (drawInfo.shadow != 0f)
-				return;
-
-			Player drawPlayer = drawInfo.drawPlayer;
-			MyPlayer myPlayer = drawPlayer.GetModPlayer<MyPlayer>();
-			if (drawPlayer.active && !drawPlayer.outOfRange)
-			{
-				Texture2D weaponTexture = TextureAssets.Item[drawPlayer.inventory[drawPlayer.selectedItem].type].Value;
-				Vector2 vector8 = new Vector2(weaponTexture.Width / 2, (weaponTexture.Height / 4) / 2);
-				Vector2 vector9 = new Vector2(8, 0);
-
-				vector8.Y = vector9.Y;
-
-				Vector2 vector = drawPlayer.itemLocation;
-				vector.Y += weaponTexture.Height * 0.5F;
-
-				int num84 = (int)vector9.X;
-				Vector2 origin2 = new Vector2(-num84, (weaponTexture.Height / 4) / 2);
-				if (drawPlayer.direction == -1)
-					origin2 = new Vector2(weaponTexture.Width + num84, (weaponTexture.Height / 4) / 2);
-
-				SpriteEffects effect = drawPlayer.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-
-				var drawPos = new Vector2((int)(vector.X - Main.screenPosition.X + vector8.X), (int)(vector.Y - Main.screenPosition.Y + vector8.Y));
-				var source = new Rectangle(0, (weaponTexture.Height / 4) * myPlayer.hexBowAnimationFrame, weaponTexture.Width, weaponTexture.Height / 4);
-				var drawData = new DrawData(weaponTexture, drawPos, source, drawPlayer.HeldItem.GetAlpha(Color.White), drawPlayer.itemRotation, origin2, drawPlayer.HeldItem.scale, effect, 0);
-				Main.playerDrawData.Add(drawData);
-
-				if (drawPlayer.inventory[drawPlayer.selectedItem].color != default)
-				{
-					drawData = new DrawData(weaponTexture, drawPos, source, drawPlayer.HeldItem.GetColor(Color.White), drawPlayer.itemRotation, origin2, drawPlayer.HeldItem.scale, effect, 0);
-					Main.playerDrawData.Add(drawData);
-				}
-			}
-		});
-
-		public static readonly PlayerDrawLayer BubbleLayer = new PlayerDrawLayer("SpiritMod", "BubbleLayer", PlayerLayer.Body, delegate (PlayerDrawSet drawInfo)
-		{
-			if (drawInfo.shadow != 0f)
-				return;
-
-			Mod mod = ModLoader.GetMod("SpiritMod");
-			Player drawPlayer = drawInfo.drawPlayer;
-			if (drawPlayer.active && !drawPlayer.outOfRange)
-			{
-				Texture2D texture = mod.GetTexture("Effects/PlayerVisuals/BubbleShield_Visual");
-				Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
-
-				Vector2 drawPos = drawPlayer.position + new Vector2(drawPlayer.width * 0.5f, drawPlayer.height * 0.5f);
-				drawPos.X = (int)drawPos.X;
-				drawPos.Y = (int)drawPos.Y;
-
-				DrawData drawData = new DrawData(texture, drawPos - Main.screenPosition, new Rectangle?(), Color.White * 0.75f, 0, origin, 1, SpriteEffects.None, 0);
-				Main.playerDrawData.Add(drawData);
-			}
-		});
-
-		public static readonly PlayerDrawLayer TornadoLayer = new PlayerDrawLayer("SpiritMod", "TornadoLayer", PlayerLayer.Body, delegate (PlayerDrawSet drawInfo)
-		{
-			if (drawInfo.shadow != 0f)
-				return;
-
-			Mod mod = ModLoader.GetMod("SpiritMod");
-			Player player = drawInfo.drawPlayer;
-			if (player.active && !player.outOfRange)
-			{
-
-				float halfheight = player.height / 2; //tornado drawcode i made a while ago, based on what vanilla does(draws a ton of this texture with different rotations)
-				float density = 20f;
-				for (float i = 0; i < (int)density; i++)
-				{
-					Color color = new Color(212, 192, 100);
-					color.A /= 2;
-					float lerpamount = (Math.Abs(density / 2 - i) > ((density / 2) * 0.6f)) ? Math.Abs(density / 2 - i) / (density / 2) : 0f; //if too low or too high up, start making it transparent
-					color = Color.Lerp(color, Color.Transparent, lerpamount);
-					Texture2D texture = mod.GetTexture("Textures/TornadoExtra", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-					Vector2 offset = Vector2.SmoothStep(player.Center + Vector2.UnitY * halfheight, player.Center - Vector2.UnitY * halfheight, i / density);
-					float scale = MathHelper.Lerp(0.6f, 1f, i / density);
-					DrawData drawdata = new DrawData(texture, offset - Main.screenPosition,
-						new Rectangle(0, 0, texture.Width, texture.Height),
-						Lighting.GetColor((int)player.Center.X / 16, (int)player.Center.Y / 16).MultiplyRGBA(color) * 0.5f * ((float)ChitinDashTicks / 20),
-						i / 6f - Main.GlobalTimeWrappedHourly * 7f,
-						texture.Size() / 2,
-						scale,
-						SpriteEffects.None,
-						0);
-
-					Main.playerDrawData.Add(drawdata);
-				}
-			}
-		});
 
 		public void DoubleTapEffects(int keyDir)
 		{
@@ -4383,7 +4269,7 @@ namespace SpiritMod
 					surferTimer = 420;
 					SoundEngine.PlaySound(SoundID.Splash, Player.position);
 					SoundEngine.PlaySound(SoundID.Item20, Player.position);
-					Projectile.NewProjectile(Player.GetSource_FromThis("DoubleTap"), Player.Center - new Vector2(0, 30), Vector2.Zero, ModContent.ProjectileType<WaterSpout>(), (int)(30 * Player.GetDamage(DamageClass.Magic)), 8, Player.whoAmI);
+					Projectile.NewProjectile(Player.GetSource_FromThis("DoubleTap"), Player.Center - new Vector2(0, 30), Vector2.Zero, ModContent.ProjectileType<WaterSpout>(), (int)(Player.GetDamage(DamageClass.Magic).ApplyTo(30)), 8, Player.whoAmI);
 				}
 
 				if (graniteSet && !Player.mount.Active && Player.velocity.Y != 0 && stompCooldown <= 0)

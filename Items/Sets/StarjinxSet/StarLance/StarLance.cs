@@ -165,7 +165,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarLance
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 3);
+			SoundEngine.PlaySound(SoundID.NPCHit3, Projectile.Center);
 			Vector2 vector9 = Projectile.position;
 			Vector2 value19 = Projectile.rotation.ToRotationVector2();
 			vector9 += value19 * 16f;

@@ -396,9 +396,8 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(ItemID.IronBar, 3);
+			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 3);
 			recipe.AddIngredient(ItemID.DirtBlock, 5);
-			recipe.anyIronBar = true;
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.Register();
 		}
@@ -462,9 +461,8 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(ItemID.IronBar, 2);
+			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 10);
 			recipe.AddIngredient(ItemID.DirtBlock, 10);
-			recipe.anyIronBar = true;
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.Register();
 		}

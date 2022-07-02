@@ -44,8 +44,7 @@ namespace SpiritMod.Items.Armor.WayfarerSet
 		{
 			Recipe recipe = CreateRecipe(1);
 			recipe.AddIngredient(ModContent.ItemType<Items.Consumable.Quest.DurasilkSheaf>(), 1);
-			recipe.AddIngredient(ItemID.IronBar, 1);
-			recipe.anyIronBar = true;
+			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 1);
 			recipe.AddTile(TileID.Anvils);
 			recipe.Register();
 		}

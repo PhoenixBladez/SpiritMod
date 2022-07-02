@@ -1,7 +1,7 @@
-﻿namespace SpiritMod.Sounds.DeathSounds
-{
-	public class MJWDeathSound : DeathSound
-	{
+﻿//namespace SpiritMod.Sounds.DeathSounds
+//{
+//	public class MJWDeathSound : DeathSound
+//	{
 
-	}
-}
+//	}
+//}

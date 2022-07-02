@@ -103,7 +103,7 @@ namespace SpiritMod.NPCs.FrozenSouls
 						if (outcomeValue == 0f)
 						{
 							DoExplosionDust();
-							SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/PositiveOutcome"));
+							SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/PositiveOutcome"), NPC.Center);
 							outcomeValue = 1f;
 							Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 13);
 							Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 13);
@@ -121,7 +121,7 @@ namespace SpiritMod.NPCs.FrozenSouls
 						if (outcomeValue == 0f)
 						{
 							DoExplosionDust();
-							SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/NegativeOutcome"));
+							SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/NegativeOutcome", NPC.Center));
 							outcomeValue = 1f;
 							Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 99);
 							Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 99);

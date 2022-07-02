@@ -229,8 +229,9 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			if (stuck)
 				return false;
-			return base.PreDrawExtras(Main.spriteBatch);
+			return true;
 		}
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(oldTileCollide);
@@ -345,10 +346,10 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			Vector2 lengthMeasure = Entity.Center - _target.Center;
 			Effect effect = SpiritMod.TeslaShader;
-			effect.Parameters["baseTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/GlowTrail"));
-			effect.Parameters["pnoise"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/noise"));
-			effect.Parameters["vnoise"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/vnoise"));
-			effect.Parameters["wnoise"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/wnoise"));
+			effect.Parameters["baseTexture"].SetValue(ModContent.Request<Texture2D>("Textures/GlowTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["pnoise"].SetValue(ModContent.Request<Texture2D>("Textures/noise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["vnoise"].SetValue(ModContent.Request<Texture2D>("Textures/vnoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["wnoise"].SetValue(ModContent.Request<Texture2D>("Textures/wnoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			effect.Parameters["repeats"].SetValue(lengthMeasure.Length() / 250f);
 			PrepareShader(effect, "MainPS", Counter * 0.1f);
 		}
@@ -397,7 +398,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			Vector2 lengthMeasure = Entity.Center - _target.Center;
 			Effect effect = SpiritMod.RepeatingTextureShader;
-			effect.Parameters["baseTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Items/Sets/StarplateDrops/LivewireProj_chain"));
+			effect.Parameters["baseTexture"].SetValue(ModContent.Request<Texture2D>("Items/Sets/StarplateDrops/LivewireProj_chain", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			effect.Parameters["repeats"].SetValue(lengthMeasure.Length() / 12f);
 			PrepareShader(effect, "MainPS", Counter * 0.1f);
 		}

@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(new LegacySoundStyle(SoundID.NPCHit, 8).WithPitchVariance(0.2f).WithVolume(0.3f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.NPCHit8 with { PitchVariance = 0.2f, Volume = 0.3f }, Projectile.Center);
 			for (int i = 0; i < 20; i++) {
 				Dust.NewDustPerfect(Projectile.Center, 5, Main.rand.NextFloat(0.25f, 0.5f) * Projectile.velocity.RotatedBy(3.14f + Main.rand.NextFloat(-0.4f, 0.4f)));
 			}

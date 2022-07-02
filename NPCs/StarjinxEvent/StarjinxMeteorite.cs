@@ -409,7 +409,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			{
 				Vector2 drawPos = drawCenter + ((i / 6f) * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * (4f * cos + 2f) - NPC.velocity * i;
 				spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/StarjinxEvent/StarjinxMeteoriteGlow").Value, drawPos, NPC.frame, drawCol, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, spriteEffects3, 0f);
-				//spriteBatch.Draw(mod.GetTexture("NPCs/StarjinxEvent/StarjinxMeteoriteGlowOutline"), drawPos, npc.frame, drawCol, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
+				//spriteBatch.Draw(ModContent.Request<Texture2D>("NPCs/StarjinxEvent/StarjinxMeteoriteGlowOutline"), drawPos, npc.frame, drawCol, npc.rotation, npc.frame.Size() / 2f, npc.scale, spriteEffects3, 0f);
 			}
 
 			spriteBatch.End(); spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);

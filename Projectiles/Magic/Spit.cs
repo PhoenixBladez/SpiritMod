@@ -68,8 +68,7 @@ namespace SpiritMod.Projectiles.Magic
 					int p = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center.X, Projectile.Center.Y, vector.X, vector.Y, num24, Projectile.damage / 5 * 4, 0f, 0);
 					Main.projectile[p].hostile = false;
 					Main.projectile[p].friendly = true;
-					Main.projectile[p].magic = true;
-					Main.projectile[p].melee = false;
+					Main.projectile[newProj].DamageType = DamageClass.Magic;
 				}
 			}
 		}

@@ -52,7 +52,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
 			ChestDrop = ModContent.ItemType<PirateChest>();
-			chest = "Pirate Chest";
+			ContainerName.SetDefault("Pirate Chest");
         }
 
 		public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;

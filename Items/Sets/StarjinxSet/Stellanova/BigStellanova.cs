@@ -215,7 +215,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			float blurLength = 130 * scale * Projectile.Opacity;
 			float blurWidth = 9 * scale * Projectile.Opacity;
 			float flickerStrength = (((float)Math.Sin(Main.GlobalTimeWrappedHourly * 12) % 1) * 0.1f) + 1f;
-			Effect blurEffect = Mod.GetEffect("Effects/BlurLine");
+			Effect blurEffect = ModContent.Request<Effect>("Effects/BlurLine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			var blurLine = new SquarePrimitive()
 			{
@@ -231,7 +231,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 
 		private void DrawOrb(SpriteBatch spriteBatch, float scale, Color lightColor, Color darkColor)
 		{
-			Effect effect = ModContent.Request<Effect>("Effects/StellanovaOrb");
+			Effect effect = ModContent.Request<Effect>("Effects/StellanovaOrb", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			effect.Parameters["uTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/MilkyNoise").Value);
 			effect.Parameters["distortTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/noiseNormal").Value);
 			effect.Parameters["timer"].SetValue(Main.GlobalTimeWrappedHourly * 0.33f);

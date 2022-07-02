@@ -46,19 +46,19 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 
 			Main.playerDrawData.Add(new DrawData(
 				texture,
-				info.itemLocation - Main.screenPosition + offset,
+				info.ItemLocation - Main.screenPosition + offset,
 				drawFrame,
-				Lighting.GetColor((int)info.itemLocation.X/16, (int)info.itemLocation.Y/16),
+				Lighting.GetColor((int)info.ItemLocation.X/16, (int)info.ItemLocation.Y/16),
 				info.drawPlayer.itemRotation,
 				origin,
 				item.scale,
-				info.spriteEffects,
+				info.itemEffect,
 				0
 			)); 
 			
 			Main.playerDrawData.Add(new DrawData(
 				 glow,
-				 info.itemLocation - Main.screenPosition + offset,
+				 info.ItemLocation - Main.screenPosition + offset,
 				 drawFrame,
 				 Color.White,
 				 info.drawPlayer.itemRotation,

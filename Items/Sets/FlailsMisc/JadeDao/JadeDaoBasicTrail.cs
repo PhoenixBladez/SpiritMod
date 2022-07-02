@@ -76,7 +76,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 		{
 			Effect effect = ModContent.Request<Effect>("Effects/JadeTrailShader");
 			effect.Parameters["white"].SetValue(new Color(106, 255, 35).ToVector4());
-			effect.Parameters["vnoiseLooping"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/voronoiLooping"));
+			effect.Parameters["vnoiseLooping"].SetValue(ModContent.Request<Texture2D>("Textures/voronoiLooping", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			PrepareShader(effect, "MainPS", -Main.GlobalTimeWrappedHourly);
 		}
 

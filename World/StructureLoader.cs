@@ -140,7 +140,7 @@ namespace SpiritMod.World
 				for (int x1 = 0; x1 < width; x1++) {
 					for (int y1 = 0; y1 < height; y1++) {
 						if (tiles[x1, y1] != null) {
-							Main.tile[x + x1, y + y1] = new Tile(tiles[x1, y1]);
+							Main.tile[x + x1, y + y1].ClearEverything();
 							DoContainerCheck(ref containers, x, y, x1, y1);
 						}
 					}
@@ -159,7 +159,7 @@ namespace SpiritMod.World
 				for (int x1 = 0; x1 < width; x1++) {
 					for (int y1 = 0; y1 < height; y1++) {
 						if (tiles[x1, y1] != null && (!Main.tile[x + x1, y + y1].HasTile || (removeNonSolids && !Main.tileSolid[Main.tile[x + x1, y + y1].TileType]))) {
-							Main.tile[x + x1, y + y1] = new Tile(tiles[x1, y1]);
+							Main.tile[x + x1, y + y1].ClearEverything();
 							DoContainerCheck(ref containers, x, y, x1, y1);
 						}
 					}

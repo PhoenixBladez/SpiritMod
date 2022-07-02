@@ -98,11 +98,11 @@ namespace SpiritMod.Mechanics.BoonSystem
 
 		#region boon hooks
 		public override void AI(NPC npc) => currentBoon?.AI();
-		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => currentBoon?.PostDraw(spriteBatch, color);
+		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => currentBoon?.PostDraw(spriteBatch, drawColor);
 
 		public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			currentBoon?.PreDraw(spriteBatch, color);
+			currentBoon?.PreDraw(spriteBatch, drawColor);
 			return true;
 		}
 

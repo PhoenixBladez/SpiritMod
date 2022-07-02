@@ -3,13 +3,9 @@ using Terraria.Audio;
 using Terraria.Chat;
 using Terraria.ModLoader;
 using Terraria.ID;
-using SpiritMod;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using System.Runtime.InteropServices;
-using Steamworks;
-using SpiritMod.NPCs.Tides;
 using Microsoft.Xna.Framework;
 using Terraria.Localization;
 
@@ -76,7 +72,7 @@ namespace SpiritMod.NPCs.Tides.Tide
 					Main.musicFade[SpiritMod.Instance.GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion")] = 0;
 					float temp = Main.soundVolume; //temporarily store main.soundvolume, since sounds dont play at all if sound volume is at 0, regardless of actual volume of the sound
 					Main.soundVolume = (temp == 0) ? 1 : Main.soundVolume;
-					SoundEngine.PlaySound(SoundLoader.customSoundType, Main.LocalPlayer.position, SpiritMod.Instance.GetSoundSlot(SoundType.Custom, "Sounds/DeathSounds/TideComplete"));
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DeathSounds/TideComplete"));
 					Main.soundVolume = temp;
 				}
 

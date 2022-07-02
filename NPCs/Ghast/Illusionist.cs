@@ -57,7 +57,7 @@ namespace SpiritMod.NPCs.Ghast
 			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
 			if (distance < 200) {
 				if (!aggroed) {
-					SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 53);
+					SoundEngine.PlaySound(SoundID.Zombie53, NPC.Center);
 				}
 				aggroed = true;
 			}
@@ -121,8 +121,8 @@ namespace SpiritMod.NPCs.Ghast
 				++NPC.ai[0];
 				if (NPC.CountNPCS(ModContent.NPCType<IllusionistSpectre>()) < 3) {
 					if (NPC.ai[0] == 240 || NPC.ai[0] == 480 || NPC.ai[0] == 720) {
-						SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 8);
-						SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 53);
+						SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+						SoundEngine.PlaySound(SoundID.Zombie53, NPC.Center);
 						if (Main.netMode != NetmodeID.MultiplayerClient) {
 							NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + NPC.width / 2, (int)NPC.Center.Y - 16, ModContent.NPCType<IllusionistSpectre>(), 0, 0, 0, 0, 0, 255);
 						}
@@ -155,7 +155,7 @@ namespace SpiritMod.NPCs.Ghast
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
 			if (!aggroed) {
-				SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 53);
+				SoundEngine.PlaySound(SoundID.Zombie53, NPC.Center);
 			}
 			aggroed = true;
 		}

@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Material
 
 		public override void AddRecipes()
 		{
-			Recipe recipe = Mod.CreateRecipe(ItemID.Leather);
+			Recipe recipe = Recipe.Create(ItemID.Leather);
 			recipe.AddIngredient(this, 2);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.Register();

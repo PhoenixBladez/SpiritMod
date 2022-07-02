@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 		}
 		public override void AddRecipes()
 		{
-			Recipe recipe = Mod.CreateRecipe(ModContent.ItemType<DriftwoodTileItem>(), 10);
+			Recipe recipe = Recipe.Create(ModContent.ItemType<DriftwoodTileItem>(), 10);
 			recipe.AddIngredient(this, 1);
 			recipe.Register();
 		}
@@ -101,7 +101,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 		}
 		public override void AddRecipes()
 		{
-			Recipe recipe = Mod.CreateRecipe(ModContent.ItemType<DriftwoodTileItem>(), 20);
+			Recipe recipe = Recipe.Create(ModContent.ItemType<DriftwoodTileItem>(), 20);
 			recipe.AddIngredient(this, 1);
 			recipe.Register();
 		}
@@ -166,7 +166,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood
 		}
 		public override void AddRecipes()
 		{
-			Recipe recipe = Mod.CreateRecipe(ModContent.ItemType<DriftwoodTileItem>(), 25);
+			Recipe recipe = Recipe.Create(ModContent.ItemType<DriftwoodTileItem>(), 25);
 			recipe.AddIngredient(this, 1);
 			recipe.Register();
 		}

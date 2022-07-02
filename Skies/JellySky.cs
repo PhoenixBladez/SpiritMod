@@ -278,15 +278,15 @@ namespace SpiritMod.Skies
             for (int j = 0; j < num2; j++)
             {
                 float num4 = (float)j / (float)num2;
-                this._ufos[j] = new Ufo(mod.GetTexture("Textures/BGJelly"), (float)Main.rand.NextDouble() * 4f + 6.6f);
-                this._ufos[j].GlowTexture = mod.GetTexture("Textures/BGJellyGlow");
+                this._ufos[j] = new Ufo(ModContent.Request<Texture2D>("Textures/BGJelly"), (float)Main.rand.NextDouble() * 4f + 6.6f);
+                this._ufos[j].GlowTexture = ModContent.Request<Texture2D>("Textures/BGJellyGlow");
             }
             for (int i = num2; i < this._ufos.Length; i++)
             {
                 float num5 = (float)(i - num2) / (float)(this._ufos.Length - num2);
-                this._ufos[i] = new Ufo(mod.GetTexture("Textures/BGJelly"), (float)Main.rand.NextDouble() * 5f + 1.6f);
+                this._ufos[i] = new Ufo(ModContent.Request<Texture2D>("Textures/BGJelly"), (float)Main.rand.NextDouble() * 5f + 1.6f);
                 this._ufos[i].Scale = 0.5f;
-                this._ufos[i].GlowTexture = mod.GetTexture("Textures/BGJellyGlow");
+                this._ufos[i].GlowTexture = ModContent.Request<Texture2D>("Textures/BGJellyGlow");
             }
         }
 

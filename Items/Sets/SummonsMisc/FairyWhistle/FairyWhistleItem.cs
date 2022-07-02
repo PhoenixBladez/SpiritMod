@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 			Item.noMelee = true;
 			Item.shoot = ModContent.ProjectileType<FairyMinion>();
 			if(!Main.dedServ)
-				Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Whistle").WithPitchVariance(0.3f).WithVolume(1.2f);
+				Item.UseSound = new SoundStyle("SpiritMod/Sounds/Whistle") with { PitchVariance = 0.3f, Volume = 1.2f };
 
 			Item.scale = 0.75f;
 		}

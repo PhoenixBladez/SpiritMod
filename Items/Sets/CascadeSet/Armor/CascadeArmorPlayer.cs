@@ -101,9 +101,6 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 
 		private void DrawBubble(SpriteBatch sB, bool outline = false)
 		{
-			if (Player.shadow != 0f)
-				return;
-
 			Mod mod = SpiritMod.Instance;
 
 			if (bubbleVisual > 0f)

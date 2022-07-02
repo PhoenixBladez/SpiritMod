@@ -167,15 +167,15 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			Vector2 scale = new Vector2(1f - Projectile.velocity.Length() / 50, 1f + Projectile.velocity.Length() / 50) * Projectile.scale;
 
 			Vector2 drawCenter = Projectile.Center - Main.screenPosition;
-			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			sB.Draw(bloom, drawCenter, null, Color.Magenta * Projectile.Opacity, rotation, bloom.Size() / 2, scale * 0.68f, SpriteEffects.None, 0);
 
 			sB.End(); sB.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.ZoomMatrix);
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 
 			//Set parameters for radial noise shader
-			Effect effect = ModContent.Request<Effect>("Effects/PortalShader");
-			effect.Parameters["PortalNoise"].SetValue(Mod.Assets.Request<Texture2D>("Utilities/Noise/SpiralNoise").Value);
+			Effect effect = ModContent.Request<Effect>("Effects/PortalShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			effect.Parameters["PortalNoise"].SetValue(Mod.Assets.Request<Texture2D>("Utilities/Noise/SpiralNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			effect.Parameters["Timer"].SetValue(MathHelper.WrapAngle(Main.GlobalTimeWrappedHourly / 3));
 			effect.Parameters["DistortionStrength"].SetValue(0);
 			effect.Parameters["Rotation"].SetValue(Projectile.rotation);
@@ -192,7 +192,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			float blurLength = 200 * Projectile.scale;
 			float blurWidth = 12 * Projectile.scale;
 			float flickerStrength = (((float)Math.Sin(Main.GlobalTimeWrappedHourly * 10) % 1) * 0.1f) + 1f;
-			Effect blurEffect = Mod.GetEffect("Effects/BlurLine");
+			Effect blurEffect = ModContent.Request<Effect>("Effects/BlurLine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			//Blur line below the circles
 			SquarePrimitive blurLine = new SquarePrimitive()
@@ -228,7 +228,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 				}
 			};
 
-			Effect circleAA = Mod.GetEffect("Effects/CirclePrimitiveAA");
+			Effect circleAA = ModContent.Request<Effect>("Effects/CirclePrimitiveAA", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			PrimitiveRenderer.DrawPrimitiveShapeBatched(circles, circleAA);
 		}
 

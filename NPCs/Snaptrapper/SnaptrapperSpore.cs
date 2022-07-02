@@ -25,10 +25,10 @@ namespace SpiritMod.NPCs.Snaptrapper
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-            SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 7);
+            SoundEngine.PlaySound(SoundID.NPCHit7, Projectile.Center);
             SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 2);
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 95);
+            SoundEngine.PlaySound(SoundID.Item2, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item95, Projectile.Center);
             return true;
 		}
 

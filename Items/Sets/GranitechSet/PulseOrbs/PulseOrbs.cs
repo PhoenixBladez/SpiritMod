@@ -207,7 +207,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.PulseOrbs
 
 		public void DoTrailCreation(TrailManager tManager)
 		{
-			var sh = new ImageShader(mod.GetTexture("Textures/Trails/CrystalTrail"), 0.01f, 1f, 1f);
+			var sh = new ImageShader(ModContent.Request<Texture2D>("Textures/Trails/CrystalTrail"), 0.01f, 1f, 1f);
 			tManager.CreateTrail(projectile, new GradientTrail(new Color(196, 48, 255), new Color(163, 11, 140)), new RoundCap(), new DefaultTrailPosition(), 8f, 150f, sh);
 		}
 
@@ -224,7 +224,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.PulseOrbs
             for (int num103 = 0; num103 < 6; num103++)
             {
                 Vector2 vector29 = new Vector2(projectile.Center.X, projectile.Center.Y) + (num103 / 4f * MathHelper.TwoPi + projectile.rotation + num106).ToRotationVector2() * (3f * num107 + 2f) - Main.screenPosition + new Vector2(0, projectile.gfxOffY);
-                Main.spriteBatch.Draw(mod.GetTexture("Items/Sets/GranitechSet/PulseOrbs/PulseOrbProjGlow"), vector29, null, color29, projectile.rotation, tex.Size() / 2f, projectile.scale, spriteEffects3, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("Items/Sets/GranitechSet/PulseOrbs/PulseOrbProjGlow"), vector29, null, color29, projectile.rotation, tex.Size() / 2f, projectile.scale, spriteEffects3, 0f);
             }
 		}
 

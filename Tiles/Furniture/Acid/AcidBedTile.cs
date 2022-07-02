@@ -25,8 +25,10 @@ namespace SpiritMod.Tiles.Furniture.Acid
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
             TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Beds };
-			bed = true;
-            TileID.Sets.HasOutlines[Type] = true;
+			TileID.Sets.CanBeSleptIn[Type] = true;
+			TileID.Sets.InteractibleByNPCs[Type] = true;
+			TileID.Sets.IsValidSpawnPoint[Type] = true;
+			TileID.Sets.HasOutlines[Type] = true;
         }
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
@@ -37,7 +39,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			SoundEngine.PlaySound(SoundID.NPCHit4);
 			Terraria.Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 32, ModContent.ItemType<AcidBed>());
 		}
 
@@ -54,11 +56,11 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			player.FindSpawn();
 			if (player.SpawnX == spawnX && player.SpawnY == spawnY) {
 				player.RemoveSpawn();
-				Main.NewText("Spawn point removed!", 255, 240, 20, false);
+				Main.NewText("Spawn point removed!", 255, 240, 20);
 			}
 			else if (Player.CheckSpawn(spawnX, spawnY)) {
 				player.ChangeSpawn(spawnX, spawnY);
-				Main.NewText("Spawn point set!", 255, 240, 20, false);
+				Main.NewText("Spawn point set!", 255, 240, 20);
 			}
 			return true;
 		}

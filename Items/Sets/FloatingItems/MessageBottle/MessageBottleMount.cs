@@ -41,8 +41,8 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 
 			if (Main.netMode != NetmodeID.Server)
 			{
-				MountData.textureWidth = MountData.frontTexture.Width;
-				MountData.textureHeight = MountData.frontTexture.Height;
+				MountData.textureWidth = MountData.frontTexture.Width();
+				MountData.textureHeight = MountData.frontTexture.Height();
 			}
 		}
 		public override void UpdateEffects(Player player)

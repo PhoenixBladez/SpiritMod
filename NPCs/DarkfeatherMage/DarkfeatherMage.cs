@@ -224,7 +224,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
                 NPC.velocity.Y *= 0f;
 				if (NPC.ai[0] % 22 == 0 && NPC.ai[0] != 180)
                 {
-                    SoundEngine.PlaySound(SoundLoader.customSoundType, NPC.Center, Mod.GetSoundSlot(SoundType.Custom, "Sounds/CoilRocket"));
+                    SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/CoilRocket"), NPC.Center);
                     int damage = Main.expertMode ? 13 : 20;
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + 21 * NPC.direction, NPC.Center.Y + 12, Main.rand.Next(0, 2) * NPC.spriteDirection, -1, ModContent.ProjectileType<DarkfeatherBomb>(), damage, 1, Main.myPlayer, 0, 0);
                 }
@@ -377,7 +377,7 @@ namespace SpiritMod.NPCs.DarkfeatherMage
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             var effects = NPC.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, lightColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
             Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
             drawOrigin.Y += 13f;
             Vector2 position1 = NPC.Bottom - Main.screenPosition;

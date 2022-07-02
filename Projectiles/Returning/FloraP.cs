@@ -25,7 +25,6 @@ namespace SpiritMod.Projectiles.Returning
 			Projectile.height = 40;
 			Projectile.friendly = true;
 			Projectile.DamageType = DamageClass.Ranged;
-			Projectile.magic = false;
 			Projectile.penetrate = 3;
 			Projectile.timeLeft = 300;
 			Projectile.extraUpdates = 1;

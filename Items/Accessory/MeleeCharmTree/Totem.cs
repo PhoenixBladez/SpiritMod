@@ -35,7 +35,7 @@ namespace SpiritMod.Items.Accessory.MeleeCharmTree
 
 		public override void AddRecipes()
 		{
-			Recipe modRecipe = base.Mod.CreateRecipe(this.Type, 1);
+			Recipe modRecipe = Recipe.Create(this.Type, 1);
 			modRecipe.AddIngredient(ModContent.ItemType<YoyoCharm2>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<MCharm>(), 1);
 			modRecipe.AddIngredient(ModContent.ItemType<CCharm>(), 1);

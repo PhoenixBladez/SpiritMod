@@ -41,7 +41,7 @@ namespace SpiritMod.Tiles.Furniture
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
 			ChestDrop = ItemID.GoldChest;
-			chest = "Gold Chest";
+			ContainerName.SetDefault("Gold Chest");
             TileID.Sets.HasOutlines[Type] = true;
         }
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;

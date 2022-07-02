@@ -76,11 +76,11 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			if (!CanDraw || info.shadow != 0f)
 				return;
 
-			Color lightColor = Lighting.GetColor((int)info.itemLocation.X / 16, (int)info.itemLocation.Y / 16);
+			Color lightColor = Lighting.GetColor((int)info.ItemLocation.X / 16, (int)info.ItemLocation.Y / 16);
 			Vector2 offset = HoldOffset();
 
-			Main.playerDrawData.Add(new DrawData(texture, info.itemLocation - Main.screenPosition + offset, DrawFrame, lightColor, 
-				Player.itemRotation, TextureOrigin, Player.HeldItem.scale, info.spriteEffects, 0)); 
+			Main.playerDrawData.Add(new DrawData(texture, info.ItemLocation - Main.screenPosition + offset, DrawFrame, lightColor, 
+				Player.itemRotation, TextureOrigin, Player.HeldItem.scale, info.itemEffect, 0)); 
 		}
 
 		public void DrawAdditiveLayer(SpriteBatch sB)

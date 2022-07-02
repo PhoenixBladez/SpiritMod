@@ -85,8 +85,8 @@ namespace SpiritMod.Tiles
 						if (Main.hardMode)
 							tremorItem = Main.rand.Next(new int[] { 11, 12, 13, 14, 699, 700, 701, 702, 999, 182, 178, 179, 177, 180, 181, 364, 365, 366, 1104, 1105, 1106 });
 
-						SoundEngine.PlaySound(SoundLoader.customSoundType, new Vector2(i * 16, j * 16), Mod.GetSoundSlot(SoundType.Custom, "Sounds/PositiveOutcome"));
-						Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, tremorItem, Main.rand.Next(1, 3));
+						SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/PositiveOutcome"), new Vector2(i * 16, j * 16));
+						Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, tremorItem, Main.rand.Next(1, 3));
 					}
 				}
 
@@ -162,7 +162,7 @@ namespace SpiritMod.Tiles
 				Main.spriteBatch.Draw(texture, new Vector2(drawCoordinates.X, drawCoordinates.Y + 8), new Rectangle(frameX, frameY, width, 8), drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			else
 			{
-				byte b = tile.Slope;
+				byte b = (byte)tile.Slope;
 				Rectangle frame;
 				Vector2 drawPos;
 

@@ -35,8 +35,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 		{
 			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<SpiritWoodItem>(), 8);
-			recipe.AddIngredient(ItemID.IronBar, 2);
-			recipe.anyIronBar = true;
+			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 2);
 			recipe.AddTile(TileID.HeavyWorkBench);
 			recipe.Register();
 		}

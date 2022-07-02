@@ -24,7 +24,6 @@ namespace SpiritMod.Projectiles.Returning
 			Projectile.aiStyle = 3;
 			Projectile.friendly = true;
 			Projectile.DamageType = DamageClass.Melee;
-			Projectile.magic = false;
 			Projectile.penetrate = -1;
 			Projectile.timeLeft = 700;
 		}

@@ -100,8 +100,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		}
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Grass, (int)Projectile.position.X, (int)Projectile.position.Y);
-			SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.position.X, (int)Projectile.position.Y, 3);
+			SoundEngine.PlaySound(SoundID.Grass, Projectile.Center);
+			SoundEngine.PlaySound(SoundID.NPCHit3, Projectile.Center);
 			for (int index = 0; index < 8; ++index)
 			{
 				int i = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.GemAmethyst, 0.0f, 0.0f, 0, Color.Purple, 1f);

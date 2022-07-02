@@ -199,21 +199,19 @@ namespace SpiritMod.NPCs
 		{
 			if ((npc.type == NPCID.GraniteFlyer || npc.type == NPCID.GraniteGolem) && NPC.downedBoss2 && Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.Next(3) == 0)
 			{
-				SoundEngine.PlaySound(new LegacySoundStyle(2, 109));
+				SoundEngine.PlaySound(SoundID.Item109);
+				for (int i = 0; i < 20; i++)
 				{
-					for (int i = 0; i < 20; i++)
-					{
-						int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default, 2f);
-						Main.dust[num].noGravity = true;
-						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						Main.dust[num].scale *= .25f;
-						if (Main.dust[num].position != npc.Center)
-							Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
-					}
-					Vector2 spawnAt = npc.Center + new Vector2(0f, npc.height / 2f);
-					NPC.NewNPC(npc.GetSource_OnHurt(null), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<NPCs.CracklingCore.GraniteCore>()); ;
+					int num = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Electric, 0f, -2f, 0, default, 2f);
+					Main.dust[num].noGravity = true;
+					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].scale *= .25f;
+					if (Main.dust[num].position != npc.Center)
+						Main.dust[num].velocity = npc.DirectionTo(Main.dust[num].position) * 6f;
 				}
+				Vector2 spawnAt = npc.Center + new Vector2(0f, npc.height / 2f);
+				NPC.NewNPC(npc.GetSource_OnHurt(null), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<NPCs.CracklingCore.GraniteCore>());
 			}
 			if (npc.life <= 0 && npc.FindBuffIndex(ModContent.BuffType<WanderingPlague>()) >= 0)
 				UnholyGlyph.ReleasePoisonClouds(npc, 0);
@@ -946,7 +944,7 @@ namespace SpiritMod.NPCs
 				closest.AddBuff(ModContent.BuffType<Buffs.Armor.ExplorerFight>(), 240);
 
 			#region Glyph
-			if (npc.boss && (npc.ModNPC == null || npc.ModNPC.bossBag > 0))
+			if (npc.boss && (npc.ModNPC == null || npc.boss))
 			{
 				string name = npc.ModNPC != null ? npc.ModNPC.Mod.Name + ":" + npc.ModNPC.GetType().Name : "Terraria:" + npc.TypeName;
 
@@ -958,8 +956,6 @@ namespace SpiritMod.NPCs
 					MyWorld.droppedGlyphs[name] = true;
 				}
 			}
-			else if (!npc.SpawnedFromStatue && npc.CanDamage() && Main.rand.Next(750) == 0 && npc.type != ModContent.NPCType<ExplodingSpore>())
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Glyph>());
 			#endregion
 
 			bool lastTwin = (npc.type == NPCID.Retinazer && !NPC.AnyNPCs(NPCID.Spazmatism)) || (npc.type == NPCID.Spazmatism && !NPC.AnyNPCs(NPCID.Retinazer));
@@ -969,6 +965,9 @@ namespace SpiritMod.NPCs
 
 		public override void ModifyGlobalLoot(GlobalLoot globalLoot)
 		{
+			LeadingConditionRule glyphChance = new LeadingConditionRule(new DropRuleConditions.NPCConditional("Rarely", (npc) => !npc.SpawnedFromStatue && npc.CanDamage() && npc.type != ModContent.NPCType<ExplodingSpore>()));
+			glyphChance.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Glyph>(), 750));
+
 			LeadingConditionRule inAsteroids = new LeadingConditionRule(new DropRuleConditions.InBiome(DropRuleConditions.InBiome.Biome.Asteroid));
 			inAsteroids.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Sets.GunsMisc.Blaster.Blaster>()));
 			globalLoot.Add(inAsteroids);
@@ -1147,7 +1146,7 @@ namespace SpiritMod.NPCs
 			int[] Ices = { TileID.IceBlock, TileID.CorruptIce, TileID.HallowedIce, TileID.FleshIce };
 			int[] Stones = { TileID.Stone, TileID.Ebonstone, TileID.Pearlstone, TileID.Crimstone, TileID.GreenMoss, TileID.BrownMoss, TileID.RedMoss, TileID.BlueMoss, TileID.PurpleMoss };
 			int[] Sands = { TileID.Sand, TileID.Ebonsand, TileID.Pearlsand, TileID.Crimsand };
-			int[] Decors = { TileID.Plants, TileID.CorruptPlants, TileID.CorruptThorns, TileID.Vines, TileID.JungleVines, TileID.HallowedPlants, TileID.HallowedPlants2, TileID.HallowedVines, TileID.Stalactite, TileID.SmallPiles, TileID.LargePiles, TileID.LargePiles2, TileID.FleshWeeds, TileID.CrimsonVines };
+			int[] Decors = { TileID.Plants, TileID.CorruptPlants, TileID.CorruptThorns, TileID.Vines, TileID.JungleVines, TileID.HallowedPlants, TileID.HallowedPlants2, TileID.HallowedVines, TileID.Stalactite, TileID.SmallPiles, TileID.LargePiles, TileID.LargePiles2, TileID.CrimsonGrass, TileID.CrimsonVines };
 
 			for (int y = 0; y < Main.maxTilesY; y++)
 			{

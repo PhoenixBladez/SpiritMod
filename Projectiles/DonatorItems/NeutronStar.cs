@@ -102,8 +102,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 					newProj2.hostile = false;
 					Projectile.frame = 1;
 
-
-					SoundEngine.PlaySound(SoundLoader.customSoundType, Projectile.Center, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Thunder"));
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Thunder"), Projectile.Center);
 
 					Projectile.frame++;
 				}

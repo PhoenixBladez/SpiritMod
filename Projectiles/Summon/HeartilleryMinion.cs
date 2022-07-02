@@ -131,7 +131,7 @@ namespace SpiritMod.Projectiles.Summon
 		}
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.NPCDeath, (int)Projectile.position.X, (int)Projectile.position.Y, 22);
+			SoundEngine.PlaySound(SoundID.NPCDeath22, Projectile.Center);
 			for (int i = 0; i < 10; i++) {
 				int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Blood, 0f, -2f, 0, default, .85f);
 				Main.dust[num].noGravity = false;

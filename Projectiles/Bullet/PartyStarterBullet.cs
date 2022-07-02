@@ -80,7 +80,7 @@ namespace SpiritMod.Projectiles.Bullet
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			SoundEngine.PlaySound(SoundLoader.customSoundType, Projectile.position, Mod.GetSoundSlot(SoundType.Custom, "Sounds/Firework"));
+			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Firework"), Projectile.Center);
 			for (int i = 0; i < 3; i++) {
 				int proj = Projectile.NewProjectile(Projectile.GetSource_Misc("TileHit"), Projectile.Center.X, Projectile.Center.Y,
 					Main.rand.Next(-2, 2), Main.rand.Next(-2, 1), ModContent.ProjectileType<PartyExplosives>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
@@ -92,7 +92,7 @@ namespace SpiritMod.Projectiles.Bullet
 		}
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 10);
+			SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
 
 			for (int i = 0; i < 10; i++) {
 				int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Electric, 0f, -2f, 0, default, 2f);

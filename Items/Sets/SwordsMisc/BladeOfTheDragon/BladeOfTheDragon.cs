@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			Projectile proj = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockback, player.whoAmI);
+			Projectile proj = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
 			var modProj = proj.ModProjectile as BladeOfTheDragonProj;
 			if (combo % 4 != 0)
 				modProj.charge = 39;
@@ -112,7 +112,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 					direction.Normalize();
 					direction *= DISTANCE;
 					endPos = player.Center + direction;
-					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/slashdash") with { PitchVariance = 0.4f, Volume = 0.4f }), Projectile.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/slashdash") with { PitchVariance = 0.4f, Volume = 0.4f }, Projectile.Center);
 					SpiritMod.primitives.CreateTrail(new DragonPrimTrail(Projectile));
 					oldCenter = player.Center;
 				}
@@ -316,7 +316,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 				0,
 				origin,
 				item.scale,
-				info.spriteEffects,
+				info.playerEffect,
 				0
 			));
 

@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 		{
 			if(Player.HeldItem.type == ModContent.ItemType<Graveyard>())
 			{
-				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerDrawLayer(Mod.Name, "GraveyardHeld",
+				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.Mod == null), new PlayerDrawLayer(Mod.Name, "GraveyardHeld",
 					delegate (PlayerDrawSet info) { DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_held").Value,
 						Mod.Assets.Request<Texture2D>("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_heldGlow").Value, info); }));
 			}
@@ -54,9 +54,9 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 
 			Main.playerDrawData.Add(new DrawData(
 				texture,
-				info.itemLocation - Main.screenPosition + offset,
+				info.ItemLocation - Main.screenPosition + offset,
 				drawFrame,
-				Lighting.GetColor((int)info.itemLocation.X/16, (int)info.itemLocation.Y/16),
+				Lighting.GetColor((int)info.ItemLocation.X/16, (int)info.ItemLocation.Y/16),
 				info.drawPlayer.itemRotation,
 				origin,
 				item.scale,
@@ -66,7 +66,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			
 			Main.playerDrawData.Add(new DrawData(
 				 glow,
-				 info.itemLocation - Main.screenPosition + offset,
+				 info.ItemLocation - Main.screenPosition + offset,
 				 drawFrame,
 				 Color.White,
 				 info.drawPlayer.itemRotation,

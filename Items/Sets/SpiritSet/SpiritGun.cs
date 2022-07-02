@@ -61,19 +61,20 @@ namespace SpiritMod.Items.Sets.SpiritSet
 				0f
 			);
 		}
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			if (type == ProjectileID.Bullet) {
+			if (type == ProjectileID.Bullet)
 				type = ModContent.ProjectileType<SpiritBullet>();
-			}
+
 			float spread = 15 * 0.0174f;//45 degrees converted to radians
-			float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-			double baseAngle = Math.Atan2(speedX, speedY);
+			float baseSpeed = velocity.Length();
+			double baseAngle = Math.Atan2(velocity.X, velocity.Y);
 			double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
-			speedX = baseSpeed * (float)Math.Sin(randomAngle);
-			speedY = baseSpeed * (float)Math.Cos(randomAngle);
-			return true;
+			velocity.X = baseSpeed * (float)Math.Sin(randomAngle);
+			velocity.Y = baseSpeed * (float)Math.Cos(randomAngle);
 		}
+		
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);

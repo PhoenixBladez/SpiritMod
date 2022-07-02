@@ -37,7 +37,7 @@ namespace SpiritMod
 
 		public static int NewItemWithSync(IEntitySource source, int owner, int x, int y, int width, int height, int type, int stack = 1, bool noBroadcast = false, int prefix = 0, bool noGrabDelay = false, bool reverseLookup = false)
 		{
-			int item = Item.NewItem(x, y, width, height, type, stack, noBroadcast, prefix, noGrabDelay, reverseLookup);
+			int item = Item.NewItem(source, x, y, width, height, type, stack, noBroadcast, prefix, noGrabDelay, reverseLookup);
 			if (Main.netMode == NetmodeID.MultiplayerClient && Main.myPlayer == owner)
 				NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
 			return item;

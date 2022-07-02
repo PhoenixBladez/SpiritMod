@@ -178,8 +178,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 
 			if (LockedOn && NPC.Distance(Target.Center) < FOLLOW_MAXRANGE)
 			{
-				Effect effect = Mod.GetEffect("Effects/EmpowermentBeam");
-				effect.Parameters["uTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_2").Value);
+				Effect effect = ModContent.Request<Effect>("Effects/EmpowermentBeam", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				effect.Parameters["uTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 				effect.Parameters["progress"].SetValue(Main.GlobalTimeWrappedHourly / 3);
 				effect.Parameters["uColor"].SetValue(new Color(245, 59, 164).ToVector4());
 				effect.Parameters["uSecondaryColor"].SetValue(new Color(255, 138, 212).ToVector4());
@@ -201,7 +201,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 			float blurLength = 250;
 			float blurWidth = 25;
 
-			Effect blurEffect = Mod.GetEffect("Effects/BlurLine");
+			Effect blurEffect = ModContent.Request<Effect>("Effects/BlurLine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			SquarePrimitive blurLine = new SquarePrimitive()
 			{
 				Position = drawPosition - Main.screenPosition,
@@ -213,7 +213,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 
 			PrimitiveRenderer.DrawPrimitiveShape(blurLine, blurEffect);
 
-			sB.Draw(ModContent.Request<Texture2D>(Texture + "_Glow"), NPC.Center - Main.screenPosition, NPC.frame, Color.White,
+			sB.Draw(ModContent.Request<Texture2D>(Texture + "_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, NPC.Center - Main.screenPosition, NPC.frame, Color.White,
 				NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 		}
 

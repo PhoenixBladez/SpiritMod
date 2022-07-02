@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 		{
 			if (EyeballMinion)
 				if (Player.ownedProjectileCounts[ModContent.ProjectileType<UmbillicalEyeballProj>()] < 3)
-					Projectile.NewProjectile(Player.Center, Vector2.Zero, ModContent.ProjectileType<UmbillicalEyeballProj>(), (int)(55 * Player.GetDamage(DamageClass.Summon)), 1.5f, Player.whoAmI, Player.ownedProjectileCounts[ModContent.ProjectileType<UmbillicalEyeballProj>()], 0);
+					Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center, Vector2.Zero, ModContent.ProjectileType<UmbillicalEyeballProj>(), (int)(Player.GetDamage(DamageClass.Summon).ApplyTo(55)), 1.5f, Player.whoAmI, Player.ownedProjectileCounts[ModContent.ProjectileType<UmbillicalEyeballProj>()], 0);
 		}
 	}
 
@@ -262,7 +262,7 @@ namespace SpiritMod.Items.Accessory.UmbillicalEyeball
 		{
 			Effect effect = SpiritMod.EyeballShader;
 			if (effect.HasParameter("tentacleTexture"))
-				effect.Parameters["tentacleTexture"].SetValue(ModContent.GetInstance<SpiritMod>().GetTexture("Textures/EyeballTentacle"));
+				effect.Parameters["tentacleTexture"].SetValue(ModContent.Request<Texture2D>("Textures/EyeballTentacle", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			PrepareShader(effect, "MainPS", (float)_length, Color);
 		}
 
