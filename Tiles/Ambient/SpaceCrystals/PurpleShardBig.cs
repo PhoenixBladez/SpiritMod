@@ -19,11 +19,7 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.Width = 2;
 			Main.tileLighted[Type] = true;
-			TileObjectData.newTile.CoordinateHeights = new int[]
-			{
-			16,
-			16
-			};
+			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
 			TileObjectData.addTile(Type);
 			DustType = -3;
 			ModTranslation name = CreateMapEntryName();
@@ -44,7 +40,7 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
 		{
 			Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 32, ModContent.ItemType<RockCandy>());
 			Player player = Main.LocalPlayer;
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+			SoundEngine.PlaySound(Terraria.ID.SoundID.Item27);
 		}
 	}
 }

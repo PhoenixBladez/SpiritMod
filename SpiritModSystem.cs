@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SpiritMod.Particles;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.ModLoader;
@@ -113,6 +114,27 @@ namespace SpiritMod
 
 			mod.BookUserInterface?.Update(gameTime);
 			mod.SlotUserInterface?.Update(gameTime);
+		}
+
+		public override void PostUpdateInput()
+		{
+			SpiritMod.nighttimeAmbience?.Update();
+			SpiritMod.underwaterAmbience?.Update();
+			SpiritMod.wavesAmbience?.Update();
+			SpiritMod.lightWind?.Update();
+			SpiritMod.desertWind?.Update();
+			SpiritMod.caveAmbience?.Update();
+			SpiritMod.spookyAmbience?.Update();
+			SpiritMod.scarabWings?.Update();
+		}
+
+		public override void PostUpdateEverything()
+		{
+			if (!Main.dedServ)
+			{
+				ParticleHandler.RunRandomSpawnAttempts();
+				ParticleHandler.UpdateAllParticles();
+			}
 		}
 	}
 }

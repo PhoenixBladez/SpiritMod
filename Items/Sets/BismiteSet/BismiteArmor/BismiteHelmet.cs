@@ -64,7 +64,7 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 			if (player.HasBuff(ModContent.BuffType<VirulenceCooldown>()) || virulence >= 0)
 				virulence--;
 			if (virulence == 0f)
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(25, 1));
+				SoundEngine.PlaySound(SoundID.MaxMana);
 		}
 		public override void PlayerHurt(Player player, bool pvp, bool quiet, double damage, int hitDirection, bool crit) => virulence = 600f;
 

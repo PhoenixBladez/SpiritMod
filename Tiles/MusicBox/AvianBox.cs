@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.MusicBox
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.DrawYOffset = 2;
 			TileObjectData.addTile(Type);
-			TileID.Sets.DisableSmartCursor[Type] = true;
+			Terraria.ID.TileID.Sets.DisableSmartCursor[Type] = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Music Box");
             DustType = -1;

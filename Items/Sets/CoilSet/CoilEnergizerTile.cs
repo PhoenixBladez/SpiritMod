@@ -64,7 +64,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ModContent.ItemType<CoilEnergizerItem>());
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			SoundEngine.PlaySound(SoundID.NPCHit3);
 		}
 
 		public override void NearbyEffects(int i, int j, bool closer)

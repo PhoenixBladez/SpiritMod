@@ -37,6 +37,6 @@ namespace SpiritMod.Projectiles
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Frostburn, 240);
-		public override void Kill(int timeLeft) => SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+		public override void Kill(int timeLeft) => SoundEngine.PlaySound(SoundID.Item27);
 	}
 }

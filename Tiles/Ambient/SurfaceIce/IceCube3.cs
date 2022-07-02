@@ -29,7 +29,7 @@ namespace SpiritMod.Tiles.Ambient.SurfaceIce
         }
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+			SoundEngine.PlaySound(SoundID.Item27);
 		}
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{

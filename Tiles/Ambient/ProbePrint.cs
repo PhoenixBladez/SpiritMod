@@ -17,7 +17,7 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.newTile.StyleWrapLimit = 36;
 			TileObjectData.addTile(Type);
 			DustType = 7;
-			TileID.Sets.DisableSmartCursor[Type] = true;
+			Terraria.ID.TileID.Sets.DisableSmartCursor[Type] = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Blueprint");
 			AddMapEntry(new Color(0, 80, 252), name);

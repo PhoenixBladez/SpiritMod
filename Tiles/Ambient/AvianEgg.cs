@@ -38,7 +38,7 @@ namespace SpiritMod.Tiles.Ambient
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Main.NewText("The Ancient Avian has awoken!", 175, 75, 255, true);
+			Main.NewText("The Ancient Avian has awoken!", 175, 75, 255);
 			int n = NPC.NewNPC(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16 + Main.rand.Next(-60, 60), j * 16 - 120, ModContent.NPCType<AncientFlyer>(), 0, 2, 1, 0, 0, Main.myPlayer);
 			Main.npc[n].netUpdate = true;
 
@@ -59,8 +59,8 @@ namespace SpiritMod.Tiles.Ambient
 				}
 			}
 
-			SoundEngine.PlaySound(SoundID.Roar, new Vector2(i * 16, j * 16), 0);
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 1));
+			SoundEngine.PlaySound(SoundID.Roar, new Vector2(i * 16, j * 16));
+			SoundEngine.PlaySound(SoundID.NPCDeath1);
 
 			for (int k = 0; k < 20; k++)
 			{

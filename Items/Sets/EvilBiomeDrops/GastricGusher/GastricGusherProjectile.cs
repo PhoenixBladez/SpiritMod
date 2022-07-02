@@ -89,7 +89,7 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 			for (int i = 0; i < inc; i++) //Projectiles
 			{
 				Vector2 velocity = vel.RotatedBy((i - (inc / 2f)) * 0.16f) * Main.rand.NextFloat(0.85f, 1.15f);
-				Projectile.NewProjectile(p.GetSource_ItemUse_WithPotentialAmmo(), p.Center, velocity, ModContent.ProjectileType<GastricAcid>(), (int)(damage * ScalingCapped), 1f, Projectile.owner);
+				Projectile.NewProjectile(p.GetSource_ItemUse_WithPotentialAmmo(p.HeldItem, ammo), p.Center, velocity, ModContent.ProjectileType<GastricAcid>(), (int)(damage * ScalingCapped), 1f, Projectile.owner);
 			}
 		}
 

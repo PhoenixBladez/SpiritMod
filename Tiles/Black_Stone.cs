@@ -21,14 +21,15 @@ namespace SpiritMod.Tiles
 			name.SetDefault("Blackrock");
 			ItemDrop = Mod.Find<ModItem>("Black_Stone_Item").Type;
 			AddMapEntry(new Color(133, 206, 181), name);
-			soundStyle = 21;
+			HitSound = SoundID.Item21;
 		}
 
-		public override bool KillSound(int i, int j)
+		public override bool KillSound(int i, int j, bool fail)
 		{
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(21, 0));
+			SoundEngine.PlaySound(SoundID.Tink);
 			return false;
 		}
+
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			r = 0f;

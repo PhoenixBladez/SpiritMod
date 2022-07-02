@@ -38,7 +38,7 @@ namespace SpiritMod.Tiles.Ambient
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			{
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+				SoundEngine.PlaySound(SoundID.NPCHit4);
 				Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, 441);
 			}
 		}

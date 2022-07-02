@@ -372,11 +372,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 			return Main.rand.Next(options);
 		}
 
-		public override string TownNPCName()
-		{
-			string[] names = { "Pythia", "Cassandra", "Chrysame", "Eritha", "Theoclea", "Hypatia", "Themistoclea", "Phemonoe" };
-			return Main.rand.Next(names);
-		}
+		public override List<string> SetNPCNameList() => new List<string>() { "Pythia", "Cassandra", "Chrysame", "Eritha", "Theoclea", "Hypatia", "Themistoclea", "Phemonoe" };
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
@@ -544,7 +540,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 						"You wish for a challenge? I may stop you not, as it benefits us both. I do hope you're prepared!",
 						"I shall consult the gods about their boons - these monsters will become relentless, I hope you are aware.",
 						"You want me to call them what?! Such foul battle language, yet I will deliver the message. The Gods won't be happy about this!",
-						"The boons cause slain foes to drop stronger tokens, yes, but do remember that the foes become stronger, too!",
+						"The boons cause slain foes to drop more tokens, yes, but do remember that the foes become stronger, too!",
 						"Do come back alive! I would enjoy hearing tales of your victories. Bring many tokens as well!"
 					};
 					for (int i = 0; i < 30; i++)
@@ -557,8 +553,8 @@ namespace SpiritMod.NPCs.Town.Oracle
 					int glyphnum = Main.rand.Next(10);
 					DustHelper.DrawDustImage(new Vector2(Main.LocalPlayer.Center.X, Main.LocalPlayer.Center.Y - 25), ModContent.DustType<Dusts.MarbleDust>(), 0.05f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1f);
 					Main.npcChatText = Main.rand.Next(options);
-					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 29).WithPitchVariance(0.4f).WithVolume(.6f), Main.LocalPlayer.Center);
-					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 6).WithPitchVariance(0.4f).WithVolume(.2f), Main.LocalPlayer.Center);
+					SoundEngine.PlaySound(SoundID.Item29 with { PitchVariance = 0.4f, Volume = 0.6f }, Main.LocalPlayer.Center);
+					SoundEngine.PlaySound(SoundID.NPCDeath6 with { PitchVariance = 0.4f, Volume = 0.2f }, Main.LocalPlayer.Center);
 
 					Main.LocalPlayer.AddBuff(ModContent.BuffType<OracleBoonBuff>(), 3600 * 5);
 				}

@@ -55,7 +55,7 @@ namespace SpiritMod.Projectiles.BaseProj
 		protected int predictor;
 		protected float chargeRate;
 		protected float dechargeRate;
-		protected LegacySoundStyle soundtype = new LegacySoundStyle(soundId: SoundID.Item, style: 5).WithPitchVariance(0.2f);
+		protected SoundStyle soundtype = SoundID.Item5 with { PitchVariance = 0.2f };
 
 		protected float charge = 0;
 		protected bool firing = false;
@@ -85,7 +85,7 @@ namespace SpiritMod.Projectiles.BaseProj
 				if (charge < 1)
 				{
 					if ((charge + chargeRate) >= 1)
-						SoundEngine.PlaySound(SoundID.MaxMana, (int)Projectile.Center.X, (int)Projectile.Center.Y, 1, 1, -0.25f);
+						SoundEngine.PlaySound(SoundID.MaxMana, Projectile.Center);
 					charge+=chargeRate;
 				}
 				Charging();

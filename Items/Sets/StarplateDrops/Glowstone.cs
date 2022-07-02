@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			Player player = Main.LocalPlayer;
 			int distance = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
 			if (distance < 54) {
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+				SoundEngine.PlaySound(SoundID.NPCHit4);
 			}
 		}
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

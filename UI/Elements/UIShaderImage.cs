@@ -27,7 +27,7 @@ namespace SpiritMod.UI.Elements
 				CullMode = CullMode.None,
 				ScissorTestEnable = true
 			};
-			_useImmediateMode = true;
+			UseImmediateMode = true;
 			Texture = texture;
 		}
 

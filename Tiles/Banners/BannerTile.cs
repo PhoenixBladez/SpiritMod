@@ -25,7 +25,7 @@ namespace SpiritMod.Tiles.Banners
 			TileObjectData.addTile(Type);
 
 			DustType = -1;
-			TileID.Sets.DisableSmartCursor[Type] = true;
+			Terraria.ID.TileID.Sets.DisableSmartCursor[Type] = true;
 
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Banner");

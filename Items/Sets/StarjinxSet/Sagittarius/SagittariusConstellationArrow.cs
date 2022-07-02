@@ -7,6 +7,7 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
@@ -107,7 +108,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			}
 			ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Vector2.Zero, Color.White, Main.rand.NextFloat(0.2f, 0.3f), 10));
 
-			SoundEngine.PlaySound(SoundID.Item12.WithPitchVariance(0.2f).WithVolume(0.33f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item12 with { PitchVariance = 0.2f, Volume = 0.33f }, Projectile.Center);
 
 			for (int i = 0; i < 3; i++)
 				ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f), Color.White, Main.rand.NextFloat(0.1f, 0.2f), 20));
@@ -121,7 +122,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			for(int i = 0; i< 4; i++)
 				ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, -oldVelocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.25f), Color.White, Main.rand.NextFloat(0.1f, 0.2f), 20));
 
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 3) with { PitchVariance = 0.2f }, Projectile.Center);
+			SoundEngine.PlaySound(SoundID.NPCHit3 with { PitchVariance = 0.2f }, Projectile.Center);
 			return true;
 		}
 

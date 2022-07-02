@@ -21,7 +21,7 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newTile.StyleWrapLimit = 111;
 			TileObjectData.addTile(Type);
 			DustType = -1;
-			TileID.Sets.DisableSmartCursor[Type] = true;
+			Terraria.ID.TileID.Sets.DisableSmartCursor[Type] = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Banner");
 			AddMapEntry(new Color(70, 70, 70), name);

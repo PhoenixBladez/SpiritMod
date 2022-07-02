@@ -3,6 +3,7 @@ using SpiritMod.Projectiles.Bullet.Crimbine;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
@@ -66,35 +67,40 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 				}
 			}
 		}
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
-			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0)) {
+			Vector2 muzzleOffset = Vector2.Normalize(velocity) * 45f;
+			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
+			{
 				position += muzzleOffset;
 			}
-			if (player.altFunctionUse == 2) {
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 95));
+			if (player.altFunctionUse == 2)
+			{
+				SoundEngine.PlaySound(SoundID.Item95);
 				MyPlayer modPlayer = player.GetSpiritPlayer();
 				modPlayer.shootDelay2 = 300;
 				type = ModContent.ProjectileType<CrimbineAmalgam>();
-				speedX /= 4;
-				speedY /= 4;
+				velocity.X /= 4;
+				velocity.Y /= 4;
 			}
-			else {
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 11));
+			else
+			{
+				SoundEngine.PlaySound(SoundID.Item11);
 				Item.shootSpeed = 10f;
 				float spread = 8 * 0.0174f;//45 degrees converted to radians
-				float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-				double baseAngle = Math.Atan2(speedX, speedY);
+				float baseSpeed = (float)velocity.Length();
+				double baseAngle = Math.Atan2(velocity.X, velocity.Y);
 				double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
-				speedX = baseSpeed * (float)Math.Sin(randomAngle);
-				speedY = baseSpeed * (float)Math.Cos(randomAngle);
-				if (type == ProjectileID.Bullet) {
+				velocity.X = baseSpeed * (float)Math.Sin(randomAngle);
+				velocity.Y = baseSpeed * (float)Math.Cos(randomAngle);
+				if (type == ProjectileID.Bullet)
+				{
 					type = ModContent.ProjectileType<CrimbineBone>();
 				}
 			}
-			return true;
 		}
+
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);

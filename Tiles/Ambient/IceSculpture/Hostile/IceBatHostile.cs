@@ -41,7 +41,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture.Hostile
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			{
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+				SoundEngine.PlaySound(SoundID.Item27);
 				Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, ModContent.ItemType<CreepingIce>(), Main.rand.Next(6, 13));
 			}
 		}
@@ -52,7 +52,7 @@ namespace SpiritMod.Tiles.Ambient.IceSculpture.Hostile
 			if (closer && NPC.downedBoss3) {
 				int distance1 = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
 				if (distance1 < 72) {
-					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+					SoundEngine.PlaySound(SoundID.Item27);
 					for (int o = 0; o < 2; o++) {
 						int n = NPC.NewNPC(new Terraria.DataStructures.EntitySource_TileUpdate(i, j), (int)i * 16 + Main.rand.Next(-10, 10), (int)j * 16, NPCID.IceBat, 0, 2, 1, 0, 0, Main.myPlayer);
 						Main.npc[n].GivenName = "Frozen Ice Bat";

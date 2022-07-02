@@ -1,6 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -65,7 +63,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(new LegacySoundStyle(3, 3).WithPitchVariance(0.4f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.NPCHit3 with { PitchVariance = 0.4f }, Projectile.Center);
 			Vector2 spinningpoint1 = ((float)Main.rand.NextDouble() * 6.283185f).ToRotationVector2();
 			Vector2 spinningpoint2 = spinningpoint1;
 			float dagada = (float)(Main.rand.Next(3, 6) * 2);

@@ -73,7 +73,7 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = 2;
-		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem) => SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem) => SoundEngine.PlaySound(SoundID.Item27);
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{

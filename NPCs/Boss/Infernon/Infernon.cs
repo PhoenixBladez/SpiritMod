@@ -34,7 +34,6 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			NPC.boss = true;
 			NPC.noGravity = true;
 			NPC.noTileCollide = true;
-			bossBag = ModContent.ItemType<InfernonBag>();
 			Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/Infernon");
 			NPC.npcSlots = 10;
 
@@ -394,22 +393,15 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					}
 				}
 			}
-			NPC.DropItem(ModContent.ItemType<InfernalAppendage>(), 25, 36);
+		}
 
-			int[] lootTable = {
-				ModContent.ItemType<InfernalJavelin>(),
-				ModContent.ItemType<InfernalSword>(),
-				ModContent.ItemType<DiabolicHorn>(),
-				ModContent.ItemType<SevenSins>(),
-				ModContent.ItemType<InfernalStaff>(),
-				ModContent.ItemType<EyeOfTheInferno>(),
-				ModContent.ItemType<InfernalShield>()
-			};
-			int loot = Main.rand.Next(lootTable.Length);
-			NPC.DropItem(lootTable[loot]);
-
-			NPC.DropItem(ModContent.ItemType<InfernonMask>(), 1f / 7);
-			NPC.DropItem(ModContent.ItemType<Trophy4>(), 1f / 10);
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddBossBag<InfernonBag>();
+			npcLoot.AddCommon<InfernonMask>(7);
+			npcLoot.AddCommon<Trophy4>(10);
+			npcLoot.AddOneFromOptions<InfernalJavelin, InfernalSword, DiabolicHorn, SevenSins, InfernalStaff, EyeOfTheInferno, InfernalShield>();
+			npcLoot.AddCommon<InfernalAppendage>(1, 25, 36);
 		}
 
 		public override void BossLoot(ref string name, ref int potionType) => potionType = ItemID.GreaterHealingPotion;

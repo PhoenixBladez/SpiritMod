@@ -57,18 +57,18 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 			else {
 				counter--;
 			}
-			if (counter == 0) {
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 20));
+			if (counter == 0)
+			{
+				SoundEngine.PlaySound(SoundID.Item20);
+				for (int i = 0; i < 7; i++)
 				{
-					for (int i = 0; i < 7; i++) {
-						int num = Dust.NewDust(player.position, player.width, player.height, DustID.Blood, 0f, -2f, 0, default, 2f);
-						Main.dust[num].noGravity = true;
-						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-						Main.dust[num].scale *= .25f;
-						if (Main.dust[num].position != player.Center)
-							Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
-					}
+					int num = Dust.NewDust(player.position, player.width, player.height, DustID.Blood, 0f, -2f, 0, default, 2f);
+					Main.dust[num].noGravity = true;
+					Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+					Main.dust[num].scale *= .25f;
+					if (Main.dust[num].position != player.Center)
+						Main.dust[num].velocity = player.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			}
 			return true;

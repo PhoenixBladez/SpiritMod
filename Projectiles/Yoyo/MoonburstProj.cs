@@ -49,8 +49,8 @@ namespace SpiritMod.Projectiles.Yoyo
                     Color color = new Color(255, 255, 255) * 0.95f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 
                     float scale = (Projectile.frameCounter * .13f) + .09f;
-                    Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Yoyo/MoonburstBubble");
-                    Texture2D tex1 = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Yoyo/MoonburstBubble_Glow");
+                    Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Yoyo/MoonburstBubble", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+                    Texture2D tex1 = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Yoyo/MoonburstBubble_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
                     spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, 0f, tex.Size() / 2, scale, default, default);
                     spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color * .4f, 0f, tex.Size() / 2, scale, default, default);
@@ -76,8 +76,8 @@ namespace SpiritMod.Projectiles.Yoyo
             {
                 if (Projectile.frameCounter >= 8)
                 {
-                    SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 54));
-                    SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 118));
+                    SoundEngine.PlaySound(SoundID.Item54);
+                    SoundEngine.PlaySound(SoundID.Item118);
                     {
                         for (int i = 0; i < 15; i++)
                         {

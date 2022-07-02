@@ -26,7 +26,7 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newTile.AnchorTop = default;
 			TileObjectData.newTile.AnchorWall = true;
 			TileObjectData.addTile(Type);
-			TileID.Sets.DisableSmartCursor[Type] = true;
+			Terraria.ID.TileID.Sets.DisableSmartCursor[Type] = true;
 			DustType -= 1;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Painting");

@@ -1,4 +1,6 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using SpiritMod.Backgrounds;
 using SpiritMod.Dusts;
 using SpiritMod.Gores;
@@ -9,25 +11,9 @@ namespace SpiritMod.Effects.Waters.Spirit
 {
 	public class SpiritWaterStyle : ModWaterStyle
 	{
-		public override bool ChooseWaterStyle()
-		{
-			return Main.bgStyle == Mod.GetSurfaceBgStyleSlot<SpiritSurfaceBgStyle>();
-		}
-
-		public override int ChooseWaterfallStyle()
-		{
-			return Mod.GetWaterfallStyleSlot<SpiritWaterfallStyle>();
-		}
-
-		public override int GetSplashDust()
-		{
-			return ModContent.DustType<SpiritWaterSplash>();
-		}
-
-		public override int GetDropletGore()
-		{
-			return Mod.GetGoreSlot<SpiritDroplet>();
-		}
+		public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("SpiritMod/Effects/Water/Spirit/SpiritWaterfallStyle").Slot;
+		public override int GetSplashDust() => ModContent.DustType<SpiritWaterSplash>();
+		public override int GetDropletGore() => ModContent.GoreType<SpiritDroplet>();
 
 		public override void LightColorMultiplier(ref float r, ref float g, ref float b)
 		{
@@ -36,9 +22,8 @@ namespace SpiritMod.Effects.Waters.Spirit
 			b = 1f;
 		}
 
-		public override Color BiomeHairColor()
-		{
-			return Color.Blue;
-		}
+		public override Color BiomeHairColor() => Color.Blue;
+		public override byte GetRainVariant() => (byte)Main.rand.Next(3);
+		public override Asset<Texture2D> GetRainTexture() => ModContent.Request<Texture2D>("SpiritMod/Effects/Water/Spirit/SpiritRain");
 	}
 }

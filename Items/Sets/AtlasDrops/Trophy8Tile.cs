@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 			TileObjectData.newTile.StyleWrapLimit = 36;
 			TileObjectData.addTile(Type);
 			DustType = 7;
-			TileID.Sets.DisableSmartCursor[Type] = true;
+			Terraria.ID.TileID.Sets.DisableSmartCursor[Type] = true;
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Atlas Trophy");
 			AddMapEntry(new Color(120, 85, 60), name);

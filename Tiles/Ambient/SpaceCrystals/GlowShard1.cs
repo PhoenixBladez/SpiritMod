@@ -78,7 +78,7 @@ namespace SpiritMod.Tiles.Ambient.SpaceCrystals
 		{
 			Player player = Main.LocalPlayer;
 			{
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 27));
+				SoundEngine.PlaySound(SoundID.Item27);
 			}
 		}
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

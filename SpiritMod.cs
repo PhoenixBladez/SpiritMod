@@ -215,12 +215,6 @@ namespace SpiritMod
 
 			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
 
-			if (player.GetModPlayer<StarjinxPlayer>().zoneStarjinxEvent)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starjinx");
-				priority = SceneEffectPriority.BossMedium; //Should take precedence even over most bosses, same as pillars 
-			}
-
 			if (TideWorld.TheTide && player.ZoneBeach)
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion");
@@ -274,25 +268,6 @@ namespace SpiritMod
 			if (priority > SceneEffectPriority.BiomeHigh)
 				return;
 
-			if (spirit.ZoneReach)
-			{
-				priority = SceneEffectPriority.BiomeHigh;
-				if (!player.ZoneRockLayerHeight)
-				{
-					if (Main.dayTime)
-						music = GetSoundSlot(SoundType.Music, "Sounds/Music/Reach");
-					else
-						music = GetSoundSlot(SoundType.Music, "Sounds/Music/ReachNighttime");
-				}
-				else
-					music = GetSoundSlot(SoundType.Music, "Sounds/Music/ReachUnderground");
-			}
-			else if (spirit.ZoneReach)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/ReachNighttime");
-				priority = SceneEffectPriority.BiomeHigh;
-			}
-
 			if (config.AuroraMusic
 				&& MyWorld.aurora
 				&& player.ZoneSnow && player.ZoneOverworldHeight
@@ -322,54 +297,11 @@ namespace SpiritMod
 
 			if (config.UnderwaterMusic && player.ZoneBeach && !MyWorld.luminousOcean && spirit.isFullySubmerged)
 			{
-				Mod thoriumMod = ModLoader.GetMod("ThoriumMod"); //Thorium compat
-				if (thoriumMod == null || (!(thoriumMod.Call("GetZoneAquaticDepths", player) is null) && thoriumMod.Call("GetZoneAquaticDepths", player) is bool inDepths && !inDepths))
+				if (ModLoader.TryGetMod("ThoriumMod", out Mod thoriumMod) || (!(thoriumMod.Call("GetZoneAquaticDepths", player) is null) && thoriumMod.Call("GetZoneAquaticDepths", player) is bool inDepths && !inDepths))
 				{
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/UnderwaterMusic");
 					priority = SceneEffectPriority.BiomeHigh;
 				}
-			}
-
-			if (config.LuminousMusic
-				&& player.ZoneBeach
-				&& MyWorld.luminousOcean
-				&& !Main.dayTime)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime");
-				priority = SceneEffectPriority.BiomeHigh;
-			}
-
-			if (config.HallowNightMusic
-				&& player.ZoneHallow && player.ZoneOverworldHeight
-				&& !Main.dayTime && !Main.raining && !Main.bloodMoon
-				&& !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneJungle && !player.ZoneBeach && !player.ZoneMeteor)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/HallowNight");
-				priority = SceneEffectPriority.BiomeHigh;
-			}
-
-			if (config.CorruptNightMusic
-				&& player.ZoneCorrupt
-				&& player.ZoneOverworldHeight
-				&& !Main.dayTime
-				&& !player.ZoneHallow
-				&& !player.ZoneMeteor
-				&& !Main.bloodMoon)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/CorruptNight");
-				priority = SceneEffectPriority.BiomeHigh;
-			}
-
-			if (config.CrimsonNightMusic
-				&& player.ZoneCrimson
-				&& player.ZoneOverworldHeight
-				&& !Main.dayTime
-				&& !player.ZoneHallow
-				&& !player.ZoneMeteor
-				&& !Main.bloodMoon)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/CrimsonNight");
-				priority = SceneEffectPriority.BiomeHigh;
 			}
 
 			if (config.CalmNightMusic
@@ -390,79 +322,6 @@ namespace SpiritMod
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/CalmNight");
 				priority = SceneEffectPriority.BiomeHigh;
-			}
-
-			if (config.SnowNightMusic
-				&& player.ZoneSnow
-				&& player.ZoneOverworldHeight
-				&& !Main.dayTime
-				&& !player.ZoneCorrupt
-				&& !player.ZoneMeteor
-				&& !player.ZoneCrimson
-				&& !player.ZoneHallow
-				&& !MyWorld.aurora
-				&& !Main.raining
-				&& !Main.bloodMoon)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime");
-				priority = SceneEffectPriority.BiomeMedium;
-			}
-
-			if (config.DesertNightMusic
-				&& player.ZoneDesert
-				&& player.ZoneOverworldHeight
-				&& !Main.dayTime
-				&& !player.ZoneCorrupt
-				&& !player.ZoneCrimson
-				&& !player.ZoneBeach)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime");
-				priority = SceneEffectPriority.BiomeHigh;
-			}
-
-			if (spirit.ZoneAsteroid)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Asteroids");
-				priority = SceneEffectPriority.Environment;
-			}
-
-			if (priority > SceneEffectPriority.BiomeMedium)
-				return;
-
-			if (spirit.ZoneSpirit && NPC.downedMechBossAny && !player.ZoneDungeon)
-			{
-				priority = SceneEffectPriority.BiomeMedium;
-				if (player.ZoneRockLayerHeight && player.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f)
-					music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer1");
-				if (player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f)
-					music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer2");
-				if (player.position.Y / 16 >= Main.maxTilesY - 330)
-					music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer3");
-				if (!player.ZoneRockLayerHeight && player.position.Y / 16 < (Main.rockLayer + Main.maxTilesY - 330) / 2f)
-					music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld");
-			}
-
-			if (config.GraniteMusic
-				&& spirit.ZoneGranite && !player.ZoneHallow && !player.ZoneCorrupt && !player.ZoneCrimson
-				&& !player.ZoneOverworldHeight && !spirit.ZoneSpirit && spirit.inGranite)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome");
-				priority = SceneEffectPriority.BiomeMedium;
-			}
-
-			if (config.MarbleMusic
-				&& spirit.ZoneMarble && !player.ZoneHallow && !player.ZoneCorrupt && !player.ZoneCrimson
-				&& !player.ZoneOverworldHeight && !spirit.ZoneSpirit && spirit.inMarble)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/MarbleBiome");
-				priority = SceneEffectPriority.BiomeMedium;
-			}
-			if (config.SpiderCaveMusic
-				&& spirit.ZoneSpider && !player.ZoneHallow && !player.ZoneCorrupt && !player.ZoneCrimson
-				&& !player.ZoneOverworldHeight && !spirit.ZoneSpirit)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/SpiderCave");
-				priority = SceneEffectPriority.BiomeMedium;
 			}
 		}
 
@@ -651,139 +510,139 @@ namespace SpiritMod
 
 			#region configLabels
 			//Regular Config labels
-			ModTranslation config1 = CreateTranslation("Screenshake");
+			ModTranslation config1 = LocalizationLoader.CreateTranslation(this,"Screenshake");
 			config1.SetDefault($"[i:" + Find<ModItem>("BlueNeonSign").Type + "]  Visuals: Screenshake");
-			AddTranslation(config1);
+			LocalizationLoader.AddTranslation(config1);
 
-			ModTranslation config2 = CreateTranslation("Distortion");
+			ModTranslation config2 = LocalizationLoader.CreateTranslation(this,"Distortion");
 			config2.SetDefault($"[i:" + Find<ModItem>("BlueNeonSign").Type + "]  Visuals: Screen Distortion");
-			AddTranslation(config2);
+			LocalizationLoader.AddTranslation(config2);
 
-			ModTranslation config3 = CreateTranslation("Particles");
+			ModTranslation config3 = LocalizationLoader.CreateTranslation(this,"Particles");
 			config3.SetDefault($"[i:" + Find<ModItem>("BlueNeonSign").Type + "]  Visuals: Foreground Particles");
-			AddTranslation(config3);
+			LocalizationLoader.AddTranslation(config3);
 
-			ModTranslation config4 = CreateTranslation("Quicksell");
+			ModTranslation config4 = LocalizationLoader.CreateTranslation(this,"Quicksell");
 			config4.SetDefault($"[i:" + Find<ModItem>("SeedBag").Type + "]  QoL: Quick-Sell Feature");
-			AddTranslation(config4);
+			LocalizationLoader.AddTranslation(config4);
 
-			ModTranslation config5 = CreateTranslation("Autoswing");
+			ModTranslation config5 = LocalizationLoader.CreateTranslation(this,"Autoswing");
 			config5.SetDefault($"[i:" + Find<ModItem>("PurpleNeonSign").Type + "]  QoL: Auto-Reuse Tooltip");
-			AddTranslation(config5);
+			LocalizationLoader.AddTranslation(config5);
 
-			ModTranslation config6 = CreateTranslation("AmbientSounds");
+			ModTranslation config6 = LocalizationLoader.CreateTranslation(this,"AmbientSounds");
 			config6.SetDefault($"[i:" + Find<ModItem>("SurrenderBell").Type + "]  Ambience: Ambient Sounds");
-			AddTranslation(config6);
+			LocalizationLoader.AddTranslation(config6);
 
-			ModTranslation config7 = CreateTranslation("LeafFallAmbience");
+			ModTranslation config7 = LocalizationLoader.CreateTranslation(this,"LeafFallAmbience");
 			config7.SetDefault($"[i:" + Find<ModItem>("EnchantedLeaf").Type + "]  Ambience: Falling Leaf Effects");
-			AddTranslation(config7);
+			LocalizationLoader.AddTranslation(config7);
 
-			ModTranslation config8 = CreateTranslation("QuestButton");
+			ModTranslation config8 = LocalizationLoader.CreateTranslation(this,"QuestButton");
 			config8.SetDefault($"[i:" + Find<ModItem>("Book_Slime").Type + "]  Quests: Quest Book Button Location");
-			AddTranslation(config8);
+			LocalizationLoader.AddTranslation(config8);
 
-			ModTranslation config15 = CreateTranslation("QuestBookSwitching");
+			ModTranslation config15 = LocalizationLoader.CreateTranslation(this,"QuestBookSwitching");
 			config15.SetDefault($"[i:" + Find<ModItem>("Book_Slime").Type + "]  Quests: Quest Book Tab Switching");
-			AddTranslation(config15);
+			LocalizationLoader.AddTranslation(config15);
 
-			ModTranslation config9 = CreateTranslation("QuestIcons");
+			ModTranslation config9 = LocalizationLoader.CreateTranslation(this,"QuestIcons");
 			config9.SetDefault($"[i:" + Find<ModItem>("Brightbulb").Type + "]  Quests: Town NPC Quest Icons");
-			AddTranslation(config9);
+			LocalizationLoader.AddTranslation(config9);
 
-			ModTranslation config10 = CreateTranslation("ArcaneHideoutGen");
+			ModTranslation config10 = LocalizationLoader.CreateTranslation(this,"ArcaneHideoutGen");
 			config10.SetDefault($"[i:" + Find<ModItem>("JellyCandle").Type + "]  Worldgen: Arcane Tower and Bandit Hideout Generation");
-			AddTranslation(config10);
+			LocalizationLoader.AddTranslation(config10);
 
-			ModTranslation config11 = CreateTranslation("OceanShape");
+			ModTranslation config11 = LocalizationLoader.CreateTranslation(this,"OceanShape");
 			config11.SetDefault($"[i:" + Find<ModItem>("BlackPearl").Type + "]  Oceans: Ocean Generation Shape");
-			AddTranslation(config11);
+			LocalizationLoader.AddTranslation(config11);
 
-			ModTranslation config12 = CreateTranslation("OceanVents");
+			ModTranslation config12 = LocalizationLoader.CreateTranslation(this,"OceanVents");
 			config12.SetDefault($"[i:" + Find<ModItem>("BlackPearl").Type + "]  Oceans: Hydothermal Vent Ecosystems");
-			AddTranslation(config12);
+			LocalizationLoader.AddTranslation(config12);
 
-			ModTranslation config13 = CreateTranslation("OceanWater");
+			ModTranslation config13 = LocalizationLoader.CreateTranslation(this,"OceanWater");
 			config13.SetDefault($"[i:" + Find<ModItem>("BlackPearl").Type + "]  Oceans: Ocean Water Transparency");
-			AddTranslation(config13);
+			LocalizationLoader.AddTranslation(config13);
 
-			ModTranslation config14 = CreateTranslation("WaterEnemies");
+			ModTranslation config14 = LocalizationLoader.CreateTranslation(this,"WaterEnemies");
 			config14.SetDefault($"[i:" + Find<ModItem>("SpiritKoi").Type + "]  Fishing: Fishing Encounters");
-			AddTranslation(config14);
+			LocalizationLoader.AddTranslation(config14);
 
 			//Music Config
-			ModTranslation musicConfig1 = CreateTranslation("BlizzardMusic");
+			ModTranslation musicConfig1 = LocalizationLoader.CreateTranslation(this,"BlizzardMusic");
 			musicConfig1.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for Blizzards");
-			AddTranslation(musicConfig1);
+			LocalizationLoader.AddTranslation(musicConfig1);
 
-			ModTranslation musicConfig2 = CreateTranslation("SnowNightMusic");
+			ModTranslation musicConfig2 = LocalizationLoader.CreateTranslation(this,"SnowNightMusic");
 			musicConfig2.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for the Snow biome at night");
-			AddTranslation(musicConfig2);
+			LocalizationLoader.AddTranslation(musicConfig2);
 
-			ModTranslation musicConfig3 = CreateTranslation("DesertNightMusic");
+			ModTranslation musicConfig3 = LocalizationLoader.CreateTranslation(this,"DesertNightMusic");
 			musicConfig3.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for the Desert biome at night");
-			AddTranslation(musicConfig3);
+			LocalizationLoader.AddTranslation(musicConfig3);
 
-			ModTranslation musicConfig4 = CreateTranslation("HallowNightMusic");
+			ModTranslation musicConfig4 = LocalizationLoader.CreateTranslation(this,"HallowNightMusic");
 			musicConfig4.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for The Hallow at night");
-			AddTranslation(musicConfig4);
+			LocalizationLoader.AddTranslation(musicConfig4);
 
-			ModTranslation musicConfig5 = CreateTranslation("CorruptNightMusic");
+			ModTranslation musicConfig5 = LocalizationLoader.CreateTranslation(this,"CorruptNightMusic");
 			musicConfig5.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for The Corruption at night");
-			AddTranslation(musicConfig5);
+			LocalizationLoader.AddTranslation(musicConfig5);
 
-			ModTranslation musicConfig6 = CreateTranslation("CrimsonNightMusic");
+			ModTranslation musicConfig6 = LocalizationLoader.CreateTranslation(this,"CrimsonNightMusic");
 			musicConfig6.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for The Crimson at night");
-			AddTranslation(musicConfig6);
+			LocalizationLoader.AddTranslation(musicConfig6);
 
-			ModTranslation musicConfig7 = CreateTranslation("GraniteMusic");
+			ModTranslation musicConfig7 = LocalizationLoader.CreateTranslation(this,"GraniteMusic");
 			musicConfig7.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for the Granite biome");
-			AddTranslation(musicConfig7);
+			LocalizationLoader.AddTranslation(musicConfig7);
 
 
-			ModTranslation musicConfig8 = CreateTranslation("MarbleMusic");
+			ModTranslation musicConfig8 = LocalizationLoader.CreateTranslation(this,"MarbleMusic");
 			musicConfig8.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for the Marble biome");
-			AddTranslation(musicConfig8);
+			LocalizationLoader.AddTranslation(musicConfig8);
 
-			ModTranslation musicConfig9 = CreateTranslation("SpiderMusic");
+			ModTranslation musicConfig9 = LocalizationLoader.CreateTranslation(this,"SpiderMusic");
 			musicConfig9.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for the Spider caverns");
-			AddTranslation(musicConfig9);
+			LocalizationLoader.AddTranslation(musicConfig9);
 
-			ModTranslation musicConfig10 = CreateTranslation("MeteorMusic");
+			ModTranslation musicConfig10 = LocalizationLoader.CreateTranslation(this,"MeteorMusic");
 			musicConfig10.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for the Meteorite biome");
-			AddTranslation(musicConfig10);
+			LocalizationLoader.AddTranslation(musicConfig10);
 
-			ModTranslation musicConfig18 = CreateTranslation("FrostLegionMusic");
+			ModTranslation musicConfig18 = LocalizationLoader.CreateTranslation(this,"FrostLegionMusic");
 			musicConfig18.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for the Frost Legion invasion");
-			AddTranslation(musicConfig18);
+			LocalizationLoader.AddTranslation(musicConfig18);
 
-			ModTranslation musicConfig11 = CreateTranslation("SkeletonPrimeMusic");
+			ModTranslation musicConfig11 = LocalizationLoader.CreateTranslation(this,"SkeletonPrimeMusic");
 			musicConfig11.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for Skeletron Prime");
-			AddTranslation(musicConfig11);
+			LocalizationLoader.AddTranslation(musicConfig11);
 
-			ModTranslation musicConfig16 = CreateTranslation("AuroraMusic");
+			ModTranslation musicConfig16 = LocalizationLoader.CreateTranslation(this,"AuroraMusic");
 			musicConfig16.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for the Aurora");
-			AddTranslation(musicConfig16);
+			LocalizationLoader.AddTranslation(musicConfig16);
 
-			ModTranslation musicConfig12 = CreateTranslation("LuminousMusic");
+			ModTranslation musicConfig12 = LocalizationLoader.CreateTranslation(this,"LuminousMusic");
 			musicConfig12.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for Luminous Oceans");
-			AddTranslation(musicConfig12);
+			LocalizationLoader.AddTranslation(musicConfig12);
 
-			ModTranslation musicConfig13 = CreateTranslation("CalmNightMusic");
+			ModTranslation musicConfig13 = LocalizationLoader.CreateTranslation(this,"CalmNightMusic");
 			musicConfig13.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for Calm Night mini-events");
-			AddTranslation(musicConfig13);
+			LocalizationLoader.AddTranslation(musicConfig13);
 
-			ModTranslation musicConfig14 = CreateTranslation("OceanDepthsMusic");
+			ModTranslation musicConfig14 = LocalizationLoader.CreateTranslation(this,"OceanDepthsMusic");
 			musicConfig14.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for the Ocean depths");
-			AddTranslation(musicConfig14);
+			LocalizationLoader.AddTranslation(musicConfig14);
 
-			ModTranslation musicConfig15 = CreateTranslation("HyperspaceMusic");
+			ModTranslation musicConfig15 = LocalizationLoader.CreateTranslation(this,"HyperspaceMusic");
 			musicConfig15.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds two unique tracks for the artificial Hyperspace biome");
-			AddTranslation(musicConfig15);
+			LocalizationLoader.AddTranslation(musicConfig15);
 
-			ModTranslation musicConfig17 = CreateTranslation("AshfallMusic");
+			ModTranslation musicConfig17 = LocalizationLoader.CreateTranslation(this,"AshfallMusic");
 			musicConfig17.SetDefault($"[i:" + Find<ModItem>("NeonMusicBox").Type + "]  Adds a unique track for the Ashfall weather in the Underworld");
-			AddTranslation(musicConfig17);
+			LocalizationLoader.AddTranslation(musicConfig17);
 			#endregion
 
 			if (Main.netMode != NetmodeID.Server)
@@ -829,12 +688,12 @@ namespace SpiritMod
 				var tmodfile = (TmodFile)typeof(SpiritMod).GetProperty("File", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Instance);
 				var files = (IDictionary<string, FileEntry>)typeof(TmodFile).GetField("files", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(tmodfile);
 				foreach (KeyValuePair<string, FileEntry> kvp in files.Where(x => x.Key.Contains("Effects/") && x.Key.Contains(".xnb")))
-					ShaderDict.Add(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length).Remove(0, "Effects/".Length), ModContent.Request<Effect>(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length)));
+					ShaderDict.Add(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length).Remove(0, "Effects/".Length), ModContent.Request<Effect>(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length), ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 
 				int width = Main.graphics.GraphicsDevice.Viewport.Width;
 				int height = Main.graphics.GraphicsDevice.Viewport.Height;
 				Vector2 zoom = Main.GameViewMatrix.Zoom;
-				Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+				Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(this,width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
 				Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
 
 				basicEffect = new BasicEffect(Main.graphics.GraphicsDevice)
@@ -1329,27 +1188,6 @@ namespace SpiritMod
 				ItemID.RubyStaff,
 				ItemID.DiamondStaff
 			}));
-		}
-
-		public override void PostUpdateInput()
-		{
-			nighttimeAmbience?.Update();
-			underwaterAmbience?.Update();
-			wavesAmbience?.Update();
-			lightWind?.Update();
-			desertWind?.Update();
-			caveAmbience?.Update();
-			spookyAmbience?.Update();
-			scarabWings?.Update();
-		}
-
-		public override void PostUpdateEverything()
-		{
-			if (!Main.dedServ)
-			{
-				ParticleHandler.RunRandomSpawnAttempts();
-				ParticleHandler.UpdateAllParticles();
-			}
 		}
 
 		public override void PostSetupContent()

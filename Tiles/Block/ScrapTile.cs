@@ -21,7 +21,7 @@ namespace SpiritMod.Tiles.Block
 		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
 			Player player = Main.LocalPlayer;
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 4));
+			SoundEngine.PlaySound(SoundID.NPCHit4);
 		}
 	}
 }

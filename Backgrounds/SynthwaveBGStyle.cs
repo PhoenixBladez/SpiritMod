@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Backgrounds
 {
-	public class SynthwaveBGStyle : ModSurfaceBgStyle
+	public class SynthwaveBGStyle : ModSurfaceBackgroundStyle
 	{
 		public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
 		{
@@ -12,7 +12,7 @@ namespace SpiritMod.Backgrounds
 			return mod.GetBackgroundSlot("Backgrounds/SynthwaveBackground");
 		}
 
-		public override bool ChooseBgStyle() => !Main.gameMenu && Main.LocalPlayer.GetSpiritPlayer().ZoneSynthwave;
+		//public override bool ChooseBgStyle() => !Main.gameMenu && Main.LocalPlayer.GetSpiritPlayer().ZoneSynthwave;
 
 		public override void ModifyFarFades(float[] fades, float transitionSpeed)
 		{

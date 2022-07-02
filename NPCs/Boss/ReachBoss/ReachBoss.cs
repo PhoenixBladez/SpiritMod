@@ -302,8 +302,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			{
 				
 				SoundEngine.PlaySound(new LegacySoundStyle(42, 4), NPC.Center);
-				SoundEngine.PlaySound(new LegacySoundStyle(6, 0) with { PitchVariance = 0.2f }, NPC.Center);
-				SoundEngine.PlaySound(new LegacySoundStyle(4, 55) with { PitchVariance = 0.2f }, NPC.Center);
+				SoundEngine.PlaySound(SoundID.Grass with { PitchVariance = 0.2f }, NPC.Center);
+				SoundEngine.PlaySound(SoundID.NPCDeath55 with { PitchVariance = 0.2f }, NPC.Center);
 				int p = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + Main.rand.Next(-100, 100), (int)NPC.Center.Y + Main.rand.Next(-200, -100), ModContent.NPCType<ExplodingSpore>());
 				DustHelper.DrawStar(new Vector2(Main.npc[p].Center.X, Main.npc[p].Center.Y), DustID.GoldCoin, pointAmount: 4, mainSize: .9425f, dustDensity: 2, dustSize: .5f, pointDepthMult: 0.3f, noGravity: true);
 				Main.npc[p].ai[1] = NPC.whoAmI;
