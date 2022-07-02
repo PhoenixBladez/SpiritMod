@@ -308,9 +308,9 @@ namespace SpiritMod.NPCs.GraniTech
 		{
 			for (int i = 1; i <= 2; i++)
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>($"Gores/GraniTech/GraniteSentryGore{i}").Type, 1f);
-
-			NPC.DropItem(ModContent.ItemType<GranitechMaterial>(), Main.rand.Next(1, 4));
 		}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<GranitechMaterial>(1, 1, 3);
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => (spawnInfo.SpawnTileType == TileID.Granite) && spawnInfo.SpawnTileY > Main.rockLayer && Main.hardMode ? 0.6f : 0f;
 

@@ -10,7 +10,6 @@ namespace SpiritMod.Tiles.Block
 		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			SetModTree(new ReachTree());
 			Main.tileMerge[Type][ModContent.TileType<ReachGrassTile>()] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileMergeDirt[Type] = true;

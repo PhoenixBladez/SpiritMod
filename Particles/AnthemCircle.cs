@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Utilities;
 using System;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Particles
 {
@@ -42,16 +43,14 @@ namespace SpiritMod.Particles
 
 		public override void CustomDraw(SpriteBatch sB)
 		{
-			Texture2D basetexture = ModContent.Request<Texture2D>("Particles/AnthemCircle");
+			Texture2D basetexture = ModContent.Request<Texture2D>("Particles/AnthemCircle", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			sB.End();
-
 			sB.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, SpiritMod.AnthemCircle, Main.GameViewMatrix.EffectMatrix);
 
 			sB.Draw(basetexture, Position - Main.screenPosition, null, Color.White * progress, Rotation, basetexture.Size() / 2, new Vector2(Scale / 2, Scale), SpriteEffects.None, 0);
 
 			sB.End();
-
 			sB.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.EffectMatrix);
 		}
 	}

@@ -693,7 +693,7 @@ namespace SpiritMod
 				int width = Main.graphics.GraphicsDevice.Viewport.Width;
 				int height = Main.graphics.GraphicsDevice.Viewport.Height;
 				Vector2 zoom = Main.GameViewMatrix.Zoom;
-				Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(this,width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+				Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(this, width / 2, height / -2) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
 				Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
 
 				basicEffect = new BasicEffect(Main.graphics.GraphicsDevice)
@@ -948,12 +948,12 @@ namespace SpiritMod
 				string path = type.FullName.Substring(10).Replace('.', '/'); //Substring(10) removes "SpiritMod."
 				int texCount = 0;
 
-				while (TextureExists(path + "_" + (texCount + 1)))
+				while (ModContent.FileExists(path + "_" + (texCount + 1)))
 					texCount++;
 
 				Texture2D[] textures = new Texture2D[texCount + 1];
 
-				if (TextureExists(path))
+				if (ModContent.FileExists(path))
 					textures[0] = ModContent.Request<Texture2D>(path, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				for (int i = 1; i <= texCount; i++)

@@ -17,7 +17,7 @@ namespace SpiritMod.NPCs.Cystal
 			Main.pvpBuff[Type] = false;
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
-			longerExpertDebuff = true;
+			Terraria.ID.BuffID.Sets.LongerExpertDebuff[Type] = true;
 		}
 
 		public override void Update(Player player, ref int buffIndex) => player.GetModPlayer<CrystalDebuffPlayer>().crystallization = true;

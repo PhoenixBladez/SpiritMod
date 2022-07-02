@@ -44,21 +44,18 @@ namespace SpiritMod.Items.Sets.AvianDrops
 				return false;
 			return true;
 		}
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			//create velocity vectors for the two angled projectiles (outwards at PI/15 radians)
-			Vector2 origVect = new Vector2(speedX, speedY);
+			Vector2 origVect = velocity;
 			Vector2 newVect = Vector2.Zero;
-			if (Main.rand.Next(2) == 1) {
+			if (Main.rand.NextBool(2))
 				newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(82, 1800) / 10));
-			}
-			else {
+			else
 				newVect = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(82, 1800) / 10));
-			}
-			speedX = newVect.X;
-			speedY = newVect.Y;
+			velocity.X = newVect.X;
+			velocity.Y = newVect.Y;
 			this.currentHit++;
-			return true;
 		}
 	}
 }

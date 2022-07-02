@@ -592,17 +592,6 @@ namespace SpiritMod
 			ZoneHive = flags[5];
 		}
 
-		public override Texture2D GetMapBackgroundImage()
-		{
-			if (ZoneSpirit)
-				return Mod.Assets.Request<Texture2D>("Backgrounds/SpiritMapBackground").Value;
-			if (ZoneReach)
-				return Mod.Assets.Request<Texture2D>("Backgrounds/BriarMapBG").Value;
-			if (ZoneAsteroid)
-				return Mod.Assets.Request<Texture2D>("Backgrounds/AsteroidMapBG").Value;
-			return null;
-		}
-
 		public override void SaveData(TagCompound tag)
 		{
 			tag.Add("candyInBowl", candyInBowl);
@@ -696,7 +685,7 @@ namespace SpiritMod
 			swimming = false;
 			if (Player.velocity.Y != 0f)
 			{
-				if (Player.mount.Active && Player.mount.FlyTime > 0 && Player.jump == 0 && Player.controlJump && !Player.mount.CanHover)
+				if (Player.mount.Active && Player.mount.FlyTime > 0 && Player.jump == 0 && Player.controlJump && !Player.mount.CanHover())
 					flying = true;
 				else if (Player.wet)
 					swimming = true;

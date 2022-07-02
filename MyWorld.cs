@@ -45,6 +45,7 @@ using static SpiritMod.Utilities.ChestPoolUtils;
 using SpiritMod.Effects.SurfaceWaterModifications;
 using SpiritMod.Mechanics.QuestSystem;
 using Terraria.WorldBuilding;
+using Terraria.IO;
 
 namespace SpiritMod
 {
@@ -1312,7 +1313,7 @@ namespace SpiritMod
 			}
 		}
 
-		private void ResetWorldInfo(GenerationProgress progress)
+		private void ResetWorldInfo(GenerationProgress progress, GameConfiguration config)
 		{
 			QuestManager.QuestBookUnlocked = false;
 			QuestManager.RestartEverything();

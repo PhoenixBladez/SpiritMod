@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Projectiles;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace SpiritMod.Items.Sets.SpiritBiomeDrops
@@ -40,17 +41,18 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 			Item.shootSpeed = 12f;
 		}
 
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			type = ModContent.ProjectileType<SoulShard>();
 			float spread = 30 * 0.0174f;//45 degrees converted to radians
-			float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-			double baseAngle = Math.Atan2(speedX, speedY);
+			float baseSpeed = (float)velocity.Length();
+			double baseAngle = Math.Atan2(velocity.X, velocity.Y);
 			double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
-			speedX = baseSpeed * (float)Math.Sin(randomAngle);
-			speedY = baseSpeed * (float)Math.Cos(randomAngle);
+			velocity.X = baseSpeed * (float)Math.Sin(randomAngle);
+			velocity.Y = baseSpeed * (float)Math.Cos(randomAngle);
 			return true;
 		}
+
 		public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-10, 0);

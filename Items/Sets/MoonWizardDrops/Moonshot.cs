@@ -65,7 +65,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 			int numextraprojs = Main.rand.Next(0, 3);
 			for(int i = 0; i <= numextraprojs; i++) {
 				Vector2 vel = velocity * Main.rand.NextFloat(0.7f, 1.1f);
-				Projectile proj = Projectile.NewProjectileDirect(player.Center, vel, type, damage, knockback, player.whoAmI, Main.rand.Next(1, 3), new Vector2(speedX, speedY).ToRotation());
+				Projectile proj = Projectile.NewProjectileDirect(player.Center, vel, type, damage, knockback, player.whoAmI, Main.rand.Next(1, 3), vel.ToRotation());
 				proj.netUpdate = true;
 			}
 			return true;

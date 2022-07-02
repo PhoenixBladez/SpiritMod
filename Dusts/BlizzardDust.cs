@@ -9,7 +9,7 @@ namespace SpiritMod.Dusts
 		public override void OnSpawn(Dust dust)
 		{
 			dust.noGravity = true;
-			dust.frame = new Rectangle(0, Texture.Height / 3 * Main.rand.Next(3), Texture.Width, Texture.Height / 3);
+			dust.frame = new Rectangle(0, Texture.Height / 3 * Main.rand.Next(3), Texture.Width(), Texture.Height() / 3);
 			dust.noLight = true;
 		}
 

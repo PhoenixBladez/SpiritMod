@@ -29,9 +29,10 @@ namespace SpiritMod.NPCs.Tides
 			Projectile.alpha = 255;
 			Projectile.timeLeft = 999;
 			Projectile.tileCollide = true;
-			//	projectile.extraUpdates = 1;
 		}
+
 		bool activated = false;
+
 		public override bool PreAI()
 		{
 			Projectile.velocity.X = 0;
@@ -57,7 +58,7 @@ namespace SpiritMod.NPCs.Tides
 					Projectile.alpha += 10;
 				}
 				if (Projectile.ai[1] == 50) {
-					SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 103);
+					SoundEngine.PlaySound(SoundID.Item103, Projectile.Center);
 				}
 				if (Projectile.ai[1] == 55) {
 					Projectile.alpha = 0;
@@ -65,6 +66,7 @@ namespace SpiritMod.NPCs.Tides
 			}
 			return false;
 		}
+
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (oldVelocity.Y != Projectile.velocity.Y && !activated) {
@@ -78,10 +80,8 @@ namespace SpiritMod.NPCs.Tides
 			fallThrough = false;
 			return true;
 		}
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
-		{
-			drawCacheProjsBehindNPCsAndTiles.Add(index);
-		}
+
+		public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindNPCsAndTiles.Add(index);
 	}
 }
 

@@ -26,9 +26,10 @@ namespace SpiritMod.Items.Halloween
 			for (int i = 0; i < 50; i++) {
 				if (inv[i].IsAir || inv[i].type != ModContent.ItemType<CandyBag>())
 					continue;
-				if (((CandyBag)inv[i].ModItem).TryAdd(this)) {
-					ItemText.NewText(Item, 1);
-					SoundEngine.PlaySound(SoundID.Grab, (int)player.position.X, (int)player.position.Y);
+				if (((CandyBag)inv[i].ModItem).TryAdd(this))
+				{
+					PopupText.NewText(PopupTextContext.Advanced, );
+					SoundEngine.PlaySound(SoundID.Grab, player.Center);
 					return false;
 				}
 			}
@@ -53,7 +54,7 @@ namespace SpiritMod.Items.Halloween
 				if (inv[i].IsAir || inv[i].type != ModContent.ItemType<CandyBag>())
 					continue;
 				if (((CandyBag)inv[i].ModItem).TryAdd(this)) {
-					SoundEngine.PlaySound(SoundID.Grab, (int)player.position.X, (int)player.position.Y);
+					SoundEngine.PlaySound(SoundID.Grab, player.Center);
 					return;
 				}
 			}

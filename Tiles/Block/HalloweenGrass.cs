@@ -11,7 +11,6 @@ namespace SpiritMod.Tiles.Block
 		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			SetModTree(new SpookyTree());
 			Main.tileMerge[Type][ModContent.TileType<HalloweenGrass>()] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileMergeDirt[Type] = true;

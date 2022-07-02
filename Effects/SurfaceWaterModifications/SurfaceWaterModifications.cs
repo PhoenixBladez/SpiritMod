@@ -40,8 +40,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 			if (!Main.dedServ)
 			{
-				transparencyEffect = ModContent.GetInstance<SpiritMod>().GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX");
-				rippleTex = Main.instance.OurLoad<Texture2D>("Images/Misc/Ripples");
+				transparencyEffect = ModContent.Request<Effect>("Effects/SurfaceWaterModifications/SurfaceWaterFX", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				rippleTex = ModContent.Request<Texture2D>("Images/Misc/Ripples", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			}
 		}
 
@@ -248,7 +248,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		private static void SetShader(bool back)
 		{
-			transparencyEffect = ModContent.GetInstance<SpiritMod>().GetEffect("Effects/SurfaceWaterModifications/SurfaceWaterFX");
+			transparencyEffect = ModContent.Request<Effect>("Effects/SurfaceWaterModifications/SurfaceWaterFX", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			transparencyEffect.Parameters["transparency"].SetValue(GetTransparency());
 
 			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, transparencyEffect, Main.GameViewMatrix.ZoomMatrix);

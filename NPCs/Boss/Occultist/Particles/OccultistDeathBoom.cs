@@ -4,6 +4,7 @@ using SpiritMod;
 using SpiritMod.Particles;
 using System;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace SpiritMod.NPCs.Boss.Occultist.Particles
 {

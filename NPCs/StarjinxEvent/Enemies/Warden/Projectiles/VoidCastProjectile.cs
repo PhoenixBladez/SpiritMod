@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden.Projectiles
 {

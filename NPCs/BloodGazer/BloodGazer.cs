@@ -230,7 +230,7 @@ namespace SpiritMod.NPCs.BloodGazer
 					{
 						GlowmaskOpacity = 0.75f;
 						if (!Main.dedServ)
-							SoundEngine.PlaySound(SoundID.Roar, (int)NPC.Center.X, (int)NPC.Center.Y, 2, 0.75f, -5f);
+							SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
 
 						NPC.netUpdate = true;
 					}
@@ -395,11 +395,12 @@ namespace SpiritMod.NPCs.BloodGazer
 			return true;
 		}
 
-		public override void OnKill()
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			NPC.DropItem(ModContent.ItemType<UmbillicalEyeball>());
-			NPC.DropItem(ModContent.ItemType<DreamstrideEssence>(), 12 + Main.rand.Next(3, 5));
+			npcLoot.AddCommon<UmbillicalEyeball>();
+			npcLoot.AddCommon<DreamstrideEssence>(1, 15, 17);
 		}
+
 
 		public override void FindFrame(int frameHeight)
 		{

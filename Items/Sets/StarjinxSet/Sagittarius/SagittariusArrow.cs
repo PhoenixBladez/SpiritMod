@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
@@ -49,7 +50,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			for (int i = 0; i < 4; i++)
 				ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, oldVelocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.66f), Color.White, Color.Cyan, Main.rand.NextFloat(0.2f, 0.3f), 25));
 
-			SoundEngine.PlaySound(SoundID.Item12.WithPitchVariance(0.2f).WithVolume(0.33f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item12 with { PitchVariance = 0.2f, Volume = 0.33f }, Projectile.Center);
 
 			return true;
 		}
@@ -91,7 +92,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			//impact star particles
 			ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Vector2.Zero, Color.Lerp(Color.White, Color.Cyan, 0.5f), Main.rand.NextFloat(0.5f, 0.6f), 12));
 
-			SoundEngine.PlaySound(SoundID.Item12.WithPitchVariance(0.2f).WithVolume(0.33f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item12 with { PitchVariance = 0.2f, Volume = 0.33f }, Projectile.Center);
 
 			for (int i = 0; i < 5; i++)
 				ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(), Color.White, Color.Cyan, Main.rand.NextFloat(0.15f, 0.25f), 20));

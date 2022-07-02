@@ -16,7 +16,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 			Main.pvpBuff[Type] = false;
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
-			longerExpertDebuff = false;
+			Terraria.ID.BuffID.Sets.LongerExpertDebuff[Type] = true;
 		}
 
 		public override void Update(Player player, ref int buffIndex)

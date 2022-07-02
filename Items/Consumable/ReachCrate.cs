@@ -35,6 +35,7 @@ namespace SpiritMod.Items.Consumable
 		{
 			string[] lootTable = { "AncientBark", "EnchantedLeaf", "BismiteCrystal" };
 			int loot = Main.rand.Next(lootTable.Length);
+			var source = player.GetSource_OpenItem(Item.type, "RightClick");
 			player.QuickSpawnItem(source, Mod.Find<ModItem>(lootTable[loot]).Type, Main.rand.Next(3, 5));
 			if (NPC.downedBoss1 && Main.rand.Next(2) == 0) {
 				string[] lootTable1 = { "TwigStaff", "ReachBrooch", "ReachBoomerang", "ThornHook", "ReachStaffChest", "ReachChestMagic" };

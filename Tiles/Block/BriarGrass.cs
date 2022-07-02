@@ -24,7 +24,6 @@ namespace SpiritMod.Tiles.Block
 			TileID.Sets.Conversion.Grass[Type] = true;
 
 			AddMapEntry(new Color(104, 156, 70));
-			SetModTree(new ReachTree());
 
 			ItemDrop = ItemID.DirtBlock;
 		}

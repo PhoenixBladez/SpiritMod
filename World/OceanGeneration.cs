@@ -14,6 +14,7 @@ using SpiritMod.Items.Sets.GunsMisc.LadyLuck;
 using SpiritMod.Items.Sets.FloatingItems;
 using Terraria.Localization;
 using Terraria.WorldBuilding;
+using Terraria.IO;
 
 namespace SpiritMod.World
 {
@@ -28,7 +29,7 @@ namespace SpiritMod.World
 
 		/// <summary>Generates the Ocean ("Beaches"). Heavily based on vanilla code.</summary>
 		/// <param name="progress"></param>
-		public static void GenerateOcean(GenerationProgress progress)
+		public static void GenerateOcean(GenerationProgress progress, GameConfiguration config)
 		{
 			//Basic Shape
 			progress.Message = Language.GetText("LegacyWorldGen.22").Value;

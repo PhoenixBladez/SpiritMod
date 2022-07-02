@@ -178,7 +178,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 			}
 		}
 
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsBehindNPCs.Add(index);
+		public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindNPCs.Add(index);
 
 		private int RandomizeDamage(float damage) => (int)(damage * Main.rand.NextFloat(0.8f, 1.2f));
 

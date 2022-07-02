@@ -1,3 +1,4 @@
+using SpiritMod.Items.Armor.DiverSet;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Consumable.Fish;
 using Terraria;
@@ -69,21 +70,6 @@ namespace SpiritMod.NPCs.Critters
 			}
 		}
 
-		public override void OnKill()
-		{
-			if (Main.rand.Next(14) == 0)
-			{
-				string[] lootTable2123 = { "DiverLegs", "DiverHead", "DiverBody" };
-				NPC.DropItem(Mod.Find<ModItem>(Main.rand.Next(lootTable2123)).Type);
-			}
-
-			if (Main.hardMode && Main.rand.Next(10) == 0)
-			{
-				int[] lootTable51 = { ItemID.FlarefinKoi, ItemID.Obsidifish, ItemID.Prismite, ItemID.PrincessFish };
-				NPC.DropItem(Main.rand.Next(lootTable51), 1);
-			}
-		}
-
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
 			npcLoot.AddCommon<RawFish>(2);
@@ -93,6 +79,8 @@ namespace SpiritMod.NPCs.Critters
 			npcLoot.AddOneFromOptions(4, ModContent.ItemType<FloaterItem>(), ModContent.ItemType<FloaterItem>());
 			npcLoot.AddOneFromOptions(4, ItemID.ArmoredCavefish, ItemID.Damselfish, ItemID.DoubleCod, ItemID.FrostMinnow);
 			npcLoot.AddOneFromOptions(1, ItemID.Shrimp, ItemID.Salmon, ItemID.Bass, ItemID.RedSnapper, ItemID.Trout);
+			npcLoot.AddOneFromOptions(10, ItemID.FlarefinKoi, ItemID.Obsidifish, ItemID.Prismite, ItemID.PrincessFish);
+			npcLoot.AddOneFromOptions<DiverLegs, DiverHead, DiverBody>(14);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.OceanMonster.Chance * 0.05f;

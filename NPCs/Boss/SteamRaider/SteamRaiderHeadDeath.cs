@@ -58,9 +58,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			timeLeft--;
 			if (timeLeft <= 0) {
 				if (!Main.expertMode) {
-					NPC.DropItem(ModContent.ItemType<CosmiliteShard>(), 6, 10);
-					NPC.DropItem(ModContent.ItemType<StarplateMask>(), 1f / 7);
-					NPC.DropItem(ModContent.ItemType<Trophy3>(), 1f / 10);
+					NPC.DropItem(ModContent.ItemType<CosmiliteShard>(), 6, 10, NPC.GetSource_FromAI());
+					NPC.DropItem(ModContent.ItemType<StarplateMask>(), 1f / 7, NPC.GetSource_FromAI());
+					NPC.DropItem(ModContent.ItemType<Trophy3>(), 1f / 10, NPC.GetSource_FromAI());
 				}
 				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Starplate/Starplate1").Type, 1f);
 				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Starplate/Starplate2").Type, 1f);

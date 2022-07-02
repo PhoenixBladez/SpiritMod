@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet
 		public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
 		{
 			if (eleutherios)
-				mult += eleutheoriosStrength + 1;
+				damage += eleutheoriosStrength + 1;
 		}
 	}
 }

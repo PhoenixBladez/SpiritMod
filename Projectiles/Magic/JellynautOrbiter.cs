@@ -113,7 +113,7 @@ namespace SpiritMod.Projectiles.Magic
                 ModContent.ProjectileType<JellyfishOrbiter_Projectile>(), 16, 3, Main.myPlayer);
                 Main.projectile[p].friendly = true;
                 Main.projectile[p].hostile = false;
-				Main.projectile[newProj].DamageType = DamageClass.Magic;
+				Main.projectile[p].DamageType = DamageClass.Magic;
 			}
         }
 	}

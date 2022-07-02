@@ -66,18 +66,24 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 				if (charger >= 7) {
 					// Bombs do 33% more damage
 					int bombDamage = damage + (int)(damage * (1 / 3f));
-					Projectile.NewProjectile(position.X, position.Y, speedX + ((float)Main.rand.Next(-230, 230) / 100), speedY + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<TerraBomb>(), bombDamage, knockback, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(source, position.X, position.Y, velocity.X + ((float)Main.rand.Next(-230, 230) / 100), velocity.Y + ((float)Main.rand.Next(-230, 230) / 100), ModContent.ProjectileType<TerraBomb>(), bombDamage, knockback, player.whoAmI, 0f, 0f);
 					charger = 0;
 				}
+				return true;
+			}
+		}
 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+			if (!player.IsUsingAlt())
+			{
 				if (type == ProjectileID.Bullet) type = ModContent.ProjectileType<TerraBullet>();
 				float spread = MathHelper.PiOver4 / 10;
-				float baseSpeed = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-				double baseAngle = Math.Atan2(speedX, speedY);
+				float baseSpeed = (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
+				double baseAngle = Math.Atan2(velocity.X, velocity.Y);
 				double randomAngle = baseAngle + (Main.rand.NextFloat() - 0.5f) * spread;
-				speedX = baseSpeed * (float)Math.Sin(randomAngle);
-				speedY = baseSpeed * (float)Math.Cos(randomAngle);
-				return true;
+				velocity.X = baseSpeed * (float)Math.Sin(randomAngle);
+				velocity.Y = baseSpeed * (float)Math.Cos(randomAngle);
 			}
 		}
 

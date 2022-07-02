@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Particles;
 using System;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Ammo.Rocket.Warhead
 {

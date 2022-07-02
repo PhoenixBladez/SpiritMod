@@ -22,6 +22,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Sets.FloranSet;
 using Terraria.WorldBuilding;
+using Terraria.IO;
 
 namespace SpiritMod.World
 {
@@ -32,7 +33,7 @@ namespace SpiritMod.World
 		// Non-genpass utility methods that are used by genpasses can be named anything else
 
 		#region GENPASS: SPIRIT MICROS
-		public static void MicrosPass(GenerationProgress progress)
+		public static void MicrosPass(GenerationProgress progress, GameConfiguration config)
 		{
 			int attempts = 0;
 
@@ -1030,7 +1031,7 @@ namespace SpiritMod.World
 		#endregion Ziggurat
 
 		#region GENPASS: ASTEROIDS
-		public static void AsteroidsPass(GenerationProgress progress)
+		public static void AsteroidsPass(GenerationProgress progress, GameConfiguration config)
 		{
 			progress.Message = "Creating an asteroid belt";
 			int width = 200 + (int)(((Main.maxTilesX / 4200f) - 1) * 75); //Automatically scales based on world size
@@ -1197,7 +1198,7 @@ namespace SpiritMod.World
 		#endregion Asteroids
 
 		#region GENPASS: PILES/AMBIENT
-		public static void PilesPass(GenerationProgress progress)
+		public static void PilesPass(GenerationProgress progress, GameConfiguration config)
 		{
 			progress.Message = "Spirit Mod: Adding Ambient Objects...";
 

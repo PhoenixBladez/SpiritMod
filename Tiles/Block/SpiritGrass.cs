@@ -14,7 +14,6 @@ namespace SpiritMod.Tiles.Block
 		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			SetModTree(new SpiritTree());
 			Main.tileMerge[Type][ModContent.TileType<SpiritDirt>()] = true;
 			Main.tileBlendAll[Type] = true;
 			Main.tileMergeDirt[Type] = true;

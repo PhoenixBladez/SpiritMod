@@ -71,7 +71,7 @@ namespace SpiritMod.Projectiles.Summon
 
 						value *= num5;
 						int p = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, value.X, value.Y, ModContent.ProjectileType<NovaBeam1>(), Projectile.damage, Projectile.knockBack / 2f, Projectile.owner, 0f, 0f);
-						Main.projectile[newProj].DamageType = DamageClass.Summon;
+						Main.projectile[p].DamageType = DamageClass.Summon;
 					}
 				}
 			}

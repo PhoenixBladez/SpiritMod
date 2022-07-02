@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Weapon.Magic
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
         {
             SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact, player.Center);
-            Projectile.NewProjectile(source, position.X, position.Y, 0f, -4f, type, damage, knockback, player.whoAmI, speedX, speedY);
+            Projectile.NewProjectile(source, position.X, position.Y, 0f, -4f, type, damage, knockback, player.whoAmI, velocity.X, velocity.Y);
             return false;
 		}
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

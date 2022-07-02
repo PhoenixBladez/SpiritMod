@@ -13,7 +13,6 @@ namespace SpiritMod.Tiles.Block
 		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			SetModCactus(new SpiritCactus());
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[this.Type] = true;
 			Main.tileBlockLight[Type] = true;

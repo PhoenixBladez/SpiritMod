@@ -14,7 +14,7 @@ namespace SpiritMod.Buffs
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = false;
 			Main.buffNoSave[Type] = true;
-			longerExpertDebuff = true;
+			Terraria.ID.BuffID.Sets.LongerExpertDebuff[Type] = true;
 		}
 
 		public override void Update(Player player, ref int buffIndex)

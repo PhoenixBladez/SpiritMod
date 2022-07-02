@@ -106,7 +106,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			AddToQueue(new ExpressionController(0, (int frame) =>
 			{
 				if(Main.netMode != NetmodeID.Server)
-					SoundEngine.PlaySound(SpiritMod.Instance.GetLegacySoundSlot(SoundType.Custom, "Sounds/StarplateBlast"), center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/StarplateBlast"), center);
 			}));
 
 			// add a screen shake event to the queue
