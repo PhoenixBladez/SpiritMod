@@ -41,8 +41,8 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			AddMapEntry(new Color(112, 216, 238), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			Main.tileLighted[Type] = true;
-			HitSound = SoundID.Trackable;
-			soundStyle = 170;
+
+			HitSound = SoundID.DD2_SkeletonDeath;
 		}
 		public override bool CanExplode(int i, int j) => false;
 
@@ -82,7 +82,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		{
 			Player player = Main.player[Player.FindClosest(new Vector2(i * 16, j * 16), 100, 100)];
 			Tile tile = Main.tile[i, j];
-			SoundEngine.PlaySound(SoundID.Trackable, i * 16, j * 16, 186);
+			SoundEngine.PlaySound(HitSound.Value, new Vector2(i * 16, j * 16));
 			for (int index1 = 0; index1 < 3; ++index1)
 			{
 				for (int index2 = 0; index2 < 2; ++index2)

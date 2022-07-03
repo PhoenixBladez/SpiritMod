@@ -84,12 +84,6 @@ namespace SpiritMod.Tiles.Block
 			}
 		}
 
-		public override int SaplingGrowthType(ref int style)
-		{
-			style = 0;
-			return ModContent.TileType<SpiritSapling>();
-		}
-
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			Tile tile2 = Framing.GetTileSafely(i, j - 1);

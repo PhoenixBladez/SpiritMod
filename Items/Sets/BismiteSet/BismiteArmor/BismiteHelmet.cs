@@ -23,6 +23,14 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 			+ "Getting hit depletes Virulence entirely";
 		public override SpiritPlayerEffect SetbonusEffect => new BismiteSetbonusEffect();
 
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault(SetDisplayName);
+			Tooltip.SetDefault(SetTooltip);
+
+			ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
+		}
+
 		public override void SetDefaults()
 		{
 			Item.width = 22;
@@ -31,8 +39,6 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 			Item.rare = ItemRarityID.Blue;
 			Item.defense = 2;
 		}
-
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawAltHair = true;
 
 		public override void UpdateEquip(Player player) => player.moveSpeed += .04f;
 

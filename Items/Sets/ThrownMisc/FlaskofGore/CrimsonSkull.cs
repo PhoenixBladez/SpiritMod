@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Sets.ThrownMisc.FlaskofGore
 		public override bool OnPickup(Player player)
 		{
 			player.AddBuff(Mod.Find<ModBuff>("CrimsonSkullBuff").Type, 240);
-			SoundEngine.PlaySound(SoundID.Trackable, (int)player.position.X, (int)player.position.Y, 139, 1f, -0.9f);
+			SoundEngine.PlaySound(SoundID.DD2_DrakinDeath with { Volume = 0.8f }, player.Center);
 			return false;
 		}
 	}

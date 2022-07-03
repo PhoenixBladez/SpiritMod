@@ -28,24 +28,28 @@ namespace SpiritMod.NPCs.MoltenCore
 			Projectile.tileCollide = false;
 			Projectile.hostile = true;
 		}
+
 		public override void OnHitPlayer (Player target, int damage, bool crit)
 		{
 			target.AddBuff(24, 60*3);
 		}
+
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			killtimer++;
 			Projectile.velocity.X = 0f;
 			return false;
 		}
+
 		public override void Kill(int timeLeft)
 		{
 			for (int index = 0; index < 5; ++index)
 			{
 				Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Torch, 0.0f, 0.0f, 0, new Color(), 2f);
 			}
-			SoundEngine.PlaySound(SoundID.Trackable, (int)Projectile.position.X, (int)Projectile.position.Y, 6, 1f, 0f);
+			SoundEngine.PlaySound(SoundID.NPCDeath3, Projectile.Center);
 		}
+
 		public override void PostDraw(Color lightColor)
 		{
 			if (!Projectile.wet)

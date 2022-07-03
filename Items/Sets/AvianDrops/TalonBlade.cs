@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Sets.AvianDrops
 			Item.crit = 6;
 			Item.autoReuse = true;
 		}
-		public override bool OnlyShootOnSwing => true;
+		//public override bool OnlyShootOnSwing => true;
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			SoundEngine.PlaySound(SoundID.Item8, position);

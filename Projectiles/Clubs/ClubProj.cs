@@ -189,14 +189,14 @@ namespace SpiritMod.Projectiles.Clubs
 					player.itemTime = 2;
 					player.itemAnimation = 2;
 				}
-				if (player.itemTime == 2 || (Main.tile[(int)Projectile.Center.X / 16, (int)((Projectile.Center.Y + 24) / 16)].collisionType == 1 && released))
+				if (player.itemTime == 2 || (Main.tile[(int)Projectile.Center.X / 16, (int)((Projectile.Center.Y + 24) / 16)].BlockType == BlockType.Solid && released))
 				{
 					_lingerTimer = 30;
 
 					if (Projectile.ai[0] >= ChargeTime)
 						Smash(Projectile.Center);
 
-					if (Main.tile[(int)Projectile.Center.X / 16, (int)((Projectile.Center.Y + 24) / 16)].collisionType == 1)
+					if (Main.tile[(int)Projectile.Center.X / 16, (int)((Projectile.Center.Y + 24) / 16)].BlockType == BlockType.Solid)
 						player.GetModPlayer<MyPlayer>().Shake += (int)(Projectile.ai[0] * 0.2f);
 
 					Projectile.friendly = false;

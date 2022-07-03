@@ -9,7 +9,11 @@ namespace SpiritMod.Items.Sets.HuskstalkSet.ElderbarkArmor
 	public class ElderbarkChest : ModItem
 	{
 		public override void SetStaticDefaults()
-			=> DisplayName.SetDefault("Elderbark Breastplate");
+		{
+			DisplayName.SetDefault("Elderbark Breastplate");
+
+			ArmorIDs.Body.Sets.NeedsToDrawArm[Item.bodySlot] = true;
+		}
 
 		public override void SetDefaults()
 		{
@@ -18,10 +22,6 @@ namespace SpiritMod.Items.Sets.HuskstalkSet.ElderbarkArmor
 			Item.value = 0;
 			Item.rare = ItemRarityID.White;
 			Item.defense = 2;
-		}
-		public override void DrawHands(ref bool drawHands, ref bool drawArms)
-		{
-			drawHands = true;
 		}
 
 		public override void AddRecipes()

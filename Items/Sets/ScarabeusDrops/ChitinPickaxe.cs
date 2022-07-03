@@ -43,7 +43,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 			recipe.Register();
 		}
 
-		public override float MeleeSpeedMultiplier(Player player)
+		public override float UseSpeedMultiplier(Player player)
 		{
 			Point mousetilecoords = Main.MouseWorld.ToTileCoordinates();
 			int[] SandTiles = new int[] {

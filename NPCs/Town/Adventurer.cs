@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Pins;
 using SpiritMod.Items.Placeable.Furniture;
@@ -6,6 +8,7 @@ using SpiritMod.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -19,7 +22,6 @@ namespace SpiritMod.NPCs.Town
 	{
 		public override string Texture => "SpiritMod/NPCs/Town/Adventurer";
 		public override string Name => "Adventurer";
-		public override string[] AltTextures => new string[] { "SpiritMod/NPCs/Town/Adventurer_Alt_1" };
 
 		public override void SetStaticDefaults()
 		{
@@ -149,6 +151,8 @@ namespace SpiritMod.NPCs.Town
 			randomOffset = 2f;
 		}
 
+		public override ITownNPCProfile TownNPCProfile() => new AdventurerProfile();
+
 		public override void SetChatButtons(ref string button, ref string button2)
 		{
 			button = Language.GetTextValue("LegacyInterface.28");
@@ -175,5 +179,21 @@ namespace SpiritMod.NPCs.Town
 				}
 			}
 		}
+	}
+
+	public class AdventurerProfile : ITownNPCProfile
+	{
+		public int RollVariation() => 0;
+		public string GetNameForVariant(NPC npc) => npc.getNewNPCName();
+
+		public Asset<Texture2D> GetTextureNPCShouldUse(NPC npc)
+		{
+			if (npc.altTexture == 1 && !(npc.IsABestiaryIconDummy && !npc.ForcePartyHatOn))
+				return Request<Texture2D>("SpiritMod/NPCs/Town/Adventurer_Alt_1");
+
+			return Request<Texture2D>("SpiritMod/NPCs/Town/Adventurer");
+		}
+
+		public int GetHeadTextureIndex(NPC npc) => ModContent.GetModHeadSlot("SpiritMod/NPCs/Town/Adventurer_Head");
 	}
 }

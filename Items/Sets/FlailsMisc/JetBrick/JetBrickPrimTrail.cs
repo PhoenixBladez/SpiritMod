@@ -67,10 +67,10 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JetBrick
 			Color color = Color.Lerp(Color.Orange, Color.Red, Math.Min(ColorCounter / 120f, 1));
 
 			if (effect.HasParameter("noise"))
-				effect.Parameters["noise"].SetValue(GetInstance<SpiritMod>().GetTexture("Textures/vnoise"));
+				effect.Parameters["noise"].SetValue(ModContent.Request<Texture2D>("Textures/vnoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 
 			if (effect.HasParameter("circle"))
-				effect.Parameters["circle"].SetValue(GetInstance<SpiritMod>().GetTexture("Effects/Masks/Extra_49"));
+				effect.Parameters["circle"].SetValue(ModContent.Request<Texture2D>("Effects/Masks/Extra_49", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			PrepareShader(effect, "MainPS", Counter / 30f, color);
 		}
         public override void OnUpdate()

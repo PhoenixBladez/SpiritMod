@@ -99,7 +99,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				NPC.ai[0] = 0;
 			    DustHelper.DrawStar(NPC.Center, 235, pointAmount: 7, mainSize: 2.7425f, dustDensity: 6, dustSize: .65f, pointDepthMult: 3.6f, noGravity: true);
 				SoundEngine.PlaySound(SoundID.NPCDeath55 with { PitchVariance = 0.2f }, NPC.Center);
-				SoundEngine.PlaySound(SoundID.Trackable, (int)NPC.position.X, (int)NPC.position.Y, 180, 1f, -0.9f);
+				SoundEngine.PlaySound(SoundID.DD2_WitherBeastDeath, NPC.Center);
 				NPC.netUpdate = true;
 				NPC.ai[3]++;
 			}
@@ -208,7 +208,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			if (NPC.ai[0] == 561 || NPC.ai[0] == 690)
 			{
 				SoundEngine.PlaySound(SoundID.Grass, NPC.Center);
-				SoundEngine.PlaySound(SoundID.Trackable, (int)NPC.Center.X, (int)NPC.Center.Y, 139, 1f, 0.4f);
+				SoundEngine.PlaySound(SoundID.DD2_WitherBeastDeath, NPC.Center);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Vector2 direction = Main.player[NPC.target].Center - NPC.Center;

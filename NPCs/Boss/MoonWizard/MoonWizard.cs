@@ -485,7 +485,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 					SoundEngine.PlaySound(SoundID.Item81, NPC.Center);
 				}
 			}
-			if ((Main.tile[(int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16)].collisionType == 1 || attackCounter > 75) && Main.netMode != NetmodeID.MultiplayerClient)
+			if ((Main.tile[(int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16)].BlockType == BlockType.Solid || attackCounter > 75) && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				for (int i = 0; i < Main.rand.Next(9, 15); i++) {
 					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-10, 10), Main.rand.NextFloat(3.2f)), ModContent.ProjectileType<MoonBubble>(), NPCUtils.ToActualDamage(40, 1.5f), 3);

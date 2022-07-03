@@ -105,6 +105,6 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 			return 1f;
 		}
 
-		public override float MeleeSpeedMultiplier(Player player) => 1f / UseTimeMultiplier(player);
+		public override float UseSpeedMultiplier(Player player) => 1f / UseTimeMultiplier(player);
 	}
 }

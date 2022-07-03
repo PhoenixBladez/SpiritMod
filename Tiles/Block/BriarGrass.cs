@@ -105,12 +105,6 @@ namespace SpiritMod.Tiles.Block
 			return false;
 		}
 
-		public override int SaplingGrowthType(ref int style)
-		{
-			style = 0;
-			return ModContent.TileType<ReachSapling>();
-		}
-
 		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
 		{
 			if (!fail) //Change self into dirt

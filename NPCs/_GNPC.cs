@@ -943,21 +943,6 @@ namespace SpiritMod.NPCs
 			if (closest.GetSpiritPlayer().wayfarerSet)
 				closest.AddBuff(ModContent.BuffType<Buffs.Armor.ExplorerFight>(), 240);
 
-			#region Glyph
-			if (npc.boss && (npc.ModNPC == null || npc.boss))
-			{
-				string name = npc.ModNPC != null ? npc.ModNPC.Mod.Name + ":" + npc.ModNPC.GetType().Name : "Terraria:" + npc.TypeName;
-
-				MyWorld.droppedGlyphs.TryGetValue(name, out bool droppedGlyphs);
-				if (!droppedGlyphs)
-				{
-					int glyphs = GlyphsHeldBy(npc);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Glyph>(), glyphs * Main.ActivePlayersCount);
-					MyWorld.droppedGlyphs[name] = true;
-				}
-			}
-			#endregion
-
 			bool lastTwin = (npc.type == NPCID.Retinazer && !NPC.AnyNPCs(NPCID.Spazmatism)) || (npc.type == NPCID.Spazmatism && !NPC.AnyNPCs(NPCID.Retinazer));
 			if ((npc.type == NPCID.SkeletronPrime || npc.type == NPCID.TheDestroyer || lastTwin) && !MyWorld.spiritBiome)
 				SpawnSpiritBiome();
@@ -967,6 +952,7 @@ namespace SpiritMod.NPCs
 		{
 			LeadingConditionRule glyphChance = new LeadingConditionRule(new DropRuleConditions.NPCConditional("Rarely", (npc) => !npc.SpawnedFromStatue && npc.CanDamage() && npc.type != ModContent.NPCType<ExplodingSpore>()));
 			glyphChance.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Glyph>(), 750));
+			globalLoot.Add(glyphChance);
 
 			LeadingConditionRule inAsteroids = new LeadingConditionRule(new DropRuleConditions.InBiome(DropRuleConditions.InBiome.Biome.Asteroid));
 			inAsteroids.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Sets.GunsMisc.Blaster.Blaster>()));

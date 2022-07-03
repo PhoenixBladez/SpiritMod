@@ -143,7 +143,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.OrnamentStaff
 				dust.fadeIn /= 2f;
 			}
 
-			SoundEngine.PlaySound(SoundID.Trackable, (int)Projectile.position.X, (int)Projectile.position.Y, 165, 0.5f, 0.0f);
+			SoundEngine.PlaySound(SoundID.Shatter, Projectile.Center);
 		}
 	}
 }

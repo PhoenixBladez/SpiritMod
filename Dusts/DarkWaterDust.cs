@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Dusts
@@ -22,7 +23,7 @@ namespace SpiritMod.Dusts
 		{
 			dust.position += dust.velocity;
 			dust.velocity.Y += 0.2f;
-			if (Main.tile[(int)dust.position.X / 16, (int)dust.position.Y / 16].HasTile && Main.tile[(int)dust.position.X / 16, (int)dust.position.Y / 16].collisionType == 1)
+			if (Main.tile[(int)dust.position.X / 16, (int)dust.position.Y / 16].HasTile && Main.tile[(int)dust.position.X / 16, (int)dust.position.Y / 16].BlockType == BlockType.Solid)
 			{
 				dust.velocity *= -0.5f;
 			}

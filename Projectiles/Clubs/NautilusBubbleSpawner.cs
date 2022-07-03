@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Clubs
             if (startposY == 0)
             {
                 startposY = Projectile.position.Y;
-                if (Main.tile[(int)Projectile.Center.X / 16, (int)(Projectile.Center.Y / 16)].collisionType == 1)
+                if (Main.tile[(int)Projectile.Center.X / 16, (int)(Projectile.Center.Y / 16)].BlockType == BlockType.Solid)
                 {
                     Projectile.active = false;
                 }

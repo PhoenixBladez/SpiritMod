@@ -17,6 +17,8 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 		{
 			DisplayName.SetDefault("Bloodcourt's Visage");
 			Tooltip.SetDefault("4% increased damage\nIncreases your max number of minions");
+
+			ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
 		}
 
 		public override void SetDefaults()
@@ -35,8 +37,6 @@ namespace SpiritMod.Items.Sets.BloodcourtSet.BloodCourt
 		}
 
 		public override void EquipFrameEffects(Player player, EquipType type) => player.GetSpiritPlayer().bloodCourtHead = true;
-
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawHair = true;
 
 		public override void UpdateArmorSet(Player player)
 		{

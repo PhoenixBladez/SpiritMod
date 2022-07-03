@@ -107,7 +107,7 @@ namespace SpiritMod.Projectiles.Clubs
                 else
                 {
 
-                    if ((Math.Abs(radians - throwingAngle) < 0.75f || Main.tile[(int)Projectile.Center.X / 16, (int)((Projectile.Center.Y + 24) / 16)].collisionType == 1) && !smashed)
+                    if ((Math.Abs(radians - throwingAngle) < 0.75f || Main.tile[(int)Projectile.Center.X / 16, (int)((Projectile.Center.Y + 24) / 16)].BlockType == BlockType.Solid) && !smashed)
                     {
                         smashed = true;
                         for (int i = 0; i < 100; i++)

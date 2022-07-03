@@ -11,8 +11,8 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ChitinArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Chitin Chestplate");
-
 		}
+
 		public override void SetDefaults()
 		{
 			Item.width = 30;
@@ -22,7 +22,6 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ChitinArmor
 			Item.defense = 4;
 		}
 
-		public override bool DrawBody() => false;
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);
