@@ -1,10 +1,6 @@
 ﻿using Terraria;
-using System.Collections.Generic;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Items.Accessory.Rangefinder
 {
@@ -32,46 +28,5 @@ namespace SpiritMod.Items.Accessory.Rangefinder
 		public bool active = false;
 
 		public override void ResetEffects() => active = false;
-
-		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
-		{
-			int arms = layers.FindIndex(l => l == PlayerLayer.Arms);
-			if (arms < 0)
-				return;
-
-			layers.Insert(arms - 5, new PlayerDrawLayer(Mod.Name, "HeldItem",
-				delegate (PlayerDrawSet drawInfo)
-				{
-					Player drawPlayer = drawInfo.drawPlayer;
-					DrawData drawData = new DrawData();
-					Mod mod = ModLoader.GetMod("SpiritMod");
-					Texture2D texture = TextureAssets.Extra[49][47];
-					Vector2 drawPlayerCenter = drawPlayer.MountedCenter;
-					Vector2 distToProj = Main.MouseWorld - drawPlayerCenter;
-					float projRotation = distToProj.ToRotation() - 1.57f;
-					float distance = distToProj.Length();
-					if (active && Player.itemAnimation > 0 && Player.HeldItem.ranged && Player.HeldItem.useAnimation > 0 && !drawPlayer.mount.Active)
-					{
-						while (distance > 30 && !float.IsNaN(distance))
-						{
-							distToProj.Normalize();
-							distToProj *= 36f;
-							drawPlayerCenter += distToProj;
-							distToProj = Main.MouseWorld - drawPlayerCenter;
-							distance = distToProj.Length();
-							drawData = new DrawData(texture,
-								new Vector2(drawPlayerCenter.X - Main.screenPosition.X, drawPlayerCenter.Y - Main.screenPosition.Y),
-								new Rectangle(0, 0, texture.Width, texture.Height),
-								Color.DeepSkyBlue * (distToProj.Length() / 255),
-								projRotation,
-								new Vector2(texture.Width * 0.5f, texture.Height * 0.5f),
-								0.5f,
-								SpriteEffects.None,
-								0);
-							Main.playerDrawData.Add(drawData);
-						}
-					}
-				}));
-		}
 	}
 }

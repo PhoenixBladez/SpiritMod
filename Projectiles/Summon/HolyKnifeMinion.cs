@@ -41,7 +41,7 @@ namespace SpiritMod.Projectiles.Summon
         public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			float scale = Projectile.scale;
-			Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Summon/HolyKnifeMinion_Glow");
+			Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Summon/HolyKnifeMinion_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Color color = new Color(255, 255, 200) * 0.75f;
 
 			if (Projectile.ai[1] == 1)

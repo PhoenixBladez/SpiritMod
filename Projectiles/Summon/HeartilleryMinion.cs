@@ -97,7 +97,7 @@ namespace SpiritMod.Projectiles.Summon
 								Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, vel.RotatedByRandom(MathHelper.Pi / 8) * Main.rand.NextFloat(0.9f, 1.1f), ModContent.ProjectileType<HeartilleryMinionClump>(), Projectile.damage, 0, Main.myPlayer).netUpdate = true;
 						}
 						Projectile.netUpdate = true;
-						SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 95);  //make bow shooty sound
+						SoundEngine.PlaySound(SoundID.Item95, Projectile.Center);  //make bow shooty sound
 					}
 				}
 			}

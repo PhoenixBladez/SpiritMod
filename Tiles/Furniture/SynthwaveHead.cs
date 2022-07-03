@@ -45,7 +45,7 @@ namespace SpiritMod.Tiles.Furniture
 			Tile tile = Framing.GetTileSafely(i, j);
 			Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
 
-			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/SynthwaveHead_Glow");
+			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/SynthwaveHead_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
 			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), colour);
@@ -73,7 +73,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override bool RightClick(int i, int j)
 		{
-			SoundEngine.PlaySound(SoundID.Mech, i * 16, j * 16, 0);
+			SoundEngine.PlaySound(SoundID.Mech, new Vector2(i * 16, j * 16));
 			HitWire(i, j);
 			return true;
 		}

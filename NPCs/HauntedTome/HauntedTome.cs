@@ -201,7 +201,6 @@ namespace SpiritMod.NPCs.HauntedTome
 
 		public override void OnKill()
 		{
-			NPC.DropItem(ModContent.ItemType<Items.Sets.SepulchreLoot.ScreamingTome.ScreamingTome>());
 			MyWorld.downedTome = true;
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);
@@ -211,6 +210,11 @@ namespace SpiritMod.NPCs.HauntedTome
 
 			if (Main.netMode != NetmodeID.Server)
 				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.Center);
+		}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddCommon<Items.Sets.SepulchreLoot.ScreamingTome.ScreamingTome>();
 		}
 
 		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;

@@ -135,7 +135,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 					 rotation,
 					 startex.Size() / 2,
 					 Player.HeldItem.scale * scale,
-					 info.spriteEffects,
+					 info.playerEffect,
 					 0);
 
 				info.DrawDataCache.Add(data);

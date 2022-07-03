@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs.Reach
 		}
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center, 1);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace SpiritMod.Utilities
 		{
 			for (int i = 0; i < numRays; i++)
 			{
-				Texture2D ray = ModContent.Request<Texture2D>("Textures/Ray");
+				Texture2D ray = ModContent.Request<Texture2D>("Textures/Ray", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				float rotation = i * (MathHelper.TwoPi / numRays) + (Main.GlobalTimeWrappedHourly * (((i % 3) + 1f) / 3)); //Half of rays rotate faster, so it looks less like a rotating static image
 				rotation -= MathHelper.PiOver2;
 

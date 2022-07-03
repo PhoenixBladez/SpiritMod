@@ -79,7 +79,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft) //on kill effect I literally stole from another projectile in the mod verbatim
 		{
-			SoundEngine.PlaySound(SoundID.Critter, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Critter, Projectile.Center);
 			for (int i = 0; i < 10; i++) {
 				int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Plantera_Green, 0f, -2f, 0, default, 1.5f);
 				Main.dust[num].noGravity = true;

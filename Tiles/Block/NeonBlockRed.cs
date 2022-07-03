@@ -33,7 +33,7 @@ namespace SpiritMod.Tiles.Block
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
-			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Block/NeonBlockRed_Glow");
+			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Block/NeonBlockRed_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Color colour = Color.White * MathHelper.Lerp(0.3f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
 			GTile.DrawSlopedGlowMask(i, j, glow, colour, Vector2.Zero);
 		}

@@ -83,7 +83,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 				if (Framing.GetTileSafely(x, y + 1).IsHalfBlock)
 					pos.Y += 8;
 
-				switch (Framing.GetTileSafely(x, y + 1).Slope) {
+				switch ((byte)Framing.GetTileSafely(x, y + 1).Slope) {
 					case 1: vel = vel.RotatedBy(MathHelper.Pi / 4);
 						break;
 					case 2: vel = vel.RotatedBy(-MathHelper.Pi / 4);

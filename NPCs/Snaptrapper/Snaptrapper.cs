@@ -44,22 +44,17 @@ namespace SpiritMod.NPCs.Snaptrapper
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.AntlionAssassinBanner>();
 		}
+
         public override bool PreKill()
         {
             SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.Center);
             MyWorld.downedSnaptrapper = true;
             return true;
         }
-        public override void OnKill()
-        {
-            string[] lootTable = { "SnapsporeStaff", "SporeClub" };
-            int loot = Main.rand.Next(lootTable.Length);
-            {
-                if (Main.rand.NextBool(2))
-                    NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
-            }
-        }
-        public override void HitEffect(int hitDirection, double damage)
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddOneFromOptions<SnapsporeStaff, SporeClub>(2);
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int i = 0; i < 6; i++)
             {
@@ -75,24 +70,23 @@ namespace SpiritMod.NPCs.Snaptrapper
                     Main.gore[a].timeLeft = 20;
                     Main.gore[a].scale = Main.rand.NextFloat(.5f, 1f);
                 }
+
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Snaptrapper/Snaptrapper1").Type, 1f);
+
                 for (int k = 0; k < 6; k++)
-                {
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Snaptrapper/Snaptrapper2").Type, Main.rand.NextFloat(.6f, 1f));
-                }
                 for (int z = 0; z < 2; z++)
-                {
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Snaptrapper/Snaptrapper3").Type, Main.rand.NextFloat(.8f, 1f));
-                }
             }
         }
+
         int frame;
-		public override void FindFrame(int frameHeight)
-		{
-            NPC.frame.Y = frameHeight * frame;
-        }
+
+		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
+
         bool chargePhase;
         int frameTimer;
+
 		public override void AI()
 		{
             NPC.spriteDirection = NPC.direction;

@@ -812,51 +812,42 @@ namespace SpiritMod
 				SkyManager.Instance["SpiritMod:MeteoriteSky"] = new MeteoriteSky();
 
 				//Music Boxes
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/CrimsonNight"), Find<ModItem>("CrimsonNightBox").Type, Find<ModTile>("CrimsonNightBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/UnderwaterMusic"), Find<ModItem>("OceanDepthsBox").Type, Find<ModTile>("OceanDepthsBox").Type);
-
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TranquilWinds"), Find<ModItem>("TranquilWindsBox").Type, Find<ModTile>("TranquilWindsBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech"), Find<ModItem>("NeonMusicBox").Type, Find<ModTile>("NeonMusicBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech1"), Find<ModItem>("HyperspaceDayBox").Type, Find<ModTile>("HyperspaceDayBox").Type);
-
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritOverworld"), Find<ModItem>("SpiritBox1").Type, Find<ModTile>("SpiritBox1").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer1"), Find<ModItem>("SpiritBox2").Type, Find<ModTile>("SpiritBox2").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer2"), Find<ModItem>("SpiritBox3").Type, Find<ModTile>("SpiritBox3").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiritLayer3"), Find<ModItem>("SpiritBox4").Type, Find<ModTile>("SpiritBox4").Type);
-
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Reach"), Find<ModItem>("ReachBox").Type, Find<ModTile>("ReachBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ReachNighttime"), Find<ModItem>("BriarNightBox").Type, Find<ModTile>("BriarNightBox").Type);
-
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Asteroids"), Find<ModItem>("AsteroidBox").Type, Find<ModTile>("AsteroidBox").Type);
-
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Starplate"), Find<ModItem>("StarplateBox").Type, Find<ModTile>("StarplateBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/MoonJelly"), Find<ModItem>("MJWBox").Type, Find<ModTile>("MJWBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Scarabeus"), Find<ModItem>("ScarabBox").Type, Find<ModTile>("ScarabBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Atlas"), Find<ModItem>("AtlasBox").Type, Find<ModTile>("AtlasBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ReachBoss"), Find<ModItem>("VinewrathBox").Type, Find<ModTile>("VinewrathBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AncientAvian"), Find<ModItem>("AvianBox").Type, Find<ModTile>("AvianBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Infernon"), Find<ModItem>("InfernonBox").Type, Find<ModTile>("InfernonBox").Type);
-
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Blizzard"), Find<ModItem>("BlizzardBox").Type, Find<ModTile>("BlizzardBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow"), Find<ModItem>("AuroraBox").Type, Find<ModTile>("AuroraBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SnowNighttime"), Find<ModItem>("SnowNightBox").Type, Find<ModTile>("SnowNightBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DesertNighttime"), Find<ModItem>("DesertNightBox").Type, Find<ModTile>("DesertNightBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/OceanNighttime"), Find<ModItem>("LuminousNightBox").Type, Find<ModTile>("LuminousNightBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/HallowNight"), Find<ModItem>("HallowNightBox").Type, Find<ModTile>("HallowNightBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/CalmNight"), Find<ModItem>("CalmNightBox").Type, Find<ModTile>("CalmNightBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/CorruptNight"), Find<ModItem>("CorruptNightBox").Type, Find<ModTile>("CorruptNightBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Meteor"), Find<ModItem>("MeteorBox").Type, Find<ModTile>("MeteorBox").Type);
-
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/MarbleBiome"), Find<ModItem>("MarbleBox").Type, Find<ModTile>("MarbleBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/GraniteBiome"), Find<ModItem>("GraniteBox").Type, Find<ModTile>("GraniteBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SpiderCave"), Find<ModItem>("SpiderCaveBox").Type, Find<ModTile>("SpiderCaveBox").Type);
-
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon"), Find<ModItem>("BlueMoonBox").Type, Find<ModTile>("BlueMoonBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion"), Find<ModItem>("TideBox").Type, Find<ModTile>("TideBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky"), Find<ModItem>("JellyDelugeBox").Type, Find<ModTile>("JellyDelugeBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/FrostLegion"), Find<ModItem>("FrostLegionBox").Type, Find<ModTile>("FrostLegionBox").Type);
-				AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AshStorm"), Find<ModItem>("AshfallBox").Type, Find<ModTile>("AshfallBox").Type);
-
+				LoadMusicBox("CrimsonNightBox", "Sounds/Music/CrimsonNight");
+				LoadMusicBox("OceanDepthsBox", "Sounds/Music/UnderwaterMusic");
+				LoadMusicBox("TranquilWindsBox", "Sounds/Music/TranquilWinds");
+				LoadMusicBox("NeonMusicBox", "Sounds/Music/NeonTech");
+				LoadMusicBox("HyperspaceDayBox", "Sounds/Music/NeonTech1");
+				LoadMusicBox("SpiritBox1", "Sounds/Music/SpiritOverworld");
+				LoadMusicBox("SpiritBox2", "Sounds/Music/SpiritLayer1");
+				LoadMusicBox("SpiritBox3", "Sounds/Music/SpiritLayer2");
+				LoadMusicBox("SpiritBox4", "Sounds/Music/SpiritLayer3");
+				LoadMusicBox("ReachBox", "Sounds/Music/Reach");
+				LoadMusicBox("BriarNightBox", "Sounds/Music/ReachNighttime");
+				LoadMusicBox("AsteroidBox", "Sounds/Music/Asteroids");
+				LoadMusicBox("StarplateBox", "Sounds/Music/Starplate");
+				LoadMusicBox("MJWBox", "Sounds/Music/MoonJelly");
+				LoadMusicBox("ScarabBox", "Sounds/Music/Scarabeus");
+				LoadMusicBox("AtlasBox", "Sounds/Music/Atlas");
+				LoadMusicBox("VinewrathBox", "Sounds/Music/ReachBoss");
+				LoadMusicBox("AvianBox", "Sounds/Music/AncientAvian");
+				LoadMusicBox("InfernonBox", "Sounds/Music/Infernon");
+				LoadMusicBox("BlizzardBox", "Sounds/Music/Blizzard");
+				LoadMusicBox("AuroraBox", "Sounds/Music/AuroraSnow");
+				LoadMusicBox("SnowNightBox", "Sounds/Music/SnowNighttime");
+				LoadMusicBox("DesertNightBox", "Sounds/Music/DesertNighttime");
+				LoadMusicBox("LuminousNightBox", "Sounds/Music/OceanNighttime");
+				LoadMusicBox("HallowNightBox", "Sounds/Music/HallowNight");
+				LoadMusicBox("CalmNightBox", "Sounds/Music/CalmNight");
+				LoadMusicBox("CorruptNightBox", "Sounds/Music/CorruptNight");
+				LoadMusicBox("MeteorBox", "Sounds/Music/Meteor");
+				LoadMusicBox("MarbleBox", "Sounds/Music/MarbleBiome");
+				LoadMusicBox("GraniteBox", "Sounds/Music/GraniteBiome");
+				LoadMusicBox("SpiderCaveBox", "Sounds/Music/SpiderCave");
+				LoadMusicBox("BlueMoonBox", "Sounds/Music/BlueMoon");
+				LoadMusicBox("TideBox", "Sounds/Music/DepthInvasion");
+				LoadMusicBox("JellyDelugeBox", "Sounds/Music/JellySky");
+				LoadMusicBox("FrostLegionBox", "Sounds/Music/FrostLegion");
+				LoadMusicBox("AshfallBox", "Sounds/Music/AshStorm");
 
 				AutoSellUI.visible = false;
 				Mechanics.AutoSell.Sell_NoValue.Sell_NoValue.visible = false;
@@ -885,6 +876,8 @@ namespace SpiritMod
 			// using a mildly specific name to avoid mod clashes
 			ChatManager.Register<UI.Chat.QuestTagHandler>(new string[] { "sq", "spiritQuest" });
 		}
+
+		private void LoadMusicBox(string name, string path) => MusicLoader.AddMusicBox(this, MusicLoader.GetMusicSlot(this, path), Find<ModItem>(name).Type, Find<ModTile>(name).Type);
 
 		public override void PostAddRecipes()
 		{
@@ -1499,7 +1492,7 @@ namespace SpiritMod
 			{
 				var pos = pins.Get<Vector2>(pair.Key);
 				// No, I don't know why it draws one tile to the right, but that's how it is
-				DrawMirrorOnFullscreenMap((int)pos.X - 1, (int)pos.Y, true, ModContent.Request<Texture2D>($"Items/Pins/Textures/Pin{pair.Key}Map"));
+				DrawMirrorOnFullscreenMap((int)pos.X - 1, (int)pos.Y, true, ModContent.Request<Texture2D>($"Items/Pins/Textures/Pin{pair.Key}Map", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			}
 		}
 

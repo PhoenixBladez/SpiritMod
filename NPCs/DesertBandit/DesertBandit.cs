@@ -97,7 +97,7 @@ namespace SpiritMod.NPCs.DesertBandit
 				if (NPC.localAI[2] == -1)
 				{
 					CombatText.NewText(textPos, new Color(61, 255, 142, 100), "Thank you again!");
-					NPC.DropItem(ModContent.ItemType<Items.Sets.AccessoriesMisc.DustboundRing.Dustbound_Ring>());
+					NPC.DropItem(ModContent.ItemType<Items.Sets.AccessoriesMisc.DustboundRing.Dustbound_Ring>(), NPC.GetSource_FromAI());
 
 					for (int i = 0; i < 3; ++i)
 						Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 99);

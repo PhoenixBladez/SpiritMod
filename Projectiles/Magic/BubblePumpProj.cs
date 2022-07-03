@@ -61,7 +61,7 @@ namespace SpiritMod.Projectiles.Magic
 				if (counter < 100) {
 					counter++;
 					if (counter % 20 == 19)
-						SoundEngine.PlaySound(SoundID.Item5, (int)Projectile.position.X, (int)Projectile.position.Y);
+						SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
 
 					Vector2 dustUnit = direction.RotatedBy(Main.rand.NextFloat(-1,1)) * 0.15f;
 					Vector2 dustOffset = player.Center + (direction * 5.3f) + player.velocity;

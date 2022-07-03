@@ -47,7 +47,7 @@ namespace SpiritMod.Projectiles.Summon
 		public override void CheckActive()
 		{
 			Player player = Main.player[Projectile.owner];
-			MyPlayer modPlayer = (MyPlayer)player.GetModPlayer(Mod, "MyPlayer");
+			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (player.dead)
 				modPlayer.Phantom = false;
 

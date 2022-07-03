@@ -12,7 +12,7 @@ namespace SpiritMod.Dusts
 			Texture2D texture = ModContent.Request<Texture2D>(Texture, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
             dust.noGravity = true;
-			dust.frame = new Rectangle(0, texture.Height() / 3 * Main.rand.Next(3), texture.Width(), texture.Height() / 3);
+			dust.frame = new Rectangle(0, texture.Height / 3 * Main.rand.Next(3), texture.Width, texture.Height / 3);
 			dust.noLight = true;
         }
 

@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 		public override void CustomDraw(SpriteBatch spriteBatch)
 		{
 			Texture2D tex = ParticleHandler.GetTexture(Type);
-			Texture2D glow = ModContent.Request<Texture2D>("Items/Ammo/Rocket/Warhead/WarheadBoom_glow");
+			Texture2D glow = ModContent.Request<Texture2D>("Items/Ammo/Rocket/Warhead/WarheadBoom_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Rectangle DrawFrame = new Rectangle(0, _frame * tex.Height/_numFrames, tex.Width, tex.Height/_numFrames);
 			spriteBatch.Draw(tex, Position - Main.screenPosition, DrawFrame, Lighting.GetColor(Position.ToTileCoordinates().X, Position.ToTileCoordinates().Y), Rotation, DrawFrame.Size() / 2, Scale, SpriteEffects.None, 0);
 			spriteBatch.Draw(glow, Position - Main.screenPosition, DrawFrame, Color.White, Rotation, DrawFrame.Size() / 2, Scale, SpriteEffects.None, 0);

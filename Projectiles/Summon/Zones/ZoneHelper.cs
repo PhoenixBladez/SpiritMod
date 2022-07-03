@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Summon.Zones
 			{
 				Color color = col * 0.75f * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
 				float scale = projectile.scale;
-				Texture2D tex = ModContent.Request<Texture2D>(path);
+				Texture2D tex = ModContent.Request<Texture2D>(path, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
 			}
 		}

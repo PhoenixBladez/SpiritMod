@@ -70,7 +70,7 @@ namespace SpiritMod.NPCs.Reach
 				NPC.velocity.X = .008f * NPC.direction;
 				//shootTimer++;
 				if (frame == 11 && timer == 0) {
-					SoundEngine.PlaySound(SoundID.Item, NPC.Center, 64);
+					SoundEngine.PlaySound(SoundID.Item64, NPC.Center);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						for (int i = 0; i < 2; i++) {

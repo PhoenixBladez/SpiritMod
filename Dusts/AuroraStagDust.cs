@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -9,8 +10,9 @@ namespace SpiritMod.Dusts
 	{
 		public override void OnSpawn(Dust dust)
 		{
+			var texture = ModContent.Request<Texture2D>(Texture, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			dust.noGravity = true;
-			dust.frame = new Rectangle(0, Texture.Height / 3 * Main.rand.Next(3), Texture.Width, Texture.Height / 3);
+			dust.frame = new Rectangle(0, texture.Height / 3 * Main.rand.Next(3), texture.Width, texture.Height / 3);
 			dust.scale = 1.2f;
 			dust.noLight = true;
 		}

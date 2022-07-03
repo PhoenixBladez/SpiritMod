@@ -162,7 +162,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 			if(AiTimer > SELFDESTRUCT_TIME)
 			{
 				NPC.life = 0;
-				SoundEngine.PlaySound(NPC.DeathSound, NPC.Center);
+				SoundEngine.PlaySound(NPC.DeathSound.Value, NPC.Center);
 				NPC.HitEffect();
 				NPC.NPCLoot();
 				NPC.active = false;

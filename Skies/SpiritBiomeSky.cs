@@ -37,7 +37,7 @@ namespace SpiritMod.Skies
 			_beamTexture = TextureManager.Load("Images/Misc/NebulaSky/Beam");
 			_rockTextures = new Texture2D[3];
 			for (int i = 0; i < _rockTextures.Length; i++) {
-				_rockTextures[i] = ModContent.Request<Texture2D>("Textures/Soul" + i.ToString());
+				_rockTextures[i] = ModContent.Request<Texture2D>("Textures/Soul" + i.ToString(), ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			}
 		}
 

@@ -40,7 +40,7 @@ namespace SpiritMod.Particles
 					particleTypes[type] = assignedType;
 
 					string texturePath = type.Namespace.Replace('.', '/') + "/" + type.Name;
-					particleTextures[assignedType] = ModContent.Request<Texture2D>(texturePath);
+					particleTextures[assignedType] = ModContent.Request<Texture2D>(texturePath, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 					particleInstances.Add((Particle)FormatterServices.GetUninitializedObject(type));
 				}

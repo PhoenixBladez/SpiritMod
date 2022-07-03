@@ -145,14 +145,14 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 					Color color = new Color(255, 179, 246) * 0.75f * Projectile.Opacity * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 
 					float scale = Projectile.scale;
-					Texture2D glowtex = ModContent.Request<Texture2D>(Texture + "_trail");
+					Texture2D glowtex = ModContent.Request<Texture2D>(Texture + "_trail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 					spriteBatch.Draw(glowtex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color * sineAdd, Projectile.rotation, glowtex.Size() / 2, scale, default, default);
 				}
 			}
 
 			Projectile.QuickDraw(spriteBatch, drawColor: Color.White);
 
-			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			float bloomOpacity = Math.Max((1 - Projectile.Opacity) * 3, 0.5f) * Projectile.Opacity;
 			spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Pink * bloomOpacity, Projectile.rotation, bloom.Size() / 2, new Vector2(Projectile.scale / 4f, Projectile.scale / 2f), SpriteEffects.None, 0f);
 		}

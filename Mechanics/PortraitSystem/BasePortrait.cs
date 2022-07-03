@@ -19,7 +19,7 @@ namespace SpiritMod.Mechanics.PortraitSystem
 		/// <summary>Loads the texture of the portrait by default & sets the size to size. Defaults to (108, 108) by default.</summary>
 		protected BasePortrait(Point? size = null)
 		{
-			Texture = ModContent.Request<Texture2D>($"SpiritMod/UI/Portraits/{GetType().Name}");
+			Texture = ModContent.Request<Texture2D>($"SpiritMod/UI/Portraits/{GetType().Name}", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			BaseSize = size ?? new Point(108, 108);
 		}
 

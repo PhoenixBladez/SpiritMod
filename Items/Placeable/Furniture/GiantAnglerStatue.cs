@@ -37,9 +37,8 @@ namespace SpiritMod.Items.Placeable.Furniture
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(ModContent.ItemType<Items.Placeable.FishCrate>(), 3);
-			recipe.AddIngredient(ItemID.IronBar, 20);
-			recipe.anyIronBar = true;
+			recipe.AddIngredient(ModContent.ItemType<FishCrate>(), 3);
+			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 20);
 			recipe.AddTile(TileID.Furnaces);
 			recipe.Register();
 		}

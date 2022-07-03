@@ -64,12 +64,12 @@ namespace SpiritMod.NPCs.Undead_Warlock
 				float addHeight = -4f;
 				float addWidth = 0f;
 				Vector2 vector2_3 = new Vector2((float) (TextureAssets.Projectile[Projectile.type].Value.Width / 2), (float) (TextureAssets.Projectile[Projectile.type].Value.Height / 1 / 2));
-				Texture2D texture2D = ModContent.Request<Texture2D>("SpiritMod/Effects/Circles");
+				Texture2D texture2D = ModContent.Request<Texture2D>("SpiritMod/Effects/Circles", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				if (Projectile.velocity.X == 0)
 				{
 					addHeight = -8f;
 					addWidth = -6f;
-					texture2D = ModContent.Request<Texture2D>("SpiritMod/Effects/Circles");
+					texture2D = ModContent.Request<Texture2D>("SpiritMod/Effects/Circles", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				}
 				Vector2 origin = new Vector2((float) (texture2D.Width / 2), (float) (texture2D.Height / 8 + 14));
 				int num1 = (int) Projectile.ai[1] / 2;

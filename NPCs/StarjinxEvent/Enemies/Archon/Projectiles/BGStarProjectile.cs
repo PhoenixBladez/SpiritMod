@@ -70,7 +70,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 
 		public StarProjBGItem(Vector2 pos, Projectile parent) : base(pos, 0f, new Point(0, 0))
 		{
-			tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/StarjinxEvent/Enemies/Archon/Projectiles/BGStarProjectile");
+			tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/StarjinxEvent/Enemies/Archon/Projectiles/BGStarProjectile", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			source = new Rectangle(0, 0, tex.Width, tex.Height);
 			scale = 1f;
 

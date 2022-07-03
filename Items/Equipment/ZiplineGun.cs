@@ -61,7 +61,7 @@ namespace SpiritMod.Items.Equipment
 				if (rightactive) {
 					Main.projectile[right].active = false;
 				}
-				right = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RightZipline>(), Item.damage, 1, Main.myPlayer);
+				right = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RightZipline>(), Item.damage, 1, Main.myPlayer);
 				rightactive = true;
 				if (leftactive) {
 					Main.projectile[right].ai[1] = left;
@@ -72,7 +72,7 @@ namespace SpiritMod.Items.Equipment
 				if (leftactive) {
 					Main.projectile[left].active = false;
 				}
-				left = Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<LeftZipline>(), Item.damage, 1, Main.myPlayer);
+				left = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<LeftZipline>(), Item.damage, 1, Main.myPlayer);
 				leftactive = true;
 				if (rightactive) {
 					Main.projectile[left].ai[1] = right;

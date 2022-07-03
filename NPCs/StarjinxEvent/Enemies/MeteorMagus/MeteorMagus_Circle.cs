@@ -82,7 +82,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		public override void CustomDraw(SpriteBatch spriteBatch)
 		{
 			//Draw a bloom underneath the circle
-			Texture2D bloom = ModContent.Request<Texture2D>("Effects/Masks/CircleGradient");
+			Texture2D bloom = ModContent.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Vector2 drawCenter = Position - Main.screenPosition;
 			Vector2 bloomScale = new Vector2(Scale, Scale * (1 - _zRotation));
 			bloomScale *= 2.5f;
@@ -90,7 +90,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			spriteBatch.Draw(bloom, destRect, Color.Lerp(Color, Color.White, 0.25f) * _opacity * 0.4f);
 
 			//Draw the circle itself
-			Effect effect = ModContent.Request<Effect>("Effects/MagicCircle");
+			Effect effect = ModContent.Request<Effect>("Effects/MagicCircle", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			effect.Parameters["rotation"].SetValue(_rotation);
 			Color additiveColor = Color;
 			additiveColor.A = 0;

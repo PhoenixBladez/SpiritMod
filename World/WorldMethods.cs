@@ -122,19 +122,17 @@ namespace SpiritMod.World
 					for (int l = num5; l < num6; l++)
 					{
 						if ((double)(Math.Abs((float)k - pos.X) + Math.Abs((float)l - pos.Y)) < strength * 0.5 * (1.0 + (double)WorldGen.genRand.Next(-10, 11) * 0.015))
-						{
-
+						{ 
 							if (type < 0)
 							{
+								Tile tile = Main.tile[k, l];
 								if (type == -2 && Main.tile[k, l].HasTile && (l < WorldGen.waterLine || l > WorldGen.lavaLine))
 								{
 									Main.tile[k, l].LiquidAmount = 255;
 									if (l > WorldGen.lavaLine)
-									{
-										Main.tile[k, l].LiquidType = LiquidID.Lava;
-									}
+										tile.LiquidType = LiquidID.Lava;
 								}
-								Main.tile[k, l].HasTile = false;
+								tile.HasTile = false;
 							}
 							else
 							{
@@ -233,14 +231,16 @@ namespace SpiritMod.World
 							IL_5C5:
 								if (addTile)
 								{
-									Main.tile[k, l].HasTile = true;
-									Main.tile[k, l].LiquidAmount = 0;
-									Main.tile[k, l].lava/* tModPorter Suggestion: LiquidType = ... */(false);
+									Tile tile = Main.tile[k, l];
+									tile.HasTile = true;
+									tile.LiquidAmount = 0;
+									tile.LiquidType = LiquidID.Lava;
 								}
 								if (type == 59 && l > WorldGen.waterLine && Main.tile[k, l].LiquidAmount > 0)
 								{
-									Main.tile[k, l].lava/* tModPorter Suggestion: LiquidType = ... */(false);
-									Main.tile[k, l].LiquidAmount = 0;
+									Tile tile = Main.tile[k, l];
+									tile.LiquidType = LiquidID.Lava;
+									tile.LiquidAmount = 0;
 								}
 							}
 						}

@@ -137,20 +137,22 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 
 				if (counter == 50)
 				{
-					NPC.DropItem(ModContent.ItemType<Jem.Jem>(), 0.01f);
-					NPC.DropItem(ModContent.ItemType<Consumable.Food.GoldenCaviar>(), 0.1f);
-					NPC.DropItem(ModContent.ItemType<FunnyFirework.FunnyFirework>(), 0.08f, Main.rand.Next(5, 9));
-					NPC.DropItem(ItemID.AngelStatue, 0.02f);
-					NPC.DropItem(ModContent.ItemType<Champagne.Champagne>(), 0.08f, Main.rand.Next(1, 3));
-					NPC.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.05f);
+					var source = NPC.GetSource_FromAI();
+
+					NPC.DropItem(ModContent.ItemType<Jem.Jem>(), 0.01f, source);
+					NPC.DropItem(ModContent.ItemType<Consumable.Food.GoldenCaviar>(), 0.1f, source);
+					NPC.DropItem(ModContent.ItemType<FunnyFirework.FunnyFirework>(), 0.08f, source, Main.rand.Next(5, 9));
+					NPC.DropItem(ItemID.AngelStatue, 0.02f, source);
+					NPC.DropItem(ModContent.ItemType<Champagne.Champagne>(), 0.08f, source, Main.rand.Next(1, 3));
+					NPC.DropItem(ModContent.ItemType<Mystical_Dice>(), 0.05f, source);
 
 					switch (Main.rand.NextBool())
 					{ //mutually exclusive
 						case true:
-							NPC.DropItem(ModContent.ItemType<GildedMustache.GildedMustache>(), 0.05f);
+							NPC.DropItem(ModContent.ItemType<GildedMustache.GildedMustache>(), 0.05f, source);
 							break;
 						case false:
-							NPC.DropItem(ModContent.ItemType<RegalCane.RegalCane>(), 0.05f);
+							NPC.DropItem(ModContent.ItemType<RegalCane.RegalCane>(), 0.05f, source);
 							break;
 					}
 
@@ -166,11 +168,11 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 					int donatorloot = Main.rand.Next(lootTable.Length);
 					if (Main.rand.NextBool(20))
 					{
-						NPC.DropItem(Mod.Find<ModItem>(donatorLootTable[donatorloot]).Type);
+						NPC.DropItem(Mod.Find<ModItem>(donatorLootTable[donatorloot]).Type, source);
 					}
 					if (Main.rand.Next(50) == 0)
 					{
-						NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type);
+						NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type, source);
 						for (int value = 0; value < 32; value++)
 						{
 							int num = Dust.NewDust(new Vector2(NPC.Center.X, NPC.Center.Y - 20), 50, 50, DustID.ShadowbeamStaff, 0f, -2f, 0, default, 2f);

@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(int timeLeft)
 		{
 			Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.LifeDrain);
-			SoundEngine.PlaySound(SoundID.Grass, (int)Projectile.position.X, (int)Projectile.position.Y);
+			SoundEngine.PlaySound(SoundID.Grass, Projectile.Center);
 		}
 
 		public override void AI()

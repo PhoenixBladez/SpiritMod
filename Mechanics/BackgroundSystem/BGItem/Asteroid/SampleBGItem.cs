@@ -18,7 +18,7 @@ namespace SpiritMod.Mechanics.BackgroundSystem.BGItem.Asteroid
 
         public SampleBGItem(Vector2 pos) : base(pos, 0f, new Point(0, 0))
         {
-            tex = ModContent.Request<Texture2D>("SpiritMod/Mechanics/BackgroundSystem/BGItem/Asteroid/SampleBGItem");
+            tex = ModContent.Request<Texture2D>("SpiritMod/Mechanics/BackgroundSystem/BGItem/Asteroid/SampleBGItem", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
             source = new Rectangle(0, 0, tex.Width, tex.Height);
 
             scaleDecay = Main.rand.Next(2500, 2800);

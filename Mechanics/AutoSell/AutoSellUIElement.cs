@@ -9,10 +9,10 @@ namespace SpiritMod.Mechanics.AutoSell
 {
 	public class AutoSellUIElement : UIElement
 	{
-		private static Texture2D _backgroundTexture { get { return SpiritModAutoSellTextures.autoSellUIButton; } }
-		private static Texture2D sell_NoValueActive { get { return SpiritModAutoSellTextures.sellNoValueButton; } }
-		private static Texture2D sell_LockActive { get { return SpiritModAutoSellTextures.sellLockButton; } }
-		private static Texture2D sell_WeaponsActive { get { return SpiritModAutoSellTextures.sellWeaponsButton; } }
+		private static Texture2D _backgroundTexture { get { return SpiritModAutoSellTextures.autoSellUIButton.Value; } }
+		private static Texture2D sell_NoValueActive { get { return SpiritModAutoSellTextures.sellNoValueButton.Value; } }
+		private static Texture2D sell_LockActive { get { return SpiritModAutoSellTextures.sellLockButton.Value; } }
+		private static Texture2D sell_WeaponsActive { get { return SpiritModAutoSellTextures.sellWeaponsButton.Value; } }
 		
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{

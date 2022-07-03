@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Hostile
                 Color color = new Color(255, 224, 69) * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 
                 float scale = Projectile.scale * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length); 
-                Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Hostile/Comet");
+                Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Hostile/Comet", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
                 spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
                 spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale * .85f, default, default);

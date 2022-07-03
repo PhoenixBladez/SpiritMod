@@ -78,8 +78,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder.PathfinderGores
 			if(chosenTexture == 2 || chosenTexture == 3)
 				texturePath += chosenTexture;
 
-			Texture2D Tex = ModContent.Request<Texture2D>(texturePath);
-			Texture2D Glow = ModContent.Request<Texture2D>(texturePath + "_Glow");
+			Texture2D Tex = ModContent.Request<Texture2D>(texturePath, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D Glow = ModContent.Request<Texture2D>(texturePath + "_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			Color glowColor = Color.HotPink * glowOpacity;
 

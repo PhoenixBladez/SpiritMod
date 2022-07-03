@@ -76,7 +76,7 @@ namespace SpiritMod.Projectiles.Summon.SacrificialDagger
                     Color color = new Color(191, 102, 255) * 0.85f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 
                     float scale = Projectile.scale;
-                    Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Summon/SacrificialDagger/SacrificialDagger_Trail");
+                    Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Summon/SacrificialDagger/SacrificialDagger_Trail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
                     spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color * sineAdd, Projectile.rotation, tex.Size() / 2, scale, default, default);
                 }

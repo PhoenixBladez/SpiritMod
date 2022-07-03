@@ -76,7 +76,7 @@ namespace SpiritMod.Projectiles.Summon
 					Main.projectile[proj2].DamageType = DamageClass.Summon;
 				}
 				
-				SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 12);  //make bow shooty sound
+				SoundEngine.PlaySound(SoundID.Item12, Projectile.Center);  //make bow shooty sound
 			}
 			Vector2 globePos = new Vector2(Projectile.Center.X + 2, Projectile.position.Y + 6);
 			if (Main.rand.Next(11) == 1) {

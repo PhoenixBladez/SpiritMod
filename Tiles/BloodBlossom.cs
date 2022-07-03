@@ -67,8 +67,8 @@ namespace SpiritMod.Tiles
 
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				Main.NewText("The Vinewrath Bane has awoken!", 175, 75, 255, true);
-				int npcID = NPC.NewNPC(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, (j * 16) - 600, ModContent.NPCType<ReachBoss>());
+				Main.NewText("The Vinewrath Bane has awoken!", 175, 75, 255);
+				int npcID = NPC.NewNPC(new EntitySource_TileBreak(i, j), i * 16, (j * 16) - 600, ModContent.NPCType<ReachBoss>());
 				Main.npc[npcID].netUpdate2 = true;
 			}
 			else
@@ -86,7 +86,7 @@ namespace SpiritMod.Tiles
 		public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
-			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/BloodBlossom");
+			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/BloodBlossom", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
 
 			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero + (Vector2.UnitY * GetOffset()), new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Lighting.GetColor(i, j));
@@ -98,7 +98,7 @@ namespace SpiritMod.Tiles
 			Tile tile = Framing.GetTileSafely(i, j);
 			Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
 
-			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/BloodBlossom_Glow");
+			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/BloodBlossom_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
 
 			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero + (Vector2.UnitY * GetOffset()), new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), colour);

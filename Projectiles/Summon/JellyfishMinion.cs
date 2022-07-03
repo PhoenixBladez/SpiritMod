@@ -208,7 +208,7 @@ namespace SpiritMod.Projectiles.Summon
 					}
 
 					NPC target = (Main.npc[(int)Projectile.ai[1]] ?? new NPC());
-					SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 12);
+					SoundEngine.PlaySound(SoundID.Item12, Projectile.Center);
 					timer = 0;
 					Vector2 ShootArea = new Vector2(Projectile.Center.X, Projectile.Center.Y - 13);
 					Vector2 direction = Vector2.Normalize(target.Center - ShootArea) * shootVelocity;

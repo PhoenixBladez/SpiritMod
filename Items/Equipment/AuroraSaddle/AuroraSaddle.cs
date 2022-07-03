@@ -116,8 +116,8 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 
 			if (Main.netMode != NetmodeID.Server)
 			{
-				MountData.textureWidth = MountData.backTexture.Width()() /3;
-				MountData.textureHeight = MountData.backTexture.Height()() / 10;
+				MountData.textureWidth = MountData.backTexture.Width() /3;
+				MountData.textureHeight = MountData.backTexture.Height() / 10;
 			}
 		}
 

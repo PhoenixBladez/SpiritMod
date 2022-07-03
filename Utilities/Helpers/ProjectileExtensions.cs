@@ -35,7 +35,7 @@ namespace SpiritMod
 			if (!ModContent.HasAsset(projectile.ModProjectile.Texture + "_glow"))
 				return;
 
-			Texture2D tex = ModContent.Request<Texture2D>(projectile.ModProjectile.Texture + "_glow");
+			Texture2D tex = ModContent.Request<Texture2D>(projectile.ModProjectile.Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Rectangle frame = new Rectangle(0, projectile.frame * tex.Height / Main.projFrames[projectile.type], tex.Width, tex.Height / Main.projFrames[projectile.type]);
 			if (spriteEffects == null)
 				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -67,7 +67,7 @@ namespace SpiritMod
 			if (!ModContent.HasAsset(projectile.ModProjectile.Texture + "_glow"))
 				return;
 
-			Texture2D tex = ModContent.Request<Texture2D>(projectile.ModProjectile.Texture + "_glow");
+			Texture2D tex = ModContent.Request<Texture2D>(projectile.ModProjectile.Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Rectangle frame = new Rectangle(0, projectile.frame * tex.Height / Main.projFrames[projectile.type], tex.Width, tex.Height / Main.projFrames[projectile.type]);
 			if (spriteEffects == null)
 				spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;

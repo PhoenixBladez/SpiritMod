@@ -60,8 +60,8 @@ namespace SpiritMod.Projectiles
 			}
 			if (counter >= 2) {
 				Projectile.active = false;
-				((MyPlayer)player.GetModPlayer(Mod, "MyPlayer")).shieldsLeft -= 1;
-				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
+				player.GetSpiritPlayer().shieldsLeft -= 1;
+				SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
 			}
 			Vector2 center = Projectile.Center;
 			float num8 = (float)player.miscCounter / 60f;
@@ -83,7 +83,7 @@ namespace SpiritMod.Projectiles
 
 			//Increase the counter/angle in degrees by 1 point, you can change the rate here too, but the orbit may look choppy depending on the value
 			Projectile.ai[1] += .38f;
-			if (((MyPlayer)player.GetModPlayer(Mod, "MyPlayer")).ShieldCore) {
+			if ((player.GetSpiritPlayer()).ShieldCore) {
 				Projectile.timeLeft = 2;
 			}
 			Projectile.position.X = player.Center.X - (int)(Math.Cos(rad) * dist) - Projectile.width / 2;

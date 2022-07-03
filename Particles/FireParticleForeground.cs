@@ -35,7 +35,7 @@ namespace SpiritMod.Particles
 		public override void CustomScreenDraw(SpriteBatch spriteBatch)
 		{
 			Texture2D tex = ParticleHandler.GetTexture(Type);
-			Texture2D bloom = Terraria.ModLoader.ModContent.Request<Texture2D>("Effects/Masks/CircleGradient");
+			Texture2D bloom = Terraria.ModLoader.ModContent.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			spriteBatch.Draw(bloom, GetDrawPosition(), null, Color * 0.6f, 0, bloom.Size() / 2, Scale / 5f, SpriteEffects.None, 0);
 			spriteBatch.Draw(tex, GetDrawPosition(), null, Color, Velocity.ToRotation(), tex.Size() / 2, new Vector2(Scale, Scale * 0.75f), SpriteEffects.None, 0);
 		}

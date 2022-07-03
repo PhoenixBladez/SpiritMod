@@ -99,17 +99,10 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			Lighting.AddLight(new Vector2(NPC.Center.X, NPC.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);
 		}
 
-		public override void OnKill()
-		{
-			if (tremorItem == ModContent.ItemType<Items.Weapon.Summon.ElectricGun.ElectricGun>() || tremorItem == ModContent.ItemType<Items.Sets.MagicMisc.Arclash.ArcLash>())
-			//else
-				NPC.DropItem(tremorItem, Main.rand.Next(3, 9));
-
-		}
-
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			npcLoot.AddOneFromOptions<Items.Weapon.Summon.ElectricGun.ElectricGun, Items.Sets.MagicMisc.Arclash.ArcLash>();
+			npcLoot.AddOneFromOptions<Items.Weapon.Summon.ElectricGun.ElectricGun, Items.Sets.MagicMisc.Arclash.ArcLash>(3);
+			npcLoot.AddOneFromOptions(3, 19, 20, 21, 22, ModContent.ItemType<Items.Placeable.Tiles.SpaceJunkItem>(), 286, ModContent.ItemType<Items.Placeable.Tiles.AsteroidBlock>());
 			npcLoot.AddCommon(ItemID.Gel, 1, 1, 3);
 			npcLoot.AddCommon<MoonJelly>();
 		}

@@ -15,7 +15,7 @@ namespace SpiritMod.Tiles.Ambient.Kelp
 
 		public Kelp2x3()
 		{
-			glowmask = ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/Kelp/Kelp2x3_Glow");
+			glowmask = ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/Kelp/Kelp2x3_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 		}
 
 		public override void SetStaticDefaults()

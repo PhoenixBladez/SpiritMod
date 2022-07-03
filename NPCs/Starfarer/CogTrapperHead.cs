@@ -381,19 +381,16 @@ namespace SpiritMod.NPCs.Starfarer
 					num14 = 1f - num13;
 				if ((double)num14 < 0.0)
 					num14 = 0.0f;
-				Microsoft.Xna.Framework.Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
+				Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
 				drawOrigin = r2.Size() / 2f;
 				Vector2 position3 = position1 + new Vector2(0.0f, -20f);
-				Microsoft.Xna.Framework.Color color3 = new Color(84, 207, 255) * 1.6f;
+				Color color3 = new Color(84, 207, 255) * 1.6f;
 				Main.spriteBatch.Draw(texture2D2, position3, r2, color3, NPC.rotation, drawOrigin, NPC.scale * 0.35f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 				float num15 = 1f + num11 * 0.75f;
 				Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num12, NPC.rotation, drawOrigin, NPC.scale * 0.5f * num15, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 				float num16 = 1f + num13 * 0.75f;
 				Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num14, NPC.rotation, drawOrigin, NPC.scale * 0.5f * num16, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
-				Texture2D texture2D3 = TextureAssets.Extra[89];
-				Microsoft.Xna.Framework.Rectangle r3 = texture2D3.Frame(1, 1, 0, 0);
-				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Starfarer/CogTrapperHead_Glow").Value);
-
+				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Starfarer/CogTrapperHead_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			}
 		}
 	}

@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 
 		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			Vector2 muzzleOffset = Vector2.Normalize(velocity)) * 45f;
+			Vector2 muzzleOffset = Vector2.Normalize(velocity) * 45f;
 			if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
 				position += muzzleOffset;
 		}

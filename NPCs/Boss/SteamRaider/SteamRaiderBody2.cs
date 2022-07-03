@@ -52,7 +52,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num12, NPC.rotation, drawOrigin, NPC.scale * 0.5f * num15, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
 				float num16 = 1f + num13 * 0.75f;
 				Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num14, NPC.rotation, drawOrigin, NPC.scale * 0.5f * num16, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
-				Texture2D texture2D3 = TextureAssets.Extra[49][89];
+				Texture2D texture2D3 = TextureAssets.Extra[89].Value;
 				Microsoft.Xna.Framework.Rectangle r3 = texture2D3.Frame(1, 1, 0, 0);
 				drawOrigin = r3.Size() / 2f;
 				Vector2 scale = new Vector2(0.75f, 1f + num16) * 1.5f;

@@ -679,8 +679,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 			if (threads.Count == 0 || attack != AttackType.StarlightConstellation)
 				return;
 
-			Texture2D tex = ModContent.Request<Texture2D>("Textures/Trails/Trail_4");
-			Texture2D star = ModContent.Request<Texture2D>("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar");
+			Texture2D tex = ModContent.Request<Texture2D>("Textures/Trails/Trail_4", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D star = ModContent.Request<Texture2D>("NPCs/StarjinxEvent/Enemies/Starachnid/SpiderStar", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			Vector2 threadScale = new Vector2(1 / (float)tex.Width, 30 / (float)tex.Height); //Base scale of the thread based on the texture's size, stretched horizontally depending on thread length
 			for (int i = 0; i < threads.Count; ++i)

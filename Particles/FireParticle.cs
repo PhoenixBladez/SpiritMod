@@ -54,7 +54,7 @@ namespace SpiritMod.Particles
 		public override void CustomDraw(SpriteBatch spriteBatch)
 		{
 			Texture2D tex = ParticleHandler.GetTexture(Type);
-			Texture2D bloom = ModContent.Request<Texture2D>("Effects/Masks/CircleGradient");
+			Texture2D bloom = ModContent.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			spriteBatch.Draw(bloom, Position - Main.screenPosition, null, Color * 0.6f, 0, bloom.Size() / 2, Scale / 5f, SpriteEffects.None, 0);
 			spriteBatch.Draw(tex, Position - Main.screenPosition, null, Color, 0, tex.Size() / 2, Scale, SpriteEffects.None, 0);
 		}

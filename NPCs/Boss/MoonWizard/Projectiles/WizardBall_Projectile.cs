@@ -78,7 +78,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 Color color = new Color(255, 255, 255) * 0.75f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 
                 float scale = Projectile.scale;
-                Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/Boss/MoonWizard/Projectiles/WizardBall_Projectile");
+                Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/Boss/MoonWizard/Projectiles/WizardBall_Projectile", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
                 spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
             }

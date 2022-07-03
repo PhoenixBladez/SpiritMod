@@ -2527,7 +2527,7 @@ namespace SpiritMod
 					{
 						if (hitbox.Intersects(npc.Hitbox) && (npc.noTileCollide || Collision.CanHit(Player.position, Player.width, Player.height, npc.position, npc.width, npc.height)))
 						{
-							float damage = 40f * Player.GetDamage(DamageClass.Melee);
+							float damage = Player.GetDamage(DamageClass.Melee).ApplyTo(40f);
 							float knockback = 12f;
 							bool crit = false;
 
@@ -4204,10 +4204,10 @@ namespace SpiritMod
 				drawInfo.colorUnderShirt = Color.Multiply(drawInfo.colorUnderShirt, camo);
 				drawInfo.colorPants = Color.Multiply(drawInfo.colorPants, camo);
 				drawInfo.colorShoes = Color.Multiply(drawInfo.colorShoes, camo);
-				drawInfo.headGlowMask = Color.Multiply(drawInfo.headGlowMask, camo);
-				drawInfo.bodyGlowMask = Color.Multiply(drawInfo.bodyGlowMask, camo);
-				drawInfo.armGlowMaskColor = Color.Multiply(drawInfo.armGlowMaskColor, camo);
-				drawInfo.legGlowMaskColor = Color.Multiply(drawInfo.legGlowMaskColor, camo);
+				//drawInfo.headGlowMask = Color.Multiply(drawInfo.headGlowMask, camo);
+				//drawInfo.bodyGlowMask = Color.Multiply(drawInfo.bodyGlowMask, camo);
+				//drawInfo.armGlowMaskColor = Color.Multiply(drawInfo.armGlowMaskColor, camo);
+				//drawInfo.legGlowMaskColor = Color.Multiply(drawInfo.legGlowMaskColor, camo);
 			}
 		}
 

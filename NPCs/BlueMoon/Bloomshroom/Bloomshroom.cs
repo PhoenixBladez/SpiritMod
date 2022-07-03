@@ -77,7 +77,7 @@ namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 
 				if (frame == 9 && timer == 0)
 				{
-					SoundEngine.PlaySound(SoundID.Item, NPC.Center, 95);
+					SoundEngine.PlaySound(SoundID.Item95, NPC.Center);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y - 10, 0, -4, ModContent.ProjectileType<BloomshroomHostile>(), 31, 0);

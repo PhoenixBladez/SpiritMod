@@ -62,7 +62,7 @@ namespace SpiritMod.Mechanics.Coverings
             if (orientation == 0) return;
 
             Tile tile = Framing.GetTileSafely(x, y);
-            byte slope = tile.Slope;
+            byte slope = (byte)tile.Slope;
             bool hb = tile.IsHalfBlock;
 
             Color clr = Lighting.GetColor(x, y, Color);

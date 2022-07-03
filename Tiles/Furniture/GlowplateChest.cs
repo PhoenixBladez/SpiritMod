@@ -113,13 +113,13 @@ namespace SpiritMod.Tiles.Furniture
 				top--;
 			}
 			if (player.sign >= 0) {
-				SoundEngine.PlaySound(SoundID.MenuClose, -1, -1, 1);
+				SoundEngine.PlaySound(SoundID.MenuClose);
 				player.sign = -1;
 				Main.editSign = false;
 				Main.npcChatText = "";
 			}
 			if (Main.editChest) {
-				SoundEngine.PlaySound(SoundID.MenuTick, -1, -1, 1);
+				SoundEngine.PlaySound(SoundID.MenuTick);
 				Main.editChest = false;
 				Main.npcChatText = "";
 			}
@@ -131,7 +131,7 @@ namespace SpiritMod.Tiles.Furniture
 				if (left == player.chestX && top == player.chestY && player.chest >= 0) {
 					player.chest = -1;
 					Recipe.FindRecipes();
-					SoundEngine.PlaySound(SoundID.MenuClose, -1, -1, 1);
+					SoundEngine.PlaySound(SoundID.MenuClose);
 				}
 				else {
 					NetMessage.SendData(MessageID.RequestChestOpen, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
@@ -144,7 +144,7 @@ namespace SpiritMod.Tiles.Furniture
 					Main.stackSplit = 600;
 					if (chest == player.chest) {
 						player.chest = -1;
-						SoundEngine.PlaySound(SoundID.MenuClose, -1, -1, 1);
+						SoundEngine.PlaySound(SoundID.MenuClose);
 					}
 					else {
 						player.chest = chest;
@@ -152,7 +152,7 @@ namespace SpiritMod.Tiles.Furniture
 						Main.recBigList = false;
 						player.chestX = left;
 						player.chestY = top;
-						SoundEngine.PlaySound(player.chest < 0 ? 10 : 12, -1, -1, 1);
+						SoundEngine.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuClose);
 					}
 					Recipe.FindRecipes();
 				}
@@ -230,8 +230,7 @@ namespace SpiritMod.Tiles.Furniture
 		{
 			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<TechBlockItem>(), 8);
-			recipe.AddIngredient(ItemID.IronBar, 2);
-			recipe.anyIronBar = true;
+			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 2);
 			recipe.AddTile(TileID.Anvils);
 			recipe.Register();
 		}

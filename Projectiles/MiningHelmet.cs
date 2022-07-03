@@ -63,7 +63,7 @@ namespace SpiritMod.Projectiles
 			origin1.X = (float)(r.Width - 6);
 			--origin1.Y;
 			r.Height -= 2;
-			Texture2D texture2D3 = ModContent.Request<Texture2D>("SpiritMod/Effects/Mining_Helmet");
+			Texture2D texture2D3 = ModContent.Request<Texture2D>("SpiritMod/Effects/Mining_Helmet", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			//Texture2D texture2D3 = Main.glowMaskTexture[251];
 			Microsoft.Xna.Framework.Color color4 = new Color(100, 100, 0)
 			{

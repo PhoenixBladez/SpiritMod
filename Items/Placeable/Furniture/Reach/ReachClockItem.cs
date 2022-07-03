@@ -36,8 +36,7 @@ namespace SpiritMod.Items.Placeable.Furniture.Reach
 		{
 			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<AncientBark>(), 10);
-			recipe.AddIngredient(ItemID.IronBar, 3);
-			recipe.anyIronBar = true;
+			recipe.AddRecipeGroup(RecipeGroupID.IronBar, 3);
 			recipe.AddIngredient(ItemID.Glass, 6);
 			recipe.AddTile(TileID.Sawmill);
 			recipe.Register();

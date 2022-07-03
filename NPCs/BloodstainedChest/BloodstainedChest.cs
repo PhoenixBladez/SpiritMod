@@ -158,7 +158,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 
 				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - new Vector2(0, 30), Vector2.Zero, ProjectileID.DD2ExplosiveTrapT2Explosion, 0, 0, NPC.target);
 				SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
-				NPC.DropItem(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.RoyalCrown>());
+				NPC.DropItem(ModContent.ItemType<Items.Sets.MaterialsMisc.QuestItems.RoyalCrown>(), NPC.GetSource_FromAI());
 
 				NPC.active = false;
             }

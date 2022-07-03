@@ -35,7 +35,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				Main.dust[d].noGravity = true;
 				Main.dust[d].scale = 1.2f;
 			}
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.Center.X, (int)Projectile.Center.Y);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 		}
 
 		public override void AI()

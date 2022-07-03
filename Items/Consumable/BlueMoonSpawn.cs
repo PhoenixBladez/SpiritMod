@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Consumable
 		public override bool CanUseItem(Player player)
 		{
 			if (Main.dayTime) {
-				Main.NewText("The moon isn't powerful in daylight.", 80, 80, 150, true);
+				Main.NewText("The moon isn't powerful in daylight.", 80, 80, 150);
 				return false;
 			}
 			if (MyWorld.BlueMoon)
@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			Main.NewText("The Mystic Moon is Rising...", 0, 90, 220, true);
+			Main.NewText("The Mystic Moon is Rising...", 0, 90, 220);
 			SoundEngine.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 0);
 			if (!Main.dayTime)
 				MyWorld.BlueMoon = true;

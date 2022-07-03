@@ -178,7 +178,7 @@ namespace SpiritMod.Projectiles.Summon.Snapspore
                         dust.velocity.Y = (dust.velocity.Y * 0.2f) - 1;
                     }
                     int amountOfProjectiles = Main.rand.Next(2, 4);
-                    SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 95);
+                    SoundEngine.PlaySound(SoundID.Item95, Projectile.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                         for (int i = 0; i < amountOfProjectiles; ++i)
                             Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), ModContent.ProjectileType<Projectiles.PoisonCloud>(), Projectile.damage / 2, 1, Main.myPlayer, 0, 0);
