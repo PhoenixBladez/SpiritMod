@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs.ArterialGrasper
 			NPC.lifeMax = 150;
 			NPC.noGravity = true;
 			NPC.HitSound = SoundID.NPCHit19;
-			NPC.DeathSound = new Terraria.Audio.LegacySoundStyle(42, 39);
+			NPC.DeathSound = SoundID.DD2_BetsyHurt;
 			NPC.buffImmune[BuffID.Poisoned] = true;
 			NPC.buffImmune[BuffID.Confused] = true;
 			NPC.value = 220f;

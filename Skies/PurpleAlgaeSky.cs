@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.Graphics.Effects;
+using Terraria.ModLoader;
 using Terraria.Utilities;
 
 namespace SpiritMod.Skies

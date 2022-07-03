@@ -164,7 +164,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(new LegacySoundStyle(29, 53).WithPitchVariance(0.3f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Zombie53 with { PitchVariance = 0.3f }, Projectile.Center);
 			if (Projectile.penetrate <= 4)
 			{
 				for (int num257 = 0; num257 < 20; num257++)

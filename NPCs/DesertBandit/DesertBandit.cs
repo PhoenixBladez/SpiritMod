@@ -204,7 +204,7 @@ namespace SpiritMod.NPCs.DesertBandit
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(18, 0));
+			SoundEngine.PlaySound(SoundID.Coins);
 			int num1 = 0;
 			for (int index = 0; index < 59; ++index)
 			{

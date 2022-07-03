@@ -34,7 +34,7 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
             //adjTiles = new int[] { TileID.LunarMonolith };
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, DropType);
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, DropType);
 
         public sealed override void NearbyEffects(int i, int j, bool closer)
         {
@@ -51,12 +51,11 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
-            Texture2D texture = Main.canDrawColorTile(i, j) ? Main.tileAltTexture[Type, tile.TileColor] : TextureAssets.Tile[Type].Value;
 
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             int height = tile.TileFrameY % AnimationFrameHeight == 54 ? 18 : 16;
 
-            Main.spriteBatch.Draw(texture, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(TextureAssets.Tile[Type].Value, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -87,9 +86,6 @@ namespace SpiritMod.Tiles.Furniture.AuroraMonoliths
             {
                 for (int m = y; m < y + 4; m++)
                 {
-                    if (Main.tile[l, m] == null)
-                        Main.tile[l, m] = new Tile();
-
                     if (Main.tile[l, m].HasTile && Main.tile[l, m].TileType == Type)
                     {
                         if (Main.tile[l, m].TileFrameY < AnimationFrameHeight)

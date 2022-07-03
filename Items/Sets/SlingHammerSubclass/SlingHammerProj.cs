@@ -63,15 +63,13 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
             }
 			Projectile.velocity = Vector2.Zero;
 			if (Projectile.ai[0] % 20 == 0)
-				SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 19).WithPitchVariance(0.1f).WithVolume(0.5f), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item19 with { PitchVariance = 0.1f, Volume = 0.5f }, Projectile.Center);
 
 			if (Projectile.ai[0] < chargeTime)
             {
                 Projectile.ai[0]+= chargeRate;
                 if (Projectile.ai[0] >= chargeTime)
-                {
                     SoundEngine.PlaySound(SoundID.NPCDeath7, Projectile.Center);
-                }
             }
             Vector2 direction = Main.MouseWorld - player.position;
             direction.Normalize();

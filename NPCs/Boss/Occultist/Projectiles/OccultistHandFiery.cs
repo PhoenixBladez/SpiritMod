@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 
 namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
@@ -26,14 +27,14 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 
 		public override void PostDraw(Color lightColor)
 		{
-			base.PostDraw(Main.spriteBatch, lightColor);
+			base.PostDraw(lightColor);
 			Projectile.QuickDraw(Main.spriteBatch, drawColor: Color.Black * Projectile.Opacity);
 		}
 
 		public void AdditiveCall(SpriteBatch sB)
 		{
-			Texture2D extraTex = TextureAssets.Extra[49][55];
-			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
+			Texture2D extraTex = TextureAssets.Extra[55].Value;
+			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			int frame = (int)((Main.GlobalTimeWrappedHourly * 5) % 4);
 			Rectangle drawFrame = new Rectangle(0, frame * extraTex.Height / 4, extraTex.Width, extraTex.Height / 4);
 			float rotation = Projectile.rotation + MathHelper.Pi;

@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			Item.DamageType = DamageClass.Summon;
 			Item.noMelee = true;
 			Item.shoot = ModContent.ProjectileType<SnapsporeMinion>();
-			Item.UseSound = new Terraria.Audio.LegacySoundStyle(6, 0);
+			Item.UseSound = SoundID.Grass;
 		}
 		public override bool AltFunctionUse(Player player)
 		{

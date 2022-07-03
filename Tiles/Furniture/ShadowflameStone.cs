@@ -51,7 +51,7 @@ namespace SpiritMod.Tiles.Furniture
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 32, ModContent.ItemType<ShadowflameStoneStaff>());
-			SoundEngine.PlaySound(SoundID.Zombie7, new(i ,j) * 16);
+			SoundEngine.PlaySound(SoundID.Zombie7, new Vector2(i ,j) * 16);
 			NPC.NewNPC(new EntitySource_TileBreak(i, j), i * 16 + Main.rand.Next(-60, 60), j * 16, 29, 0, 2, 1, 0, 0, Main.myPlayer);
 			NPC.NewNPC(new EntitySource_TileBreak(i, j), i * 16 + Main.rand.Next(-60, 60), j * 16, 29, 0, 2, 1, 0, 0, Main.myPlayer);
 		}

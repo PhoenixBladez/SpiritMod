@@ -50,9 +50,9 @@ namespace SpiritMod.UI.Elements
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
             float prevScale = Main.inventoryScale;
-			Texture2D prevTexture = TextureAssets.InventoryBack.Value;
+			var prevAsset = TextureAssets.InventoryBack;
 
-			TextureAssets.InventoryBack.Value = ModContent.Request<Texture2D>("UI/QuestUI/Textures/RewardItemBack");
+			TextureAssets.InventoryBack = ModContent.Request<Texture2D>("UI/QuestUI/Textures/RewardItemBack");
 			Main.inventoryScale = 0.8f;
 
             CalculatedStyle style = GetDimensions();
@@ -66,7 +66,7 @@ namespace SpiritMod.UI.Elements
             }
 
             Main.inventoryScale = prevScale;
-			TextureAssets.InventoryBack.Value = prevTexture;
+			TextureAssets.InventoryBack = prevAsset;
 		}
     }
 }

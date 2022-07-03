@@ -24,5 +24,21 @@ namespace SpiritMod.Biomes
 			bool surface = player.ZoneSkyHeight || player.ZoneOverworldHeight;
 			return enoughTiles && surface;
 		}
+
+		public override void OnInBiome(Player player)
+		{
+			if (player.position.Y / 16 >= Main.maxTilesY - 330)
+			{
+				SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.2f); //0.4f is default
+				SpiritMod.glitchScreenShader.UseIntensity(0.004f);
+				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+			}
+			else if (player.ZoneRockLayerHeight && player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f)
+			{
+				SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.1f); //0.4f is default
+				SpiritMod.glitchScreenShader.UseIntensity(0.0005f);
+				player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
+			}
+		}
 	}
 }

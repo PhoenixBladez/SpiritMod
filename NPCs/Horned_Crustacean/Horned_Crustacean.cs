@@ -41,9 +41,9 @@ namespace SpiritMod.NPCs.Horned_Crustacean
 			NPC.damage = 30;
 			NPC.lavaImmune = false;
 			NPC.noTileCollide = false;
-			NPC.HitSound = new Terraria.Audio.LegacySoundStyle(3, 31);
+			NPC.HitSound = SoundID.NPCHit31;
 			NPC.dontTakeDamage = false;
-			NPC.DeathSound = new Terraria.Audio.LegacySoundStyle(4, 32);
+			NPC.DeathSound = SoundID.NPCDeath32;
 		}
 		public override void SendExtraAI(BinaryWriter writer)
 		{

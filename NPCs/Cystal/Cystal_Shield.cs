@@ -12,6 +12,7 @@ namespace SpiritMod.NPCs.Cystal
 	{
 		private Vector2 Location;
 		private Vector2 Location2;
+
 		public override void SetDefaults()
 		{
 			NPC.aiStyle = -1;
@@ -26,8 +27,8 @@ namespace SpiritMod.NPCs.Cystal
 			NPC.lavaImmune = true;
 			NPC.noTileCollide = true;
 			NPC.noGravity = true;
-			NPC.HitSound = new Terraria.Audio.LegacySoundStyle(42, 166);
-			NPC.DeathSound = new Terraria.Audio.LegacySoundStyle(42, 166);
+			NPC.HitSound = SoundID.DD2_SkeletonHurt;
+			NPC.DeathSound = SoundID.DD2_SkeletonHurt;
 		}
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Cystal Shield");
@@ -35,9 +36,7 @@ namespace SpiritMod.NPCs.Cystal
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (!projectile.minion)
-			{
 				projectile.penetrate = 0;
-			}
 
 			damage = 0;
 		}

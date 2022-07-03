@@ -8,6 +8,7 @@ using SpiritMod.Particles;
 using SpiritMod.Mechanics.Trails;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Utilities;
+using Terraria.ID;
 
 namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 {
@@ -88,7 +89,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 		{
 			if (!Main.dedServ)
 			{
-				SoundEngine.PlaySound(SoundID.Item12.WithVolume(0.65f).WithPitchVariance(0.3f), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item12 with { Volume = 0.65f, PitchVariance = 0.3f }, Projectile.Center);
 
 				for (int i = 0; i < 6; i++)
 					ParticleHandler.SpawnParticle(new StarParticle(Projectile.Center, Main.rand.NextVector2Circular(6, 6), new Color(241, 153, 255),

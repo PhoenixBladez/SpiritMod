@@ -45,7 +45,6 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			NPC.HitSound = SoundID.NPCHit7;
 			NPC.DeathSound = SoundID.NPCDeath5;
 
-			bossBag = ModContent.ItemType<DuskingBag>();
 			Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/DuskingTheme");
 		}
 

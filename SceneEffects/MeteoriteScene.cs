@@ -10,3 +10,4 @@ namespace SpiritMod.SceneEffects
 		public override SceneEffectPriority Priority => SceneEffectPriority.BiomeLow;
 		public override bool IsSceneEffectActive(Player player) => ModContent.GetInstance<SpiritMusicConfig>().MeteorMusic && player.ZoneMeteor && !Main.bloodMoon;
 	}
+}

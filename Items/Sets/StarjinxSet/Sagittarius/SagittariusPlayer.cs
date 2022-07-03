@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 			}
 
 
-			Main.playerDrawData.Add(new DrawData(
+			info.DrawDataCache.Add(new DrawData(
 				texture,
 				info.ItemLocation - Main.screenPosition + offset,
 				drawFrame,
@@ -54,9 +54,9 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 				item.scale,
 				info.itemEffect,
 				0
-			)); 
-			
-			Main.playerDrawData.Add(new DrawData(
+			));
+
+			info.DrawDataCache.Add(new DrawData(
 				 glow,
 				 info.ItemLocation - Main.screenPosition + offset,
 				 drawFrame,
@@ -64,7 +64,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 				 info.drawPlayer.itemRotation,
 				 origin,
 				 item.scale,
-				 info.spriteEffects,
+				 info.itemEffect,
 				 0
 			 ));
 		}

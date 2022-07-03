@@ -18,13 +18,10 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		public static int KilledEnemies = 0;
 		public static int CometsRemaining = 0;
 
-        public override void SaveWorldData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
+        public override void SaveWorldData(TagCompound tag)
         {
-            return new TagCompound
-            {
-                {"Starjinx Active?", StarjinxActive},
-				{"Starjinx Defeated?", StarjinxActive}
-			};
+			tag.Add("Starjinx Active?", StarjinxActive);
+			tag.Add("Starjinx Defeated?", StarjinxDefeated);
         }
 
 		public override void LoadWorldData(TagCompound tag)

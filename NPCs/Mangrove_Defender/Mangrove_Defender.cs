@@ -36,7 +36,7 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 			NPC.lavaImmune = false;
 			NPC.noTileCollide = false;
 			NPC.alpha = 0;
-			NPC.HitSound = new Terraria.Audio.LegacySoundStyle(6, 1);
+			NPC.HitSound = SoundID.Grass;
 			NPC.dontTakeDamage = false;
 			NPC.DeathSound = SoundID.NPCDeath6;
 		}

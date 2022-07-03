@@ -28,7 +28,7 @@ namespace SpiritMod.Tiles.Block
             Player player = Main.LocalPlayer;
             int distance = (int)Vector2.Distance(new Vector2(i * 16, j * 16), player.Center);
             if (distance < 500)
-                SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 50));
+                SoundEngine.PlaySound(SoundID.Item50);
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

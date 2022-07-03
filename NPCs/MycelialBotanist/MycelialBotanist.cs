@@ -34,8 +34,8 @@ namespace SpiritMod.NPCs.MycelialBotanist
 			NPC.noTileCollide = false;
 			NPC.alpha = 0;
 			NPC.dontTakeDamage = false;
-			NPC.HitSound = new Terraria.Audio.LegacySoundStyle(3, 1);
-			NPC.DeathSound = new Terraria.Audio.LegacySoundStyle(29, 76);
+			NPC.HitSound = SoundID.NPCHit1;
+			NPC.DeathSound = SoundID.Zombie76;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<Items.Banners.MyceliumBotanistBanner>();
         }

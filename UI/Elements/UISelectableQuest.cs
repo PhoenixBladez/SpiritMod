@@ -40,7 +40,7 @@ namespace SpiritMod.UI.Elements
 			// icon
 			string questCategory = quest.QuestCategory;
 			var categoryInfo = QuestManager.GetCategoryInfo(questCategory);
-			Icon = new UIImageFramed(categoryInfo.Texture, categoryInfo.Frame.HasValue ? categoryInfo.Frame.Value : categoryInfo.Texture.Bounds);
+			Icon = new UIImageFramed(categoryInfo.Texture, categoryInfo.Frame.HasValue ? categoryInfo.Frame.Value : categoryInfo.Texture.Value.Bounds);
 			Icon.Left.Set(-10f, 0f);
 			Icon.Top.Set(-10f, 0f);
 			Append(Icon);

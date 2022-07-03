@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.OrnamentStaff
 			Item.autoReuse = true;
 			Item.rare = ItemRarityID.Orange;
 			Item.value = Item.sellPrice(gold: 1, silver: 25);
-			Item.UseSound = new Terraria.Audio.LegacySoundStyle(42, 139);
+			Item.UseSound = SoundID.DD2_DarkMageCastHeal;
 			Item.useTurn = false;
 			Item.mana = 14;
 		}

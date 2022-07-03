@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Backgrounds
+namespace SpiritMod.Biomes
 {
 	public class SynthwaveBGStyle : ModSurfaceBackgroundStyle
 	{
@@ -9,10 +9,8 @@ namespace SpiritMod.Backgrounds
 		{
 			scale *= .45f;
 			b -= 120;
-			return mod.GetBackgroundSlot("Backgrounds/SynthwaveBackground");
+			return ModContent.GetModBackgroundSlot("SpiritMod/Biomes/Assets/SynthwaveBackground");
 		}
-
-		//public override bool ChooseBgStyle() => !Main.gameMenu && Main.LocalPlayer.GetSpiritPlayer().ZoneSynthwave;
 
 		public override void ModifyFarFades(float[] fades, float transitionSpeed)
 		{

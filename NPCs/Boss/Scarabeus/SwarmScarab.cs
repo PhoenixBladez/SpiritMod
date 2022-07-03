@@ -61,7 +61,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			if (!NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()) || NPC.localAI[1] > 360) {
 				NPC.life = 0;
 				NPC.active = false;
-				NPCLoot();
+				NPC.NPCLoot();
 			}
 			if (NPC.ai[1] == 0) {
 				if (NPC.ai[2] == 0)

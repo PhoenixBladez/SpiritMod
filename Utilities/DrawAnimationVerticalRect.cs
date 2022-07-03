@@ -19,7 +19,7 @@ namespace SpiritMod
 			this.offset = offset;
 		}
 
-		public override Rectangle GetFrame(Texture2D texture)
+		public override Rectangle GetFrame(Texture2D texture, int frameCounterOverride = -1)
 		{
 			var frame = texture.Frame(1, FrameCount, 0, Frame);
 			frame.X += offset.X;

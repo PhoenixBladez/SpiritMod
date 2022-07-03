@@ -90,9 +90,9 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.Khopesh
 				if (!Player.channel)
 					return killproj();
 
-				LegacySoundStyle sound = new LegacySoundStyle(SoundID.Item, 1).WithPitchVariance(0.1f);
+				var sound = SoundID.Item1 with { PitchVariance = 0.1f };
 
-				if (Projectile.frame == 4) sound = sound.WithVolume(1.5f);
+				if (Projectile.frame == 4) sound = sound with { Volume = 1.5f };
 
 				SoundEngine.PlaySound(sound, Projectile.Center);
 

@@ -64,7 +64,7 @@ namespace SpiritMod.Tiles.Ambient
 				if (distance1 < 260) {
 					animate = true;
 					if (Main.rand.Next(10) == 0) {
-						int d = Dust.NewDust(new Vector2(i * 16, j * 16 - 20), 16, 16, DustID.Vile, 0.0f, -1, 0, Color.Purple, 0.65f);
+						int d = Dust.NewDust(new Vector2(i * 16, j * 16 - 20), 16, 16, DustID.VilePowder, 0.0f, -1, 0, Color.Purple, 0.65f);
 
 						Main.dust[d].velocity *= .8f;
 						Main.dust[d].noGravity = true;

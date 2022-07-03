@@ -79,7 +79,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			Color lightColor = Lighting.GetColor((int)info.ItemLocation.X / 16, (int)info.ItemLocation.Y / 16);
 			Vector2 offset = HoldOffset();
 
-			Main.playerDrawData.Add(new DrawData(texture, info.ItemLocation - Main.screenPosition + offset, DrawFrame, lightColor, 
+			info.DrawDataCache.Add(new DrawData(texture, info.ItemLocation - Main.screenPosition + offset, DrawFrame, lightColor, 
 				Player.itemRotation, TextureOrigin, Player.HeldItem.scale, info.itemEffect, 0)); 
 		}
 

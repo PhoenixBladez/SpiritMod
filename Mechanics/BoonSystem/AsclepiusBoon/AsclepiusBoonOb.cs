@@ -80,7 +80,7 @@ namespace SpiritMod.Mechanics.BoonSystem.AsclepiusBoon
 				{
 					NPC.active = false;
 					int heal = Math.Min(40, target.lifeMax - target.life);
-					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(2, 29).WithPitchVariance(0.2f).WithVolume(.65f), NPC.Center);
+					SoundEngine.PlaySound(SoundID.Item29 with { PitchVariance = 0.2f, Volume = 0.65f }, NPC.Center);
 
 					target.life += heal;
 					target.HealEffect(heal, true);

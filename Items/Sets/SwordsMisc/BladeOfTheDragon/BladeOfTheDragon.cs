@@ -308,7 +308,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 				offset.X = -6;
 			}
 
-			Main.playerDrawData.Add(new DrawData(
+			info.DrawDataCache.Add(new DrawData(
 				texture,
 				info.drawPlayer.Center - Main.screenPosition + offset,
 				drawFrame,
@@ -323,7 +323,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 			offset.X = 0;
 			if (info.drawPlayer.GetModPlayer<DragonPlayer>().DrawSparkle)
 			{
-				Main.playerDrawData.Add(new DrawData(
+				info.DrawDataCache.Add(new DrawData(
 					sparkle,
 					info.drawPlayer.Center - Main.screenPosition + offset - new Vector2(0, 9),
 					null,

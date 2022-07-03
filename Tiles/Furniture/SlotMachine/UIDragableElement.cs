@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace SpiritMod.Tiles.Furniture.SlotMachine

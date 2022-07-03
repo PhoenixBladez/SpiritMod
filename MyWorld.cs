@@ -137,9 +137,8 @@ namespace SpiritMod
 			HiveTiles = tileCounts[TileID.Hive];
 		}
 
-		public override void SaveWorldData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
+		public override void SaveWorldData(TagCompound tag)
 		{
-			var data = new TagCompound();
 			var downed = new List<string>();
 			if (downedScarabeus)
 				downed.Add("scarabeus");
@@ -178,38 +177,37 @@ namespace SpiritMod
 			if (downedGazer)
 				downed.Add("bloodGazer");
 
-			data.Add("downed", downed);
+			tag.Add("downed", downed);
 
 			TagCompound droppedGlyphTag = new TagCompound();
 			foreach (KeyValuePair<string, bool> entry in droppedGlyphs)
 			{
 				droppedGlyphTag.Add(entry.Key, entry.Value);
 			}
-			data.Add("droppedGlyphs", droppedGlyphTag);
+			tag.Add("droppedGlyphs", droppedGlyphTag);
 
-			data.Add("blueMoon", BlueMoon);
-			data.Add("jellySky", jellySky);
-			data.Add("gennedBandits", gennedBandits);
-			data.Add("gennedTower", gennedTower); ;
+			tag.Add("blueMoon", BlueMoon);
+			tag.Add("jellySky", jellySky);
+			tag.Add("gennedBandits", gennedBandits);
+			tag.Add("gennedTower", gennedTower); ;
 
-			data.Add("pagodaX", pagodaX);
-			data.Add("pagodaY", pagodaY);
-			data.Add("spawnedPagodaEnemies", spawnedPagodaEnemies);
+			tag.Add("pagodaX", pagodaX);
+			tag.Add("pagodaY", pagodaY);
+			tag.Add("spawnedPagodaEnemies", spawnedPagodaEnemies);
 
 			//SaveSpecialNPCs(data);
 
-			data.Add("superSunFlowerPositions", superSunFlowerPositions.ToList());
+			tag.Add("superSunFlowerPositions", superSunFlowerPositions.ToList());
 
 			if (BackgroundItemManager.Loaded)
 			{
 				List<TagCompound> backgroundItems = BackgroundItemManager.Save();
-				data.Add("backgroundItems", backgroundItems);
+				tag.Add("backgroundItems", backgroundItems);
 			}
-			data.Add("asteroidSide", asteroidSide);
+			tag.Add("asteroidSide", asteroidSide);
 
-			data.Add("leftOceanHeight", SurfaceWaterModifications.leftOceanHeight);
-			data.Add("rightOceanHeight", SurfaceWaterModifications.rightOceanHeight);
-			return data;
+			tag.Add("leftOceanHeight", SurfaceWaterModifications.leftOceanHeight);
+			tag.Add("rightOceanHeight", SurfaceWaterModifications.rightOceanHeight);
 		}
 
 		public override void LoadWorldData(TagCompound tag)
@@ -265,44 +263,44 @@ namespace SpiritMod
 			SurfaceWaterModifications.rightOceanHeight = tag.Get<int>("rightOceanHeight");
 		}
 
-		public override void LoadLegacy(BinaryReader reader)
-		{
-			int loadVersion = reader.ReadInt32();
-			if (loadVersion == 0)
-			{
-				BitsByte flags = reader.ReadByte();
-				BitsByte flags1 = reader.ReadByte();
-				BitsByte flags2 = reader.ReadByte();
-				BitsByte flags3 = reader.ReadByte();
-				BitsByte flags4 = reader.ReadByte();
+		//public override void LoadLegacy(BinaryReader reader)
+		//{
+		//	int loadVersion = reader.ReadInt32();
+		//	if (loadVersion == 0)
+		//	{
+		//		BitsByte flags = reader.ReadByte();
+		//		BitsByte flags1 = reader.ReadByte();
+		//		BitsByte flags2 = reader.ReadByte();
+		//		BitsByte flags3 = reader.ReadByte();
+		//		BitsByte flags4 = reader.ReadByte();
 
-				downedScarabeus = flags[0];
-				downedAncientFlier = flags[1];
-				downedRaider = flags[2];
-				downedInfernon = flags[3];
-				downedDusking = flags[4];
-				downedAtlas = flags[6];
-				downedBlueMoon = flags[8];
+		//		downedScarabeus = flags[0];
+		//		downedAncientFlier = flags[1];
+		//		downedRaider = flags[2];
+		//		downedInfernon = flags[3];
+		//		downedDusking = flags[4];
+		//		downedAtlas = flags[6];
+		//		downedBlueMoon = flags[8];
 
-				downedReachBoss = flags1[0];
-				downedMoonWizard = flags1[1];
-				downedTide = flags1[2];
-				downedMechromancer = flags1[3];
-				downedOccultist = flags2[4];
-				downedGladeWraith = flags2[5];
-				downedBeholder = flags2[6];
-				downedSnaptrapper = flags2[7];
-				downedJellyDeluge = flags2[8];
+		//		downedReachBoss = flags1[0];
+		//		downedMoonWizard = flags1[1];
+		//		downedTide = flags1[2];
+		//		downedMechromancer = flags1[3];
+		//		downedOccultist = flags2[4];
+		//		downedGladeWraith = flags2[5];
+		//		downedBeholder = flags2[6];
+		//		downedSnaptrapper = flags2[7];
+		//		downedJellyDeluge = flags2[8];
 
-				gennedBandits = flags2[0];
-				gennedTower = flags2[1];
+		//		gennedBandits = flags2[0];
+		//		gennedTower = flags2[1];
 
-			}
-			else
-			{
-				Mod.Logger.Error("Unknown loadVersion: " + loadVersion);
-			}
-		}
+		//	}
+		//	else
+		//	{
+		//		Mod.Logger.Error("Unknown loadVersion: " + loadVersion);
+		//	}
+		//}
 
 		public override void NetSend(BinaryWriter writer)
 		{

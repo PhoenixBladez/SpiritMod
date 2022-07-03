@@ -423,19 +423,7 @@ namespace SpiritMod
 
 			if (config.DistortionConfig)
 			{
-				if (ZoneSpirit && Player.position.Y / 16 >= Main.maxTilesY - 330)
-				{
-					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.2f); //0.4f is default
-					SpiritMod.glitchScreenShader.UseIntensity(0.004f);
-					Player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-				}
-				else if (ZoneSpirit && Player.ZoneRockLayerHeight && Player.position.Y / 16 > (Main.rockLayer + Main.maxTilesY - 330) / 2f)
-				{
-					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.1f); //0.4f is default
-					SpiritMod.glitchScreenShader.UseIntensity(0.0005f);
-					Player.ManageSpecialBiomeVisuals("SpiritMod:Glitch", true);
-				}
-				else if (starplateGlitchEffect)
+				if (starplateGlitchEffect)
 				{
 					SpiritMod.glitchEffect.Parameters["Speed"].SetValue(0.3f);
 					SpiritMod.glitchScreenShader.UseIntensity(starplateGlitchIntensity);

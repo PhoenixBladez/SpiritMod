@@ -215,12 +215,6 @@ namespace SpiritMod
 
 			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
 
-			if (TideWorld.TheTide && player.ZoneBeach)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/DepthInvasion");
-				priority = SceneEffectPriority.Event;
-			}
-
 			if (MyWorld.ashRain && player.ZoneUnderworldHeight && config.AshfallMusic)
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/AshStorm");
@@ -475,8 +469,9 @@ namespace SpiritMod
 			//Always keep this call in the first line of Load!
 			LoadReferences();
 			StructureLoader.Load(this);
-			QuestBookHotkey = RegisterHotKey("SpiritMod:QuestBookToggle", "C");
-			QuestHUDHotkey = RegisterHotKey("SpiritMod:QuestHUDToggle", "V");
+
+			QuestBookHotkey = KeybindLoader.RegisterKeybind(this, "SpiritMod:QuestBookToggle", Microsoft.Xna.Framework.Input.Keys.C);
+			QuestHUDHotkey = KeybindLoader.RegisterKeybind(this, "SpiritMod:QuestHUDToggle", Microsoft.Xna.Framework.Input.Keys.V);
 
 			if (!Main.dedServ)
 			{
@@ -693,7 +688,7 @@ namespace SpiritMod
 				int width = Main.graphics.GraphicsDevice.Viewport.Width;
 				int height = Main.graphics.GraphicsDevice.Viewport.Height;
 				Vector2 zoom = Main.GameViewMatrix.Zoom;
-				Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(this, width / 2, height / -2) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+				Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
 				Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
 
 				basicEffect = new BasicEffect(Main.graphics.GraphicsDevice)

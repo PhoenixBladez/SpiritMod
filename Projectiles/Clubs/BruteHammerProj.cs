@@ -70,7 +70,7 @@ namespace SpiritMod.Projectiles.Clubs
             }
 			Projectile.velocity = Vector2.Zero;
 			if (Projectile.ai[0] % 20 == 0)
-				SoundEngine.PlaySound(new LegacySoundStyle(SoundID.Item, 19).WithPitchVariance(0.1f).WithVolume(0.5f), Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item19 with { PitchVariance = 0.1f, Volume = 0.5f }, Projectile.Center);
 
 			if (Projectile.ai[0] < chargeTime)
             {
@@ -94,9 +94,7 @@ namespace SpiritMod.Projectiles.Clubs
 			if ((!player.channel && Math.Abs(radians) < 0.45) || released)
             {
                 if (!released)
-                {
                     Projectile.damage *= 6;
-                }
                 released = true;
                 if (Projectile.ai[0] < chargeTime || releasedearly)
                 {
@@ -104,9 +102,7 @@ namespace SpiritMod.Projectiles.Clubs
                     Projectile.friendly = false;
                     Projectile.scale -= 0.15f;
                     if (Projectile.scale < 0.15f)
-                    {
                         Projectile.active = false;
-                    }
                 }
                 else
                 {

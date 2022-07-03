@@ -40,8 +40,8 @@ namespace SpiritMod.NPCs.Cystal
 			NPC.lavaImmune = true;
 			NPC.noGravity = true;
 			NPC.noTileCollide = true;
-			NPC.HitSound = new Terraria.Audio.LegacySoundStyle(42, 193);
-			NPC.DeathSound = new Terraria.Audio.LegacySoundStyle(42, 182);
+			NPC.HitSound = SoundID.DD2_SkeletonHurt;
+			NPC.DeathSound = SoundID.DD2_SkeletonDeath;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.CystalBanner>();
 		}

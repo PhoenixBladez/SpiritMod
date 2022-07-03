@@ -48,7 +48,7 @@ namespace SpiritMod.Projectiles.Bullet
 
 		public override void ExplodeEffect()
 		{
-			SoundEngine.PlaySound(new LegacySoundStyle(soundId: SoundID.Item, style: 14).WithPitchVariance(0.1f), Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item14 with { PitchVariance = 0.1f}, Projectile.Center);
 			DustHelper.DrawDustImage(Projectile.Center, ModContent.DustType<WinterbornDust>(), 0.3f, "SpiritMod/Effects/Snowflakes/Flake" + Main.rand.Next(3), 0.4f);
 			float rot = Main.rand.NextFloat(MathHelper.TwoPi);
 			for (int i = 0; i < 8; i++)

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 
@@ -35,15 +36,17 @@ namespace SpiritMod.Buffs.Glyph
 			else if (player.whoAmI == Main.myPlayer) {
 				player.DelBuff(buffIndex--);
 			}
+		}
 
-			if (player.whoAmI == Main.myPlayer && !Main.dedServ) {
-				if (modPlayer.phaseStacks == 0) {
-					TextureAssets.Buff[Type].Value = Mod.Assets.Request<Texture2D>("Buffs/Glyph/TemporalShift").Value;
-				}
-				else {
-					TextureAssets.Buff[Type].Value = Mod.Assets.Request<Texture2D>("Buffs/Glyph/TemporalShift_" + modPlayer.phaseStacks.ToString()).Value;
-				}
-			}
+		public override bool PreDraw(SpriteBatch spriteBatch, int buffIndex, ref BuffDrawParams drawParams)
+		{
+			MyPlayer modPlayer = Main.LocalPlayer.GetSpiritPlayer();
+			var texture = Mod.Assets.Request<Texture2D>("Buffs/Glyph/TemporalShift_" + (modPlayer.phaseStacks - 1)).Value;
+			if (modPlayer.divineStacks == 0)
+				texture = Mod.Assets.Request<Texture2D>("Buffs/Glyph/TemporalShift").Value;
+
+			spriteBatch.Draw(texture, drawParams.Position, drawParams.DrawColor);
+			return false;
 		}
 
 		public override void ModifyBuffTip(ref string tip, ref int rare)

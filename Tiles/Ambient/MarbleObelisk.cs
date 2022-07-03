@@ -59,9 +59,6 @@ namespace SpiritMod.Tiles.Ambient
 			int y = j - Main.tile[i, j].TileFrameY / 18 % 3;
 			for (int l = x; l < x + 2; l++) {
 				for (int m = y; m < y + 3; m++) {
-					if (Main.tile[l, m] == null) {
-						Main.tile[l, m] = new Tile();
-					}
 					if (Main.tile[l, m].HasTile && Main.tile[l, m].TileType == Type) {
 						if (Main.tile[l, m].TileFrameY < 56) {
 							Main.tile[l, m].TileFrameY += 56;

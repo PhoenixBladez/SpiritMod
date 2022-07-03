@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void Kill(int timeLeft)
 		{
 			Player player = Main.player[Projectile.owner];
-			SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(4, 19));
+			SoundEngine.PlaySound(SoundID.NPCDeath19);
             SoundEngine.PlaySound(SoundID.Item107);
             for (int j = 0; j < 4; j++)
 				Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, new Vector2(), Main.rand.Next(134, 137), 1);

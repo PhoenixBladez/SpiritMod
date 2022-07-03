@@ -51,8 +51,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 				offset.X = texture.Width / 4;
 			}
 
-
-			Main.playerDrawData.Add(new DrawData(
+			info.DrawDataCache.Add(new DrawData(
 				texture,
 				info.ItemLocation - Main.screenPosition + offset,
 				drawFrame,
@@ -60,11 +59,11 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 				info.drawPlayer.itemRotation,
 				origin,
 				item.scale,
-				1 - info.spriteEffects,
+				1 - info.itemEffect,
 				0
-			)); 
-			
-			Main.playerDrawData.Add(new DrawData(
+			));
+
+			info.DrawDataCache.Add(new DrawData(
 				 glow,
 				 info.ItemLocation - Main.screenPosition + offset,
 				 drawFrame,
@@ -72,7 +71,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 				 info.drawPlayer.itemRotation,
 				 origin,
 				 item.scale,
-				 1 - info.spriteEffects,
+				 1 - info.itemEffect,
 				 0
 			 ));
 		}

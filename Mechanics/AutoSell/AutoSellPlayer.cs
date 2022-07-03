@@ -79,11 +79,6 @@ namespace SpiritMod.Mechanics.AutoSell
 				}
 			}
 		}
-		
-		public override void clientClone(ModPlayer clientClone)
-		{
-			AutoSellPlayer clone = clientClone as AutoSellPlayer;
-		}
 
 		public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
 		{
@@ -94,13 +89,11 @@ namespace SpiritMod.Mechanics.AutoSell
 			packet.Write(sell_Weapons);
 		}
 
-		public override void SaveData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
+		public override void SaveData(TagCompound tag)
 		{
-			return new TagCompound {
-				{"sell_NoValue", sell_NoValue},
-				{"sell_Lock", sell_Lock},
-				{"sell_Weapons", sell_Weapons}
-			};
+			tag.Add("sell_NoValue", sell_NoValue);
+			tag.Add("sell_Lock", sell_Lock);
+			tag.Add("sell_Weapons", sell_Weapons);
 		}
 
 		public override void LoadData(TagCompound tag)
@@ -108,11 +101,6 @@ namespace SpiritMod.Mechanics.AutoSell
 			sell_NoValue = tag.GetBool("sell_NoValue");
 			sell_Lock = tag.GetBool("sell_Lock");
 			sell_Weapons = tag.GetBool("sell_Weapons");
-		}
-
-		public override void LoadLegacy(BinaryReader reader)
-		{
-			int loadVersion = reader.ReadInt32();
 		}
 	}
 }

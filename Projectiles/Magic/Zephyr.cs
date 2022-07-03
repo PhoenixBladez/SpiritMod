@@ -82,7 +82,7 @@ namespace SpiritMod.Projectiles.Magic
 				Color color = new Color(255, 255, 200) * 0.75f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 
 				float scale = Projectile.scale;
-				Texture2D tex = GetTexture("SpiritMod/Projectiles/Magic/ZephyrGlow");
+				Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Magic/ZephyrGlow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
 			}

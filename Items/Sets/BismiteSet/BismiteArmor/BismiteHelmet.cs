@@ -3,6 +3,7 @@ using SpiritMod.Buffs;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -96,7 +97,7 @@ namespace SpiritMod.Items.Sets.BismiteSet.BismiteArmor
 					Main.dust[dust].velocity *= 1.8f;
 					Main.dust[dust].velocity.Y -= 0.5f;
 	          		Main.dust[dust].customData = player;
-					Main.playerDrawDust.Add(dust);
+					drawInfo.DustCache.Add(dust);
 				}
 			}
 		}

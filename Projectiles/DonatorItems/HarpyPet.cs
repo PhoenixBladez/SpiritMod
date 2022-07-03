@@ -166,7 +166,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			{
 				ProjectileExtras.Explode(Projectile.whoAmI, 60, 60, delegate
 				{
-					SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(3, 3));
+					SoundEngine.PlaySound(SoundID.NPCHit3);
 					for (int i = 0; i < 10; i++)
 					{
 						int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.DungeonSpirit, 0f, -2f, 0, default, 2f);

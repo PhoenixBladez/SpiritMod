@@ -301,7 +301,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			if (NPC.ai[0] % 9 == 0)
 			{
 				
-				SoundEngine.PlaySound(new LegacySoundStyle(42, 4), NPC.Center);
+				SoundEngine.PlaySound(SoundID.DD2_KoboldFlyerDeath with { Volume = 0.8f }, NPC.Center);
 				SoundEngine.PlaySound(SoundID.Grass with { PitchVariance = 0.2f }, NPC.Center);
 				SoundEngine.PlaySound(SoundID.NPCDeath55 with { PitchVariance = 0.2f }, NPC.Center);
 				int p = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + Main.rand.Next(-100, 100), (int)NPC.Center.Y + Main.rand.Next(-200, -100), ModContent.NPCType<ExplodingSpore>());

@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
             Item.width = 18;
             Item.height = 18;
             Item.useTime = 20;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/MoonWizardHorn");
+			Item.UseSound = new Terraria.Audio.SoundStyle("SpiritMod/Sounds/MoonWizardHorn");
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.expert = true;
             Item.autoReuse = false;

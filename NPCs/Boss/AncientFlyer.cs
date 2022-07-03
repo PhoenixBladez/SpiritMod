@@ -343,7 +343,7 @@ namespace SpiritMod.NPCs.Boss
 
 			if (NPC.life <= 0)
 			{
-				SoundEngine.PlaySound(new Terraria.Audio.LegacySoundStyle(42, 39));
+				SoundEngine.PlaySound(SoundID.DD2_BetsyHurt);
 
 				for (int i = 1; i < 5; ++i)
 					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AncientAvianGore" + i).Type, 1f);

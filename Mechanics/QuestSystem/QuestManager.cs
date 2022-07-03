@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
@@ -417,7 +418,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			public int Index;
 			public string Name;
 			public Color Color;
-			public Texture2D Texture;
+			public Asset<Texture2D> Texture;
 			public Rectangle? Frame;
 		}
 	}

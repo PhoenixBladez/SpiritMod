@@ -38,7 +38,7 @@ namespace SpiritMod.Buffs.Glyph
 		{
 			MyPlayer modPlayer = Main.LocalPlayer.GetSpiritPlayer();
 			var texture = Mod.Assets.Request<Texture2D>("Buffs/Glyph/DivineStrike_" + (modPlayer.divineStacks - 1)).Value;
-			if (modPlayer.divineStacks == 1)
+			if (modPlayer.divineStacks == 0)
 				texture = Mod.Assets.Request<Texture2D>("Buffs/Glyph/DivineStrike").Value;
 
 			spriteBatch.Draw(texture, drawParams.Position, drawParams.DrawColor);

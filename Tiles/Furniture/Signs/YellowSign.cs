@@ -71,7 +71,7 @@ namespace SpiritMod.Tiles.Furniture.Signs
 		}
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeable.Furniture.Neon.YellowNeonSign>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeable.Furniture.Neon.YellowNeonSign>());
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
@@ -79,7 +79,7 @@ namespace SpiritMod.Tiles.Furniture.Signs
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
             int height = tile.TileFrameY == 36 ? 18 : 16;
 
-            spriteBatch.Draw(GetTexture("SpiritMod/Tiles/Furniture/Signs/YellowSign_Glow"), new Vector2(i, j) * 16 - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/Signs/YellowSign_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, new Vector2(i, j) * 16 - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Halloween
 					continue;
 				if (((CandyBag)inv[i].ModItem).TryAdd(this))
 				{
-					PopupText.NewText(PopupTextContext.Advanced, );
+					PopupText.NewText(PopupTextContext.RegularItemPickup, inv[i], inv[i].stack);
 					SoundEngine.PlaySound(SoundID.Grab, player.Center);
 					return false;
 				}
