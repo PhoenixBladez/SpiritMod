@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Consumable
 		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
 			Main.NewText("The Mystic Moon is Rising...", 0, 90, 220);
-			SoundEngine.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 0);
+			SoundEngine.PlaySound(SoundID.Roar, player.Center);
 			if (!Main.dayTime)
 				MyWorld.BlueMoon = true;
 			return true;

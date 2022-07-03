@@ -76,7 +76,7 @@ namespace SpiritMod.Items.Glyphs
 		{
 			player.AddBuff(SpiritMod.Instance.Find<ModBuff>("SanguineRegen").Type, Main.rand.Next(2, 4) * 60);
 			DustHelper.DrawDiamond(player.Center, ModContent.DustType<Dusts.Blood>(), 3);
-			SoundEngine.PlaySound(SoundID.Item, (int)player.Center.X, (int)player.Center.Y, 3, 0.75f, -0.5f);
+			SoundEngine.PlaySound(SoundID.Item3, player.Center);
 		}
 	}
 }

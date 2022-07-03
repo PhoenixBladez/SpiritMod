@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles.Sword
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y, 1);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			for (int num623 = 0; num623 < 50; num623++) {
 				int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Torch, 0f, 0f, 100, default, 1f);
 				Main.dust[num624].noGravity = true;

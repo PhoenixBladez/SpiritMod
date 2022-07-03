@@ -92,7 +92,7 @@ namespace SpiritMod.Projectiles
 				Projectile.Kill();
 				return;
 			}
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 122, 0.7f);
+			SoundEngine.PlaySound(SoundID.Item122, Projectile.Center);
 			points[1] = Projectile.Center + (direction * maxdistance);
 		}
 		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => Cycle == 1;

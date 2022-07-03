@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Thrown
 			var list = Main.projectile.Where(x => x.Hitbox.Intersects(Projectile.Hitbox));
 			foreach (var proj in list) {
 				if (proj.IsRanged() && proj.active && !shot && proj.friendly && !proj.hostile && (proj.width <= 6 || proj.height <= 6)) {
-					SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 10);
+					SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
 					shot = true;
 					Projectile.damage = 110;
 					Projectile.velocity = proj.velocity * 2;

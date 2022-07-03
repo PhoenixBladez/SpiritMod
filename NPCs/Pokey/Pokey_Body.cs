@@ -278,7 +278,7 @@ namespace SpiritMod.NPCs.Pokey
 
         public override void HitEffect(int hitDirection, double damage)
 		{
-            SoundEngine.PlaySound(SoundID.Dig, (int)NPC.Center.X, (int)NPC.Center.Y, 1, 0.5f, 0.25f);
+            SoundEngine.PlaySound(SoundID.Dig, NPC.Center);
 
             Tail.velocity.X = hitDirection * 2;
         }
@@ -298,7 +298,7 @@ namespace SpiritMod.NPCs.Pokey
 		public override void OnKill()
         {
             if(Head.active && Head.life > 0) //no overlapping death sfx on head kill
-                SoundEngine.PlaySound(SoundID.Dig, (int)NPC.Center.X, (int)NPC.Center.Y, 1, 1f, -0.25f);
+                SoundEngine.PlaySound(SoundID.Dig, NPC.Center);
 
             switch (NPC.frame.Y)
             {

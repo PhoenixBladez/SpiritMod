@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles.Thrown
 			}
 			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			if (Main.rand.Next(3) == 0) {
-				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 20);
+				SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
 				int n = 2;
 				int deviation = Main.rand.Next(0, 300);
 				for (int i = 0; i < n; i++) {

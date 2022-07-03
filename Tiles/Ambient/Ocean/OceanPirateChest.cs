@@ -148,7 +148,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 								for (int v = 0; v < 2; ++v)
 									Framing.GetTileSafely(left + l, top + v).TileFrameX -= 36;
 
-							SoundEngine.PlaySound(SoundID.Unlock, left * 16, top * 16, 0);
+							SoundEngine.PlaySound(SoundID.Unlock, new Vector2(left * 16, top * 16));
 
 							if (--player.inventory[k].stack <= 0)
 								player.inventory[k].TurnToAir();

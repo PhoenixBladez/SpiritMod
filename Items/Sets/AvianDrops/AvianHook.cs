@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Sets.AvianDrops
 
 		public override void PostDraw(Color lightColor)
 		{
-			Texture2D texture = GetTexture("SpiritMod/Items/Sets/AvianDrops/AvianHookChain");
+			Texture2D texture = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/AvianDrops/AvianHookChain", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Vector2 center = Projectile.Center;
 
 			Vector2 offset = Main.player[Projectile.owner].MountedCenter - center;

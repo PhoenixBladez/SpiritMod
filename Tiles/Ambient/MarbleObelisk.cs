@@ -42,7 +42,7 @@ namespace SpiritMod.Tiles.Ambient
             }
 		}
 		public override bool RightClick(int i, int j) {
-			SoundEngine.PlaySound(SoundID.Mech, i * 16, j * 16, 0);
+			SoundEngine.PlaySound(SoundID.Mech, new(i * 16, j * 16));
 			HitWire(i, j);
 			return true;
 		}

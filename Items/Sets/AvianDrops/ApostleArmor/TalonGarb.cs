@@ -12,6 +12,8 @@ namespace SpiritMod.Items.Sets.AvianDrops.ApostleArmor
 		{
 			DisplayName.SetDefault("Apostle's Garb");
 			Tooltip.SetDefault("Increases magic and ranged damage by 7%\nIncreases movement speed by 10%");
+
+			ArmorIDs.Body.Sets.HidesArms[Type] = false;
 		}
 
 		public override void SetDefaults()
@@ -29,10 +31,6 @@ namespace SpiritMod.Items.Sets.AvianDrops.ApostleArmor
 			equipSlot = Mod.GetEquipSlot("TalonGarb_Legs", EquipType.Legs);
 		}
 
-		public override void DrawHands(ref bool drawHands, ref bool drawArms)
-		{
-			drawHands = true;
-		}
 		public override void UpdateEquip(Player player)
 		{
 			player.GetDamage(DamageClass.Magic) += .07f;

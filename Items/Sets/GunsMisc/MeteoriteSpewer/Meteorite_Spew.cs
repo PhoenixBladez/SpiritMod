@@ -115,11 +115,10 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 				Projectile.ai[1] = 0.0f;
 			}
 			
-			
 			if (!hasCreatedSound)
 			{
 				hasCreatedSound = true;
-				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 34, 1f, 0f);
+				SoundEngine.PlaySound(SoundID.Item34, Projectile.Center);
 			}
 			
 			if (Projectile.wet)

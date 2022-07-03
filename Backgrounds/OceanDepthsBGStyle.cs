@@ -3,20 +3,17 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Backgrounds
 {
-	public class OceanDepthsBGStyle : ModSurfaceBgStyle
+	public class OceanDepthsBGStyle : ModSurfaceBackgroundStyle
 	{
-		public override int ChooseFarTexture() => mod.GetBackgroundSlot("Backgrounds/OceanUnderwaterBG3");
-
-		public override int ChooseMiddleTexture() => mod.GetBackgroundSlot("Backgrounds/OceanUnderwaterBG2");
+		public override int ChooseFarTexture() => BackgroundTextureLoader.GetBackgroundSlot(Mod, "Biomes/Assets/OceanUnderwaterBG3");
+		public override int ChooseMiddleTexture() => BackgroundTextureLoader.GetBackgroundSlot(Mod, "Biomes/Assets/OceanUnderwaterBG2");
 
 		public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
 		{
 			scale *= .86f;
 			b -= 300;
-			return mod.GetBackgroundSlot("Backgrounds/OceanUnderwaterBG1");
+			return BackgroundTextureLoader.GetBackgroundSlot("Biomes/Assets/OceanUnderwaterBG2");
 		}
-
-		public override bool ChooseBgStyle() => !Main.gameMenu && Main.LocalPlayer.ZoneBeach && Main.LocalPlayer.GetSpiritPlayer().Submerged(20);
 
 		// Use this to keep far Backgrounds like the mountains.
 		public override void ModifyFarFades(float[] fades, float transitionSpeed)

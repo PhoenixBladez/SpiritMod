@@ -70,7 +70,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 		}
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 54);
+			SoundEngine.PlaySound(SoundID.Item54, Projectile.Center);
 			for (int i = 0; i < 20; i++) {
 				int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.DungeonSpirit, 0f, -2f, 0, default, 2f);
 				Main.dust[num].noGravity = true;

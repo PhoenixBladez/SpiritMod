@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
 		{
-			SoundEngine.PlaySound(SoundID.CoinPickup, (int)player.Center.X, (int)player.Center.Y, 2);
+			SoundEngine.PlaySound(SoundID.CoinPickup, player.Center);
 			Main.invasionType = 0;
 			Main.invasionSize = 0;
 

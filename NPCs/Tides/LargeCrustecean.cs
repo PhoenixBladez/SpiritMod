@@ -110,7 +110,7 @@ namespace SpiritMod.NPCs.Tides
 				NPC.frame.Y = (frame + 6) * frameHeight;
 				if (NPC.frameCounter > 2 && blockTimer % 5 == 0)
 				{
-					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 85);
+					SoundEngine.PlaySound(SoundID.Item85, NPC.Center);
 					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (NPC.direction * 34), NPC.Center.Y - 4, NPC.direction * Main.rand.NextFloat(3, 6), 0 - Main.rand.NextFloat(1), ModContent.ProjectileType<LobsterBubbleSmall>(), NPC.damage / 2, 1, Main.myPlayer, 0, 0);
 				}
 			}

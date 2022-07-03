@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.Graphics.Effects;
+using Terraria.ModLoader;
 using Terraria.Utilities;
 
 namespace SpiritMod.Skies
@@ -16,7 +17,7 @@ namespace SpiritMod.Skies
 
 		private float _fadeOpacity;
 
-		public override void OnLoad() => _bgTexture = TextureManager.Load("Images/Misc/NebulaSky/Background");
+		public override void OnLoad() => _bgTexture = ModContent.Request<Texture2D>("Images/Misc/NebulaSky/Background", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 		public override void Update(GameTime gameTime)
 		{

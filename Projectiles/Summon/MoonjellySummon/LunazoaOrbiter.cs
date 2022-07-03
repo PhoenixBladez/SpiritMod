@@ -105,7 +105,7 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
 						{
 							if (!Main.npc[npcFinder].friendly && !Main.npc[npcFinder].townNPC && Main.npc[npcFinder].active)
 							{
-								SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 110);
+								SoundEngine.PlaySound(SoundID.Item110, Projectile.Center);
 								Vector2 direction = Vector2.Normalize(Main.npc[npcFinder].Center - Projectile.Center) * 15f;
 								Projectile p = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), Projectile.Center, direction, ModContent.ProjectileType<JellyfishOrbiter_Friendly>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
 								p.friendly = true;

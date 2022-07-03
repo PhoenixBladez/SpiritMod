@@ -128,7 +128,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 				NPC.velocity = dashDirection;
 
 				NPC.rotation = NPC.velocity.ToRotation() + 1.57f;
-				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 81);
+				SoundEngine.PlaySound(SoundID.Item81, NPC.Center);
 			}
 			if (NPC.ai[0] < DASHAMOUNT)
 			{

@@ -36,7 +36,6 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			NPC.noGravity = true;
 			NPC.noTileCollide = true;
 
-			bossBag = ModContent.ItemType<InfernonBag>();
 			Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/Infernon");
 		}
 
@@ -90,8 +89,6 @@ namespace SpiritMod.NPCs.Boss.Infernon
 					}
 				}
 			}
-			if (Main.expertMode)
-				NPC.DropBossBags();
 		}
 
 		int timer = 0;
@@ -212,5 +209,6 @@ namespace SpiritMod.NPCs.Boss.Infernon
 		}
 
 		public override void BossLoot(ref string name, ref int potionType) => potionType = ItemID.GreaterHealingPotion;
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddBossBag<InfernonBag>();
 	}
 }

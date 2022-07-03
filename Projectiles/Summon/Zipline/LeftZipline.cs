@@ -91,7 +91,7 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (!stuck)
-				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 52);
+				SoundEngine.PlaySound(SoundID.Item52, Projectile.Center);
 			if (oldVelocity.X != Projectile.velocity.X) //if its an X axis collision
 			{
 				if (Projectile.velocity.X > 0)

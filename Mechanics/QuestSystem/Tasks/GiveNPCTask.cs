@@ -91,7 +91,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Tasks
 						if (TakeItems && !_takenItems)
 							RemoveItems(Main.LocalPlayer);
 
-						Main.LocalPlayer.QuickSpawnItem(_optionalReward);
+						Main.LocalPlayer.QuickSpawnItem(Main.LocalPlayer.GetSource_GiftOrReward(), _optionalReward);
 						Main.npcChatText = NPCText;
 						return true;
 					}
@@ -109,7 +109,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Tasks
 							if (TakeItems && !_takenItems)
 								RemoveItems(player);
 
-							player.QuickSpawnItem(_optionalReward);
+							player.QuickSpawnItem(Main.LocalPlayer.GetSource_GiftOrReward(), _optionalReward);
 							Main.npcChatText = NPCText;
 
 							_givenToNPC = true;

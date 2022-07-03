@@ -102,7 +102,7 @@ namespace SpiritMod.Projectiles.Magic
         }
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 69);
+            SoundEngine.PlaySound(SoundID.Item69, Projectile.Center);
             Vector2 direction = Main.MouseWorld - Projectile.Center;
             direction.Normalize();
             direction *= 12f;

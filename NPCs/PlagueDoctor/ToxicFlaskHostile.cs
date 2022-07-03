@@ -39,7 +39,7 @@ namespace SpiritMod.NPCs.PlagueDoctor
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 107);
+			SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);
 			for (int i = 0; i < 30; i++) {
 				int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.CursedTorch, 0f, -2f, 0, default, 1.2f);
 				Main.dust[num].noGravity = true;

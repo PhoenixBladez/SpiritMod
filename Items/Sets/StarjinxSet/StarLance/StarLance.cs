@@ -130,7 +130,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarLance
 						for (int i = 0; i < 6; i++)
 							Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<FriendlyStargoopDust>(), Main.rand.NextFloat(6.28f).ToRotationVector2() * 3, Scale: Main.rand.NextFloat(1.4f, 1.8f));
 
-						SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 105, 0.5f, 0.5f);
+						SoundEngine.PlaySound(SoundID.Item105, Projectile.Center);
 						Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.SmallExplosion>(), (int)(Projectile.damage * Main.rand.NextFloat(0.85f, 1.15f)), 0, Projectile.owner);
 					}
 

@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			if (Head.ai[2] == 1) {
 				if (Main.netMode != NetmodeID.MultiplayerClient) {
 					if (--NPC.ai[3] == 0) {
-						SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 9);
+						SoundEngine.PlaySound(SoundID.Item9, NPC.Center);
 						NPC.TargetClosest(true);
 						NPC.netUpdate = true;
 						if (Main.rand.NextBool(2)) {
@@ -221,7 +221,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, hitDirection, -1f, 0, default, 1f);
 			}
 			if (NPC.life <= 0) {
-				SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 4);
+				SoundEngine.PlaySound(SoundID.Item4, NPC.Center);
 				// Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate4"), 1f);
 				// Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate5"), 1f);
 				for (int num623 = 0; num623 < 20; num623++) {

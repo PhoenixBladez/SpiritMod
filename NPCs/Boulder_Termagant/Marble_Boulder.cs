@@ -44,6 +44,6 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 				Projectile.tileCollide = true;
 		}
 
-		public override void Kill(int timeLeft) => SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y, 1, 1f, 0f);
+		public override void Kill(int timeLeft) => SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 	}
 }

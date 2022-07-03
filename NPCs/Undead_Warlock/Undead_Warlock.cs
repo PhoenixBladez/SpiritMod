@@ -38,7 +38,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 			NPC.height = 36;
 			NPC.damage = 28;
 			NPC.lavaImmune = false;
-			NPC.HitSound = new Terraria.Audio.LegacySoundStyle(3, 1);
+			NPC.HitSound = SoundID.NPCHit1;
 		}
 		public override void SendExtraAI(BinaryWriter writer)
 		{
@@ -130,7 +130,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 								break;
 						}
 						spawnedProjectiles++;
-						SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 28, 1f, 0f);
+						SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
 						int chosenDust = Main.rand.Next(2) == 0 ? 173 : 157;
 						int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + 2, NPC.Center.Y - 88, 0f, 0f, chosenProjectile, 20, 3f, 0);
 						Main.projectile[p].ai[1] = NPC.whoAmI;

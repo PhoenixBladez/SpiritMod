@@ -92,7 +92,7 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
 				Color color = new Color(255, 255, 200) * 0.75f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 
 				float scale = Projectile.scale * (float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length * 0.2f;
-				Texture2D tex = GetTexture("SpiritMod/Textures/Glow");
+				Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Textures/Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color * .1f, 0, tex.Size() / 2, scale * 5, default, default);
 				spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color * 0.3f, 0, tex.Size() / 2, scale * 4, default, default);

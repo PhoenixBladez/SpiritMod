@@ -57,7 +57,7 @@ namespace SpiritMod.Projectiles
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 74);
+			SoundEngine.PlaySound(SoundID.Item74, Projectile.Center);
 			ProjectileExtras.Explode(Projectile.whoAmI, 80, 80,
 				delegate {
 					for (int i = 0; i < 40; i++) {

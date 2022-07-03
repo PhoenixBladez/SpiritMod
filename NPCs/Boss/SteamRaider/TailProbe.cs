@@ -188,32 +188,32 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				base.NPC.rotation = num7;
 			}
 			base.NPC.spriteDirection = base.NPC.direction;
-			if (Main.npc[parent].ai[2] == 0) {
+			if (Main.npc[parent].ai[2] == 0)
+			{
 				shoottimer++;
-				if (shoottimer >= 120 && shoottimer <= 180) {
-					{
-						int dust = Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.GoldCoin);
-						Main.dust[dust].velocity *= -1f;
-						Main.dust[dust].scale *= .8f;
-						Main.dust[dust].noGravity = true;
-						Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-80, 81), (float)Main.rand.Next(-80, 81));
-						vector2_1.Normalize();
-						Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
-						Main.dust[dust].velocity = vector2_2;
-						vector2_2.Normalize();
-						Vector2 vector2_3 = vector2_2 * 34f;
-						Main.dust[dust].position = NPC.Center - vector2_3;
-					}
-				}
+				if (shoottimer >= 120 && shoottimer <= 180)
 				{
-					if (shoottimer >= 180 && shoottimer % 10 == 0) {
-						SoundEngine.PlaySound(SoundID.Item, (int)NPC.Center.X, (int)NPC.Center.Y, 12);
+					int dust = Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.GoldCoin);
+					Main.dust[dust].velocity *= -1f;
+					Main.dust[dust].scale *= .8f;
+					Main.dust[dust].noGravity = true;
+					Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-80, 81), (float)Main.rand.Next(-80, 81));
+					vector2_1.Normalize();
+					Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
+					Main.dust[dust].velocity = vector2_2;
+					vector2_2.Normalize();
+					Vector2 vector2_3 = vector2_2 * 34f;
+					Main.dust[dust].position = NPC.Center - vector2_3;
+
+					if (shoottimer >= 180 && shoottimer % 10 == 0)
+					{
+						SoundEngine.PlaySound(SoundID.Item12, NPC.Center);
 						Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 						direction.Normalize();
 						direction.X *= 6f;
 						direction.Y *= 6f;
 
-						if(Main.netMode != NetmodeID.MultiplayerClient)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 							Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<GlitchLaser>(), NPCUtils.ToActualDamage(32, 1.5f), 1, Main.myPlayer, 0, 0);
 
 						if (!Main.expertMode || shoottimer >= 200)

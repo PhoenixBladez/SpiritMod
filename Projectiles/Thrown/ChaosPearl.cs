@@ -38,8 +38,8 @@ namespace SpiritMod.Projectiles.Thrown
 		public override void Kill(int timeLeft)
 		{
 			Player player = Main.player[Projectile.owner];
-			SoundEngine.PlaySound((int)Projectile.position.X, (int)Projectile.position.Y, 27);
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 8);
+			SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
+			SoundEngine.PlaySound(SoundID.Item8, Projectile.Center);
 			//Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			for (int num424 = 0; num424 < 10; num424++) {
 				Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Firework_Yellow, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 0, default, 0.75f);

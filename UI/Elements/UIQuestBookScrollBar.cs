@@ -64,7 +64,7 @@ namespace SpiritMod.UI.Elements
 			this._isHoveringOverHandle = handleRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y));
 			if (!flag && this._isHoveringOverHandle && Main.hasFocus)
 			{
-				SoundEngine.PlaySound(SoundID.MenuTick, -1, -1, 1, 1f, 0f);
+				SoundEngine.PlaySound(SoundID.MenuTick);
 			}
 			spriteBatch.Draw(TextureAssets.BlackTile.Value, handleRectangle, Colour * (this._isDragging || this._isHoveringOverHandle ? 1f : 0.85f));
 

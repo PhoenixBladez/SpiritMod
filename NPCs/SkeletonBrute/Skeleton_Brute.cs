@@ -126,7 +126,7 @@ namespace SpiritMod.NPCs.SkeletonBrute
 					if (NPC.frameCounter == 13 && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0) && player.DistanceSQ(NPC.Center) <= 150f * 150f)
 					{
                         player.Hurt(PlayerDeathReason.LegacyDefault(), (int)(NPC.damage * 1.5f), 0, false, false, false, -1);
-                        SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 37, 1f, 0.3f);
+                        SoundEngine.PlaySound(SoundID.Item37, NPC.Center);
                         player.velocity.X = NPC.direction * 13f;
                         player.velocity.Y = -9f;
                     }

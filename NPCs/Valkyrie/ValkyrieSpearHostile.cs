@@ -53,7 +53,7 @@ namespace SpiritMod.NPCs.Valkyrie
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y, 1);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 
 			for (int num257 = 0; num257 < 20; num257++)
 			{

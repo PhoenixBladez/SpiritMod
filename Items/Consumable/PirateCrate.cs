@@ -51,7 +51,7 @@ namespace SpiritMod.Items.Consumable
 				ItemID.DiscountCard
 			};
 			int loot = Main.rand.Next(lootTable.Length);
-			player.QuickSpawnItem(lootTable[loot]);
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), lootTable[loot]);
 			if (Main.rand.Next(4) > 0) {
 				int[] lootTable2 = {
 					ItemID.GoldBar,
@@ -62,7 +62,7 @@ namespace SpiritMod.Items.Consumable
 				int loot2 = Main.rand.Next(lootTable2.Length);
 				int Booty = Main.rand.Next(15, 30);
 				for (int j = 0; j < Booty; j++) {
-					player.QuickSpawnItem(lootTable2[loot2]);
+					player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), lootTable2[loot2]);
 				}
 
 			}
@@ -79,12 +79,12 @@ namespace SpiritMod.Items.Consumable
 						ItemID.Amber
 					};
 					int loot3 = Main.rand.Next(lootTable3.Length);
-					player.QuickSpawnItem(lootTable3[loot3]);
+					player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), lootTable3[loot3]);
 				}
 			}
 			int Coins = Main.rand.Next(10, 25);
 			for (int K = 0; K < Coins; K++)
-				player.QuickSpawnItem(ItemID.GoldCoin);
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), ItemID.GoldCoin);
 		}
 	}
 }

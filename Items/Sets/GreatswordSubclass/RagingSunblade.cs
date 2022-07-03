@@ -162,7 +162,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 
 				while (player.itemAnimation < 3)
 				{
-					SoundEngine.PlaySound(SoundID.Item, (int)player.MountedCenter.X, (int)player.MountedCenter.Y, 105, 0.5f, 0.5f);
+					SoundEngine.PlaySound(SoundID.Item105, player.Center);
 					player.itemAnimation += 320;
 				}
 			}

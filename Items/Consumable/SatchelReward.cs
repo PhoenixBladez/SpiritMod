@@ -28,8 +28,8 @@ namespace SpiritMod.Items.Consumable
 
 		public override void RightClick(Player player)
 		{
-			player.QuickSpawnItem(Mod.Find<ModItem>("AdvPainting" + Main.rand.Next(1, 24)).Type);
-			player.QuickSpawnItem(Mod.Find<ModItem>("AdvPainting" + Main.rand.Next(1, 24)).Type);
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), Mod.Find<ModItem>("AdvPainting" + Main.rand.Next(1, 24)).Type);
+			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), Mod.Find<ModItem>("AdvPainting" + Main.rand.Next(1, 24)).Type);
 		}
 	}
 }

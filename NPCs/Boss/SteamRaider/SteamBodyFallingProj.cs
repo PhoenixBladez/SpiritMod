@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			if (Projectile.velocity.Y != oldVelocity.Y)
 				Projectile.velocity.Y = oldVelocity.Y * -1.3f;
 
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 10);
+			SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
 			return false;
 		}
 		public override Color? GetAlpha(Color lightColor)

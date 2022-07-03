@@ -26,7 +26,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		public override void AI()
 		{
 			if (Projectile.localAI[0] == 0f) {
-				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 33);
+				SoundEngine.PlaySound(SoundID.Item33, Projectile.Center);
 				Projectile.localAI[0] += 1f;
 			}
 			Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;

@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Magic
 		{
 			if (Projectile.localAI[1] == 0f) {
 				Projectile.localAI[1] = 1f;
-				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 8);
+				SoundEngine.PlaySound(SoundID.Item8, Projectile.Center);
 			}
 			else if (Projectile.ai[0] == 1f) {
 				Projectile.scale -= 0.01f;

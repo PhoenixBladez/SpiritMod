@@ -60,7 +60,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y, 1);
+			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
 			// Vector2 vector9 = projectile.position;
 			//Vector2 value19 = (projectile.rotation - 1.57079637f).ToRotationVector2();
 			// vector9 += value19 * 16f;

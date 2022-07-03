@@ -101,7 +101,7 @@ namespace SpiritMod.Projectiles.Magic
 			for (int i = 0; i < 10; i++)
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Blood);
 
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 103);
+			SoundEngine.PlaySound(SoundID.Item103, Projectile.Center);
 
 			for (int i = 0; i < 4; i++)
 			{

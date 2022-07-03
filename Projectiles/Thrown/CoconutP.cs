@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Thrown
 				Vector2 GoreVel = Projectile.velocity;
 				GoreVel.X = 2f;
 				GoreVel.Y *= -0.2f;
-				SoundEngine.PlaySound(SoundID.NPCDeath1, (int)Projectile.position.X, (int)Projectile.position.Y, 1);
+				SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.Center);
 				Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, GoreVel, Mod.Find<ModGore>("Gores/Coconut/CoconutGore1").Type, 1f);
 				GoreVel.X = -2f;
 				Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, GoreVel, Mod.Find<ModGore>("Gores/Coconut/CoconutGore2").Type, 1f);

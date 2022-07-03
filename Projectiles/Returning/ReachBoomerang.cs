@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Returning
 			Projectile.penetrate = -1;
 			Projectile.timeLeft = 700;
 		}
-		 private Texture2D GlowingTrail => GetTexture("SpiritMod/Projectiles/Returning/ReachBoomerang_Trail");
+		 private Texture2D GlowingTrail => ModContent.Request<Texture2D>("SpiritMod/Projectiles/Returning/ReachBoomerang_Trail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 		public override void AI()
 		{

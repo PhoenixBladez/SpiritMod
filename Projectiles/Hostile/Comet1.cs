@@ -45,7 +45,7 @@ namespace SpiritMod.Projectiles.Hostile
 				Projectile.soundDelay = 10;
 				Projectile.soundDelay *= 9;
 				if (Main.rand.NextBool(3))
-					SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 9);
+					SoundEngine.PlaySound(SoundID.Item9, Projectile.Center);
 			}
 			Lighting.AddLight(Projectile.position, 0.255f, .199f, .069f);
             Projectile.rotation = Projectile.velocity.ToRotation() + 1.57f;

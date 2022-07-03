@@ -39,7 +39,7 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
 			{
 				if (Projectile != proj && proj.type == ModContent.ProjectileType<CrimbineBone>())
 				{
-					SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 95);
+					SoundEngine.PlaySound(SoundID.Item95, Projectile.Center);
 					proj.Kill();
 					Projectile.Kill();
 

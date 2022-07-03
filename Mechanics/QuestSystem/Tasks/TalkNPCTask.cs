@@ -61,7 +61,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Tasks
 					Main.npcChatText = NPCText;
 					if (!hasTakenItems)
 					{
-						Main.LocalPlayer.QuickSpawnItem(_itemReceived);
+						Main.LocalPlayer.QuickSpawnItem(Main.LocalPlayer.GetSource_GiftOrReward(), _itemReceived);
 						hasTakenItems = true;
 					}
 					return Main.npc[Main.LocalPlayer.talkNPC].type == _npcType;
@@ -76,7 +76,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Tasks
 						Main.npcChatText = NPCText;
 						if (!hasTakenItems)
 						{
-							Main.player[i].QuickSpawnItem(_itemReceived);
+							Main.player[i].QuickSpawnItem(Main.LocalPlayer.GetSource_GiftOrReward(), _itemReceived);
 							hasTakenItems = true;
 						}
 						return true;

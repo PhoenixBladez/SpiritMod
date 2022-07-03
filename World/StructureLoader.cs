@@ -227,13 +227,13 @@ namespace SpiritMod.World
 						Mod mod = ModLoader.GetMod(args[0]);
 						if (mod != null) {
 							if (tile) {
-								ModTile mtile = mod.GetTile(args[1]);
+								ModTile mtile = ModContent.Find<ModTile>(args[1]);
 								if (mtile != null) {
 									type = mtile.Type;
 								}
 							}
 							else {
-								ModWall mwall = mod.GetWall(args[1]);
+								ModWall mwall = ModContent.Find<ModWall>(args[1]);
 								if (mwall != null) {
 									type = mwall.Type;
 								}

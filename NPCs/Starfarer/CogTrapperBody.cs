@@ -58,7 +58,7 @@ namespace SpiritMod.NPCs.Starfarer
 			if (Main.netMode != NetmodeID.MultiplayerClient) {
 				NPC.localAI[0] += Main.rand.Next(4);
 				if (NPC.localAI[0] >= (float)Main.rand.Next(700, 1000)) {
-					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 9);
+					SoundEngine.PlaySound(SoundID.Item9, NPC.Center);
 					NPC.localAI[0] = 0f;
 					NPC.TargetClosest(true);
 					if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height)) {

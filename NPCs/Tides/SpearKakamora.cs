@@ -193,7 +193,7 @@ namespace SpiritMod.NPCs.Tides
 				}
 				if (NPC.frameCounter >= 1.3f && !thrownCoconut)
 				{
-					SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 1);
+					SoundEngine.PlaySound(SoundID.Item1, NPC.Center);
 					Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 9f;
 					float A = (float)Main.rand.Next(-50, 50) * 0.02f;
 					float B = (float)Main.rand.Next(-50, 50) * 0.02f;

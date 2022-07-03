@@ -29,7 +29,7 @@ namespace SpiritMod.Mechanics.Trails
 		public TrailManager(Mod mod)
 		{
 			_trails = new List<BaseTrail>();
-			_effect = mod.GetEffect("Effects/trailShaders");
+			_effect = ModContent.Request<Effect>("Effects/trailShaders").Value;
 			_basicEffect = new BasicEffect(Main.graphics.GraphicsDevice)
 			{
 				VertexColorEnabled = true

@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.Graphics.Effects;
+using Terraria.ModLoader;
 using Terraria.Utilities;
 
 namespace SpiritMod.Skies
@@ -22,7 +23,7 @@ namespace SpiritMod.Skies
 
 		public override void OnLoad()
 		{
-			this._bgTexture = TextureManager.Load("Images/Misc/StardustSky/Background");
+			this._bgTexture = ModContent.Request<Texture2D>("Images/Misc/StardustSky/Background", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 		}
 
 		public override void Update(GameTime gameTime)

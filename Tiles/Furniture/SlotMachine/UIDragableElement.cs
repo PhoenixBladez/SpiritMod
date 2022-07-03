@@ -29,7 +29,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			this.resizeableX = resizeableX;
 			this.resizeableY = resizeableY;
 			if (dragTexture == null) {
-				dragTexture = TextureManager.Load("Images/UI/PanelBorder");
+				dragTexture = ModContent.Request<Texture2D>("Images/UI/PanelBorder");
 			}
 			additionalDragTargets = new List<UIElement>();
 		}

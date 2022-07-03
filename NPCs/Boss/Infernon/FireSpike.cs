@@ -110,7 +110,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 			Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 4);
 			Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 4);
 
-			SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
+			SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
 			for (int num273 = 0; num273 < 3; num273++) {
 				int num274 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Torch, 0f, 0f, 0, default, 1f);
 				Main.dust[num274].noGravity = true;

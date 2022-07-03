@@ -88,7 +88,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
 			if (modPlayer.shootDelay2 == 1) {
-				SoundEngine.PlaySound(SoundID.MaxMana, -1, -1, 1, 1f, 0.0f);
+				SoundEngine.PlaySound(SoundID.MaxMana);
 				for (int index1 = 0; index1 < 5; ++index1) {
 					int index2 = Dust.NewDust(player.position, player.width, player.height, DustID.CursedTorch, 0.0f, 0.0f, (int)byte.MaxValue, new Color(), (float)Main.rand.Next(20, 26) * 0.1f);
 					Main.dust[index2].noLight = false;

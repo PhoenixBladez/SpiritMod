@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			};
 			int loot = Main.rand.Next(vanityTable.Length);
 			if (Main.rand.NextBool(20))
-				player.QuickSpawnItem(vanityTable[loot]);
+				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type), vanityTable[loot]);
 		}
 	}
 }

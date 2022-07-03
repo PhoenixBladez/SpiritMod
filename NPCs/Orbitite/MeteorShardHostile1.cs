@@ -88,7 +88,7 @@ namespace SpiritMod.NPCs.Orbitite
 						Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, direction, ModContent.ProjectileType<MeteorShardHostile2>(), Projectile.damage, 0, Main.myPlayer);
 					}
 				}
-				SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 89);
+				SoundEngine.PlaySound(SoundID.Item89, Projectile.Center);
 			}
 		}
 		public override bool PreDraw(ref Color lightColor)
