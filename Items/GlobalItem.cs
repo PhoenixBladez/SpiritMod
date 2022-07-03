@@ -211,8 +211,6 @@ namespace SpiritMod.Items
 			}
 		}
 
-		public override bool NeedsSaving(Item item) => Glyph != GlyphType.None;
-
 		public override void SaveData(Item item, TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */
 		{
 			tag.Add("glyph", (int)Glyph);
@@ -222,9 +220,9 @@ namespace SpiritMod.Items
 		{
 			GlyphType glyph = (GlyphType)data.GetInt("glyph");
 			if (glyph > GlyphType.None && glyph < GlyphType.Count)
-				this.Glyph = glyph;
+				Glyph = glyph;
 			else
-				this.Glyph = GlyphType.None;
+				Glyph = GlyphType.None;
 			AdjustStats(item);
 		}
 

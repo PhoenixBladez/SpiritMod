@@ -348,7 +348,8 @@ namespace SpiritMod.World
 		{
 			if (placeY < oceanTop + depth - 3f)
 			{
-				Main.tile[placeX, placeY].HasTile = false;
+				Tile tile = Main.tile[placeX, placeY];
+				tile.HasTile = false;
 
 				if (placeY > oceanTop + 5)
 					Main.tile[placeX, placeY].LiquidAmount = byte.MaxValue;
@@ -360,11 +361,12 @@ namespace SpiritMod.World
 			}
 			else if (placeY > oceanTop)
 			{
+				Tile tile = Main.tile[placeX, placeY];
 				if (placeY < oceanTop + depth + 8)
 					Main.tile[placeX, placeY].TileType = TileID.Sand;
 				else
 					Main.tile[placeX, placeY].TileType = TileID.HardenedSand;
-				Main.tile[placeX, placeY].HasTile = true;
+				tile.HasTile = true;
 			}
 
 			Main.tile[placeX, placeY].WallType = 0;

@@ -39,7 +39,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 			AddMapEntry(new Color(179, 146, 107), name);
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Dressers };
-			dresser = "Elderbark Dresser";
+			ContainerName.SetDefault("Elderbark Dresser");
 			DresserDrop = ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachDresser>();
             TileID.Sets.HasOutlines[Type] = true;
         }
@@ -82,7 +82,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 					}
 				}
 				else {
-					player.flyingPigChest = -1;
+					player.piggyBankProjTracker.Clear();
 					int num213 = Chest.FindChest(left, top);
 					if (num213 != -1) {
 						Main.stackSplit = 600;
@@ -125,34 +125,10 @@ namespace SpiritMod.Tiles.Furniture.Reach
 
 		public override void MouseOverFar(int i, int j)
 		{
+			MouseOver(i, j);
 			Player player = Main.LocalPlayer;
-			Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
-			int left = Player.tileTargetX;
-			int top = Player.tileTargetY;
-			left -= (int)(tile.TileFrameX % 54 / 18);
-			if (tile.TileFrameY % 36 != 0) {
-				top--;
-			}
-			int chestIndex = Chest.FindChest(left, top);
-			player.cursorItemIconID = -1;
-			if (chestIndex < 0) {
-				player.cursorItemIconText = Language.GetTextValue("LegacyDresserType.0");
-			}
-			else {
-				if (Main.chest[chestIndex].name != "") {
-					player.cursorItemIconText = Main.chest[chestIndex].name;
-				}
-				else {
-					player.cursorItemIconText = chest;
-				}
-				if (player.cursorItemIconText == chest) {
-					player.cursorItemIconID = ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachDresser>();
-					player.cursorItemIconText = "";
-				}
-			}
-			player.noThrow = 2;
-			player.cursorItemIconEnabled = true;
-			if (player.cursorItemIconText == "") {
+			if (player.cursorItemIconText == "")
+			{
 				player.cursorItemIconEnabled = false;
 				player.cursorItemIconID = 0;
 			}
@@ -161,35 +137,32 @@ namespace SpiritMod.Tiles.Furniture.Reach
 		public override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
-			Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
-			int left = Player.tileTargetX;
-			int top = Player.tileTargetY;
-			left -= (int)(tile.TileFrameX % 54 / 18);
-			if (tile.TileFrameY % 36 != 0) {
+			Tile tile = Main.tile[i, j];
+			int left = i;
+			int top = j;
+			if (tile.TileFrameX % 36 != 0)
+				left--;
+
+			if (tile.TileFrameY != 0)
 				top--;
-			}
-			int num138 = Chest.FindChest(left, top);
+
+			int chest = Chest.FindChest(left, top);
 			player.cursorItemIconID = -1;
-			if (num138 < 0) {
-				player.cursorItemIconText = Language.GetTextValue("LegacyDresserType.0");
-			}
-			else {
-				if (Main.chest[num138].name != "") {
-					player.cursorItemIconText = Main.chest[num138].name;
-				}
-				else {
-					player.cursorItemIconText = chest;
-				}
-				if (player.cursorItemIconText == chest) {
-					player.cursorItemIconID = ModContent.ItemType<Items.Placeable.Furniture.Reach.ReachDresser>();
+			if (chest < 0)
+				player.cursorItemIconText = Language.GetTextValue("LegacyChestType.0");
+			else
+			{
+				string defaultName = TileLoader.ContainerName(tile.TileType);
+				player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : defaultName;
+				if (player.cursorItemIconText == defaultName)
+				{
+					player.cursorItemIconID = DresserDrop;
 					player.cursorItemIconText = "";
 				}
 			}
+
 			player.noThrow = 2;
 			player.cursorItemIconEnabled = true;
-			if (Main.tile[Player.tileTargetX, Player.tileTargetY].TileFrameY > 0) {
-				player.cursorItemIconID = ItemID.FamiliarShirt;
-			}
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
@@ -199,7 +172,7 @@ namespace SpiritMod.Tiles.Furniture.Reach
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, DresserDrop);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, DresserDrop);
 			Chest.DestroyChest(i, j);
 		}
 	}

@@ -80,12 +80,6 @@ namespace SpiritMod.Tiles.Block
 				}
 			}
 		}*/
-
-		public override int SaplingGrowthType(ref int style)
-		{
-			style = 0;
-			return ModContent.TileType<ReachSapling>();
-		}
 	}
 }
 

@@ -80,7 +80,7 @@ namespace SpiritMod.Tiles.Furniture.Signs
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 			int height = tile.TileFrameY == 36 ? 18 : 16;
 
-			spriteBatch.Draw(GetTexture("SpiritMod/Tiles/Furniture/Signs/BlueSign_Glow"), new Vector2(i, j) * 16 - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/Signs/BlueSign_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, new Vector2(i, j) * 16 - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
 	}
 }

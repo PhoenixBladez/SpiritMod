@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Sets.AccessoriesMisc.DustboundRing
 			if (Main.tileOreFinderPriority[type] > 0)
 				for (int b = 0; b < 8 + player.extraAccessorySlots; b++)
 					if (player.armor[b].type == ModContent.ItemType<Dustbound_Ring>())
-						drawColor = Color.White * .6f;
+						drawData.colorTint = Color.White * .6f;
 		}
 	}
 }

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -45,15 +46,14 @@ namespace SpiritMod.Items.Sets.TideDrops.Whirltide
 			recipe.Register();
 		}
 
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
 			if (player.direction == 1)
-				speedX = 6f;
+				velocity.X = 6f;
 			else
-				speedX = -6f;
+				velocity.X = -6f;
 
-			speedY = 0f;
-			return true;
+			velocity.Y = 0f;
 		}
 	}
 }

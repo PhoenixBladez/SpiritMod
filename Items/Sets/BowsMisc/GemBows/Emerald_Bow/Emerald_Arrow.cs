@@ -87,7 +87,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Emerald_Bow
 				int i = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.GemAmethyst, 0.0f, 0.0f, 0, Color.Purple, 1f);
 				Main.dust[i].noGravity = true;
 			}
-			SoundEngine.PlaySound(SoundID.Trackable, (int)Projectile.position.X, (int)Projectile.position.Y, 193, 1f, -0.2f);
+			SoundEngine.PlaySound(SoundID.Shatter with { Volume = 0.4f });
 		}
 	}
 }

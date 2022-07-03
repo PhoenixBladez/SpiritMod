@@ -43,7 +43,7 @@ namespace SpiritMod
 		{
 			switch (type) {
 				case EquipType.Head: {
-						DrawData drawData = new DrawData(texture, new Vector2((int)(info.Position.X - Main.screenPosition.X) + ((info.drawPlayer.width - info.drawPlayer.bodyFrame.Width) / 2), (int)(info.Position.Y - Main.screenPosition.Y) + info.drawPlayer.height - info.drawPlayer.bodyFrame.Height + 4) + info.drawPlayer.headPosition + info.headOrigin, info.drawPlayer.bodyFrame, info.headGlowMaskColor, info.drawPlayer.headRotation, info.headOrigin, 1f, info.spriteEffects, 0) {
+						DrawData drawData = new DrawData(texture, new Vector2((int)(info.Position.X - Main.screenPosition.X) + ((info.drawPlayer.width - info.drawPlayer.bodyFrame.Width) / 2), (int)(info.Position.Y - Main.screenPosition.Y) + info.drawPlayer.height - info.drawPlayer.bodyFrame.Height + 4) + info.drawPlayer.headPosition + info.headOrigin, info.drawPlayer.bodyFrame, info.headGlowMaskColor, info.drawPlayer.headRotation, info.headOrigin, 1f, info.playerEffect, 0) {
 							shader = info.headArmorShader
 						};
 						info.DrawDataCache.Add(drawData);
@@ -62,7 +62,7 @@ namespace SpiritMod
 						}
 
 						if (!info.drawPlayer.invis) {
-							DrawData drawData = new DrawData(texture, new Vector2((int)(info.Position.X - Main.screenPosition.X - (info.drawPlayer.bodyFrame.Width / 2) + (info.drawPlayer.width / 2) + num123), ((int)(info.Position.Y - Main.screenPosition.Y + info.drawPlayer.height - info.drawPlayer.bodyFrame.Height + 4))) + info.drawPlayer.bodyPosition + new Vector2(info.drawPlayer.bodyFrame.Width / 2, info.drawPlayer.bodyFrame.Height / 2), bodyFrame, info.bodyGlowMaskColor, info.drawPlayer.bodyRotation, info.bodyOrigin, 1f, info.spriteEffects, 0) {
+							DrawData drawData = new DrawData(texture, new Vector2((int)(info.Position.X - Main.screenPosition.X - (info.drawPlayer.bodyFrame.Width / 2) + (info.drawPlayer.width / 2) + num123), ((int)(info.Position.Y - Main.screenPosition.Y + info.drawPlayer.height - info.drawPlayer.bodyFrame.Height + 4))) + info.drawPlayer.bodyPosition + new Vector2(info.drawPlayer.bodyFrame.Width / 2, info.drawPlayer.bodyFrame.Height / 2), bodyFrame, info.bodyGlowMaskColor, info.drawPlayer.bodyRotation, info.bodyOrigin, 1f, info.playerEffect, 0) {
 								shader = info.bodyArmorShader
 							};
 							info.DrawDataCache.Add(drawData);
@@ -73,7 +73,7 @@ namespace SpiritMod
 				case EquipType.Legs: {
 						if (info.drawPlayer.shoe != 15 || info.drawPlayer.wearsRobe) {
 							if (!info.drawPlayer.invis) {
-								DrawData drawData = new DrawData(texture, new Vector2((int)(info.Position.X - Main.screenPosition.X - (info.drawPlayer.legFrame.Width / 2) + (info.drawPlayer.width / 2)), (int)(info.Position.Y - Main.screenPosition.Y + info.drawPlayer.height - info.drawPlayer.legFrame.Height + 4)) + info.drawPlayer.legPosition + info.legOrigin, info.drawPlayer.legFrame, info.legGlowMaskColor, info.drawPlayer.legRotation, info.legOrigin, 1f, info.spriteEffects, 0) {
+								DrawData drawData = new DrawData(texture, new Vector2((int)(info.Position.X - Main.screenPosition.X - (info.drawPlayer.legFrame.Width / 2) + (info.drawPlayer.width / 2)), (int)(info.Position.Y - Main.screenPosition.Y + info.drawPlayer.height - info.drawPlayer.legFrame.Height + 4)) + info.drawPlayer.legPosition + info.legOrigin, info.drawPlayer.legFrame, info.legGlowMaskColor, info.drawPlayer.legRotation, info.legOrigin, 1f, info.playerEffect, 0) {
 									shader = info.legArmorShader
 								};
 								info.DrawDataCache.Add(drawData);
@@ -123,7 +123,7 @@ namespace SpiritMod
 				origin = new Vector2(texture.Width * 0.5f * (1 - info.drawPlayer.direction), (info.drawPlayer.gravDir == -1f) ? 0 : texture.Height);
 			}
 
-			Main.playerDrawData.Add(new DrawData(
+			info.DrawDataCache.Add(new DrawData(
 				texture,
 				info.ItemLocation - Main.screenPosition + offset,
 				texture.Bounds,

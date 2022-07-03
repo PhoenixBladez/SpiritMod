@@ -71,7 +71,7 @@ namespace SpiritMod.Projectiles.Bullet
 			if (owner.HeldItem.type != Mod.Find<ModItem>("Minifish").Type || owner.dead || !owner.active)
 				Projectile.ai[1]++;
 
-			Projectile.damage = (int)(owner.HeldItem.damage * owner.rangedDamage * 0.8f);
+			Projectile.damage = (int)(owner.GetDamage(DamageClass.Ranged).ApplyTo(owner.HeldItem.damage) * 0.8f);
 			Projectile.spriteDirection = (Math.Abs(Projectile.rotation) > MathHelper.PiOver2) ? -1 : 1;
 
 			if (Projectile.ai[1] > 0 || Projectile.timeLeft < 30) {

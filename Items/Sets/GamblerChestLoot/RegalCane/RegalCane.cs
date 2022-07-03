@@ -10,7 +10,13 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.RegalCane
 	[AutoloadEquip(EquipType.HandsOn)]
 	public class RegalCane : ModItem
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Gilded Cane");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Gilded Cane");
+
+			ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
+		}
+
 		public override void SetDefaults()
 		{
 			Item.width = 40;
@@ -20,8 +26,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.RegalCane
 			Item.accessory = true;
 			Item.vanity = true;
 		}
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-			=> drawHair = true;
+		
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			if (Main.rand.Next(20) == 0)

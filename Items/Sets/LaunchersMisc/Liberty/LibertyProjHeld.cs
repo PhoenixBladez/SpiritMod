@@ -81,7 +81,7 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Liberty
 					Projectile.NewProjectile(Projectile.GetSource_FromAI(), shootPos, Projectile.velocity * (speed + Owner.HeldItem.shootSpeed), shoot, damage + Projectile.damage, knockback + Projectile.knockBack, Owner.whoAmI);
 
 					Projectile.velocity = (Projectile.direction > 0) ? Projectile.velocity.RotatedBy(-MathHelper.PiOver4) : Projectile.velocity.RotatedBy(MathHelper.PiOver4); //recoil effect
-					bool canShoot = Owner.PickAmmo(Owner.HeldItem, out shoot, out speed, out damage, out knockback, out int ammoID, true); //second to determine if another shot can be fired
+					canShoot = Owner.PickAmmo(Owner.HeldItem, out shoot, out speed, out damage, out knockback, out int ammoID, true); //second to determine if another shot can be fired
 					if (!canShoot) //if no ammo left, stop channelling, so weapon use can end when wanted
 						Owner.channel = false;
 

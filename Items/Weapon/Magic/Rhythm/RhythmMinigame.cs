@@ -12,6 +12,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace SpiritMod.Items.Weapon.Magic.Rhythm
 {
@@ -51,7 +52,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm
 		float maxTime;
 		float timer = 0f;
 
-		public RhythmMinigame(Vector2 position, Player owner, IRhythmWeapon item, int bPM, SoundEffect music)
+		public RhythmMinigame(Vector2 position, Player owner, IRhythmWeapon item, int bPM, SoundStyle music)
 		{
 			Position = position;
 			BPM = bPM;
@@ -61,8 +62,6 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm
 			Notes = new List<RhythmNote>();
 			ComboScale = new InterpolatedFloat(0f, 0.1f, InterpolatedFloat.EaseInOut);
 			BeatScale = new InterpolatedFloat(0, 0.25f);
-
-			Music = music.CreateInstance();
 
 			Music.Volume = 0;
 			Music.IsLooped = true;

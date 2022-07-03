@@ -161,7 +161,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 				if (player.direction == -NPC.spriteDirection && !player.HasBuff(ModContent.BuffType<Golden_Curse>()) && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0))
 				{
 					player.AddBuff(ModContent.BuffType<Golden_Curse>(), 600);
-					SoundEngine.PlaySound(SoundID.Trackable, (int)NPC.position.X, (int)NPC.position.Y, 50, 1f, -0.5f);
+					SoundEngine.PlaySound(SoundID.NPCDeath27 with { Volume = 0.8f });
 
 					for (int i = 0; i < 50; ++i)
 					{
@@ -171,7 +171,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 							Main.dust[bbb].noGravity = true;
 					}
 				}
-				SoundEngine.PlaySound(SoundID.Trackable, (int)NPC.position.X, (int)NPC.position.Y, 41, 1f, 0f);
+				SoundEngine.PlaySound(SoundID.NPCHit28);
 			}
 		}
 

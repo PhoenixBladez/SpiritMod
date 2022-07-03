@@ -41,7 +41,7 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
 			ChestDrop = ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidChest>();
-			chest = "Corrosive Chest";
+			ContainerName.SetDefault("Corrosive Chest");
 			TileID.Sets.HasOutlines[Type] = true;
 		}
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -7,83 +8,84 @@ namespace SpiritMod
 {
 	public class SpiritGlowmask : ModPlayer
 	{
-		private static readonly Dictionary<int, Texture2D> ItemGlowMask = new Dictionary<int, Texture2D>();
+		internal static readonly Dictionary<int, Texture2D> ItemGlowMask = new Dictionary<int, Texture2D>();
 
-		internal new static void Unload()
+		internal new static void Unload() => ItemGlowMask.Clear();
+		public static void AddGlowMask(int itemType, string texturePath) => ItemGlowMask[itemType] = ModContent.Request<Texture2D>(texturePath, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+	}
+
+	public class SpiritGlowMaskItemLayer : PlayerDrawLayer
+	{
+		public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.Head);
+		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
-			ItemGlowMask.Clear();
+			if (drawInfo.drawPlayer.HeldItem.type >= ItemID.Count && SpiritGlowmask.ItemGlowMask.TryGetValue(drawInfo.drawPlayer.HeldItem.type, out Texture2D textureItem))//Held ItemType
+				GlowmaskUtils.DrawItemGlowMask(textureItem, drawInfo);
 		}
+	}
 
-		public static void AddGlowMask(int itemType, string texturePath)
+	public abstract class SpiritGlowMaskVanityLayer : PlayerDrawLayer
+	{
+		protected abstract int ID { get; }
+		protected abstract EquipType Type { get; }
+
+		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
-			ItemGlowMask[itemType] = ModContent.Request<Texture2D>(texturePath, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			if (!drawInfo.drawPlayer.armor[ID].IsAir)
+				if (drawInfo.drawPlayer.armor[ID].type >= ItemID.Count && SpiritGlowmask.ItemGlowMask.TryGetValue(drawInfo.drawPlayer.armor[ID].type, out Texture2D textureLegs))//Vanity Legs
+					GlowmaskUtils.DrawArmorGlowMask(Type, textureLegs, drawInfo);
 		}
+	}
 
-		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
+	public class SpiritGlowMaskVanityLegsLayer : SpiritGlowMaskVanityLayer
+	{
+		protected override int ID => 12;
+		protected override EquipType Type => EquipType.Legs;
+		public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.Leggings);
+
+	}
+
+	public class SpiritGlowMaskVanityBodyLayer : SpiritGlowMaskVanityLayer
+	{
+		protected override int ID => 11;
+		protected override EquipType Type => EquipType.Body;
+		public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.Torso);
+	}
+
+	public class SpiritGlowMaskVanityHeadLayer : SpiritGlowMaskVanityLayer
+	{
+		protected override int ID => 10;
+		protected override EquipType Type => EquipType.Head;
+		public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.Head);
+	}
+
+	public class SpiritGlowMaskLegsLayer : PlayerDrawLayer
+	{
+		public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.Leggings);
+		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
-			Texture2D textureLegs;
-			if (!Player.armor[12].IsAir) {
-				if (Player.armor[12].type >= ItemID.Count && ItemGlowMask.TryGetValue(Player.armor[12].type, out textureLegs))//Vanity Legs
-				{
-					InsertAfterVanillaLayer(layers, "Legs", new PlayerDrawLayer(Mod.Name, "GlowMaskLegs", delegate (PlayerDrawSet info) {
-						GlowmaskUtils.DrawArmorGlowMask(EquipType.Legs, textureLegs, info);
-					}));
-				}
-			}
-			else if (Player.armor[2].type >= ItemID.Count && ItemGlowMask.TryGetValue(Player.armor[2].type, out textureLegs))//Legs
-			{
-				InsertAfterVanillaLayer(layers, "Legs", new PlayerDrawLayer(Mod.Name, "GlowMaskLegs", delegate (PlayerDrawSet info) {
-					GlowmaskUtils.DrawArmorGlowMask(EquipType.Legs, textureLegs, info);
-				}));
-			}
-			Texture2D textureBody;
-			if (!Player.armor[11].IsAir) {
-				if (Player.armor[11].type >= ItemID.Count && ItemGlowMask.TryGetValue(Player.armor[11].type, out textureBody))//Vanity Body
-				{
-					InsertAfterVanillaLayer(layers, "Body", new PlayerDrawLayer(Mod.Name, "GlowMaskBody", delegate (PlayerDrawSet info) {
-						GlowmaskUtils.DrawArmorGlowMask(EquipType.Body, textureBody, info);
-					}));
-				}
-			}
-			else if (Player.armor[1].type >= ItemID.Count && ItemGlowMask.TryGetValue(Player.armor[1].type, out textureBody))//Body
-			{
-				InsertAfterVanillaLayer(layers, "Body", new PlayerDrawLayer(Mod.Name, "GlowMaskBody", delegate (PlayerDrawSet info) {
-					GlowmaskUtils.DrawArmorGlowMask(EquipType.Body, textureBody, info);
-				}));
-			}
-			Texture2D textureHead;
-			if (!Player.armor[10].IsAir) {
-				if (Player.armor[10].type >= ItemID.Count && ItemGlowMask.TryGetValue(Player.armor[10].type, out textureHead))//Vanity Head
-				{
-					InsertAfterVanillaLayer(layers, "Head", new PlayerDrawLayer(Mod.Name, "GlowMaskHead", delegate (PlayerDrawSet info) {
-						GlowmaskUtils.DrawArmorGlowMask(EquipType.Head, textureHead, info);
-					}));
-				}
-			}
-			else if (Player.armor[0].type >= ItemID.Count && ItemGlowMask.TryGetValue(Player.armor[0].type, out textureHead))//Head
-			{
-				InsertAfterVanillaLayer(layers, "Head", new PlayerDrawLayer(Mod.Name, "GlowMaskHead", delegate (PlayerDrawSet info) {
-					GlowmaskUtils.DrawArmorGlowMask(EquipType.Head, textureHead, info);
-				}));
-			}
-			Texture2D textureItem;
-			if (Player.HeldItem.type >= ItemID.Count && ItemGlowMask.TryGetValue(Player.HeldItem.type, out textureItem))//Held ItemType
-			{
-				InsertAfterVanillaLayer(layers, "HeldItem", new PlayerDrawLayer(Mod.Name, "GlowMaskHeldItem", delegate (PlayerDrawSet info) {
-					GlowmaskUtils.DrawItemGlowMask(textureItem, info);
-				}));
-			}
+			if (drawInfo.drawPlayer.armor[2].type >= ItemID.Count && SpiritGlowmask.ItemGlowMask.TryGetValue(drawInfo.drawPlayer.armor[2].type, out Texture2D textureLegs))//Legs
+				GlowmaskUtils.DrawArmorGlowMask(EquipType.Legs, textureLegs, drawInfo);
 		}
+	}
 
-		public static void InsertAfterVanillaLayer(List<PlayerDrawLayer> layers, string vanillaLayerName, PlayerLayer newPlayerLayer)
+	public class SpiritGlowMaskBodyLayer : PlayerDrawLayer
+	{
+		public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.Torso);
+		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
-			for (int i = 0; i < layers.Count; i++) {
-				if (layers[i].Name == vanillaLayerName && layers[i].mod == "Terraria") {
-					layers.Insert(i + 1, newPlayerLayer);
-					return;
-				}
-			}
-			layers.Add(newPlayerLayer);
+			if (drawInfo.drawPlayer.armor[1].type >= ItemID.Count && SpiritGlowmask.ItemGlowMask.TryGetValue(drawInfo.drawPlayer.armor[1].type, out Texture2D textureBody))//Body
+				GlowmaskUtils.DrawArmorGlowMask(EquipType.Body, textureBody, drawInfo);
+		}
+	}
+
+	public class SpiritGlowMaskHeadLayer : PlayerDrawLayer
+	{
+		public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.Head);
+		protected override void Draw(ref PlayerDrawSet drawInfo)
+		{
+			if (drawInfo.drawPlayer.armor[0].type >= ItemID.Count && SpiritGlowmask.ItemGlowMask.TryGetValue(drawInfo.drawPlayer.armor[0].type, out Texture2D textureBody))//Body
+				GlowmaskUtils.DrawArmorGlowMask(EquipType.Head, textureBody, drawInfo);
 		}
 	}
 }

@@ -75,9 +75,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 				int num3 = num1 % 4;
 				for (int index = 5; index >= 0; --index)
 				{
-					Vector2 oldPo = Projectile.oldPos[index];
-					var color2 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Gold, Microsoft.Xna.Framework.Color.OrangeRed, amount);
-					color2 = Microsoft.Xna.Framework.Color.Lerp(color2, Microsoft.Xna.Framework.Color.Blue, (float) index / 12f);
+					var color2 = Color.Lerp(Color.Gold, Color.OrangeRed, amount);
+					color2 = Color.Lerp(color2, Color.Blue, (float) index / 12f);
 					color2.A = (byte) (64.0 * (double) amount);
 					color2.R = (byte) ((int) color2.R * (10 - index) / 20);
 					color2.G = (byte) ((int) color2.G * (10 - index) / 20);
@@ -87,7 +86,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 					int frameY = (num3 - index) % 4;
 					if (frameY < 0)
 						frameY += 4;
-					Microsoft.Xna.Framework.Rectangle rectangle = texture2D.Frame(1, 4, 0, frameY);
+					Rectangle rectangle = texture2D.Frame(1, 4, 0, frameY);
 					Main.spriteBatch.Draw(texture2D, new Vector2((float) ((double) Projectile.oldPos[index].X - (double) Main.screenPosition.X + (double) (Projectile.width / 2) - (double) TextureAssets.Projectile[Projectile.type].Value.Width * (double) Projectile.scale / 2.0 + (double) vector2_3.X * (double) Projectile.scale) + addWidth, (float) ((double) Projectile.oldPos[index].Y - (double) Main.screenPosition.Y + (double) Projectile.height - (double) TextureAssets.Projectile[Projectile.type].Value.Height * (double) Projectile.scale / (double) 1 + 4.0 + (double) vector2_3.Y * (double) Projectile.scale) + addHeight), new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, num2, origin, MathHelper.Lerp(0.1f, 1.2f, (float) ((10.0 - (double) index) / 40.0)), spriteEffects, 0.0f);
 				}
 			}

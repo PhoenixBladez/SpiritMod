@@ -11,6 +11,9 @@ namespace SpiritMod.Items.Halloween.DevMasks
 		{
 			DisplayName.SetDefault("Leemyy's Mask");
 			Tooltip.SetDefault("Vanity item \n'Great for impersonating devs!'");
+
+			ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
+			ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
 		}
 
 
@@ -20,12 +23,6 @@ namespace SpiritMod.Items.Halloween.DevMasks
 			Item.height = 20;
 			Item.value = 3000;
 			Item.rare = ItemRarityID.Cyan;
-		}
-
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-		{
-			drawHair = true;
-			drawAltHair = true;
 		}
 	}
 }

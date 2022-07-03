@@ -31,7 +31,6 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			modplayer.WingTimeMaxMultiplier += 0.2f;
 		}
 
-		public override bool DrawBody() => false;
 
 		public override void AddRecipes()
 		{

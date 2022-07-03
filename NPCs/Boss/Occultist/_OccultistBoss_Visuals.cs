@@ -319,7 +319,7 @@ namespace SpiritMod.NPCs.Boss.Occultist
 					Main.rand.NextVector2Unit() * Main.rand.NextFloat(4), Color.Red, Main.rand.NextFloat(0.03f, 0.05f), 30));
 
 			//for (int j = 0; j < 12; j++)
-			//Gore.NewGore(npc.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(6), mod.GetGoreSlot("Gores/Skelet/grave" + Main.rand.Next(1, 5)));
+			//Gore.NewGore(npc.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(6), ModContent.Find<ModGore>("Gores/Skelet/grave" + Main.rand.Next(1, 5)));
 		}
 
 		#region Drawing

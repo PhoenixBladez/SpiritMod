@@ -113,7 +113,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			Vector2 drawPosition = GetHoldPosition - Main.screenPosition;
 			Color lightColor = Lighting.GetColor(GetHoldPosition.ToTileCoordinates().X, GetHoldPosition.ToTileCoordinates().Y);
 
-			info.DrawDataCache.Add(new DrawData(texture, drawPosition, DrawRectangle, lightColor, 0, Origin, Player.HeldItem.scale, info.spriteEffects, 0));
+			info.DrawDataCache.Add(new DrawData(texture, drawPosition, DrawRectangle, lightColor, 0, Origin, Player.HeldItem.scale, info.itemEffect, 0));
 			DrawTwinkle(info);
 		}
 

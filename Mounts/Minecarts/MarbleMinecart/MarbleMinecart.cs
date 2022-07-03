@@ -17,7 +17,6 @@ namespace SpiritMod.Mounts.Minecarts.MarbleMinecart
 
 			MountData.Minecart = true;
 			MountData.MinecartDirectional = true;
-			MountData.MinecartDust = new Action<Vector2>(DelegateMethods.Minecart.Sparks);
 
 			MountData.runSpeed = 17;
 			MountData.dashSpeed = 14;

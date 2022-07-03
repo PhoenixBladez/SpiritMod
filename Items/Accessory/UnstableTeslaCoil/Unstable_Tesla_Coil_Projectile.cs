@@ -69,7 +69,7 @@ namespace SpiritMod.Items.Accessory.UnstableTeslaCoil
 				--Main.dust[index2].velocity.Y;
 				Main.dust[index2].position = Vector2.Lerp(Main.dust[index2].position, Projectile.Center, 0.75f);
 			}
-			SoundEngine.PlaySound(SoundID.Trackable, (int)Projectile.position.X, (int)Projectile.position.Y, 141, 1f, 0f);
+			SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap, Projectile.Center);
 		}
 	}
 }

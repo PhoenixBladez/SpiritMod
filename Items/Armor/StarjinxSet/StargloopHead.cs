@@ -19,10 +19,9 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 		{
 			DisplayName.SetDefault("Stargloop Head");
 			Tooltip.SetDefault("'Head beyond the clouds'");
-			ItemID.Sets.ItemNoGravity[Item.type] = true;
 
-			ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = false;
-			ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = false;
+			ItemID.Sets.ItemNoGravity[Item.type] = true;
+			ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
 		}
 
 		public override void SetDefaults()
@@ -34,20 +33,16 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			Item.vanity = true;
 		}
 
-		public override bool DrawHead() => false;
 		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) => color = Color.White * 0f;
 
 		public override void EquipFrameEffects(Player player, EquipType type)
 		{
 			float dir = Main.rand.NextFloat(-2f, -1.14f);
-
 			float midMultiplier = 1.4f - Math.Abs(dir + 1.57f) * 1.5f;
-
 			Vector2 velocity = dir.ToRotationVector2() * Main.rand.NextFloat(1f, 3f) * midMultiplier;
-
 			Vector2 center = player.MountedCenter;
 
-			Dust dust = Dust.NewDustPerfect(center - player.velocity + new Vector2(0, -10), ModContent.DustType<FriendlyStargoopDust>(), velocity + player.velocity * 0.5f, Scale: Main.rand.NextFloat(1.4f, 1.8f));
+			Dust.NewDustPerfect(center - player.velocity + new Vector2(0, -10), ModContent.DustType<FriendlyStargoopDust>(), velocity + player.velocity * 0.5f, Scale: Main.rand.NextFloat(1.4f, 1.8f));
 		}
 
 		private float DrawTimer => (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 2.5f) / 2) + 0.5f;

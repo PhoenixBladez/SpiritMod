@@ -222,8 +222,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			}
 			if (NPC.life <= 0) {
 				SoundEngine.PlaySound(SoundID.Item4, NPC.Center);
-				// Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate4"), 1f);
-				// Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Starplate/Starplate5"), 1f);
+				// Gore.NewGore(npc.position, npc.velocity, ModContent.Find<ModGore>("Gores/Starplate/Starplate4"), 1f);
+				// Gore.NewGore(npc.position, npc.velocity, ModContent.Find<ModGore>("Gores/Starplate/Starplate5"), 1f);
 				for (int num623 = 0; num623 < 20; num623++) {
 					int dust1 = Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.Electric);
 

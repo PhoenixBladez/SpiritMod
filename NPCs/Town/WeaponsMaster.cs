@@ -57,9 +57,9 @@ namespace SpiritMod.NPCs.Town
 		{
 			if (npc.life <= 0) {
                 QuestWorld.downedWeaponsMaster = true;
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit1"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit2"));
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit3"));
+				Gore.NewGore(npc.position, npc.velocity, ModContent.Find<ModGore>("Gores/Bandit/Bandit1"));
+				Gore.NewGore(npc.position, npc.velocity, ModContent.Find<ModGore>("Gores/Bandit/Bandit2"));
+				Gore.NewGore(npc.position, npc.velocity, ModContent.Find<ModGore>("Gores/Bandit/Bandit3"));
 			}
 		}
         int npcTimer;

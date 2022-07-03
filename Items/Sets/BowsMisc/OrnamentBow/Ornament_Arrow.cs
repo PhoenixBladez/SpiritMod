@@ -125,7 +125,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.OrnamentBow
 				int i = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.RainbowTorch, 0.0f, 0.0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
 				Main.dust[i].noGravity = true;
 			}
-			SoundEngine.PlaySound(SoundID.Trackable, (int)Projectile.position.X, (int)Projectile.position.Y, 193, 1f, -0.2f);
+			SoundEngine.PlaySound(SoundID.Shatter with { Volume = 0.4f });
 
 			Player player = Main.player[Projectile.owner];
 			int extraArrows = Main.rand.Next(5);
@@ -179,7 +179,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.OrnamentBow
 			}
 		}
 
-		public override void Kill(int timeLeft) => SoundEngine.PlaySound(SoundID.Trackable, (int)Projectile.position.X, (int)Projectile.position.Y, 193, 1f, -0.2f);
+		public override void Kill(int timeLeft) => SoundEngine.PlaySound(SoundID.Shatter with { Volume = 0.4f });
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => SpawnArrows(Projectile.GetSource_OnHit(target));
 

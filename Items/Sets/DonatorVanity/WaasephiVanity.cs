@@ -13,6 +13,8 @@ namespace SpiritMod.Items.Sets.DonatorVanity
 		{
 			DisplayName.SetDefault("Waasephi's Hat");
 			Tooltip.SetDefault("'Great for impersonating patrons!'");
+
+			ArmorIDs.Head.Sets.DrawHatHair[Type] = true;
 		}
 
 		public override void SetDefaults()
@@ -24,7 +26,5 @@ namespace SpiritMod.Items.Sets.DonatorVanity
 			Item.rare = ItemRarityID.Cyan;
 			Item.vanity = true;
 		}
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawAltHair = true;
-
 	}
 }

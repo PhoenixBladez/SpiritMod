@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Accessory.MoonlightSack
 			Projectile.tileCollide = false;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => SoundEngine.PlaySound(SoundID.Trackable, (int)target.position.X, (int)target.position.Y, 20, 1f, 0.0f);
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap);
 
 		public override void AI()
 		{

@@ -40,7 +40,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 			AdjTiles = new int[] { TileID.Containers };
 			TileID.Sets.BasicChest[Type] = true;
 			ChestDrop = ModContent.ItemType<Items.Placeable.Furniture.AsteroidChest>();
-			chest = "Asteroid Chest";
+			ContainerName.SetDefault("Asteroid Chest");
 		}
 
 		public string MapChestName(string name, int i, int j)
@@ -74,7 +74,7 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 			Chest.DestroyChest(i, j);
 		}
 
-   public override bool RightClick(int i, int j)
+		public override bool RightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];

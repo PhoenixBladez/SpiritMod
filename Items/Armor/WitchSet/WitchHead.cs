@@ -10,7 +10,10 @@ namespace SpiritMod.Items.Armor.WitchSet
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Charmcaster's Hat");
+
+			ArmorIDs.Head.Sets.DrawHatHair[Type] = true;
 		}
+
 		public override void SetDefaults()
 		{
 			Item.width = 30;
@@ -20,6 +23,5 @@ namespace SpiritMod.Items.Armor.WitchSet
 
 			Item.vanity = true;
 		}
-	    public override void DrawHair(ref bool drawHair, ref bool drawAltHair) => drawAltHair = true;
     }
 }

@@ -15,8 +15,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 	{
 		public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
 		{
-			if (Player.ZoneJungle && QuestManager.GetQuest<ItsNoSalmon>().IsActive && Main.rand.NextBool(10))
-				caughtType = ModContent.ItemType<Items.Consumable.Quest.HornetfishQuest>();
+			if (Player.ZoneJungle && QuestManager.GetQuest<ItsNoSalmon>().IsActive && Main.rand.NextBool(10) && !Player.HasItem(ModContent.ItemType<Items.Consumable.Quest.HornetfishQuest>()))
+				itemDrop = ModContent.ItemType<Items.Consumable.Quest.HornetfishQuest>();
 		}
 
 		public override void OnEnterWorld(Player player)

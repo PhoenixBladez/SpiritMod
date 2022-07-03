@@ -16,9 +16,8 @@ namespace SpiritMod.Items.Pins
 
 		public void RemovePin(string name) => pins.Remove(name);
 
-		public override void SaveWorldData(TagCompound tag)/* tModPorter Suggestion: Edit tag parameter instead of returning new TagCompound */ => pins;
-
-		public override void LoadWorldData(TagCompound tag) => pins = tag;
+		public override void SaveWorldData(TagCompound tag) => tag.Add("pins", pins);
+		public override void LoadWorldData(TagCompound tag) => pins = tag.Get<TagCompound>("pins");
 
 		public override void NetSend(BinaryWriter writer)
 		{

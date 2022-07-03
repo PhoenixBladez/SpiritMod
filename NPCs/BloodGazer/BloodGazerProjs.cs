@@ -262,7 +262,7 @@ namespace SpiritMod.NPCs.BloodGazer
 			chain.Draw(Main.spriteBatch, chaintex);
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 
-			Main.spriteBatch.Draw(tex, chain.EndPosition - new Vector2(chaintex.Height / 2, -chaintex.Width / 2).RotatedBy(chain.EndRotation) - Main.screenPosition, tex.Bounds, drawColor, chain.EndRotation, tex.Bounds.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+			Main.spriteBatch.Draw(tex, chain.EndPosition - new Vector2(chaintex.Height / 2, -chaintex.Width / 2).RotatedBy(chain.EndRotation) - Main.screenPosition, tex.Bounds, lightColor, chain.EndRotation, tex.Bounds.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 			return false;
 		}
 

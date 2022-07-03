@@ -58,9 +58,9 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 				Vector2 position1 = Projectile.Center - Main.screenPosition - new Vector2((float) texture.Width, (float) (texture.Height / 1)) * Projectile.scale / 2f + vector2_3 * Projectile.scale + new Vector2(0.0f, addY + addHeight + Projectile.gfxOffY);
 				for (int index2 = 0; index2 < num7; ++index2)
 				{
-					Vector2 position2 = new Vector2 (Projectile.Center.X * Projectile.spriteDirection, Projectile.Center.Y) + ((float) ((double) index2 / (double) num7 * 6.28318548202515) + Projectile.rotation + num10).ToRotationVector2() * (float) (4.0 * (double) num8 + 2.0) - Main.screenPosition - new Vector2((float) texture.Width, (float) (texture.Height / 1)) * Projectile.scale / 2f + vector2_3 * Projectile.scale + new Vector2(0.0f, addY + addHeight + Projectile.gfxOffY);
+					Vector2 position2 = new Vector2 (Projectile.Center.X * Projectile.spriteDirection, Projectile.Center.Y) + ((float) (index2 / num7 * 6.28318548202515f) + Projectile.rotation + num10).ToRotationVector2() * (float) (4.0 * (double) num8 + 2.0) - Main.screenPosition - new Vector2((float) texture.Width, (float) (texture.Height / 1)) * Projectile.scale / 2f + vector2_3 * Projectile.scale + new Vector2(0.0f, addY + addHeight + Projectile.gfxOffY);
 				}
-				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, position1, new Microsoft.Xna.Framework.Rectangle?(rectangle), drawColor, Projectile.rotation, vector2_3, Projectile.scale*1f, spriteEffects, 0.0f);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, position1, rectangle, lightColor, Projectile.rotation, vector2_3, Projectile.scale*1f, spriteEffects, 0.0f);
 			}
 			return false;
 		}

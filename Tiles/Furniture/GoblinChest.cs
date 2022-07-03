@@ -41,7 +41,7 @@ namespace SpiritMod.Tiles.Furniture
 			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
 			ChestDrop = ItemID.DynastyChest;
-			chest = "Dynasty Chest";
+			ContainerName.SetDefault("Dynasty Chest");
             TileID.Sets.HasOutlines[Type] = true;
         }
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
@@ -73,7 +73,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, 2230);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, 2230);
 			Chest.DestroyChest(i, j);
 		}
 

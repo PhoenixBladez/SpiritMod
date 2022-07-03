@@ -61,7 +61,10 @@ namespace SpiritMod.GlobalClasses.Tiles
 			Tile tileAbove = Framing.GetTileSafely(i, j - 1);
 
 			if (Indestructibles.Contains(tileAbove.TileType) && type != tileAbove.TileType)
-				Main.tile[i, j].IsActuated = false;
+			{
+				Tile tile = Main.tile[i, j];
+				tile.IsActuated = false;
+			}
 			return true;
 		}
 

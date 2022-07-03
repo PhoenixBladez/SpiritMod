@@ -44,12 +44,6 @@ namespace SpiritMod.Tiles.Block
 			AdjTiles = new int[] { TileID.Saplings };
 		}
 
-		public override int SaplingGrowthType(ref int style)
-		{
-			style = 0;
-			return ModContent.TileType<ReachSapling>();
-		}
-
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{
 			num = fail ? 1 : 3;

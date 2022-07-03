@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace SpiritMod.Projectiles.Summon
 {
@@ -8,9 +9,11 @@ namespace SpiritMod.Projectiles.Summon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Phantom");
+			Main.projPet[Projectile.type] = true;
 			Main.projFrames[Projectile.type] = 12;
 			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
 			ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
+			ProjectileID.Sets.LightPet[Projectile.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -19,7 +22,6 @@ namespace SpiritMod.Projectiles.Summon
 			Projectile.width = 44;
 			Projectile.height = 44;
 			Projectile.friendly = true;
-			Main.projPet[Projectile.type] = true;
 			Projectile.minion = true;
 			Projectile.netImportant = true;
 			Projectile.minionSlots = 0;
@@ -28,12 +30,9 @@ namespace SpiritMod.Projectiles.Summon
 			Projectile.tileCollide = false;
 			Projectile.ignoreWater = true;
 			inertia = 30f;
-			ProjectileID.Sets.LightPet[Projectile.type] = true;
-			Main.projPet[Projectile.type] = true;
 			Projectile.DamageType = DamageClass.Magic;
 			Projectile.aiStyle = 54;
 			Projectile.damage = 50;
-			Lighting.AddLight((int)(Projectile.Center.X / 16f), (int)(Projectile.Center.Y / 16f), 1f, 1f, 10f);
 		}
 
 		public override bool MinionContactDamage()

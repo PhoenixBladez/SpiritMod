@@ -41,10 +41,10 @@ namespace SpiritMod.NPCs.Swamp
 			}
 			if (npc.life <= 0) {
 				Main.PlaySound(SoundID.Zombie, npc.Center, 7);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ThornStalker/ThornStalker1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ThornStalker/ThornStalker2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ThornStalker/ThornStalker3"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ThornStalker/ThornStalker4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, ModContent.Find<ModGore>("Gores/ThornStalker/ThornStalker1"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, ModContent.Find<ModGore>("Gores/ThornStalker/ThornStalker2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, ModContent.Find<ModGore>("Gores/ThornStalker/ThornStalker3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, ModContent.Find<ModGore>("Gores/ThornStalker/ThornStalker4"), 1f);
 			}
 		}
 

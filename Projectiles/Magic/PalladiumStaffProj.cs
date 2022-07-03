@@ -41,8 +41,9 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			return false;
 		}
-		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
-			=> drawCacheProjsBehindNPCsAndTiles.Add(index);
+
+		public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindNPCsAndTiles.Add(index);
+		
 		public override void AI()
 		{
 			Lighting.AddLight(Projectile.position, 0.5f, .5f, .4f);

@@ -40,7 +40,7 @@ namespace SpiritMod.Tiles.Block
             if (below == null || below.HasTile)
                 canFall = false;
 
-            if (above.HasTile && (TileID.Sets.BasicChest[above.TileType] || TileID.Sets.BasicChestFake[above.TileType] || above.TileType == TileID.PalmTree || TileLoader.IsDresser(above.TileType)))
+            if (above.HasTile && (TileID.Sets.BasicChest[above.TileType] || TileID.Sets.BasicChestFake[above.TileType] || above.TileType == TileID.PalmTree || TileID.Sets.BasicDresser[above.TileType]))
                 canFall = false;
 
             if (canFall)
@@ -59,7 +59,8 @@ namespace SpiritMod.Tiles.Block
                 }
                 else if (Main.netMode == NetmodeID.Server)
                 {
-                    Main.tile[i, j].HasTile = false;
+					Tile tile = Main.tile[i, j];
+					tile.HasTile = false;
                     bool spawnProj = true;
 
                     for (int k = 0; k < 1000; k++)

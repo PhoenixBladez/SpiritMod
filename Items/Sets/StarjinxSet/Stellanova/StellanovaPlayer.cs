@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		//Helper properties
 		private string GlowmaskPath => TexturePath + "Glow";
 
-		private bool CanDraw => Player.shadow == 0f && !Player.frozen && Player.itemAnimation > 0 && !Player.dead;
+		private bool CanDraw => !Player.frozen && Player.itemAnimation > 0 && !Player.dead;
 		private int CurFrame => (int)(NumFrames * ((Player.HeldItem.useAnimation - Player.itemAnimation) / (float)Player.HeldItem.useAnimation));
 		private Rectangle DrawFrame
 		{

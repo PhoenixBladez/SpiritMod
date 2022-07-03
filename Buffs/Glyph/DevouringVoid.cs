@@ -15,7 +15,7 @@ namespace SpiritMod.Buffs.Glyph
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 			Main.debuff[Type] = true;
-			canBeCleared = false;
+			Terraria.ID.BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
 		}
 
 		public override bool ReApply(NPC npc, int time, int buffIndex) => true;

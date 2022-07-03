@@ -14,25 +14,25 @@ namespace SpiritMod.Items.Armor.WayfarerSet
 		{
 			DisplayName.SetDefault("Wayfarer's Rucksack");
 			Tooltip.SetDefault("5% increased movement speed");
+
+			ArmorIDs.Body.Sets.NeedsToDrawArm[Type] = true;
 		}
 
 		public override void SetDefaults()
 		{
 			Item.width = 22;
 			Item.height = 20;
-			Item.value = Terraria.Item.sellPrice(0, 0, 40, 0);
+			Item.value = Item.sellPrice(0, 0, 40, 0);
 			Item.rare = ItemRarityID.Blue;
 			Item.defense = 3;
 		}
-		public override void DrawHands(ref bool drawHands, ref bool drawArms)
-		{
-			drawHands = true;
-		}
+		
 		public override void UpdateEquip(Player player)
 		{
 			player.moveSpeed += 0.05f;
 			player.runAcceleration += .01f;
 		}
+
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);

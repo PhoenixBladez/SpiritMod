@@ -2201,7 +2201,7 @@ namespace SpiritMod.World
 			int num;
 			int num1 = y;
 
-			while (TileLoader.IsSapling(Main.tile[i, num1].TileType))
+			while (TileID.Sets.TreeSapling[Main.tile[i, num1].TileType])
 				num1++;
 
 			if ((Main.tile[i - 1, num1 - 1].LiquidAmount != 0 || Main.tile[i, num1 - 1].LiquidAmount != 0 || Main.tile[i + 1, num1 - 1].LiquidAmount != 0) && Main.tile[i, num1].TileType != 60)

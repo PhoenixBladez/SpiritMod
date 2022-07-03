@@ -277,18 +277,6 @@ namespace SpiritMod
 				priority = SceneEffectPriority.Environment;
 			}
 
-			if (config.BlizzardMusic
-				&& player.ZoneSnow
-				&& player.ZoneOverworldHeight
-				&& !player.ZoneCorrupt
-				&& !player.ZoneMeteor
-				&& !player.ZoneCrimson
-				&& Main.raining)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Blizzard");
-				priority = SceneEffectPriority.BiomeHigh;
-			}
-
 			if (config.UnderwaterMusic && player.ZoneBeach && !MyWorld.luminousOcean && spirit.isFullySubmerged)
 			{
 				if (ModLoader.TryGetMod("ThoriumMod", out Mod thoriumMod) || (!(thoriumMod.Call("GetZoneAquaticDepths", player) is null) && thoriumMod.Call("GetZoneAquaticDepths", player) is bool inDepths && !inDepths))
@@ -296,26 +284,6 @@ namespace SpiritMod
 					music = GetSoundSlot(SoundType.Music, "Sounds/Music/UnderwaterMusic");
 					priority = SceneEffectPriority.BiomeHigh;
 				}
-			}
-
-			if (config.CalmNightMusic
-				&& MyWorld.calmNight
-				&& !player.ZoneSnow
-				&& !spirit.ZoneReach
-				&& player.ZoneOverworldHeight
-				&& !Main.dayTime
-				&& !player.ZoneCorrupt
-				&& !player.ZoneCrimson
-				&& !player.ZoneJungle
-				&& !player.ZoneBeach
-				&& !player.ZoneHallow
-				&& !player.ZoneMeteor
-				&& !player.ZoneDesert
-				&& !Main.raining
-				&& !Main.bloodMoon)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/CalmNight");
-				priority = SceneEffectPriority.BiomeHigh;
 			}
 		}
 
@@ -468,7 +436,6 @@ namespace SpiritMod
 		{
 			//Always keep this call in the first line of Load!
 			LoadReferences();
-			StructureLoader.Load(this);
 
 			QuestBookHotkey = KeybindLoader.RegisterKeybind(this, "SpiritMod:QuestBookToggle", Microsoft.Xna.Framework.Input.Keys.C);
 			QuestHUDHotkey = KeybindLoader.RegisterKeybind(this, "SpiritMod:QuestHUDToggle", Microsoft.Xna.Framework.Input.Keys.V);
@@ -675,7 +642,7 @@ namespace SpiritMod
 			if (Main.netMode != NetmodeID.Server)
 			{
 				TrailManager = new TrailManager(this);
-				AddEquipTexture(null, EquipType.Legs, "TalonGarb_Legs", "SpiritMod/Items/Sets/AvianDrops/ApostleArmor/TalonGarb_Legs");
+				EquipLoader.AddEquipTexture(this, "SpiritMod/Items/Sets/AvianDrops/ApostleArmor/TalonGarb_Legs", EquipType.Legs, null, "TalonGarb_Legs");
 				EmptyTexture = ModContent.Request<Texture2D>("Empty", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value; 
 				auroraEffect = ModContent.Request<Effect>("Effects/aurora", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
@@ -1013,7 +980,6 @@ namespace SpiritMod
 			SpiritMultiplayer.Unload();
 			AdditiveCallManager.Unload();
 			SpiritGlowmask.Unload();
-			StructureLoader.Unload();
 			ParticleHandler.Unload();
 			AutoloadMinionDictionary.Unload();
 			Mechanics.BackgroundSystem.BackgroundItemManager.Unload();

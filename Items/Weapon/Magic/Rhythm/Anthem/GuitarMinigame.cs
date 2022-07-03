@@ -1,12 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,7 +11,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 	public class GuitarMinigame : RhythmMinigame
 	{
 		public static Texture2D Bolt { get; set; }
-		public static SoundEffect Guitar { get; set; }
+		public static SoundStyle Guitar { get; set; }
 
 		public GuitarMinigame(Vector2 position, Player owner, IRhythmWeapon item) : base(position, owner, item, 130, Guitar)
 		{
@@ -30,7 +26,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 			if (Main.netMode != NetmodeID.Server)
 			{
 				Bolt = ModContent.Request<Texture2D>("Items/Weapon/Magic/Rhythm/Anthem/Bolt", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				Guitar = SpiritMod.Instance.GetSound("Sounds/130bpm-guitar", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				Guitar = new SoundStyle("Sounds/130bpm-guitar");
 			}
 		}
 

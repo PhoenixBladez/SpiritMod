@@ -13,6 +13,7 @@ namespace SpiritMod.Items.Sets.MarbleSet.MarbleArmor
 			DisplayName.SetDefault("Gilded Laurel");
 			Tooltip.SetDefault("3% increased movement speed");
 
+			ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
 		}
 		public override void SetDefaults()
 		{
@@ -21,10 +22,6 @@ namespace SpiritMod.Items.Sets.MarbleSet.MarbleArmor
 			Item.value = 1100;
 			Item.rare = ItemRarityID.Green;
 			Item.defense = 6;
-		}
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-		{
-			drawHair = true;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)

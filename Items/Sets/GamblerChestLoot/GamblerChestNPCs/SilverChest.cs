@@ -83,9 +83,9 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 				SoundEngine.PlaySound(SoundID.DoubleJump, NPC.Center);
 
 				NPC.active = false;
-				// Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/XynonCrateGore_2"), 1f);
-				// Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/XynonCrateGore_3"), 1f);
-				// Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/XynonCrateGore_4"), 1f);
+				// Gore.NewGore(npc.position, npc.velocity, ModContent.Find<ModGore>("Gores/XynonCrateGore_2"), 1f);
+				// Gore.NewGore(npc.position, npc.velocity, ModContent.Find<ModGore>("Gores/XynonCrateGore_3"), 1f);
+				// Gore.NewGore(npc.position, npc.velocity, ModContent.Find<ModGore>("Gores/XynonCrateGore_4"), 1f);
 			}
 			if (counter % 10 == 0)
 			{
