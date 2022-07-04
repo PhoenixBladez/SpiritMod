@@ -133,7 +133,7 @@ namespace SpiritMod.NPCs.Boss
 			else if (timer == 600 || timer == 650 || timer == 700 || timer == 800 || timer == 850 || timer == 880) // Fires bone waves
 			{
 				SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
-				Main.PlayTrackedSound(SoundID.DD2_EtherianPortalSpawnEnemy, NPC.Center);
+				SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, NPC.Center);
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{

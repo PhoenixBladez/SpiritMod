@@ -702,7 +702,7 @@ namespace SpiritMod.Items
 		/// <param name="index">Index of the item in player.inventory.</param>
 		public static void UseAmmoDirect(Player p, int index)
 		{
-			if (p.inventory[index].consumable && VanillaAmmoConsumption(p, p.inventory[index].ammo) && PlayerLoader.ConsumeAmmo(p, p.HeldItem, p.inventory[index])) //Do not consume ammo if possible
+			if (p.inventory[index].consumable && VanillaAmmoConsumption(p, p.inventory[index].ammo)) //Do not consume ammo if possible
 			{
 				p.inventory[index].stack--;
 				if (p.inventory[index].stack <= 0)

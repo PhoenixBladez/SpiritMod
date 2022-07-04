@@ -15,6 +15,6 @@ namespace SpiritMod.Items
 			Tooltip.SetDefault(SetTooltip);
 		}
 
-		public override bool CanConsumeAmmo(Player player) => Main.rand.NextFloat() > DontConsumeAmmoChance;
+		public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextFloat() > DontConsumeAmmoChance;
 	}
 }

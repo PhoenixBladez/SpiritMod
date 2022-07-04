@@ -31,11 +31,11 @@ namespace SpiritMod
 
 		private static List<Wait> _waits = new List<Wait>();
 
-		public static void Load() => Main.OnTick += OnTick;
+		public static void Load() => Main.OnTickForThirdPartySoftwareOnly += OnTick;
 
 		public static void Unload()
 		{
-			Main.OnTick -= OnTick;
+			Main.OnTickForThirdPartySoftwareOnly -= OnTick;
 			_waits = null;
 		}
 

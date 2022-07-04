@@ -64,14 +64,14 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			{
 				int maxDist = 1000;
 				foreach(NPC npc in Main.npc.Where(x => x.Distance(Projectile.Center) < maxDist && x.active && x.CanBeChasedBy(this) && x != null)){
-					StarfireLampPlayer player = Main.player[Projectile.owner].GetModPlayer<StarfireLampPlayer>();
-					if (player.LampTargetNPC == npc && npc.active && npc != null && npc.CanBeChasedBy(this))
-					{
-						AiState = HomingAim;
-						Target = npc;
-						Projectile.netUpdate = true;
-						Timer = 0;
-					}
+					//StarfireLampPlayer player = Main.player[Projectile.owner].GetModPlayer<StarfireLampPlayer>(); //NEEDSUPDATING
+					//if (player.LampTargetNPC == npc && npc.active && npc != null && npc.CanBeChasedBy(this))
+					//{
+					//	AiState = HomingAim;
+					//	Target = npc;
+					//	Projectile.netUpdate = true;
+					//	Timer = 0;
+					//}
 				}
 			}
 

@@ -59,7 +59,7 @@ namespace SpiritMod.Items.Sets.FlailsMisc
 			this.MaxChargeTime = MaxChargeTime;
 			this.spinningdistance = spinningdistance;
 			this.degreespertick = degreespertick;
-			Projectile.netUpdate = true;
+			//Projectile.netUpdate = true;
 		}
 
 		public override void SetDefaults()

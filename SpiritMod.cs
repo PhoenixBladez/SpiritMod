@@ -9,7 +9,6 @@ using SpiritMod.Skies;
 using SpiritMod.Skies.Overlays;
 using SpiritMod.Utilities;
 using SpiritMod.World;
-using SpiritMod.Sounds;
 using SpiritMod.Dusts;
 using System;
 using System.Reflection;
@@ -201,65 +200,6 @@ namespace SpiritMod
 		}
 
 		public override void HandlePacket(BinaryReader reader, int whoAmI) => SpiritMultiplayer.HandlePacket(reader, whoAmI);
-
-		public override void UpdateMusic(ref int music, ref SceneEffectPriority priority)
-		{
-			var config = ModContent.GetInstance<SpiritMusicConfig>();
-
-			if (Main.gameMenu)
-				return;
-
-			Player player = Main.LocalPlayer;
-			if (!player.active)
-				return;
-
-			MyPlayer spirit = player.GetModPlayer<MyPlayer>();
-
-			if (MyWorld.ashRain && player.ZoneUnderworldHeight && config.AshfallMusic)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/AshStorm");
-				priority = SceneEffectPriority.Event;
-			}
-
-			if (priority > SceneEffectPriority.Event)
-				return;
-
-			if (priority > SceneEffectPriority.Environment)
-				return;
-
-			if (MyWorld.jellySky && !Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight))
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky");
-				priority = SceneEffectPriority.Environment;
-			}
-			if (MyWorld.rareStarfallEvent && !MyWorld.jellySky && !spirit.ZoneAsteroid && !Main.dayTime && player.ZoneSkyHeight)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starfall");
-				priority = SceneEffectPriority.Environment;
-			}
-
-			if (priority > SceneEffectPriority.BiomeHigh)
-				return;
-
-			if (config.AuroraMusic
-				&& MyWorld.aurora
-				&& player.ZoneSnow && player.ZoneOverworldHeight
-				&& !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneMeteor
-				&& !Main.bloodMoon && !Main.dayTime)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow");
-				priority = SceneEffectPriority.BiomeHigh;
-			}
-
-			if (config.UnderwaterMusic && player.ZoneBeach && !MyWorld.luminousOcean && spirit.isFullySubmerged)
-			{
-				if (ModLoader.TryGetMod("ThoriumMod", out Mod thoriumMod) || (!(thoriumMod.Call("GetZoneAquaticDepths", player) is null) && thoriumMod.Call("GetZoneAquaticDepths", player) is bool inDepths && !inDepths))
-				{
-					music = GetSoundSlot(SoundType.Music, "Sounds/Music/UnderwaterMusic");
-					priority = SceneEffectPriority.BiomeHigh;
-				}
-			}
-		}
 
 		public override object Call(params object[] args)
 		{
@@ -1013,15 +953,6 @@ namespace SpiritMod
 			return LanguageManager.Instance.GetText(key).Value;
 		}
 
-		public override void MidUpdateProjectileItem()
-		{
-			if (Main.netMode != NetmodeID.Server)
-			{
-				TrailManager.UpdateTrails();
-				primitives.UpdateTrails();
-			}
-		}
-
 		public override void AddRecipeGroups()
 		{
 			RecipeGroup woodGrp = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
@@ -1169,15 +1100,15 @@ namespace SpiritMod
 		internal bool _questBookHover;
 		internal bool _questBookToggle = false;
 
-		public override void HotKeyPressed(string name)
-		{
-			if (name == "Concentration_Hotkey")
-			{
-				MyPlayer mp = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
-				if (mp.leatherSet && !mp.concentrated && mp.concentratedCooldown <= 0)
-					mp.concentrated = true;
-			}
-		}
+		//public override void HotKeyPressed(string name)
+		//{
+		//	if (name == "Concentration_Hotkey")
+		//	{
+		//		MyPlayer mp = Main.player[Main.myPlayer].GetModPlayer<MyPlayer>();
+		//		if (mp.leatherSet && !mp.concentrated && mp.concentratedCooldown <= 0)
+		//			mp.concentrated = true;
+		//	}
+		//}
 
 		public void InvokeModifyTransform(SpriteViewMatrix matrix) => OnModifyTransformMatrix.Invoke(matrix);
 
@@ -1269,95 +1200,6 @@ namespace SpiritMod
 				Utils.DrawBorderString(spriteBatch, "The Tide", new Vector2(barrierBackground.Center.X, barrierBackground.Y - InternalOffset - descSize.Y * 0.5f), Color.White, 0.8f, 0.3f, 0.4f);
 			}
 		}
-
-
-		#region pin stuff
-		public override void PostDrawFullscreenMap(ref string mouseText)
-		{
-			var pins = ModContent.GetInstance<PinWorld>().pins;
-			foreach (var pair in pins)
-			{
-				var pos = pins.Get<Vector2>(pair.Key);
-				// No, I don't know why it draws one tile to the right, but that's how it is
-				DrawMirrorOnFullscreenMap((int)pos.X - 1, (int)pos.Y, true, ModContent.Request<Texture2D>($"Items/Pins/Textures/Pin{pair.Key}Map", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-			}
-		}
-
-		public void DrawMirrorOnFullscreenMap(int tileX, int tileY, bool isTarget, Texture2D tex)
-		{
-			float myScale = isTarget ? 0.25f : 0.125f;
-			float uiScale = 5f;//Main.mapFullscreenScale;
-			float scale = uiScale * myScale;
-
-			int wldBaseX = ((tileX + 1) << 4) + 8;
-			int wldBaseY = ((tileY + 1) << 4) + 8;
-			var wldPos = new Vector2(wldBaseX, wldBaseY);
-
-			var (ScreenPosition, IsOnScreen) = GetFullMapPositionAsScreenPosition(wldPos);
-
-			if (IsOnScreen && tileX > 0 && tileY > 0)
-			{
-				Vector2 scrPos = ScreenPosition;
-				Main.spriteBatch.Draw(
-					texture: tex,
-					position: scrPos,
-					sourceRectangle: null,
-					color: Color.White,
-					rotation: 0f,
-					origin: new Vector2(tex.Width / 2, tex.Height / 2),
-					scale: scale,
-					effects: SpriteEffects.None,
-					layerDepth: 1f
-				);
-			}
-		}
-
-		public static (Vector2 ScreenPosition, bool IsOnScreen) GetFullMapPositionAsScreenPosition(Vector2 worldPosition) => GetFullMapPositionAsScreenPosition(new Rectangle((int)worldPosition.X, (int)worldPosition.Y, 0, 0));
-
-		/// <summary>
-		/// Returns a screen position of a given world position as if projected onto the fullscreen map.
-		/// </summary>
-		/// <param name="worldArea"></param>
-		/// <returns>A tuple indicating the screen-relative position and whether the point is within the screen
-		/// boundaries.</returns>
-		public static Tuple<int, int> GetScreenSize()
-		{
-			int screenWid = (int)(Main.screenWidth / Main.GameZoomTarget);
-			int screenHei = (int)(Main.screenHeight / Main.GameZoomTarget);
-
-			return Tuple.Create(screenWid, screenHei);
-		}
-
-		public static (Vector2 ScreenPosition, bool IsOnScreen) GetFullMapPositionAsScreenPosition(Rectangle worldArea)
-		{    //Main.mapFullscreen
-			float mapScale = GetFullMapScale();
-			var scrSize = GetScreenSize();
-
-			//float offscrLitX = 10f * mapScale;
-			//float offscrLitY = 10f * mapScale;
-
-			float mapFullscrX = Main.mapFullscreenPos.X * mapScale;
-			float mapFullscrY = Main.mapFullscreenPos.Y * mapScale;
-			float mapX = -mapFullscrX + (Main.screenWidth / 2f);
-			float mapY = -mapFullscrY + (Main.screenHeight / 2f);
-
-			float originMidX = (worldArea.X / 16f) * mapScale;
-			float originMidY = (worldArea.Y / 16f) * mapScale;
-
-			originMidX += mapX;
-			originMidY += mapY;
-
-			var scrPos = new Vector2(originMidX, originMidY);
-			bool isOnscreen = originMidX >= 0 &&
-				originMidY >= 0 &&
-				originMidX < scrSize.Item1 &&
-				originMidY < scrSize.Item2;
-
-			return (scrPos, isOnscreen);
-		}
-
-		public static float GetFullMapScale() => Main.mapFullscreenScale / Main.UIScale;
-		#endregion
 	}
 
 	internal enum CallContext

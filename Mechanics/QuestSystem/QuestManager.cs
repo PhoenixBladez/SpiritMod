@@ -51,7 +51,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			// register our categories]
 			if (!Main.dedServ)
 			{
-				var iconTexture = ModContent.Request<Texture2D>("UI/QuestUI/Textures/Icons", ReLogic.Content.AssetRequestMode.ImmediateLoad);
+				var iconTexture = ModContent.Request<Texture2D>("UI/QuestUI/Textures/Icons", AssetRequestMode.ImmediateLoad);
 				RegisterCategory("Main", new Color(234, 194, 107), iconTexture, new Rectangle(0, 0, 18, 18));
 				RegisterCategory("Explorer", new Color(186, 141, 117), iconTexture, new Rectangle(54, 0, 18, 18));
 				RegisterCategory("Forager", new Color(153, 196, 102), iconTexture, new Rectangle(36, 0, 18, 18));
@@ -92,12 +92,12 @@ namespace SpiritMod.Mechanics.QuestSystem
 				_tasksDict[task.ModCallName] = task;
 			}
 
-			Main.OnTick += Update;
+			Main.OnTickForThirdPartySoftwareOnly += Update;
 		}
 
         public static void Unload()
         {
-			Main.OnTick -= Update;
+			Main.OnTickForThirdPartySoftwareOnly -= Update;
 
             Quests = null;
             ActiveQuests = null;

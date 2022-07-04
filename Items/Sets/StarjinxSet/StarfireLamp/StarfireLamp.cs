@@ -89,8 +89,8 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			StarfireLampPlayer starfireLampPlayer = player.GetModPlayer<StarfireLampPlayer>();
-			starfireLampPlayer.TwinkleTime = StarfireLampPlayer.MaxTwinkleTime;
+			//StarfireLampPlayer starfireLampPlayer = player.GetModPlayer<StarfireLampPlayer>(); //NEEDSUPDATING
+			//starfireLampPlayer.TwinkleTime = StarfireLampPlayer.MaxTwinkleTime;
 
 			//Done here to be on use rather than on animation start
 			if (!Main.dedServ)
@@ -111,12 +111,12 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 				if (mousehovernpc == null)
 					return false;
 
-				starfireLampPlayer.LampTargetNPC = mousehovernpc;
-				starfireLampPlayer.LampTargetTime = StarfireLampPlayer.MaxTargetTime;
+				//starfireLampPlayer.LampTargetNPC = mousehovernpc;
+				//starfireLampPlayer.LampTargetTime = StarfireLampPlayer.MaxTargetTime; //NEEDSUPDATING
 				return false;
 			}
 
-			starfireLampPlayer.GlowmaskOpacity = 1;
+			//starfireLampPlayer.GlowmaskOpacity = 1;
             return true;
         }
 

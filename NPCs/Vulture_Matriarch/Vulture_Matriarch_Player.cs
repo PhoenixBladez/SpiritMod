@@ -38,7 +38,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 					Main.dust[index].scale = 1.5f;
 					Main.dust[index].noGravity = true;
 					Main.dust[index].velocity *= 1.1f;
-					Main.playerDrawDust.Add(index);
+					drawInfo.DustCache.Add(index);
 				}
 				fullBright = false;
 			}

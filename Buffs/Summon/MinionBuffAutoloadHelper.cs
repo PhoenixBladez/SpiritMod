@@ -79,7 +79,8 @@ namespace SpiritMod.Buffs.Summon
 			{
 				AutoloadMinionBuff attribute = (AutoloadMinionBuff)Attribute.GetCustomAttribute(MinionType, typeof(AutoloadMinionBuff)); 
 				ModProjectile mProjectile = (ModProjectile)Activator.CreateInstance(MinionType);
-				SpiritMod.Instance.AddBuff(MinionType.Name + "_buff", new AutoloadedMinionBuff(SpiritMod.Instance.Find<ModProjectile>(MinionType.Name).Type, attribute.BuffName, attribute.Description), MinionType.FullName.Replace(".", "/") + "_buff");
+				//MinionType.Name + "_buff", new AutoloadedMinionBuff(SpiritMod.Instance.Find<ModProjectile>(MinionType.Name).Type, attribute.BuffName, attribute.Description), MinionType.FullName.Replace(".", "/") + "_buff"
+				SpiritMod.Instance.AddContent(new AutoloadedMinionBuff(SpiritMod.Instance.Find<ModProjectile>(MinionType.Name).Type, attribute.BuffName, attribute.Description));
 				BuffDictionary.Add(SpiritMod.Instance.Find<ModProjectile>(MinionType.Name).Type, SpiritMod.Instance.Find<ModBuff>(MinionType.Name + "_buff").Type);
 			}
 		}
@@ -92,6 +93,8 @@ namespace SpiritMod.Buffs.Summon
 		private readonly int MinionType;
 		private readonly string BuffName;
 		private readonly string BuffDescription;
+
+		public override string Name => BuffName;
 
 		public AutoloadedMinionBuff(int MinionType, string BuffName, string BuffDescription)
 		{
@@ -112,9 +115,7 @@ namespace SpiritMod.Buffs.Summon
 		{
 			AutoloadMinionPlayer modPlayer = player.GetModPlayer<AutoloadMinionPlayer>();
 			if (player.ownedProjectileCounts[MinionType] > 0)
-			{
 				modPlayer.ActiveMinionDict[MinionType] = true;
-			}
 
 			if (!modPlayer.ActiveMinionDict[MinionType])
 			{

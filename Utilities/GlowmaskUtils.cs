@@ -24,6 +24,7 @@ namespace SpiritMod
 				0
 			);
 		}
+
 		public static void DrawExtras(SpriteBatch spriteBatch, NPC npc, Texture2D texture)
 		{
 			var effects = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -39,42 +40,57 @@ namespace SpiritMod
 				0
 			);
 		}
+
 		public static void DrawArmorGlowMask(EquipType type, Texture2D texture, PlayerDrawSet info)
 		{
-			switch (type) {
-				case EquipType.Head: {
-						DrawData drawData = new DrawData(texture, new Vector2((int)(info.Position.X - Main.screenPosition.X) + ((info.drawPlayer.width - info.drawPlayer.bodyFrame.Width) / 2), (int)(info.Position.Y - Main.screenPosition.Y) + info.drawPlayer.height - info.drawPlayer.bodyFrame.Height + 4) + info.drawPlayer.headPosition + info.headOrigin, info.drawPlayer.bodyFrame, info.headGlowMaskColor, info.drawPlayer.headRotation, info.headOrigin, 1f, info.playerEffect, 0) {
-							shader = info.headArmorShader
+			switch (type)
+			{
+				case EquipType.Head:
+					{
+						Vector2 adjustedPosition = new Vector2((int)(info.Position.X - Main.screenPosition.X) + ((info.drawPlayer.width - info.drawPlayer.bodyFrame.Width) / 2), (int)(info.Position.Y - Main.screenPosition.Y) + info.drawPlayer.height - info.drawPlayer.bodyFrame.Height + 4);
+						DrawData drawData = new DrawData(texture, adjustedPosition + info.drawPlayer.headPosition + info.rotationOrigin, info.drawPlayer.bodyFrame, info.headGlowColor, info.drawPlayer.headRotation, info.rotationOrigin, 1f, info.playerEffect, 0)
+						{
+							//shader = info.headArmorShader //NEEDSUPDATE ALL of these
 						};
 						info.DrawDataCache.Add(drawData);
 					}
 					return;
 
-				case EquipType.Body: {
+				case EquipType.Body:
+					{
 						Rectangle bodyFrame = info.drawPlayer.bodyFrame;
 						int num123 = 0;
 
 						bodyFrame.X += num123;
 						bodyFrame.Width -= num123;
 
-						if (info.drawPlayer.direction == -1) {
+						if (info.drawPlayer.direction == -1)
+						{
 							num123 = 0;
 						}
 
-						if (!info.drawPlayer.invis) {
-							DrawData drawData = new DrawData(texture, new Vector2((int)(info.Position.X - Main.screenPosition.X - (info.drawPlayer.bodyFrame.Width / 2) + (info.drawPlayer.width / 2) + num123), ((int)(info.Position.Y - Main.screenPosition.Y + info.drawPlayer.height - info.drawPlayer.bodyFrame.Height + 4))) + info.drawPlayer.bodyPosition + new Vector2(info.drawPlayer.bodyFrame.Width / 2, info.drawPlayer.bodyFrame.Height / 2), bodyFrame, info.bodyGlowMaskColor, info.drawPlayer.bodyRotation, info.bodyOrigin, 1f, info.playerEffect, 0) {
-								shader = info.bodyArmorShader
+						if (!info.drawPlayer.invis)
+						{
+							Vector2 adjustedPos = new Vector2((int)(info.Position.X - Main.screenPosition.X - (info.drawPlayer.bodyFrame.Width / 2) + (info.drawPlayer.width / 2) + num123), ((int)(info.Position.Y - Main.screenPosition.Y + info.drawPlayer.height - info.drawPlayer.bodyFrame.Height + 4)));
+							DrawData drawData = new DrawData(texture, adjustedPos + info.drawPlayer.bodyPosition + new Vector2(info.drawPlayer.bodyFrame.Width / 2, info.drawPlayer.bodyFrame.Height / 2), bodyFrame, info.bodyGlowColor, info.drawPlayer.bodyRotation, info.rotationOrigin, 1f, info.playerEffect, 0)
+							{
+								//shader = info.bodyArmorShader
 							};
 							info.DrawDataCache.Add(drawData);
 						}
 					}
 					return;
 
-				case EquipType.Legs: {
-						if (info.drawPlayer.shoe != 15 || info.drawPlayer.wearsRobe) {
-							if (!info.drawPlayer.invis) {
-								DrawData drawData = new DrawData(texture, new Vector2((int)(info.Position.X - Main.screenPosition.X - (info.drawPlayer.legFrame.Width / 2) + (info.drawPlayer.width / 2)), (int)(info.Position.Y - Main.screenPosition.Y + info.drawPlayer.height - info.drawPlayer.legFrame.Height + 4)) + info.drawPlayer.legPosition + info.legOrigin, info.drawPlayer.legFrame, info.legGlowMaskColor, info.drawPlayer.legRotation, info.legOrigin, 1f, info.playerEffect, 0) {
-									shader = info.legArmorShader
+				case EquipType.Legs:
+					{
+						if (info.drawPlayer.shoe != 15 || info.drawPlayer.wearsRobe)
+						{
+							if (!info.drawPlayer.invis)
+							{
+								Vector2 adjPos = new Vector2((int)(info.Position.X - Main.screenPosition.X - (info.drawPlayer.legFrame.Width / 2) + (info.drawPlayer.width / 2)), (int)(info.Position.Y - Main.screenPosition.Y + info.drawPlayer.height - info.drawPlayer.legFrame.Height + 4));
+								DrawData drawData = new DrawData(texture, adjPos + info.drawPlayer.legPosition + info.rotationOrigin, info.drawPlayer.legFrame, info.legsGlowColor, info.drawPlayer.legRotation, info.rotationOrigin, 1f, info.playerEffect, 0)
+								{
+									//shader = info.legArmorShader
 								};
 								info.DrawDataCache.Add(drawData);
 							}
@@ -87,20 +103,20 @@ namespace SpiritMod
 		public static void DrawItemGlowMask(Texture2D texture, PlayerDrawSet info)
 		{
 			Item item = info.drawPlayer.HeldItem;
-			if (info.shadow != 0f || info.drawPlayer.frozen || ((info.drawPlayer.itemAnimation <= 0 || item.useStyle == 0) && (item.holdStyle <= 0 || info.drawPlayer.pulley)) || info.drawPlayer.dead || item.noUseGraphic || (info.drawPlayer.wet && item.noWet)) {
+			if (info.shadow != 0f || info.drawPlayer.frozen || ((info.drawPlayer.itemAnimation <= 0 || item.useStyle == 0) && (item.holdStyle <= 0 || info.drawPlayer.pulley)) || info.drawPlayer.dead || item.noUseGraphic || (info.drawPlayer.wet && item.noWet))
 				return;
-			}
 
 			Vector2 offset = Vector2.Zero;
 			Vector2 origin = Vector2.Zero;
 			float rotOffset = 0;
 
-			if (item.useStyle == ItemUseStyleID.Shoot) {
-				if (Item.staff[item.type]) {
+			if (item.useStyle == ItemUseStyleID.Shoot)
+			{
+				if (Item.staff[item.type])
+				{
 					rotOffset = 0.785f * info.drawPlayer.direction;
-					if (info.drawPlayer.gravDir == -1f) {
+					if (info.drawPlayer.gravDir == -1f)
 						rotOffset -= 1.57f * info.drawPlayer.direction;
-					}
 
 					origin = new Vector2(texture.Width * 0.5f * (1 - info.drawPlayer.direction), (info.drawPlayer.gravDir == -1f) ? 0 : texture.Height);
 
@@ -108,18 +124,19 @@ namespace SpiritMod
 					ItemLoader.HoldoutOrigin(info.drawPlayer, ref origin);
 					offset = new Vector2(origin.X + oldOriginX, 0);
 				}
-				else {
+				else
+				{
 					offset = new Vector2(10, texture.Height / 2);
 					ItemLoader.HoldoutOffset(info.drawPlayer.gravDir, item.type, ref offset);
 					origin = new Vector2(-offset.X, texture.Height / 2);
-					if (info.drawPlayer.direction == -1) {
+					if (info.drawPlayer.direction == -1)
 						origin.X = texture.Width + offset.X;
-					}
 
 					offset = new Vector2(texture.Width / 2, offset.Y);
 				}
 			}
-			else {
+			else
+			{
 				origin = new Vector2(texture.Width * 0.5f * (1 - info.drawPlayer.direction), (info.drawPlayer.gravDir == -1f) ? 0 : texture.Height);
 			}
 
@@ -152,4 +169,3 @@ namespace SpiritMod
 		}
 	}
 }
-

@@ -403,7 +403,7 @@ namespace SpiritMod
 			{ "BRIAR", 0 }
 		};
 
-		public override void UpdateBiomeVisuals()
+		public override void PostUpdateMiscEffects()
 		{
 			var config = ModContent.GetInstance<SpiritClientConfig>();
 			bool reach = (!Main.dayTime && ZoneReach && !reachBrooch && Player.ZoneOverworldHeight) || (ZoneReach && Player.ZoneOverworldHeight && MyWorld.downedReachBoss && Main.dayTime);
@@ -4192,7 +4192,7 @@ namespace SpiritMod
 				drawInfo.colorUnderShirt = Color.Multiply(drawInfo.colorUnderShirt, camo);
 				drawInfo.colorPants = Color.Multiply(drawInfo.colorPants, camo);
 				drawInfo.colorShoes = Color.Multiply(drawInfo.colorShoes, camo);
-				//drawInfo.headGlowMask = Color.Multiply(drawInfo.headGlowMask, camo);
+				//drawInfo.headGlowMask = Color.Multiply(drawInfo.headGlowMask, camo); //NEEDSUPDATING
 				//drawInfo.bodyGlowMask = Color.Multiply(drawInfo.bodyGlowMask, camo);
 				//drawInfo.armGlowMaskColor = Color.Multiply(drawInfo.armGlowMaskColor, camo);
 				//drawInfo.legGlowMaskColor = Color.Multiply(drawInfo.legGlowMaskColor, camo);

@@ -31,6 +31,7 @@ namespace SpiritMod.Tiles.Banners
 			name.SetDefault("Banner");
 			AddMapEntry(new Color(13, 88, 130), name);
 		}
+
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			Tile tile = Main.tile[i, j];
@@ -363,8 +364,8 @@ namespace SpiritMod.Tiles.Banners
 					" Molten_Core Pokey_Body ScreechOwl AutomataCreeper AstralAdventurer AutomataSpinner Chest_Zombie Boulder_Termagant Falling_Asteroid Goblin_Grenadier" +
 					" BlazingSkull StymphalianBat Skeleton_Brute Enchanted_Armor PirateLobber").Split(' ');
 
-				player.NPCBannerBuff[Mod.Find<ModNPC>(names[style]).Type] = true;
-				player.hasBanner = true;
+				//player.NPCBannerBuff[Mod.Find<ModNPC>(names[style]).Type] = true; //NEEDSUPDATING(?)
+				//player.hasBanner = true;
 			}
 		}
 

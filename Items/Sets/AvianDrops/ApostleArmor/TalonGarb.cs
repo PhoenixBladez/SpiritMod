@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.AvianDrops.ApostleArmor
 		{
 			robes = true;
 			// The equipSlot is added in ExampleMod.cs --> Load hook
-			equipSlot = Mod.GetEquipSlot("TalonGarb_Legs", EquipType.Legs);
+			equipSlot = EquipLoader.GetEquipSlot(Mod, "TalonGarb_Legs", EquipType.Legs);
 		}
 
 		public override void UpdateEquip(Player player)

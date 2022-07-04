@@ -50,9 +50,10 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 					player.velocity / 2 + Main.rand.NextVector2Circular(1, 1), 
 					Mod.Find<ModGore>("Gores/StarjinxGore").Type, 
 					Main.rand.NextFloat(0.25f, 0.75f));
-				Main.playerDrawGore.Add(gore);
+				//Main.playerDrawGore.Add(gore);
 			}
 		}
+
 		public override void ArmorSetShadows(Player player) => player.armorEffectDrawOutlinesForbidden = true;
 		public override void AddRecipes()
 		{

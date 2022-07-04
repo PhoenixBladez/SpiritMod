@@ -274,8 +274,11 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 
 		public class BeaconShaderData : ScreenShaderData
 		{
+			string passName = "";
+
 			public BeaconShaderData(Ref<Effect> shader, string passName) : base(shader, passName)
 			{
+				this.passName = passName;
 			}
 
 			public override void Update(GameTime gameTime)
@@ -294,7 +297,7 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 				Shader.Parameters["ScreenPosition"].SetValue(Main.screenPosition);
 				Shader.Parameters["ScreenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
 
-				Shader.CurrentTechnique.Passes[pass].Apply();
+				Shader.CurrentTechnique.Passes[passName].Apply(); //NEEDSUPDATING(?)
 			}
 		}
 	}

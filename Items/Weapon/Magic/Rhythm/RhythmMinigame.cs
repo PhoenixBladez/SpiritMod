@@ -73,7 +73,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm
 			Visibility = new InterpolatedFloat(0f, 0.5f, InterpolatedFloat.EaseInOut);
 			Visibility.Set(1f);
 
-			Main.OnTick += MinigameDisposal;
+			Main.OnTickForThirdPartySoftwareOnly += MinigameDisposal;
 
 			Owner = owner;
 			Weapon = item;
@@ -90,7 +90,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm
 					Music.Dispose();
 					wep.Minigame = null;
 
-					Main.OnTick -= MinigameDisposal;
+					Main.OnTickForThirdPartySoftwareOnly -= MinigameDisposal;
 				}
 			}
 

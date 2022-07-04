@@ -20,7 +20,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			zoneStarjinxEvent = false;
 		}
 
-		public override void UpdateBiomeVisuals()
+		public override void PostUpdateMiscEffects()
 		{
 			if (zoneStarjinxEvent)
 				Player.AddBuff(ModContent.BuffType<HighGravityBuff>(), 2);
