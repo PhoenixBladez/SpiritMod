@@ -23,7 +23,7 @@ namespace SpiritMod.Skies
 
 		public override void OnLoad()
 		{
-			this._bgTexture = ModContent.Request<Texture2D>("Images/Misc/VortexSky/Background", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			this._bgTexture = ModContent.Request<Texture2D>("Terraria/Images/Misc/VortexSky/Background", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 		}
 
 		public override void Update(GameTime gameTime)

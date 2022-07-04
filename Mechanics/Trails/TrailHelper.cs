@@ -24,16 +24,21 @@ namespace SpiritMod.Mechanics.Trails
 	{
 		private readonly List<BaseTrail> _trails = new List<BaseTrail>();
 		private readonly Effect _effect;
-		private readonly BasicEffect _basicEffect;
+
+		private BasicEffect _basicEffect; //Not readonly due to thread queue
 
 		public TrailManager(Mod mod)
 		{
 			_trails = new List<BaseTrail>();
-			_effect = ModContent.Request<Effect>("Effects/trailShaders").Value;
-			_basicEffect = new BasicEffect(Main.graphics.GraphicsDevice)
+			_effect = ModContent.Request<Effect>("SpiritMod/Effects/trailShaders").Value;
+
+			Main.QueueMainThreadAction(() =>
 			{
-				VertexColorEnabled = true
-			};
+				_basicEffect = new BasicEffect(Main.graphics.GraphicsDevice)
+				{
+					VertexColorEnabled = true
+				};
+			});
 		}
 
 		public void TryTrailKill(Projectile projectile)

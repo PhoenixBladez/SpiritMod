@@ -17,7 +17,7 @@ namespace SpiritMod.Skies
 
 		private float _fadeOpacity;
 
-		public override void OnLoad() => _bgTexture = ModContent.Request<Texture2D>("Images/Misc/NebulaSky/Background", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+		public override void OnLoad() => _bgTexture = ModContent.Request<Texture2D>("Terraria/Images/Misc/NebulaSky/Background", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 		public override void Update(GameTime gameTime)
 		{

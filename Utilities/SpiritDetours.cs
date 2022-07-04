@@ -55,14 +55,14 @@ namespace SpiritMod.Utilities
 			Main.OnPreDraw += Main_OnPreDraw;
 			On.Terraria.Main.DrawWater += Main_DrawWater;
 
-			SurfaceWaterModifications.Load();
-			HookEndpointManager.Add<hook_NPCAI>(NPCAIMethod, (hook_NPCAI)NPCAIMod);
+			//SurfaceWaterModifications.Load();
+			//HookEndpointManager.Add<hook_NPCAI>(NPCAIMethod, (hook_NPCAI)NPCAIMod);
 
-			foreach (var item in typeof(SpiritDetours).Assembly.GetTypes().Where(x => typeof(ILEdit).IsAssignableFrom(x) && !x.IsAbstract))
-			{
-				var inst = (ILEdit)Activator.CreateInstance(item);
-				inst.Load(SpiritMod.Instance);
-			}
+			//foreach (var item in typeof(SpiritDetours).Assembly.GetTypes().Where(x => typeof(ILEdit).IsAssignableFrom(x) && !x.IsAbstract))
+			//{
+			//	var inst = (ILEdit)Activator.CreateInstance(item);
+			//	inst.Load(SpiritMod.Instance);
+			//}
 		}
 
 		private static void Main_DrawMap1(On.Terraria.Main.orig_DrawMap orig, Main self, GameTime gameTime)

@@ -523,18 +523,18 @@ namespace SpiritMod
 
 			if (Main.netMode != NetmodeID.Server)
 			{
-				Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("Effects/ShockwaveEffect", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "Shockwave"), EffectPriority.VeryHigh);
+				Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("SpiritMod/Effects/ShockwaveEffect", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "Shockwave"), EffectPriority.VeryHigh);
 				Filters.Scene["Shockwave"].Load();
 
-				Filters.Scene["PulsarShockwave"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("Effects/PulsarShockwave", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "PulsarShockwave"), EffectPriority.VeryHigh);
+				Filters.Scene["PulsarShockwave"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("SpiritMod/Effects/PulsarShockwave", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "PulsarShockwave"), EffectPriority.VeryHigh);
 				Filters.Scene["PulsarShockwave"].Load();
 
 				SlotUserInterface = new UserInterface();
 
-				Filters.Scene["ShockwaveTwo"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("Effects/ShockwaveTwo", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "ShockwaveTwo"), EffectPriority.VeryHigh);
+				Filters.Scene["ShockwaveTwo"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("SpiritMod/Effects/ShockwaveTwo", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "ShockwaveTwo"), EffectPriority.VeryHigh);
 				Filters.Scene["ShockwaveTwo"].Load();
 
-				Filters.Scene["SpiritMod:AshRain"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("Effects/AshRain", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "AshRain"), EffectPriority.VeryLow);
+				Filters.Scene["SpiritMod:AshRain"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("SpiritMod/Effects/AshRain", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "AshRain"), EffectPriority.VeryLow);
 				Filters.Scene["SpiritMod:AshRain"].Load();
 			}
 
@@ -557,14 +557,14 @@ namespace SpiritMod
 			{
 				TrailManager = new TrailManager(this);
 				EquipLoader.AddEquipTexture(this, "SpiritMod/Items/Sets/AvianDrops/ApostleArmor/TalonGarb_Legs", EquipType.Legs, null, "TalonGarb_Legs");
-				EmptyTexture = ModContent.Request<Texture2D>("Empty", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value; 
-				auroraEffect = ModContent.Request<Effect>("Effects/aurora", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				EmptyTexture = ModContent.Request<Texture2D>("SpiritMod/Empty", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value; 
+				auroraEffect = ModContent.Request<Effect>("SpiritMod/Effects/aurora", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				ShaderDict = new Dictionary<string, Effect>();
 				var tmodfile = (TmodFile)typeof(SpiritMod).GetProperty("File", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Instance);
 				var files = (IDictionary<string, FileEntry>)typeof(TmodFile).GetField("files", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(tmodfile);
 				foreach (KeyValuePair<string, FileEntry> kvp in files.Where(x => x.Key.Contains("Effects/") && x.Key.Contains(".xnb")))
-					ShaderDict.Add(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length).Remove(0, "Effects/".Length), ModContent.Request<Effect>(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length), ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+					ShaderDict.Add(kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length).Remove(0, "Effects/".Length), ModContent.Request<Effect>("SpiritMod/" + kvp.Key.Remove(kvp.Key.Length - ".xnb".Length, ".xnb".Length), ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 
 				int width = Main.graphics.GraphicsDevice.Viewport.Width;
 				int height = Main.graphics.GraphicsDevice.Viewport.Height;
@@ -572,14 +572,17 @@ namespace SpiritMod
 				Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
 				Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
 
-				basicEffect = new BasicEffect(Main.graphics.GraphicsDevice)
+				Main.QueueMainThreadAction(() =>
 				{
-					VertexColorEnabled = true,
-					View = view,
-					Projection = projection
-				};
+					basicEffect = new BasicEffect(Main.graphics.GraphicsDevice)
+					{
+						VertexColorEnabled = true,
+						View = view,
+						Projection = projection
+					};
+				});
 
-				noise = ModContent.Request<Texture2D>("Textures/noise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				noise = ModContent.Request<Texture2D>("SpiritMod/Textures/noise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				SpiritModAutoSellTextures.Load();
 
@@ -607,40 +610,40 @@ namespace SpiritMod
 				SellLock_SHORTCUT.Activate();
 				SellWeapons_SHORTCUT.Activate();
 
-				stardustOverlayEffect = ModContent.Request<Effect>("Effects/StardustOverlay", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				stardustOverlayEffect = ModContent.Request<Effect>("SpiritMod/Effects/StardustOverlay", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-				glitchEffect = ModContent.Request<Effect>("Effects/glitch", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				glitchEffect = ModContent.Request<Effect>("SpiritMod/Effects/glitch", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				glitchScreenShader = new GlitchScreenShader(glitchEffect);
 				Filters.Scene["SpiritMod:Glitch"] = new Filter(glitchScreenShader, (EffectPriority)50);
 
-				starjinxBorderEffect = ModContent.Request<Effect>("Effects/StarjinxBorder", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				starjinxBorderEffect = ModContent.Request<Effect>("SpiritMod/Effects/StarjinxBorder", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				starjinxBorderShader = new StarjinxBorderShader(starjinxBorderEffect, "MainPS");
 				Filters.Scene["SpiritMod:StarjinxBorder"] = new Filter(starjinxBorderShader, (EffectPriority)50);
 
 				Filters.Scene["SpiritMod:StarjinxBorderFade"] = new Filter(new StarjinxBorderShader(starjinxBorderEffect, "FadePS"), (EffectPriority)70);
 
-				vignetteEffect = ModContent.Request<Effect>("Effects/Vignette", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				vignetteEffect = ModContent.Request<Effect>("SpiritMod/Effects/Vignette", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				vignetteShader = new Vignette(vignetteEffect, "MainPS");
 				Filters.Scene["SpiritMod:Vignette"] = new Filter(vignetteShader, (EffectPriority)100);
 
-				StarjinxNoise = ModContent.Request<Effect>("Effects/StarjinxNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				CircleNoise = ModContent.Request<Effect>("Effects/CircleNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				StarfirePrims = ModContent.Request<Effect>("Effects/StarfirePrims", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				ScreamingSkullTrail = ModContent.Request<Effect>("Effects/ScreamingSkullTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				RipperSlugShader = ModContent.Request<Effect>("Effects/RipperSlugShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				RepeatingTextureShader = ModContent.Request<Effect>("Effects/RepeatingTextureShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				PrimitiveTextureMap = ModContent.Request<Effect>("Effects/PrimitiveTextureMap", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				EyeballShader = ModContent.Request<Effect>("Effects/EyeballShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				ArcLashShader = ModContent.Request<Effect>("Effects/ArcLashShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				ConicalNoise = ModContent.Request<Effect>("Effects/ConicalNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				JemShaders = ModContent.Request<Effect>("Effects/JemShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				SunOrbShader = ModContent.Request<Effect>("Effects/SunOrbShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				ThyrsusShader = ModContent.Request<Effect>("Effects/ThyrsusShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				JetbrickTrailShader = ModContent.Request<Effect>("Effects/JetbrickTrailShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				OutlinePrimShader = ModContent.Request<Effect>("Effects/OutlinePrimShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				GSaber = ModContent.Request<Effect>("Effects/GSaber", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				AnthemCircle = ModContent.Request<Effect>("Effects/AnthemCircle", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				TeslaShader = ModContent.Request<Effect>("Effects/TeslaShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				StarjinxNoise = ModContent.Request<Effect>("SpiritMod/Effects/StarjinxNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				CircleNoise = ModContent.Request<Effect>("SpiritMod/Effects/CircleNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				StarfirePrims = ModContent.Request<Effect>("SpiritMod/Effects/StarfirePrims", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				ScreamingSkullTrail = ModContent.Request<Effect>("SpiritMod/Effects/ScreamingSkullTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				RipperSlugShader = ModContent.Request<Effect>("SpiritMod/Effects/RipperSlugShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				RepeatingTextureShader = ModContent.Request<Effect>("SpiritMod/Effects/RepeatingTextureShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				PrimitiveTextureMap = ModContent.Request<Effect>("SpiritMod/Effects/PrimitiveTextureMap", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				EyeballShader = ModContent.Request<Effect>("SpiritMod/Effects/EyeballShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				ArcLashShader = ModContent.Request<Effect>("SpiritMod/Effects/ArcLashShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				ConicalNoise = ModContent.Request<Effect>("SpiritMod/Effects/ConicalNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				JemShaders = ModContent.Request<Effect>("SpiritMod/Effects/JemShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				SunOrbShader = ModContent.Request<Effect>("SpiritMod/Effects/SunOrbShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				ThyrsusShader = ModContent.Request<Effect>("SpiritMod/Effects/ThyrsusShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				JetbrickTrailShader = ModContent.Request<Effect>("SpiritMod/Effects/JetbrickTrailShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				OutlinePrimShader = ModContent.Request<Effect>("SpiritMod/Effects/OutlinePrimShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				GSaber = ModContent.Request<Effect>("SpiritMod/Effects/GSaber", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				AnthemCircle = ModContent.Request<Effect>("SpiritMod/Effects/AnthemCircle", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				TeslaShader = ModContent.Request<Effect>("SpiritMod/Effects/TeslaShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				SkyManager.Instance["SpiritMod:AuroraSky"] = new AuroraSky();
 				Filters.Scene["SpiritMod:AuroraSky"] = new Filter((new ScreenShaderData("FilterMiniTower")).UseColor(0f, 0f, 0f).UseOpacity(0f), EffectPriority.VeryLow);
@@ -1066,7 +1069,6 @@ namespace SpiritMod
 			Items.Glyphs.GlyphBase.InitializeGlyphLookup();
 
 			BossChecklistDataHandler.RegisterSpiritData(this);
-
 			CrossModContent();
 
 			FinishedContentSetup = true;
@@ -1074,8 +1076,7 @@ namespace SpiritMod
 
 		private void CrossModContent()
 		{
-			Mod census = ModLoader.GetMod("Census");
-			if (census != null)
+			if (ModLoader.TryGetMod("Census", out Mod census))
 			{
 				census.Call("TownNPCCondition", ModContent.NPCType<Adventurer>(), "Rescue the Adventurer from the Briar after completing your first quest.");
 				census.Call("TownNPCCondition", ModContent.NPCType<Gambler>(), "Rescue the Gambler from a Goblin Tower\nIf your world does not have a Goblin Tower, have at least 1 Gold in your inventory");
@@ -1083,8 +1084,7 @@ namespace SpiritMod
 				census.Call("TownNPCCondition", ModContent.NPCType<RuneWizard>(), "Have a Blank Glyph in your inventory");
 			}
 
-			Mod fargos = ModLoader.GetMod("Fargowiltas");
-			if (fargos != null)
+			if (ModLoader.TryGetMod("Fargowiltas", out Mod fargos))
 			{
 				// AddSummon, order or value in terms of vanilla bosses, your mod internal name, summon   
 				//item internal name, inline method for retrieving downed value, price to sell for in copper
@@ -1110,7 +1110,7 @@ namespace SpiritMod
 		//	}
 		//}
 
-		public void InvokeModifyTransform(SpriteViewMatrix matrix) => OnModifyTransformMatrix.Invoke(matrix);
+		public void InvokeModifyTransform(SpriteViewMatrix matrix) => OnModifyTransformMatrix?.Invoke(matrix);
 
 		public static float tremorTime;
 		public int screenshakeTimer = 0;

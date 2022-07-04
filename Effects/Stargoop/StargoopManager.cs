@@ -34,24 +34,25 @@ namespace SpiritMod.Effects.Stargoop
 		{
 			UpdateWindowSize(graphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
 		}
+
 		public void LoadContent()
 		{
-			Mask = ModContent.Request<Texture2D>("Effects/Masks/Mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Mask = ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/Mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-			Galaxy0 = ModContent.Request<Texture2D>("Effects/Masks/Galaxy0", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			Galaxy1 = ModContent.Request<Texture2D>("Effects/Masks/Galaxy1", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			Galaxy2 = ModContent.Request<Texture2D>("Effects/Masks/Galaxy2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Galaxy0 = ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/Galaxy0", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Galaxy1 = ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/Galaxy1", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Galaxy2 = ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/Galaxy2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-			metaballColorCode = ModContent.Request<Effect>("Effects/MetaballColorCode", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			metaballEdgeDetection = ModContent.Request<Effect>("Effects/MetaballEdgeDetection", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			borderNoise = ModContent.Request<Effect>("Effects/BorderNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			galaxyParallax = ModContent.Request<Effect>("Effects/GalaxyParallax", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			metaballColorCode = ModContent.Request<Effect>("SpiritMod/Effects/MetaballColorCode", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			metaballEdgeDetection = ModContent.Request<Effect>("SpiritMod/Effects/MetaballEdgeDetection", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			borderNoise = ModContent.Request<Effect>("SpiritMod/Effects/BorderNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			galaxyParallax = ModContent.Request<Effect>("SpiritMod/Effects/GalaxyParallax", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			FriendlyLayer = new StargoopLayer(FriendlyBorderColor, Galaxy0, Galaxy1, Galaxy2);
 			EnemyLayer = new StargoopLayer(EnemyBorderColor, Galaxy0, Galaxy1, Galaxy2);
-			NebulaLayer = new StargoopLayer(NebulaBorderColor, ModContent.Request<Texture2D>("Effects/Masks/Nebula0", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
-															  ModContent.Request<Texture2D>("Effects/Masks/Nebula1", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
-															  ModContent.Request<Texture2D>("Effects/Masks/Nebula2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			NebulaLayer = new StargoopLayer(NebulaBorderColor, ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/Nebula0", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
+															  ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/Nebula1", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
+															  ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/Nebula2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 		}
 
 		public void UpdateWindowSize(GraphicsDevice graphicsDevice, int width, int height)
@@ -59,7 +60,7 @@ namespace SpiritMod.Effects.Stargoop
 			FriendlyLayer.UpdateWindowSize(graphicsDevice, width, height);
 			EnemyLayer.UpdateWindowSize(graphicsDevice, width, height);
 			NebulaLayer.UpdateWindowSize(graphicsDevice, width, height);
-			TmpTarget = new RenderTarget2D(graphicsDevice, width, height);
+			Main.QueueMainThreadAction(() => TmpTarget = new RenderTarget2D(graphicsDevice, width, height));
 		}
 
 		public void DrawToTarget(SpriteBatch sB, GraphicsDevice graphicsDevice)

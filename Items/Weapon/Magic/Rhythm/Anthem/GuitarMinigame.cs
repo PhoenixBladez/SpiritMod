@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 		{
 			if (Main.netMode != NetmodeID.Server)
 			{
-				Bolt = ModContent.Request<Texture2D>("Items/Weapon/Magic/Rhythm/Anthem/Bolt", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				Bolt = ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Magic/Rhythm/Anthem/Bolt", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				Guitar = new SoundStyle("Sounds/130bpm-guitar");
 			}
 		}

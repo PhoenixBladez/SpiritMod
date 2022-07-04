@@ -19,14 +19,18 @@ namespace SpiritMod.Prim
 
 		public BasicEffect pixelEffect;
 		public BasicEffect galaxyEffect;
+
 		public void LoadContent(GraphicsDevice GD)
 		{
-			InitializeTargets(GD);
-			pixelEffect = (BasicEffect)SpiritMod.basicEffect.Clone();
-			galaxyEffect = (BasicEffect)SpiritMod.basicEffect.Clone();
+			Main.QueueMainThreadAction(() =>
+			{
+				pixelEffect = (BasicEffect)SpiritMod.basicEffect.Clone();
+				galaxyEffect = (BasicEffect)SpiritMod.basicEffect.Clone();
+				InitializeTargets(GD);
 
-			Helpers.SetBasicEffectMatrices(ref pixelEffect, Main.GameViewMatrix.Zoom);
-			Helpers.SetBasicEffectMatrices(ref galaxyEffect, new Vector2(1));
+				Helpers.SetBasicEffectMatrices(ref pixelEffect, Main.GameViewMatrix.Zoom);
+				Helpers.SetBasicEffectMatrices(ref galaxyEffect, new Vector2(1));
+			});
 		}
 
 		public void InitializeTargets(GraphicsDevice GD)

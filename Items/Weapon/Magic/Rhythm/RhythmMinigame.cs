@@ -100,13 +100,13 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm
 		{
 			if (Main.netMode != NetmodeID.Server)
 			{
-				RhythmComboCounter = ModContent.Request<Texture2D>("Items/Weapon/Magic/Rhythm/RhythmMid", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				RhythmTrack = ModContent.Request<Texture2D>("Items/Weapon/Magic/Rhythm/RhythmTrack", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				RhythmTrackOutline = ModContent.Request<Texture2D>("Items/Weapon/Magic/Rhythm/RhythmTrackOutline", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				RhythmBeatCircle = ModContent.Request<Texture2D>("Items/Weapon/Magic/Rhythm/BeatCircle", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				RhythmComboCounter = ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Magic/Rhythm/RhythmMid", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				RhythmTrack = ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Magic/Rhythm/RhythmTrack", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				RhythmTrackOutline = ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Magic/Rhythm/RhythmTrackOutline", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				RhythmBeatCircle = ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Magic/Rhythm/BeatCircle", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-				RhythmNote.Note = ModContent.Request<Texture2D>("Items/Weapon/Magic/Rhythm/Note", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				RhythmNote.SideNote = ModContent.Request<Texture2D>("Items/Weapon/Magic/Rhythm/SideNote", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				RhythmNote.Note = ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Magic/Rhythm/Note", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				RhythmNote.SideNote = ModContent.Request<Texture2D>("SpiritMod/Items/Weapon/Magic/Rhythm/SideNote", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			}
 		}
 

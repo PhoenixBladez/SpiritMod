@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.RegalCane
 		{
 			DisplayName.SetDefault("Gilded Cane");
 
-			ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
+			//ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
 		}
 
 		public override void SetDefaults()

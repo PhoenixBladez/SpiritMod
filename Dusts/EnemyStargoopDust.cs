@@ -9,7 +9,7 @@ namespace SpiritMod.Dusts
 {
     public class EnemyStargoopDust : StargoopDust
     {
-        public override void OnSpawn(Dust dust)
+		public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
             dust.noLight = true;

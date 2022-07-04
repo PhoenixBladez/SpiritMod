@@ -80,7 +80,7 @@ namespace SpiritMod.Buffs.Summon
 				AutoloadMinionBuff attribute = (AutoloadMinionBuff)Attribute.GetCustomAttribute(MinionType, typeof(AutoloadMinionBuff)); 
 				ModProjectile mProjectile = (ModProjectile)Activator.CreateInstance(MinionType);
 				//MinionType.Name + "_buff", new AutoloadedMinionBuff(SpiritMod.Instance.Find<ModProjectile>(MinionType.Name).Type, attribute.BuffName, attribute.Description), MinionType.FullName.Replace(".", "/") + "_buff"
-				SpiritMod.Instance.AddContent(new AutoloadedMinionBuff(SpiritMod.Instance.Find<ModProjectile>(MinionType.Name).Type, attribute.BuffName, attribute.Description));
+				SpiritMod.Instance.AddContent(new AutoloadedMinionBuff(SpiritMod.Instance.Find<ModProjectile>(MinionType.Name).Type, attribute.BuffName, attribute.Description, MinionType.Name.Replace(".", "/") + "_buff"));
 				BuffDictionary.Add(SpiritMod.Instance.Find<ModProjectile>(MinionType.Name).Type, SpiritMod.Instance.Find<ModBuff>(MinionType.Name + "_buff").Type);
 			}
 		}
@@ -93,14 +93,16 @@ namespace SpiritMod.Buffs.Summon
 		private readonly int MinionType;
 		private readonly string BuffName;
 		private readonly string BuffDescription;
+		private readonly string InternalName;
 
-		public override string Name => BuffName;
+		public override string Name => InternalName;
 
-		public AutoloadedMinionBuff(int MinionType, string BuffName, string BuffDescription)
+		public AutoloadedMinionBuff(int MinionType, string BuffName, string BuffDescription, string InternalName)
 		{
 			this.MinionType = MinionType;
 			this.BuffName = BuffName;
 			this.BuffDescription = BuffDescription;
+			this.InternalName = InternalName;
 		}
 
 		public override void SetStaticDefaults()

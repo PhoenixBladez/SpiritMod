@@ -30,7 +30,7 @@ namespace SpiritMod.UI.ChargeMeter
 
 	public class ChargeMeterLayer : PlayerDrawLayer
 	{
-		public override Position GetDefaultPosition() => throw new NotImplementedException();
+		public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.ArmOverItem);
 
 		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{

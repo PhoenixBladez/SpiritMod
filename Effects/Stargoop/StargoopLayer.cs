@@ -35,7 +35,7 @@ namespace SpiritMod.Effects.Stargoop
 
 		public void UpdateWindowSize(GraphicsDevice graphicsDevice, int width, int height)
 		{
-			Target = new RenderTarget2D(graphicsDevice, width, height);
+			Main.QueueMainThreadAction(() => Target = new RenderTarget2D(graphicsDevice, width, height));
 		}
 
 		public void DrawMetaballTarget(SpriteBatch sB, GraphicsDevice graphicsDevice)

@@ -22,16 +22,16 @@ namespace SpiritMod.Skies
 
 		public override void OnLoad()
 		{
-			this._bgTexture = ModContent.Request<Texture2D>("Images/Misc/StardustSky/Background", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			_bgTexture = ModContent.Request<Texture2D>("Terraria/Images/Misc/StarDustSky/Background", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 		}
 
 		public override void Update(GameTime gameTime)
 		{
-			if (this._isActive) {
-				this._fadeOpacity = Math.Min(1f, 0.01f + this._fadeOpacity);
+			if (_isActive) {
+				_fadeOpacity = Math.Min(1f, 0.01f + _fadeOpacity);
 			}
 			else {
-				this._fadeOpacity = Math.Max(0f, this._fadeOpacity - 0.01f);
+				_fadeOpacity = Math.Max(0f, _fadeOpacity - 0.01f);
 			}
 		}
 
@@ -39,34 +39,31 @@ namespace SpiritMod.Skies
 		{
 			if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f) {
 				spriteBatch.Draw(this._bgTexture, new Rectangle(0, Math.Max(0, (int)((Main.worldSurface * 16.0 - (double)Main.screenPosition.Y - 700.0) * 0.10000000149011612)), Main.screenWidth, Main.screenHeight), new Color(94, 255, 250, 240) * Math.Min(1f, (Main.screenPosition.Y - 800f) / 1000f * this._fadeOpacity));
-				Vector2 value = new Vector2((float)(Main.screenWidth >> 1), (float)(Main.screenHeight >> 1));
-				Vector2 value2 = 0.01f * (new Vector2((float)Main.maxTilesX * 8f, (float)Main.worldSurface / 2f) - Main.screenPosition);
 			}
-
 		}
 
 		public override float GetCloudAlpha()
 		{
-			return (1f - this._fadeOpacity) * 0.3f + 0.7f;
+			return (1f - _fadeOpacity) * 0.3f + 0.7f;
 		}
 		public override void Activate(Vector2 position, params object[] args)
 		{
-			this._isActive = true;
+			_isActive = true;
 		}
 		public override void Deactivate(params object[] args)
 		{
-			this._isActive = false;
+			_isActive = false;
 		}
 
 		public override void Reset()
 		{
-			this._isActive = false;
+			_isActive = false;
 		}
 
 		public override bool IsActive()
 		{
-			if (!this._isActive) {
-				return this._fadeOpacity > 0.001f;
+			if (!_isActive) {
+				return _fadeOpacity > 0.001f;
 			}
 			return true;
 		}

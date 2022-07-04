@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GildedMustache
 		{
 			DisplayName.SetDefault("Gilded Mustache");
 
-			ArmorIDs.Body.Sets.NeedsToDrawArm[Item.bodySlot] = true;
+			//ArmorIDs.Body.Sets.NeedsToDrawArm[Item.faceSlot] = true;
 		}
 
 		public override void SetDefaults()

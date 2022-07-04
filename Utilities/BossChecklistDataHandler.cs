@@ -47,7 +47,15 @@ namespace SpiritMod.Utilities
 			Event
 		}
 
-		public static Mod BossChecklistMod => ModLoader.GetMod("BossChecklist");
+		public static Mod BossChecklistMod
+		{
+			get
+			{
+				if (ModLoader.TryGetMod("BossChecklist", out Mod result))
+					return result;
+				return null;
+			}
+		}
 
 		public static bool BossChecklistIsLoaded => BossChecklistMod != null;
 

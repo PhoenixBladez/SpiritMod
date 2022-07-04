@@ -32,12 +32,12 @@ namespace SpiritMod.Skies
 
 		public override void OnLoad()
 		{
-			this._bgTexture = ModContent.Request<Texture2D>("Images/Misc/StardustSky/Background", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			this._bgTexture = ModContent.Request<Texture2D>("Terraria/Images/Misc/StarDustSky/Background", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Mod mod = SpiritMod.Instance;
-			_beamTexture = ModContent.Request<Texture2D>("Images/Misc/NebulaSky/Beam", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			_beamTexture = ModContent.Request<Texture2D>("Terraria/Images/Misc/NebulaSky/Beam", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			_rockTextures = new Texture2D[3];
 			for (int i = 0; i < _rockTextures.Length; i++) {
-				_rockTextures[i] = ModContent.Request<Texture2D>("Textures/Soul" + i.ToString(), ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				_rockTextures[i] = ModContent.Request<Texture2D>("SpiritMod/Textures/Soul" + i.ToString(), ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			}
 		}
 

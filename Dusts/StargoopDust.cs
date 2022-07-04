@@ -12,7 +12,9 @@ namespace SpiritMod.Dusts
         protected Dictionary<int, Vector2> positions = new Dictionary<int, Vector2>();
         protected Dictionary<int, float> scales = new Dictionary<int, float>();
 
-        protected void Attach(StargoopLayer layer)
+		public override string Texture => "SpiritMod/Dusts/StargoopDust";
+
+		protected void Attach(StargoopLayer layer)
 		{
             if (!layer.Metaballs.Contains(this))
                 layer.Metaballs.Add(this);
