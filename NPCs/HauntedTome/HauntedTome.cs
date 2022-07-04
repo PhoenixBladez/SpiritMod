@@ -191,11 +191,11 @@ namespace SpiritMod.NPCs.HauntedTome
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/HauntedTomeGore3").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/HauntedTomeGore2").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/HauntedTomeGore1").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/HauntedTomeGore1").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/HauntedTomeGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("HauntedTomeGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("HauntedTomeGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("HauntedTomeGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("HauntedTomeGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("HauntedTomeGore1").Type, 1f);
 			}
 		}
 
@@ -346,7 +346,7 @@ namespace SpiritMod.NPCs.HauntedTome
 			for (int i = 0; i <= 3; i++) {
 				Gore gore = Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)),
 					Main.rand.NextVector2Circular(-1, 1),
-					Mod.Find<ModGore>("SpiritMod/Gores/Skelet/bonger" + Main.rand.Next(1, 5)).Type,
+					Mod.Find<ModGore>("Skelet/bonger" + Main.rand.Next(1, 5)).Type,
 					Projectile.scale);
 				gore.timeLeft = 20;
 			}
@@ -464,6 +464,6 @@ namespace SpiritMod.NPCs.HauntedTome
 					0);
 		}
 
-		public override void Kill(int timeLeft) => Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, Mod.Find<ModGore>("SpiritMod/Gores/HauntedPaperPlane_gore").Type);
+		public override void Kill(int timeLeft) => Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, Mod.Find<ModGore>("HauntedPaperPlane_gore").Type);
 	}
 }

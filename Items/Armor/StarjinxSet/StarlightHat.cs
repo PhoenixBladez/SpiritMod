@@ -48,7 +48,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 		    {
 				int gore = Gore.NewGore(player.GetSource_Accessory(Item, "Armor"), player.position + new Vector2(Main.rand.Next(player.width), Main.rand.Next(player.height)), 
 					player.velocity / 2 + Main.rand.NextVector2Circular(1, 1), 
-					Mod.Find<ModGore>("SpiritMod/Gores/StarjinxGore").Type, 
+					Mod.Find<ModGore>("StarjinxGore").Type, 
 					Main.rand.NextFloat(0.25f, 0.75f));
 				//Main.playerDrawGore.Add(gore);
 			}

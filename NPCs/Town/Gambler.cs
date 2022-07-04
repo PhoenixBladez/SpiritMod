@@ -169,13 +169,13 @@ namespace SpiritMod.NPCs.Town
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Gambler/Gambler1").Type);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Gambler/Gambler2").Type);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Gambler/Gambler3").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gambler1").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gambler2").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gambler3").Type);
 
 				for (int numGore = 0; numGore < 15; numGore++)
 				{
-					int g = Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * Main.rand.NextFloat(0.5f, 1.3f), Mod.Find<ModGore>("SpiritMod/Gores/GamblerCash").Type);
+					int g = Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * Main.rand.NextFloat(0.5f, 1.3f), Mod.Find<ModGore>("GamblerCash").Type);
 					Main.gore[g].scale = Main.rand.NextFloat(.5f, 1f);
 				}
 				for (int num621 = 0; num621 < 14; num621++)

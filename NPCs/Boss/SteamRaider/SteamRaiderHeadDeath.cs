@@ -62,9 +62,9 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					NPC.DropItem(ModContent.ItemType<StarplateMask>(), 1f / 7, NPC.GetSource_FromAI());
 					NPC.DropItem(ModContent.ItemType<Trophy3>(), 1f / 10, NPC.GetSource_FromAI());
 				}
-				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Starplate/Starplate1").Type, 1f);
-				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Starplate/Starplate2").Type, 1f);
-				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Starplate/Starplate3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Starplate1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Starplate2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Starplate3").Type, 1f);
 				SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen, NPC.Center);
 				//  Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
 				for (int i = 0; i < 90; i++) {

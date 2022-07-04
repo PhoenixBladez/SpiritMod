@@ -53,10 +53,9 @@ namespace SpiritMod.Utilities
 			On.Terraria.Main.DrawMap += Main_DrawMap1;
 
 			Main.OnPreDraw += Main_OnPreDraw;
-			On.Terraria.Main.DrawWater += Main_DrawWater;
+			HookEndpointManager.Add<hook_NPCAI>(NPCAIMethod, (hook_NPCAI)NPCAIMod);
 
-			//SurfaceWaterModifications.Load();
-			//HookEndpointManager.Add<hook_NPCAI>(NPCAIMethod, (hook_NPCAI)NPCAIMod);
+			SurfaceWaterModifications.Load();
 
 			//foreach (var item in typeof(SpiritDetours).Assembly.GetTypes().Where(x => typeof(ILEdit).IsAssignableFrom(x) && !x.IsAbstract))
 			//{
@@ -193,14 +192,6 @@ namespace SpiritMod.Utilities
 				effects: SpriteEffects.None,
 				layerDepth: 1f
 			);
-		}
-
-		private static void Main_DrawWater(On.Terraria.Main.orig_DrawWater orig, Main self, bool bg, int Style, float Alpha)
-		{
-			if (Main.LocalPlayer.ZoneBeach)
-				Alpha *= 0.7f; //Cute little effect to make the water seem more seethrough
-
-			orig(self, bg, Style, Alpha);
 		}
 
 		private static void Main_Update(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)

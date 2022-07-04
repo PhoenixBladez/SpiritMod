@@ -8,7 +8,7 @@ namespace SpiritMod.Biomes
 	/// </summary>
 	public class StarjinxBackgroundStyle : ModSurfaceBackgroundStyle
 	{
-		public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b) => ModContent.GetModBackgroundSlot("Backgrounds/Assets/emptyBG");
+		public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b) => ModContent.GetModBackgroundSlot("Backgrounds/emptyBG");
 
 		public override void ModifyFarFades(float[] fades, float transitionSpeed)
 		{

@@ -46,7 +46,7 @@ namespace SpiritMod
 				Main.musicFade[npc.ModNPC.Music] = 0.3f;
 				float temp = Main.soundVolume; //temporarily store main.soundvolume, since sounds dont play at all if sound volume is at 0, regardless of actual volume of the sound
 				Main.soundVolume = (temp == 0) ? 1 : Main.soundVolume;
-				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DeathSounds/" + npc), npc.Center);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DeathSounds/" + Sound), npc.Center);
 				Main.soundVolume = temp;
 			}
 		}

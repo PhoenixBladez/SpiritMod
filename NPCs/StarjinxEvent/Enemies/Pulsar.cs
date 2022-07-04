@@ -62,7 +62,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 				for (int i = 0; i < 3; ++i)
 				{
 					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Pulsar/Pulsar" + (i + 1)).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Pulsar" + (i + 1)).Type, 1f);
 				}
 			}
 		}

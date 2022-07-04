@@ -83,7 +83,7 @@ namespace SpiritMod.NPCs.BlazingRattler
 				SoundEngine.PlaySound(SoundID.Item74, NPC.Center);
 
 				for (int i = 1; i < 8; ++i)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Rattler/Rattler" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Rattler" + i).Type, 1f);
 
 				Vector2 dir = new Vector2(Main.rand.NextFloat(4, 5)).RotatedByRandom(MathHelper.TwoPi);
 				bool expertMode = Main.expertMode;
@@ -117,7 +117,7 @@ namespace SpiritMod.NPCs.BlazingRattler
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("NPCs/BlazingRattler/BlazingRattler_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/BlazingRattler/BlazingRattler_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 
 		public override void FindFrame(int frameHeight)
 		{

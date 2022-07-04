@@ -15,7 +15,7 @@ namespace SpiritMod.Effects.Waters
 
 		public override void LightColorMultiplier(ref float r, ref float g, ref float b)
 		{
-			const float Multiplier = 1.06f;
+			const float Multiplier = 0.96f;
 
 			r = Multiplier;
 			g = Multiplier;

@@ -9,7 +9,7 @@ namespace SpiritMod.Biomes
 		{
 			scale *= .45f;
 			b -= 120;
-			return ModContent.GetModBackgroundSlot("SpiritMod/Biomes/Assets/SynthwaveBackground");
+			return ModContent.GetModBackgroundSlot("SpiritMod/Backgrounds/SynthwaveBackground");
 		}
 
 		public override void ModifyFarFades(float[] fades, float transitionSpeed)

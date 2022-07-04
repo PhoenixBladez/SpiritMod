@@ -201,7 +201,7 @@ namespace SpiritMod.NPCs.BlazingSkull
 		public override void OnKill()
 		{
 			for (int i = 1; i <= 2; i++)
-				Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/WrathfulSoul/wrathfulskullgore" + i.ToString()).Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, Mod.Find<ModGore>("wrathfulskullgore" + i).Type);
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CarvedRock>(), 1, 2, 3));

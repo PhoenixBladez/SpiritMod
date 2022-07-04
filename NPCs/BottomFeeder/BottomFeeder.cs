@@ -111,13 +111,12 @@ namespace SpiritMod.NPCs.BottomFeeder
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("SpiritMod/Gores/FeederGore").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("SpiritMod/Gores/FeederGore1").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("SpiritMod/Gores/FeederGore1").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("SpiritMod/Gores/FeederGore2").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("SpiritMod/Gores/FeederGore2").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("SpiritMod/Gores/FeederGore2").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("SpiritMod/Gores/FeederGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("FeederGore").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("FeederGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("FeederGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("FeederGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("FeederGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 1.11f, Mod.Find<ModGore>("FeederGore2").Type, 1f);
 			}
 		}
 	}

@@ -191,7 +191,7 @@ namespace SpiritMod.NPCs.Mechromancer
 		{
 			if (NPC.life <= 0)
 				for (int i = 1; i < 7; ++i)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Mech" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Mech" + i).Type, 1f);
 		}
 
 		public override void FindFrame(int frameHeight)

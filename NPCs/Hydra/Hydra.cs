@@ -395,15 +395,15 @@ namespace SpiritMod.NPCs.Hydra
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			LeadingConditionRule greenCondition = new LeadingConditionRule(new DropRuleConditions.NPCConditional("[Acid Hydra]", (npc) => CheckHeadColor(npc, HeadColor.Green)));
+			LeadingConditionRule greenCondition = new LeadingConditionRule(new DropRuleConditions.NPCConditional("From venomous heads", (npc) => CheckHeadColor(npc, HeadColor.Green)));
 			greenCondition.OnSuccess(ItemDropRule.Common(ItemID.PoisonStaff, 50));
-			greenCondition.OnSuccess(ItemDropRule.Common(ModContent.ItemType<HydraMaskAcid>(), 33));
+			greenCondition.OnSuccess(ItemDropRule.Common(ModContent.ItemType<HydraMaskVenom>(), 33));
 
-			LeadingConditionRule redCondition = new LeadingConditionRule(new DropRuleConditions.NPCConditional("[Flame Hydra]", (npc) => CheckHeadColor(npc, HeadColor.Red)));
+			LeadingConditionRule redCondition = new LeadingConditionRule(new DropRuleConditions.NPCConditional("From flaming heads", (npc) => CheckHeadColor(npc, HeadColor.Red)));
 			redCondition.OnSuccess(ItemDropRule.Common(ItemID.MagmaStone, 50));
 			redCondition.OnSuccess(ItemDropRule.Common(ModContent.ItemType<HydraMaskFire>(), 33));
 
-			LeadingConditionRule purpleCondition = new LeadingConditionRule(new DropRuleConditions.NPCConditional("[Acid Hydra]", (npc) => CheckHeadColor(npc, HeadColor.Purple)));
+			LeadingConditionRule purpleCondition = new LeadingConditionRule(new DropRuleConditions.NPCConditional("From acidic heads", (npc) => CheckHeadColor(npc, HeadColor.Purple)));
 			purpleCondition.OnSuccess(ItemDropRule.Common(ItemID.VialofVenom, 3, 1, 3));
 			purpleCondition.OnSuccess(ItemDropRule.Common(ModContent.ItemType<HydraMaskAcid>(), 33));
 
@@ -420,7 +420,7 @@ namespace SpiritMod.NPCs.Hydra
 			string headGore = GetColor() + "HydraHead";
 			string neckGore = GetColor() + "HydraNeck";
 
-			Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Hydra/" + headGore).Type, 1f);
+			Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>(headGore).Type, 1f);
 
 			float goreRotation = NPC.rotation - (NPC.direction == -1 ? 3.14f : 0);
 
@@ -430,7 +430,7 @@ namespace SpiritMod.NPCs.Hydra
 			for (int i = 1; i < numPoints; i++)
 			{
 				Vector2 position = chainPositions[i];
-				Gore.NewGore(NPC.GetSource_Death(), position, Vector2.Zero, Mod.Find<ModGore>("SpiritMod/Gores/Hydra/" + neckGore).Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), position, Vector2.Zero, Mod.Find<ModGore>(neckGore).Type, 1f);
 			}
 		}
 

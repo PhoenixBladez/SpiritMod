@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 			return false;
 		}
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, ModContent.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1) + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, rotation, scale);
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, rotation, scale);
 	}
 
 	[AutoloadMinionBuff("Locusts", "Bringer of a plague")]
@@ -308,7 +308,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.LocustCrook
 
 			for (int j = 1; j <= 3; j++)
 			{
-				Gore gore = Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("SpiritMod/Gores/LocustCrook/SmallLocustGore" + j.ToString()).Type);
+				Gore gore = Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("LocustCrook/SmallLocustGore" + j.ToString()).Type);
 				gore.timeLeft = 20;
 			}
 		}

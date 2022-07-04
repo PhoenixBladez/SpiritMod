@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs.CavernBandit
 			SoundEngine.PlaySound(SoundID.NPCHit4, NPC.Center);
 			if (NPC.life <= 0) 
 				for(int i = 1; i <= 4; i++)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>($"Gores/CavernBanditGore{i}").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>($"CavernBanditGore{i}").Type, 1f);
 
 			for (int k = 0; k < 7; k++) {
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Iron, 2.5f * hitDirection, -2.5f, 0, default, 1.2f);

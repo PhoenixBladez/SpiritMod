@@ -6,7 +6,6 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
-using Terraria.DataStructures;
 using System.IO;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
@@ -47,7 +46,6 @@ namespace SpiritMod.NPCs.AntlionAssassin
 
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
-			// We can use AddRange instead of calling Add multiple times in order to add multiple items at once
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
 				new FlavorTextBestiaryInfoElement("These desert scavengers are lone wolves. They hunt antlions not to survive – but for sport, to establish dominance among their tribe."),
@@ -180,14 +178,13 @@ namespace SpiritMod.NPCs.AntlionAssassin
 			if (NPC.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			Vector2 vector2_3 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
-			Microsoft.Xna.Framework.Color color12 = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));
-			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/AntlionAssassin/AntlionAssassin_Glow").Value, new Vector2((float)((double)NPC.position.X - (double)Main.screenPosition.X + (double)(NPC.width / 2) - (double)TextureAssets.Npc[NPC.type].Value.Width * (double)NPC.scale / 2.0 + (double)vector2_3.X * (double)NPC.scale), (float)((double)NPC.position.Y - (double)Main.screenPosition.Y + (double)NPC.height - (double)TextureAssets.Npc[NPC.type].Value.Height * (double)NPC.scale / (double)Main.npcFrameCount[NPC.type] + 4.0 + (double)vector2_3.Y * (double)NPC.scale)), new Microsoft.Xna.Framework.Rectangle?(NPC.frame), Microsoft.Xna.Framework.Color.White * .85f, NPC.rotation, vector2_3, NPC.scale, spriteEffects, 0.0f);
+			Main.EntitySpriteDraw(Mod.Assets.Request<Texture2D>("NPCs/AntlionAssassin/AntlionAssassin_Glow").Value, new Vector2((float)(NPC.position.X - Main.screenPosition.X + (NPC.width / 2) - TextureAssets.Npc[NPC.type].Value.Width * (double)NPC.scale / 2.0 + (double)vector2_3.X * (double)NPC.scale), (float)((double)NPC.position.Y - (double)Main.screenPosition.Y + (double)NPC.height - (double)TextureAssets.Npc[NPC.type].Value.Height * (double)NPC.scale / (double)Main.npcFrameCount[NPC.type] + 4.0 + (double)vector2_3.Y * (double)NPC.scale)), new Microsoft.Xna.Framework.Rectangle?(NPC.frame), Microsoft.Xna.Framework.Color.White * .85f, NPC.rotation, vector2_3, NPC.scale, spriteEffects, 0);
 			if (NPC.velocity.Y != 0f)
 			{
 				for (int index = 1; index < 10; ++index)
 				{
-					Microsoft.Xna.Framework.Color color2 = new Color(255 - index * 10, 110 - index * 10, 110 - index * 10, 110 - index * 10);
-					Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/AntlionAssassin/AntlionAssassin_Glow").Value, new Vector2((float)((double)NPC.position.X - (double)Main.screenPosition.X + (double)(NPC.width / 2) - (double)TextureAssets.Npc[NPC.type].Value.Width * (double)NPC.scale / 2.0 + (double)vector2_3.X * (double)NPC.scale), (float)((double)NPC.position.Y - (double)Main.screenPosition.Y + (double)NPC.height - (double)TextureAssets.Npc[NPC.type].Value.Height * (double)NPC.scale / (double)Main.npcFrameCount[NPC.type] + 4.0 + (double)vector2_3.Y * (double)NPC.scale)) - NPC.velocity * (float)index * 0.5f, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color2, NPC.rotation, vector2_3, NPC.scale, spriteEffects, 0.0f);
+					Color color2 = new Color(255 - index * 10, 110 - index * 10, 110 - index * 10, 110 - index * 10);
+					Main.EntitySpriteDraw(Mod.Assets.Request<Texture2D>("NPCs/AntlionAssassin/AntlionAssassin_Glow").Value, new Vector2((float)(NPC.position.X - Main.screenPosition.X + (NPC.width / 2) - TextureAssets.Npc[NPC.type].Value.Width * (double)NPC.scale / 2.0 + (double)vector2_3.X * (double)NPC.scale), (float)((double)NPC.position.Y - (double)Main.screenPosition.Y + (double)NPC.height - (double)TextureAssets.Npc[NPC.type].Value.Height * (double)NPC.scale / (double)Main.npcFrameCount[NPC.type] + 4.0 + (double)vector2_3.Y * (double)NPC.scale)) - NPC.velocity * (float)index * 0.5f, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color2, NPC.rotation, vector2_3, NPC.scale, spriteEffects, 0);
 				}
 			}
 		}

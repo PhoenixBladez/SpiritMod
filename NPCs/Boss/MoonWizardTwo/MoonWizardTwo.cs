@@ -452,7 +452,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			}
 			if (preAttackCounter == teleportValue)
 			{
-				Gore.NewGore(NPC.GetSource_FromAI(), new Vector2(NPC.Center.X, NPC.Center.Y - 50), new Vector2(0, 3), Mod.Find<ModGore>("SpiritMod/Gores/WizardHat_Gore").Type);
+				Gore.NewGore(NPC.GetSource_FromAI(), new Vector2(NPC.Center.X, NPC.Center.Y - 50), new Vector2(0, 3), Mod.Find<ModGore>("WizardHat_Gore").Type);
 				NPC.hide = true;
 				NPC.immortal = true;
 				return false;

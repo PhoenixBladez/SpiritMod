@@ -232,8 +232,8 @@ namespace SpiritMod.NPCs.StymphalianBat
 				for (int i = 0; i < 3; ++i)
 					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
 				for (int i = 1; i < 4; ++i)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/StymphalianBat/StymphalianBat" + i).Type, 1f);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/StymphalianBat/StymphalianBat1").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("StymphalianBat" + i).Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("StymphalianBat1").Type, 1f);
             }
         }
 

@@ -5,9 +5,9 @@ namespace SpiritMod.Biomes
 {
 	public class SpiritSurfaceBgStyle : ModSurfaceBackgroundStyle
 	{
-		public override int ChooseFarTexture() => BackgroundTextureLoader.GetBackgroundSlot(Mod, "Biomes/Assets/SpiritBiomeSurfaceFar");
-		public override int ChooseMiddleTexture() => BackgroundTextureLoader.GetBackgroundSlot(Mod, "Biomes/Assets/SpiritBiomeSurfaceMid");
-		public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b) => BackgroundTextureLoader.GetBackgroundSlot(Mod, "Biomes/Assets/SpiritBiomeSurfaceClose");
+		public override int ChooseFarTexture() => BackgroundTextureLoader.GetBackgroundSlot(Mod, "Backgrounds/SpiritBiomeSurfaceFar");
+		public override int ChooseMiddleTexture() => BackgroundTextureLoader.GetBackgroundSlot(Mod, "Backgrounds/SpiritBiomeSurfaceMid");
+		public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b) => BackgroundTextureLoader.GetBackgroundSlot(Mod, "Backgrounds/SpiritBiomeSurfaceClose");
 
 		public override void ModifyFarFades(float[] fades, float transitionSpeed)
 		{

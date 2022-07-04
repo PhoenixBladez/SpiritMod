@@ -66,7 +66,7 @@ namespace SpiritMod.NPCs.HellEater
 				SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
 
 				for(int i = 1; i <= 3; i++) {
-					Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/GluttonousDevourer/DevourerGore" + i).Type);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, Mod.Find<ModGore>("DevourerGore" + i).Type);
 				}
             }
 		}

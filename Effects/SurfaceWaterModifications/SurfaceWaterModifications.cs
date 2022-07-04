@@ -31,8 +31,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			if (ModContent.GetInstance<SpiritClientConfig>().SurfaceWaterTransparency)
 			{
 				IL.Terraria.Main.DoDraw += AddWaterShader; //Transparency shader
-				IL.Terraria.Main.DrawTiles += Main_DrawTiles; //Liquid slope fix (tentative)
-				IL.Terraria.Main.DrawBlack += Main_DrawBlack; //^^
+				//IL.Terraria.Main.DrawTiles += Main_DrawTiles; //Liquid slope fix (tentative)
+				//IL.Terraria.Main.DrawBlack += Main_DrawBlack; //^^
 			}
 
 			IL.Terraria.GameContent.Shaders.WaterShaderData.QueueRipple_Vector2_Color_Vector2_RippleShape_float += IncreaseRippleSize; //Makes ripple bigger
@@ -40,8 +40,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 			if (!Main.dedServ)
 			{
-				transparencyEffect = ModContent.Request<Effect>("Effects/SurfaceWaterModifications/SurfaceWaterFX", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-				rippleTex = ModContent.Request<Texture2D>("Images/Misc/Ripples", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				transparencyEffect = ModContent.Request<Effect>("SpiritMod/Effects/SurfaceWaterModifications/SurfaceWaterFX", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				rippleTex = ModContent.Request<Texture2D>("Terraria/Images/Misc/Ripples", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			}
 		}
 
@@ -248,7 +248,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		private static void SetShader(bool back)
 		{
-			transparencyEffect = ModContent.Request<Effect>("Effects/SurfaceWaterModifications/SurfaceWaterFX", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			transparencyEffect = ModContent.Request<Effect>("SpiritMod/Effects/SurfaceWaterModifications/SurfaceWaterFX", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			transparencyEffect.Parameters["transparency"].SetValue(GetTransparency());
 
 			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, transparencyEffect, Main.GameViewMatrix.ZoomMatrix);

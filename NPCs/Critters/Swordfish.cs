@@ -44,7 +44,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/SwordfishGore").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SwordfishGore").Type);
 			}
 			for (int k = 0; k < 5; k++)
 			{

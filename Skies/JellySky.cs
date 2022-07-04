@@ -278,15 +278,15 @@ namespace SpiritMod.Skies
             for (int j = 0; j < num2; j++)
             {
                 float num4 = (float)j / (float)num2;
-                this._ufos[j] = new Ufo(ModContent.Request<Texture2D>("Textures/BGJelly", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, (float)Main.rand.NextDouble() * 4f + 6.6f);
-                this._ufos[j].GlowTexture = ModContent.Request<Texture2D>("Textures/BGJellyGlow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+                this._ufos[j] = new Ufo(ModContent.Request<Texture2D>("SpiritMod/Textures/BGJelly", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, (float)Main.rand.NextDouble() * 4f + 6.6f);
+                this._ufos[j].GlowTexture = ModContent.Request<Texture2D>("SpiritMod/Textures/BGJellyGlow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
             }
             for (int i = num2; i < this._ufos.Length; i++)
             {
                 float num5 = (float)(i - num2) / (float)(this._ufos.Length - num2);
-                this._ufos[i] = new Ufo(ModContent.Request<Texture2D>("Textures/BGJelly", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, (float)Main.rand.NextDouble() * 5f + 1.6f);
+                this._ufos[i] = new Ufo(ModContent.Request<Texture2D>("SpiritMod/Textures/BGJelly", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, (float)Main.rand.NextDouble() * 5f + 1.6f);
                 this._ufos[i].Scale = 0.5f;
-                this._ufos[i].GlowTexture = ModContent.Request<Texture2D>("Textures/BGJellyGlow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+                this._ufos[i].GlowTexture = ModContent.Request<Texture2D>("SpiritMod/Textures/BGJellyGlow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
             }
         }
 

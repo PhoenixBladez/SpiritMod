@@ -172,7 +172,7 @@ namespace SpiritMod.NPCs.DungeonCube
 		{
 			if (NPC.life <= 0) 
 				for (int i = 1; i <= 4; i++) 
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/DungeonCube" + CubeColor + "Gore" + i.ToString()).Type);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DungeonCube" + CubeColor + "Gore" + i.ToString()).Type);
 		}
 	}
 }

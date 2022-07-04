@@ -20,10 +20,10 @@ namespace SpiritMod.Items.Consumable
 			Item.maxStack = 99;
 			Item.value = 100000;
 			Item.useStyle = ItemUseStyleID.HoldUp;
-			Item.useTime = Item.useAnimation = 20
+			Item.useTime = Item.useAnimation = 20;
 			Item.noMelee = true;
 			Item.consumable = true;
-			Item.autoReuse = false
+			Item.autoReuse = false;
 			Item.UseSound = SoundID.Item43;
 		}
 

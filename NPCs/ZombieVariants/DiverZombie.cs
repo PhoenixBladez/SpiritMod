@@ -40,7 +40,7 @@ namespace SpiritMod.NPCs.ZombieVariants
 			if (NPC.life <= 0)
 			{
 				for (int i = 1; i < 4; ++i)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/DiverZombie/DiverZombie" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DiverZombie" + i).Type, 1f);
 			}
 		}
 

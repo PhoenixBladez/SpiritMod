@@ -181,7 +181,7 @@ namespace SpiritMod.NPCs.Cystal
 			if (NPC.life <= 0)
 			{
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/CystalGore" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("CystalGore" + i).Type, 1f);
 
 				Player player = Main.player[NPC.target];
 				Filters.Scene.Deactivate("CystalTower", player.position);

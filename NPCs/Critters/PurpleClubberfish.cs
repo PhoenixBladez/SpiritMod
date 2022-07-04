@@ -45,7 +45,7 @@ namespace SpiritMod.NPCs.Critters
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/PurpleClubberfishGore").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("PurpleClubberfishGore").Type, 1f);
 			}
 			for (int k = 0; k < 11; k++) {
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CorruptPlants, NPC.direction, -1f, 1, default, .61f);

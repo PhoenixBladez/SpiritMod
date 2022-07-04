@@ -205,16 +205,16 @@ namespace SpiritMod.NPCs.Masticator
 			}
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Teratoma/Teratoma1").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Teratoma/Teratoma2").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Teratoma/Teratoma3").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Teratoma/Teratoma4").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Teratoma/Teratoma5").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Teratoma/Teratoma6").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Teratoma/Teratoma7").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Teratoma/Teratoma5").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Teratoma/Teratoma6").Type, Main.rand.NextFloat(.85f, 1.1f));
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Teratoma/Teratoma7").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Teratoma1").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Teratoma2").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Teratoma3").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Teratoma4").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Teratoma5").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Teratoma6").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Teratoma7").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Teratoma5").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Teratoma6").Type, Main.rand.NextFloat(.85f, 1.1f));
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Teratoma7").Type, Main.rand.NextFloat(.85f, 1.1f));
 			}
 		}
 

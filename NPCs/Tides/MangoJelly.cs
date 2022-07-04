@@ -55,7 +55,7 @@ namespace SpiritMod.NPCs.Tides
 
 			if (NPC.life <= 0)
 				for (int i = 1; i < 7; ++i)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/MangoJelly/MangoJelly" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("MangoJelly" + i).Type, 1f);
 		}
 
 		public override void AI()

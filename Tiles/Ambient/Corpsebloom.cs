@@ -52,7 +52,7 @@ namespace SpiritMod.Tiles.Ambient
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			for(int num = 1; num <= 6; num++)
-				Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), Mod.Find<ModGore>("SpiritMod/Gores/CorpseBloom/CorpseBloom" + num.ToString()).Type, 1f);
+				Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), Mod.Find<ModGore>("CorpseBloom/CorpseBloom" + num.ToString()).Type, 1f);
 		}
 
 		public int cloudtimer;
@@ -76,7 +76,7 @@ namespace SpiritMod.Tiles.Ambient
 
 						cloudtimer = 0;
 						for(int num = 1; num <= 3; num++)
-							Gore.NewGore(new EntitySource_TileUpdate(i, j), new Vector2(num * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), Mod.Find<ModGore>("SpiritMod/Gores/CorpseBloom/Belch" + num.ToString()).Type, 1f);
+							Gore.NewGore(new EntitySource_TileUpdate(i, j), new Vector2(num * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-20, -10)), new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1)), Mod.Find<ModGore>("CorpseBloom/Belch" + num.ToString()).Type, 1f);
 
 						Projectile.NewProjectile(new EntitySource_TileUpdate(i, j), new Vector2(i * 16, j * 16), Vector2.Zero, ModContent.ProjectileType<CorpsebloomExplosion>(), 0, 0f);
 					}

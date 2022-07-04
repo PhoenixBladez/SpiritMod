@@ -100,13 +100,13 @@ namespace SpiritMod.NPCs.ArterialGrasper
 				if (NPC.ai[2] == 30 || NPC.ai[2] == 60 || NPC.ai[2] == 90 || NPC.ai[2] == 120 || NPC.ai[2] == 150)
 				{
 					Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .153f * 1, .028f * 1, 0.055f * 1);
-					SoundEngine.PlaySound(new SoundStyle("SpiritMod/HeartBeatFx"), NPC.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/HeartbeatFx"), NPC.Center);
 				}
 				if (NPC.ai[2] >= 180)
 				{
 					NPC.ai[2] = 0;
 					SoundEngine.PlaySound(SoundID.Item95, NPC.Center);
-					SoundEngine.PlaySound(new SoundStyle("SpiritMod/HeartBeatFx"), NPC.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/HeartbeatFx"), NPC.Center);
 					Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .153f * 1, .028f * 1, 0.055f * 1);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -139,7 +139,7 @@ namespace SpiritMod.NPCs.ArterialGrasper
 					NPC.netUpdate = true;
 					Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .153f * .5f, .028f * .5f, 0.055f * .5f);
 					if (Main.netMode != NetmodeID.Server)
-						SoundEngine.PlaySound(new SoundStyle("SpiritMod/HeartBeatFx"), NPC.Center);
+						SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/HeartbeatFx"), NPC.Center);
 				}
 			}
 		}
@@ -173,9 +173,9 @@ namespace SpiritMod.NPCs.ArterialGrasper
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Grasper/Grasper1").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Grasper/Grasper2").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Grasper/Grasper3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Grasper1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Grasper2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Grasper3").Type, 1f);
 			}
 		}
 

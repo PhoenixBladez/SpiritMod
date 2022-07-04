@@ -271,9 +271,9 @@ namespace SpiritMod.NPCs.BloodGazer
 			if (Main.netMode != NetmodeID.Server)
 				SoundEngine.PlaySound(SoundID.NPCDeath22, Projectile.Center);
 
-			Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity / 2, Mod.Find<ModGore>("SpiritMod/Gores/Gazer/GazerEye").Type, 1f).timeLeft = 10;
+			Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity / 2, Mod.Find<ModGore>("Gazer/GazerEye").Type, 1f).timeLeft = 10;
 			foreach (var segment in chain.Segments)
-				Gore.NewGoreDirect(Projectile.GetSource_Death(), segment.Vertex2.Position, Projectile.velocity / 2, Mod.Find<ModGore>("SpiritMod/Gores/Gazer/GazerChain").Type, 1f).timeLeft = 10;
+				Gore.NewGoreDirect(Projectile.GetSource_Death(), segment.Vertex2.Position, Projectile.velocity / 2, Mod.Find<ModGore>("Gazer/GazerChain").Type, 1f).timeLeft = 10;
 		}
 	}
 }

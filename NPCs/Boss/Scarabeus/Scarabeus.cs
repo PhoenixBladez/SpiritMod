@@ -1088,7 +1088,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		private void Gores()
 		{
 			for (int i = 1; i <= 7; i++) 
-				Gore.NewGoreDirect(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Scarabeus/Scarab" + i.ToString()).Type, 1f);
+				Gore.NewGoreDirect(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Scarabeus/Scarab" + i.ToString()).Type, 1f);
 
 			NPC.position += NPC.Size / 2;
 			NPC.Size = new Vector2(100, 60);

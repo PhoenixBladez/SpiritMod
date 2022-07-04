@@ -226,7 +226,7 @@ namespace SpiritMod.NPCs.FallingAsteroid
 		{
 			if (NPC.life <= 0)
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/FallenAsteroid/FallenAsteroidGore" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("FallenAsteroidGore" + i).Type, 1f);
 
 			for (int k = 0; k < 7; k++)
 			{

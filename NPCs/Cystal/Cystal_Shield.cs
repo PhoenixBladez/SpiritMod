@@ -130,7 +130,7 @@ namespace SpiritMod.NPCs.Cystal
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Cystal_Shield_Gore_1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Cystal_Shield_Gore_1").Type, 1f);
 				Filters.Scene.Deactivate("CystalTower", Main.player[Main.myPlayer].position);
 				Filters.Scene.Deactivate("CystalBloodMoon", Main.player[Main.myPlayer].position);
 			}

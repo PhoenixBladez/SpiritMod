@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs.GraniteSlime
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("NPCs/GraniteSlime/GraniteSlime_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/GraniteSlime/GraniteSlime_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 
 		public override void AI()
 		{

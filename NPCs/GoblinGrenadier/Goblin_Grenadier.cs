@@ -82,7 +82,7 @@ namespace SpiritMod.NPCs.GoblinGrenadier
 			}
 			if (NPC.life <= 0) //Kill gores
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/GoblinGrenadier/GoblinGrenadierGore" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("GoblinGrenadierGore" + i).Type, 1f);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => SpawnCondition.GoblinArmy.Chance * 0.15f;

@@ -45,7 +45,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				}
 			}
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Scarabeus/LittleScarab4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("LittleScarab4").Type, 1f);
 			}
 		}
 

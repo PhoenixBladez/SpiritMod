@@ -52,7 +52,7 @@ namespace SpiritMod.NPCs.Reach
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			npcLoot.AddCommon(ItemID.GenderChangePotion, 1, 1, 3);
+			npcLoot.AddCommon(ItemID.Gel, 1, 1, 3);
 			npcLoot.AddCommon<AncientBark>(2, 1, 3);
 			npcLoot.AddCommon(ItemID.SlimeStaff, 10000);
 			npcLoot.AddCommon(ItemID.Bezoar, 90);

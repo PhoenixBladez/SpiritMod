@@ -624,11 +624,8 @@ namespace SpiritMod.Items
 				spawnType = ModContent.NPCType<Lardfish>();
 
 			if (spawnType != -1)
-			{
 				NPC.NewNPC(item.GetSource_ItemUse(item), (int)player.Center.X, (int)player.Center.Y, spawnType);
-				return null;
-			}
-			return false;
+			return null;
 		}
 
 		private static readonly Vector2 SlotDimensions = new Vector2(52, 52);

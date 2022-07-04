@@ -15,7 +15,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet
 
 				player.AddBuff(ModContent.BuffType<EleutheriosBuff>(), (int)(healLife / 5f) * 60);
 			}
-			return false;
+			return null;
 		}
 	}
 }
