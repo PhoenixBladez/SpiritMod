@@ -110,7 +110,7 @@ namespace SpiritMod.Items.Weapon.Magic.LuminanceSeacone
 				dust.fadeIn /= 2f;
 				dust.color = new Color((int)r, (int)g, (int)b, (int)byte.MaxValue);
 			}
-			SoundEngine.PlaySound(SoundID.Trackable, (int)Projectile.position.X, (int)Projectile.position.Y, 21, 1f, 0f);
+			SoundEngine.PlaySound(SoundID.Shatter with { Volume = 0.7f}, Projectile.Center);
 		}
 		public override void AI()
 		{

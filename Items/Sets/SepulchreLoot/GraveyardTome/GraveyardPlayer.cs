@@ -1,9 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
@@ -17,15 +15,15 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			if (Player.HeldItem.type != ModContent.ItemType<Graveyard>() || Player.itemAnimation == 0)
 				GraveyardFrame = 0;
 		}
+	}
 
-		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
+	public class GraveyardLayer : PlayerDrawLayer
+	{
+		public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.HeldItem);
+		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
-			if(Player.HeldItem.type == ModContent.ItemType<Graveyard>())
-			{
-				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.Mod == null), new PlayerDrawLayer(Mod.Name, "GraveyardHeld",
-					delegate (PlayerDrawSet info) { DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_held").Value,
-						Mod.Assets.Request<Texture2D>("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_heldGlow").Value, info); }));
-			}
+			if (drawInfo.drawPlayer.HeldItem.type == ModContent.ItemType<Graveyard>())
+				DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_held").Value, Mod.Assets.Request<Texture2D>("Items/Sets/SepulchreLoot/GraveyardTome/Graveyard_heldGlow").Value, drawInfo);
 		}
 
 		public void DrawItem(Texture2D texture, Texture2D glow, PlayerDrawSet info)
@@ -37,7 +35,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			Rectangle drawFrame = texture.Bounds;
 			int numFrames = 5;
 			drawFrame.Height /= numFrames;
-			drawFrame.Y = (drawFrame.Height) * (int)(GraveyardFrame);
+			drawFrame.Y = (drawFrame.Height) * (int)(info.drawPlayer.GetModPlayer<GraveyardPlayer>().GraveyardFrame);
 
 			Vector2 offset = new Vector2(10, texture.Height / (2 * numFrames));
 
@@ -55,7 +53,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 				texture,
 				info.ItemLocation - Main.screenPosition + offset,
 				drawFrame,
-				Lighting.GetColor((int)info.ItemLocation.X/16, (int)info.ItemLocation.Y/16),
+				Lighting.GetColor((int)info.ItemLocation.X / 16, (int)info.ItemLocation.Y / 16),
 				info.drawPlayer.itemRotation,
 				origin,
 				item.scale,

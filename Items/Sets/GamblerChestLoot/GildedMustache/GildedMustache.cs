@@ -10,7 +10,13 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GildedMustache
 	[AutoloadEquip(EquipType.Face)]
 	public class GildedMustache : ModItem
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Gilded Mustache");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Gilded Mustache");
+
+			ArmorIDs.Body.Sets.NeedsToDrawArm[Item.bodySlot] = true;
+		}
+
 		public override void SetDefaults()
 		{
 			Item.width = 40;
@@ -20,8 +26,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GildedMustache
 			Item.accessory = true;
 			Item.vanity = true;
 		}
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-			=> drawHair = true;
+		
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			if (Main.rand.Next(20) == 0)

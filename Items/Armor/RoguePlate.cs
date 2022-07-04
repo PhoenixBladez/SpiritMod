@@ -9,7 +9,10 @@ namespace SpiritMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rogue Plate");
+
+			ArmorIDs.Body.Sets.NeedsToDrawArm[Item.bodySlot] = true;
 		}
+
 		public override void SetDefaults()
 		{
 			Item.width = 30;
@@ -17,10 +20,6 @@ namespace SpiritMod.Items.Armor
 			Item.value = Terraria.Item.buyPrice(0, 0, 20, 0);
 			Item.rare = ItemRarityID.Blue;
 			Item.defense = 2;
-		}
-		public override void DrawHands(ref bool drawHands, ref bool drawArms)
-		{
-			drawHands = true;
 		}
 	}
 }

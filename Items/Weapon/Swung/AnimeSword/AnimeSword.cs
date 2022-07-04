@@ -216,7 +216,7 @@ namespace SpiritMod.Items.Weapon.Swung.AnimeSword
 		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
 			if (drawInfo.drawPlayer.HeldItem.type == ModContent.ItemType<AnimeSword>())
-				DragonPlayer.DrawItem(Mod.Assets.Request<Texture2D>("Items/Weapon/Swung/AnimeSword/AnimeSwordProj").Value, Mod.Assets.Request<Texture2D>("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_sparkle").Value, drawInfo);
+				BladeoftheDragonLayer.DrawItem(Mod.Assets.Request<Texture2D>("Items/Weapon/Swung/AnimeSword/AnimeSwordProj").Value, Mod.Assets.Request<Texture2D>("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_sparkle").Value, drawInfo);
 		}
 	}
 }

@@ -10,6 +10,7 @@ namespace SpiritMod.Biomes
 		//public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("SpiritMod/Effects/Waters/Spirit/SpiritWaterStyle");
 		public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("SpiritMod/Biomes/SynthwaveBGStyle");
 		public override CaptureBiome.TileColorStyle TileColorStyle => CaptureBiome.TileColorStyle.Mushroom;
+		public override SceneEffectPriority Priority => SceneEffectPriority.BiomeLow;
 
 		public override int Music => MusicLoader.GetMusicSlot(Mod, Main.dayTime ? "Sounds/Music/NeonTech1" : "Sounds/Music/NeonTech");
 

@@ -82,7 +82,7 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 			}
 
 			if (NPC.ai[1] == 281)
-				SoundEngine.PlaySound(SoundID.Trackable, (int)NPC.position.X, (int)NPC.position.Y, 143, 1f, -0.9f);
+				SoundEngine.PlaySound(SoundID.DD2_OgreGroundPound, NPC.Center);
 
 			if (NPC.ai[1] >= 321)
 			{

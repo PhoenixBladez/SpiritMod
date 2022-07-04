@@ -11,7 +11,10 @@ namespace SpiritMod.Items.Armor.LeatherArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Marksman's Plate");
+
+			ArmorIDs.Body.Sets.NeedsToDrawArm[Item.bodySlot] = true;
 		}
+
 		public override void SetDefaults()
 		{
 			Item.width = 30;
@@ -20,10 +23,7 @@ namespace SpiritMod.Items.Armor.LeatherArmor
 			Item.rare = ItemRarityID.Blue;
 			Item.defense = 2;
 		}
-		public override void DrawHands(ref bool drawHands, ref bool drawArms)
-		{
-			drawHands = true;
-		}
+		
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();

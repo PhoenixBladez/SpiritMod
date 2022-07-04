@@ -140,7 +140,7 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 			{
 				if (boulderTimer == 300)
 				{
-					SoundEngine.PlaySound(SoundID.Trackable, (int)NPC.position.X, (int)NPC.position.Y, 180, 1f, -0.9f);
+					SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
 				}
 				NPC.aiStyle = -1;
 				NPC.velocity.X = 0f;

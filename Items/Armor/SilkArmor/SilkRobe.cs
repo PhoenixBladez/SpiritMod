@@ -7,12 +7,12 @@ namespace SpiritMod.Items.Armor.SilkArmor
 	[AutoloadEquip(EquipType.Body)]
 	public class SilkRobe : ModItem
 	{
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Manasilk Robe");
 			Tooltip.SetDefault("Increases minion damage by 1");
 
+			ArmorIDs.Body.Sets.NeedsToDrawArm[Item.bodySlot] = true;
 		}
 
 		public override void SetDefaults()
@@ -23,10 +23,7 @@ namespace SpiritMod.Items.Armor.SilkArmor
 			Item.rare = ItemRarityID.Blue;
 			Item.defense = 2;
 		}
-		public override void DrawHands(ref bool drawHands, ref bool drawArms)
-		{
-			drawHands = true;
-		}
+
 		public override void UpdateEquip(Player player)
 		{
             player.GetSpiritPlayer().silkenRobe = true;

@@ -83,10 +83,10 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			canhitplayer = false; //default to being unable to hit the player at the start of each tick, overrided depending on attack pattern
 
 			if (Main.netMode != NetmodeID.Server) {
-				if (frame >= 18 && frame < 21)
-					SpiritMod.scarabWings.SetTo(Main.ambientVolume * MathHelper.Clamp((800 - NPC.Distance(Main.LocalPlayer.Center)) / 400f, 0, 1));
-				else
-					SpiritMod.scarabWings.Stop();
+				//if (frame >= 18 && frame < 21)
+				//	SpiritMod.scarabWings.SetTo(Main.ambientVolume * MathHelper.Clamp((800 - NPC.Distance(Main.LocalPlayer.Center)) / 400f, 0, 1));
+				//else
+				//	SpiritMod.scarabWings.Stop();
 			}
 			
 

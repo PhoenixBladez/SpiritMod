@@ -118,7 +118,7 @@ namespace SpiritMod.NPCs.ChestZombie
 					{
 						if (NPC.frameCounter == 25)
 						{
-							SoundEngine.PlaySound(SoundID.Trackable, (int)NPC.position.X, (int)NPC.position.Y, 220, 1f, 0f);
+							SoundEngine.PlaySound(SoundID.NPCHit18, NPC.Center);
 							NPC.velocity.X = 10f * NPC.direction;
 							NPC.velocity.Y = 0f;
 							NPC.netUpdate = true;

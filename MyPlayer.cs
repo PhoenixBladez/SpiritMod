@@ -1750,74 +1750,74 @@ namespace SpiritMod
 			}
 
 			// ambient sounds are client-side only
-			if (!Main.dedServ)
-			{
-				if (!NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()))
-					SpiritMod.scarabWings.Halt();
+			//if (!Main.dedServ) //NEEDSUPDATE
+			//{
+			//	if (!NPC.AnyNPCs(ModContent.NPCType<Scarabeus>()))
+			//		SpiritMod.scarabWings.Halt();
 
-				if (config.AmbientSounds)
-				{
-					if (!Main.dayTime && !Player.ZoneSnow
-						&& Player.ZoneOverworldHeight
-						&& !Main.dayTime
-						&& !Player.ZoneCorrupt
-						&& !Player.ZoneCrimson
-						&& !Player.ZoneJungle
-						&& !Player.ZoneBeach
-						&& !Player.ZoneHallow
-						&& !Player.ZoneDesert
-						&& !Main.raining
-						&& !Main.bloodMoon && !ZoneReach && !ZoneSpirit)
-					{
-						if (Framing.GetTileSafely(x1, y1 + 1).WallType == 0 && Framing.GetTileSafely(x1, y1).WallType == 0)
-							SpiritMod.nighttimeAmbience.SetTo(Main.ambientVolume);
-						else
-							SpiritMod.nighttimeAmbience.Stop();
-					}
-					else
-						SpiritMod.nighttimeAmbience.Stop();
+			//	if (config.AmbientSounds)
+			//	{
+			//		if (!Main.dayTime && !Player.ZoneSnow
+			//			&& Player.ZoneOverworldHeight
+			//			&& !Main.dayTime
+			//			&& !Player.ZoneCorrupt
+			//			&& !Player.ZoneCrimson
+			//			&& !Player.ZoneJungle
+			//			&& !Player.ZoneBeach
+			//			&& !Player.ZoneHallow
+			//			&& !Player.ZoneDesert
+			//			&& !Main.raining
+			//			&& !Main.bloodMoon && !ZoneReach && !ZoneSpirit)
+			//		{
+			//			if (Framing.GetTileSafely(x1, y1 + 1).WallType == 0 && Framing.GetTileSafely(x1, y1).WallType == 0)
+			//				SpiritMod.nighttimeAmbience.SetTo(Main.ambientVolume);
+			//			else
+			//				SpiritMod.nighttimeAmbience.Stop();
+			//		}
+			//		else
+			//			SpiritMod.nighttimeAmbience.Stop();
 
-					if (Player.ZoneBeach && !Player.wet && Player.ZoneDesert && Player.ZoneOverworldHeight)
-						SpiritMod.wavesAmbience.SetTo(Main.ambientVolume);
-					else
-						SpiritMod.wavesAmbience.Stop();
+			//		if (Player.ZoneBeach && !Player.wet && Player.ZoneDesert && Player.ZoneOverworldHeight)
+			//			SpiritMod.wavesAmbience.SetTo(Main.ambientVolume);
+			//		else
+			//			SpiritMod.wavesAmbience.Stop();
 
-					if (Player.ZoneDesert && Player.ZoneOverworldHeight && !Sandstorm.Happening && !Main.raining && !Player.ZoneBeach)
-					{
-						if (Framing.GetTileSafely(x1, y1 + 1).WallType == 0 && Framing.GetTileSafely(x1, y1).WallType == 0)
-							SpiritMod.desertWind.SetTo(Main.ambientVolume);
-						else
-							SpiritMod.desertWind.Stop();
-					}
-					else
-						SpiritMod.desertWind.Stop();
+			//		if (Player.ZoneDesert && Player.ZoneOverworldHeight && !Sandstorm.Happening && !Main.raining && !Player.ZoneBeach)
+			//		{
+			//			if (Framing.GetTileSafely(x1, y1 + 1).WallType == 0 && Framing.GetTileSafely(x1, y1).WallType == 0)
+			//				SpiritMod.desertWind.SetTo(Main.ambientVolume);
+			//			else
+			//				SpiritMod.desertWind.Stop();
+			//		}
+			//		else
+			//			SpiritMod.desertWind.Stop();
 
-					if ((ZoneReach || Player.ZoneJungle) && Player.ZoneOverworldHeight && !Main.raining)
-					{
-						if (Framing.GetTileSafely(x1, y1 + 1).WallType == 0 && Framing.GetTileSafely(x1, y1).WallType == 0)
-							SpiritMod.lightWind.SetTo(Main.ambientVolume);
-						else
-							SpiritMod.lightWind.Stop();
-					}
-					else
-						SpiritMod.lightWind.Stop();
+			//		if ((ZoneReach || Player.ZoneJungle) && Player.ZoneOverworldHeight && !Main.raining)
+			//		{
+			//			if (Framing.GetTileSafely(x1, y1 + 1).WallType == 0 && Framing.GetTileSafely(x1, y1).WallType == 0)
+			//				SpiritMod.lightWind.SetTo(Main.ambientVolume);
+			//			else
+			//				SpiritMod.lightWind.Stop();
+			//		}
+			//		else
+			//			SpiritMod.lightWind.Stop();
 
-					if (Player.ZoneRockLayerHeight)
-						SpiritMod.caveAmbience.SetTo(Main.ambientVolume);
-					else
-						SpiritMod.caveAmbience.Stop();
+			//		if (Player.ZoneRockLayerHeight)
+			//			SpiritMod.caveAmbience.SetTo(Main.ambientVolume);
+			//		else
+			//			SpiritMod.caveAmbience.Stop();
 
-					if (Player.ZoneDungeon || Player.ZoneRockLayerHeight && Framing.GetTileSafely(x1, y1 + 1).WallType == ModContent.WallType<SepulchreWallTile>() && Framing.GetTileSafely(x1, y1).WallType == ModContent.WallType<SepulchreWallTile>())
-						SpiritMod.spookyAmbience.SetTo(Main.ambientVolume);
-					else
-						SpiritMod.spookyAmbience.Stop();
+			//		if (Player.ZoneDungeon || Player.ZoneRockLayerHeight && Framing.GetTileSafely(x1, y1 + 1).WallType == ModContent.WallType<SepulchreWallTile>() && Framing.GetTileSafely(x1, y1).WallType == ModContent.WallType<SepulchreWallTile>())
+			//			SpiritMod.spookyAmbience.SetTo(Main.ambientVolume);
+			//		else
+			//			SpiritMod.spookyAmbience.Stop();
 
-					if (Framing.GetTileSafely(x1, y1 - 1).LiquidAmount == 255 && Framing.GetTileSafely(x1, y1).LiquidAmount == 255 && Player.wet)
-						SpiritMod.underwaterAmbience.SetTo(Main.ambientVolume);
-					else
-						SpiritMod.underwaterAmbience.Stop();
-				}
-			}
+			//		if (Framing.GetTileSafely(x1, y1 - 1).LiquidAmount == 255 && Framing.GetTileSafely(x1, y1).LiquidAmount == 255 && Player.wet)
+			//			SpiritMod.underwaterAmbience.SetTo(Main.ambientVolume);
+			//		else
+			//			SpiritMod.underwaterAmbience.Stop();
+			//	}
+			//}
 
 			if (!Player.ZoneOverworldHeight)
 			{

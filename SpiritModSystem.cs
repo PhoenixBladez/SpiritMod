@@ -1,8 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Mechanics.AutoSell;
+using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.NPCs.AuroraStag;
+using SpiritMod.NPCs.StarjinxEvent;
+using SpiritMod.NPCs.Tides.Tide;
 using SpiritMod.Particles;
+using SpiritMod.Utilities;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.Graphics;
+using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace SpiritMod
 {
@@ -118,14 +130,14 @@ namespace SpiritMod
 
 		public override void PostUpdateInput()
 		{
-			SpiritMod.nighttimeAmbience?.Update();
-			SpiritMod.underwaterAmbience?.Update();
-			SpiritMod.wavesAmbience?.Update();
-			SpiritMod.lightWind?.Update();
-			SpiritMod.desertWind?.Update();
-			SpiritMod.caveAmbience?.Update();
-			SpiritMod.spookyAmbience?.Update();
-			SpiritMod.scarabWings?.Update();
+			//SpiritMod.nighttimeAmbience?.Update(); //NEEDSUPDATE
+			//SpiritMod.underwaterAmbience?.Update();
+			//SpiritMod.wavesAmbience?.Update();
+			//SpiritMod.lightWind?.Update();
+			//SpiritMod.desertWind?.Update();
+			//SpiritMod.caveAmbience?.Update();
+			//SpiritMod.spookyAmbience?.Update();
+			//SpiritMod.scarabWings?.Update();
 		}
 
 		public override void PostUpdateEverything()
@@ -134,6 +146,154 @@ namespace SpiritMod
 			{
 				ParticleHandler.RunRandomSpawnAttempts();
 				ParticleHandler.UpdateAllParticles();
+			}
+		}
+
+		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+		{
+			int inventoryIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
+			if (inventoryIndex != -1)
+			{
+				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
+					"SpiritMod: BookUI",
+					delegate
+					{
+						SpiritMod.QuestHUD.Draw(Main.spriteBatch);
+
+						if (Main.playerInventory && QuestManager.QuestBookUnlocked)
+						{
+							Texture2D bookTexture = ModContent.Request<Texture2D>("UI/QuestUI/Textures/QuestBookInventoryButton", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+							Vector2 bookSize = new Vector2(50, 52);
+							QuestUtils.QuestInvLocation loc = ModContent.GetInstance<SpiritClientConfig>().QuestBookLocation;
+							Vector2 position = Vector2.Zero;
+							switch (loc)
+							{
+								case QuestUtils.QuestInvLocation.Minimap:
+									position = new Vector2(Main.screenWidth - Main.miniMapWidth - bookSize.X * 2.3f, Main.miniMapY + 4);
+
+									if (Main.screenWidth < 900)
+										position.Y -= 60;
+									break;
+								case QuestUtils.QuestInvLocation.Trashcan:
+									position = new Vector2(388, 258);
+									break;
+								case QuestUtils.QuestInvLocation.FarLeft:
+									position = new Vector2(20, 258);
+									break;
+							}
+
+							Rectangle frame = new Rectangle(0, 0, 49, 52);
+							bool hover = false;
+
+							if (Main.MouseScreen.Between(position, position + bookSize))
+							{
+								hover = true;
+								frame.X = 50;
+								Main.LocalPlayer.mouseInterface = true;
+								if (Main.mouseLeft && Main.mouseLeftRelease)
+								{
+									Main.mouseLeftRelease = false;
+									QuestManager.SetBookState(SpiritMod.Instance._questBookToggle = !SpiritMod.Instance._questBookToggle);
+								}
+							}
+
+							if (hover != SpiritMod.Instance._questBookHover)
+							{
+								SpiritMod.Instance._questBookHover = hover;
+								SoundEngine.PlaySound(SoundID.MenuTick);
+							}
+
+							Main.spriteBatch.Draw(bookTexture, position, frame, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+						}
+
+						SpiritMod.Instance.BookUserInterface.Draw(Main.spriteBatch, new GameTime());
+						return true;
+					},
+					InterfaceScaleType.UI)
+				);
+
+				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
+					"SpiritMod: SlotUI",
+					delegate
+					{
+						SpiritMod.Instance.SlotUserInterface.Draw(Main.spriteBatch, new GameTime());
+						return true;
+					},
+					InterfaceScaleType.UI)
+				);
+
+				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
+					"SpiritMod: SellUI",
+					delegate
+					{
+						SpiritMod.Instance.DrawUpdateToggles();
+						if (AutoSellUI.visible)
+						{
+							SpiritMod.Instance.AutoSellUI_INTERFACE.Update(Main._drawInterfaceGameTime);
+							SpiritMod.Instance.AutoSellUI_SHORTCUT.Draw(Main.spriteBatch);
+						}
+						if (Mechanics.AutoSell.Sell_NoValue.Sell_NoValue.visible)
+						{
+							SpiritMod.Instance.SellNoValue_INTERFACE.Update(Main._drawInterfaceGameTime);
+							SpiritMod.Instance.SellNoValue_SHORTCUT.Draw(Main.spriteBatch);
+						}
+						if (Mechanics.AutoSell.Sell_Lock.Sell_Lock.visible)
+						{
+							SpiritMod.Instance.SellLock_INTERFACE.Update(Main._drawInterfaceGameTime);
+							SpiritMod.Instance.SellLock_SHORTCUT.Draw(Main.spriteBatch);
+						}
+						if (Mechanics.AutoSell.Sell_Weapons.Sell_Weapons.visible)
+						{
+							SpiritMod.Instance.SellWeapons_INTERFACE.Update(Main._drawInterfaceGameTime);
+							SpiritMod.Instance.SellWeapons_SHORTCUT.Draw(Main.spriteBatch);
+						}
+						return true;
+					},
+					InterfaceScaleType.UI)
+				);
+
+				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer("SpiritMod: Starjinx UI", delegate
+				{
+					StarjinxUI.DrawStarjinxEventUI(Main.spriteBatch);
+
+					return true;
+				}, InterfaceScaleType.UI));
+			}
+
+			if (TideWorld.TheTide)
+			{
+				int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
+				LegacyGameInterfaceLayer NewLayer = new LegacyGameInterfaceLayer("SpiritMod: Tide UI",
+					delegate
+					{
+						SpiritMod.Instance.DrawEventUI(Main.spriteBatch);
+						return true;
+					},
+					InterfaceScaleType.UI);
+				layers.Insert(index, NewLayer);
+			}
+
+			int mouseIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Item / NPC Head"));
+			if (mouseIndex != -1)
+			{
+				layers.Insert(mouseIndex, new LegacyGameInterfaceLayer(
+					"Spirit: Stag Hover",
+					delegate
+					{
+						Item item = Main.mouseItem.IsAir ? Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem] : Main.mouseItem;
+						AuroraStag auroraStag = Main.LocalPlayer.GetModPlayer<MyPlayer>().hoveredStag;
+
+						if (item.type == ModContent.ItemType<Items.Consumable.Food.IceBerries>() && auroraStag != null && !auroraStag.NPC.immortal && auroraStag.TameAnimationTimer == 0)
+						{
+							Texture2D itemTexture = TextureAssets.Item[item.type].Value;
+							Vector2 itemPos = Main.MouseScreen + Vector2.UnitX * -(itemTexture.Width / 2 + 4);
+							Vector2 origin = new Vector2(itemTexture.Width / 2, 0);
+							Main.spriteBatch.Draw(itemTexture, itemPos, null, Color.White, (float)System.Math.Sin(Main.GlobalTimeWrappedHourly * 1.5f) * 0.2f, origin, 1f, SpriteEffects.None, 0f);
+						}
+						return true;
+					},
+					InterfaceScaleType.UI)
+				);
 			}
 		}
 	}

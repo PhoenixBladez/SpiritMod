@@ -273,16 +273,15 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 			if (!Player.channel)
 				DrawSparkle = false;
 		}
+	}
 
-		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
+	public class BladeoftheDragonLayer : PlayerDrawLayer
+	{
+		public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.HeldItem);
+		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
-			if (Player.HeldItem.type == ModContent.ItemType<BladeOfTheDragon>())
-			{
-				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerDrawLayer(Mod.Name, "BladeOfTheDragonHeld",
-					delegate (PlayerDrawSet info) {
-						DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_held").Value, Mod.Assets.Request<Texture2D>("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_sparkle").Value, info);
-					}));
-			}
+			if (drawInfo.drawPlayer.HeldItem.type == ModContent.ItemType<BladeOfTheDragon>())
+				DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_held").Value, Mod.Assets.Request<Texture2D>("Items/Sets/SwordsMisc/BladeOfTheDragon/BladeOfTheDragon_sparkle").Value, drawInfo);
 		}
 
 		public static void DrawItem(Texture2D texture, Texture2D sparkle, PlayerDrawSet info)

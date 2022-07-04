@@ -3,21 +3,18 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 {
-	public class SagittariusPlayer : ModPlayer
+	public class SagittariusLayer : PlayerDrawLayer
 	{
-		public override void ModifyDrawLayers(List<PlayerDrawLayer> layers)
+		public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.HeldItem);
+
+		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
-			if (Player.HeldItem.type == ModContent.ItemType<Sagittarius>() && false)
-			{
-				layers.Insert(layers.FindIndex(x => x.Name == "HeldItem" && x.mod == "Terraria"), new PlayerDrawLayer(Mod.Name, "SagittariusHeld",
-					delegate (PlayerDrawSet info) { DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_held").Value, 
-						Mod.Assets.Request<Texture2D>("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_heldGlow").Value, info); }));
-			}
+			if (drawInfo.drawPlayer.HeldItem.type == ModContent.ItemType<Sagittarius>())
+				DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_held").Value, Mod.Assets.Request<Texture2D>("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_heldGlow").Value, drawInfo);
 		}
 
 		public void DrawItem(Texture2D texture, Texture2D glow, PlayerDrawSet info)
@@ -48,7 +45,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 				texture,
 				info.ItemLocation - Main.screenPosition + offset,
 				drawFrame,
-				Lighting.GetColor((int)info.ItemLocation.X/16, (int)info.ItemLocation.Y/16),
+				Lighting.GetColor((int)info.ItemLocation.X / 16, (int)info.ItemLocation.Y / 16),
 				info.drawPlayer.itemRotation,
 				origin,
 				item.scale,

@@ -229,24 +229,24 @@ namespace SpiritMod.Utilities
 
 			// to make quest text make the menu tick when you hover over it we need a way to only play it once
 			// so this is just here to call PostUpdate any QuestSnippet objects.
-			int num3 = Main.startChatLine;
-			int num4 = Main.startChatLine + Main.showCount;
-			if (num4 >= Main.numChatLines)
-			{
-				int num5 = Main.numChatLines - 1;
-				Main.numChatLines = num5;
-				num4 = num5;
-				num3 = num4 - Main.showCount;
-			}
-			for (int i = num3; i < num4; i++)
-			{
-				int len = Main.chatLine[i].parsedText.Length;
-				for (int j = 0; j < len; j++)
-				{
-					if (Main.chatLine[i].parsedText[j] is UI.Chat.QuestTagHandler.QuestSnippet snip)
-						snip.PostUpdate();
-				}
-			}
+			//int num3 = Main.startChatLine; //NEEDSUPDATE
+			//int num4 = Main.startChatLine + Main.showCount;
+			//if (num4 >= Main.numChatLines)
+			//{
+			//	int num5 = Main.numChatLines - 1;
+			//	Main.numChatLines = num5;
+			//	num4 = num5;
+			//	num3 = num4 - Main.showCount;
+			//}
+			//for (int i = num3; i < num4; i++)
+			//{
+			//	int len = Main.chatLine[i].parsedText.Length;
+			//	for (int j = 0; j < len; j++)
+			//	{
+			//		if (Main.chatLine[i].parsedText[j] is UI.Chat.QuestTagHandler.QuestSnippet snip)
+			//			snip.PostUpdate();
+			//	}
+			//}
 		}
 
 		private static void AdditiveCalls(On.Terraria.Main.orig_DrawDust orig, Main self)

@@ -10,6 +10,8 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Scarabeus Mask");
+
+			ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
 		}
 
 		public override void SetDefaults()
@@ -20,12 +22,6 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 			Item.value = 3000;
 			Item.rare = ItemRarityID.Blue;
 			Item.vanity = true;
-		}
-
-		public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-		{
-			//drawHair = true;
-			drawAltHair = true;
 		}
 	}
 }

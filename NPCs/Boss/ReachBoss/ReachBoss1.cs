@@ -117,7 +117,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					NPC.ai[0] = 0;
 					CombatText.NewText(new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height), new Color(0, 200, 80, 100), "The Bramble shall consume you...");
 					SoundEngine.PlaySound(SoundID.Grass, NPC.Center);
-					SoundEngine.PlaySound(SoundID.Trackable, (int)NPC.position.X, (int)NPC.position.Y, 39);
+					SoundEngine.PlaySound(SoundID.DD2_WyvernScream, NPC.Center);
                     NPC.ai[3]++;
 					NPC.netUpdate = true;
                 }

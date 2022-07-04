@@ -32,16 +32,14 @@ namespace SpiritMod.NPCs.Cystal
 
 		public override void UpdateBadLifeRegen()
 		{
-			if (crystallization && Player.statLife > 4) {
+			if (crystallization && Player.statLife > 4)
+			{
 				if (Player.lifeRegen > 0)
 					Player.lifeRegen = 0;
 				Player.lifeRegenTime = 0;
 				Player.lifeRegen = Player.lifeRegen - 4;
 			}
-		}
 
-		public override void UpdateBiomeVisuals()
-		{
 			if (!crystallization)
 			{
 				Filters.Scene.Deactivate("CystalTower", Player.position);
@@ -57,7 +55,7 @@ namespace SpiritMod.NPCs.Cystal
 					Main.dust[index].scale = 1.5f;
 					Main.dust[index].noGravity = true;
 					Main.dust[index].velocity *= 1.1f;
-					Main.playerDrawDust.Add(index);
+					drawInfo.DustCache.Add(index);
 				}
 				r *= 0.149f;
 				g *= 0.142f;

@@ -7,7 +7,6 @@ namespace SpiritMod.Tiles.Block
 {
 	public class HalloweenGrass : ModTile
 	{
-
 		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
@@ -52,12 +51,6 @@ namespace SpiritMod.Tiles.Block
 
 			//	}
 			//}
-		}
-
-		public override int SaplingGrowthType(ref int style)
-		{
-			style = 0;
-			return ModContent.TileType<SpookySapling>();
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

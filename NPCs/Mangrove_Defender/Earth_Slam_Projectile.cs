@@ -27,7 +27,7 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 		}
 		public override void AI()
 		{
-			SoundEngine.PlaySound(SoundID.Trackable, (int)Projectile.position.X, (int)Projectile.position.Y, 14, 1f, -0.9f);
+			SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
 			for (int index = 0; index < 30; ++index)
 			{
 				Dust dust = Main.dust[Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 50), Projectile.width, Projectile.height, 7, 0.0f, 0.0f, 0, new Color(), 1.2f)];

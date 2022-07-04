@@ -1,8 +1,10 @@
+using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Glyphs;
 using SpiritMod.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -15,8 +17,6 @@ namespace SpiritMod.NPCs.Town
 	public class RuneWizard : ModNPC
 	{
 		public override string Texture => "SpiritMod/NPCs/Town/RuneWizard";
-
-		public override string[] AltTextures => new string[] { "SpiritMod/NPCs/Town/RuneWizard_Alt_1" };
 
 		public override void SetStaticDefaults()
 		{
@@ -51,11 +51,7 @@ namespace SpiritMod.NPCs.Town
 			return Main.player.Any(x => x.active && x.inventory.Any(y => y.type == ItemType<Glyph>()));
 		}
 
-		public override string TownNPCName()
-		{
-			string[] names = { "Malachai", "Nisarmah", "Moneque", "Tosalah", "Kentremah", "Salqueeh", "Oarno", "Cosimo" };
-			return Main.rand.Next(names);
-		}
+		public override List<string> SetNPCNameList() => new List<string>() { "Malachai", "Nisarmah", "Moneque", "Tosalah", "Kentremah", "Salqueeh", "Oarno", "Cosimo" };
 
 		public override string GetChat()
 		{
@@ -82,17 +78,12 @@ namespace SpiritMod.NPCs.Town
 			return Main.rand.Next(dialogue);
 		}
 
-		public override void SetChatButtons(ref string button, ref string button2)
-		{
-			button = Language.GetTextValue("LegacyInterface.28");
-		}
+		public override void SetChatButtons(ref string button, ref string button2) => button = Language.GetTextValue("LegacyInterface.28");
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
 			if (firstButton)
-			{
 				shop = true;
-			}
 		}
 
 		public override void SetupShop(Chest shop, ref int nextSlot)
@@ -190,5 +181,23 @@ namespace SpiritMod.NPCs.Town
 			multiplier = 14f;
 			randomOffset = 2f;
 		}
+
+		public override ITownNPCProfile TownNPCProfile() => new RuneWizardProfile();
+	}
+
+	public class RuneWizardProfile : ITownNPCProfile
+	{
+		public int RollVariation() => 0;
+		public string GetNameForVariant(NPC npc) => npc.getNewNPCName();
+
+		public ReLogic.Content.Asset<Texture2D> GetTextureNPCShouldUse(NPC npc)
+		{
+			if (npc.altTexture == 1 && !(npc.IsABestiaryIconDummy && !npc.ForcePartyHatOn))
+				return Request<Texture2D>("SpiritMod/NPCs/Town/RuneWizard_Alt_1");
+
+			return Request<Texture2D>("SpiritMod/NPCs/Town/RuneWizard");
+		}
+
+		public int GetHeadTextureIndex(NPC npc) => ModContent.GetModHeadSlot("SpiritMod/NPCs/Town/RuneWizard_Head");
 	}
 }

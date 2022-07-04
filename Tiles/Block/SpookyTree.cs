@@ -18,7 +18,7 @@ namespace SpiritMod.Tiles.Block
 			SpecialGroupMaximumSaturationValue = 1f
 		};
 
-		public override void SetStaticDefaults() => GrowsOnTileId = new int[] {  };
+		public override void SetStaticDefaults() => GrowsOnTileId = new int[] { ModContent.TileType<HalloweenGrass>() };
 		public override int CreateDust() => 1;
 		public override int DropWood() => ItemID.SpookyWood;
 		public override void SetTreeFoliageSettings(Tile tile, ref int xoffset, ref int treeFrame, ref int floorY, ref int topTextureFrameWidth, ref int topTextureFrameHeight) { }

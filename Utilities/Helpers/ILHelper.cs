@@ -34,7 +34,7 @@ namespace SpiritMod.Utilities.Helpers
 				method += " - After";
 
 			//And the storage path
-			string path = Platform.Current.GetStoragePath();
+			string path = Directory.GetCurrentDirectory();
 			path = Path.Combine(path, "Terraria", "ModLoader", "TechMod");
 			Directory.CreateDirectory(path);
 

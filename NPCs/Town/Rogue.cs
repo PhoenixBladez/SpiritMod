@@ -1,9 +1,12 @@
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Armor;
 using SpiritMod.Items.Weapon.Thrown;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -16,8 +19,6 @@ namespace SpiritMod.NPCs.Town
 	public class Rogue : ModNPC
 	{
 		public override string Texture => "SpiritMod/NPCs/Town/Rogue";
-
-		public override string[] AltTextures => new string[] { "SpiritMod/NPCs/Town/Rogue_Alt_1" };
 
 		public override void SetStaticDefaults()
 		{
@@ -55,10 +56,7 @@ namespace SpiritMod.NPCs.Town
 			}
 		}
 
-		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
-		{
-			return Main.player.Any(x => x.active) && !NPC.AnyNPCs(NPCType<Rogue>()) && !NPC.AnyNPCs(NPCType<BoundRogue>());
-		}
+		public override bool CanTownNPCSpawn(int numTownNPCs, int money) => Main.player.Any(x => x.active) && !NPC.AnyNPCs(NPCType<Rogue>()) && !NPC.AnyNPCs(NPCType<BoundRogue>());
 
 		public override List<string> SetNPCNameList() => new List<string>() { "Zane", "Carlos", "Tycho", "Damien", "Shane", "Daryl", "Shepard", "Sly" };
 
@@ -157,5 +155,23 @@ namespace SpiritMod.NPCs.Town
 			multiplier = 13f;
 			randomOffset = 2f;
 		}
+
+		public override ITownNPCProfile TownNPCProfile() => new RogueProfile();
+	}
+
+	public class RogueProfile : ITownNPCProfile
+	{
+		public int RollVariation() => 0;
+		public string GetNameForVariant(NPC npc) => npc.getNewNPCName();
+
+		public Asset<Texture2D> GetTextureNPCShouldUse(NPC npc)
+		{
+			if (npc.altTexture == 1 && !(npc.IsABestiaryIconDummy && !npc.ForcePartyHatOn))
+				return Request<Texture2D>("SpiritMod/NPCs/Town/Rogue_Alt_1");
+
+			return Request<Texture2D>("SpiritMod/NPCs/Town/Rogue");
+		}
+
+		public int GetHeadTextureIndex(NPC npc) => ModContent.GetModHeadSlot("SpiritMod/NPCs/Town/Rogue_Head");
 	}
 }

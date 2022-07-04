@@ -42,7 +42,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			_vignetteActive = true;
 		}
 
-		public override void UpdateBiomeVisuals()
+		public override void PostUpdateMiscEffects()
 		{
 			SpiritMod.vignetteShader.UseColor(_color);
 			SpiritMod.vignetteShader.UseIntensity(_opacity);

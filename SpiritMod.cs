@@ -127,14 +127,14 @@ namespace SpiritMod
 		public UserInterface SellLock_INTERFACE;
 		public UserInterface SellWeapons_INTERFACE;
 
-		public static SoundLooper nighttimeAmbience;
-		public static SoundLooper underwaterAmbience;
-		public static SoundLooper scarabWings;
-		public static SoundLooper wavesAmbience;
-		public static SoundLooper lightWind;
-		public static SoundLooper desertWind;
-		public static SoundLooper caveAmbience;
-		public static SoundLooper spookyAmbience;
+		//public static SoundLooper nighttimeAmbience;
+		//public static SoundLooper underwaterAmbience;
+		//public static SoundLooper scarabWings;
+		//public static SoundLooper wavesAmbience;
+		//public static SoundLooper lightWind;
+		//public static SoundLooper desertWind;
+		//public static SoundLooper caveAmbience;
+		//public static SoundLooper spookyAmbience;
 
 		public static event Action<SpriteViewMatrix> OnModifyTransformMatrix;
 		//public static Dictionary<int, Texture2D> Portraits = new Dictionary<int, Texture2D>(); //Portraits dict - Gabe
@@ -221,33 +221,12 @@ namespace SpiritMod
 				priority = SceneEffectPriority.Event;
 			}
 
-			if (config.NeonBiomeMusic && spirit.ZoneSynthwave)
-			{
-				if (Main.dayTime)
-					music = GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech1");
-				else
-					music = GetSoundSlot(SoundType.Music, "Sounds/Music/NeonTech");
-
-				priority = SceneEffectPriority.BiomeLow;
-			}
-
 			if (priority > SceneEffectPriority.Event)
 				return;
-
-			if (Main.invasionType == 2 && config.FrostLegionMusic && player.ZoneOverworldHeight && Main.invasionProgressNearInvasion)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/FrostLegion");
-				priority = SceneEffectPriority.BossLow;
-			}
 
 			if (priority > SceneEffectPriority.Environment)
 				return;
 
-			if (spirit.ZoneBlueMoon && !Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight))
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/BlueMoon");
-				priority = SceneEffectPriority.Environment;
-			}
 			if (MyWorld.jellySky && !Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight))
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/JellySky");
@@ -270,11 +249,6 @@ namespace SpiritMod
 			{
 				music = GetSoundSlot(SoundType.Music, "Sounds/Music/AuroraSnow");
 				priority = SceneEffectPriority.BiomeHigh;
-			}
-			if (config.MeteorMusic && player.ZoneMeteor && !Main.bloodMoon)
-			{
-				music = GetSoundSlot(SoundType.Music, "Sounds/Music/Meteor");
-				priority = SceneEffectPriority.Environment;
 			}
 
 			if (config.UnderwaterMusic && player.ZoneBeach && !MyWorld.luminousOcean && spirit.isFullySubmerged)
@@ -934,14 +908,14 @@ namespace SpiritMod
 		public override void Unload()
 		{
 			BoonLoader.Unload();
-			nighttimeAmbience = null;
-			underwaterAmbience = null;
-			wavesAmbience = null;
-			desertWind = null;
-			caveAmbience = null;
-			spookyAmbience = null;
-			lightWind = null;
-			scarabWings = null;
+			//nighttimeAmbience = null; //NEEDSUPDATE
+			//underwaterAmbience = null;
+			//wavesAmbience = null;
+			//desertWind = null;
+			//caveAmbience = null;
+			//spookyAmbience = null;
+			//lightWind = null;
+			//scarabWings = null;
 			spiritRNG = null;
 			auroraEffect = null;
 			StarjinxNoise = null;
@@ -1148,14 +1122,14 @@ namespace SpiritMod
 		{
 			if (!Main.dedServ)
 			{
-				nighttimeAmbience = new SoundLooper(this, "Sounds/NighttimeAmbience");
-				underwaterAmbience = new SoundLooper(this, "Sounds/UnderwaterAmbience");
-				wavesAmbience = new SoundLooper(this, "Sounds/WavesAmbience");
-				lightWind = new SoundLooper(this, "Sounds/LightWind");
-				desertWind = new SoundLooper(this, "Sounds/DesertWind");
-				caveAmbience = new SoundLooper(this, "Sounds/CaveAmbience");
-				spookyAmbience = new SoundLooper(this, "Sounds/SpookyAmbience");
-				scarabWings = new SoundLooper(this, "Sounds/BossSFX/Scarab_Wings");
+				//nighttimeAmbience = new SoundLooper(this, "Sounds/NighttimeAmbience"); //NEEDSUPDATE
+				//underwaterAmbience = new SoundLooper(this, "Sounds/UnderwaterAmbience");
+				//wavesAmbience = new SoundLooper(this, "Sounds/WavesAmbience");
+				//lightWind = new SoundLooper(this, "Sounds/LightWind");
+				//desertWind = new SoundLooper(this, "Sounds/DesertWind");
+				//caveAmbience = new SoundLooper(this, "Sounds/CaveAmbience");
+				//spookyAmbience = new SoundLooper(this, "Sounds/SpookyAmbience");
+				//scarabWings = new SoundLooper(this, "Sounds/BossSFX/Scarab_Wings");
 			}
 
 			Items.Glyphs.GlyphBase.InitializeGlyphLookup();
@@ -1192,156 +1166,8 @@ namespace SpiritMod
 			}
 		}
 
-		private bool _questBookHover;
-		private bool _questBookToggle = false;
-
-		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
-		{
-			int inventoryIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
-			if (inventoryIndex != -1)
-			{
-				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
-					"SpiritMod: BookUI",
-					delegate
-					{
-						QuestHUD.Draw(Main.spriteBatch);
-
-						if (Main.playerInventory && QuestManager.QuestBookUnlocked)
-						{
-							Texture2D bookTexture = ModContent.Request<Texture2D>("UI/QuestUI/Textures/QuestBookInventoryButton", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-							Vector2 bookSize = new Vector2(50, 52);
-							QuestUtils.QuestInvLocation loc = ModContent.GetInstance<SpiritClientConfig>().QuestBookLocation;
-							Vector2 position = Vector2.Zero;
-							switch (loc)
-							{
-								case QuestUtils.QuestInvLocation.Minimap:
-									position = new Vector2(Main.screenWidth - Main.miniMapWidth - bookSize.X * 2.3f, Main.miniMapY + 4);
-
-									if (Main.screenWidth < 900)
-										position.Y -= 60;
-									break;
-								case QuestUtils.QuestInvLocation.Trashcan:
-									position = new Vector2(388, 258);
-									break;
-								case QuestUtils.QuestInvLocation.FarLeft:
-									position = new Vector2(20, 258);
-									break;
-							}
-
-							Rectangle frame = new Rectangle(0, 0, 49, 52);
-							bool hover = false;
-
-							if (Main.MouseScreen.Between(position, position + bookSize))
-							{
-								hover = true;
-								frame.X = 50;
-								Main.LocalPlayer.mouseInterface = true;
-								if (Main.mouseLeft && Main.mouseLeftRelease)
-								{
-									Main.mouseLeftRelease = false;
-									QuestManager.SetBookState(_questBookToggle = !_questBookToggle);
-								}
-							}
-
-							if (hover != _questBookHover)
-							{
-								_questBookHover = hover;
-								SoundEngine.PlaySound(SoundID.MenuTick);
-							}
-
-							Main.spriteBatch.Draw(bookTexture, position, frame, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-						}
-
-						BookUserInterface.Draw(Main.spriteBatch, new GameTime());
-						return true;
-					},
-					InterfaceScaleType.UI)
-				);
-
-				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
-					"SpiritMod: SlotUI",
-					delegate
-					{
-						SlotUserInterface.Draw(Main.spriteBatch, new GameTime());
-						return true;
-					},
-					InterfaceScaleType.UI)
-				);
-
-				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer(
-					"SpiritMod: SellUI",
-					delegate
-					{
-						DrawUpdateToggles();
-						if (AutoSellUI.visible)
-						{
-							AutoSellUI_INTERFACE.Update(Main._drawInterfaceGameTime);
-							AutoSellUI_SHORTCUT.Draw(Main.spriteBatch);
-						}
-						if (Mechanics.AutoSell.Sell_NoValue.Sell_NoValue.visible)
-						{
-							SellNoValue_INTERFACE.Update(Main._drawInterfaceGameTime);
-							SellNoValue_SHORTCUT.Draw(Main.spriteBatch);
-						}
-						if (Mechanics.AutoSell.Sell_Lock.Sell_Lock.visible)
-						{
-							SellLock_INTERFACE.Update(Main._drawInterfaceGameTime);
-							SellLock_SHORTCUT.Draw(Main.spriteBatch);
-						}
-						if (Mechanics.AutoSell.Sell_Weapons.Sell_Weapons.visible)
-						{
-							SellWeapons_INTERFACE.Update(Main._drawInterfaceGameTime);
-							SellWeapons_SHORTCUT.Draw(Main.spriteBatch);
-						}
-						return true;
-					},
-					InterfaceScaleType.UI)
-				);
-
-				layers.Insert(inventoryIndex, new LegacyGameInterfaceLayer("SpiritMod: Starjinx UI", delegate 
-				{
-					StarjinxUI.DrawStarjinxEventUI(Main.spriteBatch);
-
-					return true; 
-				}, InterfaceScaleType.UI));
-			}
-
-			if (TideWorld.TheTide)
-			{
-				int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
-				LegacyGameInterfaceLayer NewLayer = new LegacyGameInterfaceLayer("SpiritMod: Tide UI",
-					delegate
-					{
-						DrawEventUI(Main.spriteBatch);
-						return true;
-					},
-					InterfaceScaleType.UI);
-				layers.Insert(index, NewLayer);
-			}
-
-			int mouseIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Item / NPC Head"));
-			if (mouseIndex != -1)
-			{
-				layers.Insert(mouseIndex, new LegacyGameInterfaceLayer(
-					"Spirit: Stag Hover",
-					delegate
-					{
-						Item item = Main.mouseItem.IsAir ? Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem] : Main.mouseItem;
-						AuroraStag auroraStag = Main.LocalPlayer.GetModPlayer<MyPlayer>().hoveredStag;
-
-						if (item.type == ModContent.ItemType<Items.Consumable.Food.IceBerries>() && auroraStag != null && !auroraStag.NPC.immortal && auroraStag.TameAnimationTimer == 0)
-						{
-							Texture2D itemTexture = TextureAssets.Item[item.type].Value;
-							Vector2 itemPos = Main.MouseScreen + Vector2.UnitX * -(itemTexture.Width / 2 + 4);
-							Vector2 origin = new Vector2(itemTexture.Width / 2, 0);
-							Main.spriteBatch.Draw(itemTexture, itemPos, null, Color.White, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 1.5f) * 0.2f, origin, 1f, SpriteEffects.None, 0f);
-						}
-						return true;
-					},
-					InterfaceScaleType.UI)
-				);
-			}
-		}
+		internal bool _questBookHover;
+		internal bool _questBookToggle = false;
 
 		public override void HotKeyPressed(string name)
 		{
