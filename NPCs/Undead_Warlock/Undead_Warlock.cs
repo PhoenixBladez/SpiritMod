@@ -211,9 +211,9 @@ namespace SpiritMod.NPCs.Undead_Warlock
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/UndeadScientist/UndeadScientistGore4").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/UndeadScientist/UndeadScientistGore3").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/UndeadScientist/UndeadScientistGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/UndeadScientist/UndeadScientistGore4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/UndeadScientist/UndeadScientistGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/UndeadScientist/UndeadScientistGore2").Type, 1f);
 				SoundEngine.PlaySound(SoundID.Item9, NPC.Center);
 			}
 			for (int k = 0; k < 7; k++)

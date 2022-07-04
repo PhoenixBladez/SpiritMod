@@ -73,7 +73,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 				SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt with { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);
 
 				for (int i = 1; i < 6; ++i)
-					Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("Gores/SkeletonBrute/SkeletonBruteGore" + i).Type, 1f);
+					Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("SpiritMod/Gores/SkeletonBrute/SkeletonBruteGore" + i).Type, 1f);
 			}
 		}
 

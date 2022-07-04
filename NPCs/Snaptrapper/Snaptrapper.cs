@@ -71,12 +71,12 @@ namespace SpiritMod.NPCs.Snaptrapper
                     Main.gore[a].scale = Main.rand.NextFloat(.5f, 1f);
                 }
 
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Snaptrapper/Snaptrapper1").Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Snaptrapper/Snaptrapper1").Type, 1f);
 
                 for (int k = 0; k < 6; k++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Snaptrapper/Snaptrapper2").Type, Main.rand.NextFloat(.6f, 1f));
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Snaptrapper/Snaptrapper2").Type, Main.rand.NextFloat(.6f, 1f));
                 for (int z = 0; z < 2; z++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Snaptrapper/Snaptrapper3").Type, Main.rand.NextFloat(.8f, 1f));
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Snaptrapper/Snaptrapper3").Type, Main.rand.NextFloat(.8f, 1f));
             }
         }
 

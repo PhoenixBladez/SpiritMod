@@ -220,7 +220,7 @@ namespace SpiritMod.NPCs.Automata
 				}
 
 				for (int i = 1; i < 6; ++i)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AutomataCreeper/AutomataCreeper" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/AutomataCreeper/AutomataCreeper" + i).Type, 1f);
 			}
 		}
 

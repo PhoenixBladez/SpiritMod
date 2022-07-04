@@ -13,7 +13,6 @@ namespace SpiritMod.Items.Consumable
 			Tooltip.SetDefault("'Its shell is quite sturdy'");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = Item.height = 20;
@@ -23,16 +22,15 @@ namespace SpiritMod.Items.Consumable
 			Item.value = Item.sellPrice(0, 0, 2, 0);
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.useTime = Item.useAnimation = 20;
-
 			Item.noMelee = true;
 			Item.consumable = true;
 			Item.autoReuse = true;
-
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+
+		public override bool? UseItem(Player player)
 		{
 			NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Cleft>());
-			return true;
+			return null;
 		}
 	}
 }

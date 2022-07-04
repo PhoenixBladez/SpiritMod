@@ -30,7 +30,7 @@ namespace SpiritMod.Mechanics.Trails
 		public TrailManager(Mod mod)
 		{
 			_trails = new List<BaseTrail>();
-			_effect = ModContent.Request<Effect>("SpiritMod/Effects/trailShaders").Value;
+			_effect = ModContent.Request<Effect>("SpiritMod/Effects/trailShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			Main.QueueMainThreadAction(() =>
 			{

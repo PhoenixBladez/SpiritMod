@@ -31,7 +31,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 
 		public override bool CanUseItem(Player player) => player.GetSpiritPlayer().inMarble;
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			int w = NPC.FindFirstNPC(ModContent.NPCType<Oracle>());
 			if (w != -1)
@@ -45,7 +45,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 				DustHelper.DrawDustImage(new Vector2(player.Center.X, player.Center.Y - 25), ModContent.DustType<Dusts.MarbleDust>(), 0.05f, "SpiritMod/Effects/Glyphs/Glyph" + glyphnum, 1f);
 				SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, player.Center);
 
-				return true;
+				return null;
 			}
 			return false;
 		}

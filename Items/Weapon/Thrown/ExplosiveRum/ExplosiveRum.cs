@@ -73,7 +73,7 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 			SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
 
 			for (int i = 1; i < 5; ++i)
-				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, Mod.Find<ModGore>("Gores/Rum/RumGore" + i).Type, 1f);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, Mod.Find<ModGore>("SpiritMod/Gores/Rum/RumGore" + i).Type, 1f);
 
 			Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<RumExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 

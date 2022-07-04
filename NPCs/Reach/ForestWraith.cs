@@ -158,10 +158,10 @@ namespace SpiritMod.NPCs.Reach
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladeWraith/GladeWraith1").Type);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladeWraith/GladeWraith2").Type);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladeWraith/GladeWraith3").Type);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GladeWraith/GladeWraith4").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/GladeWraith/GladeWraith1").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/GladeWraith/GladeWraith2").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/GladeWraith/GladeWraith3").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/GladeWraith/GladeWraith4").Type);
 
 				NPC.position.X = NPC.position.X + (NPC.width / 2);
 				NPC.position.Y = NPC.position.Y + (NPC.height / 2);

@@ -41,7 +41,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			}
 			SoundEngine.PlaySound(SoundID.NPCDeath16, Projectile.Center);
 			for (int i = 1; i <= 3; i++) {
-				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("Gores/Scarabeus/largescarab" + i.ToString()).Type);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Scarabeus/largescarab" + i.ToString()).Type);
 			}
 		}
 

@@ -39,12 +39,12 @@ namespace SpiritMod.Items.Weapon.Summon
 			return true;
 		}
 		
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			if (player.altFunctionUse == 2) {
 				player.MinionNPCTargetAim(true);
 			}
-			return base.UseItem(player);
+			return null;
 		}
 
 		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback) => position = Main.MouseWorld;

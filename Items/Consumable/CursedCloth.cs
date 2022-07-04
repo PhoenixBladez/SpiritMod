@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Consumable
 			return !NPC.AnyNPCs(ModContent.NPCType<Infernon>()) && !(player.position.Y / 16f < Main.maxTilesY - 200);
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Infernon>());
@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Consumable
 				SpiritMultiplayer.SpawnBossFromClient((byte)player.whoAmI, ModContent.NPCType<Infernon>(), (int)spawnPos.X, (int)spawnPos.Y);
 			}
 			SoundEngine.PlaySound(SoundID.Roar, player.position);
-			return true;
+			return null;
 		}
 
 		public override void AddRecipes()

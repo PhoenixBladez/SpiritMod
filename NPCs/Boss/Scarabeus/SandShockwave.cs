@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				Projectile.alpha = (activetime - Projectile.timeLeft) * (255 / activetime);
 				Projectile.rotation += 0.1f + Projectile.direction;
 				if (Main.rand.Next(4) == 0)
-					Gore.NewGorePerfect(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.Pi / 14) / 2, Mod.Find<ModGore>("Gores/SandBall").Type, Main.rand.NextFloat(0.6f, 0.8f));
+					Gore.NewGorePerfect(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.Pi / 14) / 2, Mod.Find<ModGore>("SandBall").Type, Main.rand.NextFloat(0.6f, 0.8f));
 
 				for (int i = 0; i < 3; i++) {
 					Dust dust = Dust.NewDustPerfect(Projectile.Center + (Vector2.UnitY * 16), Mod.Find<ModDust>("SandDust").Type, Projectile.velocity.RotatedByRandom(MathHelper.Pi / 8) * 0.2f);

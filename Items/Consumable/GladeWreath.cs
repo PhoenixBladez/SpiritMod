@@ -38,11 +38,11 @@ namespace SpiritMod.Items.Consumable
 		}
 
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X, (int)player.Center.Y - 180, ModContent.NPCType<ForestWraith>());
 			SoundEngine.PlaySound(SoundID.Zombie7, player.position);
-			return true;
+			return null;
 		}
 	}
 }

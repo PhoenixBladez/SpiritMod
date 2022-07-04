@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 
 		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<StarjinxMeteorite>());
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			int centreX = Main.rand.Next(Main.maxTilesX * 6, Main.maxTilesX * 10);
 			Vector2 finalPos = GetOpenSpace(centreX, (int)(Main.worldSurface * 0.35f) + 1000);
@@ -46,7 +46,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet
 				NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, id);
 
 			ModContent.GetInstance<StarjinxEventWorld>().SpawnedStarjinx = true;
-			return true;
+			return null;
 		}
 
 		/// <summary>Get an open space for the meteorite to spawn.</summary>

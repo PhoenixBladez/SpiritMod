@@ -42,7 +42,7 @@ namespace SpiritMod.Items.Consumable
 			return true;
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
 				SpiritMod.WriteToPacket(SpiritMod.Instance.GetPacket(), (byte)MessageType.StartTide).Send();
@@ -52,7 +52,7 @@ namespace SpiritMod.Items.Consumable
 				TideWorld.TideWaveIncrease();
 			}
 
-			return true;
+			return null;
 		}
 		public override void AddRecipes()
 		{

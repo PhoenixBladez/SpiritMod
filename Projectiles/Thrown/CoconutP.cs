@@ -53,9 +53,9 @@ namespace SpiritMod.Projectiles.Thrown
 				GoreVel.X = 2f;
 				GoreVel.Y *= -0.2f;
 				SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.Center);
-				Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, GoreVel, Mod.Find<ModGore>("Gores/Coconut/CoconutGore1").Type, 1f);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, GoreVel, Mod.Find<ModGore>("SpiritMod/Gores/Coconut/CoconutGore1").Type, 1f);
 				GoreVel.X = -2f;
-				Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, GoreVel, Mod.Find<ModGore>("Gores/Coconut/CoconutGore2").Type, 1f);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, GoreVel, Mod.Find<ModGore>("SpiritMod/Gores/Coconut/CoconutGore2").Type, 1f);
 			}
 			else {
 				Vector2 GoreVel = Projectile.velocity;
@@ -66,7 +66,7 @@ namespace SpiritMod.Projectiles.Thrown
 					GoreVel.X = 0f;
 				}
 				GoreVel.Y *= -0.2f;
-				int g = Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, GoreVel, Mod.Find<ModGore>("Gores/Coconut/CoconutGore").Type, 1f);
+				int g = Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, GoreVel, Mod.Find<ModGore>("SpiritMod/Gores/Coconut/CoconutGore").Type, 1f);
 				Main.gore[g].timeLeft = 40;
 			}
 		}

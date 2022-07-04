@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Biomes
 {
-	internal class SpiritUndergrundBiome : ModBiome
+	internal class SpiritUndergroundBiome : ModBiome
 	{
 		public override ModUndergroundBackgroundStyle UndergroundBackgroundStyle => ModContent.Find<ModUndergroundBackgroundStyle>("SpiritMod/Biomes/SpiritUgBgStyle");
 

@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
             }
 
             if (Main.rand.Next(50) == 0)
-                Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity / 4, Mod.Find<ModGore>("Gores/StarjinxGore").Type, 0.75f);
+                Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity / 4, Mod.Find<ModGore>("SpiritMod/Gores/StarjinxGore").Type, 0.75f);
 
             if (Projectile.timeLeft < 25 || Projectile.penetrate <= 1)
                 Fadeout();

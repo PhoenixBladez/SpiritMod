@@ -83,7 +83,7 @@ namespace SpiritMod.NPCs.BlazingRattler
 				SoundEngine.PlaySound(SoundID.Item74, NPC.Center);
 
 				for (int i = 1; i < 8; ++i)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Rattler/Rattler" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Rattler/Rattler" + i).Type, 1f);
 
 				Vector2 dir = new Vector2(Main.rand.NextFloat(4, 5)).RotatedByRandom(MathHelper.TwoPi);
 				bool expertMode = Main.expertMode;

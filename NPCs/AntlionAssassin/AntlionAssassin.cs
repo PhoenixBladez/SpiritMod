@@ -10,6 +10,7 @@ using Terraria.DataStructures;
 using System.IO;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.AntlionAssassin
 {
@@ -19,6 +20,12 @@ namespace SpiritMod.NPCs.AntlionAssassin
 		{
 			DisplayName.SetDefault("Antlion Assassin");
 			Main.npcFrameCount[NPC.type] = 6;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Velocity = 1f
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -36,6 +43,15 @@ namespace SpiritMod.NPCs.AntlionAssassin
 			AIType = NPCID.SnowFlinx;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.AntlionAssassinBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			// We can use AddRange instead of calling Add multiple times in order to add multiple items at once
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+				new FlavorTextBestiaryInfoElement("These desert scavengers are lone wolves. They hunt antlions not to survive – but for sport, to establish dominance among their tribe."),
+			});
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -56,10 +72,10 @@ namespace SpiritMod.NPCs.AntlionAssassin
 			if (NPC.life <= 0)
 			{
 				{
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AntlionAssassin/Assassin1").Type, 1f);
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AntlionAssassin/Assassin2").Type, 1f);
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AntlionAssassin/Assassin3").Type, 1f);
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AntlionAssassin/Assassin4").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Assassin1").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Assassin2").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Assassin3").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Assassin4").Type, 1f);
 				}
 				int ing = Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 825);
 				Main.gore[ing].timeLeft = 30;

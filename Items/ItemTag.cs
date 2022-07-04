@@ -15,5 +15,6 @@ namespace SpiritMod.Items
 	public enum ItemTags
 	{
 		Explosive,
+		Unloaded,
 	}
 }

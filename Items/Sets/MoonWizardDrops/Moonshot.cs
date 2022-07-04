@@ -71,7 +71,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 			return true;
 		}
 
-		public override void OnConsumeAmmo(Item item, Player player) => Gore.NewGorePerfect(Item.Source_ShootWithAmmo(player), player.Center, 2 * (-Vector2.UnitY * Main.rand.NextFloat(2, 3) - Vector2.UnitX * player.direction).RotatedByRandom(MathHelper.Pi / 16), Mod.Find<ModGore>("Gores/DrainedLunazoa").Type, Main.rand.NextFloat(0.5f, 0.8f));
+		public override void OnConsumeAmmo(Item item, Player player) => Gore.NewGorePerfect(Item.Source_ShootWithAmmo(player), player.Center, 2 * (-Vector2.UnitY * Main.rand.NextFloat(2, 3) - Vector2.UnitX * player.direction).RotatedByRandom(MathHelper.Pi / 16), Mod.Find<ModGore>("SpiritMod/Gores/DrainedLunazoa").Type, Main.rand.NextFloat(0.5f, 0.8f));
 		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 	}
 }

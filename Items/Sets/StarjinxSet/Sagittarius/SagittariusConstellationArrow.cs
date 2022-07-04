@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 {
 	public class SagittariusConstellationArrow : ModProjectile, ITrailProjectile
 	{
-		public override string Texture => "Terraria/Extra_89";
+		public override string Texture => "Terraria/Images/Extra_89";
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Astral Arrow");
 
 		private const int MaxTimeLeft = 600;

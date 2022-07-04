@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs.Critters
 			SoundEngine.PlaySound(SoundID.DD2_WitherBeastHurt, NPC.Center);
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/RockfishGore").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/RockfishGore").Type, 1f);
 			}
 			for (int k = 0; k < 11; k++)
 			{

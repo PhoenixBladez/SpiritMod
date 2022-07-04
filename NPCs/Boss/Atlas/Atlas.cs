@@ -346,8 +346,8 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			npcLoot.AddCommon<AtlasMask>(7);
 			npcLoot.AddCommon<Trophy8>(10);
 			npcLoot.AddCommon<ArcaneGeyser>(1, 32, 43);
-			npcLoot.AddOneFromOptions(ModContent.ItemType<Mountain>(), ModContent.ItemType<TitanboundBulwark>(), ModContent.ItemType<CragboundStaff>(), ModContent.ItemType<QuakeFist>(), ModContent.ItemType<Earthshatter>());
-			npcLoot.AddCommon(ModContent.ItemType<JackHead>(), ModContent.ItemType<JackBody>(), ModContent.ItemType<JackLegs>());
+			npcLoot.AddOneFromOptions(1, ModContent.ItemType<Mountain>(), ModContent.ItemType<TitanboundBulwark>(), ModContent.ItemType<CragboundStaff>(), ModContent.ItemType<QuakeFist>(), ModContent.ItemType<Earthshatter>());
+			npcLoot.AddOneFromOptions(30, ModContent.ItemType<JackHead>(), ModContent.ItemType<JackBody>(), ModContent.ItemType<JackLegs>());
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)

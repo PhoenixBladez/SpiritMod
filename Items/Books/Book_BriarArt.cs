@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Books
         {
             return new Vector2(-10, 0);
         }
-        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+        public override bool? UseItem(Player player)
         {
 			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
 
@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Books
                 SoundEngine.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.UIBriarArtState());
             }
-            return true;
+            return null;
         }
     }
 }

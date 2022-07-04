@@ -53,8 +53,8 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             }
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DistressJelly/DistressJelly1").Type);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/DistressJelly/DistressJelly2").Type);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/DistressJelly/DistressJelly1").Type);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/DistressJelly/DistressJelly2").Type);
             }
 		}
 		public override void AI()

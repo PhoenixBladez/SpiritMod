@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Equipment
 
 		public override bool CanUseItem(Player player) => player.ZoneDesert;
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			if(Sandstorm.Happening) {
 				Sandstorm.Happening = false;
@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Equipment
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);
 
-			return true;
+			return null;
 		}
 	}
 }

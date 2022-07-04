@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Consumable
 				SpiritMultiplayer.SpawnBossFromClient((byte)player.whoAmI, ModContent.NPCType<Scarabeus>(), (int)spawnPos.X, (int)spawnPos.Y);
 			}
 			SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BossSFX/Scarab_Roar1") with { Volume = 0.3f }, player.position);
-			return true;
+			return null;
 		}
 
 		public override void AddRecipes()

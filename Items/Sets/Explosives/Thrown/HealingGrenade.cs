@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.Explosives.Thrown
 {
-	[ItemTag(ItemTags.Explosive)]
+	[ItemTag(ItemTags.Explosive, ItemTags.Unloaded)]
 	public class HealingGrenade : ModItem
 	{
 		public override bool IsLoadingEnabled(Mod mod) => false;

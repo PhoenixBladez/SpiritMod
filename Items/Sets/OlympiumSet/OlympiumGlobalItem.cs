@@ -6,7 +6,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet
 {
 	class OlympiumGlobalItem : GlobalItem
 	{
-		public override bool? UseItem(Item item, Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Item item, Player player)
 		{
 			if (item.healLife > 0 && player.GetModPlayer<OlympiumPlayer>().eleutherios)
 			{

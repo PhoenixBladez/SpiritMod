@@ -98,8 +98,8 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 			if (counter == 0)
 			{
 				NPC.active = false;
-				Gore.NewGore(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/GoldChestGore4").Type, 1f);
-				Gore.NewGore(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/GoldChestGore5").Type, 1f);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("SpiritMod/Gores/GamblerChests/GoldChestGore4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("SpiritMod/Gores/GamblerChests/GoldChestGore5").Type, 1f);
 				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - new Vector2(0, 30), Vector2.Zero, ProjectileID.DD2ExplosiveTrapT2Explosion, 0, 0, NPC.target);
 				SoundEngine.PlaySound(SoundID.Item14, NPC.Center);
 			}
@@ -235,9 +235,9 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 
 			if (Projectile.timeLeft == 1)
 			{
-				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/GoldChestGore1").Type, 1f);
-				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/GoldChestGore2").Type, 1f);
-				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/GoldChestGore3").Type, 1f);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("SpiritMod/Gores/GamblerChests/GoldChestGore1").Type, 1f);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("SpiritMod/Gores/GamblerChests/GoldChestGore2").Type, 1f);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("SpiritMod/Gores/GamblerChests/GoldChestGore3").Type, 1f);
 			}
 		}
 

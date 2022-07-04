@@ -34,13 +34,13 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			Item.noUseGraphic = true;
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			if (player.HasBuff(ModContent.BuffType<Buffs.AstralMapCooldown>()))
 				return false;		
 			else
 				AstralTeleport(player);
-			return true;
+			return null;
 		}
 
 		private void AstralTeleport(Player player)

@@ -335,13 +335,13 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/VultureMatriarch/VultureMatriarchGore1").Type, 1f);
 				for (int i = 0; i < 2; ++i)
 				{
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore2").Type, 1f);
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore3").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/VultureMatriarch/VultureMatriarchGore2").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/VultureMatriarch/VultureMatriarchGore3").Type, 1f);
 				}
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/VultureMatriarch/VultureMatriarchGore4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/VultureMatriarch/VultureMatriarchGore4").Type, 1f);
 			}
 		}
 

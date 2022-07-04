@@ -82,7 +82,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
 
                     if (Projectile.penetrate == 0)
                         for (int i = 1; i < 3; ++i)
-                            Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, Mod.Find<ModGore>("Gores/CoinGores/CoinHalf" + i).Type, 1f);
+                            Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, Mod.Find<ModGore>("SpiritMod/Gores/CoinGores/CoinHalf" + i).Type, 1f);
                     cooldown = 5;
                 }
             }

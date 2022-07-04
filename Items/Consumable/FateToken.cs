@@ -26,14 +26,14 @@ namespace SpiritMod.Items.Consumable
 			Item.consumable = true;
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			player.AddBuff(ModContent.BuffType<Buffs.FateToken>(), 3600);
 			player.GetSpiritPlayer().fateToken = true;
 			player.GetSpiritPlayer().shootDelay3 = 7200;
 
 			Main.NewText("Fate has blessed you");
-			return true;
+			return null;
 		}
 
 		public override bool CanUseItem(Player player) => player.GetSpiritPlayer().shootDelay3 == 0;

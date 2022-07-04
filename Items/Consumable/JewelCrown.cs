@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<AncientFlyer>()) && (player.ZoneOverworldHeight || player.ZoneSkyHeight);
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			if (player.ZoneOverworldHeight || player.ZoneSkyHeight)
 			{
@@ -55,7 +55,7 @@ namespace SpiritMod.Items.Consumable
 				}
 
 				SoundEngine.PlaySound(SoundID.Roar, player.position);
-				return true;
+				return null;
 			}
 			return false;
 		}

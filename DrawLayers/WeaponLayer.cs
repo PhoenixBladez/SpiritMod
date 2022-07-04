@@ -15,7 +15,7 @@ namespace SpiritMod.DrawLayers
 		{
 			Player drawPlayer = drawInfo.drawPlayer;
 			MyPlayer myPlayer = drawPlayer.GetModPlayer<MyPlayer>();
-			if (drawPlayer.active && !drawPlayer.outOfRange)
+			if (drawPlayer.active && !drawPlayer.outOfRange && false)
 			{
 				Texture2D weaponTexture = TextureAssets.Item[drawPlayer.inventory[drawPlayer.selectedItem].type].Value;
 				Vector2 vector8 = new Vector2(weaponTexture.Width / 2, (weaponTexture.Height / 4) / 2);

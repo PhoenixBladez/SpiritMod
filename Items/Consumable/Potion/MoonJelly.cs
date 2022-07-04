@@ -59,7 +59,7 @@ namespace SpiritMod.Items.Consumable.Potion
 				SpriteEffects.None, 
 				0);
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.healLife = 0; //set item's heal life to 0 when actually used, so it doesnt heal player
 			if (!player.pStone)
@@ -68,7 +68,7 @@ namespace SpiritMod.Items.Consumable.Potion
 				player.AddBuff(BuffID.PotionSickness, 2700);
 
 			player.AddBuff(ModContent.BuffType<MoonBlessing>(), 600);
-			return true;
+			return null;
 		}
 
 		public override void UpdateInventory(Player player) => Item.healLife = 120; //update the heal life back to 120 for tooltip and quick heal purposes

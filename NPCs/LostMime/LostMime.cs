@@ -60,7 +60,7 @@ namespace SpiritMod.NPCs.LostMime
 
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/LostMimeGore").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/LostMimeGore").Type, 1f);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 99);

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.Tiles;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Block
@@ -14,6 +15,8 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlendAll[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
+			Main.tileMerge[TileID.Dirt][Type] = true;
+			Main.tileMerge[Type][TileID.Dirt] = true;
 			//Main.tileLighted[Type] = true;
 			AddMapEntry(new Color(104, 156, 70));
 			ItemDrop = ModContent.ItemType<ReachGrass>();

@@ -57,10 +57,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.Register();
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(0, 7);
-			return base.UseItem(player);
+			return null;
 		}
 	}
 
@@ -77,10 +77,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.Register();
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(7, 13);
-			return base.UseItem(player);
+			return null;
 		}
 	}
 
@@ -141,10 +141,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.Register();
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(22, 24);
-			return base.UseItem(player);
+			return null;
 		}
 	}
 	public class ChestPile : DefaultLargePile1
@@ -195,10 +195,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.Register();
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(26, 32);
-			return true;
+			return null;
 		}
 	}
 	public class MushroomPile : DefaultLargePile1
@@ -217,10 +217,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.Register();
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(32, 35);
-			return base.UseItem(player);
+			return null;
 		}
 	}
 	public class MossStonePile : DefaultLargePile2
@@ -239,10 +239,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.Register();
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(0, 3);
-			return base.UseItem(player);
+			return null;
 		}
 	}
 	public class MossMudPile : DefaultLargePile2
@@ -260,10 +260,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.Register();
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(3, 6);
-			return base.UseItem(player);
+			return null;
 		}
 	}
 	public class HellstonePile : DefaultLargePile2
@@ -282,10 +282,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.Register();
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(6, 9);
-			return base.UseItem(player);
+			return null;
 		}
 	}
 	public class WebPile : DefaultLargePile2
@@ -303,10 +303,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.Register();
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(9, 14);
-			return base.UseItem(player);
+			return null;
 		}
 	}
 	public class GrassStonePile : DefaultLargePile2
@@ -325,10 +325,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.Register();
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(14, 17);
-			return base.UseItem(player);
+			return null;
 		}
 	}
 	public class LihzahrdPile : DefaultLargePile2
@@ -346,10 +346,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.Register();
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(18, 21);
-			return base.UseItem(player);
+			return null;
 		}
 	}
 	public class MahoganyCage : DefaultLargePile2
@@ -482,10 +482,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.Register();
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(29, 35);
-			return base.UseItem(player);
+			return null;
 		}
 	}
 	public class GranitePile : DefaultLargePile2
@@ -503,10 +503,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.Register();
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(35, 41);
-			return base.UseItem(player);
+			return null;
 		}
 	}
 	public class MarblePile : DefaultLargePile2
@@ -524,10 +524,10 @@ namespace SpiritMod.Items.Sets.AmbientObjects
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.Register();
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(41, 47);
-			return base.UseItem(player);
+			return null;
 		}
 	}
 }

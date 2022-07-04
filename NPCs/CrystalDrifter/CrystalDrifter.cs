@@ -131,7 +131,7 @@ namespace SpiritMod.NPCs.CrystalDrifter
 			if (NPC.life <= 0)
 			{
 				for (int i = 1; i < 6; ++i)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Drifter/Drifter" + i).Type, .5f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Drifter/Drifter" + i).Type, .5f);
 
 				SoundEngine.PlaySound(SoundID.NPCHit41, NPC.Center);
 				NPC.position.X = NPC.position.X + (NPC.width / 2);

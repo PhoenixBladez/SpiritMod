@@ -32,11 +32,11 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<ReachBoss>()) && player.GetSpiritPlayer().ZoneReach && !player.ZoneOverworldHeight;
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
         {
             NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ReachBoss>());
             SoundEngine.PlaySound(SoundID.Roar, player.position);
-            return true;
+            return null;
         }
 
         public override void AddRecipes()

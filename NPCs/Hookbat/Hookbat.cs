@@ -180,8 +180,8 @@ namespace SpiritMod.NPCs.Hookbat
             if (NPC.life <= 0)
             {
 				for (int i = 1; i < 4; ++i)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hookbat/Hookbat" + i).Type, 1f);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hookbat/Hookbat1").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Hookbat/Hookbat" + i).Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Hookbat/Hookbat1").Type, 1f);
             }
         }
 

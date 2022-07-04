@@ -327,12 +327,12 @@ namespace SpiritMod.NPCs.DarkfeatherMage
         {
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Darkfeather/DarkfeatherMage3").Type, 1f);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Darkfeather/DarkfeatherMage4").Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Darkfeather/DarkfeatherMage3").Type, 1f);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Darkfeather/DarkfeatherMage4").Type, 1f);
                 for (int k = 0; k < 6; k++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Darkfeather/DarkfeatherMage1").Type, Main.rand.NextFloat(.6f, 1f));
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Darkfeather/DarkfeatherMage1").Type, Main.rand.NextFloat(.6f, 1f));
                 for (int z = 0; z < 2; z++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Darkfeather/DarkfeatherMage2").Type, Main.rand.NextFloat(.8f, 1f));
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Darkfeather/DarkfeatherMage2").Type, Main.rand.NextFloat(.8f, 1f));
             }
         }
 

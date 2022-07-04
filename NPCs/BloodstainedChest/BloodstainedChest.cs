@@ -142,7 +142,7 @@ namespace SpiritMod.NPCs.BloodstainedChest
 			}
 			if (NPC.ai[3] > 120)
 			{
-				Gore.NewGore(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("Gores/GamblerChests/GoldChestGore5").Type, 1f);
+				Gore.NewGore(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * 7, Mod.Find<ModGore>("SpiritMod/Gores/GamblerChests/GoldChestGore5").Type, 1f);
 
 				for (int i = 0; i < 40; i++)
 				{

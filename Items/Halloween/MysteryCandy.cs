@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Halloween
 			Item.UseSound = SoundID.Item2;
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			string line = "";
 			Color color = new Color(127, 255, 127);
@@ -193,7 +193,7 @@ namespace SpiritMod.Items.Halloween
 			if (line != "")
 				Main.NewText(line, color.R, color.G, color.B);
 
-			return true;
+			return null;
 		}
 	}
 }

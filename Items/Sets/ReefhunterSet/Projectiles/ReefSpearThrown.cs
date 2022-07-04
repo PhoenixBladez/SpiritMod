@@ -107,7 +107,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 				if (i >= 4)
 					pos -= Vector2.Normalize(Projectile.oldVelocity) * (15 + (i - 3) * 3);
 
-				Gore g = Gore.NewGorePerfect(Projectile.GetSource_Death(), pos, goreVel, Mod.Find<ModGore>("Gores/Projectiles/ReefTrident/Trident" + i).Type);
+				Gore g = Gore.NewGorePerfect(Projectile.GetSource_Death(), pos, goreVel, Mod.Find<ModGore>("SpiritMod/Gores/Projectiles/ReefTrident/Trident" + i).Type);
 				g.timeLeft = 0;
 				g.rotation = Projectile.rotation;
 			}

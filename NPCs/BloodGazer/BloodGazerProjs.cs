@@ -16,7 +16,7 @@ namespace SpiritMod.NPCs.BloodGazer
 {
 	public class BloodGazerEyeShot : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_1";
+		public override string Texture => "Terraria/Images/Projectile_1";
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Blood Shot");
 
 		public override void SetDefaults()
@@ -54,7 +54,7 @@ namespace SpiritMod.NPCs.BloodGazer
 
 	public class BloodGazerEyeShotWavy : BloodGazerEyeShot
 	{
-		public override string Texture => "Terraria/Projectile_1";
+		public override string Texture => "Terraria/Images/Projectile_1";
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Blood Shot");
 
 		public override bool PreAI()
@@ -199,7 +199,7 @@ namespace SpiritMod.NPCs.BloodGazer
 
 	internal class BrimstoneLaser : StarLaser, ITrailProjectile
 	{
-		public override string Texture => "Terraria/Projectile_1";
+		public override string Texture => "Terraria/Images/Projectile_1";
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Brimstone Laser");
 
@@ -271,9 +271,9 @@ namespace SpiritMod.NPCs.BloodGazer
 			if (Main.netMode != NetmodeID.Server)
 				SoundEngine.PlaySound(SoundID.NPCDeath22, Projectile.Center);
 
-			Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity / 2, Mod.Find<ModGore>("Gores/Gazer/GazerEye").Type, 1f).timeLeft = 10;
+			Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity / 2, Mod.Find<ModGore>("SpiritMod/Gores/Gazer/GazerEye").Type, 1f).timeLeft = 10;
 			foreach (var segment in chain.Segments)
-				Gore.NewGoreDirect(Projectile.GetSource_Death(), segment.Vertex2.Position, Projectile.velocity / 2, Mod.Find<ModGore>("Gores/Gazer/GazerChain").Type, 1f).timeLeft = 10;
+				Gore.NewGoreDirect(Projectile.GetSource_Death(), segment.Vertex2.Position, Projectile.velocity / 2, Mod.Find<ModGore>("SpiritMod/Gores/Gazer/GazerChain").Type, 1f).timeLeft = 10;
 		}
 	}
 }

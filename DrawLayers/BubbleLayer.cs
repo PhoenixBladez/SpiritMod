@@ -17,9 +17,9 @@ namespace SpiritMod.DrawLayers
 				return;
 
 			Player drawPlayer = drawInfo.drawPlayer;
-			if (drawPlayer.active && !drawPlayer.outOfRange)
+			if (drawPlayer.active && !drawPlayer.outOfRange && drawPlayer.GetSpiritPlayer().bubbleTimer > 0)
 			{
-				Texture2D texture = ModContent.Request<Texture2D>("Effects/PlayerVisuals/BubbleShield_Visual", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				Texture2D texture = ModContent.Request<Texture2D>("SpiritMod/Effects/PlayerVisuals/BubbleShield_Visual", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
 
 				Vector2 drawPos = drawPlayer.position + new Vector2(drawPlayer.width * 0.5f, drawPlayer.height * 0.5f);

@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool CanUseItem(Player player) => Main.invasionType != 0;
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			SoundEngine.PlaySound(SoundID.CoinPickup, player.Center);
 			Main.invasionType = 0;
@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Consumable
 				Main.NewText("The invaders have called off their attack!", Color.MediumPurple);
 			else if (Main.netMode == NetmodeID.Server)
 				ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral("The invaders have called off their attack!"), Color.MediumPurple, -1);
-			return true;
+			return null;
 		}
 	}
 }

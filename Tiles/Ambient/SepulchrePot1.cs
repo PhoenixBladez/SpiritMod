@@ -55,7 +55,7 @@ namespace SpiritMod.Tiles.Ambient
 			for (int k = 0; k < 8; k++) {
 				Dust.NewDust(new Vector2(i * 16, j * 16 - 10), 54, 16, DustID.Dirt, 0.0f, -1, 0, new Color(), 0.5f);//Leave this line how it is, it uses int division
 				Dust.NewDust(new Vector2(i * 16, j * 16 - 10), 75, 16, DustID.Dirt, 0.0f, 0, 0, new Color(), 0.5f);//Leave this line how it is, it uses int division		
-				Gore.NewGore(new Terraria.DataStructures.EntitySource_TileBreak(i, j), new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-10, 10)), new Vector2(-1, 1), Mod.Find<ModGore>("Gores/Pot1").Type, 1f);
+				Gore.NewGore(new Terraria.DataStructures.EntitySource_TileBreak(i, j), new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-10, 10)), new Vector2(-1, 1), Mod.Find<ModGore>("SpiritMod/Gores/Pot1").Type, 1f);
 			}
 			int potionitem = Main.rand.Next(new int[] { 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305 });
 			if (Main.rand.Next(10) == 0) {

@@ -41,8 +41,8 @@ namespace SpiritMod.Projectiles
 				Main.dust[dust].scale = 2f;
 				Main.dust[dust].noGravity = true;
 			}
-            Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/Mech7").Type, 1f);
-            Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/Mech8").Type, 1f);
+            Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Mech7").Type, 1f);
+            Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Mech8").Type, 1f);
         }
 		public override bool PreAI()
 		{

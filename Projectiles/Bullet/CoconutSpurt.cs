@@ -27,9 +27,9 @@ namespace SpiritMod.Projectiles.Bullet
 			Vector2 GoreVel = Projectile.velocity;
 			GoreVel.X = 2f;
 			GoreVel.Y *= -0.2f;
-			Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, GoreVel, Mod.Find<ModGore>("Gores/Coconut/CoconutSpurtGore").Type, Projectile.scale);
+			Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, GoreVel, Mod.Find<ModGore>("SpiritMod/Gores/Coconut/CoconutSpurtGore").Type, Projectile.scale);
 			GoreVel.X = -2f;
-			Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, GoreVel, Mod.Find<ModGore>("Gores/Coconut/CoconutSpurtGore").Type, Projectile.scale);
+			Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, GoreVel, Mod.Find<ModGore>("SpiritMod/Gores/Coconut/CoconutSpurtGore").Type, Projectile.scale);
 			SoundEngine.PlaySound(SoundID.NPCHit18, Projectile.Center);
 		}
 	}

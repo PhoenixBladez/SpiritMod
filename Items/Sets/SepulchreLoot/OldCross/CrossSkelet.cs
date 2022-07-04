@@ -129,7 +129,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Poisoned);
 			for(int i = 1; i <= Main.rand.Next(2, 5); i++)
 			{
-				Gore gore = Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity / 2, Mod.Find<ModGore>("Gores/Skelet/skeler" + i).Type);
+				Gore gore = Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity / 2, Mod.Find<ModGore>("SpiritMod/Gores/Skelet/skeler" + i).Type);
 				gore.timeLeft = 40;
 			}
 			SoundEngine.PlaySound(SoundID.NPCDeath2, Projectile.Center);

@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 		private const float OffsetX = 20; //Horizontal offset
 		private const float OffsetY = 20; //Vertical offset
 
-		private static Texture2D EventIcon => ModContent.Request<Texture2D>("Textures/InvasionIcons/Starjinx_Icon", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+		private static Texture2D EventIcon => ModContent.Request<Texture2D>("SpiritMod/Textures/InvasionIcons/Starjinx_Icon", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 		//Array of textures used to draw the comets
 		private static readonly Texture2D[] Comets;
@@ -44,9 +44,9 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			{
 				Comets = new Texture2D[]
 				{
-					ModContent.Request<Texture2D>("Textures/InvasionIcons/Starjinx_CometS", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
-					ModContent.Request<Texture2D>("Textures/InvasionIcons/Starjinx_CometM", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
-					ModContent.Request<Texture2D>("Textures/InvasionIcons/Starjinx_CometL", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value
+					ModContent.Request<Texture2D>("SpiritMod/Textures/InvasionIcons/Starjinx_CometS", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
+					ModContent.Request<Texture2D>("SpiritMod/Textures/InvasionIcons/Starjinx_CometM", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
+					ModContent.Request<Texture2D>("SpiritMod/Textures/InvasionIcons/Starjinx_CometL", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value
 				};
 
 				UiComets = new StarjinxUIComet[]

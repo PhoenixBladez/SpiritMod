@@ -25,10 +25,10 @@ namespace SpiritMod.Items.Consumable
 
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Crinoid>());
-			return true;
+			return null;
 		}
 	}
 }

@@ -594,7 +594,7 @@ namespace SpiritMod.Items
 			}
 		}
 
-		public override bool? UseItem(Item item, Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Item item, Player player)
 		{
 			int spawnType = -1;
 
@@ -626,7 +626,7 @@ namespace SpiritMod.Items
 			if (spawnType != -1)
 			{
 				NPC.NewNPC(item.GetSource_ItemUse(item), (int)player.Center.X, (int)player.Center.Y, spawnType);
-				return true;
+				return null;
 			}
 			return false;
 		}

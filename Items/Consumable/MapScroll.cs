@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Consumable
 			Item.consumable = true;
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			CombatText.NewText(new Rectangle((int)player.position.X, (int)player.position.Y - 10, player.width, player.height), new Color(255, 255, 255, 100), "Map Revealed");
 
@@ -57,7 +57,7 @@ namespace SpiritMod.Items.Consumable
 				Vector2 vector2_3 = vector2_2 * 34f;
 				Main.dust[dust].position = player.Center - vector2_3;
 			}
-			return true;
+			return null;
 		}
 	}
 }

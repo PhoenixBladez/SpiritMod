@@ -18,16 +18,12 @@ namespace SpiritMod.Items.Consumable
 		{
 			Item.width = Item.height = 16;
 			Item.rare = ItemRarityID.Blue;
-
 			Item.maxStack = 99;
-
 			Item.useStyle = ItemUseStyleID.HoldUp;
 			Item.useTime = Item.useAnimation = 20;
-
 			Item.noMelee = true;
 			Item.consumable = true;
 			Item.autoReuse = false;
-
 			Item.UseSound = SoundID.Item43;
 		}
 
@@ -42,13 +38,13 @@ namespace SpiritMod.Items.Consumable
 			return true;
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Main.NewText("The Blood Moon is Rising...", 220, 0, 51);
 			SoundEngine.PlaySound(SoundID.Roar, player.Center);
 			if (!Main.dayTime)
 				Main.bloodMoon = true;
-			return true;
+			return null;
 		}
 
 		public override void AddRecipes()

@@ -12,7 +12,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 {
 	public class WeaverStarChannel : ModProjectile, IDrawAdditive
 	{
-		public override string Texture => "Terraria/Projectile_1";
+		public override string Texture => "Terraria/Images/Projectile_1";
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Star");
 
 		private const int CHANNELTIME = StarWeaverNPC.STARBURST_CHANNELTIME;

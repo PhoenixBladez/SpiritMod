@@ -303,15 +303,15 @@ namespace SpiritMod.NPCs.Pokey
             switch (NPC.frame.Y)
             {
                 case 0:
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/Pokey1_Gore1").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/Pokey1_Gore2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Pokey1_Gore1").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Pokey1_Gore2").Type, 1f);
                     break;
                 case 32:
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/Pokey2_Gore1").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Pokey2_Gore1").Type, 1f);
                     break;
                 case 64:
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/PokeyHead_Gore1").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/PokeyGores/PokeyHead_Gore2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("PokeyHead_Gore1").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("PokeyHead_Gore2").Type, 1f);
                     break;
             }
         }
@@ -321,7 +321,7 @@ namespace SpiritMod.NPCs.Pokey
 			LeadingConditionRule headfulRule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("", (npc) => npc.ModNPC is Pokey_Body body && body.Head.active && Head.life > 0));
 			headfulRule.OnSuccess(ItemDropRule.Common(ItemID.Cactus, 1, 1, 3));
 
-			LeadingConditionRule headlessRule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("Once completely killed", (npc) => npc.ModNPC is Pokey_Body body && Head.life <= 0));
+			LeadingConditionRule headlessRule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("Drops only from the last segment", (npc) => npc.ModNPC is Pokey_Body body && Head.life <= 0));
 			headlessRule.OnSuccess(ItemDropRule.Common(ItemID.CopperCoin, 1, 16, 25));
 			headlessRule.OnSuccess(ItemDropRule.Common(ItemID.PinkPricklyPear));
 

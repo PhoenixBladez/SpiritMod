@@ -97,9 +97,9 @@ namespace SpiritMod.NPCs.GraniteSlime
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
 			npcLoot.Add(ItemDropRule.Common(ItemID.Gel, 1, 2, 3));
-			npcLoot.Add(ItemDropRule.Common(ItemID.Gel, ModContent.ItemType<GraniteChunk>()));
-			npcLoot.Add(ItemDropRule.Common(ItemID.Gel, 1000, ItemID.NightVisionHelmet));
-			npcLoot.Add(ItemDropRule.Common(ItemID.Gel, 10000, ItemID.SlimeStaff));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GraniteChunk>(), 1, 1, 2));
+			npcLoot.Add(ItemDropRule.Common(ItemID.NightVisionHelmet, 1000));
+			npcLoot.Add(ItemDropRule.Common(ItemID.SlimeStaff, 10000));
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => (spawnInfo.SpawnTileType == 368) && NPC.downedBoss2 && spawnInfo.SpawnTileY > Main.rockLayer ? 0.17f : 0f;

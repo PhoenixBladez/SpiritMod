@@ -662,12 +662,12 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				else if (AiTimer <= 200) { //if enough time has passed and the boss is in the ground, stop homing and pause its velocity
 					NPC.velocity = Vector2.Lerp(NPC.velocity, Vector2.Zero, 0.1f);
 					if ((AiTimer == 120 || AiTimer == 160) && Main.netMode != NetmodeID.Server) 
-						SoundEngine.PlaySound(new SoundStyle("Sounds/BossSFX/Scarab_Roar1") with { Volume = 0.5f, PitchVariance = 0.2f }, NPC.Center);
+						SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BossSFX/Scarab_Roar1") with { Volume = 0.5f, PitchVariance = 0.2f }, NPC.Center);
 
 					if (AiTimer == 200) { //jump at the player
 
 						if (Main.netMode != NetmodeID.Server)
-							SoundEngine.PlaySound(new SoundStyle("Spirit Sounds/BossSFX/Scarab_Roar1"), NPC.Center);
+							SoundEngine.PlaySound(new SoundStyle("Spirit/Sounds/BossSFX/Scarab_Roar1"), NPC.Center);
 
 						statictarget[0] = NPC.Center;
 						statictarget[1] = player.Center;
@@ -1088,7 +1088,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		private void Gores()
 		{
 			for (int i = 1; i <= 7; i++) 
-				Gore.NewGoreDirect(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Scarabeus/Scarab" + i.ToString()).Type, 1f);
+				Gore.NewGoreDirect(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Scarabeus/Scarab" + i.ToString()).Type, 1f);
 
 			NPC.position += NPC.Size / 2;
 			NPC.Size = new Vector2(100, 60);

@@ -33,7 +33,7 @@ namespace SpiritMod.GlobalClasses.Projectiles
 					if (tag == null || tag.Tags.Length == 0)
 						continue;
 
-					if (tag.Tags.Contains(ItemTags.Explosive))
+					if (tag.Tags.Contains(ItemTags.Explosive) && !tag.Tags.Contains(ItemTags.Unloaded))
 					{
 						var item = new Item();
 						item.SetDefaults(mod.Find<ModItem>(type.Name).Type);

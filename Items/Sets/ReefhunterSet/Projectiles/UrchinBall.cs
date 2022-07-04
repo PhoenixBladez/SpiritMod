@@ -111,7 +111,7 @@ namespace SpiritMod.Items.Sets.ReefhunterSet.Projectiles
 			}
 
 			for (int i = 0; i < 2; ++i)
-				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, Mod.Find<ModGore>("Gores/Projectiles/UrchinLobber/Urchin" + i).Type);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, Mod.Find<ModGore>("SpiritMod/Gores/Projectiles/UrchinLobber/Urchin" + i).Type);
 
 			SoundEngine.PlaySound(SoundID.Item14 with { PitchVariance = 0.2f, Volume = 0.4f }, Projectile.Center);
 		}

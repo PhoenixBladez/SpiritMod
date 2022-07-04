@@ -273,9 +273,9 @@ namespace SpiritMod.NPCs.BloodGazer
 			{
 				SoundEngine.PlaySound(SoundID.NPCDeath22, NPC.Center);
 
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity / 2, Mod.Find<ModGore>("Gores/Gazer/GazerEye").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity / 2, Mod.Find<ModGore>("SpiritMod/Gores/Gazer/GazerEye").Type, 1f);
 				foreach (var segment in _chain.Segments)
-					Gore.NewGore(NPC.GetSource_Death(), segment.Vertex2.Position, NPC.velocity / 2, Mod.Find<ModGore>("Gores/Gazer/GazerChain").Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), segment.Vertex2.Position, NPC.velocity / 2, Mod.Find<ModGore>("SpiritMod/Gores/Gazer/GazerChain").Type, 1f);
 			}
 		}
 	}

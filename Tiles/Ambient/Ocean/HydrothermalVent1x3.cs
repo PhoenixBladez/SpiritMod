@@ -28,10 +28,10 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			Item.useTime = 10;
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.placeStyle = Main.rand.Next(2);
-			return false;
+			return null;
 		}
 
 		public override void AddRecipes()

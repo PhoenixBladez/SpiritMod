@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<MoonWizard>()) && !Main.dayTime && (player.ZoneSkyHeight || player.ZoneOverworldHeight);
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<MoonWizard>());
@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Consumable
 			}
 
 			SoundEngine.PlaySound(SoundID.Roar, player.position);
-			return true;
+			return null;
 		}
 	}
 }

@@ -38,13 +38,13 @@ namespace SpiritMod.Items.Consumable
 			return false;
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			SoundEngine.PlaySound(SoundID.Roar, player.Center);
 			NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X, (int)player.Center.Y - 600, ModContent.NPCType<Atlas>());
 
 			Main.NewText("The earth is trembling!", 255, 60, 255);
-			return true;
+			return null;
 		}
 
 		public override void AddRecipes()

@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Consumable.Food
 			Item.autoReuse = false;
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			if (player.whoAmI != Main.myPlayer)
 				return false;
@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Consumable.Food
 			else
 				player.AddBuff(ModContent.BuffType<IceBerryBuff>(), 19600);
 
-			return true;
+			return null;
 		}
 	}
 }

@@ -346,7 +346,7 @@ namespace SpiritMod.NPCs.Boss
 				SoundEngine.PlaySound(SoundID.DD2_BetsyHurt);
 
 				for (int i = 1; i < 5; ++i)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AncientAvianGore" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/AncientAvianGore" + i).Type, 1f);
 			}
 		}
 

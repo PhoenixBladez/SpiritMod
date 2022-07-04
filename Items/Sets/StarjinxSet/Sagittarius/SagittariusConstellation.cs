@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 {
 	public class SagittariusConstellation : ModProjectile, IDrawAdditive
 	{
-		public override string Texture => "Terraria/Projectile_1";
+		public override string Texture => "Terraria/Images/Projectile_1";
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Constellation");
 
 		public override void SetDefaults()

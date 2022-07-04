@@ -2149,7 +2149,7 @@ namespace SpiritMod
 					float goreScale = Main.rand.NextFloat(0.5f, 0.9f);
 					int x = (int)(Main.windSpeedCurrent > 0 ? Main.screenPosition.X - 100 : Main.screenPosition.X + Main.screenWidth + 100);
 					int y = (int)Main.screenPosition.Y + Main.rand.Next(-100, Main.screenHeight);
-					int gore = Gore.NewGore(Player.GetSource_FromThis(), new Vector2(x, y), Vector2.Zero, Mod.Find<ModGore>("Gores/GreenLeaf").Type, goreScale);
+					int gore = Gore.NewGore(Player.GetSource_FromThis(), new Vector2(x, y), Vector2.Zero, Mod.Find<ModGore>("SpiritMod/Gores/GreenLeaf").Type, goreScale);
 					Main.gore[gore].rotation = 0f;
 					Main.gore[gore].velocity.Y = Main.rand.NextFloat(1f, 3f);
 				}

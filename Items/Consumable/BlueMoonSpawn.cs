@@ -42,13 +42,13 @@ namespace SpiritMod.Items.Consumable
 			return true;
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Main.NewText("The Mystic Moon is Rising...", 0, 90, 220);
 			SoundEngine.PlaySound(SoundID.Roar, player.Center);
 			if (!Main.dayTime)
 				MyWorld.BlueMoon = true;
-			return true;
+			return null;
 		}
 
 		public override void AddRecipes()

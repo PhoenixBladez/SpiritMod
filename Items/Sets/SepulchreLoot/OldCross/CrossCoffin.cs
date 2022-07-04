@@ -113,7 +113,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.OldCross
 						{
 							Gore gore = Gore.NewGoreDirect(Projectile.GetSource_FromAI(), Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)), 
 								Main.rand.NextVector2Circular(-3, 3), 
-								Mod.Find<ModGore>("Gores/Skelet/bonger" + Main.rand.Next(1, 5)).Type);
+								Mod.Find<ModGore>("SpiritMod/Gores/Skelet/bonger" + Main.rand.Next(1, 5)).Type);
 							gore.timeLeft = 40;
 						}
 					}

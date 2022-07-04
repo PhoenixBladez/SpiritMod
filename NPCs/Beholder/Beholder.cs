@@ -278,7 +278,7 @@ namespace SpiritMod.NPCs.Beholder
 				SoundEngine.PlaySound(SoundID.DD2_WyvernScream, NPC.Center);
 
 				for (int i = 1; i < 9; ++i)
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Beholder" + i).Type, 1f);
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Beholder" + i).Type, 1f);
 			}
 		}
 

@@ -23,16 +23,15 @@ namespace SpiritMod.Items.Consumable
 			Item.value = Item.sellPrice(0, 0, 1, 0);
 			Item.useTime = Item.useAnimation = 20;
 			Item.bait = 20;
-
 			Item.noMelee = true;
 			Item.consumable = true;
 			Item.autoReuse = true;
-
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+
+		public override bool? UseItem(Player player)
 		{
 			NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<CyberflyBlue>());
-			return true;
+			return null;
 		}
 	}
 }

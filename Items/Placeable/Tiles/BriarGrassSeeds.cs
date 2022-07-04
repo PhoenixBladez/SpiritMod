@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Placeable.Tiles
 			// TODO: find a way to make briar seeds icon show up under mouse
 		}
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			if (Main.netMode == NetmodeID.Server)
 				return false;
@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Placeable.Tiles
 				player.inventory[player.selectedItem].stack--;
 			}
 
-			return true;
+			return null;
 		}
 	}
 }

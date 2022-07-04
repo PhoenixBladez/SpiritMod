@@ -30,7 +30,7 @@ namespace SpiritMod.DrawLayers
 					color.A /= 2;
 					float lerpamount = (Math.Abs(density / 2 - i) > ((density / 2) * 0.6f)) ? Math.Abs(density / 2 - i) / (density / 2) : 0f; //if too low or too high up, start making it transparent
 					color = Color.Lerp(color, Color.Transparent, lerpamount);
-					Texture2D texture = ModContent.Request<Texture2D>("Textures/TornadoExtra", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+					Texture2D texture = ModContent.Request<Texture2D>("SpiritMod/Textures/TornadoExtra", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 					Vector2 offset = Vector2.SmoothStep(player.Center + Vector2.UnitY * halfheight, player.Center - Vector2.UnitY * halfheight, i / density);
 					float scale = MathHelper.Lerp(0.6f, 1f, i / density);
 					DrawData drawdata = new DrawData(texture, offset - Main.screenPosition,

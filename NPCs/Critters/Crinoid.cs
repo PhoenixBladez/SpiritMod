@@ -92,18 +92,18 @@ namespace SpiritMod.NPCs.Critters
 				{
 					if (pickedType == 0)
 					{
-						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crionid/PinkCrionid1").Type, Main.rand.NextFloat(.5f, 1.2f));
-						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crionid/PinkCrionid2").Type, Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Crionid/PinkCrionid1").Type, Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Crionid/PinkCrionid2").Type, Main.rand.NextFloat(.5f, 1.2f));
 					}
 					if (pickedType == 1)
 					{
-						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crionid/RedCrionid1").Type, Main.rand.NextFloat(.5f, 1.2f));
-						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crionid/RedCrionid2").Type, Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Crionid/RedCrionid1").Type, Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Crionid/RedCrionid2").Type, Main.rand.NextFloat(.5f, 1.2f));
 					}
 					if (pickedType == 2)
 					{
-						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crionid/YellowCrionid1").Type, Main.rand.NextFloat(.5f, 1.2f));
-						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Crionid/YellowCrionid2").Type, Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Crionid/YellowCrionid1").Type, Main.rand.NextFloat(.5f, 1.2f));
+						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Crionid/YellowCrionid2").Type, Main.rand.NextFloat(.5f, 1.2f));
 					}
 
 				}

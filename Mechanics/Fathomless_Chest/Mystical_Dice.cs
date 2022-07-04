@@ -28,10 +28,10 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			Item.useStyle = ItemUseStyleID.HoldUp;
 			Item.consumable = true;
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			FathomlessChestPos(player);
-			return true;
+			return null;
 		}
 		private void FathomlessChestPos(Player player)
 		{

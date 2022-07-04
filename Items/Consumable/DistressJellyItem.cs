@@ -32,13 +32,13 @@ namespace SpiritMod.Items.Consumable
 
         public override bool CanUseItem(Player player) => !MyWorld.jellySky && !Main.dayTime && (player.ZoneSkyHeight || player.ZoneOverworldHeight);
 
-        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+        public override bool? UseItem(Player player)
         {
 			Main.NewText("Strange jellyfish are raining from the sky!", 61, 255, 142);
 			MyWorld.jellySky = true;
     		if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);
-            return true;
+            return null;
         }
     }
 }

@@ -66,7 +66,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 			{
 				Vector2 spawnpos = Projectile.position + Main.rand.NextVector2Circular(70, 70);
 				Vector2 gorevel = (Projectile.position - spawnpos)/45;
-				Gore.NewGorePerfect(Projectile.GetSource_FromAI(), spawnpos, gorevel, Mod.Find<ModGore>("Gores/StarjinxGore").Type, 0.4f);
+				Gore.NewGorePerfect(Projectile.GetSource_FromAI(), spawnpos, gorevel, Mod.Find<ModGore>("SpiritMod/Gores/StarjinxGore").Type, 0.4f);
 			}
 		}
 

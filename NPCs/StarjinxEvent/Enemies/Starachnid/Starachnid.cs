@@ -177,7 +177,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			if (NPC.life <= 0)
 			{
                 for (int k = 0; k < 4; k++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/StarjinxEvent/Starachnid/Starachnid1").Type, Main.rand.NextFloat(.6f, 1f));
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/StarjinxEvent/Starachnid/Starachnid1").Type, Main.rand.NextFloat(.6f, 1f));
 				ThreadDeathDust();
 			}
 		}

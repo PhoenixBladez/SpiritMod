@@ -420,7 +420,7 @@ namespace SpiritMod.NPCs.Hydra
 			string headGore = GetColor() + "HydraHead";
 			string neckGore = GetColor() + "HydraNeck";
 
-			Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Hydra/" + headGore).Type, 1f);
+			Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/Hydra/" + headGore).Type, 1f);
 
 			float goreRotation = NPC.rotation - (NPC.direction == -1 ? 3.14f : 0);
 
@@ -430,7 +430,7 @@ namespace SpiritMod.NPCs.Hydra
 			for (int i = 1; i < numPoints; i++)
 			{
 				Vector2 position = chainPositions[i];
-				Gore.NewGore(NPC.GetSource_Death(), position, Vector2.Zero, Mod.Find<ModGore>("Gores/Hydra/" + neckGore).Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), position, Vector2.Zero, Mod.Find<ModGore>("SpiritMod/Gores/Hydra/" + neckGore).Type, 1f);
 			}
 		}
 

@@ -12,7 +12,7 @@ namespace SpiritMod.Items.Books.MaterialPages
             DisplayName.SetDefault("Notes on Ancient Marble Chunks");
             Tooltip.SetDefault("by Professor Alex Tannis\nContains information on a strange ore found in Marble Caverns");
         }
-        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+        public override bool? UseItem(Player player)
 		{
 			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
 
@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Books.MaterialPages
                 SoundEngine.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.MaterialUI.UIMarbleMaterialPageState());
             }
-            return true;
+            return null;
         }
     }
 
@@ -32,16 +32,16 @@ namespace SpiritMod.Items.Books.MaterialPages
             DisplayName.SetDefault("Notes on Enchanted Leaves");
             Tooltip.SetDefault("by Professor Alex Tannis\nContains information on mystical leaves found in the Briar");
         }
-        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+        public override bool? UseItem(Player player)
 		{
-			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
+			if (player.whoAmI != Main.LocalPlayer.whoAmI) return false;
 
 			if (!(ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == Item.Name))
 			{
                 SoundEngine.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.MaterialUI.UIEnchantedLeafPageState());
             }
-            return true;
+            return null;
         }
     }
 
@@ -52,16 +52,16 @@ namespace SpiritMod.Items.Books.MaterialPages
             DisplayName.SetDefault("Notes on Enchanted Granite Chunks");
             Tooltip.SetDefault("by Professor Alex Tannis\nContains information on a strange ore found in Granite Caverns");
         }
-        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+        public override bool? UseItem(Player player)
 		{
-			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
+			if (player.whoAmI != Main.LocalPlayer.whoAmI) return false;
 
 			if (!(ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == Item.Name))
 			{
                 SoundEngine.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.MaterialUI.UIGraniteMaterialPageState());
             }
-            return true;
+            return null;
         }
     }
 
@@ -72,16 +72,16 @@ namespace SpiritMod.Items.Books.MaterialPages
             DisplayName.SetDefault("Notes on Heart Scales");
             Tooltip.SetDefault("by Professor Alex Tannis\nContains information on a glimmering scale often found near Ardorfish");
         }
-        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+        public override bool? UseItem(Player player)
 		{
-			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
+			if (player.whoAmI != Main.LocalPlayer.whoAmI) return false;
 
 			if (!(ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == Item.Name))
 			{
                 SoundEngine.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.MaterialUI.UIHeartScalePageState());
             }
-            return true;
+            return null;
         }
     }
 
@@ -92,16 +92,16 @@ namespace SpiritMod.Items.Books.MaterialPages
             DisplayName.SetDefault("Notes on Bismite Crystals");
             Tooltip.SetDefault("by Professor Alex Tannis\nContains information on a toxic ore fond around the caverns");
         }
-        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+        public override bool? UseItem(Player player)
 		{
-			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
+			if (player.whoAmI != Main.LocalPlayer.whoAmI) return false;
 
 			if (!(ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == Item.Name))
 			{
                 SoundEngine.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.MaterialUI.UIBismitePageStsate());
             }
-            return true;
+            return null;
         }
     }
 
@@ -112,16 +112,16 @@ namespace SpiritMod.Items.Books.MaterialPages
             DisplayName.SetDefault("Notes on Glowroot");
             Tooltip.SetDefault("by Professor Alex Tannis\nContains information on a strange root found at the base of tall mushroom trees");
         }
-        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+        public override bool? UseItem(Player player)
 		{
-			if (player.whoAmI != Main.LocalPlayer.whoAmI) return true;
+			if (player.whoAmI != Main.LocalPlayer.whoAmI) return false;
 
 			if (!(ModContent.GetInstance<SpiritMod>().BookUserInterface.CurrentState is UI.UIBookState currentBookState && currentBookState.title == Item.Name))
 			{
                 SoundEngine.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.MaterialUI.UIGlowrootPageState());
             }
-            return true;
+            return null;
         }
     }
 
@@ -132,7 +132,7 @@ namespace SpiritMod.Items.Books.MaterialPages
             DisplayName.SetDefault("Notes on Frigid Fragments");
             Tooltip.SetDefault("by Professor Alex Tannis\nContains information on an icy crystal found in the frozen tundra");
         }
-        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+        public override bool? UseItem(Player player)
 		{
 			if (player.whoAmI != Main.LocalPlayer.whoAmI)
 				return true;
@@ -142,7 +142,7 @@ namespace SpiritMod.Items.Books.MaterialPages
                 SoundEngine.PlaySound(SoundID.MenuOpen);
                 ModContent.GetInstance<SpiritMod>().BookUserInterface.SetState(new UI.MaterialUI.UIFrigidFragmentPageState());
             }
-            return true;
+            return null;
         }
     }
 }

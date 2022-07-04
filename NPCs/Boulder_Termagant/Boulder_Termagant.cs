@@ -188,22 +188,22 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 			npcLoot.Add(ItemDropRule.Common(ItemID.StoneBlock, 1, 10, 25));
 
 			LeadingConditionRule r219Rule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("", (npc) => npc.ModNPC is Boulder_Termagant bold && bold.r == 219));
-			r219Rule.OnSuccess(ItemDropRule.Common(ItemID.Amethyst, 1, 4));
+			r219Rule.OnSuccess(ItemDropRule.Common(ItemID.Amethyst, 1, 1, 4));
 
 			LeadingConditionRule r255Rule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("", (npc) => npc.ModNPC is Boulder_Termagant bold && bold.r == 255));
-			r255Rule.OnSuccess(ItemDropRule.Common(ItemID.Topaz, 1, 4));
+			r255Rule.OnSuccess(ItemDropRule.Common(ItemID.Topaz, 1, 1, 4));
 
 			LeadingConditionRule r23Rule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("", (npc) => npc.ModNPC is Boulder_Termagant bold && bold.r == 23));
-			r23Rule.OnSuccess(ItemDropRule.Common(ItemID.Sapphire, 1, 4));
+			r23Rule.OnSuccess(ItemDropRule.Common(ItemID.Sapphire, 1, 1, 4));
 
 			LeadingConditionRule r33Rule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("", (npc) => npc.ModNPC is Boulder_Termagant bold && bold.r == 33));
-			r33Rule.OnSuccess(ItemDropRule.Common(ItemID.Emerald, 1, 4));
+			r33Rule.OnSuccess(ItemDropRule.Common(ItemID.Emerald, 1, 1, 4));
 
 			LeadingConditionRule r238Rule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("", (npc) => npc.ModNPC is Boulder_Termagant bold && bold.r == 238));
-			r238Rule.OnSuccess(ItemDropRule.Common(ItemID.Ruby, 1, 4));
+			r238Rule.OnSuccess(ItemDropRule.Common(ItemID.Ruby, 1, 1, 4));
 
 			LeadingConditionRule r223Rule = new LeadingConditionRule(new DropRuleConditions.NPCConditional("", (npc) => npc.ModNPC is Boulder_Termagant bold && bold.r == 223));
-			r223Rule.OnSuccess(ItemDropRule.Common(ItemID.Diamond, 1, 4));
+			r223Rule.OnSuccess(ItemDropRule.Common(ItemID.Diamond, 1, 1, 4));
 
 			npcLoot.Add(r219Rule, r255Rule, r23Rule, r33Rule, r238Rule, r223Rule);
 		}
@@ -212,10 +212,10 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 		{
 			if (NPC.life <= 0)
 			{
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BoulderTermagent/RockTermagantGore4").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BoulderTermagent/RockTermagantGore3").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BoulderTermagent/RockTermagantGore2").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BoulderTermagent/RockTermagantGore1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/BoulderTermagent/RockTermagantGore4").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/BoulderTermagent/RockTermagantGore3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/BoulderTermagent/RockTermagantGore2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/BoulderTermagent/RockTermagantGore1").Type, 1f);
 			}
 			for (int k = 0; k < 7; k++)
 			{

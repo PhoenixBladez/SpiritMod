@@ -34,7 +34,7 @@ namespace SpiritMod.Items.Consumable
 
 		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<Dusking>()) && !Main.dayTime;
 
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Dusking>());
@@ -53,8 +53,9 @@ namespace SpiritMod.Items.Consumable
 
 				SpiritMultiplayer.SpawnBossFromClient((byte)player.whoAmI, ModContent.NPCType<Dusking>(), (int)spawnPos.X, (int)spawnPos.Y);
 			}
+
 			SoundEngine.PlaySound(SoundID.Roar, player.position);
-			return true;
+			return null;
 		}
 
 		public override void AddRecipes()

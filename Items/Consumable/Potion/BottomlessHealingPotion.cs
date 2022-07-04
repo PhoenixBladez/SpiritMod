@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Consumable.Potion
 				SpriteEffects.None, 
 				0);
 		}
-		public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+		public override bool? UseItem(Player player)
 		{
 			Item.healLife = 0; //set item's heal life to 0 when actually used, so it doesnt heal player
 			if (!player.pStone)
@@ -67,7 +67,7 @@ namespace SpiritMod.Items.Consumable.Potion
             {
                 return false;
             }
-			return true;
+			return null;
 		}
 		public override void GetHealLife(Player player, bool quickHeal, ref int healValue)
 		{

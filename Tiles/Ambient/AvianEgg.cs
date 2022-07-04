@@ -65,7 +65,7 @@ namespace SpiritMod.Tiles.Ambient
 			for (int k = 0; k < 20; k++)
 			{
 				Dust.NewDust(new Vector2(i * 16, j * 16 - 10), 0, 16, DustID.Dirt, 0.0f, -1, 0, new Color(), 0.5f);
-				Gore.NewGore(new Terraria.DataStructures.EntitySource_TileBreak(i, j), new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-10, 10)), new Vector2(-1, 1), Mod.Find<ModGore>("Gores/Apostle2").Type, Main.rand.NextFloat(.7f, 1.8f));
+				Gore.NewGore(new Terraria.DataStructures.EntitySource_TileBreak(i, j), new Vector2(i * 16 + Main.rand.Next(-10, 10), j * 16 + Main.rand.Next(-10, 10)), new Vector2(-1, 1), Mod.Find<ModGore>("SpiritMod/Gores/Apostle2").Type, Main.rand.NextFloat(.7f, 1.8f));
 			}
 		}
 	}
