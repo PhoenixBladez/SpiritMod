@@ -17,29 +17,33 @@ namespace SpiritMod.Tiles.Block
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
+
 			TileObjectData.newTile.Width = 1;
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
 			TileObjectData.newTile.UsesCustomCanPlace = true;
-			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
+			TileObjectData.newTile.CoordinateHeights = new[] { 16, 18 };
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
-			TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<BriarGrass>() };
+			TileObjectData.newTile.AnchorValidTiles = new[] { ModContent.TileType<BriarGrass>() };
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.DrawFlipHorizontal = true;
 			TileObjectData.newTile.WaterPlacement = LiquidPlacement.NotAllowed;
 			TileObjectData.newTile.LavaDeath = true;
 			TileObjectData.newTile.RandomStyleRange = 3;
+			TileObjectData.newTile.StyleMultiplier = 3;
 			TileObjectData.addTile(Type);
 
 			TileID.Sets.TreeSapling[Type] = true;
 			TileID.Sets.CommonSapling[Type] = true;
 			TileID.Sets.SwaysInWindBasic[Type] = true;
 			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
+
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Sapling");
 			AddMapEntry(new Color(200, 200, 200), name);
+
 			DustType = DustID.Stone;
 			AdjTiles = new int[] { TileID.Saplings };
 		}

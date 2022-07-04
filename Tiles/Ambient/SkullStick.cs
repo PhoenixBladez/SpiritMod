@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Terraria;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -17,6 +18,7 @@ namespace SpiritMod.Tiles.Ambient
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
+			TileID.Sets.SwaysInWindBasic[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.Height = 4;
 			TileObjectData.newTile.Width = 2;

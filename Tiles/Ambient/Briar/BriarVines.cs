@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Tiles.Block;
 using System;
 using Terraria;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,6 +19,10 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			Main.tileNoFail[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLighted[Type] = false;
+
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
+			TileID.Sets.IsVine[Type] = true;
+
 			HitSound = SoundID.Grass;
 			DustType = DustID.Plantera_Green;
 

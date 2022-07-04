@@ -16,7 +16,7 @@ namespace SpiritMod.NPCs.Pokey
         private int segments = 15;
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Pokey");
+			DisplayName.SetDefault("Stactus");
             Main.npcFrameCount[NPC.type] = 3;
         }
         public override void SetDefaults()
@@ -290,7 +290,7 @@ namespace SpiritMod.NPCs.Pokey
 					Delete();
 			}
 			catch (System.Exception) {
-				throw new Exception("It's in delete number " + QueueFromBottom().ToString());
+				throw new Exception("[Stactus] It's in delete number " + QueueFromBottom().ToString());
 			}
 			return true;
 		}

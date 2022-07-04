@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using SpiritMod.Backgrounds;
+//using SpiritMod.Backgrounds;
 using SpiritMod.Dusts;
 using SpiritMod.Gores;
 using Terraria;

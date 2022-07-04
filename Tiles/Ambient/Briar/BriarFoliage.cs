@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,6 +17,9 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			Main.tileCut[Type] = true;
 			Main.tileNoFail[Type] = true;
 			Main.tileMergeDirt[Type] = true;
+
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
+			TileID.Sets.SwaysInWindBasic[Type] = true;
 
 			DustType = DustID.Plantera_Green;
 			HitSound = SoundID.Grass;

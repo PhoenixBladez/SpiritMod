@@ -18,6 +18,9 @@ namespace SpiritMod.Tiles.Block
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 
+			Main.tileMerge[TileID.Dirt][Type] = true;
+			Main.tileMerge[Type][TileID.Dirt] = true;
+
 			TileID.Sets.Grass[Type] = true;
 			TileID.Sets.NeedsGrassFraming[Type] = true;
 			TileID.Sets.NeedsGrassFramingDirt[Type] = TileID.Dirt;

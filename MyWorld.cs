@@ -1308,6 +1308,8 @@ namespace SpiritMod
 				int beachIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Beaches")); //Replace beach gen
 				if (beachIndex != -1)
 					tasks[beachIndex] = new PassLegacy("Beaches", OceanGeneration.GenerateOcean);
+
+				tasks.RemoveAt(tasks.FindIndex(genpass => genpass.Name.Equals("Shell Piles")));
 			}
 		}
 
