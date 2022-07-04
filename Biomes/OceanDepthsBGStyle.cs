@@ -11,7 +11,7 @@ namespace SpiritMod.Biomes
 		{
 			scale *= .86f;
 			b -= 300;
-			return BackgroundTextureLoader.GetBackgroundSlot("Backgrounds/OceanUnderwaterBG2");
+			return BackgroundTextureLoader.GetBackgroundSlot(Mod, "Backgrounds/OceanUnderwaterBG2");
 		}
 
 		public override void ModifyFarFades(float[] fades, float transitionSpeed)

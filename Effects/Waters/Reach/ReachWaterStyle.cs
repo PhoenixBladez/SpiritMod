@@ -7,7 +7,7 @@ namespace SpiritMod.Effects.Waters.Reach
 {
 	public class ReachWaterStyle : ModWaterStyle
 	{
-		public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("SpiritMod/Effects/Water/Reach/ReachWaterfallStyle").Slot;
+		public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("SpiritMod/ReachWaterfallStyle").Slot;
 		public override int GetSplashDust() => ModContent.DustType<ReachWaterSplash>();
 		public override int GetDropletGore() => ModContent.GoreType<ReachDroplet>();
 		public override Color BiomeHairColor() => Color.Green;

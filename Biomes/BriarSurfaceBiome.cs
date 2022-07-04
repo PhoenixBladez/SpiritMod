@@ -7,8 +7,8 @@ namespace SpiritMod.Biomes
 {
 	internal class BriarSurfaceBiome : ModBiome
 	{
-		public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("SpiritMod/Effects/Waters/Reach/ReachWaterStyle");
-		public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("SpiritMod/Biomes/ReachSurfaceBgStyle");
+		public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("SpiritMod/ReachWaterStyle");
+		public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("SpiritMod/ReachSurfaceBgStyle");
 		public override CaptureBiome.TileColorStyle TileColorStyle => CaptureBiome.TileColorStyle.Normal;
 
 		public override int Music => Main.dayTime ? MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Reach") : MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ReachNighttime");
