@@ -101,6 +101,13 @@ namespace SpiritMod.NPCs.Town
 				dialogue.Add($"Say what you want about ME, but is what {Main.npc[goblin].GivenName} even legal?");
 			}
 
+			int wizard = NPC.FindFirstNPC(NPCID.Wizard);
+			if (wizard >= 0)
+			{
+				dialogue.Add($"One of these days, I'll beat {Main.npc[wizard].GivenName} at a game of cards.");
+				dialogue.Add($"Once, I upsold a wooden chest to {Main.npc[wizard].GivenName} for a quick buck. He opened it and there were like, three hundred ducks in there. I've never been so confused and amazed.");
+			}
+
 			return Main.rand.Next(dialogue);
 		}
 

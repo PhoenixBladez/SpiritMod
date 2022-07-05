@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs.Town
 			if (pirate >= 0)
 			{
 				dialogue.Add($"That {Main.npc[pirate].GivenName} is a fascinating character. His stories are trumped by nothing!");
-				dialogue.Add($"I'm not an envious man, but {Main.npc[pirate].GivenName}' stories sometimes make me want to explore again.");
+				dialogue.Add($"I'm not an envious man, but {Main.npc[pirate].GivenName}'s stories sometimes make me want to explore again.");
 			}
 
 			int travellingMerchant = NPC.FindFirstNPC(NPCID.TravellingMerchant);
@@ -105,6 +105,10 @@ namespace SpiritMod.NPCs.Town
 			int armsDealer = NPC.FindFirstNPC(NPCID.ArmsDealer);
 			if (armsDealer >= 0)
 				dialogue.Add($"Got some great prices today! {Main.npc[armsDealer].GivenName}'s wares can't compete! They literally can't. I don't sell guns anymore.");
+
+			int taxCollector = NPC.FindFirstNPC(NPCID.TaxCollector);
+			if (taxCollector >= 0)
+				dialogue.Add($"{Main.npc[taxCollector].GivenName} really knows how to bring down the mood. Maybe a hike would brighten him up?");
 
 			dialogue.AddWithCondition("Like the moon, my merchandise is inconstent.", !Main.dayTime);
 			dialogue.AddWithCondition("Everyone seems to be so aggressive tonight. With the zombies knocking at our door, I think you should buy stuff and head underground as quick as you can. Can you take me with you?", Main.bloodMoon);
