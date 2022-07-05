@@ -18,8 +18,9 @@ namespace SpiritMod.Items.Consumable.Potion
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moon Jelly");
-		}
 
+			ItemID.Sets.ItemNoGravity[Item.type] = true;
+		}
 
 		public override void SetDefaults()
 		{
@@ -27,25 +28,17 @@ namespace SpiritMod.Items.Consumable.Potion
 			Item.height = 26;
 			Item.rare = ItemRarityID.Green;
 			Item.maxStack = 30;
-
 			Item.useStyle = ItemUseStyleID.EatFood;
 			Item.useTime = Item.useAnimation = 20;
-
 			Item.consumable = true;
 			Item.autoReuse = false;
-			ItemID.Sets.ItemNoGravity[Item.type] = true;
 			Item.potion = true;
 			Item.healLife = 120;
 			Item.UseSound = SoundID.Item3;
 		}
+
 		public override Color? GetAlpha(Color lightColor) => Color.White;
-		public override bool CanUseItem(Player player)
-		{
-			if (player.FindBuffIndex(BuffID.PotionSickness) >= 0) {
-				return false;
-			}
-			return true;
-		}
+		public override bool CanUseItem(Player player) => player.FindBuffIndex(BuffID.PotionSickness) < 0;
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) //pulsating glow effect in world
 		{
@@ -59,6 +52,7 @@ namespace SpiritMod.Items.Consumable.Potion
 				SpriteEffects.None, 
 				0);
 		}
+
 		public override bool? UseItem(Player player)
 		{
 			Item.healLife = 0; //set item's heal life to 0 when actually used, so it doesnt heal player

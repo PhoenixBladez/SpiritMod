@@ -10,6 +10,7 @@ using static Terraria.ModLoader.ModContent;
 using static SpiritMod.NPCUtils;
 using SpiritMod.Tiles.Furniture.SlotMachine;
 using SpiritMod.Items.Sets.MagicMisc.MagicDeck;
+using Terraria.GameContent.Personalities;
 
 namespace SpiritMod.NPCs.Town
 {
@@ -30,6 +31,14 @@ namespace SpiritMod.NPCs.Town
 			NPCID.Sets.AttackTime[NPC.type] = 90;
 			NPCID.Sets.AttackAverageChance[NPC.type] = 30;
 			NPCID.Sets.HatOffsetY[NPC.type] = 4;
+
+			NPC.Happiness
+				.SetBiomeAffection<DesertBiome>(AffectionLevel.Like)
+				.SetBiomeAffection<JungleBiome>(AffectionLevel.Dislike)
+				.SetNPCAffection(NPCID.Wizard, AffectionLevel.Love)
+				.SetNPCAffection(NPCID.Stylist, AffectionLevel.Like)
+				.SetNPCAffection(NPCID.Merchant, AffectionLevel.Dislike)
+				.SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Hate);
 		}
 
 		public override void SetDefaults()
@@ -87,7 +96,10 @@ namespace SpiritMod.NPCs.Town
 
 			int goblin = NPC.FindFirstNPC(NPCID.GoblinTinkerer);
 			if (goblin >= 0)
+			{
 				dialogue.Add($"Tell {Main.npc[goblin].GivenName} to stop taking MY customers!");
+				dialogue.Add($"Say what you want about ME, but is what {Main.npc[goblin].GivenName} even legal?");
+			}
 
 			return Main.rand.Next(dialogue);
 		}

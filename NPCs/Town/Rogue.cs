@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using SpiritMod.Biomes;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Armor;
 using SpiritMod.Items.Weapon.Thrown;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -30,6 +32,15 @@ namespace SpiritMod.NPCs.Town
 			NPCID.Sets.AttackType[NPC.type] = 0;
 			NPCID.Sets.AttackTime[NPC.type] = 16;
 			NPCID.Sets.AttackAverageChance[NPC.type] = 30;
+
+			NPC.Happiness
+				.SetBiomeAffection<BriarSurfaceBiome>(AffectionLevel.Like).SetBiomeAffection<BriarUndergroundBiome>(AffectionLevel.Like)
+				.SetBiomeAffection<JungleBiome>(AffectionLevel.Like)
+				.SetBiomeAffection<DesertBiome>(AffectionLevel.Dislike)
+				.SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Love)
+				.SetNPCAffection<Adventurer>(AffectionLevel.Like)
+				.SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Dislike)
+				.SetNPCAffection(NPCID.ArmsDealer, AffectionLevel.Hate);
 		}
 
 		public override void SetDefaults()
@@ -85,7 +96,8 @@ namespace SpiritMod.NPCs.Town
 
 			int armsDealer = NPC.FindFirstNPC(NPCID.ArmsDealer);
 			if (armsDealer >= 0) {
-				dialogue.Add($"You just missed the thrilling battle I had with {Main.npc[armsDealer].GivenName}! I won, of course");
+				dialogue.Add($"Let me tell you...that {Main.npc[armsDealer].GivenName} guy? On a hairpin trigger, literally. I only lifted a couple coins, I swear!");
+				dialogue.Add($"Being around {Main.npc[armsDealer].GivenName} is concerning...he's always giving me this side eye. And he's armed.");
 			}
 
 			return Main.rand.Next(dialogue);

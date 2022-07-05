@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using SpiritMod.Biomes;
 using SpiritMod.Items.Accessory;
 using SpiritMod.Items.Pins;
 using SpiritMod.Items.Placeable.Furniture;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -33,6 +35,14 @@ namespace SpiritMod.NPCs.Town
 			NPCID.Sets.AttackType[NPC.type] = 0;
 			NPCID.Sets.AttackTime[NPC.type] = 16;
 			NPCID.Sets.AttackAverageChance[NPC.type] = 30;
+
+			NPC.Happiness
+				.SetBiomeAffection<ForestBiome>(AffectionLevel.Like)
+				.SetBiomeAffection<BriarSurfaceBiome>(AffectionLevel.Dislike).SetBiomeAffection<BriarUndergroundBiome>(AffectionLevel.Dislike)
+				.SetNPCAffection(NPCID.Pirate, AffectionLevel.Love)
+				.SetNPCAffection<Rogue>(AffectionLevel.Like)
+				.SetNPCAffection(NPCID.TaxCollector, AffectionLevel.Dislike)
+				.SetNPCAffection(NPCID.Angler, AffectionLevel.Hate);
 		}
 
 		public override void SetDefaults()
@@ -80,6 +90,13 @@ namespace SpiritMod.NPCs.Town
 			int merchant = NPC.FindFirstNPC(NPCID.Merchant);
 			if (merchant >= 0)
 				dialogue.Add($"I swear I've got more goods for sale than {Main.npc[merchant].GivenName}.");
+
+			int pirate = NPC.FindFirstNPC(NPCID.Pirate);
+			if (pirate >= 0)
+			{
+				dialogue.Add($"That {Main.npc[pirate].GivenName} is a fascinating character. His stories are trumped by nothing!");
+				dialogue.Add($"I'm not an envious man, but {Main.npc[pirate].GivenName}' stories sometimes make me want to explore again.");
+			}
 
 			int travellingMerchant = NPC.FindFirstNPC(NPCID.TravellingMerchant);
 			if (travellingMerchant >= 0)

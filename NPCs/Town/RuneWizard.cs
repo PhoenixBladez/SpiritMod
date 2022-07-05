@@ -1,10 +1,12 @@
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Biomes;
 using SpiritMod.Items.Glyphs;
 using SpiritMod.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -28,6 +30,15 @@ namespace SpiritMod.NPCs.Town
 			NPCID.Sets.AttackType[NPC.type] = 0;
 			NPCID.Sets.AttackTime[NPC.type] = 25;
 			NPCID.Sets.AttackAverageChance[NPC.type] = 30;
+
+			NPC.Happiness
+				.SetBiomeAffection<SpiritSurfaceBiome>(AffectionLevel.Like).SetBiomeAffection<SpiritUndergroundBiome>(AffectionLevel.Like)
+				.SetBiomeAffection<UndergroundBiome>(AffectionLevel.Like)
+				.SetBiomeAffection<HallowBiome>(AffectionLevel.Dislike)
+				.SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Love)
+				.SetNPCAffection(NPCID.WitchDoctor, AffectionLevel.Like)
+				.SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Like)
+				.SetNPCAffection(NPCID.Wizard, AffectionLevel.Hate);
 		}
 
 		public override void SetDefaults()
@@ -69,10 +80,19 @@ namespace SpiritMod.NPCs.Town
 			int wizard = NPC.FindFirstNPC(NPCID.Wizard);
 			if (wizard >= 0)
 			{
-				dialogue.Add($"{Main.npc[wizard].GivenName} and I often scry the runes together");
+				dialogue.Add($"Between you and I - {Main.npc[wizard].GivenName} completely stole my style.");
+				dialogue.Add($"{Main.npc[wizard].GivenName} doesn't understand the power of runes...it's all \"Ice Rod this\" and \"Crystal Ball\" that...");
 			}
 
-			dialogue.AddWithCondition("I wonder what enchantements have been placed on the moon- It's all blue!", Main.hardMode);
+			int demolitionist = NPC.FindFirstNPC(NPCID.Demolitionist);
+			if (demolitionist >= 0)
+				dialogue.Add($"Sometimes, {Main.npc[demolitionist].GivenName} will ask me to enchant some of his wares...I always put a blank enchant on them. He is overjoyed every time.");
+
+			int tinkerer = NPC.FindFirstNPC(NPCID.GoblinTinkerer);
+			if (tinkerer >= 0)
+				dialogue.Add($"{Main.npc[tinkerer].GivenName} and I frequently talk of our work - it's fascinating how he can enchant without any knowledge of magic.");
+
+			dialogue.AddWithCondition("I wonder what enchantements have been placed on the moon- It's all blue!", MyWorld.BlueMoon);
 			dialogue.AddWithCondition("The resurgence of Spirits offer a whole level of enchanting possibility!", Main.hardMode);
 
 			return Main.rand.Next(dialogue);
