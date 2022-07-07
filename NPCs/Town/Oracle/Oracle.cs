@@ -44,6 +44,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 			DisplayName.SetDefault("Oracle");
 
 			Main.npcFrameCount[NPC.type] = 8;
+			NPCID.Sets.ActsLikeTownNPC[NPC.type] = true;
 		}
 
 		public override void SetDefaults()

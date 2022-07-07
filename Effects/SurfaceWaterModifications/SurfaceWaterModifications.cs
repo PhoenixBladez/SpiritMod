@@ -47,11 +47,6 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		public static void Unload()
 		{
-			IL.Terraria.Main.DoDraw -= AddWaterShader;
-
-			IL.Terraria.Main.DrawTiles -= Main_DrawTiles;
-			IL.Terraria.Main.DrawBlack -= Main_DrawBlack;
-
 			transparencyEffect = null;
 			rippleTex = null;
 		}

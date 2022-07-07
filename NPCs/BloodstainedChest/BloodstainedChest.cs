@@ -17,8 +17,8 @@ namespace SpiritMod.NPCs.BloodstainedChest
 			DisplayName.SetDefault("Bloodstained Chest");
             Main.npcFrameCount[NPC.type] = 1;
 
-			//ModContent.GetInstance<SpiritMod>().NPCCandyBlacklist.Add(npc.type);
-        }
+			NPCID.Sets.ActsLikeTownNPC[NPC.type] = true; //Disables happiness
+		}
 
         public override void SetDefaults()
         {

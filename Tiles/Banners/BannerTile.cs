@@ -344,29 +344,26 @@ namespace SpiritMod.Tiles.Banners
 
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
-			if (closer)
-			{
-				Player player = Main.LocalPlayer;
-				int style = Main.tile[i, j].TileFrameX / 18;
+			int style = Main.tile[i, j].TileFrameX / 18;
 
-				// NPC internal name array for banner buff usage.
-				// If you need to add another npc, make sure there is a space before/after every NPC name apart from the very last, i.e.
-				// "NPCOne NPCTwo NPCThree"
-				// And *always* add it at the *end* of the string. Messing up the order will offset everything.
+			// NPC internal name array for banner buff usage.
+			// If you need to add another npc, make sure there is a space before/after every NPC name apart from the very last, i.e.
+			// "NPCOne NPCTwo NPCThree"
+			// And *always* add it at the *end* of the string. Messing up the order will offset everything.
 
-				string[] names = ("Occultist Beholder BottomFeeder Valkyrie PagodaGhostHostile SporeWheezer Wheezer AstralAmalgram DeepspaceHopper BoneHarpy LostMime" +
-					" CogTrapperHead CavernCrawler Mineroid GladiatorSpirit AntlionAssassin CrystalDrifter GoldCrateMimic IronCrateMimic WoodCrateMimic GraniteSlime BlazingRattler" +
-					" Illusionist SpectralSkull DungeonCubeGreen DungeonCubePink DungeonCubeBlue WinterbornMagic DiseasedSlime DiseasedBat OceanSlime Spewer CrimsonTrapper Vilemoth" +
-					" Teratoma Masticator LargeCrustecean HellEater ElectricEel BlossomHound Rylheian MangoJelly Crocomount KakamoraParachuter SpearKakamora SwordKakamora" +
-					" KakamoraShielder KakamoraShielderRare KakmoraShaman ReachSlime GrassVine ForestWraith CaptiveMask PlagueDoctor SwollenFish Mecromancer KakamoraRunner" +
-					" GloopGloop ThornStalker ForgottenOne DeadArcher DeadArcher SamuraiHostile FleshHound GraniteCore CavernBandit Reachman Hemophora MycelialBotanist MoonlightPreserver" +
-					" ExplodingMoonjelly MoonjellyGiant Bloomshroom Glitterfly GlowToad Lumantis LunarSlime BlizzardBandit CrystalDrifter BloodGazer Cystal ReachObserver" +
-					" Molten_Core Pokey_Body ScreechOwl AutomataCreeper AstralAdventurer AutomataSpinner Chest_Zombie Boulder_Termagant Falling_Asteroid Goblin_Grenadier" +
-					" BlazingSkull StymphalianBat Skeleton_Brute Enchanted_Armor PirateLobber").Split(' ');
+			string[] names = ("Occultist Beholder BottomFeeder Valkyrie PagodaGhostHostile SporeWheezer Wheezer AstralAmalgram DeepspaceHopper BoneHarpy LostMime" +
+				" CogTrapperHead CavernCrawler Mineroid GladiatorSpirit AntlionAssassin CrystalDrifter GoldCrateMimic IronCrateMimic WoodCrateMimic GraniteSlime BlazingRattler" +
+				" Illusionist SpectralSkull DungeonCubeGreen DungeonCubePink DungeonCubeBlue WinterbornMagic DiseasedSlime DiseasedBat OceanSlime Spewer CrimsonTrapper Vilemoth" +
+				" Teratoma Masticator LargeCrustecean HellEater ElectricEel BlossomHound Rylheian MangoJelly Crocomount KakamoraParachuter SpearKakamora SwordKakamora" +
+				" KakamoraShielder KakamoraShielderRare KakmoraShaman ReachSlime GrassVine ForestWraith CaptiveMask PlagueDoctor SwollenFish Mecromancer KakamoraRunner" +
+				" GloopGloop ThornStalker ForgottenOne DeadArcher DeadArcher SamuraiHostile FleshHound GraniteCore CavernBandit Reachman Hemophora MycelialBotanist MoonlightPreserver" +
+				" ExplodingMoonjelly MoonjellyGiant Bloomshroom Glitterfly GlowToad Lumantis LunarSlime BlizzardBandit CrystalDrifter BloodGazer Cystal ReachObserver" +
+				" Molten_Core Pokey_Body ScreechOwl AutomataCreeper AstralAdventurer AutomataSpinner Chest_Zombie Boulder_Termagant Falling_Asteroid Goblin_Grenadier" +
+				" BlazingSkull StymphalianBat Skeleton_Brute Enchanted_Armor PirateLobber").Split(' ');
 
-				//player.NPCBannerBuff[Mod.Find<ModNPC>(names[style]).Type] = true; //NEEDSUPDATING(?)
-				//player.hasBanner = true;
-			}
+			Main.NewText("????");
+			Main.SceneMetrics.NPCBannerBuff[Mod.Find<ModNPC>(names[style]).Type] = true;
+			Main.SceneMetrics.hasBanner = true;
 		}
 
 		public override void SetSpriteEffects(int i, int j, ref SpriteEffects spriteEffects)
