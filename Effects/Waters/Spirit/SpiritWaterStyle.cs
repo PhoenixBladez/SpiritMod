@@ -11,7 +11,7 @@ namespace SpiritMod.Effects.Waters.Spirit
 {
 	public class SpiritWaterStyle : ModWaterStyle
 	{
-		public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("SpiritMod/Effects/Water/Spirit/SpiritWaterfallStyle").Slot;
+		public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("SpiritMod/SpiritWaterfallStyle").Slot;
 		public override int GetSplashDust() => ModContent.DustType<SpiritWaterSplash>();
 		public override int GetDropletGore() => ModContent.GoreType<SpiritDroplet>();
 

@@ -36,7 +36,7 @@ namespace SpiritMod.Items.Consumable
         {
             NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ReachBoss>());
             SoundEngine.PlaySound(SoundID.Roar, player.position);
-            return null;
+            return true;
         }
 
         public override void AddRecipes()

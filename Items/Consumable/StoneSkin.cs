@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Consumable
 			NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X, (int)player.Center.Y - 600, ModContent.NPCType<Atlas>());
 
 			Main.NewText("The earth is trembling!", 255, 60, 255);
-			return null;
+			return true;
 		}
 
 		public override void AddRecipes()

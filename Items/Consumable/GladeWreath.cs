@@ -37,12 +37,11 @@ namespace SpiritMod.Items.Consumable
 			return !NPC.AnyNPCs(ModContent.NPCType<ForestWraith>()) && player.GetSpiritPlayer().ZoneReach;
 		}
 
-
 		public override bool? UseItem(Player player)
 		{
 			NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X, (int)player.Center.Y - 180, ModContent.NPCType<ForestWraith>());
 			SoundEngine.PlaySound(SoundID.Zombie7, player.position);
-			return null;
+			return true;
 		}
 	}
 }

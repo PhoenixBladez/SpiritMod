@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Consumable
 				Main.NewText("The invaders have called off their attack!", Color.MediumPurple);
 			else if (Main.netMode == NetmodeID.Server)
 				ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral("The invaders have called off their attack!"), Color.MediumPurple, -1);
-			return null;
+			return true;
 		}
 	}
 }

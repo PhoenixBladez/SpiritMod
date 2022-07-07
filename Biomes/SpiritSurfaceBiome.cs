@@ -7,7 +7,7 @@ namespace SpiritMod.Biomes
 {
 	internal class SpiritSurfaceBiome : ModBiome
 	{
-		public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("SpiritMod/Effects/Waters/Spirit/SpiritWaterStyle");
+		public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("SpiritMod/SpiritWaterStyle");
 		public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("SpiritMod/SpiritSurfaceBgStyle");
 		public override CaptureBiome.TileColorStyle TileColorStyle => CaptureBiome.TileColorStyle.Mushroom;
 

@@ -22,17 +22,15 @@ namespace SpiritMod.Items.Consumable
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.value = Item.sellPrice(0, 0, 7, 0);
 			Item.useTime = Item.useAnimation = 20;
-
 			Item.noMelee = true;
 			Item.consumable = true;
 			Item.autoReuse = true;
-
 		}
+
 		public override bool? UseItem(Player player)
 		{
 			NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<Vibeshroom>());
-			return null;
+			return true;
 		}
-
 	}
 }

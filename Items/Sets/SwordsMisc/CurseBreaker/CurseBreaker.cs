@@ -263,7 +263,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			float progress = GetProgress();
 
 			List<PrimitiveSlashArc> slashArcs = new List<PrimitiveSlashArc>();
-			Effect effect = ModContent.Request<Effect>("Effects/NemesisBoonShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Effect effect = ModContent.Request<Effect>("SpiritMod/Effects/NemesisBoonShader", AssetRequestMode.ImmediateLoad).Value;
 			effect.Parameters["white"].SetValue(Color.OrangeRed.ToVector4());
 			effect.Parameters["opacity"].SetValue((float)Math.Sqrt(1 - progress));
 			PrimitiveSlashArc slash = new PrimitiveSlashArc
@@ -497,7 +497,6 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 				sB.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.Center + offset - Main.screenPosition, frame,
 					Color.White * opacity, Projectile.rotation, new Vector2(frame.Width * 0.8f, frame.Height * 0.5f), Projectile.scale, SpriteEffects.None, 0);
 			}
-
 
 			PulseDraw.DrawPulseEffect((float)Math.Asin(-0.6), 8, 12, delegate (Vector2 posOffset, float opacityMod)
 			{

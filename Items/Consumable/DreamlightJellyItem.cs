@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Consumable
 			}
 
 			SoundEngine.PlaySound(SoundID.Roar, player.position);
-			return null;
+			return true;
 		}
 	}
 }

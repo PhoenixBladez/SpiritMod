@@ -31,8 +31,7 @@ namespace SpiritMod.Items.Consumable
 		public override bool? UseItem(Player player)
 		{
 			NPC.NewNPC(player.GetSource_ItemUse(Item), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<SoulOrb>());
-			return null;
+			return true;
 		}
-
 	}
 }
