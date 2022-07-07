@@ -18,19 +18,19 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 			DisplayName.SetDefault("Sunrise Scepter");
 			Tooltip.SetDefault("Conjures a slow, controllable sun orb");
 			SpiritGlowmask.AddGlowMask(Item.type, Texture + "_glow");
-        }
+			Item.staff[Item.type] = true;
+		}
 
-        public override void SetDefaults()
+		public override void SetDefaults()
 		{
 			Item.damage = 28;
-			Item.staff[Item.type] = true;
 			Item.noMelee = true;
 			Item.DamageType = DamageClass.Magic;
 			Item.Size = new Vector2(34, 38);
 			Item.useTime = 25;
 			Item.channel = true;
 			Item.mana = 12;
-            Item.rare = ItemRarityID.Blue;
+			Item.rare = ItemRarityID.Blue;
 			Item.useAnimation = 25;
 			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.knockBack = 2;
@@ -45,13 +45,13 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, Mod.Assets.Request<Texture2D>(Texture.Remove(0, Mod.Name.Length + 1) + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, rotation, scale);
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
 			Vector2 offset = Vector2.UnitX.RotatedBy(player.AngleTo(Main.MouseWorld)) * 36;
 			position += Collision.CanHit(player.MountedCenter, 0, 0, player.MountedCenter + offset, 0, 0) ? offset : Vector2.Zero;
 
-			for (int k = 0; k < 10; k++) { // dust ring
-
+			for (int k = 0; k < 10; k++)
+			{ // dust ring
 				int dust = Dust.NewDust(player.MountedCenter + offset, player.width, player.height, DustID.GemTopaz, 0f, 0f, 0, default, 1f);
 				Main.dust[dust].shader = GameShaders.Armor.GetSecondaryShader(9, Main.LocalPlayer);
 				Main.dust[dust].velocity *= -1f;
@@ -64,8 +64,6 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 				Vector2 vector2_3 = vector2_2 * 34f;
 				Main.dust[dust].position = (player.MountedCenter + offset) - vector2_3;
 			}
-
-			return true;
 		}
 	}
 
@@ -91,7 +89,8 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 			owner.itemAnimation = 2;
 			owner.reuseDelay = owner.HeldItem.useTime;
 			Lighting.AddLight(Projectile.Center, Color.LightGoldenrodYellow.ToVector3() / 3);
-			if (owner == Main.LocalPlayer && owner.channel && Projectile.ai[0] == 0) {
+			if (owner == Main.LocalPlayer && owner.channel && Projectile.ai[0] == 0)
+			{
 				Projectile.timeLeft++;
 				Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(Main.MouseWorld) * Math.Min(Projectile.Distance(Main.MouseWorld) / 75, 16), 0.05f);
 				Projectile.netUpdate = true;
@@ -100,34 +99,36 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 			if (!owner.channel)
 				Projectile.ai[0]++;
 
-			if (++Projectile.localAI[0] % 50 == 0 && owner.CheckMana(owner.HeldItem.mana, true) && Projectile.ai[0] == 0) {
+			if (++Projectile.localAI[0] % 50 == 0 && owner.CheckMana(owner.HeldItem.mana, true) && Projectile.ai[0] == 0)
+			{
 				if (owner.HeldItem.UseSound.HasValue)
-					SoundEngine.PlaySound(owner.HeldItem.UseSound.Value, owner.MountedCenter); 
-				
-				for (int k = 0; k < 10; k++) { //dust ring
+					SoundEngine.PlaySound(owner.HeldItem.UseSound.Value, owner.MountedCenter);
+
+				for (int k = 0; k < 10; k++)
+				{ //dust ring
 					Vector2 offset = Vector2.UnitX.RotatedBy(owner.AngleTo(Projectile.Center)) * 36;
 					int dust = Dust.NewDust(owner.MountedCenter + offset, owner.width, owner.height, DustID.GemTopaz, 0f, 0f, 0, default, 1f);
 					Main.dust[dust].shader = GameShaders.Armor.GetSecondaryShader(9, Main.LocalPlayer);
 					Main.dust[dust].velocity *= -1f;
 					Main.dust[dust].noGravity = true;
-					Vector2 vector2_1 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+					Vector2 vector2_1 = Vector2.Normalize(new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101))) * (Main.rand.Next(50, 100) * 0.04f);
+					Main.dust[dust].velocity = vector2_1;
 					vector2_1.Normalize();
-					Vector2 vector2_2 = vector2_1 * (Main.rand.Next(50, 100) * 0.04f);
-					Main.dust[dust].velocity = vector2_2;
-					vector2_2.Normalize();
-					Vector2 vector2_3 = vector2_2 * 34f;
+					Vector2 vector2_3 = vector2_1 * 34f;
 					Main.dust[dust].position = (owner.MountedCenter + offset) - vector2_3;
 				}
 			}
 			else if (Projectile.localAI[0] % 50 == 0)
 				Projectile.ai[0]++;
 
-			if (Projectile.ai[0] > 0) {
+			if (Projectile.ai[0] > 0)
+			{
 				Projectile.timeLeft = Math.Min(Projectile.timeLeft, 30);
 				Projectile.velocity = Vector2.Lerp(Projectile.velocity, Vector2.Zero, 0.1f);
 			}
 
-			owner.ChangeDir(Math.Sign(owner.DirectionTo(Projectile.Center).X));
+			int sign = Math.Sign(owner.Center.X - Projectile.Center.X);
+			owner.ChangeDir(sign);
 			owner.itemRotation = MathHelper.WrapAngle(owner.AngleTo(Projectile.Center) - owner.fullRotation - ((owner.direction < 0) ? MathHelper.Pi : 0));
 
 			Projectile.alpha = 255 - (Projectile.timeLeft * 255 / 30);
@@ -166,12 +167,13 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 		public void AdditiveCall(SpriteBatch spriteBatch)
 		{
 			int numrays = 7;
-			for (int i = 0; i < numrays; i++) {
+			for (int i = 0; i < numrays; i++)
+			{
 				Texture2D ray = Mod.Assets.Request<Texture2D>("Textures/Medusa_Ray").Value;
-				float rotation = i * (MathHelper.TwoPi / numrays) + (Main.GlobalTimeWrappedHourly * (((i % 2) + 1)/2f));
+				float rotation = i * (MathHelper.TwoPi / numrays) + (Main.GlobalTimeWrappedHourly * (((i % 2) + 1) / 2f));
 				float length = 45 * (float)(Math.Sin((Main.GlobalTimeWrappedHourly + i) * 2) / 5 + 1);
 				Vector2 rayscale = new Vector2(length / ray.Width, 0.8f);
-				spriteBatch.Draw(ray, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(new Color(255, 245, 158)) * Projectile.Opacity * 0.5f, rotation, 
+				spriteBatch.Draw(ray, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(new Color(255, 245, 158)) * Projectile.Opacity * 0.5f, rotation,
 					new Vector2(0, ray.Height / 2), rayscale * Projectile.scale, SpriteEffects.None, 0);
 			}
 		}

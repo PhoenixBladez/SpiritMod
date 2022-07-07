@@ -1580,6 +1580,8 @@ namespace SpiritMod.Items.Banners
 	}
 	public class PokeyBanner : ModItem
 	{
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Stactus Banner");
+
 		public override void SetDefaults()
 		{
 			Item.width = 10;

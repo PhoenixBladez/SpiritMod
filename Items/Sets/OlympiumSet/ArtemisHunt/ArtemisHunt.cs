@@ -45,18 +45,22 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			Item.shootSpeed = 12f;
 		}
 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+			if (type == ProjectileID.WoodenArrowFriendly)
+			{
+				SoundEngine.PlaySound(SoundID.Item5 with { PitchVariance = 0.2f }, player.Center);
+				SoundEngine.PlaySound(SoundID.Item20 with { PitchVariance = 0.2f, Volume = 0.5f }, player.Center);
+				type = ModContent.ProjectileType<ArtemisHuntArrow>();
+			}
+		}
+
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			if (player.altFunctionUse == 2)
 			{
 				Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<ArtemisHuntProj>(), damage, knockback, player.whoAmI);
 				return false;
-			}
-			if (type == ProjectileID.WoodenArrowFriendly)
-			{
-				SoundEngine.PlaySound(SoundID.Item5 with { PitchVariance = 0.2f }, player.Center);
-				SoundEngine.PlaySound(SoundID.Item20 with { PitchVariance = 0.2f, Volume = 0.5f },player.Center);
-				type = ModContent.ProjectileType<ArtemisHuntArrow>();
 			}
 			return true;
 		}
@@ -98,6 +102,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
 			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
+
 		public override void AI()
 		{
 			if (noiseRotation < 0.02f)
@@ -129,7 +134,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 			Main.spriteBatch.End();
 			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
-			SpiritMod.ConicalNoise.Parameters["vnoise"].SetValue(ModContent.Request<Texture2D>("Textures/voronoiLooping", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			SpiritMod.ConicalNoise.Parameters["vnoise"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/voronoiLooping", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			SpiritMod.ConicalNoise.Parameters["rotation"].SetValue(noiseRotation);
 			SpiritMod.ConicalNoise.Parameters["transparency"].SetValue(0.8f);
 			SpiritMod.ConicalNoise.Parameters["color"].SetValue(color.ToVector4());
@@ -273,7 +278,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 		{
 			Player player = Main.player[Projectile.owner];
 			Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
-			Texture2D glow = ModContent.Request<Texture2D>("Items/Sets/OlympiumSet/ArtemisHunt/ArtemisHuntProj_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/OlympiumSet/ArtemisHunt/ArtemisHuntProj_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			int height = texture.Height / Main.projFrames[Projectile.type];
 			int y2 = height * Projectile.frame;
@@ -346,7 +351,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 		}
 		public void DoTrailCreation(TrailManager tManager)
 		{
-			tManager.CreateTrail(Projectile, new GradientTrail(new Color(48, 255, 176), new Color(125, 255, 253)), new RoundCap(), new DefaultTrailPosition(), 8f, 400f, new ImageShader(ModContent.Request<Texture2D>("Textures/Trails/Trail_2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, 0.01f, 1f, 1f));
+			tManager.CreateTrail(Projectile, new GradientTrail(new Color(48, 255, 176), new Color(125, 255, 253)), new RoundCap(), new DefaultTrailPosition(), 8f, 400f, new ImageShader(ModContent.Request<Texture2D>("SpiritMod/Textures/Trails/Trail_2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, 0.01f, 1f, 1f));
 			tManager.CreateTrail(Projectile, new GradientTrail(new Color(48, 255, 176) * .5f, new Color(255, 255, 255) * 0.3f), new RoundCap(), new DefaultTrailPosition(), 26f, 100f, new DefaultShader());
 		}
 
@@ -354,8 +359,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 		{
 			for (int i = 0; i < 6; i++)
 			{
-				Vector2 vel = Vector2.Zero - Projectile.velocity;
-				vel.Normalize();
+				Vector2 vel = Vector2.Normalize(Vector2.Zero - Projectile.velocity);
 				vel = vel.RotatedBy(Main.rand.NextFloat(-0.5f, 0.5f));
 				vel *= Main.rand.NextFloat(2, 5);
 				ImpactLine line = new ImpactLine(target.Center - (vel * 10), vel, Main.rand.NextBool() ? new Color(125, 255, 253) : new Color(48, 255, 176), new Vector2(0.25f, Main.rand.NextFloat(0.5f,1.5f)), 70);

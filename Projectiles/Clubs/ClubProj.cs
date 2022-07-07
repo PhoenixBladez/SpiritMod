@@ -189,7 +189,10 @@ namespace SpiritMod.Projectiles.Clubs
 					player.itemTime = 2;
 					player.itemAnimation = 2;
 				}
-				if (player.itemTime == 2 || (Main.tile[(int)Projectile.Center.X / 16, (int)((Projectile.Center.Y + 24) / 16)].BlockType == BlockType.Solid && released))
+
+				Tile tile = Main.tile[(int)Projectile.Center.X / 16, (int)((Projectile.Center.Y + 24) / 16)];
+				bool validTile = tile.HasTile && tile.BlockType == BlockType.Solid && Main.tileSolid[tile.TileType];
+				if (player.itemTime == 2 || (validTile && released))
 				{
 					_lingerTimer = 30;
 
