@@ -55,13 +55,13 @@ namespace SpiritMod.NPCs.Shockhopper
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shockhopper");
-			Main.npcFrameCount[NPC.type] = 1;
+			Main.npcFrameCount[NPC.type] = 4;
 		}
 
 		public override void SetDefaults()
 		{
-			NPC.width = 24;
-			NPC.height = 24;
+			NPC.width = 60;
+			NPC.height = 56;
 			NPC.damage = 0;
 			NPC.defense = 6;
 			NPC.lifeMax = 55;
@@ -157,7 +157,7 @@ namespace SpiritMod.NPCs.Shockhopper
 			// Look at the player
 			if (State == AIState.STANDBY)
 			{
-				NPC.rotation = NPC.DirectionTo(player.Center).ToRotation() - MathHelper.PiOver2;
+				NPC.rotation = NPC.DirectionTo(player.Center).ToRotation() + MathHelper.PiOver2;
 			}
 
 			if (State == AIState.TELEPORT_FAIL)
@@ -204,8 +204,7 @@ namespace SpiritMod.NPCs.Shockhopper
 				dust.velocity *= -1f;
 				dust.scale *= .8f;
 				dust.noGravity = true;
-				Vector2 vector2_1 = new Vector2(Main.rand.Next(-80, 81), Main.rand.Next(-80, 81));
-				vector2_1.Normalize();
+				Vector2 vector2_1 = Vector2.Normalize(new Vector2(Main.rand.Next(-80, 81), Main.rand.Next(-80, 81)));
 				Vector2 vector2_2 = vector2_1 * (Main.rand.Next(50, 100) * 0.04f);
 				dust.velocity = vector2_2;
 				vector2_2.Normalize();
@@ -245,6 +244,16 @@ namespace SpiritMod.NPCs.Shockhopper
 			}
 
 			return false;
+		}
+
+		public override void FindFrame(int frameHeight)
+		{
+			if (NPC.frameCounter++ == 6)
+			{
+				if ((NPC.frame.Y += 60) / 60 > 3)
+					NPC.frame.Y = 0;
+				NPC.frameCounter = 0;
+			}
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)

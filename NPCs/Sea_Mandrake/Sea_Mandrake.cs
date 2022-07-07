@@ -27,7 +27,7 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sea Mandrake");
-			Main.npcFrameCount[NPC.type] = 4;
+			Main.npcFrameCount[NPC.type] = 5;
 			NPCID.Sets.TrailCacheLength[NPC.type] = 20;
 			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
@@ -39,9 +39,9 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 			NPC.defense = 7;
 			NPC.value = 200f;
 			NPC.knockBackResist = 1.2f;
-			NPC.width = 30;
+			NPC.width = 52;
+			NPC.height = 84;
 			NPC.aiStyle = 16;
-			NPC.height = 50;
 			NPC.damage = 0;
 			NPC.lavaImmune = false;
 			NPC.noTileCollide = false;
@@ -242,6 +242,8 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 				NPC.frame.Y = 2 * frameHeight;
 			else if (NPC.frameCounter < 24)
 				NPC.frame.Y = 3 * frameHeight;
+			else if (NPC.frameCounter < 30)
+				NPC.frame.Y = 4 * frameHeight;
 			else
 				NPC.frameCounter = 0;
 		}
