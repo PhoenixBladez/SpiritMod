@@ -57,7 +57,7 @@ namespace SpiritMod.Items.Consumable
 				Vector2 vector2_3 = vector2_2 * 34f;
 				Main.dust[dust].position = player.Center - vector2_3;
 			}
-			return null;
+			return true;
 		}
 	}
 }

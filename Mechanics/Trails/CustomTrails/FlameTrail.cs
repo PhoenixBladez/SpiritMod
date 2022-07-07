@@ -57,9 +57,9 @@ namespace SpiritMod.Mechanics.Trails.CustomTrails
 			if (Dead || _points.Count <= 1) return;
 
 			//set the parameters for the shader
-			Effect flametrailEffect = ModContent.Request<Effect>("Effects/FlameTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			flametrailEffect.Parameters["uTexture"].SetValue(ModContent.Request<Texture2D>("Textures/Trails/Trail_3", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-			flametrailEffect.Parameters["uTexture2"].SetValue(ModContent.Request<Texture2D>("Textures/Trails/Trail_4", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			Effect flametrailEffect = ModContent.Request<Effect>("SpiritMod/Effects/FlameTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			flametrailEffect.Parameters["uTexture"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/Trails/Trail_3", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			flametrailEffect.Parameters["uTexture2"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/Trails/Trail_4", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			flametrailEffect.Parameters["Progress"].SetValue(Main.GlobalTimeWrappedHourly * -1f);
 			flametrailEffect.Parameters["xMod"].SetValue(1.5f);
 			flametrailEffect.Parameters["StartColor"].SetValue(_startColor.ToVector4());

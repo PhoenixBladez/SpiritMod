@@ -97,7 +97,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 			if (Math.Abs(player.velocity.X) > 3 && player.velocity.Y == 0)
 			{
 				if (modplayer.scarabtimer % 20 <= 1)
-					SoundEngine.PlaySound(SoundID.Roar, player.Center);
+					SoundEngine.PlaySound(SoundID.Dig, player.Center);
 
 				for (int j = 0; j < Math.Abs(player.velocity.X) / 3; j++)
 				{

@@ -44,8 +44,8 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 					Vector2 secondUp = Points[i + 1] - normalAhead * widthVar;
 					Vector2 secondDown = Points[i + 1] + normalAhead * widthVar;
 					AddVertex(Points[i], colorvar * AlphaValue, new Vector2(0, 0.5f));
-					AddVertex(secondUp, colorvar * AlphaValue, new Vector2((float)(i + 1) / (float)Points.Count, flip ? 1 : 0));
-					AddVertex(secondUp, colorvar * AlphaValue, new Vector2((float)(i + 1) / (float)Points.Count, flip ? 0 : 1));
+					AddVertex(secondUp, colorvar * AlphaValue, new Vector2((i + 1) / (float)Points.Count, flip ? 1 : 0));
+					AddVertex(secondUp, colorvar * AlphaValue, new Vector2((i + 1) / (float)Points.Count, flip ? 0 : 1));
 				}
 				else
 				{
@@ -74,9 +74,9 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 		public override void SetShaders()
 		{
-			Effect effect = ModContent.Request<Effect>("Effects/JadeTrailShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Effect effect = ModContent.Request<Effect>("SpiritMod/Effects/JadeTrailShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			effect.Parameters["white"].SetValue(new Color(106, 255, 35).ToVector4());
-			effect.Parameters["vnoiseLooping"].SetValue(ModContent.Request<Texture2D>("Textures/voronoiLooping", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["vnoiseLooping"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/voronoiLooping", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			PrepareShader(effect, "MainPS", -Main.GlobalTimeWrappedHourly);
 		}
 

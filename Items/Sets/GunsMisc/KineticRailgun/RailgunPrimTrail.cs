@@ -81,10 +81,10 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 		public override void SetShaders()
 		{
 			Effect effect = SpiritMod.TeslaShader;
-			effect.Parameters["baseTexture"].SetValue(ModContent.Request<Texture2D>("Textures/GlowTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-			effect.Parameters["pnoise"].SetValue(ModContent.Request<Texture2D>("Textures/noise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-			effect.Parameters["vnoise"].SetValue(ModContent.Request<Texture2D>("Textures/vnoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-			effect.Parameters["wnoise"].SetValue(ModContent.Request<Texture2D>("Textures/wnoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["baseTexture"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/GlowTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["pnoise"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/noise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["vnoise"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/vnoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["wnoise"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/wnoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			effect.Parameters["repeats"].SetValue(1.5f);
 			PrepareShader(effect, "MainPS", Counter * 0.1f);
 		}

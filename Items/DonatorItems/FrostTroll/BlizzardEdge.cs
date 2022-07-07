@@ -49,7 +49,7 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 		public override bool AltFunctionUse(Player player) => true;
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => GlowmaskUtils.DrawItemGlowMaskWorld(spriteBatch, Item, ModContent.Request<Texture2D>(Texture + "_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, rotation, scale);
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			counter--;
 			if (player.altFunctionUse == 2)
@@ -139,11 +139,11 @@ namespace SpiritMod.Items.DonatorItems.FrostTroll
 			if (Main.rand.NextBool(3))
 			{
 				ParticleHandler.SpawnParticle(new SmokeParticle(new Vector2(Projectile.Center.X - (120f * Projectile.direction), Projectile.Center.Y + Main.rand.Next(-25, 25)), new Vector2(Main.rand.NextFloat(-1.5f, 1.5f)), Color.Lerp(Color.LightBlue * .8f, White * .8f, Projectile.timeLeft / 120f), Main.rand.NextFloat(0.55f, 0.75f), 30, delegate (Particle p)
-			   {
-				   p.Velocity *= 0.93f;
-				   p.Velocity.Y = 0f;
-				   p.Velocity.X = Main.rand.NextFloat(11f, 14f) * Projectile.direction;
-			   }));
+				{
+					p.Velocity *= 0.93f;
+					p.Velocity.Y = 0f;
+					p.Velocity.X = Main.rand.NextFloat(11f, 14f) * Projectile.direction;
+				}));
 			}
 			if (Main.rand.NextBool(5))
 			{

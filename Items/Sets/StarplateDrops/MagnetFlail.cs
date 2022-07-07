@@ -98,7 +98,6 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 
 			if (stuck)
 			{
-
 				Vector2 vel = Vector2.UnitX.RotatedBy(Main.rand.NextFloat(6.28f));
 				ParticleHandler.SpawnParticle(new ImpactLine(Projectile.Center, vel, new Color(33, 211, 255), new Vector2(0.25f, 1f), 16));
 
@@ -346,10 +345,10 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			Vector2 lengthMeasure = Entity.Center - _target.Center;
 			Effect effect = SpiritMod.TeslaShader;
-			effect.Parameters["baseTexture"].SetValue(ModContent.Request<Texture2D>("Textures/GlowTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-			effect.Parameters["pnoise"].SetValue(ModContent.Request<Texture2D>("Textures/noise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-			effect.Parameters["vnoise"].SetValue(ModContent.Request<Texture2D>("Textures/vnoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-			effect.Parameters["wnoise"].SetValue(ModContent.Request<Texture2D>("Textures/wnoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["baseTexture"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/GlowTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["pnoise"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/noise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["vnoise"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/vnoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["wnoise"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/wnoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			effect.Parameters["repeats"].SetValue(lengthMeasure.Length() / 250f);
 			PrepareShader(effect, "MainPS", Counter * 0.1f);
 		}
@@ -398,7 +397,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 		{
 			Vector2 lengthMeasure = Entity.Center - _target.Center;
 			Effect effect = SpiritMod.RepeatingTextureShader;
-			effect.Parameters["baseTexture"].SetValue(ModContent.Request<Texture2D>("Items/Sets/StarplateDrops/LivewireProj_chain", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["baseTexture"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Items/Sets/StarplateDrops/LivewireProj_chain", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			effect.Parameters["repeats"].SetValue(lengthMeasure.Length() / 12f);
 			PrepareShader(effect, "MainPS", Counter * 0.1f);
 		}

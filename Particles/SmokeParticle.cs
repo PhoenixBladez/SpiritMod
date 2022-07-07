@@ -48,7 +48,6 @@ namespace SpiritMod.Particles
 			Texture2D basetexture = ParticleHandler.GetTexture(Type);
 			Color lightColor = Lighting.GetColor((int)Position.X / 16, (int)Position.Y / 16);
 			spriteBatch.Draw(basetexture, Position - Main.screenPosition, null, (lightColor.MultiplyRGBA(smokeColor) * opacity), Rotation, basetexture.Size() / 2, Scale, SpriteEffects.None, 0);
-
 		}
 	}
 }

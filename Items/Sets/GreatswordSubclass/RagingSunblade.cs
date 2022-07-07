@@ -131,7 +131,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 					if (phantomProj == null)
 						phantomProj = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), player.Center, player.DirectionTo(Main.MouseWorld) * 15, ModContent.ProjectileType<HeliosPhantomProj>(), Projectile.damage, 0, player.whoAmI);
 					primCenter = phantomProj.Center;
-					if (!phantomProj.active || !(phantomProj.ModProjectile is HeliosPhantomProj))
+					if (!phantomProj.active || phantomProj.ModProjectile is not HeliosPhantomProj)
 						returned = true;
 				}
 				else
@@ -311,7 +311,6 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 
 		public override bool PreDraw(ref Color lightColor)
 		{
-			Color color = lightColor;
             Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, primCenter - Main.screenPosition, null, Color.White, (float)radians + 3.9f, new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width / 2, TextureAssets.Projectile[Projectile.type].Value.Height / 2), Projectile.scale, SpriteEffects.None, 0);
 			if (charge >= 60)
 			{

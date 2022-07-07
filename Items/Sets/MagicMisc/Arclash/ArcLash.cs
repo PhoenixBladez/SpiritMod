@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.Arclash
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
         {
 			Vector2 direction = velocity;
-			position+= direction * 7;
+			position += direction * 7;
 			Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
 			return false;
         }

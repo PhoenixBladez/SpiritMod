@@ -56,15 +56,16 @@ namespace SpiritMod.Particles
 			float progress = (float)Math.Sin((TimeActive / (float)_timeLeft) * MathHelper.Pi);
 			Vector2 scale = new Vector2(0.5f, progress) * _scaleMod;
 			Vector2 offset = Vector2.Zero;
-			Vector2 origin = new Vector2(ParticleHandler.GetTexture(Type).Width / 2, ParticleHandler.GetTexture(Type).Height);
+			Texture2D tex = ParticleHandler.GetTexture(Type);
+			Vector2 origin = new Vector2(tex.Width / 2, tex.Height);
 
 			if (TimeActive > _timeLeft / 2)
 			{
-				offset = Vector2.UnitX.RotatedBy(Rotation - MathHelper.PiOver2) * ParticleHandler.GetTexture(Type).Height * scale.Y;
+				offset = Vector2.UnitX.RotatedBy(Rotation - MathHelper.PiOver2) * tex.Height * scale.Y;
 				origin.Y = 0;
 			}
 
-			spriteBatch.Draw(ParticleHandler.GetTexture(Type), Position + offset - Main.screenPosition, null, Color * ((progress / 5) + 0.8f), Rotation, origin, scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(tex, Position + offset - Main.screenPosition, null, Color * ((progress / 5) + 0.8f), Rotation, origin, scale, SpriteEffects.None, 0);
 		}
 	}
 }

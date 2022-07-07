@@ -346,6 +346,8 @@ namespace SpiritMod
 			return (int)item.GetGlobalItem<Items.GItem>().Glyph;
 		}
 
+		private bool _finishedLoading = false;
+
 		public override void Load()
 		{
 			//Always keep this call in the first line of Load!
@@ -754,6 +756,8 @@ namespace SpiritMod
 
 			// using a mildly specific name to avoid mod clashes
 			ChatManager.Register<UI.Chat.QuestTagHandler>(new string[] { "sq", "spiritQuest" });
+
+			_finishedLoading = true;
 		}
 
 		private void LoadMusicBox(string name, string path) => MusicLoader.AddMusicBox(this, MusicLoader.GetMusicSlot(this, path), Find<ModItem>(name).Type, Find<ModTile>(name).Type);
@@ -768,7 +772,7 @@ namespace SpiritMod
 
 		public void CheckScreenSize()
 		{
-			if (!Main.dedServ)
+			if (!Main.dedServ && _finishedLoading)
 			{
 				if (_lastScreenSize != new Vector2(Main.screenWidth, Main.screenHeight) && primitives != null)
 					primitives.InitializeTargets(Main.graphics.GraphicsDevice);

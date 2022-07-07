@@ -102,8 +102,8 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
         }
         public override void SetShaders()
         {
-			Effect effect = ModContent.Request<Effect>("Effects/HeliosPrims", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			effect.Parameters["noiseTexture"].SetValue(ModContent.Request<Texture2D>("Textures/Trails/Trail_3", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			Effect effect = ModContent.Request<Effect>("SpiritMod/Effects/HeliosPrims", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			effect.Parameters["noiseTexture"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/Trails/Trail_3", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			PrepareShader(effect, "Edge2", Counter / 7.5f, new Color(233, 99, 28));
         }
         public override void OnUpdate()

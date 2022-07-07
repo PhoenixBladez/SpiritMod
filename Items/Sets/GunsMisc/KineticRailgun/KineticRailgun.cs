@@ -202,8 +202,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 		public override bool PreDraw(ref Color lightColor)
 		{
 			Player player = Main.player[Projectile.owner];
-			Texture2D proj = ModContent.Request<Texture2D>("Items/Sets/GunsMisc/KineticRailgun/KineticRailgunProj", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			Texture2D glow = ModContent.Request<Texture2D>("Items/Sets/GunsMisc/KineticRailgun/KineticRailgunProj_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D proj = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/GunsMisc/KineticRailgun/KineticRailgunProj", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/GunsMisc/KineticRailgun/KineticRailgunProj_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			if (player.direction == 1)
 			{
 				SpriteEffects effects1 = SpriteEffects.None;
@@ -211,8 +211,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 				int height = TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type];
 				int y2 = height * Projectile.frame;
 				Vector2 position = (Projectile.position - (0.5f * direction) + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition).Floor();
-				Main.spriteBatch.Draw(proj, position, new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height), lightColor, direction.ToRotation(), new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, effects1, 0.0f);
-				Main.spriteBatch.Draw(glow, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, direction.ToRotation(), new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, effects1, 0.0f);
+				Main.spriteBatch.Draw(proj, position, new Rectangle(0, y2, texture.Width, height), lightColor, direction.ToRotation(), new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, effects1, 0.0f);
+				Main.spriteBatch.Draw(glow, position, new Rectangle(0, y2, texture.Width, height), Color.White, direction.ToRotation(), new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, effects1, 0.0f);
 			}
 			else if (player.direction != 1)
 			{
@@ -221,8 +221,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.KineticRailgun
 				int height = TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type];
 				int y2 = height * Projectile.frame;
 				Vector2 position = (Projectile.position - (0.5f * direction) + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition).Floor();
-				Main.spriteBatch.Draw(proj, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), lightColor, direction.ToRotation() - 3.14f, new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, effects1, 0.0f);
-				Main.spriteBatch.Draw(glow, position, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y2, texture.Width, height)), Color.White, direction.ToRotation() - 3.14f, new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, effects1, 0.0f);
+				Main.spriteBatch.Draw(proj, position, new Rectangle(0, y2, texture.Width, height), lightColor, direction.ToRotation() - 3.14f, new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, effects1, 0.0f);
+				Main.spriteBatch.Draw(glow, position, new Rectangle(0, y2, texture.Width, height), Color.White, direction.ToRotation() - 3.14f, new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, effects1, 0.0f);
 			}
 			return false;
 		}

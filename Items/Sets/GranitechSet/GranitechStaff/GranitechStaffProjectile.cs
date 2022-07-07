@@ -183,7 +183,6 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			{
 				Vector2 posOffset = Vector2.Normalize(BeamDirection).RotatedBy(j * MathHelper.PiOver2) * 2f;
 				Color colorMod = (j == -1) ? new Color(255, 0, 0, 100) : ((j == 0) ? new Color(0, 255, 0, 100) : new Color(0, 0, 255, 100));
-
 			}
 
 			ParallelParticles(Projectile.Center + StaffTipDirection, BeamDirection * Main.rand.NextFloat(30, 40), 35, Main.rand.NextFloat(1.5f, 3f), Main.rand.Next(14, 18));
@@ -333,7 +332,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			Vector2 position = Projectile.Center + StaffTipDirection + (BeamDirection * BeamLength / 2) - Main.screenPosition; //Center between staff tip and beam end
 
 			//Draw the beam and apply shader parameters
-			Effect beamEffect = ModContent.Request<Effect>("Effects/Laser", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Effect beamEffect = ModContent.Request<Effect>("SpiritMod/Effects/Laser", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			beamEffect.Parameters["uTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_1").Value);
 			beamEffect.Parameters["Progress"].SetValue(Main.GlobalTimeWrappedHourly * 3f);
 			beamEffect.Parameters["xMod"].SetValue(BeamLength / 150f);
@@ -362,7 +361,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 				float blurLength = 400 * scaleMod;
 				float blurWidth = 12 * scaleMod;
 				float flickerStrength = (((float)Math.Sin(Main.GlobalTimeWrappedHourly * 20) % 1) * 0.3f) + 1f;
-				Effect blurEffect = ModContent.Request<Effect>("Effects/BlurLine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				Effect blurEffect = ModContent.Request<Effect>("SpiritMod/Effects/BlurLine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 				for(int i = -1; i <= 1; i++)
 				{

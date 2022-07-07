@@ -30,6 +30,8 @@ namespace SpiritMod.Effects.Stargoop
 		public Effect borderNoise;
 		public Effect galaxyParallax;
 
+		private bool _loaded = false;
+
 		public void Initialize(GraphicsDevice graphicsDevice)
 		{
 			UpdateWindowSize(graphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
@@ -53,10 +55,15 @@ namespace SpiritMod.Effects.Stargoop
 			NebulaLayer = new StargoopLayer(NebulaBorderColor, ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/Nebula0", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
 															  ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/Nebula1", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
 															  ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/Nebula2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+
+			_loaded = true;
 		}
 
 		public void UpdateWindowSize(GraphicsDevice graphicsDevice, int width, int height)
 		{
+			if (!_loaded)
+				return;
+
 			FriendlyLayer.UpdateWindowSize(graphicsDevice, width, height);
 			EnemyLayer.UpdateWindowSize(graphicsDevice, width, height);
 			NebulaLayer.UpdateWindowSize(graphicsDevice, width, height);

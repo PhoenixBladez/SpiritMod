@@ -188,7 +188,6 @@ namespace SpiritMod.Particles
 				spriteBatch.End();
 			}
 
-
 			batchedAlphaBlendParticles.Clear();
 			batchedAdditiveBlendParticles.Clear();
 

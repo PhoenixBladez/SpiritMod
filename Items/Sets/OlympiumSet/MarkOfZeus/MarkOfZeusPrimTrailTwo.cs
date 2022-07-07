@@ -85,7 +85,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 		public override void SetShaders()
 		{
 			Effect effect = SpiritMod.PrimitiveTextureMap;
-			effect.Parameters["uTexture"].SetValue(ModContent.Request<Texture2D>("Textures/GlowTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["uTexture"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/GlowTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			effect.Parameters["additive"].SetValue(true);
 			effect.Parameters["intensify"].SetValue(true);
 			PrepareShader(effect, "MainPS", Counter);

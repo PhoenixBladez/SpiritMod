@@ -49,8 +49,8 @@ namespace SpiritMod.Mechanics.Trails.CustomTrails
 			if (Dead) return;
 			
 			//set the parameters for the shader
-			Effect noiseTrailEffect = ModContent.Request<Effect>("Effects/MotionNoiseTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			noiseTrailEffect.Parameters["uTexture"].SetValue(ModContent.Request<Texture2D>("Textures/voronoiLooping", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			Effect noiseTrailEffect = ModContent.Request<Effect>("SpiritMod/Effects/MotionNoiseTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			noiseTrailEffect.Parameters["uTexture"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/voronoiLooping", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			noiseTrailEffect.Parameters["uColor"].SetValue(_color.ToVector4());
 			noiseTrailEffect.Parameters["progress"].SetValue(Main.GlobalTimeWrappedHourly * -1.5f);
 			float length = (_startPoint - _endPoint).Length();

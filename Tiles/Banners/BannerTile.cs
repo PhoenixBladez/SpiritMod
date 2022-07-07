@@ -361,7 +361,6 @@ namespace SpiritMod.Tiles.Banners
 				" Molten_Core Pokey_Body ScreechOwl AutomataCreeper AstralAdventurer AutomataSpinner Chest_Zombie Boulder_Termagant Falling_Asteroid Goblin_Grenadier" +
 				" BlazingSkull StymphalianBat Skeleton_Brute Enchanted_Armor PirateLobber").Split(' ');
 
-			Main.NewText("????");
 			Main.SceneMetrics.NPCBannerBuff[Mod.Find<ModNPC>(names[style]).Type] = true;
 			Main.SceneMetrics.hasBanner = true;
 		}

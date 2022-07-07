@@ -192,16 +192,15 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 				progress = EaseFunction.EaseCubicInOut.Ease(progress);
 				if (progress > 0.15f && progress < 0.85f)
 				{
-					Vector2 vel = Vector2.Zero;
 					int timeLeft = Main.rand.Next(40, 100);
 
 					StarParticle particle = new StarParticle(
-					CurrentBase,
-					Main.rand.NextVector2Circular(1, 1),
-					Color.Lerp(new Color(106, 255, 35), new Color(18, 163, 85), Main.rand.NextFloat()),
-					Main.rand.NextFloat(0.1f, 0.2f),
-					timeLeft);
-					particle.TimeActive = (uint)(timeLeft / 2);
+						CurrentBase,
+						Main.rand.NextVector2Circular(1, 1),
+						Color.Lerp(new Color(106, 255, 35), new Color(18, 163, 85), Main.rand.NextFloat()),
+						Main.rand.NextFloat(0.1f, 0.2f),
+						timeLeft);
+						particle.TimeActive = (uint)(timeLeft / 2);
 					ParticleHandler.SpawnParticle(particle);
 				}
 			}
@@ -241,7 +240,6 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 
 			Main.spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, lightColor, newRotation, origin, Projectile.scale, flip, 0);
 			Main.spriteBatch.Draw(glowTexture, projBottom - Main.screenPosition, null, Color.White, newRotation, origin, Projectile.scale, flip, 0);
-
 
 			CurrentBase = projBottom + (newRotation - 1.57f).ToRotationVector2() * (projTexture.Height / 2);
 
@@ -351,11 +349,11 @@ namespace SpiritMod.Items.Sets.FlailsMisc.JadeDao
 						int timeLeft = Main.rand.Next(20, 40);
 
 						StarParticle particle = new StarParticle(
-						target.Center,
-						Main.rand.NextVector2Circular(10, 7),
-						Color.Lerp(new Color(106, 255, 35), new Color(18, 163, 85), Main.rand.NextFloat()),
-						Main.rand.NextFloat(0.15f, 0.3f),
-						timeLeft);
+							target.Center,
+							Main.rand.NextVector2Circular(10, 7),
+							Color.Lerp(new Color(106, 255, 35), new Color(18, 163, 85), Main.rand.NextFloat()),
+							Main.rand.NextFloat(0.15f, 0.3f),
+							timeLeft);
 						ParticleHandler.SpawnParticle(particle);
 					}
 				}
