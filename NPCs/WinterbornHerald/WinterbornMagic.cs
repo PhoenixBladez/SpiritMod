@@ -167,7 +167,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/WinterbornHerald/WinterbornMagic_Glow").Value);
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/WinterbornHerald/WinterbornMagic_Glow").Value, screenPos);
 		}
 
 		public void Teleport()

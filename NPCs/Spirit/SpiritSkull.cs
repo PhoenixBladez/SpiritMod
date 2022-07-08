@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs.Spirit
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Spirit/SpiritSkull_Glow").Value);
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Spirit/SpiritSkull_Glow").Value, screenPos);
 		}
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

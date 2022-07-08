@@ -217,7 +217,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 				NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/StarjinxEvent/Enemies/Pathfinder/Pathfinder_Glow").Value, Color.White * 0.75f);
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/StarjinxEvent/Enemies/Pathfinder/Pathfinder_Glow").Value, screenPos, Color.White * 0.75f);
 
 		public override void OnHitKill(int hitDirection, double damage)
 		{

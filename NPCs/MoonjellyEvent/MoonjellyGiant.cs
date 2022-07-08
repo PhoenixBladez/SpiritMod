@@ -96,7 +96,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/MoonjellyEvent/MoonjellyGiant_Glow").Value);
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/MoonjellyEvent/MoonjellyGiant_Glow").Value, screenPos);
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

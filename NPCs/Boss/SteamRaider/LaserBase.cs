@@ -50,7 +50,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		{
 			if (NPC.alpha != 255)
 			{
-				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Boss/SteamRaider/LaserBase_Glow").Value);
+				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Boss/SteamRaider/LaserBase_Glow").Value, screenPos);
 			}
 		}
 

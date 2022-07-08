@@ -105,7 +105,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 		}
 
 		public override bool CheckActive() => false;
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Boss/Atlas/CobbledEye_Glow").Value);
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Boss/Atlas/CobbledEye_Glow").Value, screenPos);
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{

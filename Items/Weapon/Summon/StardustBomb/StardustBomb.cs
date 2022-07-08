@@ -179,10 +179,10 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 
 			Color bloomColor = Color.Cyan;
 			bloomColor.A = 0;
-			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("SpiritMod/Effects/Masks/Extra_49").Value, (NPC.Center - Main.screenPosition) + new Vector2(0, NPC.gfxOffY), null, bloomColor, 0 - (NPC.rotation / 2), new Vector2(50, 50), 0.45f * scale * NPC.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49").Value, (NPC.Center - Main.screenPosition) + new Vector2(0, NPC.gfxOffY), null, bloomColor, 0 - (NPC.rotation / 2), new Vector2(50, 50), 0.45f * scale * NPC.scale, SpriteEffects.None, 0f);
 
 			Main.spriteBatch.Draw(
-                Mod.Assets.Request<Texture2D>("SpiritMod/Items/Weapon/Summon/StardustBomb/StardustBombNPC_Star").Value,
+                Mod.Assets.Request<Texture2D>("Items/Weapon/Summon/StardustBomb/StardustBombNPC_Star").Value,
 				NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY),
 				new Rectangle(0,0,48,52),
 				Color.White,
@@ -193,7 +193,7 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
 			);
 
             Main.spriteBatch.Draw(
-                Mod.Assets.Request<Texture2D>("SpiritMod/Items/Weapon/Summon/StardustBomb/StardustBombNPC").Value,
+                Mod.Assets.Request<Texture2D>("Items/Weapon/Summon/StardustBomb/StardustBombNPC").Value,
 				NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY),
 				NPC.frame,
 				drawColor,
@@ -220,7 +220,7 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
             for (int num103 = 0; num103 < 6; num103++)
             {
                 Vector2 vector29 = NPC.Center + ((float)num103 / 4f * 6.28318548f + NPC.rotation).ToRotationVector2() * (2f * num107 + 2f) - Main.screenPosition + new Vector2(0, NPC.gfxOffY);
-                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("SpiritMod/Items/Weapon/Summon/StardustBomb/StardustBombNPC_Glow").Value, vector29, NPC.frame, color28, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale * scale, spriteEffects3, 0f);
+                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Weapon/Summon/StardustBomb/StardustBombNPC_Glow").Value, vector29, NPC.frame, color28, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale * scale, spriteEffects3, 0f);
             }
 
             num107 = (float)Math.Cos((double)(Main.GlobalTimeWrappedHourly % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
@@ -234,7 +234,7 @@ namespace SpiritMod.Items.Weapon.Summon.StardustBomb
             for (int num103 = 0; num103 < 6; num103++)
             {
                 Vector2 vector29 = NPC.Center + ((float)num103 / 4f * 6.28318548f + NPC.rotation).ToRotationVector2() * (4f * num107 + 2f) - Main.screenPosition + new Vector2(0, NPC.gfxOffY);
-                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("SpiritMod/Items/Weapon/Summon/StardustBomb/StardustBombNPC_Glow").Value, vector29, NPC.frame, color28, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale * scale, spriteEffects3, 0f);
+                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Weapon/Summon/StardustBomb/StardustBombNPC_Glow").Value, vector29, NPC.frame, color28, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale * scale, spriteEffects3, 0f);
             }
 		}
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;

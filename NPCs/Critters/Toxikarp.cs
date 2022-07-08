@@ -69,7 +69,7 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/Critters/Toxikarp_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/Critters/Toxikarp_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, screenPos);
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)

@@ -11,6 +11,8 @@ using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Buffs.DoT;
 using Terraria.GameContent.ItemDropRules;
 using SpiritMod.Items.Armor.AstronautVanity;
+using Terraria.GameContent.Bestiary;
+using SpiritMod.Biomes;
 
 namespace SpiritMod.NPCs.AstralAmalgam
 {
@@ -43,8 +45,16 @@ namespace SpiritMod.NPCs.AstralAmalgam
 			NPC.noGravity = true;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.AstralAmalgamBanner>();
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<AsteroidBiome>().Type };
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				ModContent.GetInstance<AsteroidBiome>().ModBiomeBestiaryInfoElement,
+				new FlavorTextBestiaryInfoElement("A spectacle of alien life, composed of a substance beyond our understanding! Despite their small stature and gelatinous form, sturdy stones somehow orbit this strange body."),
+			});
+		}
 
 		public override void AI()
 		{
@@ -212,14 +222,13 @@ namespace SpiritMod.NPCs.AstralAmalgam
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
+			for (int k = 0; k < NPC.oldPos.Length; k++)
 			{
-				Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
-				for (int k = 0; k < NPC.oldPos.Length; k++) {
-					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-					Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
-					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
-				}
+				Vector2 drawPos = NPC.oldPos[k] - screenPos + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+				Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			}
 			return false;
 		}
@@ -227,7 +236,7 @@ namespace SpiritMod.NPCs.AstralAmalgam
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if (NPC.alpha != 255) {
-				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/AstralAmalgam/AstralAmalgam_Glow").Value);
+				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/AstralAmalgam/AstralAmalgam_Glow").Value, screenPos);
 			}
 		}
 	}

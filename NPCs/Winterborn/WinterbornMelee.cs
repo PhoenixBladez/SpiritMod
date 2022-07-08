@@ -87,7 +87,7 @@ namespace SpiritMod.NPCs.Winterborn
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Winterborn/WinterbornMelee_Glow").Value);
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Winterborn/WinterbornMelee_Glow").Value, screenPos);
 
 		public override void FindFrame(int frameHeight)
 		{

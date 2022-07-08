@@ -11,6 +11,7 @@ using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.ArterialGrasper
 {
@@ -20,6 +21,12 @@ namespace SpiritMod.NPCs.ArterialGrasper
 		{
 			DisplayName.SetDefault("Arterial Grasper");
 			Main.npcFrameCount[NPC.type] = 4;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Velocity = 1f
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -41,6 +48,14 @@ namespace SpiritMod.NPCs.ArterialGrasper
 			NPC.behindTiles = true;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.ArterialGrasperBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+				new FlavorTextBestiaryInfoElement("These beating organs are vital to the crimson’s ensured survival – they pump blood into the biome’s squelching stone, granting it the strength to spread and support its extremities."),
+			});
 		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = 250;

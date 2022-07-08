@@ -104,7 +104,7 @@ namespace SpiritMod.NPCs.FallenAngel
 			return true;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/FallenAngel/FallenAngel_Glow").Value);
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/FallenAngel/FallenAngel_Glow").Value, screenPos);
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{

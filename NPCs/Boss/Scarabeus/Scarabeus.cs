@@ -99,9 +99,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			}
 			
 			if (NPC.life >= (NPC.lifeMax/2)) {
-				{
 					Phase1(player);
-				}
 			}
 			else {
 				if(NPC.ai[3] == 0) {
@@ -667,7 +665,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 					if (AiTimer == 200) { //jump at the player
 
 						if (Main.netMode != NetmodeID.Server)
-							SoundEngine.PlaySound(new SoundStyle("Spirit/Sounds/BossSFX/Scarab_Roar1"), NPC.Center);
+							SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BossSFX/Scarab_Roar1"), NPC.Center);
 
 						statictarget[0] = NPC.Center;
 						statictarget[1] = player.Center;

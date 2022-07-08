@@ -62,7 +62,7 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, TextureAssets.Npc[NPC.type].Value);
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, TextureAssets.Npc[NPC.type].Value, screenPos);
 			DrawSpecialGlow(spriteBatch, drawColor);
 		}
 

@@ -117,7 +117,7 @@ namespace SpiritMod.NPCs.BlazingRattler
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/BlazingRattler/BlazingRattler_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/BlazingRattler/BlazingRattler_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, screenPos);
 
 		public override void FindFrame(int frameHeight)
 		{

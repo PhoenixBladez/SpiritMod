@@ -57,7 +57,7 @@ namespace SpiritMod.NPCs.Orbitite
 			return false;
 		}
 
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Orbitite/Mineroid_Glow").Value);
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Orbitite/Mineroid_Glow").Value, screenPos);
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

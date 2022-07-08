@@ -116,7 +116,7 @@ namespace SpiritMod.NPCs.Shockhopper
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if (NPC.alpha != 255)
-				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Shockhopper/DeepspaceHopper_Glow").Value);
+				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Shockhopper/DeepspaceHopper_Glow").Value, screenPos);
 		}
 
 		public override bool PreAI()
