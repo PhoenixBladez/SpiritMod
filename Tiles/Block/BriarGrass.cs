@@ -14,16 +14,10 @@ namespace SpiritMod.Tiles.Block
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileMerge[Type][Mod.Find<ModTile>("BriarGrass").Type] = true;
-			Main.tileBlendAll[Type] = true;
-			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
-
 			Main.tileMerge[TileID.Dirt][Type] = true;
-			Main.tileMerge[Type][TileID.Dirt] = true;
 
 			TileID.Sets.Grass[Type] = true;
-			TileID.Sets.NeedsGrassFraming[Type] = true;
-			TileID.Sets.NeedsGrassFramingDirt[Type] = TileID.Dirt;
 			TileID.Sets.Conversion.Grass[Type] = true;
 
 			AddMapEntry(new Color(104, 156, 70));

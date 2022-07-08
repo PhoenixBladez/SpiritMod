@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Sets.HuskstalkSet;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Block
@@ -14,13 +15,12 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlendAll[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
+
+			Main.tileMerge[TileID.LivingMahoganyLeaves][Type] = true;
+			Main.tileMerge[Type][TileID.LivingMahoganyLeaves] = true;
+
 			AddMapEntry(new Color(133, 104, 70));
 			ItemDrop = ModContent.ItemType<AncientBark>();
-		}
-
-		public override bool CanExplode(int i, int j)
-		{
-			return true;
 		}
 	}
 }
