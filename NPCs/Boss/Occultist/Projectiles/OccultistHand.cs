@@ -100,7 +100,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 					Main.rand.NextVector2Unit() * Main.rand.NextFloat(2), Color.Magenta, Main.rand.NextFloat(0.02f, 0.04f), 30));
 
 			for (int j = 0; j < 6; j++)
-				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(), Mod.Find<ModGore>("Skelet/grave" + Main.rand.Next(1, 5)).Type, 0.5f);
+				Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(), Mod.Find<ModGore>("grave" + Main.rand.Next(1, 5)).Type, 0.5f);
 		}
 
 		public override bool PreDraw(ref Color lightColor)

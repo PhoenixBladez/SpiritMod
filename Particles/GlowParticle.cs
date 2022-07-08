@@ -12,9 +12,7 @@ namespace SpiritMod.Particles
 		public int MaxTime;
 
 		private int fadeTime;
-
 		private float FadeRate => 1f / fadeTime;
-
 		private float MinimumOpacity => 0.6f;
 
 		public override bool UseAdditiveBlend => true;

@@ -147,7 +147,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			{
 				Gore gore = Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)),
 					Main.rand.NextVector2Circular(-1, 1),
-					Mod.Find<ModGore>("Skelet/grave" + Main.rand.Next(1, 5)).Type,
+					Mod.Find<ModGore>("grave" + Main.rand.Next(1, 5)).Type,
 					Projectile.scale);
 				gore.timeLeft = 20;
 			}
