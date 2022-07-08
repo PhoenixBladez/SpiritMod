@@ -12,6 +12,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using SpiritMod.Items.Armor.ClatterboneArmor;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.CavernCrawler
 {
@@ -37,6 +38,14 @@ namespace SpiritMod.NPCs.CavernCrawler
 			NPC.value = 160f;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.CavernCrawlerBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Underground,
+				new FlavorTextBestiaryInfoElement("Despite a timid outward appearance, these curious cave-dwellers should not be underestimated."),
+			});
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

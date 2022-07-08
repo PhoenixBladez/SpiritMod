@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 using System.IO;
 using SpiritMod.Buffs.DoT;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.DiseasedSlime
 {
@@ -42,6 +43,14 @@ namespace SpiritMod.NPCs.DiseasedSlime
 			AnimationType = NPCID.BlueSlime;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.DiseasedSlimeBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Underground,
+				new FlavorTextBestiaryInfoElement("Bismite toxins flow through the gel of this diseased mass, causing any contact to erode the skin and inflame open wounds."),
+			});
 		}
 
 		public bool hasPicked = false;

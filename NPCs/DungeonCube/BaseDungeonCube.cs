@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -38,6 +39,14 @@ namespace SpiritMod.NPCs.DungeonCube
 			NPC.netAlways = true;
 			NPC.chaseable = true;
 			NPC.lavaImmune = true;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
+				new FlavorTextBestiaryInfoElement("Mindless stone automatons built to be aware of their surroundings and attack on sight."),
+			});
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.Cursed, 60, true);

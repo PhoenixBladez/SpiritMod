@@ -11,6 +11,8 @@ using Terraria.Audio;
 using System.IO;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
+using SpiritMod.Biomes;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -19,10 +21,17 @@ namespace SpiritMod.NPCs.Reach
 		int frame = 0;
 		int frametimer = 0;
 		int aiTimer = 0;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Feral Shambler");
 			Main.npcFrameCount[NPC.type] = 16;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Velocity = 1f
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -41,7 +50,17 @@ namespace SpiritMod.NPCs.Reach
 			NPC.HitSound = SoundID.NPCHit2 with { PitchVariance = 0.2f };
 			Banner = NPC.type;
             BannerItem = ModContent.ItemType<Items.Banners.ReachmanBanner>();
-        }
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<BriarSurfaceBiome>().Type };
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				ModContent.GetInstance<BriarSurfaceBiome>().ModBiomeBestiaryInfoElement,
+				new FlavorTextBestiaryInfoElement("The line between flora and fauna is blurred in the briar. The reanimated bones of adventurers act animalistic, despite it being composed mostly of plants."),
+			});
+		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.Player;
@@ -67,7 +86,6 @@ namespace SpiritMod.NPCs.Reach
 			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.23f, 0.16f, .05f);
 
 			aiTimer++;
-			frametimer++;
 
 			if (NPC.life <= NPC.lifeMax - 20)
 			{
@@ -75,6 +93,7 @@ namespace SpiritMod.NPCs.Reach
 				{
 					SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, NPC.Center);
 				}
+
 				if (aiTimer > 180 && aiTimer < 360)
 				{
 					DoDustEffect(NPC.Center, 46f, 1.08f, 2.08f, NPC);
@@ -84,12 +103,8 @@ namespace SpiritMod.NPCs.Reach
 						NPC.velocity.X = .008f * NPC.direction;
 						NPC.velocity.Y = 12f;
 					}
-					HealingFrames();
 				}
-				else
-				{
-					WalkingFrames();
-				}
+
 				if (aiTimer == 360)
 				{
 					if (Main.netMode != NetmodeID.Server)
@@ -98,15 +113,13 @@ namespace SpiritMod.NPCs.Reach
 					NPC.HealEffect(10, true);
 				}
 			}
-			else
-			{
-				WalkingFrames();
-			}
+			
 			if (aiTimer >= 360)
 			{
 				aiTimer = 0;
 			}
 		}
+
 		public void WalkingFrames()
 		{
 			if (!NPC.collideY && NPC.velocity.Y > 0)
@@ -124,6 +137,7 @@ namespace SpiritMod.NPCs.Reach
 					frame = 0;
 			}
 		}
+
 		public void HealingFrames()
 		{
 			if (frametimer >= 4)
@@ -134,7 +148,22 @@ namespace SpiritMod.NPCs.Reach
 			if (frame >= 16 || frame < 10)
 				frame = 10;
 		}
-		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
+
+		public override void FindFrame(int frameHeight)
+		{
+			frametimer++;
+			if (NPC.life <= NPC.lifeMax - 20)
+			{
+				if (aiTimer > 180 && aiTimer < 360)
+					HealingFrames();
+				else
+					WalkingFrames();
+			}
+			else
+				WalkingFrames();
+
+			NPC.frame.Y = frameHeight * frame;
+		}
 
 		private void DoDustEffect(Vector2 position, float distance, float minSpeed = 2f, float maxSpeed = 3f, object follow = null)
 		{
@@ -168,7 +197,7 @@ namespace SpiritMod.NPCs.Reach
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 

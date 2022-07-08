@@ -5,13 +5,10 @@ using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
-using SpiritMod.Mechanics.QuestSystem;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
-using SpiritMod.Biomes;
 
 namespace SpiritMod.NPCs.AstralAdventurer
 {

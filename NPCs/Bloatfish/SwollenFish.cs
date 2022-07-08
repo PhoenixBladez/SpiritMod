@@ -7,6 +7,7 @@ using SpiritMod.Items.Sets.ReefhunterSet;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
 using SpiritMod.Items.Armor.DiverSet;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Bloatfish
 {
@@ -20,6 +21,12 @@ namespace SpiritMod.NPCs.Bloatfish
 		{
 			DisplayName.SetDefault("Bloatfish");
 			Main.npcFrameCount[NPC.type] = 5;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Velocity = 1f
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -39,6 +46,14 @@ namespace SpiritMod.NPCs.Bloatfish
 			AIType = NPCID.Goldfish;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.BloatfishBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("In the past, these fish would inflate to intimidate predators. Now, however, they seem to have eaten their way so far up the food chain that they no longer need to."),
+			});
 		}
 
 		public override void AI()

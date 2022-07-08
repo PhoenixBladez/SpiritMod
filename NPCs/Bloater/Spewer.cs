@@ -3,6 +3,7 @@ using SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher;
 using System;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,6 +35,14 @@ namespace SpiritMod.NPCs.Bloater
 			NPC.noTileCollide = false;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.BloaterBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+				new FlavorTextBestiaryInfoElement("A particularly foul beast. It builds up pressure by sucking in air with the organs on its back and propels gastric fluids at anything it deems threatening."),
+			});
 		}
 
 		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
@@ -142,7 +151,7 @@ namespace SpiritMod.NPCs.Bloater
 				if (NPC.ai[0] > 25f)
 					NPC.ai[0] = -200f;
 			}
-			if (Main.rand.Next(30) == 0 && Main.netMode != NetmodeID.MultiplayerClient)
+			if (Main.rand.NextBool(30) && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (Main.rand.NextBool(2))
 					NPC.velocity.Y = NPC.velocity.Y + 0.439f;

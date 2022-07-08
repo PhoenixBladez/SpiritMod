@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.Biomes;
 using SpiritMod.Items.Sets.HuskstalkSet;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -34,6 +36,15 @@ namespace SpiritMod.NPCs.Reach
 			AnimationType = NPCID.BlueSlime;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.BriarthornSlimeBanner>();
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<BriarSurfaceBiome>().Type };
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				ModContent.GetInstance<BriarSurfaceBiome>().ModBiomeBestiaryInfoElement,
+				new FlavorTextBestiaryInfoElement("Due to the perpetual rainfall in the Briar, these slimes are composed of 90% water. As a result, they often leak and lose volume when struck."),
+			});
 		}
 
 		public override void AI()

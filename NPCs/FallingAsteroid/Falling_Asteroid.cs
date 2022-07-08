@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,6 +24,7 @@ namespace SpiritMod.NPCs.FallingAsteroid
 			NPCID.Sets.TrailingMode[NPC.type] = 0;
 			Main.npcFrameCount[NPC.type] = 5;
 		}
+
 		public override void SetDefaults()
 		{
 			NPC.aiStyle = 0;
@@ -42,6 +44,14 @@ namespace SpiritMod.NPCs.FallingAsteroid
 			NPC.DeathSound = SoundID.NPCDeath43;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.FallingAsteroidBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Meteor,
+				new FlavorTextBestiaryInfoElement("What appears to be a sentient rock is really a small critter using a chunk of the meteor as a shell. It's able to float around with ease, despite the weight."),
+			});
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(24, 60 * 3);
