@@ -48,19 +48,24 @@ namespace SpiritMod.Tiles.Block
 			WeightedRandom<SpiritTreeShakeEffect> options = new WeightedRandom<SpiritTreeShakeEffect>();
 			options.Add(SpiritTreeShakeEffect.None, 0.8f);
 			options.Add(SpiritTreeShakeEffect.Acorn, 0.8f);
-			options.Add(SpiritTreeShakeEffect.Critter, 0.4f);
+			options.Add(SpiritTreeShakeEffect.Critter, 0.6f);
 			options.Add(SpiritTreeShakeEffect.Fruit, 0.4f);
 
 			SpiritTreeShakeEffect effect = options;
 			if (effect == SpiritTreeShakeEffect.Acorn)
-				Item.NewItem(WorldGen.GetItemSource_FromTreeShake(x, y), new Vector2(x, y) * 16, ItemID.Acorn, Main.rand.Next(1, 3));
+			{
+				Vector2 offset = this.GetRandomTreePosition(Main.tile[x, y]);
+				Item.NewItem(WorldGen.GetItemSource_FromTreeShake(x, y), new Vector2(x, y) * 16 + offset, ItemID.Acorn, Main.rand.Next(1, 3));
+			}
 			else if (effect == SpiritTreeShakeEffect.Critter)
 			{
 				int repeats = Main.rand.Next(1, 4);
 
 				for (int i = 0; i < repeats; ++i)
 				{
-					int npc = NPC.NewNPC(WorldGen.GetItemSource_FromTreeShake(x, y), x * 16, y * 16, ModContent.NPCType<SoulOrb>());
+					Vector2 offset = this.GetRandomTreePosition(Main.tile[x, y]);
+					Vector2 pos = new Vector2(x * 16, y * 16) + offset;
+					int npc = NPC.NewNPC(WorldGen.GetItemSource_FromTreeShake(x, y), (int)pos.X, (int)pos.Y, ModContent.NPCType<SoulOrb>());
 					Main.npc[npc].velocity = new Vector2(Main.rand.NextFloat(2, 5), 0).RotatedByRandom(MathHelper.TwoPi);
 				}
 			}
@@ -74,7 +79,10 @@ namespace SpiritMod.Tiles.Block
 
 				int repeats = getRepeats;
 				for (int i = 0; i < repeats; ++i)
-					Item.NewItem(WorldGen.GetItemSource_FromTreeShake(x, y), new Vector2(x, y) * 16, Main.rand.NextBool() ? ModContent.ItemType<LuminBerry>() : ModContent.ItemType<Glowpear>(), Main.rand.Next(1, 3));
+				{
+					Vector2 offset = this.GetRandomTreePosition(Main.tile[x, y]);
+					Item.NewItem(WorldGen.GetItemSource_FromTreeShake(x, y), new Vector2(x, y) * 16 + offset, Main.rand.NextBool() ? ModContent.ItemType<LuminBerry>() : ModContent.ItemType<Glowpear>(), 1);
+				}
 			}
 
 			//createLeaves = effect != SpiritTreeShakeEffect.None;

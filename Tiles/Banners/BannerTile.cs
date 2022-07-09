@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -25,7 +26,8 @@ namespace SpiritMod.Tiles.Banners
 			TileObjectData.addTile(Type);
 
 			DustType = -1;
-			Terraria.ID.TileID.Sets.DisableSmartCursor[Type] = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+			TileID.Sets.SwaysInWindBasic[Type] = true;
 
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Banner");
@@ -39,6 +41,7 @@ namespace SpiritMod.Tiles.Banners
 			int height = tile.TileFrameY == 36 ? 18 : 16;
 			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Banners/BannerTile_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White * .8f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
+
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			int style = frameX / 18;
@@ -339,7 +342,7 @@ namespace SpiritMod.Tiles.Banners
 				default:
 					return;
 			}
-			Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, Mod.Find<ModItem>(item).Type);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, Mod.Find<ModItem>(item).Type);
 		}
 
 		public override void NearbyEffects(int i, int j, bool closer)

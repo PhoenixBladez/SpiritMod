@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using SpiritMod.Gores;
+using SpiritMod.Items.ByBiome.Briar.Consumables;
 using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.NPCs.Reach;
 using Terraria;
@@ -45,7 +46,6 @@ namespace SpiritMod.Tiles.Block
 			floorY = 2;
 		}
 
-
 		public override bool Shake(int x, int y, ref bool createLeaves)
 		{
 			WeightedRandom<ReachTreeShakeEffect> options = new WeightedRandom<ReachTreeShakeEffect>();
@@ -53,10 +53,14 @@ namespace SpiritMod.Tiles.Block
 			options.Add(ReachTreeShakeEffect.Acorn, 0.8f);
 			options.Add(ReachTreeShakeEffect.Critter, 0.3f);
 			options.Add(ReachTreeShakeEffect.Gore, 0.5f);
+			options.Add(ReachTreeShakeEffect.Fruit, 0.6f);
 
 			ReachTreeShakeEffect effect = options;
 			if (effect == ReachTreeShakeEffect.Acorn)
-				Item.NewItem(WorldGen.GetItemSource_FromTreeShake(x, y), new Vector2(x, y) * 16, ItemID.Acorn, Main.rand.Next(1, 3));
+			{
+				Vector2 offset = this.GetRandomTreePosition(Main.tile[x, y]);
+				Item.NewItem(WorldGen.GetItemSource_FromTreeShake(x, y), new Vector2(x, y) * 16 + offset, ItemID.Acorn, Main.rand.Next(1, 3));
+			}
 			else if (effect == ReachTreeShakeEffect.Critter)
 			{
 				WeightedRandom<int> npcType = new WeightedRandom<int>();
@@ -67,7 +71,11 @@ namespace SpiritMod.Tiles.Block
 				int repeats = Main.rand.Next(1, 4);
 
 				for (int i = 0; i < repeats; ++i)
-					NPC.NewNPC(WorldGen.GetItemSource_FromTreeShake(x, y), x * 16, y * 16, npcType);
+				{
+					Vector2 offset = this.GetRandomTreePosition(Main.tile[x, y]);
+					Vector2 pos = new Vector2(x * 16, y * 16) + offset;
+					NPC.NewNPC(WorldGen.GetItemSource_FromTreeShake(x, y), (int)pos.X, (int)pos.Y, npcType);
+				}
 			}
 			else if (effect == ReachTreeShakeEffect.Gore)
 			{
@@ -76,7 +84,23 @@ namespace SpiritMod.Tiles.Block
 				goreType.Add(SpiritMod.Instance.Find<ModGore>("Reach2").Type, 3f);
 				goreType.Add(SpiritMod.Instance.Find<ModGore>("BlossomHound2").Type, 0.8f);
 
-				Gore.NewGore(WorldGen.GetItemSource_FromTreeShake(x, y), new Vector2(x, y) * 16, Vector2.Zero, goreType);
+				Vector2 offset = this.GetRandomTreePosition(Main.tile[x, y]);
+				Gore.NewGore(WorldGen.GetItemSource_FromTreeShake(x, y), new Vector2(x, y) * 16 + offset, Vector2.Zero, goreType);
+			}
+			else if (effect == ReachTreeShakeEffect.Fruit)
+			{
+				WeightedRandom<int> getRepeats = new WeightedRandom<int>();
+				getRepeats.Add(1, 1f);
+				getRepeats.Add(2, 0.5f);
+				getRepeats.Add(3, 0.33f);
+				getRepeats.Add(6, 0.01f);
+
+				int repeats = getRepeats;
+				for (int i = 0; i < repeats; ++i)
+				{
+					Vector2 offset = this.GetRandomTreePosition(Main.tile[x, y]);
+					Item.NewItem(WorldGen.GetItemSource_FromTreeShake(x, y), new Vector2(x, y) * 16 + offset, Main.rand.NextBool() ? ModContent.ItemType<Guava>() : ModContent.ItemType<Durian>(), 1);
+                }
 			}
 
 			createLeaves = effect != ReachTreeShakeEffect.None;
@@ -90,5 +114,6 @@ namespace SpiritMod.Tiles.Block
 		Acorn,
 		Critter,
 		Gore,
+		Fruit
 	}
 }

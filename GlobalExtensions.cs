@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
@@ -23,5 +24,22 @@ namespace SpiritMod
 		public static bool IsMagic(this Item item) => item.CountsAsClass(DamageClass.Magic);
 		public static bool IsSummon(this Item item) => item.CountsAsClass(DamageClass.Summon);
 		public static bool IsThrown(this Item item) => item.CountsAsClass(DamageClass.Throwing);
+
+		public static Vector2 GetTreeSize(this ModTree tree, Tile tile)
+		{
+			int discard = 0;
+			int width = 0;
+			int height = 0;
+			tree.SetTreeFoliageSettings(tile, ref discard, ref discard, ref discard, ref width, ref height);
+			return new Vector2(width, height);
+		}
+
+		public static Vector2 GetRandomTreePosition(this ModTree tree, Tile tile)
+		{
+			var size = GetTreeSize(tree, tile);
+			var halfSize = size / 2f;
+			var offset = new Vector2(Main.rand.NextFloat(-halfSize.X, halfSize.X), -Main.rand.NextFloat(size.Y * 0.1f, size.Y * 0.8f));
+			return offset;
+		}
 	}
 }

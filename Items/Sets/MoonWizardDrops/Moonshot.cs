@@ -37,6 +37,7 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
 			Item.shoot = ModContent.ProjectileType<LunazoaProj>();
 			Item.shootSpeed = 13f;
 		}
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Lighting.AddLight(Item.position, 0.08f, .12f, .52f);
@@ -59,7 +60,9 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops
                 0f
             );
         }
+
 		public override bool CanConsumeAmmo(Item item, Player player) => !Main.rand.NextBool(3);
+
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
 			int numextraprojs = Main.rand.Next(0, 3);

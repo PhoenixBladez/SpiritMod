@@ -19,7 +19,6 @@ namespace SpiritMod.NPCs.Reach
 	public class Reachman : ModNPC
 	{
 		int frame = 0;
-		int frametimer = 0;
 		int aiTimer = 0;
 
 		public override void SetStaticDefaults()
@@ -68,31 +67,28 @@ namespace SpiritMod.NPCs.Reach
 				return spawnInfo.Player.GetSpiritPlayer().ZoneReach ? 1.7f : 0f;
 			return 0f;
 		}
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(frame);
-			writer.Write(frametimer);
 			writer.Write(aiTimer);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			frame = reader.ReadInt32();
-			frametimer = reader.ReadInt32();
 			aiTimer = reader.ReadInt32();
 		}
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.23f, 0.16f, .05f);
-
 			aiTimer++;
 
 			if (NPC.life <= NPC.lifeMax - 20)
 			{
 				if (aiTimer == 180)
-				{
 					SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, NPC.Center);
-				}
 
 				if (aiTimer > 180 && aiTimer < 360)
 				{
@@ -115,23 +111,19 @@ namespace SpiritMod.NPCs.Reach
 			}
 			
 			if (aiTimer >= 360)
-			{
 				aiTimer = 0;
-			}
 		}
 
 		public void WalkingFrames()
 		{
 			if (!NPC.collideY && NPC.velocity.Y > 0)
-			{
 				frame = 0;
-			}
 			else
 			{
-				if (frametimer >= 4)
+				if (NPC.frameCounter >= 4)
 				{
 					frame++;
-					frametimer = 0;
+					NPC.frameCounter = 0;
 				}
 				if (frame >= 10)
 					frame = 0;
@@ -140,10 +132,10 @@ namespace SpiritMod.NPCs.Reach
 
 		public void HealingFrames()
 		{
-			if (frametimer >= 4)
+			if (NPC.frameCounter >= 4)
 			{
 				frame++;
-				frametimer = 0;
+				NPC.frameCounter = 0;
 			}
 			if (frame >= 16 || frame < 10)
 				frame = 10;
@@ -151,7 +143,7 @@ namespace SpiritMod.NPCs.Reach
 
 		public override void FindFrame(int frameHeight)
 		{
-			frametimer++;
+			NPC.frameCounter++;
 			if (NPC.life <= NPC.lifeMax - 20)
 			{
 				if (aiTimer > 180 && aiTimer < 360)
