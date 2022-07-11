@@ -7,6 +7,8 @@ using Terraria.ModLoader;
 using SpiritMod.Items.Accessory;
 using System;
 using SpiritMod.Items.Armor.AstronautVanity;
+using Terraria.GameContent.Bestiary;
+using SpiritMod.Biomes;
 
 namespace SpiritMod.NPCs.Gloop
 {
@@ -35,8 +37,19 @@ namespace SpiritMod.NPCs.Gloop
 			NPC.noGravity = true;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<Items.Banners.GloopBanner>();
-        }
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<AsteroidBiome>().Type };
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				ModContent.GetInstance<AsteroidBiome>().ModBiomeBestiaryInfoElement,
+				new FlavorTextBestiaryInfoElement("No one’s quite sure what these things are made of. Whatever it is, it doesn’t taste good."),
+			});
+		}
+
 		int xoffset = 0;
+
 		public override void AI()
 		{
 			Player player = Main.player[NPC.target];
@@ -94,7 +107,7 @@ namespace SpiritMod.NPCs.Gloop
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(6) == 0) {
+			if (Main.rand.NextBool(6)) {
 				target.AddBuff(BuffID.Poisoned, 180);
 			}
 		}

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -37,6 +38,14 @@ namespace SpiritMod.NPCs.Festerfly
 			BannerItem = ModContent.ItemType<Items.Banners.FesterflyBanner>();
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+				new FlavorTextBestiaryInfoElement("The putrid scent of the corruption was bound to attract flies, and sure enough, it did. Now corrupted and ravenous, they follow the scent of any fresh meat they can find."),
+			});
+		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 30; k++)
@@ -51,6 +60,7 @@ namespace SpiritMod.NPCs.Festerfly
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Pesterfly4").Type, 1f);
 			}
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += 0.15f;
@@ -63,7 +73,6 @@ namespace SpiritMod.NPCs.Festerfly
 		{
 			if (Main.rand.NextFloat() < 0.431579f)
 			{
-				Vector2 position = NPC.Center;
 				int d = Dust.NewDust(NPC.position, NPC.width, NPC.height + 10, DustID.ScourgeOfTheCorruptor, 0, 1f, 0, new Color(), 0.7f);
 				Main.dust[d].velocity *= .1f;
 			}

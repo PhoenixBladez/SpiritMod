@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -42,12 +43,15 @@ namespace SpiritMod.NPCs.GladiatorSpirit
 			BannerItem = ModContent.ItemType<Items.Banners.GladiatorSpiritBanner>();
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
-			int x = spawnInfo.SpawnTileX;
-			int y = spawnInfo.SpawnTileY;
-			return spawnInfo.Player.GetSpiritPlayer().ZoneMarble && spawnInfo.SpawnTileY > Main.rockLayer && NPC.downedBoss2 ? 0.135f : 0f;
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Marble,
+				new FlavorTextBestiaryInfoElement("Be wary of this spirit, they have the unique ability to fortify their nonexistent bodies, making them resistant to damage, destroy their armor and release their soul!"),
+			});
 		}
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.GetSpiritPlayer().ZoneMarble && spawnInfo.SpawnTileY > Main.rockLayer && NPC.downedBoss2 ? 0.135f : 0f;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
