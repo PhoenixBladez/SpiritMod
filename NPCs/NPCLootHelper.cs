@@ -25,6 +25,7 @@ namespace SpiritMod.NPCs
 		public static void AddCommon<T>(this NPCLoot loot, int chanceDenominator = 1, int minStack = 1, int maxStack = 1) where T : ModItem => loot.AddCommon(ModContent.ItemType<T>(), chanceDenominator, minStack, maxStack);
 		public static void AddFood<T>(this NPCLoot loot, int chanceDenominator = 1, int minStack = 1, int maxStack = 1) where T : ModItem => loot.Add(ItemDropRule.Food(ModContent.ItemType<T>(), chanceDenominator, minStack, maxStack));
 		public static void AddBossBag<T>(this NPCLoot loot) where T : ModItem => loot.Add(ItemDropRule.BossBag(ModContent.ItemType<T>()));
+		public static void AddMasterModeCommonDrop<T>(this NPCLoot loot) where T : ModItem => loot.Add(ItemDropRule.MasterModeCommonDrop(ModContent.ItemType<T>()));
 
 		public static LeadingConditionRule NightCondition(this NPCLoot loot) => new LeadingConditionRule(new DropRuleConditions.NotDay());
 
@@ -38,6 +39,6 @@ namespace SpiritMod.NPCs
 		public static void AddOneFromOptions<T1, T2, T3, T4, T5, T6>(this NPCLoot loot, int chance = 1) where T1 : ModItem where T2 : ModItem where T3 : ModItem where T4 : ModItem where T5 : ModItem where T6 : ModItem
 			=> loot.AddOneFromOptions(chance, ModContent.ItemType<T1>(), ModContent.ItemType<T2>(), ModContent.ItemType<T3>(), ModContent.ItemType<T4>(), ModContent.ItemType<T5>(), ModContent.ItemType<T6>());
 		public static void AddOneFromOptions<T1, T2, T3, T4, T5, T6, T7>(this NPCLoot loot, int chance = 1) where T1 : ModItem where T2 : ModItem where T3 : ModItem where T4 : ModItem where T5 : ModItem where T6 : ModItem where T7 : ModItem
-	=> loot.AddOneFromOptions(chance, ModContent.ItemType<T1>(), ModContent.ItemType<T2>(), ModContent.ItemType<T3>(), ModContent.ItemType<T4>(), ModContent.ItemType<T5>(), ModContent.ItemType<T6>(), ModContent.ItemType<T7>());
+			=> loot.AddOneFromOptions(chance, ModContent.ItemType<T1>(), ModContent.ItemType<T2>(), ModContent.ItemType<T3>(), ModContent.ItemType<T4>(), ModContent.ItemType<T5>(), ModContent.ItemType<T6>(), ModContent.ItemType<T7>());
 	}
 }

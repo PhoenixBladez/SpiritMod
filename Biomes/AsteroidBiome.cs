@@ -12,9 +12,9 @@ namespace SpiritMod.Biomes
 		public override CaptureBiome.TileColorStyle TileColorStyle => CaptureBiome.TileColorStyle.Normal;
 
 		public override string BestiaryIcon => base.BestiaryIcon;
-		public override string BackgroundPath => base.BackgroundPath;
+		public override string BackgroundPath => MapBackground;
 		public override Color? BackgroundColor => base.BackgroundColor;
-		public override string MapBackground => BackgroundPath;
+		public override string MapBackground => "SpiritMod/Backgrounds/AsteroidMapBG";
 
 		public override bool IsBiomeActive(Player player)
 		{

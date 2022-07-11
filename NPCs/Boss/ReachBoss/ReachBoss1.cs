@@ -9,16 +9,16 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+using SpiritMod.Items.Placeable.Relics;
 
 namespace SpiritMod.NPCs.Boss.ReachBoss
 {
 	[AutoloadBossHead]
 	public class ReachBoss1 : ModNPC
 	{
-		//int timer = 0;
 		int moveSpeed = 0;
 		int moveSpeedY = 0;
-		//float HomeY = 150f;
 
 		public override void SetStaticDefaults()
 		{
@@ -206,20 +206,13 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 						Collision.HitTiles(NPC.position, NPC.velocity, NPC.width, NPC.height);
 						SoundEngine.PlaySound(SoundID.Dig, NPC.Center);
 						NPC.velocity.X *= -0.5f;
-						//put other things here for on tile collision effects
 					}
 				}
 			}
 		}
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-		{
-			NPC.lifeMax = (int)(NPC.lifeMax * 0.85f * bossLifeScale);
-		}
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(BuffID.Poisoned, 200);
-		}
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = (int)(NPC.lifeMax * 0.85f * bossLifeScale);
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.Poisoned, 200);
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
@@ -227,22 +220,17 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Grass, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 						Main.dust[num622].scale = 0.5f;
 
 					int num623 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Grass, 0f, 0f, 100, default, 2f);
 					Main.dust[num623].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 						Main.dust[num623].scale = 0.5f;
 				}
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("LeafGreen").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("LeafGreen").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("LeafGreen").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("LeafGreen").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("LeafGreen").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("LeafGreen").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("LeafGreen").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("LeafGreen").Type, 1f);
+
+				for (int i = 0; i < 8; ++i)
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("LeafGreen").Type, 1f);
 			}
 			for (int j = 0; j < 2; j++)
 			{
@@ -275,7 +263,9 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			NPC.PlayDeathSound("VinewrathDeathSound");
 			return true;
 		}
+
 		Vector2 Drawoffset => new Vector2(0, NPC.gfxOffY) + Vector2.UnitX * NPC.spriteDirection * 12;
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
             float num395 = Main.mouseTextColor / 200f - 0.35f;
@@ -283,76 +273,58 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
             float num366 = num395 + .85f;
 			if (NPC.ai[0] > 300 || NPC.life <= (NPC.lifeMax/2))
 			{
-				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.75f, Color.Chartreuse * .7f, Color.PaleGreen * .05f, 0.75f, num366, .65f);
+				DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.75f, Color.Chartreuse * .7f, Color.PaleGreen * .05f, 0.75f, num366, .65f, screenPos);
 			}
 			var effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + Drawoffset, NPC.frame,
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + Drawoffset, NPC.frame,
 							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
-		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color color, float opacity, float startScale, float endScale) => DrawAfterImage(spriteBatch, offset, trailLengthModifier, color, color, opacity, startScale, endScale);
-        public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color startColor, Color endColor, float opacity, float startScale, float endScale)
+
+		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color color, float opacity, float startScale, float endScale, Vector2 screenPos) => DrawAfterImage(spriteBatch, offset, trailLengthModifier, color, color, opacity, startScale, endScale, screenPos);
+        
+		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color startColor, Color endColor, float opacity, float startScale, float endScale, Vector2 screenPos)
         {
             SpriteEffects spriteEffects = (NPC.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             for (int i = 1; i < 10; i++)
             {
                 Color color = Color.Lerp(startColor, endColor, i / 10f) * opacity;
-                spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/ReachBoss/ReachBoss1_Afterimage").Value, new Vector2(NPC.Center.X, NPC.Center.Y) + offset - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - NPC.velocity * (float)i * trailLengthModifier, NPC.frame, color, NPC.rotation, NPC.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
+                spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/ReachBoss/ReachBoss1_Afterimage").Value, new Vector2(NPC.Center.X, NPC.Center.Y) + offset - screenPos + new Vector2(0, NPC.gfxOffY) - NPC.velocity * (float)i * trailLengthModifier, NPC.frame, color, NPC.rotation, NPC.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
             }
         }
+
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			float num108 = 4;
             float num107 = (float)Math.Cos((double)(Main.GlobalTimeWrappedHourly % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
 			float num1076 = (float)Math.Cos((double)(Main.GlobalTimeWrappedHourly % 2.4f / 2.4f * 26.28318548f)) / 2f + 0.5f;
             float num106 = 0f;
 			Color color1 = Color.White * num107 * .8f;
 			Color color2 = Color.White * num1076;
 			var effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(
-				Mod.Assets.Request<Texture2D>("NPCs/Boss/ReachBoss/ReachBoss1_Glow").Value,
-				NPC.Center - Main.screenPosition + Drawoffset,
-				NPC.frame,
-				color1,
-				NPC.rotation,
-				NPC.frame.Size() / 2,
-				NPC.scale,
-				effects,
-				0
-			);
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/ReachBoss/ReachBoss1_Glow").Value, NPC.Center - screenPos + Drawoffset, NPC.frame, color1, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+
 			SpriteEffects spriteEffects3 = (NPC.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-			Vector2 vector33 = new Vector2(NPC.Center.X, NPC.Center.Y) - Main.screenPosition + Drawoffset - NPC.velocity;
 			Color color29 = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Color.LawnGreen);
-			for (int num103 = 0; num103 < 4; num103++)
+
+			const int Repeats = 4;
+			for (int i = 0; i < Repeats; i++)
 			{
 				Color color28 = color29;
 				color28 = NPC.GetAlpha(color28);
 				color28 *= 1f - num107;
-				Vector2 vector29 = NPC.Center + (num103 / (float)num108 * 6.28318548f + NPC.rotation + num106).ToRotationVector2() * (7f * num107 + 2f) - Main.screenPosition + Drawoffset - NPC.velocity * (float)num103;
+				Vector2 vector29 = NPC.Center + (i / (float)Repeats * 6.28318548f + NPC.rotation + num106).ToRotationVector2() * (7f * num107 + 2f) - screenPos + Drawoffset - NPC.velocity * (float)i;
 				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/ReachBoss/ReachBoss1_Glow").Value, vector29, NPC.frame, color28, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, spriteEffects3, 0f);
 			}
+
 			if (NPC.ai[0] > 400 && NPC.ai[0] < 500 || NPC.ai[0] > 600 && NPC.ai[0] < 700)
-			{
-				spriteBatch.Draw(
-					Mod.Assets.Request<Texture2D>("NPCs/Boss/ReachBoss/ReachBoss1_Flash").Value,
-					NPC.Center - Main.screenPosition + Drawoffset,
-					NPC.frame,
-					color2,
-					NPC.rotation,
-					NPC.frame.Size() / 2,
-					NPC.scale,
-					effects,
-					0
-				);
-			}
+				spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/ReachBoss/ReachBoss1_Flash").Value, NPC.Center - screenPos + Drawoffset, NPC.frame, color2, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 		}
-		public override void BossLoot(ref string name, ref int potionType)
-		{
-			potionType = ItemID.HealingPotion;
-		}
+
+		public override void BossLoot(ref string name, ref int potionType) => potionType = ItemID.HealingPotion;
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
+			npcLoot.AddMasterModeCommonDrop<VinewrathRelicItem>();
 			npcLoot.AddBossBag<ReachBossBag>();
 			npcLoot.AddCommon<ReachMask>(7);
 			npcLoot.AddCommon<Trophy5>(10);

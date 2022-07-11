@@ -24,7 +24,8 @@ namespace SpiritMod.NPCs.ArterialGrasper
 
 			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
 			{
-				Velocity = 1f
+				Velocity = 1f,
+				Position = new(0, 10f),
 			};
 			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}

@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Accessory.BowSummonItem
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Jinxbow");
-			Tooltip.SetDefault("Summons a possessed bow to fight for you\nUses the strongest arrows in your inventory");
+			Tooltip.SetDefault("Summons a possessed bow to fight for you\nUses the strongest arrows in your inventory\nIf the user has no arrows, shoots weaker Jester Arrows infinitely");
 		}
 
 		public override void SetDefaults()

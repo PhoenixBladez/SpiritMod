@@ -248,6 +248,7 @@ namespace SpiritMod.Utilities
 
 		private const float ProfileNameScale = 1f; //Profile name scale - 1f because the higher is poorly resized
 		public static bool HoveringQuestButton = false;
+
 		private static void Main_DrawNPCChatButtons(On.Terraria.Main.orig_DrawNPCChatButtons orig, int superColor, Color chatColor, int numLines, string focusText, string focusText3) //Portrait drawing - Gabe
 		{
 			if (Main.LocalPlayer.talkNPC != -1)

@@ -149,25 +149,38 @@ namespace SpiritMod.Projectiles.Summon.BowSummon
 
 					if (Projectile.frame > 3)
 					{
-						Vector2 ShootArea = new Vector2(Projectile.Center.X, Projectile.Center.Y - 13);
+						Vector2 ShootArea = new Vector2(Projectile.Center.X, Projectile.Center.Y);
 						Vector2 direction = Vector2.Normalize(target.Center - ShootArea) * shootVelocity;
 
 						int selectedIndex = 0;
+						bool itemChosen = false;
 						for (int i = 0; i < player.inventory.Length; ++i)
 						{
 							Item item = player.inventory[i];
 							Item selItem = player.inventory[selectedIndex];
 
-							if (item.active && item.ammo == AmmoID.Arrow && (selItem.ammo == AmmoID.None || item.damage > selItem.damage))
+							if (!item.IsAir && item.ammo == AmmoID.Arrow && (selItem.ammo == AmmoID.None || item.damage > selItem.damage))
+							{
 								selectedIndex = i;
+								itemChosen = true;
+							}
 						}
 
 						Item selectedItem = player.inventory[selectedIndex];
 						int shootType = selectedItem.shoot;
-						int proj2 = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, direction.X, direction.Y, shootType, Projectile.damage, Projectile.knockBack, Main.myPlayer);
-						Main.projectile[proj2].minion = true;
+						int damage = (int)player.GetDamage(DamageClass.Summon).ApplyTo(16);
+
+						if (!itemChosen)
+						{
+							shootType = ProjectileID.JestersArrow;
+							damage = (int)(damage * 0.6f);
+							direction *= 0.5f;
+						}
+
+						int proj2 = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, direction, shootType, damage, Projectile.knockBack, player.whoAmI);
 						Main.projectile[proj2].DamageType = DamageClass.Summon;
 						Main.projectile[proj2].netUpdate = true;
+						Main.projectile[proj2].friendly = true;
 
 						GItem.UseAmmoDirect(Main.player[Projectile.owner], selectedIndex);
 

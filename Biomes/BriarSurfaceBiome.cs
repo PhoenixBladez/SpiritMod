@@ -14,9 +14,9 @@ namespace SpiritMod.Biomes
 		public override int Music => Main.dayTime ? MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Reach") : MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ReachNighttime");
 
 		public override string BestiaryIcon => base.BestiaryIcon;
-		public override string BackgroundPath => base.BackgroundPath;
+		public override string BackgroundPath => MapBackground;
 		public override Color? BackgroundColor => base.BackgroundColor;
-		public override string MapBackground => BackgroundPath;
+		public override string MapBackground => "SpiritMod/Backgrounds/BriarMapBG";
 
 		public override bool IsBiomeActive(Player player)
 		{

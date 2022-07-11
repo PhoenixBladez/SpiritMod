@@ -71,7 +71,7 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 		{
 			Player player = Main.player[NPC.target];
 
-			if (Main.rand.Next(500) == 0)
+			if (Main.rand.NextBool(500))
 				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Mandrake_Idle"), NPC.Center);
 
 			NPC.rotation = NPC.velocity.X * .1f;
@@ -214,20 +214,27 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			Vector2 drawPos = NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY);
+			Vector2 drawPos = NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY);
 			SpriteEffects effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			Texture2D glow = Mod.Assets.Request<Texture2D>("NPCs/Sea_Mandrake/Sea_Mandrake_Glow").Value;
 
 			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
-			spriteBatch.Draw(glow, drawPos, NPC.frame, new Color(r - NPC.alpha, g - NPC.alpha, b - NPC.alpha, byte.MaxValue - NPC.alpha), NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0.0f);
 
-			const int MaxGlows = 6;
+			Color col = new Color(r - NPC.alpha, g - NPC.alpha, b - NPC.alpha, byte.MaxValue - NPC.alpha);
+			if (NPC.IsABestiaryIconDummy)
+			{
+				sineTimer++;
+				col = Color.LightGoldenrodYellow;
+			}
+			spriteBatch.Draw(glow, drawPos, NPC.frame, col, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0.0f);
+
+			const int MaxGlows = 5;
 
 			for (int index = 0; index < MaxGlows; ++index)
 			{
-				float sine = (float)Math.Sin(sineTimer * 0.06f) * 2.5f;
+				float sine = (float)Math.Sin(sineTimer * 0.06f) * 1.5f;
 				Vector2 sineOffset = new Vector2(sine * sine, 0).RotatedBy(index * MathHelper.TwoPi / MaxGlows);
-				Main.spriteBatch.Draw(glow, drawPos + sineOffset, NPC.frame, new Color(r, g, b, 0) * 0.2f, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0.0f);
+				Main.spriteBatch.Draw(glow, drawPos + sineOffset, NPC.frame, col * 0.2f, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0.0f);
 			}
 		}
 

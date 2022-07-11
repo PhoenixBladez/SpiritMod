@@ -14,9 +14,9 @@ namespace SpiritMod.Biomes
 		public override int Music => MusicLoader.GetMusicSlot(Mod, "Sounds/Music/SpiritOverworld");
 
 		public override string BestiaryIcon => base.BestiaryIcon;
-		public override string BackgroundPath => base.BackgroundPath;
+		public override string BackgroundPath => MapBackground;
 		public override Color? BackgroundColor => base.BackgroundColor;
-		public override string MapBackground => BackgroundPath;
+		public override string MapBackground => "SpiritMod/Backgrounds/SpiritMapBackground";
 
 		public override bool IsBiomeActive(Player player)
 		{
