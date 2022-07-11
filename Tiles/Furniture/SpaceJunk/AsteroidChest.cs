@@ -22,6 +22,11 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileOreFinderPriority[Type] = 500;
+
+			TileID.Sets.HasOutlines[Type] = true;
+			TileID.Sets.BasicChest[Type] = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.newTile.Height = 2;
@@ -34,11 +39,11 @@ namespace SpiritMod.Tiles.Furniture.SpaceJunk
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
+
 			name.SetDefault("Asteroid Chest");
 			AddMapEntry(new Color(125, 116, 115), name);
 			DustType = DustID.Dirt;
 			AdjTiles = new int[] { TileID.Containers };
-			TileID.Sets.BasicChest[Type] = true;
 			ChestDrop = ModContent.ItemType<Items.Placeable.Furniture.AsteroidChest>();
 			ContainerName.SetDefault("Asteroid Chest");
 		}

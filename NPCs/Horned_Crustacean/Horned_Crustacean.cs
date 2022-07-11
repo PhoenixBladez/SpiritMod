@@ -21,6 +21,7 @@ namespace SpiritMod.NPCs.Horned_Crustacean
 		public int r = 0;
 		public int g = 0;
 		public int b = 0;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Luminous Prowler");
@@ -45,6 +46,7 @@ namespace SpiritMod.NPCs.Horned_Crustacean
 			NPC.dontTakeDamage = false;
 			NPC.DeathSound = SoundID.NPCDeath32;
 		}
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(r);

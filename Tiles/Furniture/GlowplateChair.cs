@@ -6,7 +6,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Placeable.Tiles;
 using Terraria.ObjectData;
-
+using Terraria.GameContent.ObjectInteractions;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Tiles.Furniture
 {
@@ -17,6 +18,12 @@ namespace SpiritMod.Tiles.Furniture
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
+
+			TileID.Sets.HasOutlines[Type] = true;
+			TileID.Sets.CanBeSatOnForNPCs[Type] = true;
+			TileID.Sets.CanBeSatOnForPlayers[Type] = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
@@ -28,6 +35,7 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight; //allows me to place example chairs facing the same way as the player
 			TileObjectData.addAlternate(1); //facing right will use the second texture style
 			TileObjectData.addTile(Type);
+
 			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Glowplate Chair");
@@ -36,33 +44,30 @@ namespace SpiritMod.Tiles.Furniture
 			AdjTiles = new int[] { TileID.Chairs };
 		}
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 16, ModContent.ItemType<GlowplateChairItem>());
-		}
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 16, ModContent.ItemType<GlowplateChairItem>());
+
+		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+
             if (Main.drawToScreen)
-            {
                 zero = Vector2.Zero;
-            }
+
             int height = tile.TileFrameY == 36 ? 18 : 16;
-            Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Furniture/GlowplateChair_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(150, 150, 150, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            Tile t = Main.tile[i, j];
+            Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Furniture/GlowplateChair_Glowmask").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(150, 150, 150, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
+
+		public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => FurnitureHelper.HasSmartInteract(i, j, settings);
+		public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info) => FurnitureHelper.ModifySittingTargetInfo(i, j, ref info);
+		public override bool RightClick(int i, int j) => FurnitureHelper.RightClick(i, j);
+		public override void MouseOver(int i, int j) => FurnitureHelper.MouseOver(i, j, ModContent.ItemType<GlowplateChairItem>());
 	}
+
 	public class GlowplateChairItem : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Glowplate Chair");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Glowplate Chair");
 
 		public override void SetDefaults()
 		{

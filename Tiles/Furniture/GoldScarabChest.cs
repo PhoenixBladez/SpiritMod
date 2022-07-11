@@ -23,6 +23,11 @@ namespace SpiritMod.Tiles.Furniture
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileOreFinderPriority[Type] = 500;
+
+			TileID.Sets.HasOutlines[Type] = true;
+			TileID.Sets.BasicChest[Type] = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.newTile.Height = 2;
@@ -38,11 +43,9 @@ namespace SpiritMod.Tiles.Furniture
 			name.SetDefault("Gold Chest");
 			AddMapEntry(new Color(232, 193, 0), name, MapChestName);
 			DustType = DustID.Dirt;
-			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
 			ChestDrop = ItemID.GoldChest;
 			ContainerName.SetDefault("Gold Chest");
-            TileID.Sets.HasOutlines[Type] = true;
         }
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 

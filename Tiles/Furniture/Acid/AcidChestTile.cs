@@ -23,6 +23,11 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileOreFinderPriority[Type] = 500;
+
+			TileID.Sets.HasOutlines[Type] = true;
+			TileID.Sets.BasicChest[Type] = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
 			TileObjectData.newTile.Height = 2;
@@ -34,15 +39,14 @@ namespace SpiritMod.Tiles.Furniture.Acid
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.addTile(Type);
+
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Corrosive Chest");
 			AddMapEntry(new Color(100, 122, 111), name);
 			DustType = DustID.Dirt;
-			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
 			ChestDrop = ModContent.ItemType<Items.Placeable.Furniture.Acid.AcidChest>();
 			ContainerName.SetDefault("Corrosive Chest");
-			TileID.Sets.HasOutlines[Type] = true;
 		}
 
 		public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;

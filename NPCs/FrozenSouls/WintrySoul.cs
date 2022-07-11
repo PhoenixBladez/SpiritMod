@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.FrozenSouls
 {
@@ -36,28 +37,28 @@ namespace SpiritMod.NPCs.FrozenSouls
 			NPC.noGravity = true;
 			AIType = NPCID.Firefly;
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundSnow,
+				new FlavorTextBestiaryInfoElement("A curious memory of time past, somehow preserved by the deep icy tundra."),
+			});
+		}
+
 		float decisionValue = 0f;
 		float outcomeValue = 0f;
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
-		}
-		public override bool CanChat()
-		{
-			return true;
-		}
-		public override bool? CanBeHitByItem(Player player, Item item)
-		{
-			return false;
-		}
-		public override bool? CanBeHitByProjectile(Projectile projectile)
-		{
-			return false;
-		}
+
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+		public override bool CanChat() => true;
+		public override bool? CanBeHitByItem(Player player, Item item) => false;
+		public override bool? CanBeHitByProjectile(Projectile projectile) => false;
+
 		public override string GetChat()
 		{
 			return "As I approach the spirit, the cave around me seems to shake. The walls collapse, leaving me standing in a boundless chasm. I am alone. Countless piles of gold and relics lay strewn about, covered in a thin layer of frost. The only light in the cavern seems to come from the soul beside me as it waits for me to make a decision.";
 		}
+
 		public override void SetChatButtons(ref string button, ref string button2)
 		{
 			if (decisionValue == 0f)
@@ -66,6 +67,7 @@ namespace SpiritMod.NPCs.FrozenSouls
 				button2 = "Leave";
 			}
 		}
+
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{
 			if (firstButton)
@@ -79,6 +81,7 @@ namespace SpiritMod.NPCs.FrozenSouls
 					decisionValue = 2f;
 			}
 		}
+
 		public override void AI()
 		{
 			float num395 = Main.mouseTextColor / 200f - 0.35f;

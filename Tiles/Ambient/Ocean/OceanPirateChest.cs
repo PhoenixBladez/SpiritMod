@@ -29,6 +29,9 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			TileID.Sets.HasOutlines[Type] = true;
 			TileID.Sets.CanBeClearedDuringGeneration[Type] = false;
 			TileID.Sets.CanBeClearedDuringOreRunner[Type] = false;
+			TileID.Sets.HasOutlines[Type] = true;
+			TileID.Sets.BasicChest[Type] = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Origin = new Point16(0, 1);
@@ -49,7 +52,6 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 			AddMapEntry(new Color(87, 64, 31), name, MapChestName);
 
 			DustType = DustID.Dirt;
-			TileID.Sets.DisableSmartCursor[Type] = true;
 			AdjTiles = new int[] { TileID.Containers };
 			ChestDrop = ModContent.ItemType<PirateChest>();
 			ContainerName.SetDefault("Pirate Chest");

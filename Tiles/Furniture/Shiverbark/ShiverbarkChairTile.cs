@@ -1,10 +1,11 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Placeable.Furniture.Reach;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria;
 using Terraria.ID;
 using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.DataStructures;
 
 namespace SpiritMod.Tiles.Furniture.Shiverbark
 {
@@ -15,6 +16,12 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileLavaDeath[Type] = true;
+
+			TileID.Sets.HasOutlines[Type] = true;
+			TileID.Sets.CanBeSatOnForNPCs[Type] = true;
+			TileID.Sets.CanBeSatOnForPlayers[Type] = true;
+			TileID.Sets.DisableSmartCursor[Type] = true;
+
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
 			TileObjectData.newTile.Height = 2;
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
@@ -34,14 +41,12 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 			AdjTiles = new int[] { TileID.Chairs };
 		}
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.Shiverbark.ShiverbarkChair>());
 
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Terraria.Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeable.Furniture.Shiverbark.ShiverbarkChair>());
-		}
+		public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => FurnitureHelper.HasSmartInteract(i, j, settings);
+		public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info) => FurnitureHelper.ModifySittingTargetInfo(i, j, ref info);
+		public override bool RightClick(int i, int j) => FurnitureHelper.RightClick(i, j);
+		public override void MouseOver(int i, int j) => FurnitureHelper.MouseOver(i, j, ModContent.ItemType<Items.Placeable.Furniture.Shiverbark.ShiverbarkChair>());
 	}
 }
