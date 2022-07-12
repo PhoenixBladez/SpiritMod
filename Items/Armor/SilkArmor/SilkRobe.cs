@@ -24,10 +24,6 @@ namespace SpiritMod.Items.Armor.SilkArmor
 			Item.defense = 2;
 		}
 
-		public override void UpdateEquip(Player player)
-		{
-            player.GetSpiritPlayer().silkenRobe = true;
-		}
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);

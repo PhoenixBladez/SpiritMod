@@ -15,11 +15,12 @@ namespace SpiritMod.Items.Sets.SummonsMisc.TwoFaceMask
 		{
 			DisplayName.SetDefault("Two-Faced Mask");
 			Tooltip.SetDefault("Summons either a Soul of Happiness or Sadness at the cursor position with a left or right click\nThe Soul of Happiness shoots out beams at foes\nThe Soul of Sadness shoots out homing tears at foes");
+			Item.staff[Item.type] = true;
 		}
 
 		public override void SetDefaults()
 		{
-			Item.damage = 17;
+			Item.damage = 15;
 			Item.DamageType = DamageClass.Summon;
 			Item.mana = 10;
 			Item.width = 44;
@@ -27,7 +28,6 @@ namespace SpiritMod.Items.Sets.SummonsMisc.TwoFaceMask
 			Item.useTime = 35;
 			Item.useAnimation = 35;
 			Item.useStyle = ItemUseStyleID.Shoot;
-			Item.staff[Item.type] = true;
 			Item.noMelee = true;
 			Item.knockBack = 5;
 			Item.value = 20000;
@@ -46,6 +46,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.TwoFaceMask
 				type = ModContent.ProjectileType<SadSoul>();
 			else
 				type = ModContent.ProjectileType<HappySoul>();
+
 			position = Main.MouseWorld;
 			Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
 			player.UpdateMaxTurrets();

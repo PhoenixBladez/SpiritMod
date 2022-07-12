@@ -19,7 +19,7 @@ namespace SpiritMod.NPCs.AstralAmalgam
 	public class AstralAmalgram : ModNPC
 	{
 		private bool hasSpawnedBoys = false;
-		private ref float chargetimer => ref NPC.ai[2];
+		private ref float Chargetimer => ref NPC.ai[2];
 
 		public override void SetStaticDefaults()
 		{
@@ -131,9 +131,9 @@ namespace SpiritMod.NPCs.AstralAmalgam
 			if ((double)velLimitX < 0.0) {
 				NPC.rotation = (float)Math.Atan2((double)velLimitY, (double)velLimitX) + 3.14f;
 			}
-			chargetimer++;
-			if (chargetimer >= 300) {
-				chargetimer = 0;
+			Chargetimer++;
+			if (Chargetimer >= 300) {
+				Chargetimer = 0;
 				Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 				direction.Normalize();
 				direction.X = direction.X * Main.rand.Next(8, 10);

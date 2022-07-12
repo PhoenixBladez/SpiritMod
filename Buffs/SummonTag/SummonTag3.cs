@@ -14,6 +14,6 @@ namespace SpiritMod.Buffs.SummonTag
 			Main.buffNoTimeDisplay[Type] = false;
 		}
 
-		public override void Update(NPC npc, ref int buffIndex) => npc.GetGlobalNPC<GNPC>().summonTag = 3;
+		public override void Update(NPC npc, ref int buffIndex) => npc.GetGlobalNPC<GNPC>().summonTag = 2;
 	}
 }

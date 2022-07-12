@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 
 		public override void SetDefaults()
 		{
-			Item.damage = 10;
+			Item.damage = 6;
 			Item.width = 22;
 			Item.height = 18;
 			Item.value = Item.sellPrice(0, 2, 0, 0);
@@ -30,13 +30,14 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 			Item.DamageType = DamageClass.Summon;
 			Item.noMelee = true;
 			Item.shoot = ModContent.ProjectileType<FairyMinion>();
-			if(!Main.dedServ)
+
+			if (!Main.dedServ)
 				Item.UseSound = new SoundStyle("SpiritMod/Sounds/Whistle") with { PitchVariance = 0.3f, Volume = 1.2f };
 
 			Item.scale = 0.75f;
 		}
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			player.itemRotation = 0;
 			if (!Main.dedServ)
@@ -52,7 +53,6 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 		{
 			Recipe recipe = CreateRecipe();
 			recipe.AddRecipeGroup(RecipeGroupID.Wood, 25);
-			recipe.AddIngredient(ItemID.FallenStar, 4);
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.Register();
 		}

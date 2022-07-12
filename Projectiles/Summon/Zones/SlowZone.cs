@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Summon.Zones
 				NPC npc = Main.npc[i];
 
 				if (npc.CanBeChasedBy() && npc.DistanceSQ(Projectile.Center) < 100 * 100)
-					npc.AddBuff(ModContent.BuffType<MageFreeze>(), 300);
+					npc.AddBuff(ModContent.BuffType<MageFreeze>(), 120);
 			}
 		}
 

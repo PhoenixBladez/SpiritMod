@@ -20,11 +20,11 @@ namespace SpiritMod.Items.Sets.BismiteSet
 		public override void SetDefaults()
 		{
 			Item.CloneDefaults(ItemID.QueenSpiderStaff);
-			Item.damage = 12;
+			Item.damage = 7;
 			Item.mana = 10;
 			Item.width = 50;
 			Item.height = 50;
-			Item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
+			Item.value = Item.sellPrice(0, 0, 20, 0);
 			Item.rare = ItemRarityID.Blue;
 			Item.knockBack = 2.5f;
 			Item.UseSound = SoundID.Item20;
@@ -32,12 +32,9 @@ namespace SpiritMod.Items.Sets.BismiteSet
 			Item.shootSpeed = 0f;
 		}
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+		public override bool AltFunctionUse(Player player) => true;
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
             if (player.altFunctionUse != 2)
             {

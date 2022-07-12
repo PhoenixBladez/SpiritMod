@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.Heartillery
 		public override void SetDefaults()
 		{
 			Item.CloneDefaults(ItemID.QueenSpiderStaff);
-			Item.damage = 22;
+			Item.damage = 17;
 			Item.mana = 11;
 			Item.width = 20;
 			Item.height = 30;

@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.ArcaneZoneSubclass
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Arcane Codex: Stamina Zone");
-			Tooltip.SetDefault("Summons a stamina zone at the cursor position\nStamina zones greatly increase movement speed and agility\nZones count as sentries");
+			Tooltip.SetDefault("Summons a stamina zone at the cursor position\nStamina zones increase movement speed by 20%\nZones count as sentries");
             SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/ArcaneZoneSubclass/StaminaCodex_Glow");
         }
 

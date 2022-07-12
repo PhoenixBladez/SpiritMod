@@ -19,26 +19,8 @@ namespace SpiritMod.Items.Armor.SilkArmor
 			Item.height = 22;
 			Item.value = 7500;
 			Item.rare = ItemRarityID.Blue;
-			Item.defense = 1;
-		}
-		public override void UpdateEquip(Player player)
-		{
-			player.maxMinions += 1;
 		}
 
-		public override bool IsArmorSet(Item head, Item body, Item legs)
-		{
-			return body.type == ModContent.ItemType<SilkRobe>() && legs.type == ModContent.ItemType<SilkLegs>();
-		}
-		public override void UpdateArmorSet(Player player)
-		{
-
-			player.setBonus = "While above 70% health, your minions are 'Mana Infused'\nMana Infused minions deal 1 additional damage and glow";
-			if (player.statLife >= player.statLifeMax2 * .7f) {
-				player.GetSpiritPlayer().silkenSet = true;
-			}
-
-		}
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);

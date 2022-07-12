@@ -524,62 +524,6 @@ namespace SpiritMod
 			}
 		}
 
-		//public override void UpdateBiomes()
-		//{
-		//	ZoneSpirit = MyWorld.SpiritTiles > 200;
-		//	ZoneBlueMoon = MyWorld.BlueMoon;
-		//	ZoneReach = MyWorld.ReachTiles > 50;
-		//	ZoneMarble = MyWorld.MarbleTiles > 310;
-		//	ZoneGranite = MyWorld.GraniteTiles > 400;
-		//	ZoneAsteroid = MyWorld.AsteroidTiles > 130;
-		//	ZoneHive = MyWorld.HiveTiles > 100;
-		//}
-
-		//public override bool CustomBiomesMatch(Player other)
-		//{
-		//	MyPlayer modOther = other.GetSpiritPlayer();
-		//	return ZoneSpirit == modOther.ZoneSpirit
-		//		&& ZoneReach == modOther.ZoneReach
-		//		&& ZoneAsteroid == modOther.ZoneAsteroid
-		//		&& ZoneGranite == modOther.ZoneGranite
-		//		&& ZoneMarble == modOther.ZoneMarble
-		//		&& ZoneHive == modOther.ZoneHive;
-		//}
-
-		//public override void CopyCustomBiomesTo(Player other)
-		//{
-		//	MyPlayer modOther = other.GetSpiritPlayer();
-		//	modOther.ZoneSpirit = ZoneSpirit;
-		//	modOther.ZoneReach = ZoneReach;
-		//	modOther.ZoneAsteroid = ZoneAsteroid;
-		//	modOther.ZoneGranite = ZoneGranite;
-		//	modOther.ZoneMarble = ZoneMarble;
-		//	modOther.ZoneHive = ZoneHive;
-		//}
-
-		//public override void SendCustomBiomes(BinaryWriter writer)
-		//{
-		//	BitsByte flags = new BitsByte();
-		//	flags[0] = ZoneSpirit;
-		//	flags[1] = ZoneReach;
-		//	flags[2] = ZoneAsteroid;
-		//	flags[3] = ZoneGranite;
-		//	flags[4] = ZoneMarble;
-		//	flags[5] = ZoneHive;
-		//	writer.Write(flags);
-		//}
-
-		//public override void ReceiveCustomBiomes(BinaryReader reader)
-		//{
-		//	BitsByte flags = reader.ReadByte();
-		//	ZoneSpirit = flags[0];
-		//	ZoneReach = flags[1];
-		//	ZoneAsteroid = flags[2];
-		//	ZoneGranite = flags[3];
-		//	ZoneMarble = flags[4];
-		//	ZoneHive = flags[5];
-		//}
-
 		public override void SaveData(TagCompound tag)
 		{
 			tag.Add("candyInBowl", candyInBowl);

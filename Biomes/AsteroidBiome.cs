@@ -22,5 +22,8 @@ namespace SpiritMod.Biomes
 			bool surface = player.ZoneSkyHeight || player.ZoneOverworldHeight;
 			return enoughTiles && surface;
 		}
+
+		public override void OnEnter(Player player) => player.GetSpiritPlayer().ZoneAsteroid = true;
+		public override void OnLeave(Player player) => player.GetSpiritPlayer().ZoneAsteroid = false;
 	}
 }

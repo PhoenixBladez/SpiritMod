@@ -21,11 +21,6 @@ namespace SpiritMod.Items.Armor.SilkArmor
 			Item.defense = 1;
 		}
 
-		public override void UpdateEquip(Player player)
-		{
-			player.GetSpiritPlayer().silkenLegs = true;
-		}
-
 		public override void AddRecipes()  //How to craft this item
 		{
 			Recipe recipe = CreateRecipe();
