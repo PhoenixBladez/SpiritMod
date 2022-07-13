@@ -8,7 +8,7 @@ namespace SpiritMod.Biomes
 	internal class SynthwaveSurfaceBiome : ModBiome
 	{
 		//public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("SpiritMod/Effects/Waters/Spirit/SpiritWaterStyle");
-		public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("SpiritMod/Biomes/SynthwaveBGStyle");
+		public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("SpiritMod/SynthwaveBGStyle");
 		public override CaptureBiome.TileColorStyle TileColorStyle => CaptureBiome.TileColorStyle.Mushroom;
 		public override SceneEffectPriority Priority => SceneEffectPriority.BiomeLow;
 
@@ -21,9 +21,11 @@ namespace SpiritMod.Biomes
 
 		public override bool IsBiomeActive(Player player)
 		{
-			bool enoughTiles = ModContent.GetInstance<BiomeTileCounts>().spiritCount >= 80;
 			bool surface = player.ZoneSkyHeight || player.ZoneOverworldHeight;
-			return enoughTiles && surface;
+			return ModContent.GetInstance<BiomeTileCounts>().inSynthwave && surface;
 		}
+
+		public override void OnEnter(Player player) => player.GetSpiritPlayer().ZoneSynthwave = true;
+		public override void OnLeave(Player player) => player.GetSpiritPlayer().ZoneSynthwave = false;
 	}
 }

@@ -12,6 +12,8 @@ namespace SpiritMod.Tiles.Furniture
 {
 	public class SynthwaveHead : ModTile
 	{
+		public virtual int FrameModY => 0;
+
 		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
@@ -29,16 +31,7 @@ namespace SpiritMod.Tiles.Furniture
 			name.SetDefault("Hyperspace Bust");
 		}
 
-		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, Mod.Find<ModItem>("SynthwaveHeadItem").Type);
-
-		public override void NearbyEffects(int i, int j, bool closer)
-		{
-			if (Main.tile[i, j].TileFrameY >= 74)
-			{
-				MyPlayer modPlayer = Main.LocalPlayer.GetModPlayer<MyPlayer>();
-				modPlayer.ZoneSynthwave = true;
-			}
-		}
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, Mod.Find<ModItem>("SynthwaveHeadItem").Type);
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
@@ -48,25 +41,7 @@ namespace SpiritMod.Tiles.Furniture
 			Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/SynthwaveHead_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
-			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), colour);
-			if (Main.tile[i, j].TileFrameY >= 74)
-			{
-				if (Main.rand.Next(50) == 0)
-				{
-					int index3 = Dust.NewDust(new Vector2((i * 16), (float)(j * 16) - 20), 16, 16, DustID.Electric, 0.0f, 0f, 150, new Color(), 0.5f);
-					Main.dust[index3].fadeIn = 0.75f;
-					Main.dust[index3].velocity = new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1));
-					Main.dust[index3].noLight = true;
-					Main.dust[index3].noGravity = true;
-				}
-				if (Main.rand.Next(50) == 0)
-				{
-					int index3 = Dust.NewDust(new Vector2((i * 16), (float)(j * 16) - 20), 16, 16, DustID.WitherLightning, 0.0f, 0f, 150, new Color(), 0.5f);
-					Main.dust[index3].fadeIn = 0.75f;
-					Main.dust[index3].velocity = new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1));
-					Main.dust[index3].noGravity = true;
-				}
-			}
+			spriteBatch.Draw(glow, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY + FrameModY, 16, 16), colour);
 		}
 
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
@@ -83,7 +58,7 @@ namespace SpiritMod.Tiles.Furniture
 			Player player = Main.LocalPlayer;
 			player.noThrow = 2;
 			player.cursorItemIconEnabled = true;
-			player.cursorItemIconID = Mod.Find<ModItem>("VoidMonolith").Type;
+			player.cursorItemIconID = Mod.Find<ModItem>("SynthwaveHeadItem").Type;
 		}
 
 		public override void HitWire(int i, int j)
@@ -94,15 +69,17 @@ namespace SpiritMod.Tiles.Furniture
 			{
 				for (int m = y; m < y + 4; m++)
 				{
-					if (Main.tile[l, m].HasTile && Main.tile[l, m].TileType == Type)
+					Tile tile = Main.tile[l, m];
+					if (tile.HasTile)
 					{
-						if (Main.tile[l, m].TileFrameY < 74)
-							Main.tile[l, m].TileFrameY += 74;
+						if (tile.TileType == ModContent.TileType<SynthwaveHeadActive>())
+							tile.TileType = (ushort)ModContent.TileType<SynthwaveHead>();
 						else
-							Main.tile[l, m].TileFrameY -= 74;
+							tile.TileType = (ushort)ModContent.TileType<SynthwaveHeadActive>();
 					}
 				}
 			}
+
 			if (Wiring.running)
 			{
 				Wiring.SkipWire(x, y);
@@ -113,6 +90,33 @@ namespace SpiritMod.Tiles.Furniture
 				Wiring.SkipWire(x + 1, y + 2);
 			}
 			NetMessage.SendTileSquare(-1, x, y + 1, 3);
+		}
+	}
+
+	public class SynthwaveHeadActive : SynthwaveHead
+	{
+		public override int FrameModY => 74;
+		public override string Texture => $"SpiritMod/Tiles/Furniture/{nameof(SynthwaveHead)}";
+
+		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+		{
+			base.PostDraw(i, j, spriteBatch);
+
+			if (Main.rand.NextBool(50))
+			{
+				int index3 = Dust.NewDust(new Vector2((i * 16), (float)(j * 16) - 20), 16, 16, DustID.Electric, 0.0f, 0f, 150, new Color(), 0.5f);
+				Main.dust[index3].fadeIn = 0.75f;
+				Main.dust[index3].velocity = new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1));
+				Main.dust[index3].noLight = true;
+				Main.dust[index3].noGravity = true;
+			}
+			if (Main.rand.NextBool(50))
+			{
+				int index3 = Dust.NewDust(new Vector2((i * 16), (float)(j * 16) - 20), 16, 16, DustID.WitherLightning, 0.0f, 0f, 150, new Color(), 0.5f);
+				Main.dust[index3].fadeIn = 0.75f;
+				Main.dust[index3].velocity = new Vector2(Main.rand.Next(-2, 2), Main.rand.Next(-2, -1));
+				Main.dust[index3].noGravity = true;
+			}
 		}
 	}
 }

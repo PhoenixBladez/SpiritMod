@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Books.UI
 			this.resizeableX = resizeableX;
 			this.resizeableY = resizeableY;
 			if (dragTexture == null) {
-				dragTexture = ModContent.Request<Texture2D>("Images/UI/PanelBorder", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				dragTexture = ModContent.Request<Texture2D>("Terraria/Images/UI/PanelBorder", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			}
 			additionalDragTargets = new List<UIElement>();
 		}

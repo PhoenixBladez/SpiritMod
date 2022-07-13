@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Arrow;
 using Terraria;
 using Terraria.Audio;
@@ -17,11 +16,10 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 			Tooltip.SetDefault("Right click after 5 shots to launched a flayed arrow\nEnemies hit by flayed arrows will explode upon death, or 5 seconds later");
 		}
 
-
 		int counter = 0;
 		public override void SetDefaults()
 		{
-			Item.damage = 20;
+			Item.damage = 16;
 			Item.noMelee = true;
 			Item.DamageType = DamageClass.Ranged;
 			Item.width = 24;
@@ -38,25 +36,30 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 			Item.autoReuse = true;
 			Item.shootSpeed = 8f;
 		}
+
 		public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
-		{
-			if (player.altFunctionUse == 2) {
-				type = ModContent.ProjectileType<FlayedShot>();
-				if (counter > 0) {
-					return false;
-				}
-				else {
-					counter = 5;
-				}
 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+			if (player.altFunctionUse == 2)
+				type = ModContent.ProjectileType<FlayedShot>();
+		}
+
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+		{
+			if (player.altFunctionUse == 2)
+			{
+				if (counter > 0)
+					return false;
+				else
+					counter = 5;
 			}
-			else {
+			else
 				counter--;
-			}
+
 			if (counter == 0)
 			{
 				SoundEngine.PlaySound(SoundID.Item20);
@@ -75,14 +78,12 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 		}
 		public override bool CanUseItem(Player player)
 		{
-			if (player.altFunctionUse == 2) {
-				if (counter > 0) {
+			if (player.altFunctionUse == 2)
+			{
+				if (counter > 0)
 					return false;
-				}
-				else {
+				else
 					return true;
-				}
-
 			}
 			return true;
 		}

@@ -97,7 +97,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			base.Update(gameTime);
 
 			Vector2 dist = _player.Center - (new Vector2(X, Y) * 16);
-			if (dist.Length() > 100)
+			if (dist.LengthSquared() > 100 * 100)
 			{
 				SoundEngine.PlaySound(SoundID.MenuClose);
 				ModContent.GetInstance<SpiritMod>().SlotUserInterface.SetState(null);
@@ -148,6 +148,9 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
+			if (mainPanel is null)
+				return;
+
 			if (mainPanel.ContainsPoint(Main.MouseScreen))
 				Main.LocalPlayer.mouseInterface = true;
 

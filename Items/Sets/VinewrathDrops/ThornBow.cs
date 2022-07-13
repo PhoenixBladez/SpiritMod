@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 
 		public override void SetDefaults()
 		{
-			Item.damage = 19;
+			Item.damage = 21;
 			Item.noMelee = true;
 			Item.DamageType = DamageClass.Ranged;
 			Item.width = 22;
@@ -39,32 +39,31 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 			if (type == ProjectileID.WoodenArrowFriendly) 
 				type = ModContent.ProjectileType<ThornArrow>();
 		}
+	}
 
-		public class ThornArrow : ModProjectile
+	public class ThornArrow : ModProjectile
+	{
+		public override string Texture => "Terraria/Projectile_" + ProjectileID.WoodenArrowFriendly;
+
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Thorn Arrow");
+
+		public override void SetDefaults()
 		{
-			public override string Texture => "Terraria/Projectile_" + ProjectileID.WoodenArrowFriendly;
+			Projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
+			AIType = ProjectileID.WoodenArrowFriendly;
+		}
 
-			public override void SetStaticDefaults() => DisplayName.SetDefault("Thorn Arrow");
-
-			public override void SetDefaults()
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			if (Main.rand.NextBool(4))
 			{
-				Projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
-				AIType = ProjectileID.WoodenArrowFriendly;
-			}
-
-			public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-			{
-				if(Main.rand.NextBool(4)) {
-					int n = Main.rand.Next(5, 6);
-					int deviation = Main.rand.Next(0, 300);
-					for(int i = 0; i < n; i++) {
-						float rotation = MathHelper.ToRadians(270 / n * i + deviation);
-						Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y).RotatedBy(rotation);
-						perturbedSpeed.Normalize();
-						perturbedSpeed.X *= 3.5f;
-						perturbedSpeed.Y *= 3.5f;
-						Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<ThornBowThorn>(), Projectile.damage / 5 * 3, Projectile.knockBack, Projectile.owner);
-					}
+				int n = Main.rand.Next(5, 6);
+				int deviation = Main.rand.Next(0, 300);
+				for (int i = 0; i < n; i++)
+				{
+					float rotation = MathHelper.ToRadians(270 / n * i + deviation);
+					Vector2 perturbedSpeed = Vector2.Normalize(new Vector2(Projectile.velocity.X, Projectile.velocity.Y).RotatedBy(rotation)) * 3.5f;
+					Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<ThornBowThorn>(), Projectile.damage / 5 * 3, Projectile.knockBack, Projectile.owner);
 				}
 			}
 		}

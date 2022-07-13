@@ -35,6 +35,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 			Projectile.DamageType = DamageClass.Magic;
 		}
 
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 
 		private bool primsCreated = false;
@@ -47,13 +48,17 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 			/*if (Main.rand.Next(10) == 1)
 				Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(24,24), ModContent.DustType<ScreamingDust>(), Vector2.Zero);*/
 
-			if (mousePos == null) {
-				if (Projectile.frameCounter % 16 == 0) {
-					if ((Main.MouseWorld.X > Projectile.Center.X && Projectile.spriteDirection == 1) || (Main.MouseWorld.X <= Projectile.Center.X && Projectile.spriteDirection == -1)) {
+			if (mousePos == null)
+			{
+				if (Projectile.frameCounter % 16 == 0)
+				{
+					if ((Main.MouseWorld.X > Projectile.Center.X && Projectile.spriteDirection == 1) || (Main.MouseWorld.X <= Projectile.Center.X && Projectile.spriteDirection == -1))
+					{
 						Projectile.frame++;
 					}
 				}
-				if (Projectile.frame >= 4) {
+				if (Projectile.frame >= 4)
+				{
 					Projectile.spriteDirection = 0 - Math.Sign(Projectile.spriteDirection);
 					Projectile.frame = 0;
 				}
@@ -61,32 +66,37 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.ScreamingTome
 				float y = 0.05f;
 
 				Projectile.velocity += new Vector2((float)Math.Sign(Main.player[(int)Projectile.ai[0]].Center.X - Projectile.Center.X), (float)Math.Sign(Main.player[(int)Projectile.ai[0]].Center.Y - 50 - Projectile.Center.Y)) * new Vector2(x, y);
-				if (Projectile.velocity.Length() > 4) {
+				if (Projectile.velocity.Length() > 4)
+				{
 					Projectile.velocity *= (2f / Projectile.velocity.Length());
 				}
 			}
-			else {
-				if (Projectile.frameCounter % 8 == 0 && Projectile.frame < 5) {
+			else
+			{
+				if (Projectile.frameCounter % 8 == 0 && Projectile.frame < 5)
+				{
 					Projectile.frame++;
 				}
-				if (Projectile.frame > 3) {
+				if (Projectile.frame > 3)
+				{
 					Projectile.spriteDirection = Math.Sign(0 - Projectile.velocity.X);
 				}
 			}
-			if (!primsCreated) {
+			if (!primsCreated)
+			{
 				AdjustMagnitude(ref Projectile.velocity);
 				primsCreated = true;
 				SpiritMod.primitives.CreateTrail(new SkullPrimTrail(Projectile, Color.DarkGreen, 30));
 			}
 			float distance = 800f;
 
-			if (distance > 800f) 
+			if (distance > 800f)
 				Projectile.active = false;
-			else 
+			else
 				Projectile.active = true;
 
-			if (!player.channel && mousePos == null) {
-				Projectile.tileCollide = true;
+			if (!player.channel && mousePos == null)
+			{
 				mousePos = Main.MouseWorld;
 				Projectile.timeLeft = 75;
 				Vector2 direction = Main.MouseWorld - Projectile.Center;

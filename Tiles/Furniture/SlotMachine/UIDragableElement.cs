@@ -29,9 +29,10 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 			this.dragable = dragable;
 			this.resizeableX = resizeableX;
 			this.resizeableY = resizeableY;
-			if (dragTexture == null) {
-				dragTexture = ModContent.Request<Texture2D>("Images/UI/PanelBorder", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			}
+
+			if (dragTexture == null)
+				dragTexture = ModContent.Request<Texture2D>("Terraria/Images/UI/PanelBorder", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+
 			additionalDragTargets = new List<UIElement>();
 		}
 
