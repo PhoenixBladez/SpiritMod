@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.EvilBiomeDrops.PesterflyCane;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,6 +34,14 @@ namespace SpiritMod.NPCs.Festerfly
 			NPC.knockBackResist = .65f;
 			NPC.aiStyle = 44;
 			AIType = NPCID.FlyingAntlion;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+				new FlavorTextBestiaryInfoElement("These pests infest the innards of the abominable Festerfly. If you flex hard enough while one is biting you, it might explode."),
+			});
 		}
 
 		public override void FindFrame(int frameHeight)

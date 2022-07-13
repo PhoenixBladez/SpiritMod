@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,6 +12,7 @@ namespace SpiritMod.NPCs.Mimic
 	public class GoldCrateMimic : ModNPC
 	{
 		bool jump = false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Golden Crate Mimic");
@@ -36,44 +38,23 @@ namespace SpiritMod.NPCs.Mimic
 			BannerItem = ModContent.ItemType<Items.Banners.GoldCrateMimicBanner>();
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+				new FlavorTextBestiaryInfoElement("While you may not enjoy their aggressive nature, you do respect their eye for fashion...at least, until you take it."),
+			});
+		}
+
 		int frame = 2;
-		int timer = 0;
-		int mimictimer = 0;
 
 		public override void AI()
 		{
-			mimictimer++;
-			if (mimictimer <= 80)
-			{
-				frame = 0;
-				mimictimer = 81;
-			}
-
-			Player target = Main.player[NPC.target];
-			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
 			NPC.spriteDirection = NPC.direction;
-
-			if (distance < 720)
-			{
-				timer++;
-				if (timer == 5)
-				{
-					frame++;
-					timer = 0;
-				}
-
-				if (frame >= 4)
-					frame = 1;
-			}
-			else
-			{
-				frame = 0;
-				NPC.velocity = Vector2.Zero;
-			}
 
 			if (NPC.collideY && jump && NPC.velocity.Y > 0)
 			{
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					jump = false;
 					for (int i = 0; i < 20; i++)
@@ -88,7 +69,29 @@ namespace SpiritMod.NPCs.Mimic
 				jump = true;
 		}
 
-		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight)
+		{
+			Player target = Main.player[NPC.target];
+			if (NPC.DistanceSQ(target.Center) < 720 * 720)
+			{
+				NPC.frameCounter++;
+				if (NPC.frameCounter == 5)
+				{
+					frame++;
+					NPC.frameCounter = 0;
+				}
+
+				if (frame >= 4)
+					frame = 1;
+			}
+			else
+			{
+				frame = 0;
+				NPC.velocity = Vector2.Zero;
+			}
+
+			NPC.frame.Y = frameHeight * frame;
+		}
 
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
@@ -103,7 +106,7 @@ namespace SpiritMod.NPCs.Mimic
 					projectile.hostile = true;
 					projectile.friendly = false;
 					projectile.penetrate = 2;
-					projectile.velocity.X = projectile.velocity.X * -1f;
+					projectile.velocity.X *= -1f;
 				}
 				NPC.life = 100;
 			}

@@ -9,6 +9,7 @@ using System;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
 using SpiritMod.Items.Consumable.Quest;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Hookbat
 {
@@ -38,7 +39,16 @@ namespace SpiritMod.NPCs.Hookbat
             NPC.DeathSound = SoundID.NPCDeath4;
         }
 
-        int frame;
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+				new FlavorTextBestiaryInfoElement("These simple thieving pests decided ‘divide and conquer’ was a solid strategy after stealing the adventurer’s cloth."),
+			});
+		}
+
+		int frame;
 
         public override void AI()
         {

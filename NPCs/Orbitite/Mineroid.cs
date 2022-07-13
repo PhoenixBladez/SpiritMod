@@ -6,6 +6,7 @@ using SpiritMod.Items.Weapon.Summon;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,6 +42,14 @@ namespace SpiritMod.NPCs.Orbitite
 			BannerItem = ModContent.ItemType<Items.Banners.OrbititeBanner>();
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Meteor,
+				new FlavorTextBestiaryInfoElement("This insignificant asteroid orbits a larger body, but will one day leave the nest and drift into the vast universe."),
+			});
+		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneMeteor && spawnInfo.SpawnTileY < Main.rockLayer && NPC.downedBoss2 ? 0.15f : 0f;
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -53,7 +62,7 @@ namespace SpiritMod.NPCs.Orbitite
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			Main.EntitySpriteDraw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
@@ -81,7 +90,7 @@ namespace SpiritMod.NPCs.Orbitite
 				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.CorruptionThorns, 0f, 0f, 100, default, 1f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0) {
+					if (Main.rand.NextBool(2)) {
 						Main.dust[num622].scale = 0.5f;
 					}
 				}

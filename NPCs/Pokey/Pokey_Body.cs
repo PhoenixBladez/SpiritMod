@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Pokey
 {
@@ -32,23 +33,30 @@ namespace SpiritMod.NPCs.Pokey
             NPC.dontCountMe = true;
             segments = Main.rand.Next(5, 8) + (Main.expertMode ? 2 : 0);
 
-            if (Main.rand.Next(2) == 0)
-            {
+            if (Main.rand.NextBool(2))
                 NPC.frame.Y = 32;
-            }
+
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.PokeyBanner>();
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+				new FlavorTextBestiaryInfoElement("Stack a pack of cactus, now you got a stactus. Kick the stactus over, now you got a cactus. What does it all mean? Not entirely sure."),
+			});
+		}
+		
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = 95;
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-
+		{ 
 			if (Main.tileSand[spawnInfo.SpawnTileType])
 				return SpawnCondition.OverworldDayDesert.Chance * 0.38f;
 			return 0;
 		}
+
         private int UpperChain {
 			get => (int)NPC.ai[0];
 			set => NPC.ai[0] = value;

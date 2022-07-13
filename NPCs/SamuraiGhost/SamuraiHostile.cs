@@ -5,6 +5,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.SamuraiGhost
 {
@@ -18,6 +19,13 @@ namespace SpiritMod.NPCs.SamuraiGhost
 			NPCID.Sets.TownCritter[NPC.type] = true;
 			NPCID.Sets.TrailCacheLength[NPC.type] = 3;
 			NPCID.Sets.TrailingMode[NPC.type] = 0;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				PortraitPositionXOverride = -16,
+				PortraitPositionYOverride = 10
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -58,6 +66,15 @@ namespace SpiritMod.NPCs.SamuraiGhost
 				NPC.buffImmune[k] = true;
 			}
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("The spirit of a deadly warrior that once lived many moons ago. Punished for breaking his honor code, he now swears to defend what's left of his dynasty to seek redemption."),
+			});
+		}
+
 		float frameCounter = 0;
 		public override void FindFrame(int frameHeight)
 		{

@@ -115,7 +115,7 @@ namespace SpiritMod.Tiles.Furniture.SlotMachine
 				{
 					case 0: //bell
 						CombatText.NewText(new Rectangle(X * 16, Y * 16, _player.width, _player.height), Color.Gold, "You win a Bell!");
-						Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(X, Y), X * 16, Y * 16, 32, 32, ModContent.ItemType<Items.Consumable.SurrenderBell>(), 1);
+						Item.NewItem(new Terraria.DataStructures.EntitySource_Gift(null), X * 16, Y * 16, 32, 32, ModContent.ItemType<Items.Consumable.SurrenderBell>(), 1);
 						break;
 					case 1: //mjw
 						CombatText.NewText(new Rectangle(X * 16, Y * 16, _player.width, _player.height), Color.Gold, "MJW");

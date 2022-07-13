@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -40,6 +41,14 @@ namespace SpiritMod.NPCs.GraniteSlime
 			AnimationType = NPCID.BlueSlime;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.GraniteSlimeBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Granite,
+				new FlavorTextBestiaryInfoElement("A gelatinous creature that’s roamed the Granite caves for a long while, accumulating enough pebbles and dust to become one with the stone."),
+			});
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

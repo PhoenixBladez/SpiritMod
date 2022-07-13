@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -37,32 +38,21 @@ namespace SpiritMod.NPCs.Mimic
 			BannerItem = ModContent.ItemType<Items.Banners.IronCrateMimicBanner>();
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Underground,
+				new FlavorTextBestiaryInfoElement("A fisherman is not alone in their hunt for the sea’s vast riches. A slippery octopus seems to have beaten you to the punch."),
+			});
+		}
+
 		int frame = 2;
-		int timer = 0;
-		int mimictimer = 0;
 
 		public override void AI()
 		{
-			mimictimer++;
-			if (mimictimer <= 80)
-			{
-				frame = 0;
-				mimictimer = 81;
-			}
-
-			timer++;
-			if (timer == 4)
-			{
-				frame++;
-				timer = 0;
-			}
-
-			if (frame == 4)
-				frame = 1;
-
 			if (NPC.collideY && jump && NPC.velocity.Y > 0)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					jump = false;
 					for (int i = 0; i < 20; i++)
@@ -79,6 +69,16 @@ namespace SpiritMod.NPCs.Mimic
 
 		public override void FindFrame(int frameHeight)
 		{
+			NPC.frameCounter++;
+			if (NPC.frameCounter == 4)
+			{
+				frame++;
+				NPC.frameCounter = 0;
+			}
+
+			if (frame == 4)
+				frame = 1;
+
 			NPC.frame.Y = frameHeight * frame;
 		}
 

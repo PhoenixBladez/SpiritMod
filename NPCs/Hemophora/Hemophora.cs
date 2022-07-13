@@ -3,9 +3,9 @@ using Terraria;
 using System;
 using Terraria.Audio;
 using Terraria.ID;
-using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Hemophora
 {
@@ -32,41 +32,28 @@ namespace SpiritMod.NPCs.Hemophora
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<Items.Banners.HemaphoraBanner>();
         }
-        int frame = 0;
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
+				new FlavorTextBestiaryInfoElement("This plant-like beast is quite the foe. It has sacks around its mouth-like opening that can fire acidic blood to dissolve both predators and prey."),
+			});
+		}
+
+		int frame = 0;
         public override void AI()
         {
             NPC.velocity.Y += .25f;
-            NPC.ai[3]++;
-            if (NPC.ai[3] >= 6)
-            {
-                frame++;
-                NPC.ai[3] = 0;
-                NPC.netUpdate = true;
-            }
-            if (NPC.ai[0] < 138)
-            {
-                if (frame > 3)
-                {
-                    frame = 0;
-                }
-            }
-			else
-            {
-                if (frame > 10 || frame <= 3)
-                {
-                    frame = 4;
-                }
-            }
+
             Player target = Main.player[NPC.target];
             int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
+
             if (target.position.X > NPC.position.X)
-            {
                 NPC.spriteDirection = -1;
-            }
             else
-            {
                 NPC.spriteDirection = 1;
-            }
+
             if (distance < 680)
             {
                 NPC.ai[0]++;
@@ -74,7 +61,7 @@ namespace SpiritMod.NPCs.Hemophora
                 {
                     SoundEngine.PlaySound(SoundID.Item95, NPC.Center);
                     int type = ModContent.ProjectileType<HemophoraProj>();
-                    int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, -(NPC.position.X - target.position.X) / distance * 4, -(NPC.position.Y - target.position.Y) / distance * 4, type, (int)((NPC.damage * .5)), 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, -(NPC.position.X - target.position.X) / distance * 4, -(NPC.position.Y - target.position.Y) / distance * 4, type, (int)((NPC.damage * .5)), 0);
                     for (int k = 0; k < 20; k++)
                     {
                         int d = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, -(NPC.position.X - target.position.X) / distance * 2, -(NPC.position.Y - target.position.Y) / distance * 4, 0, default, Main.rand.NextFloat(.65f, .85f));
@@ -90,10 +77,9 @@ namespace SpiritMod.NPCs.Hemophora
                 }
             }
 			else
-            {
                 NPC.ai[0] = 0;
-            }
         }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (SpawnHelper.SupressSpawns(spawnInfo, SpawnFlags.None))
@@ -101,6 +87,7 @@ namespace SpiritMod.NPCs.Hemophora
 
             return (spawnInfo.SpawnTileY > Main.rockLayer && spawnInfo.Player.ZoneJungle) ? 0.0368f : 0f;
         }
+
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int i = 0; i < 6; i++)
@@ -135,7 +122,25 @@ namespace SpiritMod.NPCs.Hemophora
 
 		public override void FindFrame(int frameHeight)
         {
-            NPC.frame.Y = frameHeight * frame;
+			NPC.ai[3]++;
+			if (NPC.ai[3] >= 6)
+			{
+				frame++;
+				NPC.ai[3] = 0;
+				NPC.netUpdate = true;
+			}
+			if (NPC.ai[0] < 138)
+			{
+				if (frame > 3)
+					frame = 0;
+			}
+			else
+			{
+				if (frame > 10 || frame <= 3)
+					frame = 4;
+			}
+
+			NPC.frame.Y = frameHeight * frame;
         }
     }
 }

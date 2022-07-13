@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Weapon.Thrown;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.LostMime
 {
@@ -29,6 +30,14 @@ namespace SpiritMod.NPCs.LostMime
 			AIType = NPCID.SnowFlinx;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.LostMimeBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Underground,
+				new FlavorTextBestiaryInfoElement("What you really fought was the mask puppeting what’s left of a man. These masks are rumored to whisper to their hosts, taking over anyone unfortunate enough to fall to their allure."),
+			});
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
