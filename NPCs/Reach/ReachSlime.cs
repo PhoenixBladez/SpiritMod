@@ -42,7 +42,6 @@ namespace SpiritMod.NPCs.Reach
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				ModContent.GetInstance<BriarSurfaceBiome>().ModBiomeBestiaryInfoElement,
 				new FlavorTextBestiaryInfoElement("Due to the perpetual rainfall in the Briar, these slimes are composed of 90% water. As a result, they often leak and lose volume when struck."),
 			});
 		}

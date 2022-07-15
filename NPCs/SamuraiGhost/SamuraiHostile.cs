@@ -11,7 +11,8 @@ namespace SpiritMod.NPCs.SamuraiGhost
 {
 	public class SamuraiHostile : ModNPC
 	{
-		int chargeTime = 200; //how many frames between charges
+		const int ChargeTime = 200; //how many frames between charges
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Phantom Samurai");
@@ -80,13 +81,13 @@ namespace SpiritMod.NPCs.SamuraiGhost
 		{
 			frameCounter += 0.15f;
 			frameCounter %= 3f;
-			if (NPC.ai[2] == chargeTime) {
+			if (NPC.ai[2] == ChargeTime) {
 				frameCounter = 0;
 			}
 			if (NPC.ai[3] == 1) {
 				NPC.frameCounter = frameCounter + 6;
 			}
-			else if (NPC.ai[2] > chargeTime - 50) {
+			else if (NPC.ai[2] > ChargeTime - 50) {
 				NPC.frameCounter = frameCounter + 3;
 			}
 			else {
@@ -204,21 +205,21 @@ namespace SpiritMod.NPCs.SamuraiGhost
 				if (velLimitX < 0.0) {
 					NPC.rotation = (float)Math.Atan2(velLimitY, velLimitX) + 3.14f;
 				}
-				if (NPC.ai[2] < chargeTime - 50) {
+				if (NPC.ai[2] < ChargeTime - 50) {
 					NPC.rotation = 0;
 				}
-				else if (NPC.ai[2] > chargeTime - 40) {
+				else if (NPC.ai[2] > ChargeTime - 40) {
 					NPC.rotation = chargeRotation;
 				}
-				if (NPC.ai[2] == chargeTime - 40) {
+				if (NPC.ai[2] == ChargeTime - 40) {
 					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/SamuraiUnsheathe"), NPC.Center);
 				}
-				if (NPC.ai[2] > chargeTime - 50 && NPC.ai[2] < chargeTime - 40) {
+				if (NPC.ai[2] > ChargeTime - 50 && NPC.ai[2] < ChargeTime - 40) {
 					chargeRotation = NPC.rotation;
 				}
 			}
 			NPC.ai[2]++;
-			if (NPC.ai[2] == chargeTime)  {
+			if (NPC.ai[2] == ChargeTime)  {
 				if(Main.netMode != NetmodeID.MultiplayerClient) {
 					Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 					direction.Normalize();
@@ -240,7 +241,7 @@ namespace SpiritMod.NPCs.SamuraiGhost
 						Main.dust[num].velocity = NPC.DirectionTo(Main.dust[num].position) * 6f;
 				}
 			}
-			if (NPC.ai[2] >= chargeTime + 20 && Main.netMode != NetmodeID.MultiplayerClient) {
+			if (NPC.ai[2] >= ChargeTime + 20 && Main.netMode != NetmodeID.MultiplayerClient) {
 				NPC.ai[2] = 0;
 				NPC.ai[3] = 0;
 				NPC.netUpdate = true;

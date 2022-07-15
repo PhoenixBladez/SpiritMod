@@ -4,6 +4,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
+using Terraria.GameContent.Bestiary;
+
 namespace SpiritMod.NPCs.Critters
 {
 	public class SawtoothShark : ModNPC
@@ -30,6 +32,15 @@ namespace SpiritMod.NPCs.Critters
 			NPC.npcSlots = 0;
 			AIType = NPCID.Shark;
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("A species of shark with a long cartilage appendage, barbed with sharp extremities. It is remarkably tough and durable, and surprisingly efficient at sawing logs."),
+			});
+		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += 0.15f;
@@ -45,20 +56,15 @@ namespace SpiritMod.NPCs.Critters
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0)
-			{
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/SawtoothSharkGore").Type, 1f);
-			}
 			for (int k = 0; k < 11; k++)
-			{
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, NPC.direction, -1f, 1, default, .91f);
-			}
 		}
+
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			if (Main.rand.NextBool(4))
-			{
 				target.AddBuff(BuffID.Bleeding, 200);
-			}
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -72,6 +78,5 @@ namespace SpiritMod.NPCs.Critters
 		{
 			return spawnInfo.Player.ZoneBeach && spawnInfo.Water ? 0.0035f : 0f;
 		}
-
 	}
 }

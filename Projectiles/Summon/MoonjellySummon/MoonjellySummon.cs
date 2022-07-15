@@ -210,16 +210,12 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
                 Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
                 Color color = Projectile.GetAlpha(lightColor) * (float)(((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) / 2);
                 Color color1 = Color.White * (float)(((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) / 2);
-                float num107 = (float)Math.Cos((double)(Main.GlobalTimeWrappedHourly % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
 
-                Vector2 vector15 = new Vector2((float)(TextureAssets.Projectile[Projectile.type].Value.Width / 2), (float)(TextureAssets.Projectile[Projectile.type].Value.Height / Main.projFrames[Projectile.type] / 2));
-                SpriteEffects spriteEffects3 = (Projectile.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-                Vector2 vector33 = new Vector2(Projectile.Center.X, Projectile.Center.Y - 18) - Main.screenPosition + new Vector2(0, Projectile.gfxOffY) - Projectile.velocity;
-                Microsoft.Xna.Framework.Color color29 = new Microsoft.Xna.Framework.Color(127 - Projectile.alpha, 127 - Projectile.alpha, 127 - Projectile.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
-				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Projectiles/Summon/MoonjellySummon/MoonjellySummon_Glow").Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(TextureAssets.Projectile[Projectile.type].Value.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame)), color1, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+                Microsoft.Xna.Framework.Color color29 = new Color(127 - Projectile.alpha, 127 - Projectile.alpha, 127 - Projectile.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Projectiles/Summon/MoonjellySummon/MoonjellySummon_Glow").Value, drawPos, TextureAssets.Projectile[Projectile.type].Value.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame), color1, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
 
-				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(TextureAssets.Projectile[Projectile.type].Value.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
-				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(TextureAssets.Projectile[Projectile.type].Value.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame)), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, TextureAssets.Projectile[Projectile.type].Value.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
+				Main.spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, drawPos, TextureAssets.Projectile[Projectile.type].Value.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame), color, Projectile.rotation, drawOrigin, Projectile.scale, effects, 0f);
 
                 float sineAdd = (float)Math.Sin(alphaCounter) + 3;
                 SpriteEffects spriteEffects = SpriteEffects.None;
@@ -228,7 +224,7 @@ namespace SpiritMod.Projectiles.Summon.MoonjellySummon
                 int xpos = (int)((Projectile.Center.X + 38) - Main.screenPosition.X) - (int)(TextureAssets.Projectile[Projectile.type].Value.Width / 2);
                 int ypos = (int)((Projectile.Center.Y + 30) - Main.screenPosition.Y) - (int)(TextureAssets.Projectile[Projectile.type].Value.Width / 2);
                 Texture2D ripple = Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49").Value;
-                Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), Projectile.rotation, ripple.Size() / 2f, Projectile.scale * .8f, spriteEffects, 0);
+                Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), Projectile.rotation, ripple.Size() / 2f, Projectile.scale * .8f, spriteEffects, 0);
             }
             return false;
         }

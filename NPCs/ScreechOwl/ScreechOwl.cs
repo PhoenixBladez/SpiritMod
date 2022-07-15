@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.ScreechOwl
 {
@@ -35,7 +36,15 @@ namespace SpiritMod.NPCs.ScreechOwl
 			BannerItem = ModContent.ItemType<Items.Banners.ScreechOwlBanner>();
 		}
 
-        int frame = 0;
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
+				new FlavorTextBestiaryInfoElement("For ages, these simple birds have terrorized locals with their remarkably humanoid screeches. Today, few remain, as they were hunted to near extinction."),
+			});
+		}
+
+		int frame = 0;
 
         public override void AI()
         {

@@ -55,7 +55,6 @@ namespace SpiritMod.NPCs.Reach
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				ModContent.GetInstance<BriarSurfaceBiome>().ModBiomeBestiaryInfoElement,
 				new FlavorTextBestiaryInfoElement("The line between flora and fauna is blurred in the briar. The reanimated bones of adventurers act animalistic, despite it being composed mostly of plants."),
 			});
 		}

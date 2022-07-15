@@ -7,6 +7,7 @@ namespace SpiritMod.Biomes
 {
 	internal class BriarSurfaceBiome : ModBiome
 	{
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Briar");
 		public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("SpiritMod/ReachWaterStyle");
 		public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("SpiritMod/ReachSurfaceBgStyle");
 		public override CaptureBiome.TileColorStyle TileColorStyle => CaptureBiome.TileColorStyle.Normal;

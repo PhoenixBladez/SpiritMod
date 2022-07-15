@@ -4,6 +4,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
+using Terraria.GameContent.Bestiary;
+
 namespace SpiritMod.NPCs.Critters
 {
 	public class ReaverShark : ModNPC
@@ -30,6 +32,15 @@ namespace SpiritMod.NPCs.Critters
 			NPC.npcSlots = 0;
 			AIType = NPCID.Shark;
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("This particular species of shark is remarkable for its potential as a tool. Not only is it small enough to hold, but its cleft chin and large forehorn excel at breaking the ice."),
+			});
+		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += 0.15f;
@@ -45,17 +56,11 @@ namespace SpiritMod.NPCs.Critters
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0)
-			{
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ReaverSharkGore").Type, 1f);
-			}
 			for (int k = 0; k < 11; k++)
-			{
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, NPC.direction, -1f, 1, default, .61f);
-			}
 			for (int k = 0; k < 5; k++)
-			{
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, NPC.direction, -1f, 1, default, .91f);
-			}
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
@@ -75,6 +80,5 @@ namespace SpiritMod.NPCs.Critters
 		{
 			return spawnInfo.Player.ZoneBeach && spawnInfo.Water ? 0.0035f : 0f;
 		}
-
 	}
 }

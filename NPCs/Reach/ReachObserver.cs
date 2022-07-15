@@ -7,6 +7,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
+using SpiritMod.Biomes;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -36,6 +38,14 @@ namespace SpiritMod.NPCs.Reach
 			AIType = NPCID.FlyingFish;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.WildwoodWatcherBanner>();
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<BriarSurfaceBiome>().Type };
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("These bramble beasts nest in the leaves of elderbark trees, waiting for an invasive body to set foot within the Briar’s central cavity."),
+			});
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

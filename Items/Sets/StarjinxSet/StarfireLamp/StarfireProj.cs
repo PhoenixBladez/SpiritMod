@@ -17,6 +17,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 	public class StarfireProj : ModProjectile, IDrawAdditive, ITrailProjectile
 	{
 		public override string Texture => "Terraria/Images/Projectile_1";
+
 		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starfire");

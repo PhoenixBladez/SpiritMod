@@ -6,6 +6,7 @@ using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -37,6 +38,14 @@ namespace SpiritMod.NPCs.Valkyrie
 			NPC.aiStyle = 14;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.ValkyrieBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("Righteous defenders of the sky, these winged warriors harness the power of the sun to protect the islands that float above the land."),
+			});
 		}
 
 		int aiTimer;

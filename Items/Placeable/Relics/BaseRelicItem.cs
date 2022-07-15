@@ -5,9 +5,9 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Placeable.Relics
 {
-	public class VinewrathRelicItem : ModItem
+	public abstract class BaseRelicItem : ModItem
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Vinewrath Bane Relic");
+		internal abstract int TileType { get; }
 
 		public override void SetDefaults()
 		{
@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Placeable.Relics
 			Item.width = 30;
 			Item.height = 44;
 			Item.value = Item.buyPrice(0, 1, 0, 0);
-			Item.createTile = ModContent.TileType<VinewrathRelic>();
+			Item.createTile = TileType;
 		}
 	}
 }

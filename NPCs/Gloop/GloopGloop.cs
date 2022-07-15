@@ -43,7 +43,6 @@ namespace SpiritMod.NPCs.Gloop
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				ModContent.GetInstance<AsteroidBiome>().ModBiomeBestiaryInfoElement,
 				new FlavorTextBestiaryInfoElement("No one’s quite sure what these things are made of. Whatever it is, it doesn’t taste good."),
 			});
 		}

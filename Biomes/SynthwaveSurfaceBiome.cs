@@ -7,7 +7,7 @@ namespace SpiritMod.Biomes
 {
 	internal class SynthwaveSurfaceBiome : ModBiome
 	{
-		//public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("SpiritMod/Effects/Waters/Spirit/SpiritWaterStyle");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Synthwave");
 		public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("SpiritMod/SynthwaveBGStyle");
 		public override CaptureBiome.TileColorStyle TileColorStyle => CaptureBiome.TileColorStyle.Mushroom;
 		public override SceneEffectPriority Priority => SceneEffectPriority.BiomeLow;

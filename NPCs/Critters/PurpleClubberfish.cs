@@ -6,6 +6,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -33,6 +34,15 @@ namespace SpiritMod.NPCs.Critters
 			NPC.npcSlots = 0;
 			AIType = NPCID.CorruptGoldfish;
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+				new FlavorTextBestiaryInfoElement("If you are trying to claim this weapon of mass destruction, beware of its power. It can and will use it against you!"),
+			});
+		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += 0.15f;
@@ -41,20 +51,17 @@ namespace SpiritMod.NPCs.Critters
 			NPC.frame.Y = frame * frameHeight;
 		}
 
-
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (NPC.life <= 0) {
+			if (NPC.life <= 0)
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("PurpleClubberfishGore").Type, 1f);
-			}
-			for (int k = 0; k < 11; k++) {
-					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CorruptPlants, NPC.direction, -1f, 1, default, .61f);
-				}		
+
+			for (int k = 0; k < 11; k++)
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CorruptPlants, NPC.direction, -1f, 1, default, .61f);
 		}
-		public override void AI()
-		{
-			NPC.spriteDirection = -NPC.direction;
-        }
+
+		public override void AI() => NPC.spriteDirection = -NPC.direction;
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -73,6 +80,5 @@ namespace SpiritMod.NPCs.Critters
 		{
 			return spawnInfo.Player.ZoneCorrupt && spawnInfo.Water ? 0.0075f : 0f;
 		}
-
 	}
 }

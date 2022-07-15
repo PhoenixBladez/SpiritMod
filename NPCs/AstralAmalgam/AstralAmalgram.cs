@@ -51,7 +51,6 @@ namespace SpiritMod.NPCs.AstralAmalgam
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				ModContent.GetInstance<AsteroidBiome>().ModBiomeBestiaryInfoElement,
 				new FlavorTextBestiaryInfoElement("A spectacle of alien life, composed of a substance beyond our understanding! Despite their small stature and gelatinous form, sturdy stones somehow orbit this strange body."),
 			});
 		}

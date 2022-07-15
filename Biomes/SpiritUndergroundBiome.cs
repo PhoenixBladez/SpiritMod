@@ -8,7 +8,7 @@ namespace SpiritMod.Biomes
 	internal class SpiritUndergroundBiome : ModBiome
 	{
 		public override ModUndergroundBackgroundStyle UndergroundBackgroundStyle => ModContent.Find<ModUndergroundBackgroundStyle>("SpiritMod/Biomes/SpiritUgBgStyle");
-
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Underground Spirit");
 		public override int Music => GetMusicFromDepth();
 
 		public override string BestiaryIcon => base.BestiaryIcon;

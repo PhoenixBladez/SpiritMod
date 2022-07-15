@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,6 +17,13 @@ namespace SpiritMod.NPCs.Starfarer
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stardancer");
+			Main.npcFrameCount[NPC.type] = 1; //new
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Hide = true,
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -27,7 +35,6 @@ namespace SpiritMod.NPCs.Starfarer
 			NPC.defense = 14;
 			NPC.lifeMax = 300; //250000
 			NPC.aiStyle = 6; //new
-			Main.npcFrameCount[NPC.type] = 1; //new
 			AIType = -1; //new
 			AnimationType = 10; //new
 			NPC.dontCountMe = true;
@@ -148,12 +155,9 @@ namespace SpiritMod.NPCs.Starfarer
 							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-		{
 
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Starfarer/CogTrapperBody_Glow").Value, screenPos);
-
-		}
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Starfarer/CogTrapperBody_Glow").Value, screenPos);
+		
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			NPC.lifeMax = (int)(NPC.lifeMax * 0.6f * bossLifeScale);

@@ -9,6 +9,8 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
+using SpiritMod.Biomes;
 
 namespace SpiritMod.NPCs.Starfarer
 {
@@ -25,6 +27,7 @@ namespace SpiritMod.NPCs.Starfarer
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stardancer");
+			Main.npcFrameCount[NPC.type] = 1; //new
 		}
 
 		public override void SetDefaults()
@@ -36,7 +39,6 @@ namespace SpiritMod.NPCs.Starfarer
 			NPC.defense = 0;
 			NPC.lifeMax = 225; //250000
 			NPC.aiStyle = 6; //new
-			Main.npcFrameCount[NPC.type] = 1; //new
 			AIType = -1; //new
 			AnimationType = 10; //new
 			NPC.knockBackResist = 0f;
@@ -50,9 +52,18 @@ namespace SpiritMod.NPCs.Starfarer
 			NPC.netAlways = true;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.StardancerBanner>();
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<AsteroidBiome>().Type };
+
 			for (int k = 0; k < NPC.buffImmune.Length; k++) {
 				NPC.buffImmune[k] = true;
 			}
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("Strange mechanical constructs assemble around a beacon, calling attention to precious astral metals. It seems you aren’t the only one who wants it."),
+			});
 		}
 
 		public override void AI()

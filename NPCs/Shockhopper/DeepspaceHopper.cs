@@ -13,6 +13,8 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs.DoT;
+using Terraria.GameContent.Bestiary;
+using SpiritMod.Biomes;
 
 namespace SpiritMod.NPCs.Shockhopper
 {
@@ -78,8 +80,15 @@ namespace SpiritMod.NPCs.Shockhopper
 			NPC.buffImmune[ModContent.BuffType<ElectrifiedV2>()] = true;
 			NPC.buffImmune[BuffID.Poisoned] = true;
 			NPC.buffImmune[BuffID.Confused] = true;
-			// start with 5 seconds to the first teleport
-			Timer = 300;
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<AsteroidBiome>().Type };
+			Timer = 300; // start with 5 seconds to the first teleport
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("Originally mistaken for machines, these shock happy organisms travel near asteroid belts to feed off the abundance of exposed minerals."),
+			});
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -108,7 +117,7 @@ namespace SpiritMod.NPCs.Shockhopper
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame,
 							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}

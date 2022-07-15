@@ -12,6 +12,12 @@ namespace SpiritMod.NPCs.Starfarer
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stardancer");
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Hide = true,
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()

@@ -10,6 +10,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
+using SpiritMod.Biomes;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -37,7 +39,16 @@ namespace SpiritMod.NPCs.Reach
 			NPC.knockBackResist = .35f;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<Items.Banners.ThornStalkerBanner>();
-        }
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<BriarSurfaceBiome>().Type };
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("Don't be fooled by its humanoid form, this creature is anything but. This beast will stalk its prey to the furthest reaches of the briar for the perfect chance to strike."),
+			});
+		}
+
 		int frame = 0;
 		int timer = 0;
 		int shootTimer = 0;
@@ -80,23 +91,12 @@ namespace SpiritMod.NPCs.Reach
 							direction *= Main.rand.NextFloat(7, 10);
 							bool expertMode = Main.expertMode;
 							int damage = expertMode ? 9 : 13;
-							int knife = Terraria.Projectile.NewProjectile(NPC.GetSource_FromAI(), knifePos, direction, ModContent.ProjectileType<ThornKnife>(), damage, 0);
+							Projectile.NewProjectile(NPC.GetSource_FromAI(), knifePos, direction, ModContent.ProjectileType<ThornKnife>(), damage, 0);
 						}
 					}
 					timer++;
 				}
-				timer++;
-				if (timer >= 11) {
-					frame++;
-					timer = 0;
-				}
-				if (frame > 12) {
-					attack = false;
-					frame = 12;
-				}
-				if (frame < 7) {
-					frame = 7;
-				}
+
 				if (target.position.X > NPC.position.X) {
 					NPC.direction = 1;
 				}
@@ -108,29 +108,43 @@ namespace SpiritMod.NPCs.Reach
 				//shootTimer = 0;
 				NPC.aiStyle = 3;
 				AIType = NPCID.WalkingAntlion;
+			}
+		}
+
+		public override void FindFrame(int frameHeight)
+		{
+			if (attack)
+			{
 				timer++;
-				if (timer >= 6) {
+				if (timer >= 11)
+				{
 					frame++;
 					timer = 0;
 				}
-				if (frame > 6) {
-					frame = 1;
+				if (frame > 12)
+				{
+					attack = false;
+					frame = 12;
 				}
+				if (frame < 7)
+					frame = 7;
 			}
-			if (!attack && !NPC.collideY && NPC.velocity.Y > 0) {
+			else
+			{
+				timer++;
+				if (timer >= 6)
+				{
+					frame++;
+					timer = 0;
+				}
+
+				if (frame > 6)
+					frame = 1;
+			}
+
+			if (!attack && !NPC.collideY && NPC.velocity.Y > 0)
 				frame = 0;
-			}
-			/*if (shootTimer > 120)
-            {
-                shootTimer = 120;
-            }
-            if (shootTimer < 0)
-            {
-                shootTimer = 0;
-            }*/
-		}
-		public override void FindFrame(int frameHeight)
-		{
+
 			NPC.frame.Y = frameHeight * frame;
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

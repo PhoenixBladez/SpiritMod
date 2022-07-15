@@ -7,15 +7,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Putroma
 {
 	public class Teratoma : ModNPC
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Putroma");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Putroma");
 
 		public override void SetDefaults()
 		{
@@ -33,6 +31,15 @@ namespace SpiritMod.NPCs.Putroma
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.PutromaBanner>();
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+				new FlavorTextBestiaryInfoElement("Made up of multiple organisms, they clump together with the rotting remains of other beasts to survive falling down the chasms that litter the corruption."),
+			});
+		}
+
 		public override void AI()
 		{
 			NPC.rotation += .06f * NPC.velocity.X;

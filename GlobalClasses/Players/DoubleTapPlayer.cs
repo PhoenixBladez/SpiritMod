@@ -35,11 +35,6 @@ namespace SpiritMod.GlobalClasses.Players
 			controlUpLast = Player.controlUp;
 		}
 
-		public override void PostUpdate()
-		{
-			base.PostUpdate();
-		}
-
 		internal void DoubleTapDown() => OnDoubleTap?.Invoke(Player, Main.ReversedUpDownArmorSetBonuses ? 1 : 0);
 	}
 }

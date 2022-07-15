@@ -7,6 +7,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -34,7 +35,16 @@ namespace SpiritMod.NPCs.Critters
 			AIType = NPCID.Goldfish;
 			NPC.dontCountMe = true;
 		}
-        public override void AI()
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+				new FlavorTextBestiaryInfoElement("Undeniably too tough to eat. For bludgeoning, however, these natural disasters have quite the potential."),
+			});
+		}
+
+		public override void AI()
         {
             Player player = Main.player[NPC.target]; {
                 Player target = Main.player[NPC.target];
@@ -79,13 +89,9 @@ namespace SpiritMod.NPCs.Critters
 		{
 			SoundEngine.PlaySound(SoundID.DD2_WitherBeastHurt, NPC.Center);
 			if (NPC.life <= 0)
-			{
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/RockfishGore").Type, 1f);
-			}
 			for (int k = 0; k < 11; k++)
-			{
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, NPC.direction, -1f, 1, Color.Black, .61f);
-			}
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
