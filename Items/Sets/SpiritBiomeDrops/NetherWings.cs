@@ -13,7 +13,10 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 		{
 			DisplayName.SetDefault("Nether Wings");
 			Tooltip.SetDefault("Allows for flight and slow fall.");
+
+			ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new Terraria.DataStructures.WingStats(90, 7.6f, 1.3f);
 		}
+
 		public override void SetDefaults()
 		{
 			Item.width = 47;
@@ -26,12 +29,10 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.wingTimeMax = 190;
-			if (Main.rand.Next(4) == 0) {
-
+			if (Main.rand.NextBool(4))
 				Dust.NewDust(player.position, player.width, player.height, DustID.UnusedWhiteBluePurple);
-			}
-
 		}
+
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
 		{
 			ascentWhenFalling = 0.65f;
@@ -41,11 +42,6 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 			constantAscend = 0.095f;
 		}
 
-		public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-		{
-			speed = 7.6f;
-			acceleration *= 1.3f;
-		}
 		public override void AddRecipes()
 		{
 			Recipe modRecipe = CreateRecipe(1);

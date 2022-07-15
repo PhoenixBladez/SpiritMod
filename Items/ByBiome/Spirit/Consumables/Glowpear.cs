@@ -6,7 +6,7 @@ namespace SpiritMod.Items.ByBiome.Spirit.Consumables
 {
 	public class Glowpear : ModItem
 	{
-		public override void SetStaticDefaults() => Tooltip.SetDefault("Minor improvements to all stats\n'It looks hallow?'");
+		public override void SetStaticDefaults() => Tooltip.SetDefault("Minor improvements to all stats\n'It looks hollow?'");
 
 		public override void SetDefaults()
 		{
@@ -22,12 +22,8 @@ namespace SpiritMod.Items.ByBiome.Spirit.Consumables
 			Item.consumable = true;
 			Item.autoReuse = false;
 			Item.UseSound = SoundID.Item2;
-		}
-
-		public override bool CanUseItem(Player player)
-		{
-			player.AddBuff(BuffID.WellFed, 5 * 60 * 60);
-			return true;
+			Item.buffTime = 5 * 60 * 60;
+			Item.buffType = BuffID.WellFed;
 		}
 	}
 }

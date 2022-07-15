@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using Terraria;
 using Terraria.GameContent;
-using Terraria.ModLoader;
-using Terraria.GameContent.Achievements;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
 
@@ -52,11 +40,10 @@ namespace SpiritMod.UI.Elements
             float prevScale = Main.inventoryScale;
 			var prevAsset = TextureAssets.InventoryBack;
 
-			TextureAssets.InventoryBack = ModContent.Request<Texture2D>("UI/QuestUI/Textures/RewardItemBack");
+			TextureAssets.InventoryBack = SpiritMod.Instance.Assets.Request<Texture2D>("UI/QuestUI/Textures/RewardItemBack");
 			Main.inventoryScale = 0.8f;
 
             CalculatedStyle style = GetDimensions();
-
 
 			ItemSlot.Draw(spriteBatch, ref _item, 1, new Vector2(style.X, style.Y));
             if (ContainsPoint(Main.MouseScreen))

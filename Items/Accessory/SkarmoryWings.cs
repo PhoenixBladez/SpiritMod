@@ -14,6 +14,8 @@ namespace SpiritMod.Items.Accessory
 		{
 			DisplayName.SetDefault("Bladewings");
 			Tooltip.SetDefault("'It seems to originate from a metallic organism of unknown origin'\nGrants flight and slow fall\nLeaves behind a trail of quicksilver that homes in on foes");
+
+			ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new Terraria.DataStructures.WingStats(90, 9.4f, 1);
 		}
 
 		public override void SetDefaults()
@@ -48,11 +50,6 @@ namespace SpiritMod.Items.Accessory
 			constantAscend = 0.095f;
 		}
 
-		public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-		{
-			speed = 9.5f;
-			acceleration *= 1f;
-		}
 		public override void AddRecipes()
 		{
 			Recipe modRecipe = CreateRecipe(1);

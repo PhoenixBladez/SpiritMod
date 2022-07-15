@@ -24,64 +24,58 @@ namespace SpiritMod.UI.Elements
 
 		public float ListPadding = 5f;
 
-		public int Count
-		{
-			get
-			{
-				return this._items.Count;
-			}
-		}
+		public int Count => this._items.Count;
 
 		public UIModifiedList()
 		{
-			this._innerList.OverflowHidden = false;
-			this._innerList.Width.Set(0f, 1f);
-			this._innerList.Height.Set(0f, 1f);
-			this.OverflowHidden = true;
-			base.Append(this._innerList);
+			_innerList.OverflowHidden = false;
+			_innerList.Width.Set(0f, 1f);
+			_innerList.Height.Set(0f, 1f);
+			OverflowHidden = true;
+			Append(_innerList);
 		}
 
 		public virtual void Add(UIElement item)
 		{
-			this._items.Add(item);
-			this._innerList.Append(item);
-			this._innerList.Recalculate();
+			_items.Add(item);
+			_innerList.Append(item);
+			_innerList.Recalculate();
 		}
 
 		public virtual void AddRange(IEnumerable<UIElement> items)
 		{
-			this._items.AddRange(items);
+			_items.AddRange(items);
 			foreach (UIElement item in items)
 			{
-				this._innerList.Append(item);
+				_innerList.Append(item);
 			}
-			this._innerList.Recalculate();
+			_innerList.Recalculate();
 		}
 
 		public virtual void Clear()
 		{
-			this._innerList.RemoveAllChildren();
-			this._items.Clear();
+			_innerList.RemoveAllChildren();
+			_items.Clear();
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
-			if (this._scrollbar != null)
+			if (_scrollbar != null)
 			{
-				this._innerList.Top.Set(-this._scrollbar.GetValue(), 0f);
+				_innerList.Top.Set(-_scrollbar.GetValue(), 0f);
 			}
-			this.Recalculate();
+			Recalculate();
 		}
 
 		public override List<SnapPoint> GetSnapPoints()
 		{
 			SnapPoint snapPoint;
 			List<SnapPoint> snapPoints = new List<SnapPoint>();
-			if (base.GetSnapPoint(out snapPoint))
+			if (GetSnapPoint(out snapPoint))
 			{
 				snapPoints.Add(snapPoint);
 			}
-			foreach (UIElement _item in this._items)
+			foreach (UIElement _item in _items)
 			{
 				snapPoints.AddRange(_item.GetSnapPoints());
 			}
@@ -90,16 +84,16 @@ namespace SpiritMod.UI.Elements
 
 		public float GetTotalHeight()
 		{
-			return this._innerListHeight;
+			return _innerListHeight;
 		}
 
 		public void Goto(UIList.ElementSearchMethod searchMethod)
 		{
-			for (int i = 0; i < this._items.Count; i++)
+			for (int i = 0; i < _items.Count; i++)
 			{
-				if (searchMethod(this._items[i]))
+				if (searchMethod(_items[i]))
 				{
-					this._scrollbar.ViewPosition = this._items[i].Top.Pixels;
+					_scrollbar.ViewPosition = _items[i].Top.Pixels;
 					return;
 				}
 			}
@@ -108,59 +102,59 @@ namespace SpiritMod.UI.Elements
 		public override void Recalculate()
 		{
 			base.Recalculate();
-			this.UpdateScrollbar();
+			UpdateScrollbar();
 		}
 
 		public override void RecalculateChildren()
 		{
 			base.RecalculateChildren();
 			float height = 0f;
-			for (int i = 0; i < this._items.Count; i++)
+			for (int i = 0; i < _items.Count; i++)
 			{
-				this._items[i].Top.Set(height, 0f);
-				this._items[i].Recalculate();
-				height = height + (this._items[i].GetOuterDimensions().Height + this.ListPadding);
+				_items[i].Top.Set(height, 0f);
+				_items[i].Recalculate();
+				height = height + (_items[i].GetOuterDimensions().Height + ListPadding);
 			}
-			this._innerListHeight = height;
+			_innerListHeight = height;
 		}
 
 		public virtual bool Remove(UIElement item)
 		{
-			this._innerList.RemoveChild(item);
-			return this._items.Remove(item);
+			_innerList.RemoveChild(item);
+			return _items.Remove(item);
 		}
 
 		public override void Update(GameTime gameTime)
 		{
-			for (int i = 0; i < this.Elements.Count; i++)
+			for (int i = 0; i < Elements.Count; i++)
 			{
-				this.Elements[i].Update(gameTime);
+				Elements[i].Update(gameTime);
 			}
 		}
 
 		public override void ScrollWheel(UIScrollWheelEvent evt)
 		{
 			base.ScrollWheel(evt);
-			if (this._scrollbar != null)
+			if (_scrollbar != null)
 			{
-				UIScrollbar viewPosition = this._scrollbar;
-				viewPosition.ViewPosition = viewPosition.ViewPosition - (float)evt.ScrollWheelValue;
+				UIScrollbar viewPosition = _scrollbar;
+				viewPosition.ViewPosition = viewPosition.ViewPosition - evt.ScrollWheelValue;
 			}
 		}
 
 		public void SetScrollbar(UIScrollbar scrollbar)
 		{
-			this._scrollbar = scrollbar;
-			this.UpdateScrollbar();
+			_scrollbar = scrollbar;
+			UpdateScrollbar();
 		}
 
 		private void UpdateScrollbar()
 		{
-			if (this._scrollbar == null)
+			if (_scrollbar == null)
 			{
 				return;
 			}
-			this._scrollbar.SetView(base.GetInnerDimensions().Height, this._innerListHeight);
+			_scrollbar.SetView(GetInnerDimensions().Height, _innerListHeight);
 		}
 
 		public delegate bool ElementSearchMethod(UIElement element);
@@ -178,17 +172,15 @@ namespace SpiritMod.UI.Elements
 
 			protected override void DrawChildren(SpriteBatch spriteBatch)
 			{
-				Vector2 vector2 = this.Parent.GetDimensions().Position();
-				Vector2 vector21 = new Vector2(this.Parent.GetDimensions().Width, this.Parent.GetDimensions().Height);
-				for (int i = 0; i < this.Elements.Count; i++)
+				Vector2 vector2 = Parent.GetDimensions().Position();
+				Vector2 vector21 = new Vector2(Parent.GetDimensions().Width, Parent.GetDimensions().Height);
+				for (int i = 0; i < Elements.Count; i++)
 				{
-					UIElement element = this.Elements[i];
+					UIElement element = Elements[i];
 					Vector2 vector22 = element.GetDimensions().Position();
 					Vector2 vector23 = new Vector2(element.GetDimensions().Width, element.GetDimensions().Height);
 					if (!Collision.CheckAABBvAABBCollision(vector2, vector21, vector22, vector23))
-					{
 						continue;
-					}
 					element.Draw(spriteBatch);
 				}
 			}

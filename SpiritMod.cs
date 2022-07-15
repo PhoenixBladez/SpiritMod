@@ -356,6 +356,7 @@ namespace SpiritMod
 			QuestBookHotkey = KeybindLoader.RegisterKeybind(this, "SpiritMod:QuestBookToggle", Microsoft.Xna.Framework.Input.Keys.C);
 			QuestHUDHotkey = KeybindLoader.RegisterKeybind(this, "SpiritMod:QuestHUDToggle", Microsoft.Xna.Framework.Input.Keys.V);
 
+			QuestManager.Load();
 			if (!Main.dedServ)
 			{
 				ParticleHandler.RegisterParticles();
@@ -363,6 +364,7 @@ namespace SpiritMod
 
 				QuestBookUIState = new QuestBookUI();
 				QuestHUD = new QuestHUD();
+
 				Boids = new BoidHost();
 				EventManager.Load();
 				_lastScreenSize = new Vector2(Main.screenWidth, Main.screenHeight);
@@ -370,7 +372,6 @@ namespace SpiritMod
 				_lastViewPort = Main.graphics.GraphicsDevice.Viewport;
 			}
 
-			QuestManager.Load();
 			BoonLoader.Load();
 			SpiritMultiplayer.Load();
 			SpiritDetours.Initialize();

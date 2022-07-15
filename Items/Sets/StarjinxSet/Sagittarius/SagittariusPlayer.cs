@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 
 		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
-			if (drawInfo.drawPlayer.HeldItem.type == ModContent.ItemType<Sagittarius>())
+			if (drawInfo.drawPlayer.HeldItem.type == ModContent.ItemType<Sagittarius>() && false)
 				DrawItem(Mod.Assets.Request<Texture2D>("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_held").Value, Mod.Assets.Request<Texture2D>("Items/Sets/StarjinxSet/Sagittarius/Sagittarius_heldGlow").Value, drawInfo);
 		}
 

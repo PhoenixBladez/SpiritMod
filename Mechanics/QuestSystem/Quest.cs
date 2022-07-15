@@ -21,7 +21,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 		private bool _questCompleted;
 		private bool _rewardsGiven;
 		private int _completedCounter = 0;
-		private bool _previouslyUnavailable = true;
+		private bool _previouslyUnavailable = false;
 		internal List<string> _altNames;
 
 		public QuestTask CurrentTask => _currentTask;

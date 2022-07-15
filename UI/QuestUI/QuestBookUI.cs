@@ -59,12 +59,11 @@ namespace SpiritMod.UI.QuestUI
 			_isPossible = new bool[QuestManager.Quests.Count];
 			_rightPageLines = new List<UISolid>();
 			_imageMasks = new Texture2D[15];
-			for (int i = 0; i < _imageMasks.Length; i++)
-			{
-				_imageMasks[i] = ModContent.Request<Texture2D>("UI/QuestUI/Textures/ImageMask" + i, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			}
 
-            UIMoveExpandWindow mainWindow = new UIMoveExpandWindow(ModContent.Request<Texture2D>("UI/QuestUI/Textures/AdventurerBook", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, false, false, 10);
+			for (int i = 0; i < _imageMasks.Length; i++)
+				_imageMasks[i] = SpiritMod.Instance.Assets.Request<Texture2D>("UI/QuestUI/Textures/ImageMask" + i, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+
+            UIMoveExpandWindow mainWindow = new UIMoveExpandWindow(SpiritMod.Instance.Assets.Request<Texture2D>("UI/QuestUI/Textures/AdventurerBook", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, false, false, 10);
             mainWindow.Left.Set(450, 0);
             mainWindow.Top.Set(230, 0);
             mainWindow.Width.Set(1098, 0);
@@ -236,7 +235,7 @@ namespace SpiritMod.UI.QuestUI
 
 			// image
 			_questImage = new UIShaderImage(null);
-			_questImage.Effect = ModContent.Request<Effect>("Effects/QuestShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			_questImage.Effect = SpiritMod.Instance.Assets.Request<Effect>("Effects/QuestShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			_questImage.Pass = _questImage.Effect.CurrentTechnique.Passes["Sepia"];
 			_questImage.PointSample = true;
 			_questImage.Top.Set(50f, 0f);
@@ -250,7 +249,7 @@ namespace SpiritMod.UI.QuestUI
 			_questObjectivesTitle.Colour = new Color(43, 28, 17);
             rightPage.Append(_questObjectivesTitle);
 
-			_questObjectivesLeftArrow = new UIImageButton(ModContent.Request<Texture2D>("UI/QuestUI/Textures/LeftArrow"));
+			_questObjectivesLeftArrow = new UIImageButton(SpiritMod.Instance.Assets.Request<Texture2D>("UI/QuestUI/Textures/LeftArrow"));
 			_questObjectivesLeftArrow.Left.Set(-60f, 1f);
 			_questObjectivesLeftArrow.Top.Set(188f, 0f);
 			_questObjectivesLeftArrow.SetVisibility(1f, 0.5f);
@@ -264,7 +263,7 @@ namespace SpiritMod.UI.QuestUI
 			};
 			rightPage.Append(_questObjectivesLeftArrow);
 
-			_questObjectivesRightArrow = new UIImageButton(ModContent.Request<Texture2D>("UI/QuestUI/Textures/RightArrow"));
+			_questObjectivesRightArrow = new UIImageButton(SpiritMod.Instance.Assets.Request<Texture2D>("UI/QuestUI/Textures/RightArrow"));
 			_questObjectivesRightArrow.Left.Set(-14f, 1f);
 			_questObjectivesRightArrow.Top.Set(188f, 0f);
 			_questObjectivesRightArrow.SetVisibility(1f, 0.5f);
@@ -360,7 +359,8 @@ namespace SpiritMod.UI.QuestUI
 
 			_questInteractButton.OnClick += (UIMouseEvent evt, UIElement listeningElement) =>
 			{
-				if (SelectedQuest.RewardsGiven) return;
+				if (SelectedQuest.RewardsGiven) 
+					return;
 
 				if (SelectedQuest.IsCompleted)
 				{
@@ -410,8 +410,8 @@ namespace SpiritMod.UI.QuestUI
 			_obnoxiousTutorialGlow.Left.Set(-150f, 1f);
 			_obnoxiousTutorialGlow.Height.Set(102f, 0f);
 			_obnoxiousTutorialGlow.Width.Set(189f, 0f);
-			_obnoxiousTutorialGlow.Effect = ModContent.Request<Effect>("Effects/QuestShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			_obnoxiousTutorialGlow.Effect.Parameters["NoiseTexture"].SetValue(ModContent.Request<Texture2D>("Utilities/Noise/noise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			_obnoxiousTutorialGlow.Effect = SpiritMod.Instance.Assets.Request<Effect>("Effects/QuestShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			_obnoxiousTutorialGlow.Effect.Parameters["NoiseTexture"].SetValue(SpiritMod.Instance.Assets.Request<Texture2D>("Utilities/Noise/noise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			_obnoxiousTutorialGlow.Effect.Parameters["NoiseWidth"].SetValue(489f);
 			_obnoxiousTutorialGlow.Pass = _obnoxiousTutorialGlow.Effect.CurrentTechnique.Passes["GodRays"];
 			_obnoxiousTutorialGlow.PreDraw += () =>
@@ -447,7 +447,8 @@ namespace SpiritMod.UI.QuestUI
 
 		private void FullBookUpdate()
 		{
-			if (!(SpiritMod.Instance.BookUserInterface.CurrentState is QuestBookUI)) return;
+			if (SpiritMod.Instance.BookUserInterface.CurrentState is not QuestBookUI) 
+				return;
 
 			ButtonArraySelect(_questSectionIndex, _questSectionButtons);
 			ButtonArraySelect(_questFilterIndex, _questFilterButtons);
@@ -517,7 +518,7 @@ namespace SpiritMod.UI.QuestUI
 		public void SelectQuest(Quest quest, bool selectOnLeftPage = true)
 		{
 			// open book if not open.
-			if (!(SpiritMod.Instance.BookUserInterface.CurrentState is QuestBookUI))
+			if (SpiritMod.Instance.BookUserInterface.CurrentState is not QuestBookUI)
 			{
 				QuestManager.SetBookState(true);
 			}
@@ -651,6 +652,7 @@ namespace SpiritMod.UI.QuestUI
 		private void ChangeSection(int newSection)
 		{
 			_questSectionIndex = newSection;
+
 			ButtonArraySelect(_questSectionIndex, _questSectionButtons);
 			UpdateList();
 		}
@@ -658,6 +660,7 @@ namespace SpiritMod.UI.QuestUI
 		private void ChangeFilter(int newFilter)
 		{
 			_questFilterIndex = newFilter;
+
 			ButtonArraySelect(_questFilterIndex, _questFilterButtons);
 			UpdateList();
 		}
@@ -691,18 +694,15 @@ namespace SpiritMod.UI.QuestUI
 			// filter by section
 			switch (_questSectionIndex)
 			{
-				case 0:
-					// get all inactive quests
+				case 0: // get all inactive quests
 					orderedFilteredQuests = orderedFilteredQuests.Where(q => !q.MyQuest.IsActive && !q.MyQuest.IsCompleted);
 					_questProgressCounterText.Text = "";
 					break;
-				case 1:
-					// get all active quests
+				case 1: // get all active quests
 					orderedFilteredQuests = orderedFilteredQuests.Where(q => q.MyQuest.IsActive);
 					_questProgressCounterText.Text = "(" + orderedFilteredQuests.Count() + "/" + QuestManager.MAX_QUESTS_ACTIVE + ")";
 					break;
-				case 2:
-					// get all completed quests
+				case 2: // get all completed quests
 					orderedFilteredQuests = orderedFilteredQuests.Where(q => q.MyQuest.IsCompleted);
 					_questProgressCounterText.Text = "(" + orderedFilteredQuests.Where(q => q.MyQuest.CountsTowardsQuestTotal).Count() + "/" + _currentMaxPossible + ")";
 					break;

@@ -54,7 +54,7 @@ namespace SpiritMod.UI.Elements
 
 			// difficulty stars
 			float pixels = -5f;
-			var starImage = ModContent.Request<Texture2D>("UI/QuestUI/Textures/Star", ReLogic.Content.AssetRequestMode.ImmediateLoad);
+			var starImage = SpiritMod.Instance.Assets.Request<Texture2D>("UI/QuestUI/Textures/Star", ReLogic.Content.AssetRequestMode.ImmediateLoad);
 			for (int i = 0; i < quest.Difficulty; i++)
 			{
 				UIImageFramed star = new UIImageFramed(starImage, starImage.Value.Bounds);
@@ -65,7 +65,7 @@ namespace SpiritMod.UI.Elements
 				Stars.Add(star);
 			}
 
-			Exclamation = new UIImageFramed(ModContent.Request<Texture2D>("UI/QuestUI/Textures/ExclamationMark", ReLogic.Content.AssetRequestMode.ImmediateLoad), new Rectangle(6, 0, 3, 12));
+			Exclamation = new UIImageFramed(SpiritMod.Instance.Assets.Request<Texture2D>("UI/QuestUI/Textures/ExclamationMark", ReLogic.Content.AssetRequestMode.ImmediateLoad), new Rectangle(6, 0, 3, 12));
 			Exclamation.Width.Set(3f, 0f);
 			Exclamation.Height.Set(12f, 0f);
 			Exclamation.Top.Set(-7f, 0f);
@@ -122,7 +122,7 @@ namespace SpiritMod.UI.Elements
 			if (_highlighted)
 			{
 				Rectangle area = GetDimensions().ToRectangle();
-				spriteBatch.Draw(ModContent.Request<Texture2D>("UI/QuestUI/Textures/Highlight", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, area, Color.White * 0.3f);
+				spriteBatch.Draw(SpiritMod.Instance.Assets.Request<Texture2D>("UI/QuestUI/Textures/Highlight", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, area, Color.White * 0.3f);
 			}
 		}
 
@@ -179,10 +179,8 @@ namespace SpiritMod.UI.Elements
 
 		public override void RecalculateChildren()
 		{
-			for (int i = 0; i < this.Elements.Count; i++)
-			{
-				this.Elements[i].Recalculate();
-			}
+			for (int i = 0; i < Elements.Count; i++)
+				Elements[i].Recalculate();
 		}
 	}
 }

@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Consumable.Food
 			else
 				player.AddBuff(ModContent.BuffType<IceBerryBuff>(), 19600);
 
-			return null;
+			return true;
 		}
 	}
 }

@@ -13,7 +13,10 @@ namespace SpiritMod.Items.Sets.SpiritSet
 		{
 			DisplayName.SetDefault("Spirit Wings");
 			Tooltip.SetDefault("Allows for flight and slow fall.");
+
+			ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new Terraria.DataStructures.WingStats(90, 7f, 2);
 		}
+
 		public override void SetDefaults()
 		{
 			Item.width = 47;
@@ -42,12 +45,6 @@ ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float const
 			constantAscend = 0.135f;
 		}
 
-		public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-		{
-
-			speed = 7f;
-			acceleration *= 2f;
-		}
 		public override void AddRecipes()
 		{
 			Recipe modRecipe = CreateRecipe(1);

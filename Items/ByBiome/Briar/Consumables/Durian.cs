@@ -22,11 +22,12 @@ namespace SpiritMod.Items.ByBiome.Briar.Consumables
 			Item.consumable = true;
 			Item.autoReuse = false;
 			Item.UseSound = SoundID.Item2;
+			Item.buffTime = 5 * 60 * 60;
+			Item.buffType = BuffID.WellFed;
 		}
 
-		public override bool CanUseItem(Player player)
+		public override bool? UseItem(Player player)
 		{
-			player.AddBuff(BuffID.WellFed, 5 * 60 * 60);
 			player.AddBuff(BuffID.Stinky, 5 * 60 * 60);
 			return true;
 		}

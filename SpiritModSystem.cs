@@ -165,7 +165,7 @@ namespace SpiritMod
 
 						if (Main.playerInventory && QuestManager.QuestBookUnlocked)
 						{
-							Texture2D bookTexture = ModContent.Request<Texture2D>("UI/QuestUI/Textures/QuestBookInventoryButton", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+							Texture2D bookTexture = SpiritMod.Instance.Assets.Request<Texture2D>("UI/QuestUI/Textures/QuestBookInventoryButton", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 							Vector2 bookSize = new Vector2(50, 52);
 							QuestUtils.QuestInvLocation loc = ModContent.GetInstance<SpiritClientConfig>().QuestBookLocation;
 							Vector2 position = Vector2.Zero;

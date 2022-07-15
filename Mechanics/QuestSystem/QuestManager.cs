@@ -68,9 +68,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 
 				// load related quest image
 				string tex = "SpiritMod/UI/QuestUI/Textures/Quests/" + type.Name;
-				if (SpiritMod.Instance.HasAsset(tex) && !Main.dedServ)
-				
-					q.QuestImage = ModContent.Request<Texture2D>(tex, ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				if (SpiritMod.Instance.HasAsset(tex.Remove(0, "SpiritMod/".Length)) && !Main.dedServ)
+					q.QuestImage = ModContent.Request<Texture2D>(tex, AssetRequestMode.ImmediateLoad).Value;
 
 				q.WhoAmI = Quests.Count;
 
