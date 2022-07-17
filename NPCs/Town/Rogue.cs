@@ -93,13 +93,6 @@ namespace SpiritMod.NPCs.Town
 			if (merchant >= 0) {
 				dialogue.Add($"Why is {Main.npc[merchant].GivenName} so intent on selling shurikens? That's totally my thing.");
 			}
-
-			int armsDealer = NPC.FindFirstNPC(NPCID.ArmsDealer);
-			if (armsDealer >= 0) {
-				dialogue.Add($"Let me tell you...that {Main.npc[armsDealer].GivenName} guy? On a hairpin trigger, literally. I only lifted a couple coins, I swear!");
-				dialogue.Add($"Being around {Main.npc[armsDealer].GivenName} is concerning...he's always giving me this side eye. And he's armed.");
-			}
-
 			return Main.rand.Next(dialogue);
 		}
 

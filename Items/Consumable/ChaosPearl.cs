@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,12 +19,9 @@ namespace SpiritMod.Items.Consumable
 			Item.value = Item.sellPrice(0, 0, 4, 0);
 			Item.rare = ItemRarityID.Orange;
 			Item.maxStack = 999;
-			//item.crit = 4;
 			Item.damage = 0;
-			// item.knockBack = 3;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.useTime = Item.useAnimation = 40;
-			//  Item.DamageType = DamageClass.Throwing;
 			Item.noMelee = true;
 			Item.autoReuse = false;
 			Item.consumable = true;

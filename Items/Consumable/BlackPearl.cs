@@ -14,7 +14,6 @@ namespace SpiritMod.Items.Consumable
 			Tooltip.SetDefault("'Coveted by ancient horrors...'\nSummons The Tide\nCan only be used near the ocean");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = Item.height = 16;
@@ -51,9 +50,9 @@ namespace SpiritMod.Items.Consumable
 				TideWorld.TheTide = true;
 				TideWorld.TideWaveIncrease();
 			}
-
-			return null;
+			return true;
 		}
+
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);

@@ -49,9 +49,9 @@ namespace SpiritMod.Items.Consumable
 				int dust = Dust.NewDust(player.Center, player.width, player.height, DustID.PortalBolt);
 				Main.dust[dust].velocity *= -1f;
 				Main.dust[dust].noGravity = true;
-				Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+				Vector2 vector2_1 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
 				vector2_1.Normalize();
-				Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
+				Vector2 vector2_2 = vector2_1 * (Main.rand.Next(50, 100) * 0.04f);
 				Main.dust[dust].velocity = vector2_2;
 				vector2_2.Normalize();
 				Vector2 vector2_3 = vector2_2 * 34f;

@@ -15,13 +15,13 @@ namespace SpiritMod.Items.Consumable.Quest
 			DisplayName.SetDefault("Grisly Science Experiment");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = Item.height = 16;
 			Item.rare = ItemRarityID.Green;
 			Item.maxStack = 99;
 		}
+
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			if (!QuestManager.GetQuest<ZombieOriginQuest>().IsCompleted)
@@ -40,6 +40,7 @@ namespace SpiritMod.Items.Consumable.Quest
 				tooltips.Add(line1);
 			}
 		}
+
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();

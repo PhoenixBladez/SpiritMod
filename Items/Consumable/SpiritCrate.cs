@@ -19,7 +19,6 @@ namespace SpiritMod.Items.Consumable
 			Tooltip.SetDefault("Right click to open");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = 20;
@@ -32,12 +31,9 @@ namespace SpiritMod.Items.Consumable
 			Item.useAnimation = 15;
 			Item.useTime = 10;
 			Item.consumable = true;
+		}
 
-		}
-		public override bool CanRightClick()
-		{
-			return true;
-		}
+		public override bool CanRightClick() => true;
 
 		public override void RightClick(Player player)
 		{

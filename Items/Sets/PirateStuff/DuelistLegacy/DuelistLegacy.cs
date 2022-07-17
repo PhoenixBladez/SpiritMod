@@ -246,7 +246,7 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			else
 				Projectile.Center = Player.Center + (direction.RotatedBy(-1.57f) * 20);
 
-			Timer++;
+			Timer += 2;
 			float progress = Math.Min(Timer / (float)SwingTime, 1);
 			progress = EaseFunction.EaseCircularInOut.Ease(progress);
 			rotation = Projectile.rotation + MathHelper.Lerp(SwingRadians / 2 * SwingDirection, -SwingRadians / 2 * SwingDirection, progress);
@@ -272,14 +272,12 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			}
 
 			Projectile.frameCounter++;
-			if (Projectile.frameCounter % 3 == 0)
+			if (Projectile.frameCounter % 2 == 0)
 				Projectile.frame++;
 			if (Projectile.frame >= MaxFrames)
 			{
 				if (Phase == 1)
-				{
 					Projectile.NewProjectile(Projectile.GetSource_FromAI(), Player.Center, Vector2.Zero, ModContent.ProjectileType<DuelistActivation>(), 0, 0, Player.whoAmI);
-				}
 				Projectile.active = false;
 			}
 
@@ -311,22 +309,14 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 				}
 			}
 
-			Texture2D tex;
-			switch (Phase)
+			Texture2D tex = Phase switch
 			{
-				case 0:
-					tex = ModContent.Request<Texture2D>(Texture + "One", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-					break;
-				case 1:
-					tex = ModContent.Request<Texture2D>(Texture + "Two", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-					break;
-				case 2:
-					tex = ModContent.Request<Texture2D>(Texture + "Special", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-					break;
-				default:
-					tex = TextureAssets.Projectile[Projectile.type].Value;
-					break;
-			}
+				0 => ModContent.Request<Texture2D>(Texture + "One", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
+				1 => ModContent.Request<Texture2D>(Texture + "Two", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
+				2 => ModContent.Request<Texture2D>(Texture + "Special", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
+				_ => TextureAssets.Projectile[Projectile.type].Value,
+			};
+
 			int frameHeight = tex.Height / MaxFrames;
 			Rectangle frame = new Rectangle(0, frameHeight * Projectile.frame, tex.Width, frameHeight);
 			if (flip)
@@ -364,6 +354,7 @@ namespace SpiritMod.Items.Sets.PirateStuff.DuelistLegacy
 			hitDirection = Math.Sign(direction.X);
 		}
 	}
+
 	internal class DuelistGun : ModProjectile
 	{
 		public float Recoil = 0f;

@@ -22,20 +22,20 @@ namespace SpiritMod.Items.Consumable.Food
 			Item.noUseGraphic = true;
 			Item.useStyle = ItemUseStyleID.EatFood;
 			Item.useTime = Item.useAnimation = 30;
-
 			Item.buffType = BuffID.WellFed;
 			Item.buffTime = 14800;
 			Item.noMelee = true;
 			Item.consumable = true;
 			Item.UseSound = SoundID.Item2;
 			Item.autoReuse = false;
-
 		}
+
 		public override bool CanUseItem(Player player)
 		{
 			player.AddBuff(BuffID.Poisoned, 480);
 			return true;
 		}
+
 		public override void AddRecipes()
 		{
 			Recipe recipe1 = CreateRecipe(1);

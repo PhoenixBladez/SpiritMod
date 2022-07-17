@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -14,13 +13,11 @@ namespace SpiritMod.Items.Consumable.Quest
 			DisplayName.SetDefault("Completed Surveyor's Scroll");
 		}
 
-
 		public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 10;
             Item.useAnimation = 15;
-
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.consumable = true;
@@ -30,6 +27,7 @@ namespace SpiritMod.Items.Consumable.Quest
 			Item.rare = ItemRarityID.Blue;
 			Item.createTile = ModContent.TileType<Tiles.Furniture.Paintings.MushroomMap>();
         }
+
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			TooltipLine line1 = new TooltipLine(Mod, "FavoriteDesc", "A nearby Glowing Mushroom Biome has been charted!");

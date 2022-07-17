@@ -22,16 +22,12 @@ namespace SpiritMod.Items.Consumable.Potion
 			Item.height = 30;
 			Item.rare = ItemRarityID.Pink;
 			Item.maxStack = 30;
-
 			Item.useStyle = ItemUseStyleID.EatFood;
 			Item.useTime = Item.useAnimation = 20;
-
 			Item.consumable = true;
 			Item.autoReuse = false;
-
 			Item.buffType = ModContent.BuffType<RunePotionBuff>();
 			Item.buffTime = 10800;
-
 			Item.UseSound = SoundID.Item3;
 		}
 

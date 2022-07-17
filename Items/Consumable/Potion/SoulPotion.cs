@@ -14,23 +14,18 @@ namespace SpiritMod.Items.Consumable.Potion
 			Tooltip.SetDefault("Getting hurt may cause all nearby enemies to suffer 'Soul Burn' for a short while\nIncreases melee damage by 5%");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = 20;
 			Item.height = 30;
 			Item.rare = ItemRarityID.Pink;
 			Item.maxStack = 30;
-
 			Item.useStyle = ItemUseStyleID.EatFood;
 			Item.useTime = Item.useAnimation = 20;
-
 			Item.consumable = true;
 			Item.autoReuse = false;
-
 			Item.buffType = ModContent.BuffType<SoulPotionBuff>();
 			Item.buffTime = 10800;
-
 			Item.UseSound = SoundID.Item3;
 		}
 

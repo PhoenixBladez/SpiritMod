@@ -25,7 +25,6 @@ namespace SpiritMod.Items.Consumable.Quest
 			Item.maxStack = 99;
 			Item.value = Item.buyPrice(0, 0, 3, 0);
 			Item.createTile = ModContent.TileType<Tiles.Furniture.DurasilkSheafTile>();
-
 		}
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)

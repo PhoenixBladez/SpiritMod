@@ -21,10 +21,8 @@ namespace SpiritMod.Items.Consumable.Potion
 			Item.height = 26;
 			Item.rare = ItemRarityID.Pink;
 			Item.maxStack = 30;
-
 			Item.useStyle = ItemUseStyleID.EatFood;
 			Item.useTime = Item.useAnimation = 20;
-
 			Item.consumable = true;
 			Item.autoReuse = false;
 			Item.potion = true;
@@ -81,15 +79,13 @@ namespace SpiritMod.Items.Consumable.Potion
 				player.AddBuff(BuffID.PotionSickness, 2700);
 
 			player.AddBuff(ModContent.BuffType<MoonBlessingDonut>(), 900);
-			return null;
+			return true;
 		}
-
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
-			foreach(TooltipLine line in tooltips.Where(x => x.Mod == "Terraria" && x.Name == "HealLife")) {
+			foreach (TooltipLine line in tooltips.Where(x => x.Mod == "Terraria" && x.Name == "HealLife"))
 				line.Text = "Restores 225 life over 10 seconds";
-			}
 		}
 
         public override void AddRecipes()

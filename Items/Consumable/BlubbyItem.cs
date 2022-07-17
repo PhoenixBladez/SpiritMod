@@ -12,7 +12,6 @@ namespace SpiritMod.Items.Consumable
 			DisplayName.SetDefault("Blubby");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = Item.height = 20;
@@ -26,7 +25,6 @@ namespace SpiritMod.Items.Consumable
 			Item.noMelee = true;
 			Item.consumable = true;
 			Item.autoReuse = true;
-
 		}
 
 		public override bool? UseItem(Player player)

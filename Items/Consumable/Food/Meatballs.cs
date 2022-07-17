@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,9 +9,8 @@ namespace SpiritMod.Items.Consumable.Food
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Meatballs");
-			Tooltip.SetDefault("Minor improvements to all stats\n'Can't go wrong with the classics!'");
+			Tooltip.SetDefault("Medium improvements to all stats\nIncreases life regeneration\n'Can't go wrong with the classics!'");
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -22,8 +20,7 @@ namespace SpiritMod.Items.Consumable.Food
 			Item.noUseGraphic = true;
 			Item.useStyle = ItemUseStyleID.EatFood;
 			Item.useTime = Item.useAnimation = 30;
-
-			Item.buffType = BuffID.WellFed;
+			Item.buffType = BuffID.WellFed2;
 			Item.buffTime = 72000;
 			Item.noMelee = true;
 			Item.consumable = true;

@@ -12,7 +12,6 @@ namespace SpiritMod.Items.Consumable
 			Tooltip.SetDefault("'Contains booty!'");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = Item.height = 16;

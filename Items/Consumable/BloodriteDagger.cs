@@ -1,4 +1,3 @@
-using SpiritMod.Items.Sets.StarplateDrops;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -8,6 +7,8 @@ namespace SpiritMod.Items.Consumable
 {
 	public class BloodriteDagger : ModItem
 	{
+		public override bool IsLoadingEnabled(Mod mod) => false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloodrite Dagger");

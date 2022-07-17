@@ -18,16 +18,12 @@ namespace SpiritMod.Items.Consumable
 		{
 			Item.width = Item.height = 16;
 			Item.rare = ItemRarityID.Pink;
-
 			Item.maxStack = 99;
-
 			Item.useStyle = ItemUseStyleID.HoldUp;
 			Item.useTime = Item.useAnimation = 20;
-
 			Item.noMelee = true;
 			Item.consumable = true;
 			Item.autoReuse = false;
-
 			Item.UseSound = SoundID.Item43;
 		}
 
@@ -48,7 +44,7 @@ namespace SpiritMod.Items.Consumable
 			SoundEngine.PlaySound(SoundID.Roar, player.Center);
 			if (!Main.dayTime)
 				MyWorld.BlueMoon = true;
-			return null;
+			return true;
 		}
 
 		public override void AddRecipes()

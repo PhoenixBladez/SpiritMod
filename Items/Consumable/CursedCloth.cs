@@ -17,27 +17,20 @@ namespace SpiritMod.Items.Consumable
 			Tooltip.SetDefault("Use in the Underworld to summon Infernon");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = Item.height = 16;
 			Item.rare = ItemRarityID.LightRed;
 			Item.maxStack = 99;
-
 			Item.useStyle = ItemUseStyleID.HoldUp;
 			Item.useTime = Item.useAnimation = 20;
-
 			Item.noMelee = true;
 			Item.consumable = true;
 			Item.autoReuse = false;
-
 			Item.UseSound = SoundID.Item43;
 		}
 
-		public override bool CanUseItem(Player player)
-		{
-			return !NPC.AnyNPCs(ModContent.NPCType<Infernon>()) && !(player.position.Y / 16f < Main.maxTilesY - 200);
-		}
+		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<Infernon>()) && player.position.Y / 16f > Main.maxTilesY - 200;
 
 		public override bool? UseItem(Player player)
 		{
@@ -58,7 +51,7 @@ namespace SpiritMod.Items.Consumable
 				SpiritMultiplayer.SpawnBossFromClient((byte)player.whoAmI, ModContent.NPCType<Infernon>(), (int)spawnPos.X, (int)spawnPos.Y);
 			}
 			SoundEngine.PlaySound(SoundID.Roar, player.position);
-			return null;
+			return true;
 		}
 
 		public override void AddRecipes()

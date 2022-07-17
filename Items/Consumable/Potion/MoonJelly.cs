@@ -62,7 +62,7 @@ namespace SpiritMod.Items.Consumable.Potion
 				player.AddBuff(BuffID.PotionSickness, 2700);
 
 			player.AddBuff(ModContent.BuffType<MoonBlessing>(), 600);
-			return null;
+			return true;
 		}
 
 		public override void UpdateInventory(Player player) => Item.healLife = 120; //update the heal life back to 120 for tooltip and quick heal purposes

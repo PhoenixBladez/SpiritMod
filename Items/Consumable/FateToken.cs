@@ -31,9 +31,8 @@ namespace SpiritMod.Items.Consumable
 			player.AddBuff(ModContent.BuffType<Buffs.FateToken>(), 3600);
 			player.GetSpiritPlayer().fateToken = true;
 			player.GetSpiritPlayer().shootDelay3 = 7200;
-
 			Main.NewText("Fate has blessed you");
-			return null;
+			return true;
 		}
 
 		public override bool CanUseItem(Player player) => player.GetSpiritPlayer().shootDelay3 == 0;

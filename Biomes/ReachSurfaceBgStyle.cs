@@ -1,11 +1,9 @@
-using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Biomes
 {
 	public class ReachSurfaceBgStyle : ModSurfaceBackgroundStyle
 	{ 
-		public override int ChooseFarTexture() => BackgroundTextureLoader.GetBackgroundSlot(Mod, "Backgrounds/SpiritBiomeSurfaceFar");
 		public override int ChooseMiddleTexture() => BackgroundTextureLoader.GetBackgroundSlot(Mod, "Backgrounds/ReachBiomeSurfaceMid");
 		public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
 		{

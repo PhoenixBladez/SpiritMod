@@ -14,23 +14,18 @@ namespace SpiritMod.Items.Consumable.Potion
 			Tooltip.SetDefault("Causes the player to leave behind a damaging trail of mushrooms");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = 20;
 			Item.height = 30;
 			Item.rare = ItemRarityID.Blue;
 			Item.maxStack = 30;
-
 			Item.useStyle = ItemUseStyleID.EatFood;
 			Item.useTime = Item.useAnimation = 20;
-
 			Item.consumable = true;
 			Item.autoReuse = false;
-
 			Item.buffType = ModContent.BuffType<MushroomPotionBuff>();
 			Item.buffTime = 7300;
-
 			Item.UseSound = SoundID.Item3;
 		}
 

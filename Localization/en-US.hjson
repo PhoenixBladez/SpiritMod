@@ -1,0 +1,74 @@
+﻿Mods: {
+	SpiritMod: {
+		TownNPCMood: {
+			Adventurer: {
+				Content: Relaxing at home is almost as nice as a good trek, isn't it?
+				NoHome: While I'm an explorer, I'd like to relax for a while. Got a spare place I can hole up in?
+				LoveSpace: Plenty of room to plan my next expedition, wonderful!
+				FarFromHome: You could say I'm 'adventuring' a bit too far from my house...but seriously I don't have a map.
+				DislikeCrowded: How am I supposed to chart undiscovered lands with all these people around?
+				HateCrowded: I'd rather explore a lake of lava than live here with all these people!
+				LikeBiome: "{BiomeName} is a relaxing place to be, good place to rest up."
+				LoveBiome: "You shouldn't see this."
+				DislikeBiome: "While I'd love to finish what I've started, it's far too soon for me to be back in the {BiomeName}."
+				HateBiome: "You houldn't see this either!"
+				LikeNPC: "Me and {NPCName} go way back. I still remember our first journey together!"
+				LoveNPC: "That {NPCName} is a fascinating character. His stories are trumped by nothing!"
+				DislikeNPC: "{NPCName} really knows how to bring down the mood. Maybe a hike would brighten him up?"
+				HateNPC: "While {NPCName} is a collector in spirit, he only offloads his work to others. A disappointment to explorers everywhere."
+			}
+
+			Gambler: {
+				Content: While we're both taking a minute here, why not open a box or two?
+				NoHome: I need a place to call my own - where'll I setup a place otherwise?
+				LoveSpace: I'm the gamblin' type but I'm not the casino type - I love it nice and calm.
+				FarFromHome: Money is one thing, but I'm not about gambling with my life. Where's my home?
+				DislikeCrowded: There's such a thing as too many cooks in the casino, if you catch my drift.
+				HateCrowded: People keep knocking over my loot boxes! How am I supposed to sell here?
+				LikeBiome: "Ah, {BiomeName}. Just the perfect place to set up shop."
+				LoveBiome: "You shouldn't see this."
+				DislikeBiome: "No one likes to gamble in the humidity. The coins get all wet and gross!"
+				HateBiome: "You houldn't see this either!"
+				LikeNPC: "My hair? That's {NPCName}'s pride and joy. She does a wonderful job."
+				LoveNPC: "Once, I upsold a wooden chest to {NPCName} for a quick buck. He opened it and there were like, three hundred ducks in there. I've never been so confused and amazed."
+				DislikeNPC: "Unlike {NPCName}, I don't hoard my wealth."
+				HateNPC: "Say what you want about ME, but is what {NPCName} even legal?"
+			}
+
+			Rogue: {
+				Content: Three hundred...four hundred...nothing beats counting up a...hard day's work!
+				NoHome: Where am I supposed to hide what I st- find, if I don't have a house?
+				LoveSpace: Away from all prying eyes, perfect, perfect.
+				FarFromHome: Did someone steal my house and take it? I'm not sure where it is.
+				DislikeCrowded: Too many people, I'm getting some side eyes.
+				HateCrowded: With this level of crowding, it's not my fault if an 'accident' happens and thins the herd, y'know?
+				LikeBiome: "So much cover! So many places to hide! A wonderful place."
+				LoveBiome: "You shouldn't see this."
+				DislikeBiome: "I have WAY too much competition here - get me OUT!"
+				HateBiome: "You houldn't see this either!"
+				LikeNPC: "{NPCName} actually helped me cross some sketchy areas a couple of times - great guy."
+				LoveNPC: "I'm no engineer, but the stuff {NPCName} makes is so cool. I might even pay for it this time!"
+				DislikeNPC: "Oh, {NPCName}? Let's just say he's not against testing a couple of his explosives."
+				HateNPC: "Let me tell you...that {NPCName} guy? On a hairpin trigger, literally. I only lifted a couple coins, I swear!"
+			}
+
+			RuneWizard: {
+				Content: The runes are coming along nicely today.
+				NoHome: I don't have any space for my runes!
+				LoveSpace: The magic flows much easier in the calm.
+				FarFromHome: I don't know if you could guess, but I'd strongly prefer to be near my beloved runes.
+				DislikeCrowded: It's hard to focus when there's so many people around!
+				HateCrowded: With this many people around, I can only wish there were a Silence Glyph.
+				LikeBiome: "I've never been more in tune with the runic magic! This place is wonderful."
+				LoveBiome: "You shouldn't see this."
+				DislikeBiome: "This place is just too much. Way too much. Let me out."
+				HateBiome: "You houldn't see this either!"
+				# LikeNPC: "Ah, {NPCName}? We know nothing of each other's craft - yet, still a fascinating man. Nice fashion too, unique." - Removed Witch Doctor dialogue
+				LikeNPC: "Sometimes, {NPCName} will ask me to enchant some of his wares...I always put a blank enchant on them. He is overjoyed every time."
+				LoveNPC: "{NPCName} and I frequently talk of our work - it's fascinating how he can enchant without any knowledge of magic."
+				DislikeNPC: "I don't dislike anyone!"
+				HateNPC: "{NPCName} doesn't understand the power of runes...it's all 'Ice Rod this' and 'Crystal Ball' that..."
+			}
+		}
+	}
+}

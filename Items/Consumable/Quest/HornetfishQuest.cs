@@ -13,13 +13,13 @@ namespace SpiritMod.Items.Consumable.Quest
 			DisplayName.SetDefault("Hornetfish");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = Item.height = 16;
 			Item.rare = -11;
 			Item.maxStack = 99;
 		}
+
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			if (!QuestManager.GetQuest<ItsNoSalmon>().IsCompleted)

@@ -43,7 +43,6 @@ namespace SpiritMod.Items.Consumable
 			Item.width = Item.height = 16;
 			Item.rare = ItemRarityID.LightRed;
 			Item.maxStack = 1;
-
 			Item.noMelee = true;
 			Item.consumable = false;
 			Item.autoReuse = false;

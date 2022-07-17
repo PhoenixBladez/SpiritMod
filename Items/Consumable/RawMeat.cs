@@ -9,24 +9,18 @@ namespace SpiritMod.Items.Consumable
 {
 	public class RawMeat : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Raw Meat");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Raw Meat");
 
 		public override void SetDefaults()
 		{
 			Item.width = Item.height = 24;
 			Item.rare = ItemRarityID.White;
 			Item.maxStack = 1;
-
 			Item.useStyle = ItemUseStyleID.HoldUp;
 			Item.useTime = Item.useAnimation = 20;
-
 			Item.noMelee = true;
 			Item.consumable = true;
 			Item.autoReuse = false;
-
 			Item.UseSound = SoundID.Item43;
 		}
 
@@ -39,14 +33,7 @@ namespace SpiritMod.Items.Consumable
 			return false;
 		}
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(189, 191, 174, 100);
-		}
-
-		public override bool ItemSpace(Player player)
-		{
-			return true;
-		}
+		public override Color? GetAlpha(Color lightColor) => new Color(189, 191, 174, 100);
+		public override bool ItemSpace(Player player) => true;
 	}
 }

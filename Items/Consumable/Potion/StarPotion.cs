@@ -14,23 +14,18 @@ namespace SpiritMod.Items.Consumable.Potion
 			Tooltip.SetDefault("Critical hits may cause stars to fall from the sky\nIncreases ranged damage and critical strike chance by 4% when moving");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = 20;
 			Item.height = 30;
 			Item.rare = ItemRarityID.Pink;
 			Item.maxStack = 30;
-
 			Item.useStyle = ItemUseStyleID.EatFood;
 			Item.useTime = Item.useAnimation = 20;
-
 			Item.consumable = true;
 			Item.autoReuse = false;
-
 			Item.buffType = ModContent.BuffType<StarPotionBuff>();
 			Item.buffTime = 10800;
-
 			Item.UseSound = SoundID.Item3;
 		}
 

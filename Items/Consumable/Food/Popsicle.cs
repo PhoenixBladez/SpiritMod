@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,15 +22,14 @@ namespace SpiritMod.Items.Consumable.Food
 			Item.noUseGraphic = true;
 			Item.useStyle = ItemUseStyleID.EatFood;
 			Item.useTime = Item.useAnimation = 30;
-
 			Item.buffType = BuffID.WellFed;
 			Item.buffTime = 36000;
 			Item.noMelee = true;
 			Item.consumable = true;
 			Item.UseSound = SoundID.Item2;
 			Item.autoReuse = false;
-
 		}
+
 		public override bool CanUseItem(Player player)
 		{
 			player.AddBuff(ModContent.BuffType<IceBerryBuff>(), 7200);

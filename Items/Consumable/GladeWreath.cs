@@ -15,27 +15,20 @@ namespace SpiritMod.Items.Consumable
 			Tooltip.SetDefault("Summons a Glade Wraith\nCan only be used in the Briar");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = Item.height = 16;
 			Item.rare = ItemRarityID.Blue;
 			Item.maxStack = 99;
-
 			Item.useStyle = ItemUseStyleID.HoldUp;
 			Item.useTime = Item.useAnimation = 20;
-
 			Item.noMelee = true;
 			Item.consumable = true;
 			Item.autoReuse = false;
-
 			Item.UseSound = SoundID.Item43;
 		}
 
-		public override bool CanUseItem(Player player)
-		{
-			return !NPC.AnyNPCs(ModContent.NPCType<ForestWraith>()) && player.GetSpiritPlayer().ZoneReach;
-		}
+		public override bool CanUseItem(Player player) => !NPC.AnyNPCs(ModContent.NPCType<ForestWraith>()) && player.GetSpiritPlayer().ZoneReach;
 
 		public override bool? UseItem(Player player)
 		{

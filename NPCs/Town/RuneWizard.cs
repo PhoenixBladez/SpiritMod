@@ -36,7 +36,6 @@ namespace SpiritMod.NPCs.Town
 				.SetBiomeAffection<UndergroundBiome>(AffectionLevel.Like)
 				.SetBiomeAffection<HallowBiome>(AffectionLevel.Dislike)
 				.SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Love)
-				.SetNPCAffection(NPCID.WitchDoctor, AffectionLevel.Like)
 				.SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Like)
 				.SetNPCAffection(NPCID.Wizard, AffectionLevel.Hate);
 		}
@@ -57,10 +56,7 @@ namespace SpiritMod.NPCs.Town
 			AnimationType = NPCID.Guide;
 		}
 
-		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
-		{
-			return Main.player.Any(x => x.active && x.inventory.Any(y => y.type == ItemType<Glyph>()));
-		}
+		public override bool CanTownNPCSpawn(int numTownNPCs, int money) => Main.player.Any(x => x.active && x.inventory.Any(y => y.type == ItemType<Glyph>()));
 
 		public override List<string> SetNPCNameList() => new List<string>() { "Malachai", "Nisarmah", "Moneque", "Tosalah", "Kentremah", "Salqueeh", "Oarno", "Cosimo" };
 
@@ -69,28 +65,13 @@ namespace SpiritMod.NPCs.Town
 			List<string> dialogue = new List<string>
 			{
 				"Power up your weapons with my strange Glyphs!",
-				"Got any Blank Glyphs? I'll enchant those for you in a jiffy.",
-				"I only accept Glyphs for my wares; they're hard to come by nowadays.",
+				"Sometimes, I just scribble a rune on a Glyph and see what happens. I don't recommend you do.",
+				"Before you ask, no, I'm not going to put a Honeyed Glyph on a bee. It'd be way too strong.",
 				"I forgot the essence of Hellebore! Don't touch that!",
 				"If you're unsure of how to stumble upon Glyphs, my master once told me powerful bosses hold many!",
-				"Lost on how to find Glyphs? I've been told all foes can drop them rarely.",
+				"Fun fact - you can put runes on anything - it's just most powerful on Glyphs.",
 				"Anything can be enchanted if you possess the skill, wit, and essence!",
 			};
-
-			int wizard = NPC.FindFirstNPC(NPCID.Wizard);
-			if (wizard >= 0)
-			{
-				dialogue.Add($"Between you and I - {Main.npc[wizard].GivenName} completely stole my style.");
-				dialogue.Add($"{Main.npc[wizard].GivenName} doesn't understand the power of runes...it's all \"Ice Rod this\" and \"Crystal Ball\" that...");
-			}
-
-			int demolitionist = NPC.FindFirstNPC(NPCID.Demolitionist);
-			if (demolitionist >= 0)
-				dialogue.Add($"Sometimes, {Main.npc[demolitionist].GivenName} will ask me to enchant some of his wares...I always put a blank enchant on them. He is overjoyed every time.");
-
-			int tinkerer = NPC.FindFirstNPC(NPCID.GoblinTinkerer);
-			if (tinkerer >= 0)
-				dialogue.Add($"{Main.npc[tinkerer].GivenName} and I frequently talk of our work - it's fascinating how he can enchant without any knowledge of magic.");
 
 			dialogue.AddWithCondition("I wonder what enchantements have been placed on the moon- It's all blue!", MyWorld.BlueMoon);
 			dialogue.AddWithCondition("The resurgence of Spirits offer a whole level of enchanting possibility!", Main.hardMode);

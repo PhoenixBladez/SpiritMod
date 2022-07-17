@@ -13,7 +13,6 @@ namespace SpiritMod.Items.Consumable.Food
 			Tooltip.SetDefault("Minor improvements to all stats\n'It'll warm you right up!'");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = Item.height = 22;
@@ -22,18 +21,17 @@ namespace SpiritMod.Items.Consumable.Food
 			Item.noUseGraphic = true;
 			Item.useStyle = ItemUseStyleID.EatFood;
 			Item.useTime = Item.useAnimation = 30;
-
 			Item.buffType = BuffID.WellFed;
 			Item.buffTime = 108000;
 			Item.noMelee = true;
 			Item.consumable = true;
 			Item.UseSound = SoundID.Item3;
 			Item.autoReuse = false;
-
 		}
+
 		public override bool CanUseItem(Player player)
 		{
-			player.AddBuff(124, 72000);
+			player.AddBuff(BuffID.Warmth, 72000);
 			return true;
 		}
 	}

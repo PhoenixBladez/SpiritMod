@@ -59,6 +59,9 @@ namespace SpiritMod.NPCs.Town
 
 		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
 		{
+			if (NPC.AnyNPCs(NPCType<BoundGambler>()))
+				return false;
+
 			for (int k = 0; k < 255; k++)
 			{
 				Player player = Main.player[k];
@@ -66,10 +69,8 @@ namespace SpiritMod.NPCs.Town
 				{
 					for (int j = 0; j < player.inventory.Length; j++)
 					{
-						if (player.inventory[j].type == ItemID.GoldCoin && !NPC.AnyNPCs(NPCType<BoundGambler>()))
-						{
+						if (player.inventory[j].type == ItemID.GoldCoin)
 							return true;
-						}
 					}
 				}
 			}
@@ -87,27 +88,8 @@ namespace SpiritMod.NPCs.Town
 				"Gambling's bad for you. Unless you win.",
 				"Win or lose, the thrill of the game is worth the money.",
 				"You have the face of a winner. Step up!",
-				"Get a sense of pride and accomplishment, for just a few coins!"
+				"Get a sense of pride and accomplishment for just a few coins!"
 			};
-
-			int merchant = NPC.FindFirstNPC(NPCID.Merchant);
-			if (merchant >= 0)
-				dialogue.Add($"Unlike {Main.npc[merchant].GivenName}, I don't hoard my wealth.");
-
-			int goblin = NPC.FindFirstNPC(NPCID.GoblinTinkerer);
-			if (goblin >= 0)
-			{
-				dialogue.Add($"Tell {Main.npc[goblin].GivenName} to stop taking MY customers!");
-				dialogue.Add($"Say what you want about ME, but is what {Main.npc[goblin].GivenName} even legal?");
-			}
-
-			int wizard = NPC.FindFirstNPC(NPCID.Wizard);
-			if (wizard >= 0)
-			{
-				dialogue.Add($"One of these days, I'll beat {Main.npc[wizard].GivenName} at a game of cards.");
-				dialogue.Add($"Once, I upsold a wooden chest to {Main.npc[wizard].GivenName} for a quick buck. He opened it and there were like, three hundred ducks in there. I've never been so confused and amazed.");
-			}
-
 			return Main.rand.Next(dialogue);
 		}
 

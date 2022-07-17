@@ -22,7 +22,6 @@ namespace SpiritMod.Items.Consumable.Food
 			Item.noUseGraphic = true;
 			Item.useStyle = ItemUseStyleID.EatFood;
 			Item.useTime = Item.useAnimation = 30;
-
 			Item.noMelee = true;
 			Item.consumable = true;
 			Item.UseSound = SoundID.Item2;

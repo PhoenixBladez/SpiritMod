@@ -14,23 +14,18 @@ namespace SpiritMod.Items.Consumable.Potion
 			Tooltip.SetDefault("Immunity to Stoned");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = 20;
 			Item.height = 30;
 			Item.rare = ItemRarityID.LightRed;
 			Item.maxStack = 30;
-
 			Item.useStyle = ItemUseStyleID.EatFood;
 			Item.useTime = Item.useAnimation = 20;
-
 			Item.consumable = true;
 			Item.autoReuse = false;
-
 			Item.buffType = ModContent.BuffType<MirrorCoatBuff>();
 			Item.buffTime = 10800;
-
 			Item.UseSound = SoundID.Item3;
 		}
 
@@ -45,6 +40,7 @@ namespace SpiritMod.Items.Consumable.Potion
 			recipe.Register();
 		}
 	}
+
 	public class MirrorCoatBuff : ModBuff
 	{
 		public override void SetStaticDefaults()
