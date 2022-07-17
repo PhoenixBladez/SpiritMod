@@ -23,6 +23,7 @@ using Terraria.ModLoader;
 using SpiritMod.Items.Sets.FloranSet;
 using Terraria.WorldBuilding;
 using Terraria.IO;
+using Terraria.DataStructures;
 
 namespace SpiritMod.World
 {
@@ -288,7 +289,7 @@ namespace SpiritMod.World
 				if (!tile.HasTile || tile.TileType != TileID.Stone)
 					continue;
 
-				//StructureLoader.GetStructure("CrateStashRegular").PlaceForce(hideoutX, hideoutY, out Point[] containers); //STRUCTURES
+				StructureHelper.Generator.GenerateStructure("Structures/CrateStashRegular", new Point16(hideoutX, hideoutY), SpiritMod.Instance);
 				break;
 			}
 		}
@@ -304,7 +305,7 @@ namespace SpiritMod.World
 				if (!tile.HasTile || tile.TileType != 60)
 					continue;
 
-				//StructureLoader.GetStructure("CrateStashJungle").PlaceForce(hideoutX, hideoutY, out Point[] containers); //STRUCTURES
+				StructureHelper.Generator.GenerateStructure("Structures/CrateStashJungle", new Point16(hideoutX, hideoutY), SpiritMod.Instance);
 				break;
 			}
 		}
@@ -349,7 +350,7 @@ namespace SpiritMod.World
 				if (!tile.HasTile || tile.TileType != TileID.Stone)
 					continue;
 
-				//StructureLoader.GetStructure("StoneDungeon" + (WorldGen.genRand.Next(3) + 1)).PlaceForce(hideoutX, hideoutY, out Point[] containers); //STRUCTURES
+				StructureHelper.Generator.GenerateStructure("Structures/StoneDungeon", new Point16(hideoutX, hideoutY), SpiritMod.Instance);
 				break;
 			}
 		}
@@ -732,8 +733,8 @@ namespace SpiritMod.World
 						goto retry; //Retry if this space is taken up
 				}
 			}
-
-			//StructureLoader.GetStructure(WorldGen.genRand.Next(2) == 0 ? "BoneIsland" : "BoneIsland1").PlaceForce(islandX, islandY, out Point[] containers); //Place the bone island //STRUCTURES
+			
+			StructureHelper.Generator.GenerateStructure("Structures/BoneIsland", new Point16(islandX, islandY), SpiritMod.Instance);
 		}
 		#endregion Bone Island
 
@@ -746,22 +747,7 @@ namespace SpiritMod.World
 				MyWorld.pagodaX = Main.rand.Next(200, 350);
 
 			MyWorld.pagodaY = (int)(Main.worldSurface / 5.0);
-			//StructureLoader.GetStructure("Pagoda").PlaceForce(MyWorld.pagodaX, MyWorld.pagodaY, out Point[] containers); //STRUCTURES
-
-			//foreach incase we decide to add a second chest.
-			//foreach (Point chestLocation in containers)
-			//{
-			//	for (int x = 0; x < 2; x++)
-			//	{
-			//		for (int y = 0; y < 2; y++)
-			//		{
-			//			Tile tile = Main.tile[chestLocation.X + x, chestLocation.Y + y];
-			//			tile.HasTile = false;
-			//			Main.tile[chestLocation.X + x, chestLocation.Y + y].TileType = 0;
-			//		}
-			//	}
-			//	WorldGen.PlaceChest(chestLocation.X, chestLocation.Y + 1, 21, true, 28);
-			//}
+			StructureHelper.Generator.GenerateStructure("Structures/Pagoda", new Point16(MyWorld.pagodaX, MyWorld.pagodaY), SpiritMod.Instance);
 		}
 		#endregion Pagoda
 
@@ -1104,8 +1090,7 @@ namespace SpiritMod.World
 				WorldGen.TileRunner(x, y, Main.rand.Next(2, 10), 2, ore, false, 0f, 0f, false, true);
 			}
 
-			var location = new List<Point>().ToArray(); //these are for ease of use if we ever want to add containers to these existing structures
-														//StructureLoader.GetStructure("StarAltar").PlaceForce(i + (int)(Main.rand.Next(0 - width, width) / 1.5f), j + Main.rand.Next(-10, height), out location); //STRUCTURES
+			StructureHelper.Generator.GenerateStructure("Structures/StarAltar", new Point16(i + (int)(Main.rand.Next(0 - width, width) / 1.5f), j + Main.rand.Next(-10, height)), SpiritMod.Instance);
 
 			//chest spawning
 			const int MaxChestTries = 10000;

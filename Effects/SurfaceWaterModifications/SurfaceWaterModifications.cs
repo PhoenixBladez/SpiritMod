@@ -207,7 +207,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			//ILHelper.CompleteLog(c);
 		}
 
-		private static bool IsWaterTransparent() => Main.LocalPlayer.ZoneBeach && !Main.bloodMoon;
+		private static bool IsWaterTransparent() => Main.LocalPlayer.ZoneBeach && !Main.bloodMoon && !Main.LocalPlayer.ZoneSkyHeight;
 
 		private static void NewDraw(bool back)
 		{
