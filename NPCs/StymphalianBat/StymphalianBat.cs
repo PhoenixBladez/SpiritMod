@@ -10,6 +10,7 @@ using System.IO;
 using SpiritMod.Buffs;
 using SpiritMod.Mechanics.BoonSystem;
 using SpiritMod.Buffs.DoT;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.StymphalianBat
 {
@@ -45,7 +46,15 @@ namespace SpiritMod.NPCs.StymphalianBat
 			BannerItem = ModContent.ItemType<Items.Banners.StymphalianBatBanner>();
 		}
 
-        int frame;
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Marble,
+				new FlavorTextBestiaryInfoElement("Ancient blueprints. Recent fabrication. These designs were perfected long ago, there is no need to deviate from his design."),
+			});
+		}
+
+		int frame;
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
@@ -53,19 +62,20 @@ namespace SpiritMod.NPCs.StymphalianBat
 			writer.Write(NPC.localAI[1]);
 			writer.Write(NPC.localAI[2]);
 		}
+
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			NPC.localAI[0] = reader.ReadSingle();
 			NPC.localAI[1] = reader.ReadSingle();
 			NPC.localAI[2] = reader.ReadSingle();
 		}
+
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(3) == 0)
-			{
+			if (Main.rand.NextBool(3))
 				target.AddBuff(BuffID.Bleeding, 3600);
-			}
 		}
+
 		public override void AI()
         {
 			if (NPC.ai[3] == 0)

@@ -1,6 +1,7 @@
 using SpiritMod.Tiles.Block;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -30,6 +31,14 @@ namespace SpiritMod.NPCs.Spirit
 			AIType = NPCID.Mummy;
 			AIType = NPCID.Mummy;
 			AnimationType = NPCID.Mummy;
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<Biomes.SpiritSurfaceBiome>().Type };
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("Afflicted by ethereal powers, these carcasses are now vessels for not their own souls, but countless others in need of a corporeal form. "),
+			});
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

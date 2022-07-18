@@ -4,6 +4,7 @@ using SpiritMod.Items.Consumable.Fish;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -32,6 +33,14 @@ namespace SpiritMod.NPCs.Critters
 			NPC.dontCountMe = true;
 			NPC.npcSlots = 0;
 			AIType = NPCID.CorruptGoldfish;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
+				new FlavorTextBestiaryInfoElement("Living in the glistening waters of the Hallow, its body is now composed of mostly crystals. This allows for light to enter its body and channel it into a bolt that shatters on impact."),
+			});
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)

@@ -8,6 +8,7 @@ using Terraria.ID;
 using SpiritMod.Tiles.Block;
 using System.Linq;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Spirit
 {
@@ -36,7 +37,14 @@ namespace SpiritMod.NPCs.Spirit
 			NPC.noTileCollide = true;
 			NPC.lavaImmune = true;
 			NPC.buffImmune[BuffID.OnFire] = true;
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<Biomes.SpiritUndergroundBiome>().Type };
+		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("Stones given life by thousands of souls, they angrily ram into any nearby disturbances, as it is sensitive to them. It shares the senses and thoughts of every soul that composes it, causing it great pain."),
+			});
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -55,15 +63,14 @@ namespace SpiritMod.NPCs.Spirit
 		{
 			Player player = spawnInfo.Player;
             if (!player.GetSpiritPlayer().ZoneSpirit)
-            {
                 return 0f;
-            }
+
             if (SpawnTiles.Length == 0)
             {
                 int[] Tiles = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>() };
                 SpawnTiles = Tiles;
             }
-            return SpawnTiles.Contains(Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY].TileType) && player.position.Y / 16 >= Main.maxTilesY - 330 && player.GetSpiritPlayer().ZoneSpirit && !spawnInfo.PlayerSafe ? 3f : 0f;
+            return SpawnTiles.Contains(spawnInfo.SpawnTileType) && player.position.Y / 16 >= Main.maxTilesY - 330 && player.GetSpiritPlayer().ZoneSpirit && !spawnInfo.PlayerSafe ? 3f : 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

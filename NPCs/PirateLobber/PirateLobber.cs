@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -28,11 +29,18 @@ namespace SpiritMod.NPCs.PirateLobber
 			NPC.DeathSound = SoundID.NPCDeath1;
 			NPC.value = Item.buyPrice(0, 0, 20, 0);
 			NPC.knockBackResist = 0.35f;
-
 			NPC.buffImmune[20] = true;
 			NPC.buffImmune[31] = false;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.PirateLobberBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Invasions.Pirates,
+				new FlavorTextBestiaryInfoElement("This pirate had found rolling to be a much more effective way to transport barrels along the deck. Funnily enough, it works pretty well on foes as well!"),
+			});
 		}
 
 		int frame = 0;

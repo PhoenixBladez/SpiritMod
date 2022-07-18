@@ -12,6 +12,7 @@ using SpiritMod.Buffs;
 using Terraria.Audio;
 using SpiritMod.Buffs.DoT;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Automata
 {
@@ -60,9 +61,17 @@ namespace SpiritMod.NPCs.Automata
 			BannerItem = ModContent.ItemType<Items.Banners.ArachmatonBanner>();
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Marble,
+				new FlavorTextBestiaryInfoElement("Forged from brass, a sturdy metal. Makes a lasting frame. A core from marble, containing untapped magic. This gives it mind. And at last, the spark of life. Roam free, new friend."),
+			});
+		}
+
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 				target.AddBuff(BuffID.BrokenArmor, 1800);
 		}
 

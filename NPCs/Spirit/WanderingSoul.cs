@@ -7,6 +7,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Sets.SpiritBiomeDrops;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Spirit
 {
@@ -37,10 +38,17 @@ namespace SpiritMod.NPCs.Spirit
 			AnimationType = NPCID.Wraith;
 			NPC.stepSpeed = .5f;
 			for (int k = 0; k < NPC.buffImmune.Length; k++)
-			{
 				NPC.buffImmune[k] = true;
-			}
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<Biomes.SpiritUndergroundBiome>().Type };
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("Now being free from its slumber, it aimlessly wanders, forever lost in a world it no longer recognizes."),
+			});
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

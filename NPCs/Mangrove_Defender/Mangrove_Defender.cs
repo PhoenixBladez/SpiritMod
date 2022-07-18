@@ -6,15 +6,15 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Mangrove_Defender
 {
 	public class Mangrove_Defender : ModNPC
 	{
-
 		public bool groundSlamming;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mangrove Defender");
@@ -22,6 +22,7 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 			NPCID.Sets.TrailCacheLength[NPC.type] = 20;
 			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
+
 		public override void SetDefaults()
 		{
 			NPC.aiStyle = -1;
@@ -39,12 +40,16 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 			NPC.HitSound = SoundID.Grass;
 			NPC.dontTakeDamage = false;
 			NPC.DeathSound = SoundID.NPCDeath6;
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<Biomes.BriarUndergroundBiome>().Type };
 		}
-		/*public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
-			if (player.HeldItem.axe > 0)		
-				damage*=2;
-		}*/
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("Blessed by primal deities, these former Feral Shamblers are now fully connected with The Brair's will. With their new found strength, they protect their home with a savage fury."),
+			});
+		}
+
 		public override void AI()
 		{
 			Player player = Main.player[NPC.target];
@@ -230,8 +235,6 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 				int index1 = (int)(((double)NPC.position.X + (double)(NPC.width / 2) + (double)(15 * NPC.direction)) / 16.0);
 				int index2 = (int)(((double)NPC.position.Y + (double)NPC.height - 15.0) / 16.0);
 
-				Tile tile = Main.tile[index1, index2 + 1];
-				int spriteDirection = NPC.spriteDirection;
 				if ((double)NPC.velocity.X < 0.0 || (double)NPC.velocity.X > 0.0)
 				{
 					if (NPC.height >= 24 && Main.tile[index1, index2 - 2].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[index1, index2 - 2].TileType])

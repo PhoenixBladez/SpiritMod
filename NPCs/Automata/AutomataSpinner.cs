@@ -12,6 +12,7 @@ using Terraria.Audio;
 using SpiritMod.Mechanics.BoonSystem;
 using SpiritMod.Buffs.DoT;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Automata
 {
@@ -47,6 +48,14 @@ namespace SpiritMod.NPCs.Automata
 			BannerItem = ModContent.ItemType<Items.Banners.TrochmatonBanner>();
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Marble,
+				new FlavorTextBestiaryInfoElement("Times grow dire, and I must hurry. Dual blades, for attack. Four legs, for stability. Extra plating, for resistance. A marble core and at last the spark of life. Make haste o’ guardian, you know your task. Defend these caves we call home."),
+			});
+		}
+
 		int timer;
 		int frame = 0;
 		int frameTimer;
@@ -57,18 +66,18 @@ namespace SpiritMod.NPCs.Automata
 			writer.Write(frame);
 			writer.Write(frameTimer);
 		}
+
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			timer = reader.ReadInt32();
 			frame = reader.ReadInt32();
 			frameTimer = reader.ReadInt32();
 		}
+
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(5) == 0)
-			{
+			if (Main.rand.NextBool(5))
 				target.AddBuff(BuffID.BrokenArmor, 1800);
-			}
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -100,7 +109,6 @@ namespace SpiritMod.NPCs.Automata
 		{	
 			NPC.spriteDirection = NPC.direction;
 			timer++;
-            FrameControl();
 			Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 			direction.Normalize();
 
@@ -133,43 +141,6 @@ namespace SpiritMod.NPCs.Automata
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => (spawnInfo.SpawnTileType == TileID.Marble) && spawnInfo.SpawnTileY > Main.rockLayer && Main.hardMode ? 1f : 0f;
 
-		public void FrameControl()
-        {
-            frameTimer++;
-            if (frameTimer >= 4)
-            {
-                frameTimer = 0;
-                frame++;
-            }
-			if (timer < 296)
-            {
-                if (frame > 5 || frame < 0)
-                {
-                    frame = 0;
-                }
-            }
-			if (timer > 300 && timer < 364)
-			{
-				if (timer % 15 == 0)
-				{
-					SoundEngine.PlaySound(SoundID.DD2_GoblinBomberThrow, NPC.Center);
-				}
-                NPC.rotation = NPC.velocity.X * .05f;
-			    NPC.knockBackResist = 0f;
-                if (frame > 8 || frame < 6)
-                {
-                    frame = 7;
-                }
-			}
-            if (timer == 296)
-            {
-                frame = 6;
-            }
-            if (timer > 364)
-            {
-                frame = 10;
-            }
-        }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (timer > 300)
@@ -187,6 +158,36 @@ namespace SpiritMod.NPCs.Automata
         }
 		public override void FindFrame(int frameHeight)
 		{
+			if (++frameTimer >= 4)
+			{
+				frameTimer = 0;
+				frame++;
+			}
+
+			if (timer < 296)
+			{
+				if (frame > 5 || frame < 0)
+					frame = 0;
+			}
+
+			if (timer > 300 && timer < 364)
+			{
+				if (timer % 15 == 0 && !NPC.IsABestiaryIconDummy)
+					SoundEngine.PlaySound(SoundID.DD2_GoblinBomberThrow, NPC.Center);
+
+				NPC.rotation = NPC.velocity.X * .05f;
+				NPC.knockBackResist = 0f;
+
+				if (frame > 8 || frame < 6)
+					frame = 7;
+			}
+
+			if (timer == 296)
+				frame = 6;
+
+			if (timer > 364)
+				frame = 10;
+
 			NPC.frame.Y = frameHeight * frame;
 		}
 	}

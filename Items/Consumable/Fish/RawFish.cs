@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +11,6 @@ namespace SpiritMod.Items.Consumable.Fish
 			DisplayName.SetDefault("Raw Fish");
 			Tooltip.SetDefault("'Can be eaten... Maybe cook it first?'");
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -29,13 +27,14 @@ namespace SpiritMod.Items.Consumable.Fish
 			Item.consumable = true;
 			Item.UseSound = SoundID.Item2;
 			Item.autoReuse = false;
-
 		}
+
 		public override bool CanUseItem(Player player)
 		{
 			player.AddBuff(BuffID.Poisoned, 600);
 			return true;
 		}
+
 		public override void AddRecipes()
 		{
 			Recipe recipe1 = Recipe.Create(ItemID.CookedFish, 1);

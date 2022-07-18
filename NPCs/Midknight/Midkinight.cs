@@ -6,6 +6,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Midknight
 {
@@ -31,6 +32,14 @@ namespace SpiritMod.NPCs.Midknight
 			NPC.aiStyle = 3;
 			AIType = NPCID.SnowFlinx;
 			AnimationType = NPCID.AngryBones;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				new FlavorTextBestiaryInfoElement("Defenders of the twilight throne, these headless knights prowl in the dead of night striking down anyone who could remotely pose a threat to their king."),
+			});
 		}
 
 		/*public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -103,6 +112,5 @@ namespace SpiritMod.NPCs.Midknight
 				}
 			}
 		}
-
 	}
 }

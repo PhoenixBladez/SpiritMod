@@ -6,6 +6,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -33,10 +34,17 @@ namespace SpiritMod.NPCs.Critters
 			NPC.npcSlots = 0;
 			AIType = NPCID.CorruptGoldfish;
 		}
-		public override void OnHitPlayer(Player target, int damage, bool crit)
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
-        	target.AddBuff(BuffID.Poisoned, 1200);
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+				new FlavorTextBestiaryInfoElement("The Corruption twisted the innards of this fish to perpetually rot, releasing a noxious gas that forms bubbles with the excess mucus it now forms. It is surprisingly corrosive."),
+			});
 		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.Poisoned, 1200);
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += 0.15f;
@@ -45,16 +53,14 @@ namespace SpiritMod.NPCs.Critters
 			NPC.frame.Y = frame * frameHeight;
 		}
 
-
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (NPC.life <= 0) {
+			if (NPC.life <= 0)
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ToxikarpGore").Type, 1f);
-			}
-			for (int k = 0; k < 11; k++) {
-					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Plantera_Green, NPC.direction, -1f, 1, default, .61f);
-				}		
+			for (int k = 0; k < 11; k++)
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Plantera_Green, NPC.direction, -1f, 1, default, .61f);
 		}
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), .10f * 1.5f, .064f* 1.5f, .289f* 1.5f);

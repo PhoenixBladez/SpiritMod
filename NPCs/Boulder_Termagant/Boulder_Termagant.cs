@@ -1,15 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 using System.IO;
 using Terraria.GameContent.ItemDropRules;
-using System.Collections.Generic;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Boulder_Termagant
 {
@@ -23,6 +21,7 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 		public int b = 0;
 		public int randomColor = 0;
 		public int boulderTimer = 0;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Boulder Behemoth");
@@ -49,6 +48,14 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 			NPC.DeathSound = SoundID.NPCDeath5;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.BoulderBehemothBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+				new FlavorTextBestiaryInfoElement("Entranced by anything that glistens, this beast’s eyes now serve only one purpose. Find any glint of light. This usually leads it to gems, but it will mistakenly eat anything that glows."),
+			});
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

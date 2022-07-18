@@ -5,6 +5,7 @@ using SpiritMod.Items.Pets;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,6 +40,15 @@ namespace SpiritMod.NPCs.Phantom
 			NPC.DeathSound = SoundID.NPCDeath1;
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+				new FlavorTextBestiaryInfoElement("A typical cave bat, transformed into pure darkness by ancient magicks. When night falls, they take to the skies to feed on those unfortunate enough to still be awake."),
+			});
+		}
+
 		bool trailbehind;
 		bool noise;
 
@@ -67,18 +77,21 @@ namespace SpiritMod.NPCs.Phantom
 				moveSpeedY++;
 
 			NPC.velocity.Y = moveSpeedY * 0.12f;
-			if (player.velocity.Y != 0) {
+			if (player.velocity.Y != 0)
+			{
 				HomeY = -60f;
 				trailbehind = true;
 				NPC.velocity.Y = moveSpeedY * 0.16f;
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ShadowbeamStaff, 0f, -2.5f, 0, default, 0.6f);
-				if (!noise) {
+				if (!noise)
+				{
 					SoundEngine.PlaySound(SoundID.Zombie7, NPC.Center);
 					noise = true;
 				}
 				NPC.rotation = NPC.velocity.X * .1f;
 			}
-			else {
+			else
+			{
 				if (HomeY < 220f)
 					HomeY += 8f;
 				NPC.rotation = 0f;
@@ -86,7 +99,8 @@ namespace SpiritMod.NPCs.Phantom
 				trailbehind = false;
 			}
 
-			if (Main.dayTime) {
+			if (Main.dayTime)
+			{
 				SoundEngine.PlaySound(SoundID.NPCDeath6, NPC.Center);
 				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 99);
 				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, 99);
@@ -107,7 +121,8 @@ namespace SpiritMod.NPCs.Phantom
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
-			for (int k = 0; k < NPC.oldPos.Length; k++) {
+			for (int k = 0; k < NPC.oldPos.Length; k++)
+			{
 				Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
 				Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 				spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
@@ -123,26 +138,27 @@ namespace SpiritMod.NPCs.Phantom
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for (int k = 0; k < 20; k++) {
+			for (int k = 0; k < 20; k++)
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection * 2, -1f, 0, default, 1f);
-			}
-			if (trailbehind) {
-				for (int k = 0; k < 20; k++) {
+
+			if (trailbehind)
+			{
+				for (int k = 0; k < 20; k++)
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ShadowbeamStaff, hitDirection * 2, -1f, 0, default, 1f);
-				}
 			}
-			if (NPC.life <= 0) {
-				for (int k = 0; k < 20; k++) {
+
+			if (NPC.life <= 0)
+			{
+				for (int k = 0; k < 20; k++)
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ShadowbeamStaff, hitDirection * 2, -1f, 0, default, 1f);
-				}
-				for (int k = 0; k < 20; k++) {
+				for (int k = 0; k < 20; k++)
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection * 2, -1f, 0, default, 1f);
-				}
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Phantom1").Type, .5f);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Phantom2").Type, .5f);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Phantom2").Type, .5f);
 			}
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += .25f;

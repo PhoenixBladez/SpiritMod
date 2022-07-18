@@ -12,6 +12,7 @@ using SpiritMod.Utilities;
 using SpiritMod.Particles;
 using SpiritMod.Items.Sets.GranitechSet;
 using System.IO;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.GraniTech
 {
@@ -49,7 +50,7 @@ namespace SpiritMod.NPCs.GraniTech
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("GraniTec Turret");
+			DisplayName.SetDefault("Granitech Turret");
 			Main.npcFrameCount[NPC.type] = 3;
 		}
 
@@ -70,6 +71,14 @@ namespace SpiritMod.NPCs.GraniTech
 
 			for (int k = 0; k < NPC.buffImmune.Length; k++)
 				NPC.buffImmune[k] = true;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Granite,
+				new FlavorTextBestiaryInfoElement("‘Granitech Incorporated would like you to know that we take no responsibility for any death or dismemberment caused by our protection turrets. They are simply there to guard what is ours. Thank you.’"),
+			});
 		}
 
 		private const int GroundDistance = 80; //Distance it'll scan to look for a valid wall
