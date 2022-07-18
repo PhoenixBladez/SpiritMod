@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.DoT;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.BlizzardNimbus
 {
@@ -21,8 +22,8 @@ namespace SpiritMod.NPCs.BlizzardNimbus
 		public override void SetDefaults()
 		{
 			NPC.damage = 48;
-			NPC.width = 40; //324
-			NPC.height = 54; //216
+			NPC.width = 40;
+			NPC.height = 54;
 			NPC.defense = 18;
 			NPC.lifeMax = 220;
 			NPC.knockBackResist = 0.3f;
@@ -34,6 +35,15 @@ namespace SpiritMod.NPCs.BlizzardNimbus
 			NPC.value = Item.buyPrice(0, 0, 4, 0);
 			NPC.HitSound = SoundID.NPCHit30;
 			NPC.DeathSound = SoundID.NPCDeath49;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Visuals.Blizzard,
+				new FlavorTextBestiaryInfoElement("Having frozen over, this nimbus angrily rains down shards of ice in an attempt to expel all of it. What it doesn’t know is that it could just leave the cold environment."),
+			});
 		}
 
 		public override void AI()
@@ -130,9 +140,6 @@ namespace SpiritMod.NPCs.BlizzardNimbus
 			NPC.frame.Y = frame * frameHeight;
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.Player.ZoneSnow && spawnInfo.Player.ZoneOverworldHeight && Main.dayTime && Main.hardMode ? 0.0595f : 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneSnow && spawnInfo.Player.ZoneOverworldHeight && Main.raining && Main.hardMode ? 0.4f : 0f;
 	}
 }

@@ -8,6 +8,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Yurei
 {
@@ -56,10 +57,17 @@ namespace SpiritMod.NPCs.Yurei
 			AIType = NPCID.FlyingAntlion;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.YureiBanner>();
+
 			for (int k = 0; k < NPC.buffImmune.Length; k++)
-			{
 				NPC.buffImmune[k] = true;
-			}
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("Guardians of an abandoned skyward shrine. Despite being long forgotten, they fight with surprising agility."),
+			});
 		}
 
 		public override void FindFrame(int frameHeight)

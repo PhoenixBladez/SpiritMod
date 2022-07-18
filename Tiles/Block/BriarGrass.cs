@@ -19,7 +19,7 @@ namespace SpiritMod.Tiles.Block
 
 			TileID.Sets.Grass[Type] = true;
 			TileID.Sets.Conversion.Grass[Type] = true;
-
+			
 			AddMapEntry(new Color(104, 156, 70));
 
 			ItemDrop = ItemID.DirtBlock;

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -32,8 +33,15 @@ namespace SpiritMod.NPCs.Mimic
 			BannerItem = ModContent.ItemType<Items.Banners.WoodCrateMimicBanner>();
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+				new FlavorTextBestiaryInfoElement("These inconspicuous imposters are rather suspicious. Exercise caution before approaching them for what lies within."),
+			});
+		}
+
 		int frame = 2;
-		int timer = 0;
 		int mimictimer = 0;
 
 		public override void AI()
@@ -44,26 +52,10 @@ namespace SpiritMod.NPCs.Mimic
 				NPC.noGravity = true;
 			else
 				NPC.noGravity = false;
-			mimictimer++;
-			if (mimictimer <= 80)
-			{
-				frame = 0;
-				mimictimer = 81;
-			}
-
-			timer++;
-			if (timer == 4)
-			{
-				frame++;
-				timer = 0;
-			}
-
-			if (frame == 4)
-				frame = 1;
 
 			if (NPC.collideY && jump && NPC.velocity.Y > 0)
 			{
-				if (Main.rand.Next(8) == 0)
+				if (Main.rand.NextBool(8))
 				{
 					jump = false;
 					for (int i = 0; i < 20; i++)
@@ -78,7 +70,27 @@ namespace SpiritMod.NPCs.Mimic
 				jump = true;
 		}
 
-		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight)
+		{
+			mimictimer++;
+			if (mimictimer <= 80)
+			{
+				frame = 0;
+				mimictimer = 81;
+			}
+
+			NPC.frameCounter++;
+			if (NPC.frameCounter == 4)
+			{
+				frame++;
+				NPC.frameCounter = 0;
+			}
+
+			if (frame == 4)
+				frame = 1;
+
+			NPC.frame.Y = frameHeight * frame;
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

@@ -12,6 +12,7 @@ using SpiritMod.Items.Sets.ReefhunterSet;
 using SpiritMod.Mechanics.QuestSystem;
 using Terraria.ModLoader.Utilities;
 using SpiritMod.Items.Weapon.Magic.LuminanceSeacone;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Horned_Crustacean
 {
@@ -45,6 +46,14 @@ namespace SpiritMod.NPCs.Horned_Crustacean
 			NPC.HitSound = SoundID.NPCHit31;
 			NPC.dontTakeDamage = false;
 			NPC.DeathSound = SoundID.NPCDeath32;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("Despite its size, this sea dweller packs a punch! It uses its sharp teeth-like spikes to hunt for fish and keep away intruders."),
+			});
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -297,9 +306,14 @@ namespace SpiritMod.NPCs.Horned_Crustacean
 			Player player = Main.player[NPC.target];
 
 			NPC.frameCounter++;
-			if (Vector2.Distance(player.Center, NPC.Center) <= 45f && NPC.velocity.X == 0f)
+
+			bool nearby = Vector2.Distance(player.Center, NPC.Center) <= 45f && NPC.velocity.X == 0f;
+			if (NPC.IsABestiaryIconDummy)
+				nearby = true;
+
+			if (nearby)
 			{
-				if (NPC.frameCounter == 24 && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0))
+				if (!NPC.IsABestiaryIconDummy && NPC.frameCounter == 24 && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0))
 				{
 					player.Hurt(PlayerDeathReason.LegacyDefault(), (int)(NPC.damage * 1.5f), NPC.direction, false, false, false, -1);
 					NPC.frame.Y = 9 * frameHeight;

@@ -5,6 +5,8 @@ using Terraria.ID;
 using SpiritMod.Tiles.Block;
 using System.Linq;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
+using SpiritMod.Biomes;
 
 namespace SpiritMod.NPCs.Spirit
 {
@@ -29,6 +31,14 @@ namespace SpiritMod.NPCs.Spirit
 			AIType = NPCID.FlyingAntlion;
 			NPC.noGravity = true;
 			NPC.noTileCollide = true;
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<SpiritUndergroundBiome>().Type };
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("Found only in the deepest depths of Spirit-touched Caverns, these malevolent wraiths hold one simple goal: Purloin the souls of living things."),
+			});
 		}
 
 		public override void AI()
@@ -43,7 +53,7 @@ namespace SpiritMod.NPCs.Spirit
 
 			Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2f)) / 16f), (int)((NPC.position.Y + (NPC.height / 2f)) / 16f), 0f, 0.0675f, 0.250f);
 
-			if (Main.rand.Next(150) == 5) //Fires desert feathers like a shotgun
+			if (Main.rand.NextBool(150)) //Fires desert feathers like a shotgun
 			{
 				Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 				direction.Normalize();
@@ -80,7 +90,7 @@ namespace SpiritMod.NPCs.Spirit
 				{
 					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Asphalt, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
@@ -96,17 +106,14 @@ namespace SpiritMod.NPCs.Spirit
 				}
 			}
 		}
-		private static int[] SpawnTiles = { };
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+
+		private static int[] SpawnTiles => new[] { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>() };
+
+	public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.Player;
 			if (!player.GetSpiritPlayer().ZoneSpirit)
 				return 0f;
-			if (SpawnTiles.Length == 0)
-			{
-				int[] Tiles = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>() };
-				SpawnTiles = Tiles;
-			}
 			return SpawnTiles.Contains(Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY].TileType) && player.position.Y / 16 >= Main.maxTilesY - 330 && player.GetSpiritPlayer().ZoneSpirit && !spawnInfo.PlayerSafe ? 2f : 0f;
 		}
 

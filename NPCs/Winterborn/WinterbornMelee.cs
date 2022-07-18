@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs.DoT;
 using SpiritMod.Mechanics.QuestSystem;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Winterborn
 {
@@ -17,6 +18,12 @@ namespace SpiritMod.NPCs.Winterborn
 		{
 			DisplayName.SetDefault("Winterborn");
 			Main.npcFrameCount[NPC.type] = 6;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Velocity = 1f
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -39,7 +46,16 @@ namespace SpiritMod.NPCs.Winterborn
 			BannerItem = ModContent.ItemType<Items.Banners.WinterbornBanner>();
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => NPC.downedBoss3 && ((spawnInfo.SpawnTileY > Main.rockLayer && spawnInfo.Player.ZoneSnow) || (spawnInfo.Player.ZoneSnow && Main.raining && spawnInfo.Player.ZoneOverworldHeight)) ? 0.12f : 0f;
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Visuals.Rain,
+				new FlavorTextBestiaryInfoElement("The last remnants of a bygone tribe. Encased in ice by a mysterious curse, they wander the tundra, looking for relics of their civilization."),
+			});
+		}
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => NPC.downedBoss3 && spawnInfo.Player.ZoneSnow && ((spawnInfo.SpawnTileY > Main.rockLayer) || (Main.raining && spawnInfo.Player.ZoneOverworldHeight)) ? 0.12f : 0f;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

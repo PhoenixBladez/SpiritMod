@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs.DoT;
 using SpiritMod.Mechanics.QuestSystem;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.WinterbornHerald
 {
@@ -20,6 +21,12 @@ namespace SpiritMod.NPCs.WinterbornHerald
 		{
 			DisplayName.SetDefault("Winterborn Herald");
 			Main.npcFrameCount[NPC.type] = 4;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+			{
+				Velocity = 1f
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -42,6 +49,14 @@ namespace SpiritMod.NPCs.WinterbornHerald
 			NPC.lavaImmune = true;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.WinterbornHeraldBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
+				new FlavorTextBestiaryInfoElement("Long after forseeing the destruction of their tribe, these once elite mages now follow in the footsteps of their brethren, seeking to rebuild."),
+			});
 		}
 
 		public override void OnKill()

@@ -3,6 +3,7 @@ using SpiritMod.Items.Sets.SpiritBiomeDrops;
 using SpiritMod.Tiles.Block;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -33,7 +34,16 @@ namespace SpiritMod.NPCs.Spirit
 			NPC.aiStyle = -1;
 			NPC.noTileCollide = true;
 			NPC.noGravity = true;
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<Biomes.SpiritUndergroundBiome>().Type };
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("A mysterious tome possessed by ancient spirits. Each contains a strange set of pages written in an indecipherable language."),
+			});
+		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += 0.15f;
@@ -46,12 +56,11 @@ namespace SpiritMod.NPCs.Spirit
 		{
 			Player player = spawnInfo.Player;
             if (!player.GetSpiritPlayer().ZoneSpirit)
-            {
                 return 0f;
-            }
+
             if (!(player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerStardust) && ((!Main.pumpkinMoon && !Main.snowMoon) || spawnInfo.SpawnTileY > Main.worldSurface || Main.dayTime) && (!Main.eclipse || spawnInfo.SpawnTileY > Main.worldSurface || !Main.dayTime) && (SpawnCondition.GoblinArmy.Chance == 0)) {
 				int[] TileArray2 = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<Spiritsand>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>(), };
-				return TileArray2.Contains(Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY].TileType) && NPC.downedMechBossAny && player.ZoneOverworldHeight ? 2.09f : 0f;
+				return TileArray2.Contains(spawnInfo.SpawnTileType) && NPC.downedMechBossAny && player.ZoneOverworldHeight ? 2.09f : 0f;
 			}
 			return 0f;
 		}

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using SpiritMod.Tiles.Ambient;
+using Terraria.ID;
 
 namespace SpiritMod.Tiles.Block
 {
@@ -14,7 +15,11 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlendAll[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			//Main.tileLighted[Type] = true;
+			Main.tileMerge[TileID.Dirt][Type] = true;
+
+			TileID.Sets.Grass[Type] = true;
+			TileID.Sets.Conversion.Grass[Type] = true;
+
 			AddMapEntry(new Color(252, 161, 3));
 			ItemDrop = ModContent.ItemType<Items.Placeable.Tiles.HalloweenGrass>();
 		}
