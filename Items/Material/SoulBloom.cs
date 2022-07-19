@@ -5,11 +5,7 @@ namespace SpiritMod.Items.Material
 {
 	public class SoulBloom : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Soulbloom");
-		}
-
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Soulbloom");
 
 		public override void SetDefaults()
 		{
@@ -17,7 +13,6 @@ namespace SpiritMod.Items.Material
 			Item.height = 22;
 			Item.value = 100;
 			Item.rare = ItemRarityID.Pink;
-
 			Item.maxStack = 999;
 		}
 	}

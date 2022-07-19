@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Tiles.Ambient.Briar
 {
+	[TileTag(TileTags.VineSway)]
 	public class BriarVines : ModTile
 	{
 		public override void SetStaticDefaults()
@@ -21,6 +22,7 @@ namespace SpiritMod.Tiles.Ambient.Briar
 			Main.tileLighted[Type] = false;
 
 			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
+			TileID.Sets.VineThreads[Type] = true;
 			TileID.Sets.IsVine[Type] = true;
 
 			HitSound = SoundID.Grass;
@@ -86,23 +88,25 @@ namespace SpiritMod.Tiles.Ambient.Briar
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch) 
         {
-			Tile tile = Framing.GetTileSafely(i, j);
+			return true;
+			//Tile tile = Framing.GetTileSafely(i, j);
 
-            var source = new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16); 
-            Rectangle realSource = source;
+   //         var source = new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16); 
+   //         Rectangle realSource = source;
 
-            float xOff = GetOffset(i, j, tile.TileFrameX); //Sin offset.
-            Vector2 drawPos = ((new Vector2(i, j)) * 16) - Main.screenPosition;
+   //         float xOff = GetOffset(i, j, tile.TileFrameX); //Sin offset.
+   //         Vector2 drawPos = ((new Vector2(i, j)) * 16) - Main.screenPosition;
 
-			Color col = Lighting.GetColor(i, j, Color.White); 
-			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+			//Color col = Lighting.GetColor(i, j, Color.White); 
+			//Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
-			spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/Briar/BriarVines", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, drawPos + zero - new Vector2(xOff, 0), realSource, new Color(col.R, col.G, col.B, 255), 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
-            return false;
+			//spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Tiles/Ambient/Briar/BriarVines", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, drawPos + zero - new Vector2(xOff, 0), realSource, new Color(col.R, col.G, col.B, 255), 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+   //         return false;
         }
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
+			return;
 			Tile tile = Framing.GetTileSafely(i, j);
 
 			Color colour = new Color (246, 194, 255) * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));

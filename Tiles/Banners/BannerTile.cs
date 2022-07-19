@@ -9,6 +9,7 @@ using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Banners
 {
+
 	public class BannerTile : ModTile
 	{
 		public override void SetStaticDefaults()
@@ -27,7 +28,6 @@ namespace SpiritMod.Tiles.Banners
 
 			DustType = -1;
 			TileID.Sets.DisableSmartCursor[Type] = true;
-			TileID.Sets.SwaysInWindBasic[Type] = true;
 
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Banner");

@@ -24,9 +24,9 @@ namespace SpiritMod.Utilities.Helpers
 			//Get the method name
 			string method = c.Method.Name;
 			if (!method.Contains("ctor"))
-				method = method.Substring(method.LastIndexOf(':') + 1);
+				method = method[(method.LastIndexOf(':') + 1)..];
 			else
-				method = method.Substring(method.LastIndexOf('.'));
+				method = method[method.LastIndexOf('.')..];
 
 			if (beforeEdit)
 				method += " - Before";
@@ -35,13 +35,13 @@ namespace SpiritMod.Utilities.Helpers
 
 			//And the storage path
 			string path = Directory.GetCurrentDirectory();
-			path = Path.Combine(path, "Terraria", "ModLoader", "TechMod");
+			path = Path.Combine(path, "ILLogs");
 			Directory.CreateDirectory(path);
 
 			//Get the class name
 			string type = c.Method.Name;
-			type = type.Substring(0, type.IndexOf(':'));
-			type = type.Substring(type.LastIndexOf('.') + 1);
+			type = type[..type.IndexOf(':')];
+			type = type[(type.LastIndexOf('.') + 1)..];
 
 			FileStream file = File.Open(Path.Combine(path, $"{type}.{method}.txt"), FileMode.Create);
 			using (StreamWriter writer = new StreamWriter(file))
