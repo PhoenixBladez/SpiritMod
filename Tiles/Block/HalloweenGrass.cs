@@ -12,7 +12,6 @@ namespace SpiritMod.Tiles.Block
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileMerge[Type][ModContent.TileType<HalloweenGrass>()] = true;
-			Main.tileBlendAll[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileMerge[TileID.Dirt][Type] = true;

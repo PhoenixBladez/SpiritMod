@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Placeable.Furniture.Shiverbark;
 using Terraria;
@@ -20,7 +19,7 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 			TileObjectData.newTile.UsesCustomCanPlace = true;
 			TileObjectData.newTile.Width = 2;
 			TileObjectData.newTile.Height = 4;
-			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
+			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 18 };
 			TileObjectData.newTile.CoordinateWidth = 16;
 			TileObjectData.newTile.CoordinatePadding = 2;
 			TileObjectData.newTile.Origin = new Point16(0, 1);
@@ -38,6 +37,7 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 			name.SetDefault("Shiverbark Flag");
 			AddMapEntry(new Color(118, 155, 163), name);
 		}
+
 		public override void AnimateTile(ref int frame, ref int frameCounter)
 		{
 			frameCounter++;
@@ -49,13 +49,6 @@ namespace SpiritMod.Tiles.Furniture.Shiverbark
 			}
 		}
 
-		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
-		{
-			offsetY = 2;
-		}
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ModContent.ItemType<ShiverbarkFlag>());
-		}
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ModContent.ItemType<ShiverbarkFlag>());
 	}
 }

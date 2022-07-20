@@ -9,6 +9,12 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Sapphire_Bow
 {
 	public class Sapphire_Bow : ModItem
 	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Sapphire Bow");
+			Tooltip.SetDefault("Turns wooden arrows into sapphire arrows\nSapphire arrows slightly home toward the cursor");
+		}
+
 		public override void SetDefaults()
 		{
 			Item.useStyle = ItemUseStyleID.Shoot;
@@ -27,19 +33,11 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Sapphire_Bow
             Item.value = Item.sellPrice(0, 0, 67, 50);
             Item.DamageType = DamageClass.Ranged;
 		}
-		
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Sapphire Bow");
-			Tooltip.SetDefault("Turns wooden arrows into sapphire arrows\nSapphire arrows slightly home toward the cursor");
-		}
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
 			if (type == ProjectileID.WoodenArrowFriendly)
 				type = ModContent.ProjectileType<Sapphire_Arrow>();
-							
-			return true;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(-1, 0);

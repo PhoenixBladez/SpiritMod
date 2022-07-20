@@ -46,12 +46,16 @@ namespace SpiritMod.Items.Sets.BismiteSet
                     player.UpdateMaxTurrets();
                 }
             }
-            if (player.altFunctionUse == 2)
+            else
             {
                 for (int projectileFinder = 0; projectileFinder < 200; ++projectileFinder)
                 {
-                    if (Main.projectile[projectileFinder].type == Item.shoot && Main.projectile[projectileFinder].alpha == 0)
-                        Main.projectile[projectileFinder].alpha = 240;
+					Projectile proj = Main.projectile[projectileFinder];
+					if (proj.type == Item.shoot && proj.alpha == 0)
+					{
+						proj.alpha = BismiteSentrySummon.BurstAlpha;
+						(proj.ModProjectile as BismiteSentrySummon).SpecialAttack();
+					}
                 }
             }
             return false;

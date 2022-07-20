@@ -15,7 +15,6 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		private (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Placeable.Furniture.SepulchrePotItem1>(), 4),
-			(ModContent.ItemType<Items.Placeable.Furniture.SepulchrePotItem1>(), 4),
 			(ModContent.ItemType<Items.Placeable.Tiles.SepulchreBrickTwoItem>(), 50),
 			(Terraria.ID.ItemID.GoldCoin, 1)
 		};

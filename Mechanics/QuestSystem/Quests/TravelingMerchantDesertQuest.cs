@@ -11,7 +11,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 
 		public override string QuestName => "Forsaken Relics";
 		public override string QuestClient => "The Travelling Merchant";
-		public override string QuestDescription => "I've got a deal for you! The world loves me for my ever-chaging supply of quality wares, but I need to restock! I've heard that there's an ancient relic stashed away in a mysterious chest over in the desert. If you get close to the chest, you should be able to see it on your minimap. And I'll make sure to give you a hefty reward for your valuable effort.";
+		public override string QuestDescription => "I've got a deal for you! The world loves me for my ever-changing supply of quality wares, but I need to restock! I've heard that there's an ancient relic stashed away in a mysterious chest over in the desert. If you get close to the chest, you should be able to see it on your minimap. And I'll make sure to give you a hefty reward for your valuable effort.";
 		public override int Difficulty => 3;
 		public override string QuestCategory => "Forager";
 

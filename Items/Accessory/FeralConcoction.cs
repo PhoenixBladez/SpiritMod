@@ -9,10 +9,9 @@ namespace SpiritMod.Items.Accessory
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Feral Concotion");
+			DisplayName.SetDefault("Feral Concoction");
 			Tooltip.SetDefault("Immunity to Feral Bite");
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -20,13 +19,9 @@ namespace SpiritMod.Items.Accessory
 			Item.height = 18;
 			Item.value = Item.buyPrice(0, 4, 0, 0);
 			Item.rare = ItemRarityID.Green;
-
 			Item.accessory = true;
 		}
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			player.buffImmune[BuffID.Rabies] = true;
-		}
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.buffImmune[BuffID.Rabies] = true;
 	}
 }

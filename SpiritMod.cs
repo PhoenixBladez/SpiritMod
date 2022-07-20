@@ -843,9 +843,9 @@ namespace SpiritMod
 
 		public static void InitStargoop()
 		{
-			Metaballs = new StargoopManager();
-			Metaballs.LoadContent();
-			Metaballs.Initialize(Main.graphics.GraphicsDevice);
+			//Metaballs = new StargoopManager();
+			//Metaballs.LoadContent();
+			//Metaballs.Initialize(Main.graphics.GraphicsDevice);
 
 			var friendlyDust = (FriendlyStargoopDust)ModContent.GetModDust(ModContent.DustType<FriendlyStargoopDust>());
 			var enemyDust = (EnemyStargoopDust)ModContent.GetModDust(ModContent.DustType<EnemyStargoopDust>());

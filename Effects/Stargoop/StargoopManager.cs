@@ -61,6 +61,7 @@ namespace SpiritMod.Effects.Stargoop
 
 		public void UpdateWindowSize(GraphicsDevice graphicsDevice, int width, int height)
 		{
+			return;
 			if (!_loaded)
 				return;
 
@@ -72,6 +73,7 @@ namespace SpiritMod.Effects.Stargoop
 
 		public void DrawToTarget(SpriteBatch sB, GraphicsDevice graphicsDevice)
 		{
+			return;
 			var prevTarget = graphicsDevice.GetRenderTargets();
 			
 			if (FriendlyLayer.Metaballs.Count > 0 || FriendlyLayer.Sprites.Count > 0)

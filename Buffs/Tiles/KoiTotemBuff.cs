@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Buffs
+namespace SpiritMod.Buffs.Tiles
 {
 	public class KoiTotemBuff : ModBuff
 	{

@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Microsoft.Xna.Framework;
-using SpiritMod.Buffs;
+using SpiritMod.Buffs.Tiles;
 
 namespace SpiritMod.Items.Accessory
 {

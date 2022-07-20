@@ -13,7 +13,7 @@ namespace SpiritMod.Tiles.Block
 		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			Main.tileMerge[Type][Mod.Find<ModTile>("BriarGrass").Type] = true;
+			Main.tileMerge[Type][Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileMerge[TileID.Dirt][Type] = true;
 

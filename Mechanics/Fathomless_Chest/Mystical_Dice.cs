@@ -28,46 +28,55 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 			Item.useStyle = ItemUseStyleID.HoldUp;
 			Item.consumable = true;
 		}
+
 		public override bool? UseItem(Player player)
 		{
 			FathomlessChestPos(player);
-			return null;
+			return true;
 		}
+
 		private void FathomlessChestPos(Player player)
 		{
 			Vector2 prePos = player.position;
 			Vector2 pos = prePos;
+
 			for (int x = 0; x < Main.maxTilesX; ++x)
 			{
-				for (int y = (int)Main.rockLayer; y < Main.maxTilesY; ++y) 
+				for (int y = (int)Main.rockLayer; y < Main.maxTilesY; ++y)
 				{
-					if (Main.tile[x, y] == null) continue;
-					if (Main.tile[x, y].TileType != Mod.Find<ModTile>("Fathomless_Chest").Type) continue;
-					pos = new Vector2((x) * 16, y * 16);
+					if (Main.tile[x, y] == null) 
+						continue;
+
+					if (Main.tile[x, y].TileType != Mod.Find<ModTile>("Fathomless_Chest").Type) 
+						continue;
+
+					pos = new Vector2(x * 16, y * 16);
 					break;
 				}
 			}
-			if (pos != prePos) {
+
+			if (pos != prePos)
 				RunTeleport(player, new Vector2(pos.X, pos.Y));
-			}
-			else {
+			else
+			{
 				CombatText.NewText(new Rectangle((int)player.Center.X, (int)player.Center.Y, 2, 2), Color.Cyan, "No Shrines Left!");
 				player.QuickSpawnItem(player.GetSource_ItemUse(Item), ModContent.ItemType<Black_Stone_Item>(), 15);
 				SoundEngine.PlaySound(SoundID.Item110, player.Center);
 				return;
 			}
 		}
+
 		private void RunTeleport(Player player, Vector2 pos)
 		{
 			player.Teleport(pos, 2, 0);
 			player.velocity = Vector2.Zero;
 			SoundEngine.PlaySound(SoundID.Item6, player.Center);
 		}
-		
+
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(null, "Black_Stone_Item", 18);	
+			recipe.AddIngredient(null, "Black_Stone_Item", 18);
 			recipe.Register();
 		}
 	}

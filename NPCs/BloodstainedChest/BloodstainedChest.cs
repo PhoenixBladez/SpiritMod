@@ -6,6 +6,7 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Graphics.Shaders;
+using System.Collections.Generic;
 
 namespace SpiritMod.NPCs.BloodstainedChest
 {
@@ -212,10 +213,6 @@ namespace SpiritMod.NPCs.BloodstainedChest
 			}
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			//if (!Mechanics.QuestSystem.QuestManager.GetQuest<Mechanics.QuestSystem.Quests.TravelingMerchantDesertQuest>().IsActive)
-			return spawnInfo.Player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<BloodstainedChest>()) && spawnInfo.SpawnTileY < Main.rockLayer ? 0.005f : 0f;
-		}
+		public override List<string> SetNPCNameList() => new List<string> { "" };
 	}
 }

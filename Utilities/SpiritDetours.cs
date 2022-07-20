@@ -95,7 +95,7 @@ namespace SpiritMod.Utilities
 			orig(self);
 
 			ExtraDrawOnPlayer.DrawPlayers();
-			SpiritMod.Metaballs.DrawFriendlyLayer(Main.spriteBatch);
+			//SpiritMod.Metaballs.DrawFriendlyLayer(Main.spriteBatch);
 		}
 
 		public static void Unload()
@@ -389,8 +389,8 @@ namespace SpiritMod.Utilities
 			if (!Main.dedServ)
 				SpiritMod.primitives.DrawTargetNPC(Main.spriteBatch);
 
-			SpiritMod.Metaballs.DrawEnemyLayer(Main.spriteBatch);
-			SpiritMod.Metaballs.DrawNebulaLayer(Main.spriteBatch);
+			//SpiritMod.Metaballs.DrawEnemyLayer(Main.spriteBatch);
+			//SpiritMod.Metaballs.DrawNebulaLayer(Main.spriteBatch);
 
 			PathfinderGNPC.DrawBuffedOutlines(Main.spriteBatch);
 			orig(self, behindTiles);

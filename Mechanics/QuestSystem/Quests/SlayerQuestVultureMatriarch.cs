@@ -16,7 +16,8 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		private readonly (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Sets.Vulture_Matriarch.Vulture_Matriarch_Mask>(), 1),
-			(Terraria.ID.ItemID.Sandgun, 3),
+			(Terraria.ID.ItemID.Sandgun, 1),
+			(Terraria.ID.ItemID.SandBlock, 100),
 			(Terraria.ID.ItemID.GoldCoin, 3)
 		};
 

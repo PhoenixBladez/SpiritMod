@@ -51,14 +51,14 @@ namespace SpiritMod.Mechanics.QuestSystem
 		/// <summary>Contains everything needed for clients to know what NPC died without needing untoward syncing. If you need to add quest queues, do it here.</summary>
 		public void ClientNPCLoot(NPC npc)
 		{
-			if (npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.SkeletronHead || npc.type == ModContent.NPCType<NPCs.Boss.Scarabeus.Scarabeus>() ||
+			if (npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.SkeletronHead || npc.type == ModContent.NPCType<NPCs.Boss.Scarabeus.Scarabeus>() || npc.type == NPCID.BrainofCthulhu ||
 				npc.type == ModContent.NPCType<NPCs.Boss.AncientFlyer>() || npc.type == ModContent.NPCType<NPCs.Boss.MoonWizard.MoonWizard>() || npc.type == ModContent.NPCType<NPCs.Boss.SteamRaider.SteamRaiderHead>())
 			{
 				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<SlayerQuestOccultist>());
 				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<UnidentifiedFloatingObjects>());
 			}
 
-			if (npc.type == NPCID.EaterofWorldsHead)
+			if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.BrainofCthulhu)
 				ModContent.GetInstance<QuestWorld>().AddQuestQueue(ModContent.NPCType<Adventurer>(), QuestManager.GetQuest<SlayerQuestMarble>());
 
 			if (npc.type == NPCID.SkeletronHead)

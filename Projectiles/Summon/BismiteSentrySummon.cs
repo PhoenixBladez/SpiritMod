@@ -11,6 +11,8 @@ namespace SpiritMod.Projectiles.Summon
 {
 	public class BismiteSentrySummon : ModProjectile
 	{
+		public const int BurstAlpha = 210;
+
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Bismite Crystal");
 
 		public override void SetDefaults()
@@ -31,7 +33,7 @@ namespace SpiritMod.Projectiles.Summon
 
 		public override void AI()
 		{
-			if (Projectile.alpha > 0 && Projectile.alpha <= 240)
+			if (Projectile.alpha > 0 && Projectile.alpha <= BurstAlpha)
                 Projectile.alpha--;
             float num395 = Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.3f;
@@ -60,11 +62,7 @@ namespace SpiritMod.Projectiles.Summon
 					}
 				}
 			}
-            if (Projectile.alpha == 240)
-            {
-                SpecialAttack();
-                Projectile.alpha--;
-            }
+
 			NPC mainTarget = Projectile.OwnerMinionAttackTargetNPC;
             NPC target = (Main.npc[(int)Projectile.ai[1]] ?? new NPC()); //our target
 																 //firing
@@ -146,9 +144,8 @@ namespace SpiritMod.Projectiles.Summon
             for (int i = 0; i < 10; i++)
             {
                 float rotation = (float)(Main.rand.Next(0, 361) * (Math.PI / 180));
-                Vector2 velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
-                int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y,
-                    velocity.X, velocity.Y, ModContent.ProjectileType<BismiteShard>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
+                Vector2 velocity = new Vector2(Main.rand.NextFloat(2, 4)).RotatedBy(rotation);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, velocity, ModContent.ProjectileType<BismiteShard>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
                 Main.projectile[proj].DamageType = DamageClass.Summon;
                 Main.projectile[proj].velocity *= 1.5f;
                 Main.projectile[proj].timeLeft = 120;

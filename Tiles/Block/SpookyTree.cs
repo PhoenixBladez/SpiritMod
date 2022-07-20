@@ -29,8 +29,8 @@ namespace SpiritMod.Tiles.Block
 			return ModContent.TileType<SpookySapling>();
 		}
 
-		public override Asset<Texture2D> GetTexture() => ModContent.Request<Texture2D>("Tiles/Block/SpookyTree", AssetRequestMode.ImmediateLoad);
-		public override Asset<Texture2D> GetTopTextures() => ModContent.Request<Texture2D>("Tiles/Block/SpookyTree_Tops", AssetRequestMode.ImmediateLoad);
-		public override Asset<Texture2D> GetBranchTextures() => ModContent.Request<Texture2D>("Tiles/Block/SpookyTree_Branches", AssetRequestMode.ImmediateLoad);
+		public override Asset<Texture2D> GetTexture() => ModContent.Request<Texture2D>("SpiritMod/Tiles/Block/SpookyTree", AssetRequestMode.ImmediateLoad);
+		public override Asset<Texture2D> GetTopTextures() => ModContent.Request<Texture2D>("SpiritMod/Tiles/Block/SpookyTree_Tops", AssetRequestMode.ImmediateLoad);
+		public override Asset<Texture2D> GetBranchTextures() => ModContent.Request<Texture2D>("SpiritMod/Tiles/Block/SpookyTree_Branches", AssetRequestMode.ImmediateLoad);
 	}
 }

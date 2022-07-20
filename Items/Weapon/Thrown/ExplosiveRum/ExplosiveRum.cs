@@ -114,13 +114,13 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 			if (Projectile.scale <= 1f)
 				Projectile.scale += .02f;
 
-			if (Main.rand.Next(5) == 0 && onGround)
+			if (Main.rand.NextBool(5) && onGround)
 			{
 				int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch);
 				Main.dust[d].noGravity = true;
 				Main.dust[d].velocity.Y = -1f;
 			}
-			if (Main.rand.Next(12) == 0)
+			if (Main.rand.NextBool(12))
 			{
 				int index3 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke, 0.0f, 0f, 150, new Color(), 0.5f);
 				Main.dust[index3].fadeIn = 1.25f;
@@ -190,7 +190,7 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 				target.AddBuff(BuffID.OnFire, 180);
 		}
 
@@ -233,6 +233,7 @@ namespace SpiritMod.Items.Weapon.Thrown.ExplosiveRum
 					Projectile.Kill();
 			}
 		}
+
 		public override bool PreDraw(ref Color lightColor)
 		{
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
