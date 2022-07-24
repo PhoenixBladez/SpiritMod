@@ -21,6 +21,9 @@ using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
+using SpiritMod.Items.Placeable.Relics;
+using Terraria.GameContent.Bestiary;
+using SpiritMod.Items.Sets.ScarabeusDrops.ScarabPet;
 
 namespace SpiritMod.NPCs.Boss.Scarabeus
 {
@@ -44,13 +47,20 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			NPC.defense = 10;
 			NPC.lifeMax = 1750;
 			NPC.aiStyle = -1;
-			Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/Scarabeus");
+			Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Scarabeus");
 			NPC.boss = true;
-			//npc.stepSpeed /= 20;
 			NPC.npcSlots = 15f;
 			NPC.HitSound = SoundID.NPCHit31;
 			NPC.DeathSound = SoundID.NPCDeath5;
 			NPC.buffImmune[BuffID.Confused] = true;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+				new FlavorTextBestiaryInfoElement("Once thought to be a deity, this particular beetle comes from an elusive species that is equally massive."),
+			});
 		}
 
 		bool trailbehind;
@@ -112,6 +122,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
                 NPC.defense = 6;
             }
 		}
+
 		#region utilities
 		private void CheckPlatform(Player player)
 		{
@@ -200,6 +211,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			statictarget[1] = Vector2.Zero;
 			SyncNPC();
 		}
+
 		private void StepUp(Player player)
 		{
 			bool flag15 = true; //copy pasted collision step code from zombies
@@ -318,7 +330,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				SyncNPC();
 			}
 
-			if (Main.rand.Next(500) == 0)
+			if (Main.rand.NextBool(500))
 				SoundEngine.PlaySound(SoundID.Zombie44, NPC.Center);
 
 			UpdateFrame(4, 0, 6, true);
@@ -1008,12 +1020,12 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			SpriteEffects effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(-10 * NPC.spriteDirection, NPC.gfxOffY - 16 + extraYoff).RotatedBy(NPC.rotation), NPC.frame,
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(-10 * NPC.spriteDirection, NPC.gfxOffY - 16 + extraYoff).RotatedBy(NPC.rotation), NPC.frame,
 							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			if (trailbehind) {
 				Vector2 drawOrigin = NPC.frame.Size() / 2;
 				for (int k = 0; k < NPC.oldPos.Length; k++) {
-					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + new Vector2(NPC.width/2, NPC.height/2) + new Vector2(-10 * NPC.spriteDirection, NPC.gfxOffY - 16 + extraYoff).RotatedBy(NPC.rotation);
+					Vector2 drawPos = NPC.oldPos[k] - screenPos + new Vector2(NPC.width/2, NPC.height/2) + new Vector2(-10 * NPC.spriteDirection, NPC.gfxOffY - 16 + extraYoff).RotatedBy(NPC.rotation);
 					Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
@@ -1023,7 +1035,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			SpriteEffects effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/Scarabeus/Scarabeus_Glow").Value, NPC.Center - Main.screenPosition + new Vector2(-10 * NPC.spriteDirection, NPC.gfxOffY - 16 + extraYoff).RotatedBy(NPC.rotation), NPC.frame,
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/Scarabeus/Scarabeus_Glow").Value, NPC.Center - screenPos + new Vector2(-10 * NPC.spriteDirection, NPC.gfxOffY - 16 + extraYoff).RotatedBy(NPC.rotation), NPC.frame,
 							 Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 		}
 		public override void HitEffect(int hitDirection, double damage)
@@ -1054,7 +1066,27 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				damage /= 3;
 		}
 
-		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight)
+		{
+			if (NPC.IsABestiaryIconDummy)
+			{
+				if (frame < 18)
+					frame = 18;
+
+				NPC.frameCounter += 1;
+
+				if (NPC.frameCounter > 4)
+				{
+					frame++;
+					NPC.frameCounter = 0;
+				}
+
+				if (frame > 21)
+					frame = 18;
+			}
+
+			NPC.frame.Y = frameHeight * frame;
+		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
@@ -1075,6 +1107,8 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
+			npcLoot.AddMasterModeCommonDrop<ScarabeusRelicItem>();
+			npcLoot.AddMasterModeCommonDrop<ScarabPetItem>();
 			npcLoot.AddBossBag<BagOScarabs>();
 			npcLoot.AddCommon<ScarabMask>(7);
 			npcLoot.AddCommon<Trophy1>(10);

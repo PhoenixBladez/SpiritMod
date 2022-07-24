@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0f, 0.675f, 2.50f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0f, 0.675f, 2.50f);
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<Items.Sets.RunicSet.Rune>();

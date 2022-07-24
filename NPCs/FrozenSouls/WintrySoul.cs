@@ -88,7 +88,7 @@ namespace SpiritMod.NPCs.FrozenSouls
 			num395 *= 0.2f;
 			float num366 = num395 + .85f;
 			NPC.scale = num366;
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), .55f, .55f, .9f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .55f, .55f, .9f);
 			if (decisionValue == 0f)
             {
 				DoPassiveDust();

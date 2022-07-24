@@ -18,7 +18,7 @@ namespace SpiritMod.Buffs.Pet
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.buffTime[buffIndex] = 18000;
-			player.GetSpiritPlayer().thrallPet = true;
+			player.GetModPlayer<GlobalClasses.Players.PetPlayer>().thrallPet = true;
 
 			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<ThrallPet>()] <= 0;
 			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {

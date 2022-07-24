@@ -70,7 +70,7 @@ namespace SpiritMod.NPCs.Starfarer
 		{
 			Player player = Main.player[NPC.target];
 			bool expertMode = Main.expertMode;
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0f, 0.0375f * 2, 0.125f * 2);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0f, 0.0375f * 2, 0.125f * 2);
 			if (NPC.ai[3] > 0f)
 				NPC.realLife = (int)NPC.ai[3];
 

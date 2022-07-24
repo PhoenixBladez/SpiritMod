@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.Midknight
 		public override void AI()
 		{
 			NPC.localAI[1] += 0.03F;
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0.17f, .08f, 0.3f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.17f, .08f, 0.3f);
 			NPC.spriteDirection = NPC.direction;
 			Player target = Main.player[NPC.target];
 			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));

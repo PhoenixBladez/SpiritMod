@@ -261,7 +261,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			if (Main.rand.Next(220) == 33) {
 				HomeY = -35f;
 			}
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), .25f, .57f, .85f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .25f, .57f, .85f);
 			NPC.spriteDirection = NPC.direction;
 		}
 	}

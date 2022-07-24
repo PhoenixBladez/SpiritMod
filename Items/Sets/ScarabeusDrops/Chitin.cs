@@ -12,7 +12,6 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops
 			Tooltip.SetDefault("'Gorgeous, iridescent beetle scales'");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = 32;

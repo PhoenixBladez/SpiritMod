@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.GlobalClasses.Players;
 using SpiritMod.Projectiles.Pet;
 using Terraria;
 using Terraria.ModLoader;
@@ -17,7 +18,7 @@ namespace SpiritMod.Buffs.Pet
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetSpiritPlayer().lanternPet = true;
+			player.GetModPlayer<PetPlayer>().lanternPet = true;
 			player.buffTime[buffIndex] = 18000;
 
 			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<Lantern>()] <= 0;

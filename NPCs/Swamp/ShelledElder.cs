@@ -50,7 +50,7 @@ namespace SpiritMod.NPCs.Swamp
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.024f, 0.088f, 0.026f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.024f, 0.088f, 0.026f);
 			npc.spriteDirection = npc.direction;
 			Player target = Main.player[npc.target];
 			shootTimer++;

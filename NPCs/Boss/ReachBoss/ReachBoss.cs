@@ -76,7 +76,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		}
 		public override void AI()
 		{
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0.301f, 0.110f, 0.126f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.301f, 0.110f, 0.126f);
 			Player player = Main.player[NPC.target];
 			NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.06f);
 			NPC.noTileCollide = true;

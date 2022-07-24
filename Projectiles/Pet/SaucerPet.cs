@@ -34,7 +34,7 @@ namespace SpiritMod.Projectiles.Pet
 		public override void AI()
 		{
 			Player player = Main.player[Projectile.owner];
-			MyPlayer modPlayer = player.GetSpiritPlayer();
+			var modPlayer = player.GetModPlayer<GlobalClasses.Players.PetPlayer>();
 			if (player.dead)
 				modPlayer.saucerPet = false;
 

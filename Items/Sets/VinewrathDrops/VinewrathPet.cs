@@ -1,26 +1,25 @@
 ﻿using Microsoft.Xna.Framework;
-using SpiritMod.Items.Pets.CosmicRattler;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabPet
+namespace SpiritMod.Items.Sets.VinewrathDrops
 {
-	internal class ScarabPetItem : ModItem
+	internal class VinewrathPet : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Scarab Food");
-			Tooltip.SetDefault("Summons a little Scarab companion");
+			DisplayName.SetDefault("Wrathful Seedling");
+			Tooltip.SetDefault("Summons an angry Seedling companion");
 		}
 
 		public override void SetDefaults()
 		{
 			Item.CloneDefaults(ItemID.Fish);
-			Item.shoot = ModContent.ProjectileType<ScarabPetProjectile>();
-			Item.buffType = ModContent.BuffType<Buffs.Pet.ScarabPetBuff>();
-			Item.buffTime = 50;
-			Item.UseSound = SoundID.NPCDeath6; 
+			Item.shoot = ModContent.ProjectileType<VinewrathPetProjectile>();
+			Item.buffType = 0;
+			//Item.buffTime = 50;
+			Item.UseSound = SoundID.NPCDeath6;
 			Item.rare = ItemRarityID.Master;
 			Item.master = true;
 		}

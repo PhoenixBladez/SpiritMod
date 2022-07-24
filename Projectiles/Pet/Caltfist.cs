@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.GlobalClasses.Players;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,14 +34,13 @@ namespace SpiritMod.Projectiles.Pet
 			Lighting.AddLight(Projectile.Center, ((255 - Projectile.alpha) * 0.75f) / 255f, ((255 - Projectile.alpha) * 0.75f) / 255f, ((255 - Projectile.alpha) * 0f) / 255f);
 			Player player = Main.player[Projectile.owner];
             if (Projectile.Distance(player.Center) > 1500)
-            {
                 Projectile.position = player.position + new Vector2(Main.rand.Next(-125, 126), Main.rand.Next(-125, 126));
-            }
-            MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (player.dead)
-				modPlayer.caltfist = false;
 
-			if (modPlayer.caltfist)
+            PetPlayer modPlayer = player.GetModPlayer<PetPlayer>();
+			if (player.dead)
+				modPlayer.cultFishPet = false;
+
+			if (modPlayer.cultFishPet)
 				Projectile.timeLeft = 2;
 
 			Projectile.localAI[0] += 1f;

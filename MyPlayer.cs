@@ -86,8 +86,6 @@ namespace SpiritMod
 		public bool firewall = false;
 		public int clockX = 0;
 		public int clockY = 0;
-		public bool caltfist = false;
-		public bool briarSlimePet = false;
 		public bool ZoneBlueMoon = false;
 		public bool astralSet = false;
 		public bool bloodcourtSet = false;
@@ -112,7 +110,6 @@ namespace SpiritMod
 		public bool daybloomSet = false;
 		public bool ToxicExtract = false;
 		public bool vitaStone = false;
-		public bool harpyPet;
 		public bool throwerGlove = false;
 		public bool firedSharpshooter = false;
 		public int throwerStacks;
@@ -232,20 +229,9 @@ namespace SpiritMod
 		public bool lavaRock = false;
 		public bool Flayer = false;
 		public int soulSiphon;
-		public bool maskPet = false;
 		public bool oliveBranchBuff = false;
-		public bool phantomPet = false;
-		public bool lanternPet = false;
 		public bool leatherHood = false;
-		public bool thrallPet = false;
-		public bool jellyfishPet = false;
 		public int clatterStacks;
-		public bool starPet = false;
-		public bool saucerPet = false;
-		public bool bookPet = false;
-		public bool SwordPet = false;
-		public bool shadowPet = false;
-		public bool starachnidPet = false;
 		public bool strikeshield = false;
 
 		public float SpeedMPH { get; private set; }
@@ -671,13 +657,10 @@ namespace SpiritMod
 			clockActive = false;
 			bloodcourtSet = false;
 			ShieldCore = false;
-			caltfist = false;
-			briarSlimePet = false;
 			firewall = false;
 			bloodyBauble = false;
 			elderbarkWoodSet = false;
 			cleftHorn = false;
-			phantomPet = false;
 			throwerGlove = false;
 			QuacklingMinion = false;
 			rabbitMinion = false;
@@ -705,7 +688,6 @@ namespace SpiritMod
 			starplateGlitchEffect = false;
 			infernalFlame = false;
 			reachBrooch = false;
-			harpyPet = false;
 			windEffect = false;
 			windEffect2 = false;
 			gremlinTooth = false;
@@ -777,18 +759,8 @@ namespace SpiritMod
 			lunazoa = false;
 			OG = false;
 			lavaRock = false;
-			maskPet = false;
-			starPet = false;
-			bookPet = false;
-			SwordPet = false;
-			lanternPet = false;
-			jellyfishPet = false;
-			thrallPet = false;
 			jellyfishMinion = false;
 			butterflyMinion = false;
-			shadowPet = false;
-			starachnidPet = false;
-			saucerPet = false;
 			terror1Summon = false;
 			terror2Summon = false;
 			terror3Summon = false;

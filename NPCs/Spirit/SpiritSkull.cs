@@ -150,7 +150,7 @@ namespace SpiritMod.NPCs.Spirit
 				NPC.rotation = (float)Math.Atan2((double)velLimitY, (double)velLimitX) + 3.14f;
 			}
 			NPC.spriteDirection = -NPC.direction;
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0.05f, 0.09f, 0.4f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.05f, 0.09f, 0.4f);
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon(ModContent.ItemType<Items.Sets.SpiritBiomeDrops.SpiritFlameStaff>(), 90);

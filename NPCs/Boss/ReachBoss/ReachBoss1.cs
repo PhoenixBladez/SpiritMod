@@ -37,13 +37,13 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			NPC.noTileCollide = true;
 			NPC.npcSlots = 20;
 			NPC.defense = 10;
-			Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ReachBoss");
 			NPC.buffImmune[20] = true;
 			NPC.buffImmune[31] = true;
 			NPC.buffImmune[70] = true;
-
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
+
+			Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ReachBoss");
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -56,26 +56,24 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0.075f, 0.184f, 0.062f);			
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.075f, 0.184f, 0.062f);			
 			NPC.spriteDirection = NPC.direction;
 			Player player = Main.player[NPC.target];
 			bool expertMode = Main.expertMode;			
+
 			if (!player.active || player.dead) {
 				NPC.TargetClosest(false);
 				NPC.velocity.Y = -2000;
 			}
+
 			if (NPC.life <= NPC.lifeMax/2)
-			{
 				NPC.ai[0]+= 1.5f;
-			}
 			else
-			{
 				NPC.ai[0]++;
-			}
+
 			if (NPC.ai[0] < 120 || NPC.ai[0] > 180 && NPC.ai[0] < 300)
-			{
-				generalMovement(player);
-			}
+				GeneralMovement(player);
+
 			if (NPC.ai[0] == 150)
 			{
 				SoundEngine.PlaySound(SoundID.Grass, NPC.Center);
@@ -90,9 +88,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
                     int amountOfProjectiles = 2;
 					if (NPC.life <= NPC.lifeMax / 2)
-					{
 						amountOfProjectiles = 3;
-					}
+
                     for (int i = 0; i < amountOfProjectiles; ++i)
                     {
                         float A = (float)Main.rand.Next(-200, 200) * 0.01f;
@@ -102,16 +99,17 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
                     }
                 }
 			}
-			float[] stoptimes = new float[] { 120, 300};
+
+			float[] stoptimes = new float[] { 120, 300 };
 			if (stoptimes.Contains(NPC.ai[0]))
 			{
 				NPC.velocity = Vector2.Zero;
 				NPC.netUpdate = true;
 			}
+
 			if (NPC.ai[0] >= 300 && NPC.ai[0] < 900)
-			{
 				DashAttack(player);
-			}
+
 			if (NPC.life <= (NPC.lifeMax / 2)) {
 				if (NPC.ai[3] == 0) {
 					NPC.ai[0] = 0;
@@ -122,10 +120,10 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 					NPC.netUpdate = true;
                 }
 			}
+
 			if (NPC.ai[0] > 460 && NPC.ai[0] < 501 || NPC.ai[0] > 661 && NPC.ai[0] < 699)
-			{
 				CircleSpikeAttack(player);
-			}
+
 			if (NPC.ai[0] >= 900)
 			{
 				NPC.ai[0] = 0;
@@ -134,7 +132,8 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				NPC.netUpdate = true;				
 			}			
 		}
-		public void generalMovement(Player player)
+
+		public void GeneralMovement(Player player)
 		{
 			float value12 = (float)Math.Cos((double)(Main.GlobalTimeWrappedHourly % 2.4f / 2.4f * 6.28318548f)) * 60f;
 			if (NPC.Center.X >= player.Center.X && moveSpeed >= -37) // flies to players x position
@@ -151,6 +150,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				moveSpeedY++;
 			NPC.velocity.Y = moveSpeedY * 0.12f;			
 		}
+
 		public void CircleSpikeAttack(Player player)
 		{
 			bool expertMode = Main.expertMode;
@@ -170,6 +170,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 				}
 			}
 		}
+
 		void DashAttack(Player player) //basically just copy pasted from scarabeus mostly
 		{
 			NPC.direction = Math.Sign(player.Center.X - NPC.Center.X);		
@@ -250,7 +251,6 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			}
 		}
 
-
 		public override bool PreKill()
 		{
             if (!MyWorld.downedReachBoss)
@@ -325,6 +325,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
 			npcLoot.AddMasterModeCommonDrop<VinewrathRelicItem>();
+			npcLoot.AddMasterModeCommonDrop<VinewrathPet>();
 			npcLoot.AddBossBag<ReachBossBag>();
 			npcLoot.AddCommon<ReachMask>(7);
 			npcLoot.AddCommon<Trophy5>(10);

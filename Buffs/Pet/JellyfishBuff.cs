@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.GlobalClasses.Players;
 using SpiritMod.Projectiles.Pet;
 using Terraria;
 using Terraria.ID;
@@ -20,7 +21,7 @@ namespace SpiritMod.Buffs.Pet
 		{
 			player.AddBuff(BuffID.PeaceCandle, 2);
 			player.buffTime[buffIndex] = 18000;
-			player.GetSpiritPlayer().jellyfishPet = true;
+			player.GetModPlayer<PetPlayer>().jellyfishPet = true;
 
 			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<JellyfishPet>()] <= 0;
 			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {

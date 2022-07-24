@@ -1,3 +1,4 @@
+using SpiritMod.GlobalClasses.Players;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,7 +29,7 @@ namespace SpiritMod.Projectiles.Pet
 		public override void AI()
 		{
 			Player player = Main.player[Projectile.owner];
-			MyPlayer modPlayer = player.GetSpiritPlayer();
+			PetPlayer modPlayer = player.GetModPlayer<PetPlayer>();
 			if (player.dead)
 				modPlayer.bookPet = false;
 

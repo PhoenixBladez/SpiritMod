@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Accessory.SanguineWardTree;
 using SpiritMod.NPCs.Critters;
+using SpiritMod.Items.Placeable.Relics;
 
 namespace SpiritMod.NPCs.Boss.Occultist
 {
@@ -285,7 +286,11 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			}
 		}
 
-		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddOneFromOptions(1, ModContent.ItemType<Handball>(), ModContent.ItemType<SacrificialDagger>(), ModContent.ItemType<BloodWard>());
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddMasterModeCommonDrop<OccultistRelicItem>();
+			npcLoot.AddOneFromOptions(1, ModContent.ItemType<Handball>(), ModContent.ItemType<SacrificialDagger>(), ModContent.ItemType<BloodWard>());
+		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => Main.bloodMoon && spawnInfo.Player.Center.Y / 16f < Main.worldSurface ? 0.02f : 0f;
 

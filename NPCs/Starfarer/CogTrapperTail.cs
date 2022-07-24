@@ -53,7 +53,7 @@ namespace SpiritMod.NPCs.Starfarer
 
 		public override void AI()
 		{
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0f, 0.0375f * 2, 0.125f * 2);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0f, 0.0375f * 2, 0.125f * 2);
 			if (!Main.npc[(int)NPC.ai[1]].active) {
 				NPC.life = 0;
 				NPC.HitEffect(0, 10.0);

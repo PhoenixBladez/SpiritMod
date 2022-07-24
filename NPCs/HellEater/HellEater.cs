@@ -75,7 +75,7 @@ namespace SpiritMod.NPCs.HellEater
 		public override void ReceiveExtraAI(BinaryReader reader) => dashtimer = reader.ReadInt32();
 		public override void AI()
 		{
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0.1f, 0.04f, 0.02f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.1f, 0.04f, 0.02f);
 
 			int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Torch);
 			Main.dust[dust].noGravity = true;

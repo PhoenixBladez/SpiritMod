@@ -65,7 +65,7 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override void AI()
 		{
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), .1f, .1f, .1f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .1f, .1f, .1f);
 			NPC.spriteDirection = NPC.direction;
 			int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GoldCoin);
 			Main.dust[dust].noGravity = true;

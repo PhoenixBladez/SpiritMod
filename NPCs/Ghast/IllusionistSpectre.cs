@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.Ghast
 			NPC.velocity.Y = moveSpeedY * 0.1f;
 			if (Main.rand.NextBool(180))
 				HomeY = -25f;
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0.3f, .3f, .3f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.3f, .3f, .3f);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

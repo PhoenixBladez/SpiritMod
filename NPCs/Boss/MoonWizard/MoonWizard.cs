@@ -20,6 +20,7 @@ using SpiritMod.Items.Placeable.MusicBox;
 using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Consumable.Potion;
 using SpiritMod.Buffs.DoT;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Boss.MoonWizard
 {
@@ -60,9 +61,16 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
             NPC.boss = true;
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("Those moon jellies are smarter than they seem. With only a bit of coordination and a sharp sense of fashion, they can become a far tougher adversary than any one jelly could ever be."),
+			});
+		}
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
 
-		float trueFrame = 0;
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(attackCounter);
@@ -77,6 +85,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			writer.Write(SkyPos);
 			writer.Write(SkyPosY);
 		}
+
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			attackCounter = reader.ReadInt32();
@@ -108,7 +117,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                 Color color1 = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));
                 Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
 
-                int r1 = (int)color1.R;
                 drawOrigin.Y += 30f;
                 drawOrigin.Y += 8f;
                 --drawOrigin.X;
@@ -150,9 +158,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		{
 			var effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, new Vector2(NPC.Center.X, NPC.Center.Y - 18) - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
-			DrawSpecialGlow(spriteBatch, drawColor);
+			DrawSpecialGlow();
 		}
-		public void DrawSpecialGlow(SpriteBatch spriteBatch, Color drawColor)
+
+		public void DrawSpecialGlow()
         {
             float num108 = 4;
             float num107 = (float)Math.Cos((double)(Main.GlobalTimeWrappedHourly % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
@@ -174,9 +183,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
         }
 
         int attackCounter;
+		float trueFrame = 0;
 		int timeBetweenAttacks = 120;
-		
 		bool phaseTwo = false;
+
 		//0-3: idle
 		//4-9 propelling
 		//10-13 skirt up
@@ -204,14 +214,11 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                 }
 				if (attackCounter > timeBetweenAttacks) {
 					attackCounter = 0;
+
 					if (phaseTwo)
-                    {
                         NPC.ai[0] = Main.rand.Next(9) + 1;
-                    }
 					else
-				    {
 						NPC.ai[0] = Main.rand.Next(7) + 1;
-                    }
 
 					NPC.netUpdate = true;
 

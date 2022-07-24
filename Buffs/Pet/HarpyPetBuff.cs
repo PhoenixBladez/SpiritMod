@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.GlobalClasses.Players;
 using SpiritMod.Projectiles.DonatorItems;
 using Terraria;
 using Terraria.ModLoader;
@@ -18,7 +19,7 @@ namespace SpiritMod.Buffs.Pet
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.buffTime[buffIndex] = 18000;
-			player.GetSpiritPlayer().harpyPet = true;
+			player.GetModPlayer<PetPlayer>().harpyPet = true;
 
 			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<HarpyPet>()] <= 0;
 			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {

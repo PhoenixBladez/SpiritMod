@@ -206,7 +206,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					Charge = false;
 					chargetimer = 0;
 				}
-				Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0f, 0.075f, 0.25f);
+				Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0f, 0.075f, 0.25f);
 				if (NPC.ai[3] > 0f)
 					NPC.realLife = (int)NPC.ai[3];
 

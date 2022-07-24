@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using SpiritMod.GlobalClasses.Players;
 using SpiritMod.Projectiles.Pet;
 using Terraria;
 using Terraria.ModLoader;
@@ -18,7 +19,7 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.buffTime[buffIndex] = 18000;
-			player.GetSpiritPlayer().starachnidPet = true;
+			player.GetModPlayer<PetPlayer>().starachnidPet = true;
 
 			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<CosmicRattlerPet>()] <= 0;
 			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {

@@ -86,7 +86,7 @@ namespace SpiritMod.NPCs.SporeWheezer
 		int shootTimer = 0;
 		public override void AI()
 		{
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0f, 0.1f, 0.15f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0f, 0.1f, 0.15f);
 			NPC.spriteDirection = NPC.direction;
 			Player target = Main.player[NPC.target];
 			float distance = NPC.DistanceSQ(target.Center);

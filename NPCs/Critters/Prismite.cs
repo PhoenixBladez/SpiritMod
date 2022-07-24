@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override void AI()
 		{
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), Main.DiscoR * .001f, Main.DiscoG * .001f, Main.DiscoB * .001f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), Main.DiscoR * .001f, Main.DiscoG * .001f, Main.DiscoB * .001f);
 			NPC.spriteDirection = -NPC.direction;
             Player player = Main.player[NPC.target];
             {

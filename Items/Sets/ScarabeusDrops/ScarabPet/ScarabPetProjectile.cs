@@ -30,12 +30,21 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabPet
 			Projectile.aiStyle = 0;
 			Projectile.width = 40;
 			Projectile.height = 40;
+			Projectile.light = 0;
 
 			AIType = 0;
 		}
 
 		public override void AI()
 		{
+			var modPlayer = Main.player[Projectile.owner].GetModPlayer<GlobalClasses.Players.PetPlayer>();
+
+			if (Main.player[Projectile.owner].dead)
+				modPlayer.scarabPet = false;
+
+			if (modPlayer.scarabPet)
+				Projectile.timeLeft = 2;
+
 			if (_state == 0)
 				NearbyMovement();
 			else if (_state == 1)
@@ -124,6 +133,9 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabPet
 						ResetState(0);
 					else if (dist > 800 * 800)
 						ResetState(2);
+
+					if (Projectile.velocity.Y == 0.2f && Main.rand.NextBool(45))
+						Projectile.velocity.Y = Main.rand.NextFloat(-2f, -1.2f);
 				}
 				else
 				{
@@ -161,16 +173,25 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabPet
 
 		private void FollowPlayerFlight()
 		{
+			const float MaxSpeedDistance = 1400;
+
 			Projectile.tileCollide = false;
-			Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(Owner.Center) * 12, 0.05f);
+
+			float dist = Projectile.DistanceSQ(Main.player[Projectile.owner].Center);
+			float magnitude = 13;
+
+			if (dist > MaxSpeedDistance * MaxSpeedDistance)
+				magnitude = 13 + (((float)Math.Sqrt(dist) - MaxSpeedDistance) * 0.1f);
+
+			Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(Owner.Center) * magnitude, 0.05f);
 
 			Player player = Main.player[Projectile.owner];
-			if (Projectile.DistanceSQ(Main.player[Projectile.owner].Center) < 700 * 700 && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, player.position, player.width, player.height))
+			if (dist < 700 * 700 && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, player.position, player.width, player.height))
 			{
 				Projectile.tileCollide = true;
 				ResetState(1);
 			}
-
+			
 			Projectile.frameCounter--;
 			int offset = Math.Abs(Projectile.frameCounter % 9);
 

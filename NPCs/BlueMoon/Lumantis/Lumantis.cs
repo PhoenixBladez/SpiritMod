@@ -68,7 +68,7 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 		{
 			Player player = Main.player[NPC.target];
 			timer++;
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), .196f * 3, .092f * 3, 0.214f * 3);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .196f * 3, .092f * 3, 0.214f * 3);
 			++NPC.ai[1];
 			if (NPC.ai[1] >= 600) {
 				reflectPhase = true;

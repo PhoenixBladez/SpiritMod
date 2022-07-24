@@ -20,4 +20,10 @@ namespace SpiritMod.Items.Placeable.Relics
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Occultist Relic");
 		internal override int TileType => ModContent.TileType<OccultistRelic>();
 	}
+
+	internal class ScarabeusRelicItem : BaseRelicItem
+	{
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Scarabeus Relic");
+		internal override int TileType => ModContent.TileType<ScarabeusRelic>();
+	}
 }

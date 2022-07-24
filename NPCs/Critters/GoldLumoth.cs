@@ -94,7 +94,7 @@ namespace SpiritMod.NPCs.Critters
             int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GoldCoin);
             Main.dust[dust].noGravity = true;
             Main.dust[dust].velocity *= 0f;
-            Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), .4f, .4f, .4f);
+            Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .4f, .4f, .4f);
         }
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<Brightbulb>(3);

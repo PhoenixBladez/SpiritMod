@@ -46,7 +46,7 @@ namespace SpiritMod.World
 
 				progress.Message = "Spirit Mod: Adding Microstructures...";
 
-				if (WorldGen.genRand.Next(4) == 0)
+				if (WorldGen.genRand.NextBool(4))
 					GenerateCampsite();
 
 				if (ModContent.GetInstance<SpiritClientConfig>().DoubleHideoutGeneration)

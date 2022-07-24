@@ -44,7 +44,9 @@ namespace SpiritMod.NPCs.LostMime
 		{
 			if (spawnInfo.PlayerSafe)
 				return 0f;
-			return SpawnCondition.Cavern.Chance * 0.015f;
+			if (Main.hardMode)
+				return SpawnCondition.Cavern.Chance * 0.015f;
+			return SpawnCondition.Cavern.Chance * 0.1f;
 		}
 
 		public override void FindFrame(int frameHeight)

@@ -48,7 +48,7 @@ namespace SpiritMod.NPCs.Critters.Algae
 				num = 0;
 			}
 			if (!Main.dayTime) {
-				Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0.208f * 2, 0.107f * 2, .255f * 2);
+				Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.208f * 2, 0.107f * 2, .255f * 2);
 			}
 			NPC.spriteDirection = -NPC.direction;
 			int npcXTile = (int)(NPC.Center.X / 16);

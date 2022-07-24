@@ -64,7 +64,7 @@ namespace SpiritMod.NPCs.Critters
 		}
 		public override bool PreAI()
 		{
-			Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), .3f, .2f, .3f);
+			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .3f, .2f, .3f);
 			return true;
 		}
 	}
