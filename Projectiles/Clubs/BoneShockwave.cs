@@ -26,10 +26,10 @@ namespace SpiritMod.Projectiles.Clubs
 			Projectile.damage = 1;
 			Projectile.penetrate = -1;
 			Projectile.alpha = 255;
-            Projectile.timeLeft = 3;
+			Projectile.timeLeft = 3;
 			Projectile.tileCollide = true;
-            Projectile.ignoreWater = true;
-            Projectile.DamageType = DamageClass.Melee;
+			Projectile.ignoreWater = true;
+			Projectile.DamageType = DamageClass.Melee;
 		}
 
 		//projectile.ai[0]: how many more pillars. Each one is one less
@@ -38,40 +38,41 @@ namespace SpiritMod.Projectiles.Clubs
 		float startposY = 0;
 		public override bool PreAI()
 		{
-			if (startposY == 0) {
-				startposY = Projectile.position.Y;
-                if (Main.tile[(int)Projectile.Center.X / 16, (int)(Projectile.Center.Y / 16)].BlockType == BlockType.Solid)
-                {
-                    Projectile.active = false;
-                }
-			}
+			//if (startposY == 0)
+			//{
+			//	startposY = Projectile.position.Y;
+			//	if (Main.tile[(int)Projectile.Center.X / 16, (int)(Projectile.Center.Y / 16)].BlockType == BlockType.Solid)
+			//		Projectile.active = false;
+			//}
+
 			Projectile.velocity.X = 0;
-			if (!activated) {
+
+			if (!activated)
 				Projectile.velocity.Y = 24;
-			}
-			else {
+			else
+			{
 				Projectile.velocity.Y = -3;
-				for (int i = 0; i < 5; i++)
+				for (int i = 0; i < 2; i++)
 				{
 					int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height * 2, DustType<Dusts.FloranClubDust>());
-                    Main.dust[dust].scale *= Main.rand.NextFloat(.65f, .9f);
-					//Main.dust[dust].velocity = Vector2.Zero;
-					//Main.dust[dust].noGravity = true;
+					Main.dust[dust].scale *= Main.rand.NextFloat(.75f, 1.05f);
 				}
-				if (Projectile.timeLeft == 5 && Projectile.ai[0] > 0) {
-					if (Projectile.ai[1] == -1 || Projectile.ai[1] == 0) {
+
+				if (Projectile.timeLeft == 5 && Projectile.ai[0] > 0)
+				{
+					if (Projectile.ai[1] == -1 || Projectile.ai[1] == 0)
 						Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X - Projectile.width, startposY, 0, 0, ModContent.ProjectileType<BoneShockwave>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] - 1, -1);
-					}
-					if (Projectile.ai[1] == 1 || Projectile.ai[1] == 0) {
+					
+					if (Projectile.ai[1] == 1 || Projectile.ai[1] == 0)
 						Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X + Projectile.width, startposY, 0, 0, ModContent.ProjectileType<BoneShockwave>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] - 1, 1);
-					}
 				}
 			}
 			return false;
 		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			if (oldVelocity.Y != Projectile.velocity.Y && !activated) {
+			if (oldVelocity.Y != Projectile.velocity.Y && !activated)
+			{
 				startposY = Projectile.position.Y;
 				Projectile.velocity.Y = -2;
 				activated = true;
@@ -84,6 +85,5 @@ namespace SpiritMod.Projectiles.Clubs
 			fallThrough = false;
 			return true;
 		}
-
 	}
 }

@@ -16,7 +16,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override (int, int)[] QuestRewards => _rewards;
 		private (int, int)[] _rewards = new[]
 		{
-			((int)ItemID.GoldCoin, 3),
+			(ItemID.GoldCoin, 3),
 			(ItemID.MasterBait, 3),
 			(ModContent.ItemType<Items.Fishing.FisheyeGem>(), 1)
 		};

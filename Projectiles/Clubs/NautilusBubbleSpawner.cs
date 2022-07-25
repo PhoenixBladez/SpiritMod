@@ -1,11 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using SpiritMod.Dusts;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.Projectiles.Clubs
 {
@@ -39,14 +34,15 @@ namespace SpiritMod.Projectiles.Clubs
 		float startposY = 0;
 		public override bool PreAI()
         {
-            if (startposY == 0)
-            {
-                startposY = Projectile.position.Y;
-                if (Main.tile[(int)Projectile.Center.X / 16, (int)(Projectile.Center.Y / 16)].BlockType == BlockType.Solid)
-                {
-                    Projectile.active = false;
-                }
-            }
+            //if (startposY == 0)
+            //{
+            //    startposY = Projectile.position.Y;
+            //    if (Main.tile[(int)Projectile.Center.X / 16, (int)(Projectile.Center.Y / 16)].BlockType == BlockType.Solid)
+            //    {
+            //        Projectile.active = false;
+            //    }
+            //}
+
             Projectile.velocity.X = 0;
             if (!activated)
             {

@@ -16,10 +16,8 @@ namespace SpiritMod.Mechanics.QuestSystem
     public static class QuestManager
     {
 		/* Boffin's TODO list
-		
 		 * NPC text override and quest buttons. (a helper class with a bunch of queued up quests to give for town npcs!) (I think this is done, but I'll keep this here just in case I'm wrong - Gabe)
-		 * New clients joining servers need to sync their quest managers up.
-
+		 * New clients joining servers need to sync their quest managers up. (Same as above - Gabe)
 		*/
 		public const int MAX_QUESTS_ACTIVE = 5;
 
