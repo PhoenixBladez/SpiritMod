@@ -12,6 +12,8 @@ using Terraria.ModLoader;
 using SpiritMod.Items.Accessory.SanguineWardTree;
 using SpiritMod.NPCs.Critters;
 using SpiritMod.Items.Placeable.Relics;
+using SpiritMod.Mechanics.QuestSystem;
+using SpiritMod.Mechanics.QuestSystem.Quests;
 
 namespace SpiritMod.NPCs.Boss.Occultist
 {
@@ -256,6 +258,9 @@ namespace SpiritMod.NPCs.Boss.Occultist
 				NPC.dontTakeDamage = true;
 
 				MyWorld.downedOccultist = true;
+
+				if (QuestManager.GetQuest<SlayerQuestOccultist>().IsActive)
+					QuestManager.ForceCompleteQuest<SlayerQuestOccultist>();
 				return false;
 			}
 			return true;

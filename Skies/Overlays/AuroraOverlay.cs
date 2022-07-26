@@ -64,7 +64,7 @@ namespace SpiritMod.Skies.Overlays
 			//--THIS IS WHERE YOU EDIT!
 			const int Height = 400;
 
-			bool ActiveAurora(int ID) => (MyWorld.aurora && MyWorld.auroraType == ID) || Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[ID] >= 1;
+			bool ActiveAurora(int ID) => Main.LocalPlayer.GetSpiritPlayer().auroraMonoliths[ID] >= 1 || (MyWorld.aurora && MyWorld.auroraType == ID);
 
 			if (ActiveAurora(UNUSED_BASIC))
 			{

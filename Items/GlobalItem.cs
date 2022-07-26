@@ -242,25 +242,34 @@ namespace SpiritMod.Items
 
 		public override void OpenVanillaBag(string context, Player player, int arg)
 		{
-			if (context != "goodieBag")
-				return;
-			ItemUtils.DropCandy(player, player.GetSource_OpenItem(arg));
-			if (Main.rand.Next(3) == 0)
+			if (context == "goodieBag")
 			{
-				int[] lootTable = {
-					ModContent.ItemType<MaskSchmo>(),
-					ModContent.ItemType<MaskGraydee>(),
-					ModContent.ItemType<MaskLordCake>(),
-					ModContent.ItemType<MaskVladimier>(),
-					ModContent.ItemType<MaskKachow>(),
-					ModContent.ItemType<MaskBlaze>(),
-					ModContent.ItemType<MaskSvante>(),
-					ModContent.ItemType<MaskIggy>(),
-					ModContent.ItemType<MaskYuyutsu>(),
-					ModContent.ItemType<MaskLeemyy>()
-				};
-				int loot = Main.rand.Next(lootTable.Length);
-				player.QuickSpawnItem(player.GetSource_OpenItem(arg), lootTable[loot]);
+				ItemUtils.DropCandy(player, player.GetSource_OpenItem(arg));
+				if (Main.rand.NextBool(3))
+				{
+					int[] lootTable = {
+						ModContent.ItemType<MaskSchmo>(),
+						ModContent.ItemType<MaskGraydee>(),
+						ModContent.ItemType<MaskLordCake>(),
+						ModContent.ItemType<MaskVladimier>(),
+						ModContent.ItemType<MaskKachow>(),
+						ModContent.ItemType<MaskBlaze>(),
+						ModContent.ItemType<MaskSvante>(),
+						ModContent.ItemType<MaskIggy>(),
+						ModContent.ItemType<MaskYuyutsu>(),
+						ModContent.ItemType<MaskLeemyy>()
+					};
+					int loot = Main.rand.Next(lootTable.Length);
+					player.QuickSpawnItem(player.GetSource_OpenItem(arg), lootTable[loot]);
+				}
+			}
+			else if (context == "crate")
+			{
+				if (arg == ItemID.WoodenCrate || arg == ItemID.WoodenCrateHard)
+				{
+					if (Main.rand.NextBool(45))
+						player.QuickSpawnItem(player.GetSource_OpenItem(arg), ModContent.ItemType<Sets.BriarChestLoot.TwigStaff>());
+				}
 			}
 		}
 

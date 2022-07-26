@@ -226,8 +226,8 @@ namespace SpiritMod.Mechanics.QuestSystem
 			}
 		}
 
-		public static Quest GetQuest<T>()
-        {
+		public static Quest GetQuest<T>() where T : Quest
+		{
 			if (_questDict.TryGetValue(typeof(T), out Quest q))
 				return q;
             return null;
@@ -240,7 +240,7 @@ namespace SpiritMod.Mechanics.QuestSystem
 			return null;
 		}
 
-		public static void UnlockQuest<T>(bool showInChat = true)
+		public static void UnlockQuest<T>(bool showInChat = true) where T : Quest
 		{
 			Quest q = GetQuest<T>();
 			if (q == null)
@@ -270,6 +270,19 @@ namespace SpiritMod.Mechanics.QuestSystem
 				packet.Send();
 			}
 		}
+
+		/// <summary>Forces a quest to complete a single task (or finish).</summary>
+		public static void ForceCompleteQuest<T>() where T : Quest
+		{
+			Quest q = GetQuest<T>();
+			if (q == null)
+				return;
+
+			ForceCompleteQuest(q);
+		}
+
+		/// <summary>Forces a quest to complete a single task (or finish).</summary>
+		public static void ForceCompleteQuest(Quest quest) => quest.RunCompletion();
 
 		public static void SetBookState(bool open) => SpiritMod.Instance.BookUserInterface.SetState(open ? SpiritMod.QuestBookUIState : null);
 

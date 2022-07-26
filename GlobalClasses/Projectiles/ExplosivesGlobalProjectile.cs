@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -52,20 +53,11 @@ namespace SpiritMod.GlobalClasses.Projectiles
 	{
 		public override bool InstancePerEntity => true;
 
-		private bool _fused = false;
-
-		public override bool PreAI(Projectile projectile)
+		public override void OnSpawn(Projectile projectile, IEntitySource source)
 		{
-			if (projectile.owner > -1 && projectile.friendly && _fused)
-			{
-				_fused = true;
-
-				MyPlayer modPlayer = Main.player[projectile.owner].GetSpiritPlayer();
-
-				if (modPlayer.longFuse && ExplosivesCache.AllExplosives.Contains(projectile.type)) //Long fuse functionality
+			if (source is EntitySource_ItemUse_WithAmmo parentSource)
+				if (parentSource.Entity is Player player && player.GetSpiritPlayer().longFuse && projectile.friendly && ExplosivesCache.AllExplosives.Contains(projectile.type))
 					projectile.timeLeft = (int)(projectile.timeLeft * 1.5f); //Makes it last 150% longer
-			}
-			return true;
 		}
 	}
 }
