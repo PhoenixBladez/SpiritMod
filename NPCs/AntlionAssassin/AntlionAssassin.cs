@@ -69,12 +69,11 @@ namespace SpiritMod.NPCs.AntlionAssassin
 			}
 			if (NPC.life <= 0)
 			{
-				{
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Assassin1").Type, 1f);
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Assassin2").Type, 1f);
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Assassin3").Type, 1f);
-					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Assassin4").Type, 1f);
-				}
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Assassin1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Assassin2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Assassin3").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Assassin4").Type, 1f);
+
 				int ing = Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 825);
 				Main.gore[ing].timeLeft = 30;
 				int ing1 = Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, 826);

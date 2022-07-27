@@ -17,8 +17,8 @@ namespace SpiritMod.GlobalClasses.Projectiles
 				ProjectileID.StickyGrenade, ProjectileID.Dynamite, ProjectileID.BouncyDynamite, ProjectileID.StickyDynamite };
 		}
 
-		public static List<int> LoadedExplosives = null;
-		public static List<int> AllExplosives = null;
+		internal static List<int> LoadedExplosives = null;
+		internal static List<int> AllExplosives = null;
 
 		public static void Initialize(Mod mod)
 		{

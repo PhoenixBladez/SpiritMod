@@ -20,7 +20,6 @@ namespace SpiritMod.Tiles.Furniture
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Crate");
 			AddMapEntry(new Color(150, 150, 150), name);
-
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)

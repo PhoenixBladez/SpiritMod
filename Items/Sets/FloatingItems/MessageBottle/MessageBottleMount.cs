@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.MessageBottle
 			MountData.idleFrameDelay = 12;
 			MountData.idleFrameStart = 0;
 			MountData.idleFrameLoop = true;
-
+			
 			if (Main.netMode != NetmodeID.Server)
 			{
 				MountData.textureWidth = MountData.frontTexture.Width();

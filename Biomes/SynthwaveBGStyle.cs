@@ -1,4 +1,3 @@
-using Terraria;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Biomes
@@ -8,7 +7,7 @@ namespace SpiritMod.Biomes
 		public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
 		{
 			scale *= .45f;
-			b -= 120;
+			b -= 350;
 			return ModContent.GetModBackgroundSlot("SpiritMod/Backgrounds/SynthwaveBackground");
 		}
 

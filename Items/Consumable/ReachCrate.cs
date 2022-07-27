@@ -1,7 +1,8 @@
-
+using SpiritMod.Tiles.Furniture;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace SpiritMod.Items.Consumable
 {
@@ -19,7 +20,7 @@ namespace SpiritMod.Items.Consumable
 			Item.height = 20;
 			Item.rare = ItemRarityID.Green;
 			Item.useStyle = ItemUseStyleID.Swing;
-			Item.createTile = Mod.Find<ModTile>("ReachCrate_Tile").Type;
+			Item.createTile = ModContent.TileType<ReachCrate_Tile>();
 			Item.maxStack = 999;
 			Item.autoReuse = true;
 			Item.useAnimation = 15;

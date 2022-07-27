@@ -44,14 +44,14 @@ namespace SpiritMod.Mechanics.QuestSystem
 		{
 			try
 			{
+				QuestManager.ActiveQuests.Clear(); //Clear active quests in order to not clog
+
 				List<string> allQuests = tag.Get<List<string>>("SpiritMod:AllQuests");
 
-				if(!Main.dedServ)
+				if (!Main.dedServ)
 					SpiritMod.QuestHUD.Clear();
 
 				QuestManager.QuestBookUnlocked = tag.Get<bool>("SpiritMod:QuestBookUnlocked");
-
-				int ierjgo = 0;
 
 				for (int i = 0; i < QuestManager.Quests.Count; i++)
 				{
