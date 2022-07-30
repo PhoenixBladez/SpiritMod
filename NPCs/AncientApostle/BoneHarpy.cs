@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.DoT;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.AncientApostle
 {
@@ -37,6 +38,14 @@ namespace SpiritMod.NPCs.AncientApostle
 			NPC.DeathSound = SoundID.NPCDeath6;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.AncientApostleBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("The reanimated bones of a long extinct bird. Though dead, don’t lower your guard near them, for these fowl fossils still have fight in them!"),
+			});
 		}
 
 		private ref float MoveSpeed => ref NPC.ai[1];

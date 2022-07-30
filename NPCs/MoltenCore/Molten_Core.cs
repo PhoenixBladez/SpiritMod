@@ -6,6 +6,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.MoltenCore
 {
@@ -39,6 +40,14 @@ namespace SpiritMod.NPCs.MoltenCore
 			BannerItem = ModContent.ItemType<Items.Banners.MoltenCoreBanner>();
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Meteor,
+				new FlavorTextBestiaryInfoElement("A bubbling mess that escaped from within the meteorite. It appears to have basic spatial awareness and even some sentience. Perhaps it was chased by the invaders to the meteor?"),
+			});
+		}
+
 		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(24, 60 * 3);
 
 		public override void AI()
@@ -48,11 +57,11 @@ namespace SpiritMod.NPCs.MoltenCore
 			Movement();
 			CheckPlatform();
 			
-			if (Main.rand.Next(15) == 0)
+			if (Main.rand.NextBool(15))
 			{
 				int index = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Torch, 0.0f, 0.0f, 100, new Color(), 1f);
 				Main.dust[index].noGravity = true;
-				Main.dust[index].velocity.X = (float) Main.rand.Next(-3,3);
+				Main.dust[index].velocity.X = Main.rand.Next(-3,3);
 				Main.dust[index].velocity.Y = 2f;
 			}
 			

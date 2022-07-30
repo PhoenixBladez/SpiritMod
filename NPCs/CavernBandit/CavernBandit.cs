@@ -10,6 +10,7 @@ using Terraria.DataStructures;
 using System.IO;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.CavernBandit
 {
@@ -20,6 +21,7 @@ namespace SpiritMod.NPCs.CavernBandit
 		private bool _pickedFrame = false;
 		private int _frame = 0;
 		private int _spriteDirection = 1; //Necessary due to fighter ai breaking if sprite direction is modified, somehow
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cavern Bandit");
@@ -27,6 +29,7 @@ namespace SpiritMod.NPCs.CavernBandit
 			NPCID.Sets.TrailCacheLength[NPC.type] = 20;
 			NPCID.Sets.TrailingMode[NPC.type] = 0;
 		}
+
 		public override void SetDefaults()
 		{
 			NPC.aiStyle =  3;
@@ -45,6 +48,14 @@ namespace SpiritMod.NPCs.CavernBandit
 			NPC.DeathSound = SoundID.NPCHit1;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<Items.Banners.CavernBanditBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+				new FlavorTextBestiaryInfoElement("Some people go mining for the resources, others for the sport. These malicious marauders delve to hunt those people."),
+			});
 		}
 
 		private const float SWING_RADIUS = 60f; //How far away from the targetted player the npc must be to begin its attack

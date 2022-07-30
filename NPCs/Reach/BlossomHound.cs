@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Buffs;
 using SpiritMod.Items.Sets.BriarDrops;
 using SpiritMod.Items.Sets.HuskstalkSet;
 using Terraria;
@@ -10,6 +9,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -35,10 +35,19 @@ namespace SpiritMod.NPCs.Reach
 			NPC.value = 180f;
 			NPC.knockBackResist = .5f;
 			NPC.aiStyle = 3;
+
 			AIType = NPCID.WalkingAntlion;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<Items.Banners.BlossomHoundBanner>();
-        }
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<Biomes.BriarSurfaceBiome>().Type };
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("Blooming elderbark carved into the shape of a hound, fueled by an insatiable need to feed and nurture the flowers on its body."),
+			});
+		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{

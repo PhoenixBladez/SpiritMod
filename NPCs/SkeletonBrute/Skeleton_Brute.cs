@@ -6,6 +6,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.SkeletonBrute
 {
@@ -38,6 +39,14 @@ namespace SpiritMod.NPCs.SkeletonBrute
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.SkeletonBruteBanner>();
 			AIType = 0;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.BloodMoon,
+				new FlavorTextBestiaryInfoElement("As a specimen, yes, they’re intimidating. In a swinging match, nobody swings like a Skeleton Brute."),
+			});
 		}
 
 		public override void AI()
@@ -123,7 +132,7 @@ namespace SpiritMod.NPCs.SkeletonBrute
 					SetFrame(240, 4);
 
 					Player player = Main.player[NPC.target];
-					if (NPC.frameCounter == 13 && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0) && player.DistanceSQ(NPC.Center) <= 150f * 150f)
+					if (!NPC.IsABestiaryIconDummy && NPC.frameCounter == 13 && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0) && player.DistanceSQ(NPC.Center) <= 150f * 150f)
 					{
                         player.Hurt(PlayerDeathReason.LegacyDefault(), (int)(NPC.damage * 1.5f), 0, false, false, false, -1);
                         SoundEngine.PlaySound(SoundID.Item37, NPC.Center);

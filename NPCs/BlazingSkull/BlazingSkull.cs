@@ -8,20 +8,23 @@ using Terraria.ModLoader;
 using System;
 using SpiritMod.Prim;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.BlazingSkull
 {
 	public class BlazingSkull : ModNPC
 	{
+		int frame = 0;
+		Vector2 targetpos;
+		const int rechargetime = 180;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Wrathful Soul");
 			Main.npcFrameCount[NPC.type] = 17;
 			NPC.gfxOffY = 50;
-			//NPCID.Sets.TrailCacheLength[npc.type] = 3;
-			//NPCID.Sets.TrailingMode[npc.type] = 0;
 		}
-		int frame = 0;
+
 		public override void SetDefaults()
 		{
 			NPC.Size = new Vector2(54, 50);
@@ -39,14 +42,16 @@ namespace SpiritMod.NPCs.BlazingSkull
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.BlazingSkullBanner>();
 		}
-		Vector2 targetpos;
 
-		const int rechargetime = 180;
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+				new FlavorTextBestiaryInfoElement("One large mask of acceptable quality, pulled from the kiln."),
+			});
+		}
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.damage = 60;
-		//public override void SendExtraAI(BinaryWriter writer) => writer.WriteVector2(targetpos);
-
-		//public override void ReceiveExtraAI(BinaryReader reader) => targetpos = reader.ReadVector2();
-
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneUnderworldHeight && NPC.downedBoss3 ? 0.04f : 0f;
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => NPC.ai[2] > rechargetime;
 		public override void AI()

@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using SpiritMod.Buffs;
 using SpiritMod.Items.Sets.ReefhunterSet;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.ElectricEel
 {
@@ -36,6 +37,14 @@ namespace SpiritMod.NPCs.ElectricEel
 			AIType = NPCID.Shark;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.ElectricEelBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("Utilizing the energy it builds up as it swims, this slender fish can release it in one big jolt, packing quite the punch."),
+			});
 		}
 
 		public override void FindFrame(int frameHeight)

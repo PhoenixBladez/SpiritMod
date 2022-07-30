@@ -93,7 +93,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			player.AddBuff(ModContent.BuffType<UnstableAffliction>(), 2); //buff that causes gravity shit
 			int defenseBuff = (int)(35f * (1f - NPC.life / NPC.lifeMax));
 			NPC.defense = NPC.defDefense + defenseBuff;
-
+			
 			if (NPC.ai[0] == 0f) {
 				arms[0] = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X - 80 - Main.rand.Next(80, 160), (int)NPC.position.Y, ModContent.NPCType<AtlasArmRight>(), NPC.whoAmI, NPC.whoAmI);
 				arms[1] = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + 80 + Main.rand.Next(80, 160), (int)NPC.position.Y, ModContent.NPCType<AtlasArmLeft>(), NPC.whoAmI, NPC.whoAmI);
@@ -197,6 +197,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 						}
 					}
 					#endregion
+
 					timer += phaseChange ? 2 : 1; //if below 20% life fire more often
 					int shootThings = expertMode ? 200 : 250; //fire more often in expert mode
 					if (timer > shootThings) {

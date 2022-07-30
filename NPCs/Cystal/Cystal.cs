@@ -9,6 +9,7 @@ using Terraria.ID;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Cystal
 {
@@ -44,6 +45,14 @@ namespace SpiritMod.NPCs.Cystal
 			NPC.DeathSound = SoundID.DD2_SkeletonDeath;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.CystalBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+				new FlavorTextBestiaryInfoElement("A ghastly creature that patrols the murky depths of the Corruption. Their crystalline bodies emit a disorienting, sense-obscuring frequency, so steer clear!"),
+			});
 		}
 
 		public override void AI()

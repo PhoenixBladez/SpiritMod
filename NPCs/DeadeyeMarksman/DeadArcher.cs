@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.DeadeyeMarksman
 {
@@ -35,6 +36,15 @@ namespace SpiritMod.NPCs.DeadeyeMarksman
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<Items.Banners.DeadeyeMarksmanBanner>();
         }
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+				new FlavorTextBestiaryInfoElement("Despite having one eye, this archer is deceptively adept compared to any other. Close your doors to this outsider!"),
+			});
+		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{

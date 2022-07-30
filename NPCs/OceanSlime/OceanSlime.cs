@@ -3,6 +3,7 @@ using SpiritMod.Items.Weapon.Thrown;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.OceanSlime
 {
@@ -32,6 +33,14 @@ namespace SpiritMod.NPCs.OceanSlime
 			AnimationType = NPCID.BlueSlime;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.CoconutSlimeBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("Look out from above! These tricky slimes reside on the shore, inconspicuously camouflaged as this familiar fruit."),
+			});
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<Coconut>(6, 9);

@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.DoT;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.BottomFeeder
 {
@@ -37,6 +38,14 @@ namespace SpiritMod.NPCs.BottomFeeder
 			BannerItem = ModContent.ItemType<Items.Banners.BottomFeederBanner>();
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.BloodMoon,
+				new FlavorTextBestiaryInfoElement("A nasty bile sits in their guts, waiting to be unleashed. Exercise caution as they shamble toward you, and be prepared for a flood of sludge and soot."),
+			});
+		}
+
 		int frame = 1;
 		int timer = 0;
 		int shoottimer = 0;
@@ -46,51 +55,55 @@ namespace SpiritMod.NPCs.BottomFeeder
 			NPC.spriteDirection = -NPC.direction;
 
 			Player target = Main.player[NPC.target];
+			float distance = NPC.DistanceSQ(target.Center);
+
+			if (distance < 178 * 178)
 			{
-				timer++;
-				Player player = Main.player[NPC.target];
-				int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
+				shoottimer++;
 
-				if (timer == 4)
+				if (!NPC.wet)
 				{
-					frame++;
-					timer = 0;
+					NPC.velocity.X = .01f * NPC.spriteDirection;
+					NPC.spriteDirection = -NPC.direction;
+					NPC.velocity.Y = 10f;
 				}
 
-				if (frame >= 8 && distance >= 180)
-					frame = 1;
-				else if (frame == 11 && distance < 180)
-					frame = 8;
-
-				if (distance < 178)
+				if (shoottimer >= 40 && shoottimer < 96)
 				{
-					shoottimer++;
-
-					if (!NPC.wet)
+					if (Main.rand.NextBool(3)&& Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						NPC.velocity.X = .01f * NPC.spriteDirection;
-						NPC.spriteDirection = -NPC.direction;
-						NPC.velocity.Y = 10f;
+						int bloodproj = Main.rand.Next(new int[] { ModContent.ProjectileType<Feeder1>(), ModContent.ProjectileType<Feeder2>(), ModContent.ProjectileType<Feeder3>() });
+						int damage = Main.expertMode ? 10 : 15;
+						float sqrtDist = (float)Math.Sqrt(distance);
+						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (7 * NPC.direction), NPC.Center.Y - 10, -(NPC.position.X - target.position.X) / sqrtDist * 8, -(NPC.position.Y - target.position.Y + Main.rand.Next(-50, 50)) / sqrtDist * 8, bloodproj, damage, 0);
 					}
-
-					if (shoottimer >= 40 && shoottimer < 96)
-					{
-						if (Main.rand.Next(3) == 0 && Main.netMode != NetmodeID.MultiplayerClient)
-						{
-							int bloodproj;
-							bloodproj = Main.rand.Next(new int[] { ModContent.ProjectileType<Feeder1>(), ModContent.ProjectileType<Feeder2>(), ModContent.ProjectileType<Feeder3>() });
-							int damage = Main.expertMode ? 10 : 15;
-							Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (7 * NPC.direction), NPC.Center.Y - 10, -(NPC.position.X - target.position.X) / distance * 8, -(NPC.position.Y - target.position.Y + Main.rand.Next(-50, 50)) / distance * 8, bloodproj, damage, 0);
-						}
-					}
-
-					if (shoottimer >= 96)
-						shoottimer = 0;
 				}
+
+				if (shoottimer >= 96)
+					shoottimer = 0;
 			}
 		}
 
-		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight)
+		{
+			timer++;
+			if (timer == 4)
+			{
+				frame++;
+				timer = 0;
+			}
+
+			if (!NPC.IsABestiaryIconDummy)
+			{
+				float distance = NPC.DistanceSQ(Main.player[NPC.target].Center);
+				if (frame >= 8 && distance >= 180 * 180)
+					frame = 1;
+				else if (frame == 11 && distance < 180 * 180)
+					frame = 8;
+			}
+
+			NPC.frame.Y = frameHeight * frame;
+		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{

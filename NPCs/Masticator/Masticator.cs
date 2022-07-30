@@ -7,6 +7,7 @@ using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Masticator
 {
@@ -23,8 +24,8 @@ namespace SpiritMod.NPCs.Masticator
 		public override void SetDefaults()
 		{
 			NPC.damage = 24;
-			NPC.width = 36; //324
-			NPC.height = 42; //216
+			NPC.width = 36;
+			NPC.height = 42;
 			NPC.defense = 6;
 			NPC.lifeMax = 80;
 			NPC.knockBackResist = 0.75f;
@@ -35,6 +36,14 @@ namespace SpiritMod.NPCs.Masticator
 			NPC.buffImmune[BuffID.Confused] = true;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.MasticatorBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+				new FlavorTextBestiaryInfoElement("What once began as a small rodent quickly formed into a vile amalgamation with an insatiable appetite for flesh."),
+			});
 		}
 
 		int frame;
@@ -48,16 +57,6 @@ namespace SpiritMod.NPCs.Masticator
 			if (!vomitPhase)
 			{
 				NPC.rotation = NPC.velocity.X * .06f;
-				++NPC.ai[2];
-				if (NPC.ai[2] >= 6)
-				{
-					frame++;
-					NPC.ai[2] = 0;
-				}
-
-				if (frame >= 4)
-					frame = 0;
-
 				NPC.TargetClosest(true);
 				float num1164 = 4f;
 				float num1165 = 0.35f;
@@ -105,7 +104,7 @@ namespace SpiritMod.NPCs.Masticator
 						NPC.velocity.Y = NPC.velocity.Y - num1165 * .35f;
 				}
 
-				if (NPC.position.X + (float)NPC.width > Main.player[NPC.target].position.X && NPC.position.X < Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width && NPC.position.Y + (float)NPC.height < Main.player[NPC.target].position.Y && Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height) && Main.netMode != NetmodeID.MultiplayerClient)
+				if (NPC.Center.X > Main.player[NPC.target].position.X && NPC.position.X < Main.player[NPC.target].Center.X && NPC.Center.Y < Main.player[NPC.target].position.Y && Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height) && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					NPC.ai[0] += 1f;
 					NPC.rotation = 0f;
@@ -120,10 +119,10 @@ namespace SpiritMod.NPCs.Masticator
 			{
 				if (Main.rand.NextFloat() < 0.331579f)
 				{
-					Vector2 position = NPC.Center;
 					int d = Dust.NewDust(NPC.position, NPC.width, NPC.height + 10, DustID.Plantera_Green, 0, 1f, 0, Color.Purple, 0.7f);
 					Main.dust[d].velocity *= .1f;
 				}
+
 				NPC.rotation = 0f;
 				NPC.velocity.X = .001f * NPC.direction;
 				NPC.velocity.Y = 0f;
@@ -138,16 +137,6 @@ namespace SpiritMod.NPCs.Masticator
 
 				if (NPC.ai[3] > 50 && NPC.ai[3] < 180)
 				{
-					++NPC.ai[2];
-					if (NPC.ai[2] >= 6)
-					{
-						frame++;
-						NPC.ai[2] = 0;
-					}
-
-					if (frame >= 10)
-						frame = 5;
-
 					NPC.rotation = 0f;
 					float num395 = Main.mouseTextColor / 200f - 0.25f;
 					num395 *= 0.2f;
@@ -164,7 +153,6 @@ namespace SpiritMod.NPCs.Masticator
 
 					if (Main.rand.NextBool(16))
 					{
-
 						int tomaProj;
 						tomaProj = Main.rand.Next(new int[] { ModContent.ProjectileType<Teratoma1>(), ModContent.ProjectileType<Teratoma2>(), ModContent.ProjectileType<Teratoma3>() });
 						bool expertMode = Main.expertMode;
@@ -176,17 +164,6 @@ namespace SpiritMod.NPCs.Masticator
 							Main.projectile[p].penetrate = 1;
 						}
 					}
-				}
-				else
-				{
-					++NPC.ai[2];
-					if (NPC.ai[2] >= 6)
-					{
-						frame++;
-						NPC.ai[2] = 0;
-					}
-					if (frame >= 4)
-						frame = 0;
 				}
 
 				if (NPC.ai[3] == 180)
@@ -224,6 +201,48 @@ namespace SpiritMod.NPCs.Masticator
 			npcLoot.Add(ItemDropRule.Common(ItemID.WormTooth, 5));
 		}
 
-		public override void FindFrame(int frameHeight) => NPC.frame.Y = frame * frameHeight;
+		public override void FindFrame(int frameHeight)
+		{
+			if (!vomitPhase)
+			{
+				++NPC.ai[2];
+				if (NPC.ai[2] >= 6)
+				{
+					frame++;
+					NPC.ai[2] = 0;
+				}
+
+				if (frame >= 4)
+					frame = 0;
+			}
+			else
+			{
+				if (NPC.ai[3] > 50 && NPC.ai[3] < 180)
+				{
+					++NPC.ai[2];
+					if (NPC.ai[2] >= 6)
+					{
+						frame++;
+						NPC.ai[2] = 0;
+					}
+
+					if (frame >= 10)
+						frame = 5;
+				}
+				else
+				{
+					++NPC.ai[2];
+					if (NPC.ai[2] >= 6)
+					{
+						frame++;
+						NPC.ai[2] = 0;
+					}
+
+					if (frame >= 4)
+						frame = 0;
+				}
+			}
+			NPC.frame.Y = frame * frameHeight;
+		}
 	}
 }

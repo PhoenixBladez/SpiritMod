@@ -7,6 +7,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.FleshHound
 {
@@ -35,6 +36,14 @@ namespace SpiritMod.NPCs.FleshHound
 			NPC.knockBackResist = .2f;
 			NPC.aiStyle = 3;
 			AIType = NPCID.WalkingAntlion;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.BloodMoon,
+				new FlavorTextBestiaryInfoElement("A nasty prowling canine that rears its head only under the vermillion light of a Blood Moon. Though it may feed, the hunger will always remain."),
+			});
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.SpawnTileY < Main.rockLayer && (Main.bloodMoon) && NPC.downedBoss1 ? 0.12f : 0f;
