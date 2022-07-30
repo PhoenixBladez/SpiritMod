@@ -7,6 +7,7 @@ using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,10 +15,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 {
 	public class SteamRaiderBody : ModNPC
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Starplate Voyager");
-		}
+		private NPC Head => Main.npc[(int)NPC.ai[2]];
+		public bool Exposed => NPC.localAI[0] == 1;
+
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Starplate Voyager");
 
 		public override void SetDefaults()
 		{
@@ -43,14 +44,20 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Music = MusicID.Boss3;
 			NPC.dontCountMe = true;
 		}
-		public bool Exposed => NPC.localAI[0] == 1;
-		//int timer;
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("A strange automaton of unknown origin, designed for mining a precious metal from the stars. It utilizes the untapped energy found within the ore to power itself and perpetuate an endless search."),
+			});
+		}
+
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(NPC.localAI[0]);
 		public override void ReceiveExtraAI(BinaryReader reader) => NPC.localAI[0] = reader.ReadSingle();
-		private NPC Head => Main.npc[(int)NPC.ai[2]];
-		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
-			=> false;
+		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => Head.ai[2] == 1 && NPC.ai[3] < 100;
+
 		public override bool PreAI()
 		{
 			var exposedBodies = Main.npc.Where(x => x.active && (x.type == ModContent.NPCType<SteamRaiderBody>() || x.type == ModContent.NPCType<SteamRaiderBody2>()) && x.localAI[0] > 0).Count();

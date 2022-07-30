@@ -10,6 +10,8 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
+
 namespace SpiritMod.NPCs.Boss.Dusking
 {
 	[AutoloadBossHead]
@@ -46,6 +48,14 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			NPC.DeathSound = SoundID.NPCDeath5;
 
 			Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/DuskingTheme");
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+				new FlavorTextBestiaryInfoElement("The nightmarish consequence of a failed seance by goblin warlocks. This abominable spirit remains a burning reminder of the chaos shadowflame magic can bring."),
+			});
 		}
 
 		public override bool CheckActive() => NPC.Center.Y < -2000;

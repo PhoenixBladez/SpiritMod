@@ -15,6 +15,7 @@ using SpiritMod.Items.Placeable.MusicBox;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Buffs.DoT;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Boss
 {
@@ -59,6 +60,14 @@ namespace SpiritMod.NPCs.Boss
 			NPC.HitSound = SoundID.NPCHit2;
 			NPC.DeathSound = SoundID.NPCDeath5;
 			NPC.scale = 1.1f;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("The matriarch of an extinct avian predator species, brought back to life through sheer will to protect the yolk of its last remaining spawn."),
+			});
 		}
 
 		bool displayCircle = false;
@@ -282,7 +291,7 @@ namespace SpiritMod.NPCs.Boss
 			{
 				for (int k = 0; k < NPC.oldPos.Length; k++)
 				{
-					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+					Vector2 drawPos = NPC.oldPos[k] - screenPos + drawOrigin + new Vector2(0f, NPC.gfxOffY);
 					Color color = NPC.GetAlpha(drawColor) * ((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length / 2);
 					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
@@ -294,7 +303,7 @@ namespace SpiritMod.NPCs.Boss
 				drawOrigin.Y += 8f;
 				--drawOrigin.X;
 
-				Vector2 position1 = NPC.Bottom - Main.screenPosition;
+				Vector2 position1 = NPC.Bottom - screenPos;
 
 				Texture2D glowMask = TextureAssets.GlowMask[239].Value;
 				Rectangle r2 = glowMask.Frame(1, 1, 0, 0);

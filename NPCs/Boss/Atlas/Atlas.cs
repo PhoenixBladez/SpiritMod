@@ -17,6 +17,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs.DoT;
 using SpiritMod.Items.Armor.JackSet;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Boss.Atlas
 {
@@ -62,9 +63,18 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			NPC.HitSound = SoundID.NPCHit7;
 			NPC.DeathSound = SoundID.NPCDeath5;
             Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Atlas");
-        }
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<Biomes.SpiritSurfaceBiome>().Type };
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("A fractured sentinel built millenia ago to protect the land from those who would dare to scar its natural form. Now, it seems you have made yourself its target."),
+			});
+		}
 
 		private int Counter;
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += 0.25f;

@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
 using SpiritMod.Items.Placeable.Relics;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Boss.ReachBoss
 {
@@ -44,6 +45,14 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			NPC.DeathSound = SoundID.NPCDeath1;
 
 			Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ReachBoss");
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<Biomes.BriarSurfaceBiome>().Type };
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("The beating heart of the briar. Its innate instinct for self-preservation expresses itself in the hostile antibodies and endless torrential downpour within the biome."),
+			});
 		}
 
 		public override void FindFrame(int frameHeight)

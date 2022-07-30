@@ -64,9 +64,8 @@ namespace SpiritMod.NPCs.AntlionAssassin
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 11; k++)
-			{
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.UnusedBrown, hitDirection, -1f, 1, default, .61f);
-			}
+
 			if (NPC.life <= 0)
 			{
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Assassin1").Type, 1f);
