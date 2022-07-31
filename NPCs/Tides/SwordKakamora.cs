@@ -1,14 +1,12 @@
-﻿using SpiritMod.Projectiles.Hostile;
-using System;
+﻿using System;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.NPCs.Tides.Tide;
 using SpiritMod.Items.Sets.TideDrops;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -37,9 +35,19 @@ namespace SpiritMod.NPCs.Tides
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.KakamoraBruteBanner>();
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("A Kakamora warrior with a nasty peel out! A bruiser lives up to their name, getting up close and personal while dishing out the pain."),
+			});
+		}
+
 		int timer = 0;
 		bool charging = false;
 		int chargeDirection = -1; //-1 is left, 1 is right
+
 		public override void AI()
 		{
 			NPC.TargetClosest(true);

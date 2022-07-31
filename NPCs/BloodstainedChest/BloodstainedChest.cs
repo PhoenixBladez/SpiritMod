@@ -19,6 +19,9 @@ namespace SpiritMod.NPCs.BloodstainedChest
             Main.npcFrameCount[NPC.type] = 1;
 
 			NPCID.Sets.ActsLikeTownNPC[NPC.type] = true; //Disables happiness
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
         public override void SetDefaults()

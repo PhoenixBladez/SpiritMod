@@ -29,7 +29,7 @@ namespace SpiritMod.NPCs.AstralAdventurer
 
 			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
 			{
-				Velocity = 1f
+				Velocity = 1f,
 			};
 			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}

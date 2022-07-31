@@ -1,16 +1,12 @@
-﻿
-using Microsoft.Xna.Framework;
-using SpiritMod.Projectiles.Hostile;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.NPCs.Tides.Tide;
 using SpiritMod.Items.Sets.TideDrops;
-
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -39,8 +35,18 @@ namespace SpiritMod.NPCs.Tides
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.KakamoraShamanBanner>();
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("Pint-sized mystics that attack using the arcane arts. They double as healers for their nearby Kakamora companions."),
+			});
+		}
+
 		bool blocking = false;
 		int blockTimer = 0;
+
 		public override void AI()
 		{
 			NPC.TargetClosest(true);

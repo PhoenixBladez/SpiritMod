@@ -40,13 +40,18 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			const int ProjDimensions = 24;
 
+			int retries = 0;
+
 			while (true)
 			{
-				float dist = Main.rand.NextFloat(100, 200);
+				if (retries++ > 1000)
+					return false;
+
+				float dist = Main.rand.NextFloat(80, 200);
 				Vector2 offset = new Vector2(dist, 0).RotatedByRandom(MathHelper.TwoPi);
 				Vector2 pos = position + offset;
 
-				if (!Collision.SolidCollision(pos, ProjDimensions, ProjDimensions) && Collision.CanHitLine(pos, ProjDimensions, ProjDimensions, position, player.width, player.height))
+				if (!Collision.SolidCollision(pos, ProjDimensions, ProjDimensions) && Collision.CanHitLine(pos, ProjDimensions, ProjDimensions, player.Center, 2, 2))
 				{
 					Projectile.NewProjectile(source, pos, Vector2.Zero, ModContent.ProjectileType<ShroomSummon>(), damage, knockback, player.whoAmI, 0f, 0f);
 					break;

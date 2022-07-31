@@ -241,7 +241,7 @@ namespace SpiritMod.NPCs.Automata
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition, NPC.frame, drawColor, NPC.rotation % 6.28f, NPC.frame.Size() / 2, NPC.scale, initialDirection != 1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation % 6.28f, NPC.frame.Size() / 2, NPC.scale, initialDirection != 1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 			return false;
 		}
 

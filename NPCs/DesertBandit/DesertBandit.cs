@@ -7,6 +7,9 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using SpiritMod.Mechanics.QuestSystem.Quests;
+using Terraria.GameContent.Bestiary;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent;
 
 namespace SpiritMod.NPCs.DesertBandit
 {
@@ -18,8 +21,6 @@ namespace SpiritMod.NPCs.DesertBandit
 			Main.npcFrameCount[NPC.type] = 12;
 			NPCID.Sets.TrailCacheLength[NPC.type] = 20;
 			NPCID.Sets.TrailingMode[NPC.type] = 0;
-
-			//ModContent.GetInstance<SpiritMod>().NPCCandyBlacklist.Add(npc.type);
 		}
 
 		public override void SetDefaults()
@@ -42,6 +43,14 @@ namespace SpiritMod.NPCs.DesertBandit
 			NPC.alpha = 255;
 			NPC.dontTakeDamage = false;
 			NPC.DeathSound = SoundID.NPCDeath1;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+				new FlavorTextBestiaryInfoElement("A roaming bandit, looking for anything that shines under the harsh sun. Not very fun at parties."),
+			});
 		}
 
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(NPC.localAI[2]);
@@ -123,11 +132,11 @@ namespace SpiritMod.NPCs.DesertBandit
 
 		public override void FindFrame(int frameHeight)
 		{
-			Player player = Main.player[NPC.target];
 			NPC.frameCounter++;
-			if (NPC.localAI[2] == 0f)
+			if (NPC.localAI[2] == 0f || NPC.IsABestiaryIconDummy)
 			{
-				if (Vector2.Distance(player.Center, NPC.Center) >= 60f)
+				Player player = Main.player[NPC.target];
+				if (Vector2.Distance(player.Center, NPC.Center) >= 60f || NPC.IsABestiaryIconDummy)
 				{
 					if (NPC.frameCounter >= 7)
 					{
@@ -150,7 +159,7 @@ namespace SpiritMod.NPCs.DesertBandit
 					if (frame < 6)
 						frame = 6;
 
-					if (frame == 9 && NPC.frameCounter == 4 && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0))
+					if (!NPC.IsABestiaryIconDummy && frame == 9 && NPC.frameCounter == 4 && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0))
 						player.Hurt(PlayerDeathReason.LegacyDefault(), NPC.damage * 2, NPC.direction * -1, false, false, false, -1);
 				}
 			}
@@ -236,6 +245,17 @@ namespace SpiritMod.NPCs.DesertBandit
 			}
 			target.lostCoins = num1;
 			target.lostCoinString = Main.ValueToCoins(target.lostCoins);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+		{
+			if (NPC.IsABestiaryIconDummy)
+			{
+				Vector2 offset = new Vector2(30, 16);
+				spriteBatch.Draw(TextureAssets.Npc[Type].Value, NPC.position - screenPos - offset, NPC.frame, drawColor);
+				return false;
+			}
+			return true;
 		}
 	}
 }

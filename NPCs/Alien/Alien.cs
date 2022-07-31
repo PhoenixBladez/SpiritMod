@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Alien
 {
@@ -29,6 +30,14 @@ namespace SpiritMod.NPCs.Alien
 			AIType = NPCID.Unicorn;
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Eclipse,
+				new FlavorTextBestiaryInfoElement("In space, no one can hear you make pop culture references."),
+			});
+		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => NPC.downedMechBossAny && Main.eclipse && spawnInfo.Player.ZoneOverworldHeight ? 0.07f : 0;
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -53,7 +62,7 @@ namespace SpiritMod.NPCs.Alien
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(4) == 1) {
+			if (Main.rand.NextBool(4)) {
 				target.AddBuff(BuffID.Venom, 260);
 			}
 		}

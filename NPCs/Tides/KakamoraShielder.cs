@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.NPCs.Tides.Tide;
 using SpiritMod.Items.Sets.TideDrops;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -36,8 +37,18 @@ namespace SpiritMod.NPCs.Tides
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.KakamoraShielderBanner>();
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("A brave nut kitted with a shield and protective headgear, they protect the less aggressive Kakamora from harm."),
+			});
+		}
+
 		bool blocking = false;
 		int blockTimer = 0;
+
 		public override void AI()
 		{
 			NPC.TargetClosest(true);

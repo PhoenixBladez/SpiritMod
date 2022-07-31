@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 {
@@ -38,6 +39,14 @@ namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 			NPC.knockBackResist = .35f;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.BloomshroomBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				new FlavorTextBestiaryInfoElement("This aggressive mycelium only becomes lively once in a blue moon. They spread their spores to the skies, reproducing once they hit the ground or find a living host."),
+			});
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -83,15 +92,38 @@ namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y - 10, 0, -4, ModContent.ProjectileType<BloomshroomHostile>(), 31, 0);
 						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y - 10, 6f, -4, ModContent.ProjectileType<BloomshroomHostile>(), 31, 0);
 
-						if (Main.rand.Next(3) == 0)
+						if (Main.rand.NextBool(3))
 							Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y - 10, -6f, -4, ModContent.ProjectileType<BloomshroomHostile>(), 25, 0);
-
-						timer++;
 					}
 				}
 
-				timer++;
+				if (target.position.X > NPC.position.X)
+					NPC.direction = 1;
+				else
+					NPC.direction = -1;
+			}
+			else
+			{
+				NPC.aiStyle = 26;
+				AIType = NPCID.Skeleton;
+			}
+		}
 
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+		{
+			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			return false;
+		}
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<Bloomshroom>()) < 2 && spawnInfo.Player.ZoneOverworldHeight ? 1f : 0f;
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/BlueMoon/Bloomshroom/Bloomshroom_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, screenPos);
+
+		public override void FindFrame(int frameHeight)
+		{
+			timer++;
+			if (attack || NPC.IsABestiaryIconDummy)
+			{
 				if (timer >= 12)
 				{
 					frame++;
@@ -103,16 +135,9 @@ namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 
 				if (frame < 7)
 					frame = 7;
-				if (target.position.X > NPC.position.X)
-					NPC.direction = 1;
-				else
-					NPC.direction = -1;
 			}
 			else
 			{
-				NPC.aiStyle = 26;
-				AIType = NPCID.Skeleton;
-				timer++;
 				if (timer >= 4)
 				{
 					frame++;
@@ -122,18 +147,8 @@ namespace SpiritMod.NPCs.BlueMoon.Bloomshroom
 				if (frame > 6)
 					frame = 0;
 			}
+			NPC.frame.Y = frameHeight * frame;
 		}
-
-		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-		{
-			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
-			return false;
-		}
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo) => MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<Bloomshroom>()) < 2 && spawnInfo.Player.ZoneOverworldHeight ? 1f : 0f;
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/BlueMoon/Bloomshroom/Bloomshroom_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, screenPos);
-		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{

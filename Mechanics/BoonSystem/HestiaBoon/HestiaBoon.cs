@@ -83,9 +83,9 @@ namespace SpiritMod.Mechanics.BoonSystem.HestiaBoon
 
 		public void DrawBoonBeam(Vector2 targetPos)
 		{
-			Effect effect = ModContent.Request<Effect>("Effects/EmpowermentBeam", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Effect effect = ModContent.Request<Effect>("SpiritMod/Effects/EmpowermentBeam", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-			effect.Parameters["uTexture"].SetValue(ModContent.Request<Texture2D>("Textures/Trails/Trail_2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			effect.Parameters["uTexture"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/Trails/Trail_2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			effect.Parameters["progress"].SetValue(Main.GlobalTimeWrappedHourly / 3);
 			effect.Parameters["uColor"].SetValue(new Color(247, 117, 42, 0).ToVector4());
 			effect.Parameters["uSecondaryColor"].SetValue(new Color(247, 195, 92, 0).ToVector4());

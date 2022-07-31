@@ -80,15 +80,6 @@ namespace SpiritMod.NPCs.Bloatfish
 				NPC.noGravity = true;
 				AIType = NPCID.Goldfish;
 			}
-
-			if (NPC.frameCounter++ == 3)
-			{
-				frame++;
-				NPC.frameCounter = 0;
-			}
-
-			if (frame >= 4)
-				frame = 1;
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -101,7 +92,19 @@ namespace SpiritMod.NPCs.Bloatfish
 			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DiverBody>(), 50));
 		}
 
-		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight)
+		{
+			if (NPC.frameCounter++ == 6)
+			{
+				frame++;
+				NPC.frameCounter = 0;
+			}
+
+			if (frame >= 4)
+				frame = 1;
+
+			NPC.frame.Y = frameHeight * frame;
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

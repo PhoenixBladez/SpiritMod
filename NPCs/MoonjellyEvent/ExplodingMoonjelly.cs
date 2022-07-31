@@ -1,10 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Consumable;
-using SpiritMod.Tiles.Block;
-using SpiritMod.NPCs.Boss.MoonWizard.Projectiles;
 using System;
-using System.Linq;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -12,6 +8,7 @@ using Terraria.ModLoader;
 using SpiritMod.Items.Sets.ClubSubclass;
 using SpiritMod.NPCs.Spirit;
 using SpiritMod.Items.Consumable.Potion;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.MoonjellyEvent
 {
@@ -42,6 +39,14 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<Items.Banners.MoonlightRupturerBanner>();
         }
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("At the end of a Lunazoa’s lifespan, obedient migrative drifting evolves into aggression towards foreign entities."),
+			});
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
         {

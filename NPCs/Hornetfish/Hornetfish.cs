@@ -7,6 +7,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Hornetfish
 {
@@ -33,6 +34,14 @@ namespace SpiritMod.NPCs.Hornetfish
 			NPC.noTileCollide = false;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.DD2_LightningBugHurt;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+				new FlavorTextBestiaryInfoElement("This fish wasn’t content with just being caught. It chose to fight back, and armed with both wings and stingers, it did just that."),
+			});
 		}
 
 		int frame = 7;

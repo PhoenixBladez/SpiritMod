@@ -5,6 +5,7 @@ using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.BlueMoon.MadHatter
 {
@@ -34,6 +35,14 @@ namespace SpiritMod.NPCs.BlueMoon.MadHatter
 			AIType = 104;
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				new FlavorTextBestiaryInfoElement("They’ve been driven mad, completely bonkers! But all the best people are."),
+			});
+		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++) {
@@ -50,7 +59,7 @@ namespace SpiritMod.NPCs.BlueMoon.MadHatter
 				for (int num621 = 0; num621 < 200; num621++) {
 					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.UnusedWhiteBluePurple, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0) {
+					if (Main.rand.NextBool(2)) {
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
@@ -65,18 +74,26 @@ namespace SpiritMod.NPCs.BlueMoon.MadHatter
 
 		public override void FindFrame(int frameHeight)
 		{
-			if (timer % 300 >= 80) {
+			if (NPC.IsABestiaryIconDummy)
+			{
+				NPC.frameCounter += 0.40f;
+				NPC.frameCounter %= 13;
+				int frame = (int)NPC.frameCounter + 2;
+				NPC.frame.Y = frame * 80;
+				return;
+			}
+
+			if (timer % 300 >= 80)
+			{
 				NPC.frameCounter += 0.40f;
 				NPC.frameCounter %= 13;
 				int frame = (int)NPC.frameCounter + 2;
 				NPC.frame.Y = frame * 80;
 			}
-			else if (timer % 300 < 40) {
+			else if (timer % 300 < 40)
 				NPC.frame.Y = 80;
-			}
-			else {
+			else
 				NPC.frame.Y = 0;
-			}
 		}
 
 		public override void AI()
@@ -104,14 +121,14 @@ namespace SpiritMod.NPCs.BlueMoon.MadHatter
 			}
 			else {
 				NPC.spriteDirection = NPC.direction;
-				if (hat == true)
+				if (hat)
 					hat = false;
 			}
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 				target.AddBuff(ModContent.BuffType<StarFlame>(), 200);
 		}
 

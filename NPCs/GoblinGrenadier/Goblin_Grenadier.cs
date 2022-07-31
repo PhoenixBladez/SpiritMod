@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
+using System;
 
 namespace SpiritMod.NPCs.GoblinGrenadier
 {
@@ -35,6 +34,15 @@ namespace SpiritMod.NPCs.GoblinGrenadier
 			NPC.DeathSound = SoundID.NPCDeath1;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.GoblinGrenadierBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Invasions.Goblins,
+				new FlavorTextBestiaryInfoElement("When spiky balls aren’t cutting it, good old fashioned shrapnel-spitting explosives should do the trick."),
+			});
 		}
 
 		public override void AI()

@@ -2,13 +2,13 @@ using Microsoft.Xna.Framework;
 using SpiritMod.Buffs;
 using SpiritMod.Items.Consumable.Potion;
 using SpiritMod.Items.Sets.SeraphSet;
-using SpiritMod.Projectiles.Hostile;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.BlueMoon.LunarSlime
 {
@@ -44,15 +44,16 @@ namespace SpiritMod.NPCs.BlueMoon.LunarSlime
             BannerItem = ModContent.ItemType<Items.Banners.LunarSlimeBanner>();
         }
 
-		public override Color? GetAlpha(Color lightColor)
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
-			return new Color(200, 200, 200, 200);
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				new FlavorTextBestiaryInfoElement("Gelatinous nectar from the stars. Stargazer Slimes may be aggressive, but the oil they secrete makes for a delicious spread."),
+			});
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return MyWorld.BlueMoon && spawnInfo.Player.ZoneOverworldHeight ? 3.4f : 0f;
-		}
+		public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => MyWorld.BlueMoon && spawnInfo.Player.ZoneOverworldHeight ? 3.4f : 0f;
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

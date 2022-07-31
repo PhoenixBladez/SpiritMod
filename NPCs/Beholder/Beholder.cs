@@ -24,7 +24,6 @@ namespace SpiritMod.NPCs.Beholder
 	{
 		public int dashTimer;
 		int frame = 0;
-		int timer = 0;
 		int shootTimer = 0;
 		bool manaSteal = false;
 		int manaStealTimer;
@@ -35,6 +34,9 @@ namespace SpiritMod.NPCs.Beholder
 			Main.npcFrameCount[NPC.type] = 9;
 			NPCID.Sets.TrailCacheLength[NPC.type] = 3;
 			NPCID.Sets.TrailingMode[NPC.type] = 0;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Rotation = MathHelper.PiOver2 };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -127,17 +129,6 @@ namespace SpiritMod.NPCs.Beholder
 				direction.Y *= Main.rand.Next(6, 9);
 				NPC.velocity = direction * 0.98f;
 			}
-
-			timer++;
-
-			if (timer >= 6)
-			{
-				frame++;
-				timer = 0;
-			}
-
-			if (frame >= 7)
-				frame = 0;
 
 			if (dashTimer == 770 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
@@ -233,7 +224,6 @@ namespace SpiritMod.NPCs.Beholder
 		{
 			writer.Write(dashTimer);
 			writer.Write(frame);
-			writer.Write(timer);
 			writer.Write(shootTimer);
 			writer.Write(manaSteal);
 			writer.Write(manaStealTimer);
@@ -243,7 +233,6 @@ namespace SpiritMod.NPCs.Beholder
 		{
 			dashTimer = reader.ReadInt32();
 			frame = reader.ReadInt32();
-			timer = reader.ReadInt32();
 			shootTimer = reader.ReadInt32();
 			manaSteal = reader.ReadBoolean();
 			manaStealTimer = reader.ReadInt32();
@@ -258,7 +247,20 @@ namespace SpiritMod.NPCs.Beholder
 			return 0.002765f;
 		}
 
-		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight)
+		{
+			NPC.frameCounter++;
+			if (NPC.frameCounter >= 6)
+			{
+				frame++;
+				NPC.frameCounter = 0;
+			}
+
+			if (frame >= 7)
+				frame = 0;
+
+			NPC.frame.Y = frameHeight * frame;
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
@@ -293,7 +295,7 @@ namespace SpiritMod.NPCs.Beholder
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(4) == 1)
+			if (Main.rand.NextBool(4))
 				target.AddBuff(BuffID.Bleeding, 180);
 			manaSteal = true;
 		}

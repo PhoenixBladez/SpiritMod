@@ -11,6 +11,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 {
@@ -47,6 +48,14 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<Items.Banners.GlitterflyBanner>();
         }
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				new FlavorTextBestiaryInfoElement("Glitterflies do not feed often, as their palette consists of a rare fungus. In addition, they possess a venomous sting that causes intense disorientation and vertigo."),
+			});
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
@@ -152,7 +161,7 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame,
 							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}

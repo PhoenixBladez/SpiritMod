@@ -6,6 +6,8 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.GameContent.Bestiary;
+
 namespace SpiritMod.NPCs.Critters
 {
 	public class Lardfish : ModNPC
@@ -14,6 +16,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Variegated Lardfish");
 			Main.npcFrameCount[NPC.type] = 4;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -23,8 +26,7 @@ namespace SpiritMod.NPCs.Critters
 			NPC.damage = 0;
 			NPC.defense = 0;
 			NPC.lifeMax = 5;
-			Main.npcCatchable[NPC.type] = true;
-			NPC.catchItem = (short)ItemID.VariegatedLardfish;
+			NPC.catchItem = ItemID.VariegatedLardfish;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
 			NPC.knockBackResist = .35f;
@@ -35,32 +37,39 @@ namespace SpiritMod.NPCs.Critters
 			AIType = NPCID.Goldfish;
 			NPC.dontTakeDamageFromHostiles = false;
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("A bizarre fish sought after for its brewing potential. Those that harness magic for summoning find this fish particularly useful in enhancing their abilities."),
+			});
+		}
+
 		public override void AI()
-        {
-            NPC.spriteDirection = -NPC.direction;
-            Player player = Main.player[NPC.target]; {
-                Player target = Main.player[NPC.target];
-                int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
-                if (distance < 65 && target.wet && NPC.wet)
-                {
-                    Vector2 vel = NPC.DirectionFrom(target.Center);
-                    vel.Normalize();
-                    vel *= 4.5f;
-                    NPC.velocity = vel;
-                    NPC.rotation = NPC.velocity.X * .06f;
-                    if (target.position.X > NPC.position.X) {
-                        NPC.spriteDirection = -1;
-                        NPC.direction = -1;
-                        NPC.netUpdate = true;
-                    }
-                    else if (target.position.X < NPC.position.X) {
-                        NPC.spriteDirection = 1;
-                        NPC.direction = 1;
-                        NPC.netUpdate = true;
-                    }
-                }
-            }
-        }
+		{
+			NPC.spriteDirection = -NPC.direction;
+			Player target = Main.player[NPC.target];
+			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
+			if (distance < 65 && target.wet && NPC.wet)
+			{
+				Vector2 vel = NPC.DirectionFrom(target.Center) * 4.5f;
+				NPC.velocity = vel;
+				NPC.rotation = NPC.velocity.X * .06f;
+				if (target.position.X > NPC.position.X)
+				{
+					NPC.spriteDirection = -1;
+					NPC.direction = -1;
+					NPC.netUpdate = true;
+				}
+				else if (target.position.X < NPC.position.X)
+				{
+					NPC.spriteDirection = 1;
+					NPC.direction = 1;
+					NPC.netUpdate = true;
+				}
+			}
+		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
 using System.IO;
 using Terraria.ModLoader.Core;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.HellEater
 {
@@ -42,6 +43,14 @@ namespace SpiritMod.NPCs.HellEater
 			NPC.lavaImmune = true;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.GluttonousDevourerBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+				new FlavorTextBestiaryInfoElement("You'd best avoid the searing hot jaws of these beasts. Devourers have a notoriously painful bite, but that makes it a sought after material for the bold."),
+			});
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneUnderworldHeight && NPC.downedBoss3 ? 0.04f : 0f;

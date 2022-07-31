@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Boss.Dusking
 {
@@ -29,6 +30,14 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			NPC.friendly = false;
 			NPC.noGravity = true;
 			NPC.noTileCollide = true;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				new FlavorTextBestiaryInfoElement("End of dawns, bringer of nights, may the king of darkness rise to fight! May you cast the world to darkness and forever seal the light! O’ king hear my cry, for may victory be yours tonight!"),
+			});
 		}
 
 		public override bool PreAI()
@@ -107,10 +116,8 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			return false;
 		}
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
-		}
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
+		public override Color? GetAlpha(Color lightColor) => Color.White;
 
 		public override void FindFrame(int frameHeight)
 		{
@@ -119,10 +126,6 @@ namespace SpiritMod.NPCs.Boss.Dusking
 				NPC.frame.Y = (NPC.frame.Y + frameHeight) % (Main.npcFrameCount[NPC.type] * frameHeight);
 				NPC.frameCounter = 0;
 			}
-		}
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return Color.White;
 		}
 	}
 }

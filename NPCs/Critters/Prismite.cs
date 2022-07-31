@@ -6,6 +6,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -15,6 +16,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Prismite");
 			Main.npcFrameCount[NPC.type] = 4;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -24,8 +26,7 @@ namespace SpiritMod.NPCs.Critters
 			NPC.damage = 0;
 			NPC.defense = 0;
 			NPC.lifeMax = 5;
-			Main.npcCatchable[NPC.type] = true;
-			NPC.catchItem = (short)ItemID.Prismite;
+			NPC.catchItem = ItemID.Prismite;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
 			NPC.knockBackResist = 0f;
@@ -35,6 +36,14 @@ namespace SpiritMod.NPCs.Critters
 			NPC.npcSlots = 0;
 			AIType = NPCID.Goldfish;
 			NPC.dontTakeDamageFromHostiles = false;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
+				new FlavorTextBestiaryInfoElement("An iridescent mineral fish that wades the waters of the Hallow. The prismatic gleam that reflects light from its scales is a natural beauty."),
+			});
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -93,11 +102,6 @@ namespace SpiritMod.NPCs.Critters
         }
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<RawFish>(2);
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.Player.ZoneHallow && spawnInfo.Water ? 0.05f : 0f;
-		}
-
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneHallow && spawnInfo.Water ? 0.05f : 0f;
 	}
 }

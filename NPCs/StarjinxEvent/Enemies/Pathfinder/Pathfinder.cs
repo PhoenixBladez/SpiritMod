@@ -178,7 +178,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 
 			if (LockedOn && NPC.Distance(Target.Center) < FOLLOW_MAXRANGE)
 			{
-				Effect effect = ModContent.Request<Effect>("Effects/EmpowermentBeam", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+				Effect effect = ModContent.Request<Effect>("SpiritMod/Effects/EmpowermentBeam", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				effect.Parameters["uTexture"].SetValue(Mod.Assets.Request<Texture2D>("Textures/Trails/Trail_2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 				effect.Parameters["progress"].SetValue(Main.GlobalTimeWrappedHourly / 3);
 				effect.Parameters["uColor"].SetValue(new Color(245, 59, 164).ToVector4());

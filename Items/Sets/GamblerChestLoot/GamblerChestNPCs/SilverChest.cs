@@ -1,18 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.ID;
-using SpiritMod.Items.Sets.GamblerChestLoot.Jem;
-using SpiritMod.Items.Sets.GamblerChestLoot.FunnyFirework;
-using SpiritMod.Items.Sets.GamblerChestLoot.GildedMustache;
-using SpiritMod.Items.Sets.GamblerChestLoot.Champagne;
 using SpiritMod.Mechanics.Fathomless_Chest;
-using SpiritMod.Items.Sets.GamblerChestLoot.RegalCane;
 
 namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 {
@@ -22,6 +15,9 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 		{
 			DisplayName.SetDefault("Silver Chest");
 			Main.npcFrameCount[NPC.type] = 5;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 		public override void SetDefaults()
 		{

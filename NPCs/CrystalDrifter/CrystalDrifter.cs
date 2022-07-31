@@ -2,13 +2,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.CryoliteSet;
 using SpiritMod.Mechanics.QuestSystem;
-using SpiritMod.Projectiles.Hostile;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.CrystalDrifter
 {
@@ -44,6 +43,15 @@ namespace SpiritMod.NPCs.CrystalDrifter
 			NPC.aiStyle = -1;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.CrystalDrifterBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Blizzard,
+				new FlavorTextBestiaryInfoElement("The howling winds of a blizzard give flight to this otherwise cumbersome entity composed of ice."),
+			});
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -144,7 +152,7 @@ namespace SpiritMod.NPCs.CrystalDrifter
 				{
 					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.BlueCrystalShard, 0f, 0f, 100, default, 1f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
@@ -163,7 +171,7 @@ namespace SpiritMod.NPCs.CrystalDrifter
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(2) == 1)
+			if (Main.rand.NextBool(2))
 				target.AddBuff(BuffID.Frostburn, 150);
 		}
 

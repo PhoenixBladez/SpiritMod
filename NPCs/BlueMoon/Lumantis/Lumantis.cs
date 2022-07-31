@@ -12,6 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.BlueMoon.Lumantis
 {
@@ -37,22 +38,31 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 			NPC.knockBackResist = .2f;
 			NPC.aiStyle = 3;
 			AIType = NPCID.WalkingAntlion;
-            Banner = NPC.type;
-            BannerItem = ModContent.ItemType<Items.Banners.LumantisBanner>();
-        }
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<Lumantis>()) < 4 && spawnInfo.Player.ZoneOverworldHeight ? .6f : 0f;
+			Banner = NPC.type;
+			BannerItem = ModContent.ItemType<Items.Banners.LumantisBanner>();
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("Colossal bugs that attack with scythe-like claws. When threatened, as a warning to predators, they puff their underbellies."),
+			});
+		}
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => MyWorld.BlueMoon && NPC.CountNPCS(ModContent.NPCType<Lumantis>()) < 4 && spawnInfo.Player.ZoneOverworldHeight ? .6f : 0f;
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for (int k = 0; k < 11; k++) {
+			for (int k = 0; k < 11; k++)
+			{
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Flare_Blue, hitDirection, -1f, 1, default, .81f);
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.VenomStaff, hitDirection, -1f, 1, default, .51f);
 			}
-			if (NPC.life <= 0) {
-				for (int k = 0; k < 11; k++) {
+			if (NPC.life <= 0)
+			{
+				for (int k = 0; k < 11; k++)
+				{
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Flare_Blue, hitDirection, -1f, 1, default, .81f);
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.VenomStaff, hitDirection, -1f, 1, default, .71f);
 				}
@@ -62,57 +72,59 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Lumantis4").Type, 1f);
 			}
 		}
-		int timer;
+
 		int frame;
+		bool reflectPhase;
+
 		public override void AI()
 		{
 			Player player = Main.player[NPC.target];
-			timer++;
 			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .196f * 3, .092f * 3, 0.214f * 3);
+
 			++NPC.ai[1];
-			if (NPC.ai[1] >= 600) {
+			if (NPC.ai[1] >= 600)
+			{
 				reflectPhase = true;
 				NPC.aiStyle = 0;
-				if (player.position.X > NPC.position.X) {
-					NPC.spriteDirection = 1;
-				}
-				else {
-					NPC.spriteDirection = -1;
-				}
+				NPC.spriteDirection = player.position.X > NPC.position.X ? 1 : -1;
 			}
-			else {
+			else
+			{
 				NPC.aiStyle = 3;
 				AIType = NPCID.WalkingAntlion;
 				NPC.spriteDirection = NPC.direction;
 				reflectPhase = false;
 				NPC.defense = 20;
-				if (timer >= 4) {
-					frame++;
-					timer = 0;
-				}
-				if (frame >= 3) {
-					frame = 0;
-				}
 			}
-			if (NPC.ai[1] >= 840) {
+
+			if (NPC.ai[1] >= 840)
 				NPC.ai[1] = 0;
-			}
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
-			if (!reflectPhase) {
+			NPC.frameCounter++;
+			if (!reflectPhase)
+			{
+				if (NPC.frameCounter >= 4)
+				{
+					frame++;
+					NPC.frameCounter = 0;
+				}
+
+				if (frame >= 3)
+					frame = 0;
+
 				NPC.frame.Y = frameHeight * frame;
 			}
-			else {
+			else
 				NPC.frame.Y = frameHeight * 4;
-			}
 		}
 
-		bool reflectPhase;
 		public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
 		{
-
-			if (reflectPhase) {
+			if (reflectPhase)
+			{
 				player.Hurt(PlayerDeathReason.LegacyEmpty(), item.damage, 0, true, false, false, -1);
 				SoundEngine.PlaySound(SoundID.DD2_LightningBugZap, NPC.position);
 			}
@@ -120,12 +132,13 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
 		{
-			if (reflectPhase && !projectile.minion && !Main.player[projectile.owner].channel) {
+			if (reflectPhase && !projectile.minion && !Main.player[projectile.owner].channel)
+			{
 				projectile.hostile = true;
 				projectile.friendly = false;
 				SoundEngine.PlaySound(SoundID.DD2_LightningBugZap, NPC.position);
 				projectile.penetrate = 2;
-				projectile.velocity.X = projectile.velocity.X * -1f;
+				projectile.velocity.X *= -1f;
 			}
 		}
 
@@ -145,7 +158,7 @@ namespace SpiritMod.NPCs.BlueMoon.Lumantis
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			Main.EntitySpriteDraw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 

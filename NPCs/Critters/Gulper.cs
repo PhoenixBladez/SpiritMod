@@ -99,9 +99,8 @@ namespace SpiritMod.NPCs.Critters
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.PlayerSafe) {
+			if (spawnInfo.PlayerSafe && spawnInfo.Water)
 				return 0.5f;
-			}
 			return SpawnCondition.OceanMonster.Chance * 0.31f;
 		}
 

@@ -1,15 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Consumable;
-using SpiritMod.Tiles.Block;
 using SpiritMod.NPCs.Boss.MoonWizard.Projectiles;
 using System;
-using System.Linq;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Potion;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.MoonjellyEvent
 {
@@ -41,6 +39,14 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			AIType = NPCID.Firefly;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.MoonlightPreserverBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("A mature female Lunazoa carries infantile jellies within their membrane until they are mature enough to migrate on their own."),
+			});
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

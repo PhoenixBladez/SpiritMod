@@ -57,8 +57,8 @@ namespace SpiritMod.Mechanics.BoonSystem
 		protected void DrawBeam(Color lightColor, Color darkColor)
 		{
 
-			Effect effect = ModContent.Request<Effect>("Effects/EmpowermentBeam", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			effect.Parameters["uTexture"].SetValue(ModContent.Request<Texture2D>("Textures/Trails/Trail_2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			Effect effect = ModContent.Request<Effect>("SpiritMod/Effects/EmpowermentBeam", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			effect.Parameters["uTexture"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/Trails/Trail_2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			effect.Parameters["progress"].SetValue(Main.GlobalTimeWrappedHourly / 3);
 			effect.Parameters["uColor"].SetValue(darkColor.ToVector4());
 			effect.Parameters["uSecondaryColor"].SetValue(lightColor.ToVector4());

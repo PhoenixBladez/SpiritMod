@@ -15,11 +15,13 @@ namespace SpiritMod.NPCs.Pokey
     internal class Pokey_Body : ModNPC
     {
         private int segments = 15;
+
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stactus");
             Main.npcFrameCount[NPC.type] = 3;
         }
+
         public override void SetDefaults()
         {
             NPC.width = 24;
@@ -297,7 +299,7 @@ namespace SpiritMod.NPCs.Pokey
 				if (QueueFromBottom() != 0 || (Head.active && Head.life > 0))
 					Delete();
 			}
-			catch (System.Exception) {
+			catch (Exception) {
 				throw new Exception("[Stactus] It's in delete number " + QueueFromBottom().ToString());
 			}
 			return true;
@@ -335,6 +337,32 @@ namespace SpiritMod.NPCs.Pokey
 
 			npcLoot.Add(headlessRule);
 			npcLoot.Add(headfulRule);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+		{
+			if (NPC.IsABestiaryIconDummy)
+			{
+				Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+
+				for (int i = 3; i >= 0; --i) {
+					Rectangle rect = new Rectangle(0, i % 2 * 32, tex.Width, 26);
+					float yOffset = (i - 4) * 16;
+					float sine = (float)Math.Sin((Main.GameUpdateCount + i * 10) * 0.1f) * 2.5f;
+
+					if (i == 0)
+					{
+						rect = new Rectangle(0, 64, 26, 32);
+						yOffset = (i - 4) * 18.5f;
+					}
+					else if (i == 3)
+						sine = 0;
+
+					Main.EntitySpriteDraw(tex, NPC.position - screenPos + new Vector2(sine, yOffset), rect, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+				}
+				return false;
+			}
+			return true;
 		}
 	}
 }

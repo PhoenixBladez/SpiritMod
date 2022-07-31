@@ -1,15 +1,13 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 using SpiritMod.Buffs;
 using SpiritMod.Buffs.DoT;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.BlizzardBandit
 {
@@ -49,7 +47,16 @@ namespace SpiritMod.NPCs.BlizzardBandit
             BannerItem = ModContent.ItemType<Items.Banners.BlizzardBanditBanner>();
         }
 
-        public override bool PreAI()
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Blizzard,
+				new FlavorTextBestiaryInfoElement("Snowball fights can be fun, but these bandits don’t play nice. They pack their snowballs around cores of ice, causing duress for any passerby."),
+			});
+		}
+
+		public override bool PreAI()
         {
             if (gettingballs)
             {
