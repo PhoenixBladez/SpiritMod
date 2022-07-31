@@ -61,6 +61,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 				vector9 -= value19 * 8f;
 			}
 		}
+
 		public override bool PreDraw(ref Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
@@ -71,7 +72,8 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 			}
 			return false;
 		}
-        public void AdditiveCall(SpriteBatch spriteBatch)
+
+        public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
         {
             for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
@@ -80,7 +82,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                 float scale = Projectile.scale;
                 Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/Boss/MoonWizard/Projectiles/WizardBall_Projectile", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-                spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
+                spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
             }
         }
     }

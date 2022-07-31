@@ -108,7 +108,7 @@ namespace SpiritMod.Projectiles.Arrow
 				return false;
 			return true;
 		}
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			if (Projectile.timeLeft < 196)
 			{
@@ -119,10 +119,10 @@ namespace SpiritMod.Projectiles.Arrow
 					float scale = Projectile.scale;
 					Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Arrow/Morningtide_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-					spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
+					spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
 
 					Color color1 = new Color(255, 186, 252) * 0.45475f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-					spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition + new Vector2(Main.rand.Next(-3, 3), Main.rand.Next(-3, 3)), null, color1, Projectile.rotation, tex.Size() / 2, scale * 1.5425f, default, default);
+					spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos + new Vector2(Main.rand.Next(-3, 3), Main.rand.Next(-3, 3)), null, color1, Projectile.rotation, tex.Size() / 2, scale * 1.5425f, default, default);
 				}
 			}
 		}

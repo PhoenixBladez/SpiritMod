@@ -156,7 +156,8 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 			}
 			return true;
 		}
-		public void AdditiveCall(SpriteBatch spriteBatch)
+
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			Player player = Main.player[Projectile.owner];
 			direction = Vector2.Normalize(Main.MouseWorld - (player.Center - new Vector2(4, 4))) * 10f;
@@ -165,13 +166,12 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 			{
 				for (int k = 0; k < Projectile.oldPos.Length; k++)
 				{
-
 					Color color = Color.White * 0.75f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 
 					float scale = Projectile.scale;
 					Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/GunsMisc/HeavenFleet/HeavenFleet_Lights", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-					spriteBatch.Draw(tex, Offset - Main.screenPosition, null, color, player.itemRotation, tex.Size() / 2, 1f, default, default);
+					spriteBatch.Draw(tex, Offset - screenPos, null, color, player.itemRotation, tex.Size() / 2, 1f, default, default);
 				}
 			}
 		}

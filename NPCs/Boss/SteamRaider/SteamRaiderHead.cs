@@ -14,12 +14,18 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
 using SpiritMod.Projectiles;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Boss.SteamRaider
 {
 	[AutoloadBossHead]
 	public class SteamRaiderHead : ModNPC, IBCRegistrable
 	{
+		bool Charge
+		{
+			get => NPC.ai[2] == 1;
+			set => NPC.ai[2] = value ? 1 : 0;
+		}
 
 		int timer = 20;
 		public bool flies = true;
@@ -31,12 +37,12 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 		public int midLength = 48;
 		public int maxLength = 49;
 		public bool spawnedProbes = false;
-		//bool charging = true;
-		//int crashY = 1000;
-		//int musicTimer = 0;
+		int chargetimer;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starplate Voyager");
+			Main.npcFrameCount[NPC.type] = 1; //new //new
 		}
 
 		public override void SetDefaults()
@@ -47,7 +53,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			NPC.height = 56; //216
 			NPC.defense = 0;
 			NPC.lifeMax = 8000; //250000 //new
-			Main.npcFrameCount[NPC.type] = 1; //new //new
 			AnimationType = 10; //new
 			NPC.knockBackResist = 0f;
 			NPC.boss = true;
@@ -60,17 +65,17 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			NPC.DeathSound = SoundID.NPCDeath14;
 			NPC.netAlways = true;
 			Music = MusicLoader.GetMusicSlot(Mod,"Sounds/Music/Starplate");
+
 			for (int k = 0; k < NPC.buffImmune.Length; k++)
-			{
 				NPC.buffImmune[k] = true;
-			}
 		}
-		int chargetimer;
-		//int unstableprojtimer;
-		bool Charge
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
-			get => NPC.ai[2] == 1;
-			set => NPC.ai[2] = value ? 1 : 0;
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("A strange automaton of unknown origin, designed for mining a precious metal from the stars. It utilizes the untapped energy found within the ore to power itself and perpetuate an endless search."),
+			});
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

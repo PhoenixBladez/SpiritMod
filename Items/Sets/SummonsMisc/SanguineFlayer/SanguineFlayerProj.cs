@@ -287,7 +287,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 			return false;
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			if (AiState != STATE_HOOKED) //Skip if not hooked in
 				return;
@@ -302,7 +302,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 			float Opacity = Math.Min(EaseFunction.EaseQuinticIn.Ease(Intensity / HIGH_IMPACT_THRESHOLD), 1);
 
 			//Glowmask is drawn with an offset, due to using a larger texture
-			Vector2 drawPosition = projBottom + (Vector2.UnitY.RotatedBy(Projectile.rotation) * 2) - Main.screenPosition;
+			Vector2 drawPosition = projBottom + (Vector2.UnitY.RotatedBy(Projectile.rotation) * 2) - screenPos;
 
 			if (HighImpact) //pulse glow effect at high impact
 			{
@@ -318,7 +318,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.SanguineFlayer
 
 			float flashOpacity = _flashTime / (float)FLASH_TIME_MAX;
 			for(int i = 0; i < 5; i++) //draw multiple times for more intense flash
-				spriteBatch.Draw(projTexture, projBottom - Main.screenPosition, null, new Color(255, 0, 51) * flashOpacity, npcHookRotation, origin, Projectile.scale, flip, 0);
+				spriteBatch.Draw(projTexture, projBottom - screenPos, null, new Color(255, 0, 51) * flashOpacity, npcHookRotation, origin, Projectile.scale, flip, 0);
 		}
 
 		//Control points for drawing chain bezier, update slowly when hooked in

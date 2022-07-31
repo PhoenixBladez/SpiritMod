@@ -136,7 +136,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 
 		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => AiState == STATE_FLYING;
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			float sineAdd = (float)Math.Sin(alphaCounter) / 4f + 0.75f;
 			{
@@ -146,7 +146,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 
 					float scale = Projectile.scale;
 					Texture2D glowtex = ModContent.Request<Texture2D>(Texture + "_trail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-					spriteBatch.Draw(glowtex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color * sineAdd, Projectile.rotation, glowtex.Size() / 2, scale, default, default);
+					spriteBatch.Draw(glowtex, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos, null, color * sineAdd, Projectile.rotation, glowtex.Size() / 2, scale, default, default);
 				}
 			}
 

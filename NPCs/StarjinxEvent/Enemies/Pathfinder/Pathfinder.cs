@@ -172,7 +172,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 
 		public override Color? GetAlpha(Color drawColor) => Color.Lerp(drawColor, Color.White, 0.5f) * NPC.Opacity;
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			Vector2 drawPosition = NPC.Center + (Vector2.UnitY * NPC.height / 4);
 
@@ -188,7 +188,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Pathfinder
 
 				TrianglePrimitive tri = new TrianglePrimitive()
 				{
-					TipPosition = drawPosition - Main.screenPosition,
+					TipPosition = drawPosition - screenPos,
 					Rotation = dist.ToRotation(),
 					Height = 100 + dist.Length() * 1.5f,
 					Color = Color.White * BeamStrength,

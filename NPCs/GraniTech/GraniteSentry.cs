@@ -465,7 +465,7 @@ namespace SpiritMod.NPCs.GraniTech
 			Projectile.rotation = Projectile.velocity.ToRotation() + 3.14f;
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			Texture2D projTex = TextureAssets.Projectile[Projectile.type].Value;
 			int trailLength = ProjectileID.Sets.TrailCacheLength[Projectile.type];
@@ -480,11 +480,11 @@ namespace SpiritMod.NPCs.GraniTech
 					opacity *= 0.66f;
 					var trailColor = Color.Lerp(midBlue, darkBlue, progress);
 
-					spriteBatch.Draw(projTex, Projectile.oldPos[i] + (Projectile.Size / 2) + offset - Main.screenPosition, null, trailColor * opacity,
+					spriteBatch.Draw(projTex, Projectile.oldPos[i] + (Projectile.Size / 2) + offset - screenPos, null, trailColor * opacity,
 						Projectile.velocity.ToRotation(), projTex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 				};
 
-				spriteBatch.Draw(projTex, Projectile.Center + offset - Main.screenPosition, null, color,
+				spriteBatch.Draw(projTex, Projectile.Center + offset - screenPos, null, color,
 					Projectile.velocity.ToRotation(), projTex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 			});
 		}

@@ -94,7 +94,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 			}
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			float blurLength = 180 * Projectile.scale;
 			float blurWidth = 8 * Projectile.scale;

@@ -98,7 +98,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 			Projectile.Center = Parent.Center + offset;
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			Projectile.QuickDrawTrail(sB, drawColor: Color.White);
 			Projectile.QuickDraw(sB, drawColor: Color.White);

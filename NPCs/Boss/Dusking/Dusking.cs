@@ -26,6 +26,9 @@ namespace SpiritMod.NPCs.Boss.Dusking
 		{
 			DisplayName.SetDefault("Dusking");
 			Main.npcFrameCount[NPC.type] = 5;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { PortraitPositionXOverride = 20, PortraitPositionYOverride = 20 };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -234,7 +237,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 					float num8 = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2) - 120 - NPC.Center.Y;
 					float num9 = (float)Math.Sqrt(num7 * num7 + num8 * num8);
 
-					if (Main.rand.Next(100) == 6)
+					if (Main.rand.NextBool(100))
 					{
 						for (int i = 0; i < 8; ++i)
 						{
@@ -247,7 +250,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 					if (NPC.life >= (NPC.lifeMax / 2))
 					{
-						if (Main.rand.Next(100) == 10)
+						if (Main.rand.NextBool(100))
 						{
 							SoundEngine.PlaySound(SoundID.Item21, player.Center);
 							Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
@@ -348,7 +351,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 						NPC.velocity.Y = NPC.velocity.Y + Main.rand.Next(-20, 21) * 0.5f;
 					}
 
-					if (Main.rand.Next(100) == 6)
+					if (Main.rand.NextBool(100))
 					{
 						for (int i = 0; i < 8; ++i)
 						{
@@ -415,7 +418,7 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 			if (Main.expertMode)
 			{
-				if (Main.rand.Next(100) == 2 && NPC.life >= (NPC.lifeMax / 2))
+				if (Main.rand.NextBool(100) && NPC.life >= (NPC.lifeMax / 2))
 				{
 					SoundEngine.PlaySound(SoundID.Item33, player.Center);
 					Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 12f;
@@ -476,8 +479,8 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			if (NPC.localAI[0] > 0)
 			{
 				Texture2D ring = Mod.Assets.Request<Texture2D>("Effects/Glowmasks/Dusking_Circle").Value;
-				Vector2 origin = new Vector2(ring.Width * 0.5F, ring.Height * 0.5F);
-				spriteBatch.Draw(ring, (NPC.Center) - Main.screenPosition, null, Color.White * NPC.localAI[0], NPC.localAI[1], origin, 1, SpriteEffects.None, 0);
+				Vector2 origin = new Vector2(ring.Width * 0.5f, ring.Height * 0.5f);
+				spriteBatch.Draw(ring, (NPC.Center) - screenPos, null, Color.White * NPC.localAI[0], NPC.localAI[1], origin, 1, SpriteEffects.None, 0);
 			}
 			return true;
 		}

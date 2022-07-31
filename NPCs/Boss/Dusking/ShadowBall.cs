@@ -11,19 +11,19 @@ namespace SpiritMod.NPCs.Boss.Dusking
 {
 	public class ShadowBall : ModNPC
 	{
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Penumbral Sphere");
 			Main.npcFrameCount[NPC.type] = 4;
 
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
 		{
 			NPC.width = NPC.height = 40;
 			NPC.alpha = 255;
-
 			NPC.lifeMax = 1;
 			NPC.damage = 50;
 			NPC.friendly = false;

@@ -340,8 +340,8 @@ namespace SpiritMod.NPCs.Starfarer
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, hitDirection, -1f, 0, default, 1f);
 			}
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Stardancer/Stardancer1").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Stardancer/Stardancer2").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Stardancer1").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Stardancer2").Type, 1f);
 				NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
 				NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
 				NPC.width = 20;
@@ -363,46 +363,41 @@ namespace SpiritMod.NPCs.Starfarer
 		}
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			Color col = NPC.IsABestiaryIconDummy ? Color.White : drawColor;
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, col, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			{
-				Microsoft.Xna.Framework.Color color1 = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));
-				Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, NPC.height * 0.5f);
-				int r1 = (int)color1.R;
-				drawOrigin.Y += 30f;
-				drawOrigin.Y += 8f;
-				--drawOrigin.X;
-				Vector2 position1 = NPC.Bottom - Main.screenPosition;
-				Texture2D texture2D2 = TextureAssets.GlowMask[239].Value;
-				float num11 = (float)((double)Main.GlobalTimeWrappedHourly % 1.0 / 1.0);
-				float num12 = num11;
-				if ((double)num12 > 0.5)
-					num12 = 1f - num11;
-				if ((double)num12 < 0.0)
-					num12 = 0.0f;
-				float num13 = (float)(((double)num11 + 0.5) % 1.0);
-				float num14 = num13;
-				if ((double)num14 > 0.5)
-					num14 = 1f - num13;
-				if ((double)num14 < 0.0)
-					num14 = 0.0f;
-				Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
-				drawOrigin = r2.Size() / 2f;
-				Vector2 position3 = position1 + new Vector2(0.0f, -20f);
-				Color color3 = new Color(84, 207, 255) * 1.6f;
-				Main.spriteBatch.Draw(texture2D2, position3, r2, color3, NPC.rotation, drawOrigin, NPC.scale * 0.35f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
-				float num15 = 1f + num11 * 0.75f;
-				Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num12, NPC.rotation, drawOrigin, NPC.scale * 0.5f * num15, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
-				float num16 = 1f + num13 * 0.75f;
-				Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num14, NPC.rotation, drawOrigin, NPC.scale * 0.5f * num16, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
-				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Starfarer/CogTrapperHead_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, screenPos);
-			}
+			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, NPC.height * 0.5f);
+			drawOrigin.Y += 30f;
+			drawOrigin.Y += 8f;
+			--drawOrigin.X;
+			Vector2 position1 = NPC.Bottom - Main.screenPosition;
+			Texture2D texture2D2 = TextureAssets.GlowMask[239].Value;
+			float num11 = (float)((double)Main.GlobalTimeWrappedHourly % 1.0 / 1.0);
+			float num12 = num11;
+			if ((double)num12 > 0.5)
+				num12 = 1f - num11;
+			if ((double)num12 < 0.0)
+				num12 = 0.0f;
+			float num13 = (float)(((double)num11 + 0.5) % 1.0);
+			float num14 = num13;
+			if ((double)num14 > 0.5)
+				num14 = 1f - num13;
+			if ((double)num14 < 0.0)
+				num14 = 0.0f;
+			Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
+			drawOrigin = r2.Size() / 2f;
+			Vector2 position3 = position1 + new Vector2(0.0f, -20f);
+			Color color3 = new Color(84, 207, 255) * 1.6f;
+			Main.spriteBatch.Draw(texture2D2, position3, r2, color3, NPC.rotation, drawOrigin, NPC.scale * 0.35f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+			float num15 = 1f + num11 * 0.75f;
+			Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num12, NPC.rotation, drawOrigin, NPC.scale * 0.5f * num15, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+			float num16 = 1f + num13 * 0.75f;
+			Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num14, NPC.rotation, drawOrigin, NPC.scale * 0.5f * num16, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Starfarer/CogTrapperHead_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, screenPos);
 		}
 	}
 }

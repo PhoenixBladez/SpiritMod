@@ -67,7 +67,7 @@ namespace SpiritMod.Projectiles.Summon.SacrificialDagger
 			return true;
 		}
         
-        public void AdditiveCall(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 2f;
             {

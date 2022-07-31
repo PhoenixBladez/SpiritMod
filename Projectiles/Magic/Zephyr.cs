@@ -66,6 +66,7 @@ namespace SpiritMod.Projectiles.Magic
 				Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Cloud, Projectile.oldVelocity.X * 0.2f, Projectile.oldVelocity.Y * 0.2f);
 			}
 		}
+
 		public override bool PreDraw(ref Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
@@ -76,7 +77,8 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			return false;
 		}
-		public void AdditiveCall(SpriteBatch spriteBatch)
+
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			for (int k = 0; k < Projectile.oldPos.Length; k++) {
 				Color color = new Color(255, 255, 200) * 0.75f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
@@ -84,7 +86,7 @@ namespace SpiritMod.Projectiles.Magic
 				float scale = Projectile.scale;
 				Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Magic/ZephyrGlow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-				spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
+				spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
 			}
 		}
 	}

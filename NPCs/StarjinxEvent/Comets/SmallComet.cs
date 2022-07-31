@@ -298,14 +298,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			return false;
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			Texture2D texture = TextureAssets.Npc[NPC.type].Value;
 			Vector2 scale = texture.Size() / bloom.Size();
 			scale *= 3;
 
-			sB.Draw(bloom, NPC.Center - Main.screenPosition, null, Color.White * DeathGlowStrength, 0, bloom.Size() / 2, scale, SpriteEffects.None, 0);
+			sB.Draw(bloom, NPC.Center - screenPos, null, Color.White * DeathGlowStrength, 0, bloom.Size() / 2, scale, SpriteEffects.None, 0);
 
 			//Dont draw blur line if not vulnerable, to reduce unnecessary shader applications
 			if (!NPC.dontTakeDamage)
@@ -316,7 +316,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 				Effect blurEffect = ModContent.Request<Effect>("Effects/BlurLine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				var blurLine = new SquarePrimitive()
 				{
-					Position = NPC.Center - Main.screenPosition,
+					Position = NPC.Center - screenPos,
 					Height = blurWidth,
 					Length = blurLength,
 					Rotation = NPC.rotation,
@@ -327,7 +327,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Comets
 			}
 
 			SpriteEffects effects = NPC.spriteDirection > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			sB.Draw(ModContent.Request<Texture2D>($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}Comet_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, NPC.Center - Main.screenPosition, null, Color.White * DeathGlowStrength, NPC.rotation, texture.Size()/2, NPC.scale, effects, 0f);
+			sB.Draw(ModContent.Request<Texture2D>($"SpiritMod/NPCs/StarjinxEvent/Comets/{Size}Comet_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, NPC.Center - screenPos, null, Color.White * DeathGlowStrength, NPC.rotation, texture.Size()/2, NPC.scale, effects, 0f);
 		}
 
 		private Color EnergyColor => Color.Lerp(SpiritMod.StarjinxColor(Timer * 0.8f), Color.White, 0.33f);

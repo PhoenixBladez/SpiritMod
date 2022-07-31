@@ -97,11 +97,11 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 			return false;
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			float bloomOpacity = MathHelper.Clamp(1.5f * AiTimer / SHOOTTIME, 0.33f, 1f); //glow brighter when closer to shot time
-			spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Lerp(new Color(124, 255, 47) * Projectile.Opacity, Color.White, 0.75f) * bloomOpacity, 0, bloom.Size() / 2, 0.17f, SpriteEffects.None, 0);
+			spriteBatch.Draw(bloom, Projectile.Center - screenPos, null, Color.Lerp(new Color(124, 255, 47) * Projectile.Opacity, Color.White, 0.75f) * bloomOpacity, 0, bloom.Size() / 2, 0.17f, SpriteEffects.None, 0);
 		}
 	}
 }

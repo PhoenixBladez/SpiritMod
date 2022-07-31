@@ -180,6 +180,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 				}, true);
 			}
 		}
+
 		public override bool PreDraw(ref Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
@@ -191,7 +192,8 @@ namespace SpiritMod.Projectiles.DonatorItems
 			}
 			return false;
 		}
-		public void AdditiveCall(SpriteBatch spriteBatch)
+
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			for (int k = 0; k < Projectile.oldPos.Length; k++)
 			{

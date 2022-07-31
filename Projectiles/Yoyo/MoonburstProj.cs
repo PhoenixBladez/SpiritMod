@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles.Yoyo
         {
             Projectile.frameCounter++;
         }
-        public void AdditiveCall(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
         {
             if (Projectile.frameCounter >= 1)
             {
@@ -50,10 +50,9 @@ namespace SpiritMod.Projectiles.Yoyo
 
                     float scale = (Projectile.frameCounter * .13f) + .09f;
                     Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Yoyo/MoonburstBubble", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-                    Texture2D tex1 = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Yoyo/MoonburstBubble_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-                    spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, 0f, tex.Size() / 2, scale, default, default);
-                    spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color * .4f, 0f, tex.Size() / 2, scale, default, default);
+                    spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos, null, color, 0f, tex.Size() / 2, scale, default, default);
+                    spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos, null, color * .4f, 0f, tex.Size() / 2, scale, default, default);
                 }
             }
         }

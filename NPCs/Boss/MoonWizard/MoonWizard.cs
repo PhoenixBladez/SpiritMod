@@ -33,6 +33,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			Main.npcFrameCount[NPC.type] = 21;
 			NPCID.Sets.TrailCacheLength[NPC.type] = 10;
 			NPCID.Sets.TrailingMode[NPC.type] = 0;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { PortraitPositionYOverride = 30 };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -100,8 +103,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			SkyPos = reader.ReadInt32();
 			SkyPosY = reader.ReadInt32();
 		}
-		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color color, float opacity, float startScale, float endScale) => DrawAfterImage(spriteBatch, offset, trailLengthModifier, color, color, opacity, startScale, endScale);
-        public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color startColor, Color endColor, float opacity, float startScale, float endScale)
+
+		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color color, Vector2 screenPos, float opacity, float startScale, float endScale) => DrawAfterImage(spriteBatch, offset, trailLengthModifier, color, color, screenPos, opacity, startScale, endScale);
+        
+		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color startColor, Color endColor, Vector2 screenPos, float opacity, float startScale, float endScale)
         {
             SpriteEffects spriteEffects = (NPC.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             for (int i = 1; i < 10; i++)
@@ -110,17 +115,17 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                 spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/MoonWizard/MoonWizard_Afterimage").Value, new Vector2(NPC.Center.X, NPC.Center.Y) + offset - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - NPC.velocity * (float)i * trailLengthModifier, NPC.frame, color, NPC.rotation, NPC.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
             }
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if (jellyRapidFire)
             {
-                Color color1 = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));
                 Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
 
                 drawOrigin.Y += 30f;
                 drawOrigin.Y += 8f;
                 --drawOrigin.X;
-                Vector2 position1 = NPC.Bottom - Main.screenPosition;
+                Vector2 position1 = NPC.Bottom - screenPos;
                 Texture2D texture2D2 = TextureAssets.GlowMask[239].Value;
                 float num11 = (float)((double)Main.GlobalTimeWrappedHourly % 1.0 / 1.0);
                 float num12 = num11;
@@ -138,18 +143,18 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                 drawOrigin = r2.Size() / 2f;
                 Vector2 position3 = position1 + new Vector2(0.0f, -46f);
                 Color color3 = new Color(87, 238, 255) * .8f;
-                Main.spriteBatch.Draw(texture2D2, position3, new Rectangle?(r2), color3, NPC.rotation, drawOrigin, NPC.scale * .6f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+                Main.spriteBatch.Draw(texture2D2, position3, r2, color3, NPC.rotation, drawOrigin, NPC.scale * .6f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
                 float num15 = 1f + num11 * 0.75f;
-                Main.spriteBatch.Draw(texture2D2, position3, new Rectangle?(r2), color3 * num12, NPC.rotation, drawOrigin, NPC.scale * .6f * num15, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+                Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num12, NPC.rotation, drawOrigin, NPC.scale * .6f * num15, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
                 float num16 = 1f + num13 * 0.75f;
-                Main.spriteBatch.Draw(texture2D2, position3, new Rectangle?(r2), color3 * num14, NPC.rotation, drawOrigin, NPC.scale * .6f * num16, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+                Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num14, NPC.rotation, drawOrigin, NPC.scale * .6f * num16, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
             }
 
             float num395 = Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.2f;
             float num366 = num395 + 2.45f;
             if (NPC.velocity != Vector2.Zero || phaseTwo) {
-                DrawAfterImage(Main.spriteBatch, new Vector2(0f, -18f), 0.5f, Color.White * .7f, Color.White * .1f, 0.75f, num366, 1.65f);
+                DrawAfterImage(Main.spriteBatch, new Vector2(0f, -18f), 0.5f, Color.White * .7f, Color.White * .1f, screenPos, 0.75f, num366, 1.65f);
             }
 			return false;
 		}
@@ -157,11 +162,11 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, new Vector2(NPC.Center.X, NPC.Center.Y - 18) - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
-			DrawSpecialGlow();
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, new Vector2(NPC.Center.X, NPC.Center.Y - 18) - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			DrawSpecialGlow(screenPos);
 		}
 
-		public void DrawSpecialGlow()
+		public void DrawSpecialGlow(Vector2 screenPos)
         {
             float num108 = 4;
             float num107 = (float)Math.Cos((double)(Main.GlobalTimeWrappedHourly % 2.4f / 2.4f * 6.28318548f)) / 2f + 0.5f;
@@ -175,7 +180,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				Color color28 = color29;
                 color28 = NPC.GetAlpha(color28);
                 color28 *= 1f - num107;
-                Vector2 vector29 = new Vector2(NPC.Center.X, NPC.Center.Y -18) + ((float)num103 / (float)num108 * 6.28318548f + NPC.rotation + num106).ToRotationVector2() * (4f * num107 + 2f) - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - NPC.velocity * (float)num103;
+                Vector2 vector29 = new Vector2(NPC.Center.X, NPC.Center.Y -18) + ((float)num103 / (float)num108 * 6.28318548f + NPC.rotation + num106).ToRotationVector2() * (4f * num107 + 2f) - screenPos + new Vector2(0, NPC.gfxOffY) - NPC.velocity * (float)num103;
                 Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/MoonWizard/MoonWizard_Glow").Value, vector29, NPC.frame, color28, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, spriteEffects3, 0f);
             }
             Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boss/MoonWizard/MoonWizard_Glow").Value, vector33, NPC.frame, color29, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, spriteEffects3, 0f);
@@ -280,11 +285,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                     case 9:
                         JellyfishRapidFire();
                         break;
-
 				}
-
 			}
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frame.Width = 60;
@@ -296,13 +300,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		{
 			trueFrame += speed;
 			if (trueFrame < minFrame) 
-			{
 				trueFrame = minFrame;
-			}
 			if (trueFrame > maxFrame) 
-			{
 				trueFrame = minFrame;
-			}
 		}
 		public override void BossLoot(ref string name, ref int potionType) => potionType = ModContent.ItemType<MoonJelly>();
 
@@ -369,10 +369,11 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                 timeBetweenAttacks = 60;
                 attackCounter = 0;
             }
-			
         }
+
 		int SkyPos = 0;
 		int SkyPosY = 0;
+
 		void SkyStrikeLeft()
         {
             if (NPC.life > 250)
@@ -403,6 +404,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			}
 			attackCounter++;
 		}
+
 		void SkyStrikeRight()
 		{
             if (NPC.life > 250)
@@ -428,6 +430,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			}
 			attackCounter++;
 		}
+
 		void SineAttack()
 		{
 			Player player = Main.player[NPC.target];
@@ -463,6 +466,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				}
 			}
 		}
+
 		void SmashAttack()
 		{
 			Player player = Main.player[NPC.target];
@@ -543,6 +547,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				attackCounter = 0;
 			}
 		}
+
 		void CreateNodes()
 		{
 			UpdateFrame(0.15f, 10, 13);
@@ -568,6 +573,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				attackCounter = 0;
 			}
 		}
+
 		void Dash()
 		{
 			Player player = Main.player[NPC.target];
@@ -611,6 +617,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                 }
 			}
 		}
+
 		void KickAttack()
 		{
 			if (attackCounter == 0) 
@@ -738,6 +745,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 			}
 		}
         #endregion
+
         public override bool PreKill()
         {
             MyWorld.downedMoonWizard = true;

@@ -6,6 +6,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -43,17 +44,34 @@ namespace SpiritMod.NPCs.Critters
 			}
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.BloodMoon,
+				new FlavorTextBestiaryInfoElement("The essense of a nightmare, often appearing during the practice of 'blood corruption'. They wheeze and moan in silent pain."),
+			});
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
+			float opac = NPC.Opacity;
+			float scale = NPC.scale;
+
+			if (NPC.IsABestiaryIconDummy)
+			{
+				opac = 0.8f;
+				scale = 1f;
+			}
+
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, Color.White * NPC.Opacity, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, Color.White * opac, NPC.rotation, NPC.frame.Size() / 2, scale, effects, 0);
 			return false;
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			Texture2D circleGradient = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
-			spriteBatch.Draw(circleGradient, NPC.Center - Main.screenPosition, null, Color.Red * 0.8f * NPC.Opacity, 0, circleGradient.Size() / 2, new Vector2(0.33f, 0.45f) * NPC.scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(circleGradient, NPC.Center - screenPos, null, Color.Red * 0.8f * NPC.Opacity, 0, circleGradient.Size() / 2, new Vector2(0.33f, 0.45f) * NPC.scale, SpriteEffects.None, 0);
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -66,7 +84,6 @@ namespace SpiritMod.NPCs.Critters
 		public override void AI()
 		{
 			ignorePlatforms = true;
-			UpdateYFrame(7, 0, 4);
 			NPC.rotation = NPC.velocity.X * 0.1f;
 			Lighting.AddLight(NPC.Center, NPC.Opacity * Color.Red.ToVector3());
 
@@ -82,6 +99,8 @@ namespace SpiritMod.NPCs.Critters
 				}
 			}
 		}
+
+		public override void FindFrame(int frameHeight) => UpdateYFrame(7, 0, 4);
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<DreamstrideEssence>();
 	}

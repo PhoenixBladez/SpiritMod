@@ -299,16 +299,18 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 
 			return false;
 		}
-		public void AdditiveCall(SpriteBatch spriteBatch)
+
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			float progress = GetProgress();
 			if (Empowered)
 			{
 				Texture2D tex3 = ModContent.Request<Texture2D>(Texture + "_Flare", AssetRequestMode.ImmediateLoad).Value;
 				for (float i = 0; i < 6.28f; i += 1.57f)
-					spriteBatch.Draw(tex3, Player.Center - Main.screenPosition + (rotation.ToRotationVector2() * 75 * Projectile.scale), null, Color.White, i + (Main.GlobalTimeWrappedHourly * 1.5f), new Vector2(tex3.Width, 0) / 2, 0.5f * (float)Math.Pow(1 - progress, 2), SpriteEffects.None, 0f);
+					spriteBatch.Draw(tex3, Player.Center - screenPos + (rotation.ToRotationVector2() * 75 * Projectile.scale), null, Color.White, i + (Main.GlobalTimeWrappedHourly * 1.5f), new Vector2(tex3.Width, 0) / 2, 0.5f * (float)Math.Pow(1 - progress, 2), SpriteEffects.None, 0f);
 			}
 		}
+
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			hitDirection = Math.Sign(direction.X);
@@ -487,7 +489,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			//Adjust framing due to secondary column
 			Rectangle frame = Projectile.DrawFrame();

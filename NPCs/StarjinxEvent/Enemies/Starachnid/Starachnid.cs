@@ -192,10 +192,10 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Starachnid
 			return false;
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			DrawThreads(sB);
-			sB.Draw(ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, NPC.Center - Main.screenPosition, NPC.frame, Color.White, NPC.rotation % 6.28f, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.FlipHorizontally, 0);
+			sB.Draw(ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, NPC.Center - screenPos, NPC.frame, Color.White, NPC.rotation % 6.28f, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.FlipHorizontally, 0);
 		}
 
 		public override void FindFrame(int frameHeight)

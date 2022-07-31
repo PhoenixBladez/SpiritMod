@@ -286,14 +286,14 @@ namespace SpiritMod.Items.Pets.CosmicRattler
 			return false;
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			DrawThreads(sB);
 
 			Texture2D tex = ModContent.Request<Texture2D>(Texture + "_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			int frameHeight = tex.Height / Main.projFrames[Projectile.type];
 			Rectangle frame = new Rectangle(0, Projectile.frame, tex.Width / 3, frameHeight);
-			sB.Draw(tex, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation % 6.28f, frame.Size() / 2, Projectile.scale, SpriteEffects.FlipHorizontally, 0);
+			sB.Draw(tex, Projectile.Center - screenPos, frame, Color.White, Projectile.rotation % 6.28f, frame.Size() / 2, Projectile.scale, SpriteEffects.FlipHorizontally, 0);
 		}
 
 		private void DrawThreads(SpriteBatch spriteBatch)

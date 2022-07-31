@@ -1,14 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
@@ -33,17 +26,9 @@ namespace SpiritMod.Items.Weapon.Magic.Rhythm.Anthem
 
 		public override bool PreDraw(ref Color lightColor) => false;
 
-		public override void AI()
-		{
-			Projectile.rotation = Projectile.velocity.ToRotation();
-		}
+		public override void AI() => Projectile.rotation = Projectile.velocity.ToRotation();
 
-		public override void Kill(int timeLeft)
-		{
-			// IDK
-		}
-
-		public void AdditiveCall(SpriteBatch sB) 
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos) 
 		{
 			Vector2 drawPos = Projectile.Center - Main.screenPosition;
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;

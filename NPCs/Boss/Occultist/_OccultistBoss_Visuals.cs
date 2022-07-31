@@ -326,10 +326,10 @@ namespace SpiritMod.NPCs.Boss.Occultist
 
 		private float DrawTimer => (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3) / 2 + 0.5f;
 
-		private void DrawTex(SpriteBatch sB, Texture2D tex, Color color, float scale = 1f, Vector2? position = null)
+		private void DrawTex(SpriteBatch sB, Texture2D tex, Color color, Vector2 screenPos, float scale = 1f, Vector2? position = null)
 		{
 			var effects = NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			sB.Draw(tex, (position ?? NPC.Center) - Main.screenPosition + new Vector2(0, NPC.gfxOffY),
+			sB.Draw(tex, (position ?? NPC.Center) - screenPos + new Vector2(0, NPC.gfxOffY),
 				NPC.frame, color * NPC.Opacity, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 		}
 
@@ -347,14 +347,14 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			spriteBatch.End(); 
 			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			spriteBatch.Draw(bloom, NPC.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.66f, 0, bloom.Size() / 2, _ritualCircle * 1.25f, SpriteEffects.None, 0);
+			spriteBatch.Draw(bloom, NPC.Center - screenPos, null, glowColor * _ritualCircle * 0.66f, 0, bloom.Size() / 2, _ritualCircle * 1.25f, SpriteEffects.None, 0);
 
 			Texture2D circle = ModContent.Request<Texture2D>(Texture + "_circle", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			spriteBatch.Draw(circle, NPC.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.75f, Main.GlobalTimeWrappedHourly * 2, circle.Size() / 2, _ritualCircle, SpriteEffects.None, 0);
-			spriteBatch.Draw(circle, NPC.Center - Main.screenPosition, null, glowColor * _ritualCircle * 0.75f, Main.GlobalTimeWrappedHourly * -2, circle.Size() / 2, _ritualCircle, SpriteEffects.None, 0);
+			spriteBatch.Draw(circle, NPC.Center - screenPos, null, glowColor * _ritualCircle * 0.75f, Main.GlobalTimeWrappedHourly * 2, circle.Size() / 2, _ritualCircle, SpriteEffects.None, 0);
+			spriteBatch.Draw(circle, NPC.Center - screenPos, null, glowColor * _ritualCircle * 0.75f, Main.GlobalTimeWrappedHourly * -2, circle.Size() / 2, _ritualCircle, SpriteEffects.None, 0);
 
 			//bloom for phase transition/death anim glow
-			spriteBatch.Draw(bloom, NPC.Center - Main.screenPosition, null, Color.White * _whiteGlow * 0.8f, 0, bloom.Size() / 2, 0.5f, SpriteEffects.None, 0);
+			spriteBatch.Draw(bloom, NPC.Center - screenPos, null, Color.White * _whiteGlow * 0.8f, 0, bloom.Size() / 2, 0.5f, SpriteEffects.None, 0);
 
 			if (_rotMan != null)
 				_rotMan.DrawBack(spriteBatch, NPC.Center);
@@ -367,19 +367,19 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			for (int j = 0; j < NPCID.Sets.TrailCacheLength[NPC.type]; j++)
 			{
 				float Opacity = (NPCID.Sets.TrailCacheLength[NPC.type] - j) / (float)NPCID.Sets.TrailCacheLength[NPC.type];
-				DrawTex(spriteBatch, TextureAssets.Npc[NPC.type].Value, glowColor * _pulseGlowmask * Opacity, 1f, NPC.oldPos[j] + NPC.Size / 2);
+				DrawTex(spriteBatch, TextureAssets.Npc[NPC.type].Value, glowColor * _pulseGlowmask * Opacity, screenPos, 1f, NPC.oldPos[j] + NPC.Size / 2);
 			}
 
 			//pulse glowmask effect
 			for (int i = 0; i < 6; i++)
 			{
 				Vector2 offset = Vector2.UnitX.RotatedBy((i / 6f) * MathHelper.TwoPi) * DrawTimer * 8;
-				DrawTex(spriteBatch, mask, glowColor * (1 - DrawTimer) * _pulseGlowmask, 1f, NPC.Center + offset);
+				DrawTex(spriteBatch, mask, glowColor * (1 - DrawTimer) * _pulseGlowmask, screenPos, 1f, NPC.Center + offset);
 			}
-			DrawTex(spriteBatch, mask, glowColor * _pulseGlowmask, 1.1f);
+			DrawTex(spriteBatch, mask, glowColor * _pulseGlowmask, screenPos, 1.1f);
 
 			//normal drawing replacement
-			DrawTex(spriteBatch, TextureAssets.Npc[NPC.type].Value, drawColor);
+			DrawTex(spriteBatch, TextureAssets.Npc[NPC.type].Value, drawColor, screenPos);
 			return false;
 		}
 
@@ -389,15 +389,15 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			for (int i = 0; i < 6; i++)
 			{
 				Vector2 offset = Vector2.UnitX.RotatedBy((i / 6f) * MathHelper.TwoPi) * DrawTimer * 2;
-				DrawTex(spriteBatch, glow, Color.White * 0.5f * (1.5f - DrawTimer), 1f, NPC.Center + offset);
+				DrawTex(spriteBatch, glow, Color.White * 0.5f * (1.5f - DrawTimer), screenPos, 1f, NPC.Center + offset);
 			}
-			DrawTex(spriteBatch, glow, Color.White);
+			DrawTex(spriteBatch, glow, Color.White, screenPos);
 
 			Texture2D mask = ModContent.Request<Texture2D>(Texture + "_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			DrawTex(spriteBatch, mask, Color.Black * _whiteGlow);
+			DrawTex(spriteBatch, mask, Color.Black * _whiteGlow, screenPos);
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			if (_rotMan != null)
 				_rotMan.DrawFront(spriteBatch, NPC.Center);

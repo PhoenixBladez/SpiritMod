@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -9,13 +8,15 @@ using Terraria.ModLoader;
 namespace SpiritMod.NPCs.Boss.Scarabeus
 {
 	public class LargeScarab : ModProjectile
-	{
-
+	{ 
 		public override void SetStaticDefaults() { 
 			DisplayName.SetDefault("Scarab");
 			Main.projFrames[Projectile.type] = 4;
 			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
 			ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { PortraitPositionYOverride = -10 };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -31,6 +32,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 		}
 
 		public override bool CanHitPlayer(Player target) => Projectile.ai[1] >= 120;
+
 		public override void Kill(int timeLeft)
 		{
 			Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height); 

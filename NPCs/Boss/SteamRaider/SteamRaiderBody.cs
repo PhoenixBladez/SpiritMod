@@ -45,14 +45,6 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			NPC.dontCountMe = true;
 		}
 
-		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
-		{
-			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
-				new FlavorTextBestiaryInfoElement("A strange automaton of unknown origin, designed for mining a precious metal from the stars. It utilizes the untapped energy found within the ore to power itself and perpetuate an endless search."),
-			});
-		}
-
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(NPC.localAI[0]);
 		public override void ReceiveExtraAI(BinaryReader reader) => NPC.localAI[0] = reader.ReadSingle();
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;

@@ -200,7 +200,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 			return false;
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			Vector2[] vertices = _posArray;
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
@@ -212,10 +212,10 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 				float dist = Vector2.Distance(vertices[i], vertices[i - 1]);
 				float rot = (vertices[i] - vertices[i - 1]).ToRotation();
 				Vector2 scaleVec = scale * new Vector2(dist / 20, 3);
-				sB.Draw(bloom, vertices[i] - Main.screenPosition, null, Color.Red * Math.Min(1.2f * Projectile.Opacity, 0.6f), rot + MathHelper.PiOver2, bloom.Size() / 2, scaleVec, SpriteEffects.None, 0);
+				sB.Draw(bloom, vertices[i] - screenPos, null, Color.Red * Math.Min(1.2f * Projectile.Opacity, 0.6f), rot + MathHelper.PiOver2, bloom.Size() / 2, scaleVec, SpriteEffects.None, 0);
 			}
 			float headRotation = (_posArray[0] - _posArray[1]).ToRotation() + MathHelper.PiOver2;
-			sB.Draw(bloom, Projectile.Center - new Vector2(0, Projectile.DrawFrame().Height / 4).RotatedBy(headRotation) - Main.screenPosition, null, Color.Red * Math.Min(1.2f * Projectile.Opacity, 0.6f) * Projectile.Opacity, 0, bloom.Size() / 2, 0.3f, SpriteEffects.None, 0);
+			sB.Draw(bloom, Projectile.Center - new Vector2(0, Projectile.DrawFrame().Height / 4).RotatedBy(headRotation) - screenPos, null, Color.Red * Math.Min(1.2f * Projectile.Opacity, 0.6f) * Projectile.Opacity, 0, bloom.Size() / 2, 0.3f, SpriteEffects.None, 0);
 		}
 	}
 }

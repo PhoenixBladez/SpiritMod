@@ -125,10 +125,10 @@ namespace SpiritMod.NPCs.BloodGazer
 			return false;
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.Opacity * 0.5f, 0, bloom.Size() / 2, new Vector2(1, 0.75f) * Projectile.scale / 2, SpriteEffects.None, 0);
+			spriteBatch.Draw(bloom, Projectile.Center - screenPos, null, Color.Red * Projectile.Opacity * 0.5f, 0, bloom.Size() / 2, new Vector2(1, 0.75f) * Projectile.scale / 2, SpriteEffects.None, 0);
 		}
 
 		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => false;

@@ -242,7 +242,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon
 				Projectile.active = false;
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			//Adjust framing due to secondary column
 			Rectangle frame = Projectile.DrawFrame();

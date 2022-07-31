@@ -192,7 +192,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 			Projectile.ai[0] = target.whoAmI;
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			for (int k = 0; k < Projectile.oldPos.Length; k++)
 			{
@@ -202,15 +202,15 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 				Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/BowsMisc/Carrion/CarrionCrowArrow_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 				Texture2D tex2 = ModContent.Request<Texture2D>("SpiritMod/Items/Sets/BowsMisc/Carrion/CarrionCrowArrowEye", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-				spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
+				spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
 
 				Color color1 = new Color(255, 186, 252) * Projectile.Opacity * 0.45475f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
 				for (int j = 0; j < 3; j++)
 				{
-					spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition + new Vector2(Main.rand.Next(-3, 3), Main.rand.Next(-3, 3)), null, color1, Projectile.rotation, tex.Size() / 2, scale * 1.25425f, default, default);
+					spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos + new Vector2(Main.rand.Next(-3, 3), Main.rand.Next(-3, 3)), null, color1, Projectile.rotation, tex.Size() / 2, scale * 1.25425f, default, default);
 				}
-				spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, Color.White * .3f * Projectile.Opacity, Projectile.rotation, tex.Size() / 2, scale * 1.25425f, default, default);
-				spriteBatch.Draw(tex2, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, Color.White * .5f * Projectile.Opacity, Projectile.rotation, tex.Size() / 2, scale * 1.25425f, default, default);
+				spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos, null, Color.White * .3f * Projectile.Opacity, Projectile.rotation, tex.Size() / 2, scale * 1.25425f, default, default);
+				spriteBatch.Draw(tex2, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos, null, Color.White * .5f * Projectile.Opacity, Projectile.rotation, tex.Size() / 2, scale * 1.25425f, default, default);
 			}
 		}
 	}

@@ -196,10 +196,9 @@ namespace SpiritMod.Mechanics.BoonSystem.NemesisBoon
 			return false;
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
-
 			Texture2D tex2 = ModContent.Request<Texture2D>(Texture + "_White", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
 			DrawSword(spriteBatch, tex, 1, 1);

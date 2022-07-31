@@ -271,22 +271,21 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 				}
 			}
 		}
+
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            Vector2 vector2_3 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
             Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
 
 			if (trailBehind) {
 				for (int k = 0; k < NPC.oldPos.Length; k++) {
-					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + new Vector2(NPC.width/2, NPC.height/2) + new Vector2(-10 * NPC.spriteDirection, NPC.gfxOffY - 90).RotatedBy(NPC.rotation);
+					Vector2 drawPos = NPC.oldPos[k] - screenPos + new Vector2(NPC.width/2, NPC.height/2) + new Vector2(-10 * NPC.spriteDirection, NPC.gfxOffY - 90).RotatedBy(NPC.rotation);
 					Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
-					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
+					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
-            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-                    drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
-           
+
+            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
             return false;
         }
 

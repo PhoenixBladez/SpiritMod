@@ -19,7 +19,13 @@ namespace SpiritMod.NPCs.Boss.Infernon
 	{
 		public int currentSpread;
 
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Infernon");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Infernon");
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { PortraitPositionYOverride = 60 };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
+		}
 
 		public override void SetDefaults()
 		{

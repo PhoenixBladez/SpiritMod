@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Summon
 			return true;
 		}
 
-        public void AdditiveCall(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			float scale = Projectile.scale;
 			Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Summon/HolyKnifeMinion_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;

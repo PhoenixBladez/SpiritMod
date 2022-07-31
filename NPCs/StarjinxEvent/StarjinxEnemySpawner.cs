@@ -105,7 +105,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 
 		private float PowF(float x, float y) => (float)Math.Pow(x, y); //Shorthand for casting Math.Pow to a float
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			Texture2D star = Mod.Assets.Request<Texture2D>("Effects/Masks/Star").Value;
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
@@ -125,15 +125,15 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			for (int i = 0; i < MaxRays; i++)
 			{
 				float rotation = Projectile.rotation + (MathHelper.TwoPi * i / MaxRays);
-				sB.Draw(ray, Projectile.Center - Main.screenPosition, null, chosenColor * Projectile.Opacity, rotation, ray.Size() / 2, baseScale, SpriteEffects.None, 0);
+				sB.Draw(ray, Projectile.Center - screenPos, null, chosenColor * Projectile.Opacity, rotation, ray.Size() / 2, baseScale, SpriteEffects.None, 0);
 			}
 
-			sB.Draw(bloom, Projectile.Center - Main.screenPosition, null, chosenColor * 0.66f * Projectile.Opacity, 0f, bloom.Size() / 2, baseScale, SpriteEffects.None, 0);
+			sB.Draw(bloom, Projectile.Center - screenPos, null, chosenColor * 0.66f * Projectile.Opacity, 0f, bloom.Size() / 2, baseScale, SpriteEffects.None, 0);
 
-			sB.Draw(star, Projectile.Center - Main.screenPosition, null, chosenColor * Projectile.Opacity, Projectile.rotation, star.Size() / 2, baseScale, SpriteEffects.None, 0);
-			sB.Draw(star, Projectile.Center - Main.screenPosition, null, chosenColor * Projectile.Opacity, -Projectile.rotation, star.Size() / 2, baseScale * 0.75f, SpriteEffects.None, 0);
+			sB.Draw(star, Projectile.Center - screenPos, null, chosenColor * Projectile.Opacity, Projectile.rotation, star.Size() / 2, baseScale, SpriteEffects.None, 0);
+			sB.Draw(star, Projectile.Center - screenPos, null, chosenColor * Projectile.Opacity, -Projectile.rotation, star.Size() / 2, baseScale * 0.75f, SpriteEffects.None, 0);
 
-			sB.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.Opacity, 0, ring.Size() / 2, baseScale * 0.8f, SpriteEffects.None, 0);
+			sB.Draw(ring, Projectile.Center - screenPos, null, Color.White * Projectile.Opacity, 0, ring.Size() / 2, baseScale * 0.8f, SpriteEffects.None, 0);
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

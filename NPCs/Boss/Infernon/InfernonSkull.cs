@@ -16,6 +16,9 @@ namespace SpiritMod.NPCs.Boss.Infernon
 		{
 			DisplayName.SetDefault("Infernus Skull");
 			Main.npcFrameCount[NPC.type] = 4;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()

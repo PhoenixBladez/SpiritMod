@@ -386,57 +386,56 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 
 			Color color = _attackGlowColor * _attackGlowStrength;
 			color.A = 0;
-			DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, color * .7f, color * .1f, 0.45f, num366, .75f);
+			DrawAfterImage(Main.spriteBatch, new Vector2(0f, 0f), 0.5f, color * .7f, color * .1f, screenPos, 0.45f, num366, .75f);
 
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 			return false;
 		}
 
 		public void DrawPathfinderOutline(SpriteBatch spriteBatch) => PathfinderOutlineDraw.DrawAfterImage(spriteBatch, NPC, NPC.frame, Vector2.Zero, NPC.frame.Size() / 2);
 
-		private void DrawGlowmask(SpriteBatch spriteBatch, Texture2D tex, Vector2 position, Color color, float opacity = 1) => spriteBatch.Draw(tex, position - Main.screenPosition, NPC.frame, color * opacity, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+		private void DrawGlowmask(SpriteBatch spriteBatch, Texture2D tex, Vector2 position, Color color, Vector2 screenPos, float opacity = 1) => spriteBatch.Draw(tex, position - screenPos, NPC.frame, color * opacity, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			Texture2D baseGlow = ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			Texture2D whiteGlow = ModContent.Request<Texture2D>(Texture + "_glowWhite", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-			DrawGlowmask(spriteBatch, baseGlow, NPC.Center, Color.White);
+			DrawGlowmask(spriteBatch, baseGlow, NPC.Center, Color.White, screenPos);
 
 			if(AiTimer <= IDLETIME)
 			{
 				for (int i = 0; i < 4; i++)
 				{
 					Vector2 drawpos = NPC.Center + new Vector2(0, 4 * (((float)Math.Sin(Main.GlobalTimeWrappedHourly * 4) / 2) + 0.5f)).RotatedBy(i * MathHelper.PiOver2);
-					DrawGlowmask(spriteBatch, baseGlow, drawpos, Color.White, 0.3f);
+					DrawGlowmask(spriteBatch, baseGlow, drawpos, Color.White, screenPos, 0.3f);
 				}
 			}
 
-			DrawGlowmask(spriteBatch, whiteGlow, NPC.Center, _attackGlowColor, _attackGlowStrength);
+			DrawGlowmask(spriteBatch, whiteGlow, NPC.Center, _attackGlowColor, screenPos, _attackGlowStrength);
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			Texture2D whiteGlow = ModContent.Request<Texture2D>(Texture + "_glowWhite", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-
 			Color additiveGlow = _attackGlowColor;
 
 			PulseDraw.DrawPulseEffect(PulseDraw.BloomConstant, 6, 6, delegate (Vector2 posOffset, float opacityMod)
 			{
-				DrawGlowmask(sB, whiteGlow, posOffset + NPC.Center, additiveGlow, opacityMod * _attackGlowStrength * 0.33f);
+				DrawGlowmask(sB, whiteGlow, posOffset + NPC.Center, additiveGlow, screenPos, opacityMod * _attackGlowStrength * 0.33f);
 			});
-			DrawGlowmask(sB, whiteGlow, NPC.Center, additiveGlow, _attackGlowStrength);
+			DrawGlowmask(sB, whiteGlow, NPC.Center, additiveGlow, screenPos, _attackGlowStrength);
 		}
 
-		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color color, float opacity, float startScale, float endScale) => DrawAfterImage(spriteBatch, offset, trailLengthModifier, color, color, opacity, startScale, endScale);
+		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color color, Vector2 screenPos, float opacity, float startScale, float endScale) => DrawAfterImage(spriteBatch, offset, trailLengthModifier, color, color, screenPos, opacity, startScale, endScale);
 
-		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color startColor, Color endColor, float opacity, float startScale, float endScale)
+		public void DrawAfterImage(SpriteBatch spriteBatch, Vector2 offset, float trailLengthModifier, Color startColor, Color endColor, Vector2 screenPos, float opacity, float startScale, float endScale)
 		{
 			SpriteEffects spriteEffects = (NPC.spriteDirection == 1) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 			for (int i = 1; i < 10; i++)
 			{
 				Color color = Color.Lerp(startColor, endColor, i / 10f) * opacity;
-				spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/StarjinxEvent/Enemies/MeteorMagus/MeteorMagus_NPC_Afterimage").Value, new Vector2(NPC.Center.X, NPC.Center.Y) + offset - Main.screenPosition + new Vector2(0, NPC.gfxOffY) - NPC.velocity * (float)i * trailLengthModifier, NPC.frame, color, NPC.rotation, NPC.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
+				spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/StarjinxEvent/Enemies/MeteorMagus/MeteorMagus_NPC_Afterimage").Value, new Vector2(NPC.Center.X, NPC.Center.Y) + offset - screenPos + new Vector2(0, NPC.gfxOffY) - NPC.velocity * i * trailLengthModifier, NPC.frame, color, NPC.rotation, NPC.frame.Size() * 0.5f, MathHelper.Lerp(startScale, endScale, i / 10f), spriteEffects, 0f);
 			}
 		}
 	}

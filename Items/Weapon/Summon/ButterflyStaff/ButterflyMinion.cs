@@ -100,7 +100,7 @@ namespace SpiritMod.Items.Weapon.Summon.ButterflyStaff
 				Dust.NewDustPerfect(Projectile.Center, 223, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(3), 0, default, 0.5f);
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			sB.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.LightPink * Projectile.Opacity * 0.6f, 0, bloom.Size() / 2, 0.2f, SpriteEffects.None, 0);

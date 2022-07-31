@@ -108,15 +108,14 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			return false;
 		}
 
-		public void AdditiveCall(SpriteBatch sb)
+		public void AdditiveCall(SpriteBatch sb, Vector2 screenPos)
 		{
 			Texture2D WhiteMask = ModContent.Request<Texture2D>(Texture + "_Mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			float whiteMaskOpacity = 1 - (Timer / PRE_LAUNCH_TIME);
 			whiteMaskOpacity = Math.Max(whiteMaskOpacity, 0);
 			whiteMaskOpacity = EaseFunction.EaseQuadOut.Ease(whiteMaskOpacity);
 
-			sb.Draw(WhiteMask, Projectile.Center - Main.screenPosition, Projectile.DrawFrame(), Color.White * whiteMaskOpacity * Projectile.Opacity, Projectile.rotation,
-				Projectile.DrawFrame().Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+			sb.Draw(WhiteMask, Projectile.Center - screenPos, Projectile.DrawFrame(), Color.White * whiteMaskOpacity * Projectile.Opacity, Projectile.rotation, Projectile.DrawFrame().Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 
 			float blurLength = 200 * Projectile.scale * whiteMaskOpacity * Projectile.Opacity;
 			float blurWidth = 25 * Projectile.scale * whiteMaskOpacity * Projectile.Opacity;
@@ -124,7 +123,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			Effect blurEffect = ModContent.Request<Effect>("Effects/BlurLine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			SquarePrimitive blurLine = new SquarePrimitive()
 			{
-				Position = Projectile.Center - Main.screenPosition,
+				Position = Projectile.Center - screenPos,
 				Height = blurWidth,
 				Length = blurLength,
 				Rotation = 0,

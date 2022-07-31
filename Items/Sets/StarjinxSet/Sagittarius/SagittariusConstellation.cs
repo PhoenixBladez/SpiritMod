@@ -112,13 +112,15 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Sagittarius
 		}
 
 		float ScaleProgress() => (float)Math.Pow(1 - Math.Abs(30 - Timer) / 15, 3);
-		public void AdditiveCall(SpriteBatch spriteBatch)
+
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			Texture2D Bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			Color color = BloomColor;
 			float bloomopacity = 0.75f;
 			float bloomscale = 0.4f;
 			float starScale = 15f;
+
 			if (Timer > 15 && Timer < 45)
 			{
 				color = Color.Lerp(color, Color.White, 0.75f * ScaleProgress());

@@ -31,7 +31,7 @@ namespace SpiritMod.NPCs.Boss.Occultist.Projectiles
 			Projectile.QuickDraw(Main.spriteBatch, drawColor: Color.Black * Projectile.Opacity);
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			Texture2D extraTex = TextureAssets.Extra[55].Value;
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;

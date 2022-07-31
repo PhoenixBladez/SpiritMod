@@ -145,7 +145,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			return false;
 		}
 
-		public void AdditiveCall(SpriteBatch sb)
+		public void AdditiveCall(SpriteBatch sb, Vector2 screenPos)
 		{
 			Texture2D bloomTex = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 
@@ -154,11 +154,11 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechGun
 			{
 				float progress = (ProjectileID.Sets.TrailCacheLength[Projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[Projectile.type];
 				Color trailColor = Color.Lerp(new Color(222, 111, 127), new Color(178, 105, 140), progress) * progress;
-				Vector2 trailPosition = Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition;
+				Vector2 trailPosition = Projectile.oldPos[i] + Projectile.Size / 2 - screenPos;
 				sb.Draw(bloomTex, trailPosition, null, Projectile.GetAlpha(trailColor) * 0.66f, Projectile.rotation, bloomTex.Size() / 2f, new Vector2(0.22f, 0.17f) * Projectile.scale, SpriteEffects.None, 0);
 			}
 
-			sb.Draw(bloomTex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(new Color(239, 241, 80)) * 0.33f, Projectile.rotation, bloomTex.Size() / 2f,
+			sb.Draw(bloomTex, Projectile.Center - screenPos, null, Projectile.GetAlpha(new Color(239, 241, 80)) * 0.33f, Projectile.rotation, bloomTex.Size() / 2f,
 				new Vector2(0.22f, 0.17f) * Projectile.scale, SpriteEffects.None, 0);
 		}
 	}

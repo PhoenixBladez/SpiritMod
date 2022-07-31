@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Boss.Scarabeus
 {
@@ -28,6 +28,14 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 			AIType = 508;
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+				new FlavorTextBestiaryInfoElement("The scrappy brethren of the larger Scarabeus, these little things follow their leader to the death."),
+			});
+		}
+
 		public override bool PreAI()
 		{
 			NPC.spriteDirection = NPC.direction;
@@ -36,17 +44,17 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for (int k = 0; k < 3; k++) {
+			for (int k = 0; k < 3; k++)
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
-			}
-			if (NPC.life <= 0) {
-				for (int k = 0; k < 10; k++) {
+
+			if (NPC.life <= 0)
+			{
+				for (int k = 0; k < 10; k++)
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
-				}
 			}
-			if (NPC.life <= 0) {
+
+			if (NPC.life <= 0)
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("LittleScarab4").Type, 1f);
-			}
 		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

@@ -258,7 +258,7 @@ namespace SpiritMod.Items.Sets.GranitechSet.GranitechStaff
 			ParallelParticles(target.Center, BeamDirection * Main.rand.NextFloat(10, 15), 25, Main.rand.NextFloat(1.5f, 2f), Main.rand.Next(7, 10));
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			if (AiState == STATE_CHARGING)
 				DrawTelegraphBeam(spriteBatch);

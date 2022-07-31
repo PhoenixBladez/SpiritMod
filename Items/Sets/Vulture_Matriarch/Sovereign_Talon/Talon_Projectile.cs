@@ -94,21 +94,21 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Sovereign_Talon
 			return base.Colliding(projHitbox, targetHitbox);
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
-			spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(new Color(255, 236, 115, 200)) * 0.75f, 
+			spriteBatch.Draw(bloom, Projectile.Center - screenPos, null, Projectile.GetAlpha(new Color(255, 236, 115, 200)) * 0.75f, 
 				Projectile.velocity.ToRotation() + MathHelper.PiOver2, bloom.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 
 			for(int i = 0; i < ProjectileID.Sets.TrailCacheLength[Projectile.type]; i++)
 			{
 				float opacity = 0.7f * ((ProjectileID.Sets.TrailCacheLength[Projectile.type] - i) / (float)ProjectileID.Sets.TrailCacheLength[Projectile.type]);
-				spriteBatch.Draw(tex, Projectile.oldPos[i] + Projectile.Size/2 - Main.screenPosition, null, Projectile.GetAlpha(new Color(255, 236, 115, 200)) * opacity, 
+				spriteBatch.Draw(tex, Projectile.oldPos[i] + Projectile.Size/2 - screenPos, null, Projectile.GetAlpha(new Color(255, 236, 115, 200)) * opacity, 
 					Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width/2, tex.Height/4), Projectile.scale * opacity, SpriteEffects.None, 0);
 			}
 
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(new Color(255, 236, 115, 200)), 
+			spriteBatch.Draw(tex, Projectile.Center - screenPos, null, Projectile.GetAlpha(new Color(255, 236, 115, 200)), 
 				Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(tex.Width / 2, tex.Height / 4), Projectile.scale, SpriteEffects.None, 0);
 		}
     }

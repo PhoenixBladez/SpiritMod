@@ -107,7 +107,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.MeteorMagus
 			return false;
 		}
 
-		public void AdditiveCall(SpriteBatch sb)
+		public void AdditiveCall(SpriteBatch sb, Vector2 screenPos)
 		{
 			/*float progress = (Timer - Delay) / TELEGRAPH_TIME; 
 			progress = MathHelper.Clamp(progress, 0, 1);

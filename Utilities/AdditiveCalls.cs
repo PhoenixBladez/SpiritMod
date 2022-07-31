@@ -37,15 +37,16 @@ namespace SpiritMod
 				if (AdditiveCalls[i] != null) CallList.Add(AdditiveCalls[i]);
 
 			//Only restart spritebatch if needed
-			if(CallList.Count > 0)
+			if (CallList.Count > 0)
 			{
 				Main.spriteBatch.Begin(default, BlendState.Additive, default, default, RasterizerState.CullNone, default, Main.GameViewMatrix.ZoomMatrix);
 				foreach (IDrawAdditive drawAdditive in CallList)
-					drawAdditive.AdditiveCall(sb);
+					drawAdditive.AdditiveCall(sb, Main.screenPosition);
 
 				Main.spriteBatch.End();
 			}
 		}
+
 		//Use this return to Dispose
 		public static int ManualAppend(IDrawAdditive IDA)
 		{
@@ -57,6 +58,7 @@ namespace SpiritMod
 			}
 			throw new NullReferenceException("Max Calls Reached. Calm the fuck down");
 		}
+
 		//A bit difficult to manage, but better for performance. 
 		public static void RemoveCall(int Index) => AdditiveCalls[Index] = null;
 

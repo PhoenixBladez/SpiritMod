@@ -43,14 +43,14 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             }
 			if (Projectile.timeLeft % 10 == 0)
             {
-                Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
+                Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2) * new Vector2(5f, 3f);
   
                 int p = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X + Main.rand.Next(-50, 50), Projectile.Center.Y + Main.rand.Next(-50, 50), vector2_2.X, vector2_2.Y, ModContent.ProjectileType<WizardBallEnergyEffect>(), 0, 0.0f, Main.myPlayer, 0.0f, (float)Projectile.whoAmI);
                 Main.projectile[p].scale = Main.rand.NextFloat(.4f, 1.4f);
 
             }
         }
-        public void AdditiveCall(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
         {
             {
                 for (int k = 0; k < 1; k++)
@@ -60,7 +60,7 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
                     float scale = Projectile.scale;
                     Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/Boss/MoonWizard/Projectiles/WizardBall_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-                    spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
+                    spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
                     //spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
                 }
             }

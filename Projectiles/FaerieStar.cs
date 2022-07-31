@@ -41,7 +41,8 @@ namespace SpiritMod.Projectiles
 			}
 			return true;
 		}
-        public void AdditiveCall(SpriteBatch spriteBatch)
+
+        public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
         {
             if (Projectile.timeLeft < 196)
             {
@@ -57,7 +58,9 @@ namespace SpiritMod.Projectiles
                 }
             }
         }
+
 		public override Color? GetAlpha(Color lightColor) => Color.White;
+
 		public override void Kill(int timeLeft)
 		{
 			SoundEngine.PlaySound(SoundID.Item10, Projectile.position);

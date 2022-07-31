@@ -614,7 +614,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Warden
 		#region Drawing
 		public override Color? GetAlpha(Color drawColor) => StarjinxGlobalNPC.GetColorBrightness(drawColor);
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			if (!inFG) //if not in foreground stop drawing
 				return;

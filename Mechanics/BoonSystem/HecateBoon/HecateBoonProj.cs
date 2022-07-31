@@ -119,7 +119,7 @@ namespace SpiritMod.Mechanics.BoonSystem.HecateBoon
 			AiTimer = reader.ReadSingle();
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			int trailLength = ProjectileID.Sets.TrailCacheLength[Projectile.type];
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;

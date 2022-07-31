@@ -155,7 +155,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			}
         }
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			//Colors used by the black hole
 			Color White = new Color(255, 251, 199) * 0.7f;
@@ -166,7 +166,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.QuasarGauntlet
 			float rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
 			Vector2 scale = new Vector2(1f - Projectile.velocity.Length() / 50, 1f + Projectile.velocity.Length() / 50) * Projectile.scale;
 
-			Vector2 drawCenter = Projectile.Center - Main.screenPosition;
+			Vector2 drawCenter = Projectile.Center - screenPos;
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			sB.Draw(bloom, drawCenter, null, Color.Magenta * Projectile.Opacity, rotation, bloom.Size() / 2, scale * 0.68f, SpriteEffects.None, 0);
 

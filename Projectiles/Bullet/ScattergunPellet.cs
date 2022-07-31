@@ -89,7 +89,8 @@ namespace SpiritMod.Projectiles.Bullet
                 }
             }
         }
-		public void AdditiveCall(SpriteBatch spriteBatch)
+
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			for (int k = 0; k < Projectile.oldPos.Length; k++)
 			{

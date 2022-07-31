@@ -586,7 +586,7 @@ namespace SpiritMod.NPCs.Hydra
 			Projectile.velocity.Y += HydraHead.FIREBALLGRAVITY;
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			float scale = Projectile.scale;
 			Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/NPCs/Hydra/HydraFireGlob_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
@@ -595,8 +595,8 @@ namespace SpiritMod.NPCs.Hydra
 			Rectangle frameRect = new Rectangle(0, Projectile.frame * frameHeight, tex.Width, frameHeight);
 			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
 
-			spriteBatch.Draw(tex, Projectile.position - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY), frameRect, color, Projectile.rotation, drawOrigin, scale * 1.23f, default, default);
-			spriteBatch.Draw(tex, Projectile.position - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY), frameRect, color, Projectile.rotation, drawOrigin, scale * 1.43f, default, default);
+			spriteBatch.Draw(tex, Projectile.position - screenPos + drawOrigin + new Vector2(0f, Projectile.gfxOffY), frameRect, color, Projectile.rotation, drawOrigin, scale * 1.23f, default, default);
+			spriteBatch.Draw(tex, Projectile.position - screenPos + drawOrigin + new Vector2(0f, Projectile.gfxOffY), frameRect, color, Projectile.rotation, drawOrigin, scale * 1.43f, default, default);
 
 		}
 

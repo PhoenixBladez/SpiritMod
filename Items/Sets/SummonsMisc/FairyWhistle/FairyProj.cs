@@ -79,7 +79,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.FairyWhistle
 			}
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			sB.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Lerp(new Color(124, 255, 47), Color.White, 0.75f) * Projectile.Opacity, 0, bloom.Size() / 2, Projectile.scale * 0.15f, SpriteEffects.None, 0);

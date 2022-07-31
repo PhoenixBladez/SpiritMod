@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Clubs
 			Projectile.velocity.Y -= 0.01f;
         }
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			for (int k = 0; k < Projectile.oldPos.Length; k++)
 			{

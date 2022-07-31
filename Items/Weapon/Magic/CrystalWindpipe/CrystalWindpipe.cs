@@ -175,7 +175,7 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 			}*/
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			float scale = Projectile.scale * Projectile.Opacity;
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
@@ -189,12 +189,12 @@ namespace SpiritMod.Items.Weapon.Magic.CrystalWindpipe
 				Vector2 oldPosition = Projectile.oldPos[i] + Projectile.Size / 2;
 				float opacityMod = 0.75f;
 
-				spriteBatch.Draw(tex, oldPosition - Main.screenPosition, null, color * opacityMod * progress, Projectile.rotation,
+				spriteBatch.Draw(tex, oldPosition - screenPos, null, color * opacityMod * progress, Projectile.rotation,
 					tex.Size() / 2, scale * 1.33f * progress, default, default);
 			}
 
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale * 1.5f, default, default);
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale * 1.33f, default, default);
+			spriteBatch.Draw(tex, Projectile.Center - screenPos, null, color, Projectile.rotation, tex.Size() / 2, scale * 1.5f, default, default);
+			spriteBatch.Draw(tex, Projectile.Center - screenPos, null, color, Projectile.rotation, tex.Size() / 2, scale * 1.33f, default, default);
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

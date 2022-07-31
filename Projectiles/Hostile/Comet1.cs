@@ -25,7 +25,7 @@ namespace SpiritMod.Projectiles.Hostile
 			Projectile.height = 72;
             Projectile.tileCollide = true;
 		}
-        public void AdditiveCall(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
         {
 			for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
@@ -34,8 +34,8 @@ namespace SpiritMod.Projectiles.Hostile
                 float scale = Projectile.scale * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length); 
                 Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Hostile/Comet", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-                spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
-                spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale * .85f, default, default);
+                spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
+                spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos, null, color, Projectile.rotation, tex.Size() / 2, scale * .85f, default, default);
                
             }
         }

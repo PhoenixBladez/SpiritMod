@@ -273,7 +273,7 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
 				}
 			}
 		}
-        public void AdditiveCall(SpriteBatch spriteBatch)
+        public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 2;
             {
@@ -284,7 +284,7 @@ namespace SpiritMod.Projectiles.Summon.CimmerianStaff
                     float scale = Projectile.scale;
                     Texture2D tex = ModContent.Request<Texture2D>("SpiritMod/Projectiles/Summon/CimmerianStaff/CimmerianScepterProjectile_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-                    spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
+                    spriteBatch.Draw(tex, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos, null, color, Projectile.rotation, tex.Size() / 2, scale, default, default);
                     //spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, projectile.rotation, tex.Size() / 2, scale, default, default);
                 }
             }

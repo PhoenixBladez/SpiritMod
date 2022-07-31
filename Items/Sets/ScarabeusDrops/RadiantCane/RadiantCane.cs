@@ -164,7 +164,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 			return false;
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			int numrays = 7;
 			for (int i = 0; i < numrays; i++)
@@ -173,7 +173,7 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.RadiantCane
 				float rotation = i * (MathHelper.TwoPi / numrays) + (Main.GlobalTimeWrappedHourly * (((i % 2) + 1) / 2f));
 				float length = 45 * (float)(Math.Sin((Main.GlobalTimeWrappedHourly + i) * 2) / 5 + 1);
 				Vector2 rayscale = new Vector2(length / ray.Width, 0.8f);
-				spriteBatch.Draw(ray, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(new Color(255, 245, 158)) * Projectile.Opacity * 0.5f, rotation,
+				spriteBatch.Draw(ray, Projectile.Center - screenPos, null, Projectile.GetAlpha(new Color(255, 245, 158)) * Projectile.Opacity * 0.5f, rotation,
 					new Vector2(0, ray.Height / 2), rayscale * Projectile.scale, SpriteEffects.None, 0);
 			}
 		}

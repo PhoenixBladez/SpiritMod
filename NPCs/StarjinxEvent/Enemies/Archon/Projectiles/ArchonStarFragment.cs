@@ -55,7 +55,8 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon.Projectiles
 			tManager.CreateTrail(Projectile, new StandardColorTrail(Color.White * 0.3f), new RoundCap(), new ArrowGlowPosition(), 10f * scalemod, 40f * scalemod, new DefaultShader());
 			tManager.CreateTrail(Projectile, new StandardColorTrail(Color.White * 0.2f), new RoundCap(), new ArrowGlowPosition(), 30f * scalemod, 10f * scalemod, new DefaultShader());
 		}
-		public void AdditiveCall(SpriteBatch sb)
+
+		public void AdditiveCall(SpriteBatch sb, Vector2 screenPos)
 		{
 			float blurLength = 100 * Projectile.scale * Projectile.Opacity;
 			float blurWidth = 25 * Projectile.scale * Projectile.Opacity;

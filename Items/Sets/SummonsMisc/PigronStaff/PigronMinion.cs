@@ -255,7 +255,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.PigronStaff
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection) => damage += Math.Min(target.defense / 2, 10);
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
 			Color drawColor = new Color(255, 99, 229);
@@ -269,9 +269,9 @@ namespace SpiritMod.Items.Sets.SummonsMisc.PigronStaff
 					break;
 			}
 			float glowscale = (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 4) / 5 + 1);
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, drawColor, Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, drawColor * 0.75f, Projectile.rotation, tex.Size() / 2, Projectile.scale * glowscale, SpriteEffects.None, 0);
-			spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, drawColor * 0.75f, Projectile.rotation, tex.Size() / 2, Projectile.scale * (1/glowscale), SpriteEffects.None, 0);
+			spriteBatch.Draw(tex, Projectile.Center - screenPos, null, drawColor, Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+			spriteBatch.Draw(tex, Projectile.Center - screenPos, null, drawColor * 0.75f, Projectile.rotation, tex.Size() / 2, Projectile.scale * glowscale, SpriteEffects.None, 0);
+			spriteBatch.Draw(tex, Projectile.Center - screenPos, null, drawColor * 0.75f, Projectile.rotation, tex.Size() / 2, Projectile.scale * (1/glowscale), SpriteEffects.None, 0);
 
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 			spriteBatch.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Lerp(drawColor, Color.White, 0.25f) * 0.8f, Projectile.rotation, bloom.Size() / 2, Projectile.scale/3.5f, SpriteEffects.None, 0);

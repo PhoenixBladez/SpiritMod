@@ -59,22 +59,22 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 			TargetAngle = Utils.AngleLerp(TargetAngle, Projectile.AngleTo(Target.Center), MathHelper.Lerp(0.2f, 0.04f, Timer / (float)CHANNELTIME));
 		}
 
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			StarPrimitive star = new StarPrimitive
 			{
 				Color = Color.White * Projectile.Opacity,
 				TriangleHeight = 12 * Projectile.scale,
 				TriangleWidth = 4 * Projectile.scale,
-				Position = Projectile.Center - Main.screenPosition,
+				Position = Projectile.Center - screenPos,
 				Rotation = Projectile.rotation
 			};
 			PrimitiveRenderer.DrawPrimitiveShape(star);
 
 			Texture2D bloom = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 
-			sB.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Goldenrod * 0.8f * Projectile.Opacity, 0, bloom.Size() / 2, 0.25f * Projectile.scale, SpriteEffects.None, 0);
-			sB.Draw(bloom, Projectile.Center - Main.screenPosition, null, Color.Goldenrod * Projectile.Opacity, 0, bloom.Size() / 2, 0.2f * Projectile.scale, SpriteEffects.None, 0);
+			sB.Draw(bloom, Projectile.Center - screenPos, null, Color.Goldenrod * 0.8f * Projectile.Opacity, 0, bloom.Size() / 2, 0.25f * Projectile.scale, SpriteEffects.None, 0);
+			sB.Draw(bloom, Projectile.Center - screenPos, null, Color.Goldenrod * Projectile.Opacity, 0, bloom.Size() / 2, 0.2f * Projectile.scale, SpriteEffects.None, 0);
 
 			Texture2D beam = Mod.Assets.Request<Texture2D>("Textures/Ray").Value;
 			float beamProgress = (float)Math.Pow(Timer / (float)CHANNELTIME, 2);
@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.StarWeaver
 				float angle = TargetAngle + (MathHelper.TwoPi * (i / 5f)) - MathHelper.PiOver2;
 				float length = MathHelper.Lerp(30, 150, beamProgress);
 				Vector2 scale = new Vector2(Projectile.scale, length / beam.Height);
-				sB.Draw(beam, Projectile.Center - Main.screenPosition, null, Color.Goldenrod * opacity, angle, new Vector2(beam.Width / 2, 0), scale, SpriteEffects.None, 0);
+				sB.Draw(beam, Projectile.Center - screenPos, null, Color.Goldenrod * opacity, angle, new Vector2(beam.Width / 2, 0), scale, SpriteEffects.None, 0);
 			}
 
 			for (int i = 0; i < 5; i++)

@@ -255,7 +255,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 		}
 
 		//In hindsight there's not much of a reason for this to not just be a vertex strip, looks basically the same
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			int trailLength = ProjectileID.Sets.TrailCacheLength[Projectile.type];
 			float speed = (Projectile.velocity.Length() / LAUNCH_SPEED);
@@ -276,7 +276,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.Stellanova
 					Texture2D mask = Mod.Assets.Request<Texture2D>("Effects/Masks/CircleGradient").Value;
 					float scale = 0.5f * Projectile.scale * (1 - progress) / (float)Math.Pow(j, 0.75f);
 					scale *= 1 + (float)Math.Sin((progress - Main.GlobalTimeWrappedHourly) * MathHelper.TwoPi * (float)Math.Pow(j, 0.5f)) / 15;
-					Vector2 drawPos = Vector2.Lerp(Projectile.oldPos[(int)i], Projectile.oldPos[(int)i + 1], i % 1) + Projectile.Size / 2 - Main.screenPosition;
+					Vector2 drawPos = Vector2.Lerp(Projectile.oldPos[(int)i], Projectile.oldPos[(int)i + 1], i % 1) + Projectile.Size / 2 - screenPos;
 
 					sB.Draw(mask, drawPos, null, color * opacity * EaseFunction.EaseQuadOut.Ease(1 - progress), 0f, mask.Size() / 2, scale, SpriteEffects.None, 0);
 				}

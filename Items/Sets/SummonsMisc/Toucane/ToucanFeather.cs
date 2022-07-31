@@ -87,7 +87,7 @@ namespace SpiritMod.Items.Sets.SummonsMisc.Toucane
 			}
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			if (Projectile.wet)
 				return;

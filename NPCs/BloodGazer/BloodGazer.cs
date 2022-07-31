@@ -334,13 +334,13 @@ namespace SpiritMod.NPCs.BloodGazer
 			return false;
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			Texture2D tex = ModContent.Request<Texture2D>(Texture + "_mask", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			for (int i = 0; i < NPCID.Sets.TrailCacheLength[NPC.type]; i++)
 			{
 				float opacity = 0.5f * (float)(NPCID.Sets.TrailCacheLength[NPC.type] - i) / NPCID.Sets.TrailCacheLength[NPC.type];
-				spriteBatch.Draw(tex, NPC.oldPos[i] + NPC.Size / 2 - Main.screenPosition, NPC.frame, Color.White * opacity * GlowTrailOpacity, NPC.rotation, NPC.frame.Size() / 2, NPC.scale * 1.35f, SpriteEffects.None, 0);
+				spriteBatch.Draw(tex, NPC.oldPos[i] + NPC.Size / 2 - screenPos, NPC.frame, Color.White * opacity * GlowTrailOpacity, NPC.rotation, NPC.frame.Size() / 2, NPC.scale * 1.35f, SpriteEffects.None, 0);
 			}
 		}
 

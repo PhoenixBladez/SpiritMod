@@ -66,15 +66,14 @@ namespace SpiritMod.Items.Sets.AccessoriesMisc.CrystalFlower
 				vector9 -= value19 * 2f;
 			}
 		}
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			for (int k = 0; k < Projectile.oldPos.Length; k++)
 			{
 				Color color = new Color(255, 255, 255) * 0.45f * ((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length);
-
 				float scale = Projectile.scale * 1.4f;
 
-				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.oldPos[k] + Projectile.Size / 2 - Main.screenPosition, null, color, Projectile.oldRot[k], TextureAssets.Projectile[Projectile.type].Value.Size() / 2, scale, default, default);
+				spriteBatch.Draw(TextureAssets.Projectile[Projectile.type].Value, Projectile.oldPos[k] + Projectile.Size / 2 - screenPos, null, color, Projectile.oldRot[k], TextureAssets.Projectile[Projectile.type].Value.Size() / 2, scale, default, default);
 			}
 		}
 		public override bool PreDraw(ref Color lightColor)

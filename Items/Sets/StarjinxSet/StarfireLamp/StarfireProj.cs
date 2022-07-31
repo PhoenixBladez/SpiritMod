@@ -178,7 +178,7 @@ namespace SpiritMod.Items.Sets.StarjinxSet.StarfireLamp
 			Timer = reader.ReadSingle();
 		}
 
-		public void AdditiveCall(SpriteBatch spriteBatch)
+		public void AdditiveCall(SpriteBatch spriteBatch, Vector2 screenPos)
 		{
 			float blurLength = 100 * Projectile.scale;
 			float blurWidth = 5 * Projectile.scale;

@@ -618,7 +618,7 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies.Archon
 		}
 
 		#region Drawing
-		public void AdditiveCall(SpriteBatch sB)
+		public void AdditiveCall(SpriteBatch sB, Vector2 screenPos)
 		{
 			if (!inFG) //if not in foreground stop drawing
 				return;
