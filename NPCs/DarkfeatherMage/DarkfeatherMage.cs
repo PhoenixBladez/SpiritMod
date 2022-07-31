@@ -10,6 +10,7 @@ using SpiritMod.NPCs.DarkfeatherMage.Projectiles;
 using System;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.DarkfeatherMage
 {
@@ -42,7 +43,15 @@ namespace SpiritMod.NPCs.DarkfeatherMage
 			NPC.DeathSound = SoundID.DD2_GoblinBomberHurt;
 		}
 
-        public override bool PreKill()
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				new FlavorTextBestiaryInfoElement("Caww, caww! A large bird of prey who fancies themselves a mage. Whoever has been teaching these birds magic has left behind quite a mess."),
+			});
+		}
+
+		public override bool PreKill()
         {
             SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.Center);
             return true;

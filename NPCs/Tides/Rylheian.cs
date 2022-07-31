@@ -1,22 +1,18 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using SpiritMod.Items.Sets.RlyehianDrops;
-using SpiritMod.Projectiles.Hostile;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.NPCs.Tides.Tide;
-using System.IO;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Tides
 {
 	[AutoloadBossHead]
 	public class Rylheian : ModNPC
 	{
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("R'lyehian");
@@ -41,7 +37,16 @@ namespace SpiritMod.NPCs.Tides
 			BannerItem = ModContent.ItemType<Items.Banners.RlyehianBanner>();
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("The maker of tides and caller of storms! They’re a wicked elderly lich who’s taken charge of the Kakamora Army."),
+			});
+		}
+
 		float alphaCounter = 0;
+
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if (NPC.ai[1] != 0) {

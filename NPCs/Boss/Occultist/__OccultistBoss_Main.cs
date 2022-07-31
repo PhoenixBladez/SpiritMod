@@ -14,6 +14,7 @@ using SpiritMod.NPCs.Critters;
 using SpiritMod.Items.Placeable.Relics;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Boss.Occultist
 {
@@ -42,11 +43,19 @@ namespace SpiritMod.NPCs.Boss.Occultist
 			NPC.knockBackResist = 0.45f;
 			NPC.netAlways = true;
 			NPC.lavaImmune = true;
-			//npc.boss = true;
 
 			Banner = NPC.type;
 			Music = MusicID.Eerie;
 			BannerItem = ModContent.ItemType<Items.Banners.OccultistBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.BloodMoon,
+				new FlavorTextBestiaryInfoElement("An undead dream demon obsessed with the practice and perfection of so-called ‘blood corruption.’ For this practice, he only reveals himself when the moon shimmers sanguine."),
+			});
 		}
 
 		private ref float AIState => ref NPC.ai[0];

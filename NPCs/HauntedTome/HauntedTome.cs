@@ -13,6 +13,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs.DoT;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.HauntedTome
 {
@@ -46,6 +47,14 @@ namespace SpiritMod.NPCs.HauntedTome
 			NPC.knockBackResist = 1f;
 			NPC.HitSound = SoundID.NPCHit15 with { PitchVariance = 0.2f };
 			NPC.DeathSound = SoundID.NPCDeath6;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+				new FlavorTextBestiaryInfoElement("A warding glyph was placed on this tome to protect it from improper use. Unfortunately for you, that means staring down a book with 20 canines."),
+			});
 		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = (int)(NPC.lifeMax * 0.66f * bossLifeScale);

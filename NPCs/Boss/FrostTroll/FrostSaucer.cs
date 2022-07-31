@@ -8,6 +8,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Boss.FrostTroll
 {
@@ -39,15 +40,27 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 			NPC.HitSound = SoundID.NPCHit4;
 			NPC.DeathSound = SoundID.NPCDeath5;
 		}
-	    public override void FindFrame(int frameHeight)
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Invasions.FrostLegion,
+				new FlavorTextBestiaryInfoElement("A dangerous hovercraft made of spine-chillingly cold metal, and powered by Frost Cores. Playtime’s over, no more mister ice guy!"),
+			});
+		}
+
+		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += .15f;
 			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
 			int frame = (int)NPC.frameCounter;
 			NPC.frame.Y = frame * frameHeight;
 		}
+
         bool trailBehind;
         bool canHitPlayer;
+
         public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0)
@@ -81,6 +94,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 			for (int k = 0; k < 7; k++)
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, 2.5f * hitDirection, -2.5f, 0, default, 0.5f);
 		}
+
 		public override void AI()
         {
     		bool expertMode = Main.expertMode;
@@ -250,7 +264,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 			Item.NewItem(NPC.GetSource_Death(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, lootTable[loot]);
 
 			for (int i = 0; i < 15; ++i) {
-				if (Main.rand.Next(8) == 0) {
+				if (Main.rand.NextBool(8)) {
 					int newDust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Snow, 0f, 0f, 100, default, 2.5f);
 					Main.dust[newDust].noGravity = true;
 					Main.dust[newDust].velocity *= 5f;
@@ -276,10 +290,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
             return false;
         }
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return Main.invasionType == 2 && !NPC.AnyNPCs(ModContent.NPCType<FrostSaucer>()) && spawnInfo.Player.ZoneOverworldHeight ? 0.018f : 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => Main.invasionType == 2 && !NPC.AnyNPCs(ModContent.NPCType<FrostSaucer>()) && spawnInfo.Player.ZoneOverworldHeight ? 0.018f : 0f;
 
 		public override void BossLoot(ref string name, ref int potionType)
 		{

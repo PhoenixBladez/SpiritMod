@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using SpiritMod.Items.Sets.ClubSubclass;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Snaptrapper
 {
@@ -45,7 +46,15 @@ namespace SpiritMod.NPCs.Snaptrapper
 			BannerItem = ModContent.ItemType<Items.Banners.AntlionAssassinBanner>();
 		}
 
-        public override bool PreKill()
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+				new FlavorTextBestiaryInfoElement("Very little has been observed about this shrouded creature. It is six legged and bears claws, leading most to believe it is some form of arthropod."),
+			});
+		}
+
+		public override bool PreKill()
         {
             SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.Center);
             MyWorld.downedSnaptrapper = true;

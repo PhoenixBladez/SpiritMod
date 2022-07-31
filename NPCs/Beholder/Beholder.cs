@@ -15,6 +15,7 @@ using SpiritMod.Utilities;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Beholder
 {
@@ -57,6 +58,14 @@ namespace SpiritMod.NPCs.Beholder
 			AIType = NPCID.Slimer;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.BeholderBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Marble,
+				new FlavorTextBestiaryInfoElement("These beasts roam the marble pits found within the world, judging you with each one of their many eyes."),
+			});
 		}
 
 		public override bool PreAI()

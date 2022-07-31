@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Buffs;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Mechromancer
 {
@@ -53,6 +54,15 @@ namespace SpiritMod.NPCs.Mechromancer
 			BannerItem = ModContent.ItemType<Items.Banners.MechromancerBanner>();
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Invasions.Goblins,
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				new FlavorTextBestiaryInfoElement("One of the greatest minds among the Goblin Army’s arsenal. A Mechromancer’s tinkering talents are nearly unmatched."),
+			});
+		}
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => NPC.AnyNPCs(ModContent.NPCType<Mecromancer>()) ? 0 : SpawnCondition.GoblinArmy.Chance * 0.0266f;
 
 		public override void OnKill()
@@ -81,7 +91,7 @@ namespace SpiritMod.NPCs.Mechromancer
 
 		public override void AI()
 		{
-			if (Main.rand.Next(250) == 2)
+			if (Main.rand.NextBool(250))
 				SoundEngine.PlaySound(SoundID.Zombie7, NPC.Center);
 
 			timer++;
@@ -96,18 +106,18 @@ namespace SpiritMod.NPCs.Mechromancer
 					direction.Normalize();
 					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, 0, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
 					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, 3, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
-					if (Main.rand.Next(3) == 0)
+					if (Main.rand.NextBool(3))
 						Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, -3, -6, ModContent.ProjectileType<MechBat>(), 11, 0);
 				}
 			}
 
 			if (timer > 420 && timer < 840) {
 				NPC.noTileCollide = true;
-				if (Main.rand.Next(60) == 0 && Main.netMode != NetmodeID.MultiplayerClient)
+				if (Main.rand.NextBool(60)&& Main.netMode != NetmodeID.MultiplayerClient)
 					Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.position.X, NPC.position.Y + 40, 0, 1, ProjectileID.GreekFire1, (int)(NPC.damage * 0.5f), 0);
 
 				Player player = Main.player[NPC.target];
-				if (Main.rand.Next(20) == 0)
+				if (Main.rand.NextBool(20))
 					SoundEngine.PlaySound(SoundID.Item13, NPC.position);
 
 				NPC.noGravity = true;

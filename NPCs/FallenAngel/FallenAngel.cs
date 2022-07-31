@@ -8,6 +8,7 @@ using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.FallenAngel
 {
@@ -44,6 +45,14 @@ namespace SpiritMod.NPCs.FallenAngel
 
 			AIType = NPCID.FlyingFish;
 			AnimationType = NPCID.FlyingFish;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("Banished from the heavens, this rogue cherub takes his frustrations out on the mortal beings of this realm."),
+			});
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Sky && Main.hardMode && !NPC.AnyNPCs(ModContent.NPCType<FallenAngel>()) ? 0.013f : 0f;
