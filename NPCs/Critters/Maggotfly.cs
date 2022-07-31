@@ -3,6 +3,7 @@ using SpiritMod.Items.Consumable;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -33,6 +34,14 @@ namespace SpiritMod.NPCs.Critters
 			NPC.noGravity = true;
 			AIType = NPCID.Firefly;
 			NPC.dontTakeDamageFromHostiles = false;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+				new FlavorTextBestiaryInfoElement("A massive maggot that’s somehow matured and grown wings, nasty little thing."),
+			});
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

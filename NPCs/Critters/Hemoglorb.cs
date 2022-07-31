@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -12,6 +13,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Hemoglorb");
 			Main.npcFrameCount[NPC.type] = 7;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -24,16 +26,23 @@ namespace SpiritMod.NPCs.Critters
 			NPC.dontCountMe = true;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
-			Main.npcCatchable[NPC.type] = true;
 			NPC.catchItem = (short)ModContent.ItemType<HemoglorbItem>();
 			NPC.knockBackResist = .45f;
 			NPC.aiStyle = 67;
 			NPC.npcSlots = 0;
-            NPC.noGravity = false; ;
+            NPC.noGravity = false;
 			AIType = NPCID.Snail;
-			Main.npcFrameCount[NPC.type] = 7;
 			NPC.dontTakeDamageFromHostiles = false;
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+				new FlavorTextBestiaryInfoElement("The forgotten kin of the Crimson, casted aside due to his abnormal shape and size. He never could, and likely never will, find love nor acceptance in this cruel world."),
+			});
+		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0)

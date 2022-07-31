@@ -3,6 +3,7 @@ using SpiritMod.Items.Consumable;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -11,7 +12,6 @@ namespace SpiritMod.NPCs.Reach
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Briar Inchworm");
-			Main.npcFrameCount[NPC.type] = 2;
 			Main.npcFrameCount[NPC.type] = 2;
 			Main.npcCatchable[NPC.type] = true;
 		}
@@ -30,8 +30,16 @@ namespace SpiritMod.NPCs.Reach
 			NPC.knockBackResist = .45f;
 			NPC.aiStyle = 66;
 			NPC.npcSlots = 0;
-            NPC.noGravity = false; ;
+            NPC.noGravity = false;
 			AIType = NPCID.Grubby;
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<Biomes.BriarSurfaceBiome>().Type };
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("A long, thin worm that evolved to thrive in the murky mud of the Briar. It primarily feeds on the decomposed tall grasses found on the surface."),
+			});
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

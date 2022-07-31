@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.MoonjellyEvent
 {
@@ -16,6 +17,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 		{
 			DisplayName.SetDefault("Tiny Lunazoa");
 			Main.npcFrameCount[NPC.type] = 5;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -30,7 +32,6 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             NPC.buffImmune[BuffID.Poisoned] = true;
             NPC.buffImmune[BuffID.Venom] = true;
             NPC.value = 60f;
-			Main.npcCatchable[NPC.type] = true;
 			NPC.catchItem = (short)ModContent.ItemType<TinyLunazoaItem>();
 			NPC.knockBackResist = .45f;
 			NPC.aiStyle = 64;
@@ -38,6 +39,14 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			NPC.noGravity = true;
             NPC.noTileCollide = true;
 			AIType = NPCID.Firefly;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("Tiny, docile jellies that float aimlessly with their smack, following their moonlit migratory patterns."),
+			});
 		}
 
 		public override bool? CanBeHitByProjectile(Projectile projectile) => !projectile.minion;

@@ -6,6 +6,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -37,6 +38,14 @@ namespace SpiritMod.NPCs.Critters
 			NPC.dontTakeDamageFromHostiles = false;
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+				new FlavorTextBestiaryInfoElement("True to their name, this species of tropical fish has bright and beautiful colors, making them sell for an exorbitant price."),
+			});
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -64,39 +73,32 @@ namespace SpiritMod.NPCs.Critters
 		{
 			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .0235f / 2, .76f / 2, .76f / 2);
 			NPC.spriteDirection = -NPC.direction;
-            Player player = Main.player[NPC.target];
-            {
-                Player target = Main.player[NPC.target];
-                int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
-                if (distance < 65 && target.wet && NPC.wet)
-                {
-                    Vector2 vel = NPC.DirectionFrom(target.Center);
-                    vel.Normalize();
-                    vel *= 4.5f;
-                    NPC.velocity = vel;
-                    NPC.rotation = NPC.velocity.X * .06f;
-                    if (target.position.X > NPC.position.X)
-                    {
-                        NPC.spriteDirection = -1;
-                        NPC.direction = -1;
-                        NPC.netUpdate = true;
-                    }
-                    else if (target.position.X < NPC.position.X)
-                    {
-                        NPC.spriteDirection = 1;
-                        NPC.direction = 1;
-                        NPC.netUpdate = true;
-                    }
-                }
-            }
-        }
+			Player target = Main.player[NPC.target];
+			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
+			if (distance < 65 && target.wet && NPC.wet)
+			{
+				Vector2 vel = NPC.DirectionFrom(target.Center);
+				vel.Normalize();
+				vel *= 4.5f;
+				NPC.velocity = vel;
+				NPC.rotation = NPC.velocity.X * .06f;
+				if (target.position.X > NPC.position.X)
+				{
+					NPC.spriteDirection = -1;
+					NPC.direction = -1;
+					NPC.netUpdate = true;
+				}
+				else if (target.position.X < NPC.position.X)
+				{
+					NPC.spriteDirection = 1;
+					NPC.direction = 1;
+					NPC.netUpdate = true;
+				}
+			}
+		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<RawFish>(2);
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.Player.ZoneJungle && spawnInfo.Water ? 0.15f : 0f;
-		}
-
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneJungle && spawnInfo.Water ? 0.15f : 0f;
 	}
 }

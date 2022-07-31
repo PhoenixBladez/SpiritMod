@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -29,8 +30,16 @@ namespace SpiritMod.NPCs.Reach
 			NPC.aiStyle = 16;
 			NPC.noGravity = true;
 			NPC.npcSlots = 0;
-			AIType = NPCID.Goldfish;
 			NPC.dontCountMe = true;
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<Biomes.BriarSurfaceBiome>().Type };
+			AIType = NPCID.Goldfish;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("A fish with the ability to secrete a toxin that coats its scales. The only way to truly deter the smell is cooking it."),
+			});
 		}
 
 		public override void FindFrame(int frameHeight)

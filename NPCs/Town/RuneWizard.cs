@@ -12,6 +12,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using static SpiritMod.NPCUtils;
 using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Town
 {
@@ -54,6 +55,14 @@ namespace SpiritMod.NPCs.Town
 			NPC.DeathSound = SoundID.NPCDeath6;
 			NPC.knockBackResist = 0.4f;
 			AnimationType = NPCID.Guide;
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<SpiritSurfaceBiome>().Type };
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("This tired rune scribe has spent sleepless nights studying the ancient magic found in glyphs. He’s not much of a conversationalist, but he’ll gladly empower your arsenal."),
+			});
 		}
 
 		public override bool CanTownNPCSpawn(int numTownNPCs, int money) => Main.player.Any(x => x.active && x.inventory.Any(y => y.type == ItemType<Glyph>()));
@@ -69,11 +78,11 @@ namespace SpiritMod.NPCs.Town
 				"Before you ask, no, I'm not going to put a Honeyed Glyph on a bee. It'd be way too strong.",
 				"I forgot the essence of Hellebore! Don't touch that!",
 				"If you're unsure of how to stumble upon Glyphs, my master once told me powerful bosses hold many!",
-				"Fun fact - you can put runes on anything - it's just most powerful on Glyphs.",
+				"Fun fact - you can put runes on anything. They're just most powerful on Glyphs.",
 				"Anything can be enchanted if you possess the skill, wit, and essence!",
 			};
 
-			dialogue.AddWithCondition("I wonder what enchantements have been placed on the moon- It's all blue!", MyWorld.BlueMoon);
+			dialogue.AddWithCondition("I wonder what enchantements have been placed on the moon - It's all blue!", MyWorld.BlueMoon);
 			dialogue.AddWithCondition("The resurgence of Spirits offer a whole level of enchanting possibility!", Main.hardMode);
 
 			return Main.rand.Next(dialogue);

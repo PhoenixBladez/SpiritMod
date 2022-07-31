@@ -2,6 +2,7 @@ using SpiritMod.Items.Consumable;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -11,6 +12,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Hail Snail");
 			Main.npcFrameCount[NPC.type] = 6;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -23,7 +25,6 @@ namespace SpiritMod.NPCs.Critters
 			NPC.lifeMax = 5;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
-			Main.npcCatchable[NPC.type] = true;
 			NPC.catchItem = (short)ModContent.ItemType<HailSnailItem>();
 			NPC.knockBackResist = .45f;
 			NPC.aiStyle = 67;
@@ -31,6 +32,15 @@ namespace SpiritMod.NPCs.Critters
 			AIType = NPCID.Snail;
             AnimationType = NPCID.Snail;
 			NPC.dontTakeDamageFromHostiles = false;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Blizzard,
+				new FlavorTextBestiaryInfoElement("A small living snowball that can’t get enough of the cold. It can get colder and colder, but it will never freeze."),
+			});
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

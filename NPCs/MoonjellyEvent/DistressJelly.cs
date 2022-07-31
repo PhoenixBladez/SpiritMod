@@ -1,14 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Consumable;
-using SpiritMod.Tiles.Block;
-using SpiritMod.NPCs.Boss.MoonWizard.Projectiles;
 using System;
-using System.Linq;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.MoonjellyEvent
 {
@@ -18,6 +17,7 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 		{
 			DisplayName.SetDefault("Distressed Jelly");
 			Main.npcFrameCount[NPC.type] = 6;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -32,7 +32,6 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             NPC.buffImmune[BuffID.Poisoned] = true;
             NPC.buffImmune[BuffID.Venom] = true;
             NPC.value = 0f;
-			Main.npcCatchable[NPC.type] = true;
 			NPC.catchItem = (short)ModContent.ItemType<DistressJellyItem>();
 			NPC.knockBackResist = .45f;
 			NPC.aiStyle = 64;
@@ -42,6 +41,15 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             NPC.rarity = 3;
             AIType = NPCID.Firefly;
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+				new FlavorTextBestiaryInfoElement("A stray space rock has popped this Lunazoa’s protective bubble. The stone prevents the bubble from reforming, causing them distress."),
+			});
+		}
+
 		public override bool? CanBeHitByProjectile(Projectile projectile) => !projectile.minion;
 
 		public override void HitEffect(int hitDirection, double damage)

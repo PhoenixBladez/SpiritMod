@@ -6,6 +6,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -15,6 +16,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Frost Minnow");
 			Main.npcFrameCount[NPC.type] = 4;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -24,8 +26,7 @@ namespace SpiritMod.NPCs.Critters
 			NPC.damage = 0;
 			NPC.defense = 0;
 			NPC.lifeMax = 5;
-			Main.npcCatchable[NPC.type] = true;
-			NPC.catchItem = (short)ItemID.FrostMinnow;
+			NPC.catchItem = ItemID.FrostMinnow;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
 			NPC.knockBackResist = .35f;
@@ -36,31 +37,41 @@ namespace SpiritMod.NPCs.Critters
 			NPC.dontCountMe = true;
 			NPC.dontTakeDamageFromHostiles = false;
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
+				new FlavorTextBestiaryInfoElement("Fretful minnows that can survive the intensely cold temperatures of the tundra’s waters because of their unnaturally high body heat."),
+			});
+		}
+
 		public override void AI()
-        {
-            Player player = Main.player[NPC.target]; {
-                Player target = Main.player[NPC.target];
-                int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
-                if (distance < 65 && target.wet && NPC.wet)
-                {
-                    Vector2 vel = NPC.DirectionFrom(target.Center);
-                    vel.Normalize();
-                    vel *= 4.5f;
-                    NPC.velocity = vel;
-                    NPC.rotation = NPC.velocity.X * .06f;
-                    if (target.position.X > NPC.position.X) {
-                        NPC.spriteDirection = -1;
-                        NPC.direction = -1;
-                        NPC.netUpdate = true;
-                    }
-                    else if (target.position.X < NPC.position.X) {
-                        NPC.spriteDirection = 1;
-                        NPC.direction = 1;
-                        NPC.netUpdate = true;
-                    }
-                }
-            }
-        }
+		{
+			Player target = Main.player[NPC.target];
+			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
+			if (distance < 65 && target.wet && NPC.wet)
+			{
+				Vector2 vel = NPC.DirectionFrom(target.Center);
+				vel.Normalize();
+				vel *= 4.5f;
+				NPC.velocity = vel;
+				NPC.rotation = NPC.velocity.X * .06f;
+				if (target.position.X > NPC.position.X)
+				{
+					NPC.spriteDirection = -1;
+					NPC.direction = -1;
+					NPC.netUpdate = true;
+				}
+				else if (target.position.X < NPC.position.X)
+				{
+					NPC.spriteDirection = 1;
+					NPC.direction = 1;
+					NPC.netUpdate = true;
+				}
+			}
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -77,7 +88,6 @@ namespace SpiritMod.NPCs.Critters
 			NPC.frame.Y = frame * frameHeight;
 		}
 
-
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
@@ -87,11 +97,6 @@ namespace SpiritMod.NPCs.Critters
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<RawFish>(2);
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.Player.ZoneSnow && spawnInfo.Water ? 0.1f : 0f;
-		}
-
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneSnow && spawnInfo.Water ? 0.1f : 0f;
 	}
 }

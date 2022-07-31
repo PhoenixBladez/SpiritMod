@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -17,6 +18,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Crinoid");
 			Main.npcFrameCount[NPC.type] = 6;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -29,7 +31,6 @@ namespace SpiritMod.NPCs.Critters
 			NPC.lifeMax = 30;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
-			Main.npcCatchable[NPC.type] = true;
 			NPC.catchItem = (short)ModContent.ItemType<CrinoidItem>();
 			NPC.knockBackResist = 0f;
 			NPC.aiStyle = 0;
@@ -37,6 +38,15 @@ namespace SpiritMod.NPCs.Critters
 			NPC.alpha = 255;
 			AIType = NPCID.WebbedStylist;
         }
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("These curious critters are closely related to starfish. They feed off of whatever sinks down to the bottom of the sea."),
+			});
+		}
+
 		public bool hasPicked = false;
 		int pickedType;
 		public override void AI()

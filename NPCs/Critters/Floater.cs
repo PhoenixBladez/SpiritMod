@@ -9,6 +9,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -17,6 +18,7 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Luminous Floater");
+			Main.npcCatchable[NPC.type] = true;
 			Main.npcFrameCount[NPC.type] = 40;
 		}
 
@@ -29,7 +31,6 @@ namespace SpiritMod.NPCs.Critters
 			NPC.dontCountMe = true;
 			NPC.lifeMax = 5;
 			NPC.HitSound = SoundID.NPCHit25;
-			Main.npcCatchable[NPC.type] = true;
 			NPC.catchItem = (short)ModContent.ItemType<FloaterItem>();
 			NPC.DeathSound = SoundID.NPCDeath28;
 			NPC.knockBackResist = .35f;
@@ -37,6 +38,14 @@ namespace SpiritMod.NPCs.Critters
 			NPC.noGravity = true;
 			NPC.npcSlots = 0;
 			AIType = NPCID.PinkJellyfish;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("Below the waves of the elusive glowing ocean, lies hundreds of small, glowing jellyfish, dancing among the luminescent tide."),
+			});
 		}
 
 		bool txt = false;

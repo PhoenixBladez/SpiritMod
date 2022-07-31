@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Consumable;
-using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -32,8 +31,16 @@ namespace SpiritMod.NPCs.Reach
 			NPC.knockBackResist = .45f;
 			NPC.aiStyle = 66;
 			NPC.npcSlots = 0;
-			NPC.noGravity = false; ;
+			NPC.noGravity = false;
 			AIType = NPCID.Grubby;
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<Biomes.BriarSurfaceBiome>().Type };
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("A plump larva native to the Briar. They are adorned in stiff yellow hairs along their back, and fatten up even more in preparation for metamorphosis."),
+			});
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

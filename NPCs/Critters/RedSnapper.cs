@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using SpiritMod.Items.Consumable.Fish;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -15,6 +16,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Red Snapper");
 			Main.npcFrameCount[NPC.type] = 4;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -24,8 +26,7 @@ namespace SpiritMod.NPCs.Critters
 			NPC.damage = 0;
 			NPC.defense = 0;
 			NPC.lifeMax = 5;
-			Main.npcCatchable[NPC.type] = true;
-			NPC.catchItem = (short)ItemID.RedSnapper;
+			NPC.catchItem = ItemID.RedSnapper;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
 			NPC.knockBackResist = .35f;
@@ -37,11 +38,18 @@ namespace SpiritMod.NPCs.Critters
 			NPC.dontTakeDamageFromHostiles = false;
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("Despite their name, they are actually quite docile! Perfect for capturing and cooking without issue."),
+			});
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
@@ -52,34 +60,32 @@ namespace SpiritMod.NPCs.Critters
 			int frame = (int)NPC.frameCounter;
 			NPC.frame.Y = frame * frameHeight;
 		}
+
 		public override void AI()
-        {
-            Player player = Main.player[NPC.target];
-            {
-                Player target = Main.player[NPC.target];
-                int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
-                if (distance < 65 && target.wet && NPC.wet)
-                {
-                    Vector2 vel = NPC.DirectionFrom(target.Center);
-                    vel.Normalize();
-                    vel *= 4.5f;
-                    NPC.velocity = vel;
-                    NPC.rotation = NPC.velocity.X * .06f;
-                    if (target.position.X > NPC.position.X)
-                    {
-                        NPC.spriteDirection = -1;
-                        NPC.direction = -1;
-                        NPC.netUpdate = true;
-                    }
-                    else if (target.position.X < NPC.position.X)
-                    {
-                        NPC.spriteDirection = 1;
-                        NPC.direction = 1;
-                        NPC.netUpdate = true;
-                    }
-                }
-            }
-        }
+		{
+			Player target = Main.player[NPC.target];
+			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
+			if (distance < 65 && target.wet && NPC.wet)
+			{
+				Vector2 vel = NPC.DirectionFrom(target.Center);
+				vel.Normalize();
+				vel *= 4.5f;
+				NPC.velocity = vel;
+				NPC.rotation = NPC.velocity.X * .06f;
+				if (target.position.X > NPC.position.X)
+				{
+					NPC.spriteDirection = -1;
+					NPC.direction = -1;
+					NPC.netUpdate = true;
+				}
+				else if (target.position.X < NPC.position.X)
+				{
+					NPC.spriteDirection = 1;
+					NPC.direction = 1;
+					NPC.netUpdate = true;
+				}
+			}
+		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
@@ -95,10 +101,6 @@ namespace SpiritMod.NPCs.Critters
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<RawFish>(2);
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.Player.ZoneBeach && spawnInfo.Water ? 0.099f : 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneBeach && spawnInfo.Water ? 0.099f : 0f;
 	}
 }

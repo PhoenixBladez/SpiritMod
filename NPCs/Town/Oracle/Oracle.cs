@@ -13,6 +13,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Town.Oracle
 {
@@ -62,6 +63,14 @@ namespace SpiritMod.NPCs.Town.Oracle
 			NPC.noGravity = true;
 			NPC.dontTakeDamage = true;
 			NPC.immortal = true;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Marble,
+				new FlavorTextBestiaryInfoElement("They offers blessings and goods in exchange for ancient currency. They wear a blindfold, as being enlightened and blessed by Olympus has made their vision unnecessary."),
+			});
 		}
 
 		public override void AI()
@@ -360,7 +369,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 				"My epic tale has no end, and may never have one!",
 				"Mythology? What part of this makes you believe it is a myth?",
 				"I have lost track of time, and the gods refuse to tell me where it is!",
-				"Lorem ipsum dolor sit amet... Be patient, I'm not finished.",
+				"Lorem ipsum dolor sit amet... be patient, I'm not finished.",
 				"I am unable to die unless I am forgotten. I wonder who still remembers me...",
 				"What do you need? I don't have unending time. Hm...on second thought...",
 				"I had all life to write a glorious tale, but I cannot get past 'the'.",
@@ -373,7 +382,7 @@ namespace SpiritMod.NPCs.Town.Oracle
 			return Main.rand.Next(options);
 		}
 
-		public override List<string> SetNPCNameList() => new List<string>() { "Pythia", "Cassandra", "Chrysame", "Eritha", "Theoclea", "Hypatia", "Themistoclea", "Phemonoe" };
+		public override List<string> SetNPCNameList() => new() { "Pythia", "Cassandra", "Chrysame", "Eritha", "Theoclea", "Hypatia", "Themistoclea", "Phemonoe" };
 
 		public override void OnChatButtonClicked(bool firstButton, ref bool shop)
 		{

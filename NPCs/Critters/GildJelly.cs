@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -32,6 +33,14 @@ namespace SpiritMod.NPCs.Critters
 			AIType = NPCID.PinkJellyfish;
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("Gorgeous jellies with a shimmering hood that resembles gold. Tragically, they do not handle captivity well."),
+			});
+		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += 0.15f;
@@ -42,9 +51,8 @@ namespace SpiritMod.NPCs.Critters
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.PlayerSafe) {
-				return 0f;
-			}
+			if (spawnInfo.PlayerSafe)
+				return 0.04f;
 			return SpawnCondition.OceanMonster.Chance * 0.008f;
 		}
 
@@ -61,12 +69,13 @@ namespace SpiritMod.NPCs.Critters
 					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.GoldCoin, 0f, 0f, 100, default, 1.4f);
 					Main.dust[num622].velocity *= 1f;
 					Main.dust[num622].noGravity = true;
-					if (Main.rand.Next(2) == 0) {
+					if (Main.rand.NextBool(2)) {
 						Main.dust[num622].scale = 0.23f;
 					}
 				}
 			}
 		}
+
 		public override bool PreAI()
 		{
 			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .2f, .2f, .2f);

@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Reach
 {
@@ -33,10 +34,19 @@ namespace SpiritMod.NPCs.Reach
 			NPC.npcSlots = 0;
 			NPC.noGravity = true;
             NPC.chaseable = false;
+
 			AIType = NPCID.Firefly;
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<Biomes.BriarSurfaceBiome>().Type };
 		}
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("From the moment a Briarmoth leaves its cocoon, it must hide from predators. It uses its deep green wings to blend into the trees of the Briar."),
+			});
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (NPC.life <= 0)
                 for (int k = 0; k < 10; k++)

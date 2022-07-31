@@ -5,6 +5,7 @@ using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -33,6 +34,14 @@ namespace SpiritMod.NPCs.Critters
 			NPC.npcSlots = 0;
 			NPC.noGravity = false;
 			NPC.dontTakeDamageFromHostiles = false;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundMushroom,
+				new FlavorTextBestiaryInfoElement("This little guy’s playlist consists of 80% lofi beats and hyperwave. Although some judge his taste, that won’t stop him from dancing."),
+			});
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -35,6 +36,14 @@ namespace SpiritMod.NPCs.Critters
 			AIType = NPCID.Grasshopper;
 			NPC.alpha = 40;
 			NPC.dontCountMe = true;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("Where could this have drifted off from? A loose net? A sunken ship? Guess it doesn’t really matter - finders keepers!"),
+			});
 		}
 
 		public override void AI()

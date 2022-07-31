@@ -11,6 +11,7 @@ using static SpiritMod.NPCUtils;
 using SpiritMod.Tiles.Furniture.SlotMachine;
 using SpiritMod.Items.Sets.MagicMisc.MagicDeck;
 using Terraria.GameContent.Personalities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Town
 {
@@ -55,6 +56,14 @@ namespace SpiritMod.NPCs.Town
 			NPC.DeathSound = SoundID.NPCDeath1;
 			NPC.knockBackResist = 0.5f;
 			AnimationType = NPCID.Guide;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+				new FlavorTextBestiaryInfoElement("The Gambler has long lived life on the edge, lending herself to the whims of fate. While this makes her an ardent player, it also once bound her to the top of a goblin fortress."),
+			});
 		}
 
 		public override bool CanTownNPCSpawn(int numTownNPCs, int money)

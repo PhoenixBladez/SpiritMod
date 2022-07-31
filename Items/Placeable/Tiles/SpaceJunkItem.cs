@@ -14,7 +14,6 @@ namespace SpiritMod.Items.Placeable.Tiles
 			ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = 16;
@@ -32,25 +31,26 @@ namespace SpiritMod.Items.Placeable.Tiles
 
 			Item.createTile = ModContent.TileType<SpaceJunkTile>();
 		}
+
 		public override void ExtractinatorUse(ref int resultType, ref int resultStack)
 		{
-			if (Main.rand.Next(6) == 0) {
+			if (Main.rand.NextBool(6)) {
 				string[] lootTable = { "ScarpItem2", "ScrapItem3", "ScrapItem5" };
 				int loot = Main.rand.Next(lootTable.Length);
 				resultType = Mod.Find<ModItem>(lootTable[loot]).Type;
 				resultStack = Main.rand.Next(1, 4);
 			}
-			else if (Main.rand.Next(10) == 0) {
+			else if (Main.rand.NextBool(10)) {
 				string[] lootTable1 = { "ScrapItem1", "ScrapItem4", "ScrapItem6" };
 				int loot2 = Main.rand.Next(lootTable1.Length);
 				resultType = Mod.Find<ModItem>(lootTable1[loot2]).Type;
 				resultStack = 1;
 			}
-			else if (Main.rand.Next(9) == 0) {
+			else if (Main.rand.NextBool(9)) {
 				resultType = Main.rand.Next(new int[] { 2337, 2339 });
 				resultStack = 1;
 			}
-			else if (Main.rand.Next(40) == 0) {
+			else if (Main.rand.NextBool(40)) {
 				//resultType = ModContent.ItemType<ScrapGunHarold>();
 				//resultStack = 1;
 			}

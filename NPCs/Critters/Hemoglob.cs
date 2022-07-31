@@ -3,6 +3,7 @@ using SpiritMod.Items.Consumable;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -11,7 +12,6 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hemoglob");
-			Main.npcFrameCount[NPC.type] = 7;
 			Main.npcFrameCount[NPC.type] = 7;
 			Main.npcCatchable[NPC.type] = true;
 		}
@@ -33,6 +33,14 @@ namespace SpiritMod.NPCs.Critters
 			NPC.noGravity = false; ;
 			AIType = NPCID.Bunny;
 			NPC.dontTakeDamageFromHostiles = false;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+				new FlavorTextBestiaryInfoElement("A descendant of royalty and a wandering king. He observes your every action while moving with grace and dignity."),
+			});
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

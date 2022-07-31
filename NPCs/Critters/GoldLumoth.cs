@@ -7,6 +7,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -29,13 +30,21 @@ namespace SpiritMod.NPCs.Critters
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath4;
             NPC.dontCountMe = true;
-            NPC.catchItem = (short)Mod.Find<ModItem>("GoldLumothItem").Type;
+            NPC.catchItem = ModContent.ItemType<GoldLumothItem>();
             NPC.knockBackResist = .45f;
             NPC.aiStyle = 64;
             NPC.npcSlots = 0;
             NPC.noGravity = true;
             AIType = NPCID.Firefly;
 			NPC.dontTakeDamageFromHostiles = false;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+				new FlavorTextBestiaryInfoElement("Rarely, critters are found coated entirely in gold! Shopkeepers will pay handsomely for these, or you can show them off in cages!"),
+			});
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -64,7 +73,7 @@ namespace SpiritMod.NPCs.Critters
                 {
                     int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.GoldCoin, 0f, 0f, 100, default, 1f);
                     Main.dust[num622].velocity *= .1f;
-                    if (Main.rand.Next(2) == 0)
+                    if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.9f;
                         Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -75,9 +84,7 @@ namespace SpiritMod.NPCs.Critters
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.PlayerSafe)
-            {
-                return 0f;
-            }
+                return 0.008f;
             return SpawnCondition.Cavern.Chance * 0.000763f;
         }
 

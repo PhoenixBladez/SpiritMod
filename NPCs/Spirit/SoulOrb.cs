@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Spirit
 {
@@ -15,6 +16,7 @@ namespace SpiritMod.NPCs.Spirit
 		{
 			DisplayName.SetDefault("Soul Orb");
 			Main.npcFrameCount[NPC.type] = 4;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -27,18 +29,23 @@ namespace SpiritMod.NPCs.Spirit
 			NPC.HitSound = SoundID.NPCHit3;
 			NPC.DeathSound = SoundID.NPCDeath6;
 			NPC.value = 60f;
-			Main.npcCatchable[NPC.type] = true;
 			NPC.catchItem = (short)ModContent.ItemType<SoulOrbItem>();
 			NPC.knockBackResist = .45f;
 			NPC.aiStyle = 64;
 			NPC.noGravity = true;
 			AIType = NPCID.Firefly;
-			Main.npcFrameCount[NPC.type] = 4;
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<Biomes.SpiritSurfaceBiome>().Type };
 		}
-		public override Color? GetAlpha(Color lightColor)
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
-			return Color.White;
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("A soft, flickering light anomaly drifting about the Spirit. They are said to be the wandering souls of departed travelers."),
+			});
 		}
+
+		public override Color? GetAlpha(Color lightColor) => Color.White;
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			Player player = spawnInfo.Player;

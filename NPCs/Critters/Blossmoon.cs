@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -14,7 +15,8 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blossmoon");
-			Main.npcFrameCount[NPC.type] = 4;
+			Main.npcCatchable[NPC.type] = true;
+			Main.npcFrameCount[NPC.type] = 45;
 		}
 
 		public override void SetDefaults()
@@ -27,14 +29,20 @@ namespace SpiritMod.NPCs.Critters
 			NPC.lifeMax = 5;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
-			Main.npcCatchable[NPC.type] = true;
 			NPC.catchItem = (short)ModContent.ItemType<BlossmoonItem>();
 			NPC.dontTakeDamageFromHostiles = false;
 			NPC.knockBackResist = .45f;
 			NPC.aiStyle = 0;
 			NPC.npcSlots = 0;
 			NPC.noGravity = false;
-			Main.npcFrameCount[NPC.type] = 45;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
+				new FlavorTextBestiaryInfoElement("These creatures are the size of a quarter, and only ever appear during the night. They can only be observed dancing, and emitting a low calming glow."),
+			});
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

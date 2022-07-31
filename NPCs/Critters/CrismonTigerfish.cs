@@ -2,8 +2,8 @@ using SpiritMod.Items.Consumable.Fish;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using Microsoft.Xna.Framework;
+using Terraria.GameContent.Bestiary;
+
 namespace SpiritMod.NPCs.Critters
 {
 	public class CrismonTigerfish : ModNPC
@@ -33,10 +33,17 @@ namespace SpiritMod.NPCs.Critters
 			AIType = NPCID.CorruptGoldfish;
 			NPC.dontTakeDamageFromHostiles = false;
 		}
-		public override void AI()
-        {
-            NPC.spriteDirection = NPC.direction;
-        }
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+				new FlavorTextBestiaryInfoElement("A carnivorous fish that has been tainted by the bloody waters of the Crimson. They are named after their lack of stripes, which resemble that of a tiger."),
+			});
+		}
+
+		public override void AI() => NPC.spriteDirection = NPC.direction;
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += 0.15f;
@@ -55,11 +62,6 @@ namespace SpiritMod.NPCs.Critters
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<RawFish>(2);
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.Player.ZoneCrimson && spawnInfo.Water ? 0.06f : 0f;
-		}
-
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneCrimson && spawnInfo.Water ? 0.06f : 0f;
 	}
 }

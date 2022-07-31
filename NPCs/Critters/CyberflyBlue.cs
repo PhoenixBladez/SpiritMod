@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -36,9 +37,17 @@ namespace SpiritMod.NPCs.Critters
 			NPC.npcSlots = 0;
 			NPC.noGravity = true;
 
+			SpawnModBiomes = new int[1] { ModContent.GetInstance<Biomes.SynthwaveSurfaceBiome>().Type };
 			AIType = NPCID.Firefly;
 		}
 
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				new FlavorTextBestiaryInfoElement("Small digital wisps that flutter about cyberspace."),
+			});
+
+		}
 		public override void AI()
 		{
 			NPC.spriteDirection = NPC.direction;

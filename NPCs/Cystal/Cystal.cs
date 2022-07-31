@@ -3,13 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameContent;
-using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 using Terraria.ID;
-using SpiritMod.Mechanics.QuestSystem;
-using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.Bestiary;
+using Filters = Terraria.Graphics.Effects.Filters;
 
 namespace SpiritMod.NPCs.Cystal
 {

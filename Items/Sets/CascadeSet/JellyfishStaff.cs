@@ -43,8 +43,8 @@ namespace SpiritMod.Items.Sets.CascadeSet
 			//recipe.AddIngredient(ModContent.ItemType<DeepCascadeShard>(), 6);
 			recipe.AddIngredient(ItemID.Coral, 5);
             recipe.AddIngredient(ItemID.Glowstick, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register();
+			recipe.AddTile(TileID.Anvils);
+			recipe.Register();
         }
 
 		public override bool AltFunctionUse(Player player) => true;

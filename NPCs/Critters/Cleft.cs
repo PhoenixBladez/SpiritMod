@@ -2,6 +2,7 @@ using SpiritMod.Items.Consumable;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
 {
@@ -10,6 +11,7 @@ namespace SpiritMod.NPCs.Critters
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cleft Hopper");
+			Main.npcCatchable[NPC.type] = true;
 			Main.npcFrameCount[NPC.type] = 7;
 		}
 
@@ -23,14 +25,20 @@ namespace SpiritMod.NPCs.Critters
 			NPC.lifeMax = 5;
 			NPC.HitSound = SoundID.NPCHit7;
 			NPC.DeathSound = SoundID.NPCDeath4;
-			Main.npcCatchable[NPC.type] = true;
 			NPC.catchItem = (short)ModContent.ItemType<CleftItem>();
 			NPC.knockBackResist = .45f;
 			NPC.aiStyle = 67;
 			NPC.npcSlots = 0;
 			AIType = NPCID.Snail;
-			Main.npcFrameCount[NPC.type] = 7;
 			NPC.dontTakeDamageFromHostiles = false;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundDesert,
+				new FlavorTextBestiaryInfoElement("A tiny living crag that roams the desert. They leave small little trails in the sand, letting the wind cover their tracks."),
+			});
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
