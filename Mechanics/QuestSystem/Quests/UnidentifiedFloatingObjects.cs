@@ -13,7 +13,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestCategory => "Main";
 
 		public override (int, int)[] QuestRewards => _rewards;
-		private (int, int)[] _rewards = new[]
+		private readonly (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Consumable.DistressJellyItem>(), 1),
 			(Terraria.ID.ItemID.GoldCoin, 1)

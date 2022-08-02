@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Armor.ClatterboneArmor;
+//using SpiritMod.Items.Armor.ClatterboneArmor;
 using SpiritMod.Items.Material;
 using SpiritMod.Projectiles.Hostile;
 using System;
@@ -78,7 +78,7 @@ namespace SpiritMod.NPCs.SporeWheezer
 			npcLoot.AddCommon<Items.Sets.FlailsMisc.ClatterMace.ClatterMace>(60);
 			npcLoot.AddCommon(ItemID.Compass, 80);
 			npcLoot.AddCommon(ItemID.Rally, 200);
-			npcLoot.AddOneFromOptions(ModContent.ItemType<ClatterboneBreastplate>(), ModContent.ItemType<ClatterboneFaceplate>(), ModContent.ItemType<ClatterboneLeggings>());
+			//npcLoot.AddOneFromOptions(ModContent.ItemType<ClatterboneBreastplate>(), ModContent.ItemType<ClatterboneFaceplate>(), ModContent.ItemType<ClatterboneLeggings>());
 		}
 
 		int frame = 0;

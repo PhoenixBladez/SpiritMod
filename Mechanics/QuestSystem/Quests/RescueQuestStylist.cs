@@ -13,7 +13,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestCategory => "Other";
 
 		public override (int, int)[] QuestRewards => _rewards;
-		private (int, int)[] _rewards = new[]
+		private readonly (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Accessory.LongFuse>(), 1),
 			(ItemID.ManaHairDye, 1),

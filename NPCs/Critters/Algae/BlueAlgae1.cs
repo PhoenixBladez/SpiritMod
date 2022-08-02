@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters.Algae
 {
@@ -30,10 +31,20 @@ namespace SpiritMod.NPCs.Critters.Algae
 			NPC.dontCountMe = true;
 			NPC.dontTakeDamage = true;
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("A tiny blue organism sometimes found floating gently atop of the ocean's waves. It's a wonder why or when they appear."),
+			});
+		}
+
 		public float num42;
 		int num = 0;
 		bool collision = false;
 		int num1232;
+
 		public override void AI()
 		{
 			if (Main.dayTime) {

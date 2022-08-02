@@ -8,6 +8,7 @@ namespace SpiritMod.NPCs.ChainedSinner
 {
 	internal class ChainedSinnerBase : ModNPC
 	{
+		public override bool IsLoadingEnabled(Mod mod) => false;
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Chained Sinner");
 
 		public override void SetDefaults()
@@ -42,7 +43,6 @@ namespace SpiritMod.NPCs.ChainedSinner
 		}
 
 		public override void SendExtraAI(BinaryWriter writer) => writer.Write(spawnedHead);
-
 		public override void ReceiveExtraAI(BinaryReader reader) => spawnedHead = reader.ReadBoolean();
 	}
 }

@@ -121,6 +121,9 @@ namespace SpiritMod.NPCs.CavernBandit
 			Player player = Main.player[NPC.target];
 			NPC.frameCounter++;
 
+			if (NPC.IsABestiaryIconDummy)
+				_timer += 0.05;
+
 			//Method to look less repetitive
 			void IncrementFrame(int frameCounterThreshold, int maxFrame, int minFrame = 0)
 			{
@@ -170,8 +173,8 @@ namespace SpiritMod.NPCs.CavernBandit
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (_spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
-			int xpos = (int)((NPC.Center.X + 59) - Main.screenPosition.X) - (int)(TextureAssets.Npc[NPC.type].Value.Width / 2);
-			int ypos = (int)((NPC.Center.Y - 60) - Main.screenPosition.Y) + (int)(Math.Sin(_timer) * 12);
+			int xpos = (int)((NPC.Center.X + 59) - screenPos.X) - (int)(TextureAssets.Npc[NPC.type].Value.Width / 2);
+			int ypos = (int)((NPC.Center.Y - 60) - screenPos.Y) + (int)(Math.Sin(_timer) * 12);
 			Texture2D ripple = Mod.Assets.Request<Texture2D>("Effects/Ripple").Value;
 			Texture2D lantern = Mod.Assets.Request<Texture2D>("NPCs/CavernBandit/CavernLantern").Value;
 			Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), Color.Yellow, NPC.rotation, ripple.Size() / 2f, 1f, spriteEffects, 0);
@@ -180,7 +183,7 @@ namespace SpiritMod.NPCs.CavernBandit
 			Texture2D npcTex = TextureAssets.Npc[NPC.type].Value;
 			Vector2 yOffset = new Vector2(0, NPC.gfxOffY);
 			yOffset.Y += 22; //hardcoded offset so its on ground properly
-			spriteBatch.Draw(npcTex, NPC.Center - Main.screenPosition + yOffset, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, new Vector2(NPC.frame.Width/2f, NPC.frame.Height), NPC.scale, spriteEffects, 0);
+			spriteBatch.Draw(npcTex, NPC.Center - screenPos + yOffset, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, new Vector2(NPC.frame.Width/2f, NPC.frame.Height), NPC.scale, spriteEffects, 0);
 			return false;
 		}
 

@@ -13,7 +13,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestCategory => "Explorer";
 
 		public override (int, int)[] QuestRewards => _rewards;
-		private (int, int)[] _rewards = new[]
+		private readonly (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Pins.PinBlue>(), 1),
 			(Terraria.ID.ItemID.MushroomGrassSeeds, 5),

@@ -14,7 +14,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestCategory => "Slayer";
 
 		public override (int, int)[] QuestRewards => _rewards;
-		private (int, int)[] _rewards = new[]
+		private readonly (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Accessory.FeralConcoction>(), 1),
 			(ModContent.ItemType<Items.Sets.FloranSet.FloranCharm>(), 1),

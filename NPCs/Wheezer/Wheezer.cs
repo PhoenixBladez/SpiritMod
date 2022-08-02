@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Armor.ClatterboneArmor;
+//using SpiritMod.Items.Armor.ClatterboneArmor;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -78,7 +78,7 @@ namespace SpiritMod.NPCs.Wheezer
 			npcLoot.Add(ItemDropRule.Common(ItemID.Compass, 80));
 			npcLoot.Add(ItemDropRule.Common(ItemID.Rally, 20));
 			npcLoot.Add(ItemDropRule.Common(ItemID.Bezoar, 100));
-			npcLoot.Add(ItemDropRule.OneFromOptions(55, ModContent.ItemType<ClatterboneBreastplate>(), ModContent.ItemType<ClatterboneFaceplate>(), ModContent.ItemType<ClatterboneLeggings>()));
+			//npcLoot.Add(ItemDropRule.OneFromOptions(55, ModContent.ItemType<ClatterboneBreastplate>(), ModContent.ItemType<ClatterboneFaceplate>(), ModContent.ItemType<ClatterboneLeggings>()));
 
 			LeadingConditionRule snow = new LeadingConditionRule(new DropRuleConditions.InBiome(DropRuleConditions.InBiome.Biome.Snow));
 			snow.OnSuccess(ItemDropRule.Common(ModContent.ItemType<Items.Placeable.IceSculpture.IceWheezerSculpture>(), 100));

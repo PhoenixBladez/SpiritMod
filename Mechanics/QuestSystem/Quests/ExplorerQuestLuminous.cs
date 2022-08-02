@@ -13,7 +13,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestCategory => "Explorer";
 
 		public override (int, int)[] QuestRewards => _rewards;
-		private (int, int)[] _rewards = new[]
+		private readonly (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Books.Book_LuminousArt>(), 1),
 			(ModContent.ItemType<Items.Placeable.MusicBox.LuminousNightBox>(), 1),

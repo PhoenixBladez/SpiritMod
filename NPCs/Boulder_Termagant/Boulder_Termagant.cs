@@ -28,6 +28,9 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 			Main.npcFrameCount[NPC.type] = 11;
 			NPCID.Sets.TrailCacheLength[NPC.type] = 30;
 			NPCID.Sets.TrailingMode[NPC.type] = 0;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { PortraitPositionYOverride = -20 };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -69,6 +72,7 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 			writer.Write(randomColor);
 			writer.Write(boulderTimer);
 		}
+
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			hasGottenColor = reader.ReadBoolean();
@@ -81,14 +85,15 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 
 			randomColor = reader.ReadInt32();
 			boulderTimer = reader.ReadInt32();
-
 		}
+
 		public override bool? CanBeHitByProjectile(Projectile projectile)
 		{
 			if (projectile.type != ProjectileID.Boulder && projectile.type != ProjectileID.BoulderStaffOfEarth)
 				return base.CanBeHitByProjectile(projectile);
 			return false;
 		}
+
 		public override void AI()
 		{
 			Player player = Main.player[NPC.target];
@@ -140,9 +145,8 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 			Lighting.AddLight(new Vector2(NPC.Center.X, NPC.Center.Y), r * 0.002f, g * 0.002f, b * 0.002f);
 
 			if (Vector2.Distance(NPC.Center, player.Center) < 800f && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0))
-			{
 				boulderTimer++;
-			}
+
 			if (boulderTimer > 299 && boulderTimer < 421)
 			{
 				if (boulderTimer == 300)
@@ -240,12 +244,12 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 			float addHeight = 4f;
 			Color color1 = Lighting.GetColor((int)(NPC.position.X + NPC.width * 0.5) / 16, (int)((NPC.position.Y + NPC.height * 0.5) / 16.0));
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Bottom - Main.screenPosition + new Vector2((float)(-TextureAssets.Npc[NPC.type].Value.Width * NPC.scale / 2.0 + vector2_3.X * (double)NPC.scale), (float)(-TextureAssets.Npc[NPC.type].Value.Height * (double)NPC.scale / Main.npcFrameCount[NPC.type] + 4.0 + vector2_3.Y * NPC.scale) + addHeight + NPC.gfxOffY), NPC.frame,
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Bottom - screenPos + new Vector2((float)(-TextureAssets.Npc[NPC.type].Value.Width * NPC.scale / 2.0 + vector2_3.X * (double)NPC.scale), (float)(-TextureAssets.Npc[NPC.type].Value.Height * (double)NPC.scale / Main.npcFrameCount[NPC.type] + 4.0 + vector2_3.Y * NPC.scale) + addHeight + NPC.gfxOffY), NPC.frame,
 							drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
-			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boulder_Termagant/Boulder_Termagant_Glow").Value, NPC.Bottom - Main.screenPosition + new Vector2((float)(-TextureAssets.Npc[NPC.type].Value.Width * NPC.scale / 2.0 + vector2_3.X * (double)NPC.scale), (-TextureAssets.Npc[NPC.type].Value.Height * NPC.scale / Main.npcFrameCount[NPC.type] + 4.0f + vector2_3.Y * NPC.scale) + addHeight + NPC.gfxOffY), NPC.frame, new Color(r - NPC.alpha, byte.MaxValue - NPC.alpha, g - NPC.alpha, b - NPC.alpha), NPC.rotation, vector2_3, NPC.scale, effects, 0.0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boulder_Termagant/Boulder_Termagant_Glow").Value, NPC.Bottom - screenPos + new Vector2((float)(-TextureAssets.Npc[NPC.type].Value.Width * NPC.scale / 2.0 + vector2_3.X * (double)NPC.scale), (-TextureAssets.Npc[NPC.type].Value.Height * NPC.scale / Main.npcFrameCount[NPC.type] + 4.0f + vector2_3.Y * NPC.scale) + addHeight + NPC.gfxOffY), NPC.frame, new Color(r - NPC.alpha, byte.MaxValue - NPC.alpha, g - NPC.alpha, b - NPC.alpha), NPC.rotation, vector2_3, NPC.scale, effects, 0.0f);
 			float num = (float)(0.25 + (NPC.GetAlpha(color1).ToVector3() - new Vector3(1.25f)).Length() * 0.25);
 			for (int index = 0; index < 16; ++index)
-				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boulder_Termagant/Boulder_Termagant_Glow").Value, NPC.Bottom - Main.screenPosition + new Vector2((float)(-TextureAssets.Npc[NPC.type].Value.Width * NPC.scale / 2.0 + vector2_3.X * NPC.scale), (-TextureAssets.Npc[NPC.type].Value.Height * NPC.scale / Main.npcFrameCount[NPC.type] + 4.0f + vector2_3.Y * NPC.scale) + addHeight + NPC.gfxOffY) + NPC.velocity.RotatedBy((double)index * 47079637050629, new Vector2()) * num, NPC.frame, new Color(r, g, b, 0), NPC.rotation, vector2_3, NPC.scale, effects, 0.0f);
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Boulder_Termagant/Boulder_Termagant_Glow").Value, NPC.Bottom - screenPos + new Vector2((float)(-TextureAssets.Npc[NPC.type].Value.Width * NPC.scale / 2.0 + vector2_3.X * NPC.scale), (-TextureAssets.Npc[NPC.type].Value.Height * NPC.scale / Main.npcFrameCount[NPC.type] + 4.0f + vector2_3.Y * NPC.scale) + addHeight + NPC.gfxOffY) + NPC.velocity.RotatedBy((double)index * 47079637050629, new Vector2()) * num, NPC.frame, new Color(r, g, b, 0), NPC.rotation, vector2_3, NPC.scale, effects, 0.0f);
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -253,9 +257,9 @@ namespace SpiritMod.NPCs.Boulder_Termagant
 			NPC.frameCounter++;
 			if (!isRoaring)
 			{
-				if (NPC.velocity.Y == 0f)
+				if (NPC.velocity.Y == 0f || NPC.IsABestiaryIconDummy)
 				{
-					if (NPC.velocity.X != 0f)
+					if (NPC.velocity.X != 0f || NPC.IsABestiaryIconDummy)
 					{
 						if (NPC.frameCounter < 6)
 							NPC.frame.Y = 0 * frameHeight;

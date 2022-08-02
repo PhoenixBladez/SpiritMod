@@ -12,7 +12,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestCategory => "Designer";
 
 		public override (int, int)[] QuestRewards => _rewards;
-		private (int, int)[] _rewards = new[]
+		private readonly (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Tiles.Block.Ambient.RuinstoneItem>(), 50),
 			(ModContent.ItemType<Tiles.Block.Ambient.FracturedStoneItem>(), 50),

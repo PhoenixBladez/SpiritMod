@@ -383,7 +383,7 @@ namespace SpiritMod
 
 			originMidX += mapX;
 			originMidY += mapY;
-
+			
 			var scrPos = new Vector2(originMidX, originMidY);
 			bool isOnscreen = originMidX >= 0 &&
 				originMidY >= 0 &&

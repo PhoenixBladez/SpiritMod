@@ -2,72 +2,31 @@
 using SpiritMod.Items.Weapon.Thrown;
 using SpiritMod.NPCs.OceanSlime;
 using SpiritMod.Items.Consumable.Food;
-using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Tiles.Ambient;
-using SpiritMod.Mechanics.Fathomless_Chest;
 using Microsoft.Xna.Framework;
-using SpiritMod.Tiles.Ambient.IceSculpture.Hostile;
-using SpiritMod.Tiles.Ambient.IceSculpture;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
+using SpiritMod.Tiles.Vanilla;
 
 namespace SpiritMod.Tiles
 {
 	public class GTile : GlobalTile
 	{
-		readonly int[] DirtAndDecor = { TileID.Dirt, TileID.Plants, TileID.SmallPiles, TileID.LargePiles, TileID.LargePiles2, TileID.MushroomPlants, TileID.Pots };
+		internal static readonly int[] DirtAndDecor = { TileID.Dirt, TileID.Plants, TileID.SmallPiles, TileID.LargePiles, TileID.LargePiles2, TileID.MushroomPlants, TileID.Pots };
 
 		public override void RandomUpdate(int i, int j, int type)
 		{
-			bool inLavaLayer = j > (int)Main.rockLayer && j < Main.maxTilesY - 250;
-			Tile tile = Framing.GetTileSafely(i, j);
-			Tile tileBelow = Framing.GetTileSafely(i, j + 1);
+			if (type == TileID.Cloud || type == TileID.RainCloud || type == TileID.SnowCloud)
+				CloudRandomUpdate.OnTick(i, j, type);
 
-			if (type == TileID.Pearlstone && inLavaLayer)
-			{
-				if (WorldGen.genRand.NextBool(20) && !tileBelow.HasTile && !(tileBelow.LiquidType == LiquidID.Lava))
-				{
-					if (!tile.BottomSlope)
-					{
-						tileBelow.TileType = (ushort)ModContent.TileType<Ambient.HangingChimes.HangingChimes>();
-						tileBelow.HasTile = true;
-						WorldGen.SquareTileFrame(i, j + 1, true);
-						if (Main.netMode == NetmodeID.Server)
-							NetMessage.SendTileSquare(-1, i, j + 1, 3, TileChangeType.None);
-					}
-				}
-			}
+			if (type == TileID.Pearlstone)
+				PearlstoneRandomUpdate.OnTick(i, j);
 
 			if (type == TileID.CorruptGrass || type == TileID.Ebonstone)
-			{
-				if (MyWorld.CorruptHazards < 20)
-				{
-					if (DirtAndDecor.Contains(Framing.GetTileSafely(i, j - 1).TileType) && DirtAndDecor.Contains(Framing.GetTileSafely(i, j - 2).TileType) && DirtAndDecor.Contains(Framing.GetTileSafely(i, j - 3).TileType) && (j > (int)Main.worldSurface - 100 && j < (int)Main.rockLayer - 20))
-					{
-						if (Main.rand.Next(450) == 0)
-						{
-							WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Corpsebloom>());
-							NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<Corpsebloom>(), 0, 0, -1, -1);
-						}
-
-						if (Main.rand.Next(450) == 0)
-						{
-							WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Corpsebloom1>());
-							NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<Corpsebloom1>(), 0, 0, -1, -1);
-						}
-
-						if (Main.rand.Next(450) == 0)
-						{
-							WorldGen.PlaceObject(i, j - 1, ModContent.TileType<Corpsebloom2>());
-							NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<Corpsebloom2>(), 0, 0, -1, -1);
-						}
-					}
-				}
-			}
+				CorpsebloomRandomUpdate.OnTick(i, j);
 		}
 
 		public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
@@ -79,7 +38,7 @@ namespace SpiritMod.Tiles
 
 				if (type == TileID.Stone || type == 25 || type == 117 || type == 203 || type == 57)
 				{
-					if (Main.rand.Next(25) == 1 && modPlayer.gemPickaxe && !fail)
+					if (Main.rand.NextBool(25)&& modPlayer.gemPickaxe && !fail)
 					{
 						int tremorItem = Main.rand.Next(new int[] { 11, 12, 13, 14, 699, 700, 701, 702, 999, 182, 178, 179, 177, 180, 181 });
 						if (Main.hardMode)
@@ -118,9 +77,9 @@ namespace SpiritMod.Tiles
 			if (!Main.dedServ)
 			{
 				Player player = Main.LocalPlayer;
-				if (type == TileID.PalmTree && Main.rand.Next(3) == 0 && player.ZoneBeach)
+				if (type == TileID.PalmTree && Main.rand.NextBool(3)&& player.ZoneBeach)
 				{
-					if (Main.rand.Next(2) == 1)
+					if (Main.rand.NextBool(2))
 						Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ModContent.ItemType<Coconut>(), Main.rand.Next(5, 8));
 					if (NPC.CountNPCS(ModContent.NPCType<OceanSlime>()) < 1)
 						NPC.NewNPC(new EntitySource_TileBreak(i, j), i * 16, (j - 10) * 16, ModContent.NPCType<OceanSlime>(), 0, 0.0f, -8.5f, 0.0f, 0.0f, (int)byte.MaxValue);
@@ -128,7 +87,7 @@ namespace SpiritMod.Tiles
 
 				if (type == 72)
 					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ModContent.ItemType<GlowRoot>(), Main.rand.Next(0, 2));
-				if (type == TileID.Trees && Main.rand.Next(25) == 0 && player.ZoneSnow && Main.rand.Next(4) == 1)
+				if (type == TileID.Trees && Main.rand.NextBool(25)&& player.ZoneSnow && Main.rand.NextBool(4))
 					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ModContent.ItemType<IceBerries>(), Main.rand.Next(1, 3));
 			}
 			return true;

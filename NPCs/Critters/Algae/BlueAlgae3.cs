@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters.Algae
 {
@@ -30,10 +31,12 @@ namespace SpiritMod.NPCs.Critters.Algae
 			NPC.dontCountMe = true;
 			NPC.dontTakeDamage = true;
 		}
+
 		public float num42;
 		int num = 0;
 		bool collision = false;
 		int num1232;
+
 		public override void AI()
 		{
 			if (Main.dayTime) {

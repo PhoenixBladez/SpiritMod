@@ -1,16 +1,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Material;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Accessory.Leather;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
-using SpiritMod.Items.Armor.ClatterboneArmor;
+//using SpiritMod.Items.Armor.ClatterboneArmor;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 
@@ -64,58 +62,44 @@ namespace SpiritMod.NPCs.CavernCrawler
 			npcLoot.Add(ItemDropRule.Common(ItemID.DepthMeter, 80));
 			npcLoot.Add(ItemDropRule.Common(ItemID.Compass, 80));
 			npcLoot.Add(ItemDropRule.Common(ItemID.Rally, 200));
-			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ClatterboneBreastplate>(), 65));
-			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ClatterboneFaceplate>(), 65));
-			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ClatterboneLeggings>(), 65));
+			//npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ClatterboneBreastplate>(), 65));
+			//npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ClatterboneFaceplate>(), 65));
+			//npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ClatterboneLeggings>(), 65));
 		}
 
 		int frame = 0;
 		int timer = 0;
 		bool trailbehind;
 		bool playsound;
+
 		public override void AI()
 		{
 			NPC.spriteDirection = NPC.direction;
 			Player target = Main.player[NPC.target];
-			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
-            timer++;
-            if (distance < 320) {
-				{
-					AIType = NPCID.Unicorn;
-					NPC.aiStyle = 26;
-					NPC.knockBackResist = 0.15f;
-					trailbehind = true;
-				}
-				if (timer >= 4) {
-					frame++;
-					timer = 0;
-				}
-				if (frame < 8) {
-					frame = 8;
-				}
-				if (frame >= 17) {
-					frame = 8;
-				}
+			float distance = NPC.DistanceSQ(target.Center);
+			if (distance < 320 * 320)
+			{
+				AIType = NPCID.Unicorn;
+				NPC.aiStyle = 26;
+				NPC.knockBackResist = 0.15f;
+				trailbehind = true;
 			}
-			else {
+			else
+			{
 				trailbehind = false;
 				playsound = false;
 				AIType = NPCID.Snail;
 				NPC.aiStyle = 3;
 				NPC.knockBackResist = 0.75f;
-				if (timer >= 4) {
-					frame++;
-					timer = 0;
-				}
-				if (frame >= 7) {
-					frame = 0;
-				}
 			}
-			if (trailbehind && !playsound) {
+
+			if (trailbehind && !playsound)
+			{
 				SoundEngine.PlaySound(SoundID.Item9, NPC.Center);
 				playsound = true;
 			}
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -129,10 +113,41 @@ namespace SpiritMod.NPCs.CavernCrawler
 			}
 			return true;
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
+			timer++;
+			float distance = NPC.DistanceSQ(Main.player[NPC.target].Center);
+
+			if (distance < 320 * 320 || NPC.IsABestiaryIconDummy)
+			{
+				if (timer >= 4)
+				{
+					frame++;
+					timer = 0;
+				}
+				if (frame < 8)
+				{
+					frame = 8;
+				}
+
+				if (frame >= 17)
+					frame = 8;
+			}
+			else
+			{
+				if (timer >= 4)
+				{
+					frame++;
+					timer = 0;
+				}
+
+				if (frame >= 7)
+					frame = 0;
+			}
 			NPC.frame.Y = frameHeight * frame;
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++) {

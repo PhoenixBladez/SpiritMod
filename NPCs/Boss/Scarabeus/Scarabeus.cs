@@ -24,9 +24,11 @@ using Terraria.ModLoader;
 using SpiritMod.Items.Placeable.Relics;
 using Terraria.GameContent.Bestiary;
 using SpiritMod.Items.Sets.ScarabeusDrops.ScarabPet;
+using SpiritMod.Utilities.PhaseIndicatorCompat;
 
 namespace SpiritMod.NPCs.Boss.Scarabeus
 {
+	[PhaseIndicator(null, 0.5f)]
 	[AutoloadBossHead]
 	public class Scarabeus : ModNPC, IBCRegistrable
 	{

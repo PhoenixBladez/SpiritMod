@@ -12,7 +12,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestCategory => "Slayer";
 
 		public override (int, int)[] QuestRewards => _rewards;
-		private (int, int)[] _rewards = new[]
+		private readonly (int, int)[] _rewards = new[]
 		{
 			(Terraria.ID.ItemID.SkyMill, 1),
 			(ModContent.ItemType<Items.Consumable.ChaosPearl>(), 25),

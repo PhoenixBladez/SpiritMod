@@ -87,20 +87,17 @@ namespace SpiritMod.NPCs.BottomFeeder
 		public override void FindFrame(int frameHeight)
 		{
 			timer++;
-			if (timer == 4)
+			if ((!NPC.IsABestiaryIconDummy && timer == 4) || timer == 6)
 			{
 				frame++;
 				timer = 0;
 			}
 
-			if (!NPC.IsABestiaryIconDummy)
-			{
-				float distance = NPC.DistanceSQ(Main.player[NPC.target].Center);
-				if (frame >= 8 && distance >= 180 * 180)
-					frame = 1;
-				else if (frame == 11 && distance < 180 * 180)
-					frame = 8;
-			}
+			float distance = NPC.DistanceSQ(Main.player[NPC.target].Center);
+			if (frame >= 8 && distance >= 180 * 180)
+				frame = 1;
+			else if (frame == 11 && distance < 180 * 180)
+				frame = 8;
 
 			NPC.frame.Y = frameHeight * frame;
 		}

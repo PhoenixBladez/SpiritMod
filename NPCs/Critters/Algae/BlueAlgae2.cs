@@ -11,7 +11,7 @@ namespace SpiritMod.NPCs.Critters.Algae
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bioluminescent Algae");
+			DisplayName.SetDefault("Blue Algae");
 			Main.npcFrameCount[NPC.type] = 1;
 		}
 
@@ -30,22 +30,28 @@ namespace SpiritMod.NPCs.Critters.Algae
 			NPC.dontCountMe = true;
 			NPC.dontTakeDamage = true;
 		}
+
 		public float num42;
 		int num = 0;
 		bool collision = false;
 		bool txt = false;
 		int num1232;
+
 		public override bool PreAI()
 		{
-			if (Main.dayTime) {
+			if (Main.dayTime)
+			{
 				num1232++;
-				if (num1232 >= Main.rand.Next(100, 700)) {
+				if (num1232 >= Main.rand.Next(100, 700))
+				{
 					NPC.active = false;
 					NPC.netUpdate = true;
 				}
 			}
-			if (!txt) {
-				for (int i = 0; i < 5; ++i) {
+			if (!txt)
+			{
+				for (int i = 0; i < 5; ++i)
+				{
 					Vector2 dir = Main.player[NPC.target].Center - NPC.Center;
 					dir.Normalize();
 					dir *= 1;
@@ -61,42 +67,46 @@ namespace SpiritMod.NPCs.Critters.Algae
 			}
 			return true;
 		}
+
 		public override void AI()
 		{
 			num++;
-			if (num >= Main.rand.Next(100, 400)) {
+
+			if (num >= Main.rand.Next(100, 400))
 				num = 0;
-			}
-			if (!Main.dayTime) {
+			if (!Main.dayTime)
 				Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.148f * 2, 0.191f * 2, .255f * 2);
-			}
+
 			NPC.spriteDirection = -NPC.direction;
 			int npcXTile = (int)(NPC.Center.X / 16);
 			int npcYTile = (int)(NPC.Center.Y / 16);
-			for (int y = npcYTile; y > Math.Max(0, npcYTile - 100); y--) {
-				if (Main.tile[npcXTile, y].LiquidAmount != 255) {
+			for (int y = npcYTile; y > Math.Max(0, npcYTile - 100); y--)
+			{
+				if (Main.tile[npcXTile, y].LiquidAmount != 255)
+				{
 					int liquid = (int)Main.tile[npcXTile, y].LiquidAmount;
 					float up = (liquid / 255f) * 16f;
 					NPC.position.Y = (y + 1) * 16f - up;
 					break;
 				}
 			}
-			if (!collision) {
+
+			if (!collision)
 				NPC.velocity.X = .5f * Main.windSpeedCurrent;
-			}
-			else {
+			else
 				NPC.velocity.X = -.5f * Main.windSpeedCurrent;
-			}
-			if (NPC.collideX || NPC.collideY) {
+
+			if (NPC.collideX || NPC.collideY)
+			{
 				NPC.velocity.X *= -1f;
-				if (!collision) {
+
+				if (!collision)
 					collision = true;
-				}
-				else {
+				else
 					collision = false;
-				}
 			}
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			drawColor = new Color(148 - (int)(num / 3 * 4), 212 - (int)(num / 3 * 4), 255 - (int)(num / 3 * 4), 255 - num);

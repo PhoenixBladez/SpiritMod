@@ -19,7 +19,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestCategory => "Main";
 
 		public override (int, int)[] QuestRewards => _rewards;
-		private (int, int)[] _rewards = new[]
+		private readonly (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Armor.DiverSet.DiverHead>(), 1),
 			(ModContent.ItemType<Items.Armor.DiverSet.DiverBody>(), 1),

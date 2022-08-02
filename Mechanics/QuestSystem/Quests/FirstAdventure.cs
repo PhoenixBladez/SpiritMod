@@ -18,7 +18,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override bool TutorialActivateButton => true;
 
 		public override (int, int)[] QuestRewards => _rewards;
-		private (int, int)[] _rewards = new[]
+		private readonly (int, int)[] _rewards = new[]
 		{
 			(ModContent.ItemType<Items.Consumable.MapScroll>(), 2),
 			(ItemID.GoldCoin, 1)

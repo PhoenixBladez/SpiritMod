@@ -17,7 +17,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		//public override bool LimitedUnlock => true;
 
 		public override (int, int)[] QuestRewards => _rewards;
-		private (int, int)[] _rewards = new[]
+		private readonly (int, int)[] _rewards = new[]
 		{
 			((int)ItemID.Bananarang, 5),
 			(ItemID.LightShard, 1),

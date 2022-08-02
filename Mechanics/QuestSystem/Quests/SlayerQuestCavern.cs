@@ -13,11 +13,11 @@ namespace SpiritMod.Mechanics.QuestSystem.Quests
 		public override string QuestCategory => "Slayer";
 
 		public override (int, int)[] QuestRewards => _rewards;
-		private (int, int)[] _rewards = new[]
+		private readonly (int, int)[] _rewards = new[]
 		{
-			(ModContent.ItemType<Items.Armor.ClatterboneArmor.ClatterboneFaceplate>(), 1),
-			(ModContent.ItemType<Items.Armor.ClatterboneArmor.ClatterboneBreastplate>(), 1),
-			(ModContent.ItemType<Items.Armor.ClatterboneArmor.ClatterboneLeggings>(), 1),
+			//(ModContent.ItemType<Items.Armor.ClatterboneArmor.ClatterboneFaceplate>(), 1),
+			//(ModContent.ItemType<Items.Armor.ClatterboneArmor.ClatterboneBreastplate>(), 1),
+			//(ModContent.ItemType<Items.Armor.ClatterboneArmor.ClatterboneLeggings>(), 1),
 			(ModContent.ItemType<Items.Weapon.Thrown.ClatterSpear>(), 1),
 			(ModContent.ItemType<Items.Placeable.Furniture.WheezerPainting>(), 1),
 			(ItemID.GoldCoin, 1)

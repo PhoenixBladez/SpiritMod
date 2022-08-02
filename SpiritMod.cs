@@ -60,6 +60,7 @@ using static Terraria.ModLoader.Core.TmodFile;
 using SpiritMod.Items.Sets.DyesMisc.HairDye;
 using SpiritMod.GlobalClasses.Projectiles;
 using SpiritMod.GlobalClasses.Tiles;
+using SpiritMod.Utilities.PhaseIndicatorCompat;
 
 namespace SpiritMod
 {
@@ -768,6 +769,10 @@ namespace SpiritMod
 		{
 			ExplosivesCache.Initialize(this);
 			ModContent.GetInstance<IndestructibleGlobalTile>().Load(this);
+
+			ModLoader.TryGetMod("PhaseIndicator", out Mod phaseIndicator);
+			if (phaseIndicator != null && !Main.dedServ)
+				PhaseIndicatorLoader.Load(this, phaseIndicator);
 
 			//WikiWriter.WriteWiki();
 		}

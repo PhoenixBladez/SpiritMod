@@ -11,9 +11,11 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Bestiary;
+using SpiritMod.Utilities.PhaseIndicatorCompat;
 
 namespace SpiritMod.NPCs.Boss.Dusking
 {
+	[PhaseIndicator(null, 0.5f)]
 	[AutoloadBossHead]
 	public class Dusking : ModNPC, IBCRegistrable
 	{
@@ -75,6 +77,9 @@ namespace SpiritMod.NPCs.Boss.Dusking
 			{
 				NPC.TargetClosest(false);
 				NPC.velocity.Y = -100;
+
+				if (NPC.position.Y < -1000)
+					NPC.active = false;
 			}
 
 			if (NPC.ai[0] == 0) // Flying around and shooting projectiles

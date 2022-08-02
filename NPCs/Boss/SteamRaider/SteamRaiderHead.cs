@@ -15,9 +15,11 @@ using Terraria.ModLoader;
 using SpiritMod.Buffs;
 using SpiritMod.Projectiles;
 using Terraria.GameContent.Bestiary;
+using SpiritMod.Utilities.PhaseIndicatorCompat;
 
 namespace SpiritMod.NPCs.Boss.SteamRaider
 {
+	[PhaseIndicator(null, 0.2f)]
 	[AutoloadBossHead]
 	public class SteamRaiderHead : ModNPC, IBCRegistrable
 	{
@@ -258,7 +260,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 						tail = true;
 					}
 					if (!NPC.active && Main.netMode == NetmodeID.Server)
-						NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+						NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
 				}
 
 				int num180 = (int)(NPC.position.X / 16f) - 1;
