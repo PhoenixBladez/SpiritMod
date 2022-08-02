@@ -313,7 +313,7 @@ namespace SpiritMod.NPCs.Boss
 				Color drawCol = new Color(252, 3, 50) * 1.6f;
 
 				for (int i = 0; i < 3; ++i)
-					Main.spriteBatch.Draw(glowMask, position3, r2, drawCol, NPC.rotation, drawOrigin, NPC.scale * 0.75f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+					Main.spriteBatch.Draw(glowMask, position3, r2, drawCol, NPC.rotation, drawOrigin, NPC.scale * 0.75f, SpriteEffects.FlipHorizontally, 0.0f);
 			}
 			return true;
 		}

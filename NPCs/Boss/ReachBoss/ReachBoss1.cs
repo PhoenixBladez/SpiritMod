@@ -333,12 +333,15 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			npcLoot.AddMasterModeCommonDrop<VinewrathRelicItem>();
-			npcLoot.AddMasterModeCommonDrop<VinewrathPet>();
+			npcLoot.AddMasterModeRelicAndPet<VinewrathRelicItem, VinewrathPet>();
 			npcLoot.AddBossBag<ReachBossBag>();
-			npcLoot.AddCommon<ReachMask>(7);
-			npcLoot.AddCommon<Trophy5>(10);
-			npcLoot.AddOneFromOptions<ThornBow, SunbeamStaff, ReachVineStaff, ReachBossSword>();
+
+			LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+			notExpertRule.AddCommon<ReachMask>(7);
+			notExpertRule.AddCommon<Trophy5>(10);
+			notExpertRule.AddOneFromOptions<ThornBow, SunbeamStaff, ReachVineStaff, ReachBossSword>();
+
+			npcLoot.Add(notExpertRule);
 		}
 	}
 }

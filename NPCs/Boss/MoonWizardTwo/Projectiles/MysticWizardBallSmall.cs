@@ -101,11 +101,11 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo.Projectiles
 				num14 = 0.0f;
 			Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
 			Color color3 = new Color(84, 207, 255) * 1.6f;
-			Main.spriteBatch.Draw(texture2D2, position1, r2, color3, Projectile.rotation, drawOrigin, Projectile.scale * .73f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+			Main.spriteBatch.Draw(texture2D2, position1, r2, color3, Projectile.rotation, drawOrigin, Projectile.scale * .73f, SpriteEffects.FlipHorizontally, 0.0f);
 			float num15 = 1f + num11 * 0.75f;
-			Main.spriteBatch.Draw(texture2D2, position1, r2, color3 * num12, Projectile.rotation, drawOrigin, Projectile.scale * .73f * num15, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+			Main.spriteBatch.Draw(texture2D2, position1, r2, color3 * num12, Projectile.rotation, drawOrigin, Projectile.scale * .73f * num15, SpriteEffects.FlipHorizontally, 0.0f);
 			float num16 = 1f + num13 * 0.75f;
-			Main.spriteBatch.Draw(texture2D2, position1, r2, color3 * num14, Projectile.rotation, drawOrigin, Projectile.scale * .73f * num16, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+			Main.spriteBatch.Draw(texture2D2, position1, r2, color3 * num14, Projectile.rotation, drawOrigin, Projectile.scale * .73f * num16, SpriteEffects.FlipHorizontally, 0.0f);
 		}
 	}
 }

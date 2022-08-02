@@ -90,7 +90,7 @@ namespace SpiritMod.Projectiles.Summon.LaserGate
 				Vector2 drawOrigin = r2.Size() / 2f;
 				Vector2 position3 = (Projectile.Bottom - Main.screenPosition) + new Vector2(3f, -6f);
 				Color color3 = new Color(84, 207, 255) * 1.6f;
-				Main.spriteBatch.Draw(glowMask, position3, r2, color3, Projectile.rotation, drawOrigin, Projectile.scale * 0.33f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+				Main.spriteBatch.Draw(glowMask, position3, r2, color3, Projectile.rotation, drawOrigin, Projectile.scale * 0.33f, SpriteEffects.FlipHorizontally, 0.0f);
 				float num15 = 1f + num11 * 0.75f;
 				Main.spriteBatch.Draw(glowMask, position3, r2, color3 * num12, Projectile.rotation, drawOrigin, Projectile.scale * 0.33f * num15, SpriteEffects.FlipHorizontally, 0.0f);
 				float num16 = 1f + num13 * 0.75f;

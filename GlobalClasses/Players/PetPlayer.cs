@@ -20,6 +20,7 @@ namespace SpiritMod.GlobalClasses.Players
 		public bool briarSlimePet = false;
 		public bool scarabPet = false;
 		public bool vinewrathPet = false;
+		public bool mjwPet = false;
 
 		public override void ResetEffects()
 		{
@@ -36,6 +37,7 @@ namespace SpiritMod.GlobalClasses.Players
 			maskPet = false;
 			harpyPet = false;
 			scarabPet = false;
+			mjwPet = false;
 		}
 	}
 }

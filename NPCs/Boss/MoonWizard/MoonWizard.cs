@@ -21,6 +21,8 @@ using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Consumable.Potion;
 using SpiritMod.Buffs.DoT;
 using Terraria.GameContent.Bestiary;
+using SpiritMod.Items.Sets.MoonWizardDrops.MJWPet;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Boss.MoonWizard
 {
@@ -120,11 +122,6 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		{
 			if (jellyRapidFire)
             {
-                Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
-
-                drawOrigin.Y += 30f;
-                drawOrigin.Y += 8f;
-                --drawOrigin.X;
                 Vector2 position1 = NPC.Bottom - screenPos;
                 Texture2D texture2D2 = TextureAssets.GlowMask[239].Value;
                 float num11 = (float)((double)Main.GlobalTimeWrappedHourly % 1.0 / 1.0);
@@ -140,14 +137,14 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
                 if ((double)num14 < 0.0)
                     num14 = 0.0f;
                 Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
-                drawOrigin = r2.Size() / 2f;
+                Vector2 drawOrigin = r2.Size() / 2f;
                 Vector2 position3 = position1 + new Vector2(0.0f, -46f);
                 Color color3 = new Color(87, 238, 255) * .8f;
-                Main.spriteBatch.Draw(texture2D2, position3, r2, color3, NPC.rotation, drawOrigin, NPC.scale * .6f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+                Main.spriteBatch.Draw(texture2D2, position3, r2, color3, NPC.rotation, drawOrigin, NPC.scale * .6f, SpriteEffects.FlipHorizontally, 0.0f);
                 float num15 = 1f + num11 * 0.75f;
-                Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num12, NPC.rotation, drawOrigin, NPC.scale * .6f * num15, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+                Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num12, NPC.rotation, drawOrigin, NPC.scale * .6f * num15, SpriteEffects.FlipHorizontally, 0.0f);
                 float num16 = 1f + num13 * 0.75f;
-                Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num14, NPC.rotation, drawOrigin, NPC.scale * .6f * num16, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+                Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num14, NPC.rotation, drawOrigin, NPC.scale * .6f * num16, SpriteEffects.FlipHorizontally, 0.0f);
             }
 
             float num395 = Main.mouseTextColor / 200f - 0.35f;
@@ -308,11 +305,16 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			npcLoot.AddCommon<MJWBag>();
-			npcLoot.AddCommon<MJWMask>(7);
-			npcLoot.AddCommon<MJWTrophy>(10);
-			npcLoot.AddOneFromOptions<Moonshot, Moonburst, JellynautBubble, MoonjellySummonStaff>(7);
-			npcLoot.AddCommon<TinyLunazoaItem>(1, 30, 40);
+			npcLoot.AddMasterModeDropOnAllPlayers<MJWPetItem>();
+			npcLoot.AddBossBag<MJWBag>();
+
+			LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+			notExpertRule.AddCommon<MJWMask>(7);
+			notExpertRule.AddCommon<MJWTrophy>(10);
+			notExpertRule.AddOneFromOptions<Moonshot, Moonburst, JellynautBubble, MoonjellySummonStaff>(7);
+			notExpertRule.AddCommon<TinyLunazoaItem>(1, 30, 40);
+
+			npcLoot.Add(notExpertRule);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -350,14 +352,11 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
             jellyRapidFire = true;
             attackCounter++;
 			if (attackCounter == 1)
-            {
                 SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BossSFX/MoonWizard_Laugh2"), NPC.Center);
-            }
             if (attackCounter % 20 == 0 && attackCounter < 180 && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Vector2 vector2_2 = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
-                bool expertMode = Main.expertMode;
-                int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + Main.rand.Next(-60, 60), NPC.Center.Y + Main.rand.Next(-60, 60), vector2_2.X, vector2_2.Y, ModContent.ProjectileType<JellyfishOrbiter>(), NPCUtils.ToActualDamage(40, 1.5f), 0.0f, Main.myPlayer, 0.0f, (float)NPC.whoAmI);
+                Vector2 vel = Vector2.UnitY.RotatedByRandom(1.57079637050629f) * new Vector2(5f, 3f);
+                int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + Main.rand.Next(-60, 60), NPC.Center.Y + Main.rand.Next(-60, 60), vel.X, vel.Y, ModContent.ProjectileType<JellyfishOrbiter>(), NPCUtils.ToActualDamage(40, 1.5f), 0.0f, Main.myPlayer, 0.0f, (float)NPC.whoAmI);
                 Main.projectile[p].scale = Main.rand.NextFloat(.6f, 1f);
             }
             UpdateFrame(0.15f, 54, 61);
@@ -377,13 +376,10 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 		void SkyStrikeLeft()
         {
             if (NPC.life > 250)
-            {
                 UpdateFrame(0.15f, 1, 3);
-            }
             else
-            {
                 UpdateFrame(0.15f, 54, 61);
-            }
+
 			Player player = Main.player[NPC.target];
 
 			if (attackCounter == 0) {
@@ -476,11 +472,11 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				NPC.position.X = player.position.X;
 				NPC.position.Y = player.position.Y - 300; 
 			}
+
 			attackCounter++;
+
 			if (attackCounter < 30) 
-			{
 				UpdateFrame(0.2f, 4, 9);
-			}
 			else 
 			{
 				UpdateFrame(0.4f, 4, 9);
@@ -625,19 +621,14 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				NPC.spriteDirection = NPC.direction;
 			}
 			attackCounter++;
-			if (attackCounter < 70) {
+			if (attackCounter < 70)
 				UpdateFrame(0.2f, 14, 28);
-			}
 			else 
 			{
                 if (NPC.life > 250)
-                {
                     UpdateFrame(0.15f, 0, 3);
-                }
                 else
-                {
                     UpdateFrame(0.15f, 54, 61);
-                }
 			}
 			if (attackCounter > 90) {
 				NPC.ai[0] = 1;
@@ -676,30 +667,26 @@ namespace SpiritMod.NPCs.Boss.MoonWizard
 				double angley = Math.Cos(NPC.ai[3] * (Math.PI / 180));
 				TeleportPos = player.Center + new Vector2((float)anglex * distance, (float)angley * distance); // REVISE
 			}
+
             attackCounter++;
-            if (attackCounter > 30) {
+
+            if (attackCounter > 30) 
                 UpdateFrame(0.155f, 29, 37);
-            }
 			else if (attackCounter < 30 && numMoves != 2)
-			{
                 UpdateFrame(0.2f, 38, 49);
-            }
 			else if (attackCounter < 30 && numMoves == 2)
             {
                 if (NPC.life > 250)
-                {
                     UpdateFrame(0.15f, 1, 3);
-                }
                 else
-                {
                     UpdateFrame(0.15f, 54, 61);
-                }
             }
+
 			Dust.NewDustPerfect(TeleportPos, 226, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-6, 0)));
 
 			if (attackCounter > 82) {
 				attackCounter = 0;
-                int a = Gore.NewGore(NPC.GetSource_FromAI(), new Vector2(NPC.Center.X, NPC.Center.Y - 50), new Vector2(0, 3), Mod.Find<ModGore>("WizardHat_Gore").Type);
+                Gore.NewGore(NPC.GetSource_FromAI(), new Vector2(NPC.Center.X, NPC.Center.Y - 50), new Vector2(0, 3), Mod.Find<ModGore>("WizardHat_Gore").Type);
                 SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/BossSFX/MoonWizard_Taunt"), NPC.Center);
                 NPC.position = TeleportPos - new Vector2(NPC.width / 2, NPC.height / 2);
 				SoundEngine.PlaySound(SoundID.Item94, NPC.position);

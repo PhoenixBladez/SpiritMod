@@ -173,43 +173,39 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			if (Exposed) {
-				Color color1 = Lighting.GetColor((int)(NPC.position.X + NPC.width * 0.5) / 16, (int)((NPC.position.Y + NPC.height * 0.5) / 16.0));
-				Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, NPC.height * 0.5f);
-				int r1 = color1.R;
-				drawOrigin.Y += 34f;
-				drawOrigin.Y += 8f;
-				--drawOrigin.X;
-				Vector2 position1 = NPC.Bottom - Main.screenPosition;
-				Texture2D texture2D2 = TextureAssets.GlowMask[239].Value;
-				float num11 = (float)(Main.GlobalTimeWrappedHourly % 1.0 / 1.0);
-				float num12 = num11;
-				if (num12 > 0.5)
-					num12 = 1f - num11;
-				if (num12 < 0.0)
-					num12 = 0.0f;
-				float num13 = (float)((num11 + 0.5) % 1.0);
-				float num14 = num13;
-				if (num14 > 0.5)
-					num14 = 1f - num13;
-				if (num14 < 0.0)
-					num14 = 0.0f;
-				Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
-				drawOrigin = r2.Size() / 2f;
-				Vector2 position3 = position1 + new Vector2(0.0f, -20f);
-				Color color3 = new Color(84, 207, 255) * 1.6f;
-				Main.spriteBatch.Draw(texture2D2, position3, r2, color3, NPC.rotation, drawOrigin, NPC.scale * 0.5f, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
-				float num15 = 1f + num11 * 0.75f;
-				Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num12, NPC.rotation, drawOrigin, NPC.scale * 0.5f * num15, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
-				float num16 = 1f + num13 * 0.75f;
-				Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num14, NPC.rotation, drawOrigin, NPC.scale * 0.5f * num16, SpriteEffects.None ^ SpriteEffects.FlipHorizontally, 0.0f);
+			if (Exposed)
+			{
+				Texture2D tex = TextureAssets.GlowMask[239].Value;
+				float timer = (float)(Main.GlobalTimeWrappedHourly % 1.0);
+
+				float scaleOne = timer;
+				if (scaleOne > 0.5) scaleOne = 1f - timer;
+				else if (scaleOne < 0.0) scaleOne = 0.0f;
+
+				float timerOffset = (float)((timer + 0.5) % 1.0);
+
+				float scaleTwo = timerOffset;
+				if (scaleTwo > 0.5) scaleTwo = 1f - timerOffset;
+				else if (scaleTwo < 0.0) scaleTwo = 0.0f;
+
+				Rectangle source = tex.Frame(1, 1, 0, 0);
+				Vector2 drawOrigin = source.Size() / 2f;
+				Vector2 bottom = NPC.Bottom - screenPos + new Vector2(0.0f, -20f);
+				Color drawCol = new Color(84, 207, 255) * 1.6f;
+
+				float scaleThree = 1f + timer * 0.75f;
+				float scaleFour = 1f + timerOffset * 0.75f;
+
+				Main.spriteBatch.Draw(tex, bottom, source, drawCol, NPC.rotation, drawOrigin, NPC.scale * 0.5f, SpriteEffects.FlipHorizontally, 0.0f);
+				Main.spriteBatch.Draw(tex, bottom, source, drawCol * scaleOne, NPC.rotation, drawOrigin, NPC.scale * 0.5f * scaleThree, SpriteEffects.FlipHorizontally, 0.0f);
+				Main.spriteBatch.Draw(tex, bottom, source, drawCol * scaleTwo, NPC.rotation, drawOrigin, NPC.scale * 0.5f * scaleFour, SpriteEffects.FlipHorizontally, 0.0f);
+
 				GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Boss/SteamRaider/SteamRaiderBody_Glow").Value, screenPos);
 			}
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-
 			for (int k = 0; k < 5; k++) {
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, hitDirection, -1f, 0, default, 1f);
 			}

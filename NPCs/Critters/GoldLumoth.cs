@@ -84,7 +84,7 @@ namespace SpiritMod.NPCs.Critters
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.PlayerSafe)
-                return 0.008f;
+                return SpawnCondition.Cavern.Chance * 0.008f;
             return SpawnCondition.Cavern.Chance * 0.000763f;
         }
 

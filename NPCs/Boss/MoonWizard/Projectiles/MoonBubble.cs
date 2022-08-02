@@ -32,15 +32,24 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
 		public override bool PreDraw(ref Color lightColor)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (Projectile.spriteDirection == 1)
-                spriteEffects = SpriteEffects.FlipHorizontally;
+            SpriteEffects spriteEffects = Projectile.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             int xpos = (int)((Projectile.Center.X + 10) - Main.screenPosition.X) - (TextureAssets.Projectile[Projectile.type].Value.Width / 2);
             int ypos = (int)((Projectile.Center.Y + 10) - Main.screenPosition.Y) - (TextureAssets.Projectile[Projectile.type].Value.Width / 2);
+
             Texture2D ripple = Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49").Value;
-            Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), Projectile.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);
+			Color col = new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0);
+
+			if (Projectile.timeLeft < 120f)
+			{
+				float fade = Projectile.timeLeft / 120f;
+				col *= fade;
+				Projectile.alpha = (int)(fade * 255);
+			}
+
+			Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), null, col, Projectile.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);
             return true;
         }
+
 		public override Color? GetAlpha(Color lightColor) => Color.White;
 
 		float alphaCounter;

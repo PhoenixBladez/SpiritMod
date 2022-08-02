@@ -25,6 +25,7 @@ using SpiritMod.Items.Placeable.Relics;
 using Terraria.GameContent.Bestiary;
 using SpiritMod.Items.Sets.ScarabeusDrops.ScarabPet;
 using SpiritMod.Utilities.PhaseIndicatorCompat;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Boss.Scarabeus
 {
@@ -1109,14 +1110,17 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			npcLoot.AddMasterModeCommonDrop<ScarabeusRelicItem>();
-			npcLoot.AddMasterModeCommonDrop<ScarabPetItem>();
+			npcLoot.AddMasterModeRelicAndPet<ScarabeusRelicItem, ScarabPetItem>();
 			npcLoot.AddBossBag<BagOScarabs>();
-			npcLoot.AddCommon<ScarabMask>(7);
-			npcLoot.AddCommon<Trophy1>(10);
-			npcLoot.AddCommon<SandsOfTime>(15);
-			npcLoot.AddCommon<Chitin>(1, 25, 36);
-			npcLoot.AddOneFromOptions<ScarabBow, LocustCrook, RoyalKhopesh, RadiantCane>();
+
+			LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+			notExpertRule.AddCommon<ScarabMask>(7);
+			notExpertRule.AddCommon<Trophy1>(10);
+			notExpertRule.AddCommon<SandsOfTime>(15);
+			notExpertRule.AddCommon<Chitin>(1, 25, 36);
+			notExpertRule.AddOneFromOptions<ScarabBow, LocustCrook, RoyalKhopesh, RadiantCane>();
+
+			npcLoot.Add(notExpertRule);
 		}
 
 		private void Gores()

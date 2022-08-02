@@ -3,21 +3,21 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabPet
+namespace SpiritMod.Items.Sets.MoonWizardDrops.MJWPet
 {
-	internal class ScarabPetItem : ModItem
+	internal class MJWPetItem : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Scarab Food");
-			Tooltip.SetDefault("Summons a little Scarab companion");
+			DisplayName.SetDefault("Curious Lightbulb");
+			Tooltip.SetDefault("Summons a Moon Jelly Lightbulb");
 		}
 
 		public override void SetDefaults()
 		{
-			Item.CloneDefaults(ItemID.Fish);
-			Item.shoot = ModContent.ProjectileType<ScarabPetProjectile>();
-			Item.buffType = ModContent.BuffType<Buffs.Pet.ScarabPetBuff>();
+			Item.CloneDefaults(ItemID.ShadowOrb);
+			Item.shoot = ModContent.ProjectileType<MJWPetProjectile>();
+			Item.buffType = ModContent.BuffType<Buffs.Pet.MJWPetBuff>();
 			Item.UseSound = SoundID.NPCDeath6; 
 			Item.rare = ItemRarityID.Master;
 			Item.master = true;
@@ -29,6 +29,6 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabPet
 				player.AddBuff(Item.buffType, 3600, true);
 		}
 
-		public override bool CanUseItem(Player player) => player.miscEquips[0].IsAir;
+		public override bool CanUseItem(Player player) => player.miscEquips[1].IsAir;
 	}
 }
