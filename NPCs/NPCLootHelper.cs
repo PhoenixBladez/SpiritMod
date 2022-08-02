@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs
 		public static void AddMasterModeCommonDrop<T>(this NPCLoot loot) where T : ModItem => loot.Add(ItemDropRule.MasterModeCommonDrop(ModContent.ItemType<T>()));
 		public static void AddMasterModeDropOnAllPlayers<T>(this NPCLoot loot) where T : ModItem => loot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ModContent.ItemType<T>()));
 
-		public static void AddMasterModeRelicAndPet<TRelic, TPet>(this NPCLoot loot)
+		public static void AddMasterModeRelicAndPet<TRelic, TPet>(this NPCLoot loot) where TRelic : ModItem where TPet : ModItem
 		{
 			loot.AddMasterModeDropOnAllPlayers<TRelic>();
 			loot.AddBossBag<TPet>();
