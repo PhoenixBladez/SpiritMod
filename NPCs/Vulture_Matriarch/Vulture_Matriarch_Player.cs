@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 		{
 			if (goldified)
 			{
-				if (Main.rand.Next(5) == 0 && drawInfo.shadow == 0f)
+				if (Main.rand.NextBool(5) && drawInfo.shadow == 0f)
 				{
 					int index = Dust.NewDust(new Vector2((float)Player.getRect().X, (float)Player.getRect().Y), Player.getRect().Width, Player.getRect().Height, DustID.GoldFlame, 0.0f, 0.0f, 0, new Color(), 1f);
 					Main.dust[index].scale = 1.5f;
@@ -43,9 +43,8 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 				fullBright = false;
 			}
 		}
-		
-		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit,
-			ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+
+		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource, ref int cooldownCounter)
 		{
 			if (goldified)
 			{
@@ -53,7 +52,7 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 				playSound = false;
 				SoundEngine.PlaySound(SoundID.Item37, Player.position);
 			}
-			return base.PreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
+			return base.PreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource, ref cooldownCounter);
 		}
 	}
 }

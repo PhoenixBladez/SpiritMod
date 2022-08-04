@@ -21,20 +21,16 @@ using SpiritMod.Projectiles.Summon;
 using SpiritMod.Utilities;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
-using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using SpiritMod.NPCs.Boss.Scarabeus;
 using Terraria.Audio;
 using SpiritMod.NPCs.AuroraStag;
-using SpiritMod.Tiles.Walls.Natural;
 using SpiritMod.Items.Accessory.GranitechDrones;
 using SpiritMod.Items.Equipment.AuroraSaddle;
 using Terraria.Graphics.Effects;
@@ -2451,7 +2447,7 @@ namespace SpiritMod
 								npc.AddBuff(ModContent.BuffType<StackingFireBuff>(), 600);
 								npc.StrikeNPC((int)damage, knockback, hitDirection, crit);
 								if (Main.netMode != NetmodeID.SinglePlayer)
-									NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, i, damage, knockback, hitDirection, 0, 0, 0);
+									NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, i, damage, knockback, hitDirection, 0, 0, 0);
 							}
 
 							Player.dashDelay = 30;
@@ -2820,13 +2816,13 @@ namespace SpiritMod
 				clatterboneTimer--;
 
 			if (rogueCrest && Player.ownedProjectileCounts[ModContent.ProjectileType<KnifeMinionProjectile>()] < 1)
-				Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.Center, Vector2.Zero, ModContent.ProjectileType<KnifeMinionProjectile>(), (int)(Player.GetDamage(DamageClass.Summon).ApplyTo(5)), .5f, Player.whoAmI);
+				Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.Center, Vector2.Zero, ModContent.ProjectileType<KnifeMinionProjectile>(), (int)Player.GetDamage(DamageClass.Summon).ApplyTo(5), .5f, Player.whoAmI);
 
 			if (bowSummon && Player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.BowSummon.BowSummon>()] < 1)
-				Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.Summon.BowSummon.BowSummon>(), (int)(Player.GetDamage(DamageClass.Summon).ApplyTo(22)), 1.5f, Player.whoAmI);
+				Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.Summon.BowSummon.BowSummon>(), (int)Player.GetDamage(DamageClass.Summon).ApplyTo(22), 1.5f, Player.whoAmI);
 
 			if (spellswordCrest && Player.ownedProjectileCounts[ModContent.ProjectileType<HolyKnifeMinion>()] < 1)
-				Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.Center, Vector2.Zero, ModContent.ProjectileType<HolyKnifeMinion>(), (int)(Player.GetDamage(DamageClass.Summon).ApplyTo(32)), 1.25f, Player.whoAmI);
+				Projectile.NewProjectile(Player.GetSource_NaturalSpawn(), Player.Center, Vector2.Zero, ModContent.ProjectileType<HolyKnifeMinion>(), (int)Player.GetDamage(DamageClass.Summon).ApplyTo(32), 1.25f, Player.whoAmI);
 
 			// Update armor sets.
 			if (infernalSet)

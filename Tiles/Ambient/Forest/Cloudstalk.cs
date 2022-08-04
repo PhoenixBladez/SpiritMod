@@ -20,6 +20,7 @@ namespace SpiritMod.Tiles.Ambient.Forest
 	public class Cloudstalk : ModTile
 	{
 		private const int FrameWidth = 18; // A constant for readability and to kick out those magic numbers
+		private const float BloomWindSpeed = 14; //Constant for bloom speed, in arbitrary unit
 
 		public override void SetStaticDefaults()
 		{
@@ -113,7 +114,7 @@ namespace SpiritMod.Tiles.Ambient.Forest
 			else if (stage == PlantStage.Grown)
 				(herbItemStack, seedItemStack) = (1, Main.rand.Next(1, 4));
 			else if (stage == PlantStage.Growing)
-				seedItemStack = 1;
+				herbItemStack = 1;
 
 			var source = new EntitySource_TileBreak(i, j);
 
@@ -131,16 +132,22 @@ namespace SpiritMod.Tiles.Ambient.Forest
 			Tile tile = Framing.GetTileSafely(i, j);
 			PlantStage stage = GetStage(i, j);
 
-			// Only grow to the next stage if there is a next stage. We don't want our tile turning pink!
-			if (stage != PlantStage.Grown)
+			if (stage == PlantStage.Planted) //Grow only if just planted
 			{
-				// Increase the x frame to change the stage
 				tile.TileFrameX += FrameWidth;
 
-				// If in multiplayer, sync the frame change
 				if (Main.netMode != NetmodeID.SinglePlayer)
 					NetMessage.SendTileSquare(-1, i, j, 1);
 			}
+		}
+
+		public override void NearbyEffects(int i, int j, bool closer)
+		{
+			float windSpeed = System.Math.Abs(Main.windSpeedCurrent) * 50;
+			if (windSpeed > BloomWindSpeed && GetStage(i, j) == PlantStage.Growing)
+				SetStage(i, j, PlantStage.Grown);
+			else if (windSpeed <= BloomWindSpeed && GetStage(i, j) == PlantStage.Grown)
+				SetStage(i, j, PlantStage.Growing);
 		}
 
 		// A helper method to quickly get the current stage of the herb (assuming the tile at the coordinates is our herb)
@@ -148,6 +155,13 @@ namespace SpiritMod.Tiles.Ambient.Forest
 		{
 			Tile tile = Framing.GetTileSafely(i, j);
 			return (PlantStage)(tile.TileFrameX / FrameWidth);
+		}
+
+		// A helper method to quickly set the current stage of the herb (assuming the tile at the coordinates is our herb)
+		private static void SetStage(int i, int j, PlantStage stage)
+		{
+			Tile tile = Framing.GetTileSafely(i, j);
+			tile.TileFrameX = (short)(FrameWidth * (int)stage);
 		}
 	}
 }

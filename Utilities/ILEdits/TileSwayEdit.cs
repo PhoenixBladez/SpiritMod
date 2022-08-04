@@ -11,7 +11,7 @@ namespace SpiritMod.Utilities.ILEdits
 {
 	class TileSwayEdit : ILEdit
 	{
-		public override void Load(Mod mod) => IL.Terraria.GameContent.Drawing.TileDrawing.Draw += AddSwayTiles;
+		public override void Load(Mod mod) { }// => IL.Terraria.GameContent.Drawing.TileDrawing.Draw += AddSwayTiles;
 
 		private static void AddSwayTiles(ILContext il)
 		{

@@ -17,5 +17,11 @@ namespace SpiritMod.Items.Armor.AstronautVanity
 			Item.rare = ItemRarityID.Green;
 			Item.vanity = true;
 		}
+
+		public override void UpdateEquip(Player player)
+		{
+			if (player.armor[11].IsAir)
+				player.back = (sbyte)EquipLoader.GetEquipSlot(Mod, nameof(AstronautBody), EquipType.Back);
+		}
 	}
 }

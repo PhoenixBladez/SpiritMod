@@ -14,6 +14,8 @@ namespace SpiritMod.Items.Armor.WayfarerSet
 		{
 			DisplayName.SetDefault("Wayfarer's Hat");
 			Tooltip.SetDefault("Immunity to darkness");
+
+			ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
 		}
 
 		public override void SetDefaults()

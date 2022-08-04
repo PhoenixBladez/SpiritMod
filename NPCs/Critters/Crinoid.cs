@@ -49,18 +49,17 @@ namespace SpiritMod.NPCs.Critters
 
 		public bool hasPicked = false;
 		int pickedType;
+
 		public override void AI()
         {
 			if (NPC.alpha > 0)
-            {
 				NPC.alpha -= 5;
-            }
+
 			if (!hasPicked)
             {
 				NPC.scale = Main.rand.NextFloat(.6f, 1f);
 				pickedType = Main.rand.Next(0, 3);
 				hasPicked = true;
-
 			}
         }
 
@@ -72,28 +71,38 @@ namespace SpiritMod.NPCs.Critters
 			NPC.frame.Y = frame * frameHeight;
 			NPC.frame.X = 46 * pickedType;
 			NPC.frame.Width = 46;
+
+			if (NPC.IsABestiaryIconDummy && frame == 5)
+			{
+				pickedType++;
+
+				if (pickedType > 2)
+					pickedType = 0;
+			}
 		}
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(pickedType);
 			writer.Write(hasPicked);
-
 		}
+
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			pickedType = reader.ReadInt32();
 			hasPicked = reader.ReadBoolean();
-
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height * 0.5f));
-			Vector2 drawPos = NPC.Center - Main.screenPosition + drawOrigin + new Vector2(-26, -18);
-			Color color = NPC.GetAlpha(drawColor);
+			Vector2 drawPos = NPC.Center - screenPos + drawOrigin + new Vector2(-26, -18);
+			Color color = !NPC.IsABestiaryIconDummy ? NPC.GetAlpha(drawColor) : Color.White;
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			return false;
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
             if (NPC.life <= 0)
@@ -115,7 +124,6 @@ namespace SpiritMod.NPCs.Critters
 						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("YellowCrinoid1").Type, Main.rand.NextFloat(.5f, 1.2f));
 						Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("YellowCrionid2").Type, Main.rand.NextFloat(.5f, 1.2f));
 					}
-
 				}
             }
         }

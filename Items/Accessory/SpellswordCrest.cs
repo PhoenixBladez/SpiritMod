@@ -27,6 +27,7 @@ namespace SpiritMod.Items.Accessory
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().spellswordCrest = true;
+
 		public override void AddRecipes()
         {
             Recipe recipe = CreateRecipe(1);

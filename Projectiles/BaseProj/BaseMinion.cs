@@ -14,12 +14,14 @@ namespace SpiritMod.Projectiles.BaseProj
 		private readonly float TargettingRange;
 		private readonly float DeaggroRange;
 		private readonly Vector2 Size;
+
 		public BaseMinion(float TargettingRange, float DeaggroRange, Vector2 Size) 
 		{
 			this.TargettingRange = TargettingRange;
 			this.DeaggroRange = DeaggroRange;
 			this.Size = Size;
 		}
+
 		public override void SetStaticDefaults()
 		{
 			ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
@@ -44,6 +46,7 @@ namespace SpiritMod.Projectiles.BaseProj
 			Projectile.tileCollide = false;
 			Projectile.usesLocalNPCImmunity = true;
 			Projectile.localNPCHitCooldown = 10;
+			Projectile.DamageType = DamageClass.Summon;
 
 			AbstractSetDefaults();
 		}
@@ -78,7 +81,6 @@ namespace SpiritMod.Projectiles.BaseProj
 			if (miniontarget != null && miniontarget.CanBeChasedBy(this) && (CanHit(Projectile.Center, miniontarget.Center) || HadTarget) && CanHit(Player.Center, miniontarget.Center)
 				&& (miniontarget.Distance(Player.Center) <= maxdist || miniontarget.Distance(Projectile.Center) <= maxdist) && miniontarget.Distance(Player.Center) <= DeaggroRange)
 				_targetNPC = miniontarget;
-
 			else
 			{
 				var validtargets = Main.npc.Where(x => x != null && x.CanBeChasedBy(this) && (CanHit(Projectile.Center, x.Center) || HadTarget) && CanHit(Player.Center, x.Center)

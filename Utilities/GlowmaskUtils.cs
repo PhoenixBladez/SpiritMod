@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -58,21 +59,12 @@ namespace SpiritMod
 
 				case EquipType.Body:
 					{
-						Rectangle bodyFrame = info.drawPlayer.bodyFrame;
-						int num123 = 0;
-
-						bodyFrame.X += num123;
-						bodyFrame.Width -= num123;
-
-						if (info.drawPlayer.direction == -1)
-						{
-							num123 = 0;
-						}
+						var bodyFrame = info.drawPlayer.bodyFrame;
 
 						if (!info.drawPlayer.invis)
 						{
-							Vector2 adjustedPos = new Vector2((int)(info.Position.X - Main.screenPosition.X - (info.drawPlayer.bodyFrame.Width / 2) + (info.drawPlayer.width / 2) + num123), ((int)(info.Position.Y - Main.screenPosition.Y + info.drawPlayer.height - info.drawPlayer.bodyFrame.Height + 4)));
-							DrawData drawData = new DrawData(texture, adjustedPos + info.drawPlayer.bodyPosition + new Vector2(info.drawPlayer.bodyFrame.Width / 2, info.drawPlayer.bodyFrame.Height / 2), bodyFrame, info.bodyGlowColor, info.drawPlayer.bodyRotation, info.rotationOrigin, 1f, info.playerEffect, 0)
+							Vector2 adjustedPos = info.Position - new Vector2((info.drawPlayer.bodyFrame.Width / 2) + (info.drawPlayer.width / 2), info.drawPlayer.height) - Main.screenPosition;
+							DrawData drawData = new DrawData(texture, adjustedPos + info.drawPlayer.bodyPosition + (info.drawPlayer.bodyFrame.Size() / 2f), bodyFrame, info.bodyGlowColor, info.drawPlayer.bodyRotation, info.rotationOrigin, 1f, info.playerEffect, 0)
 							{
 								//shader = info.bodyArmorShader
 							};

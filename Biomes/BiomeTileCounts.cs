@@ -12,6 +12,9 @@ namespace SpiritMod.Biomes
 		public int asteroidCount;
 		public bool inSynthwave;
 
+		public static bool InSpirit => ModContent.GetInstance<BiomeTileCounts>().spiritCount > 80;
+		public static bool InBriar => ModContent.GetInstance<BiomeTileCounts>().briarCount > 80;
+
 		public override void TileCountsAvailable(ReadOnlySpan<int> tileCounts)
 		{
 			briarCount = tileCounts[ModContent.TileType<BriarGrass>()];

@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,6 +13,7 @@ namespace SpiritMod.Items.Armor.CapacitorSet
 			DisplayName.SetDefault("Capacitor's Robes");
             SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Armor/CapacitorSet/CapacitorBody_Glow");
         }
+
 		public override void SetDefaults()
 		{
 			Item.width = 30;
@@ -23,9 +23,7 @@ namespace SpiritMod.Items.Armor.CapacitorSet
 
 			Item.vanity = true;
 		}
-        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
-        {
-            glowMaskColor = Color.White;
-        }
-    }
+
+		public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor) => glowMaskColor = Color.White;
+	}
 }

@@ -46,6 +46,7 @@ namespace SpiritMod.NPCs.Winterborn
 			BannerItem = ModContent.ItemType<Items.Banners.WinterbornBanner>();
 		}
 
+		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => base.DrawHealthBar(hbPosition, ref scale, ref position);
 		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
 		{
 			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {

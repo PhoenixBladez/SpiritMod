@@ -29,6 +29,10 @@ namespace SpiritMod.Projectiles.Summon
 		public override bool PreAI()
 		{
 			MyPlayer mp = Main.player[Projectile.owner].GetModPlayer<MyPlayer>();
+
+			if (Projectile.damage == 0) //This shouldn't happen
+				Projectile.damage = (int)Main.player[Projectile.owner].GetDamage(Projectile.DamageType).ApplyTo(32);
+
 			if (mp.Player.dead || !mp.spellswordCrest || !mp.Player.active)
 				Projectile.active = false;
 

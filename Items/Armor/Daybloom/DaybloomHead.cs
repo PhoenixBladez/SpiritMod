@@ -11,6 +11,8 @@ namespace SpiritMod.Items.Armor.Daybloom
 		{
 			DisplayName.SetDefault("Sunflower Hat");
 			Tooltip.SetDefault("Increases maximum mana by 20");
+
+			ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;
 		}
 
 		public override void SetDefaults()
@@ -24,10 +26,13 @@ namespace SpiritMod.Items.Armor.Daybloom
 
 		public override void UpdateEquip(Player player) => player.statManaMax2 += 20;
 		public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<DaybloomBody>() && legs.type == ModContent.ItemType<DaybloomLegs>();
+
 		public override void UpdateArmorSet(Player player)
 		{
-			player.setBonus = $"Being outside during daytime increases defense, maximum mana,\nand life regeneration slightly";
-			if (Main.dayTime) {
+			player.setBonus = "Being outside during daytime increases defense, maximum mana,\nand life regeneration slightly";
+
+			if (Main.dayTime)
+			{
 				player.statDefense += 2;
 				player.statManaMax2 += 20;
 				player.lifeRegen += 1;

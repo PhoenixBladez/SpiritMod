@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Critters
@@ -48,12 +47,9 @@ namespace SpiritMod.NPCs.Critters
 		public override void AI()
 		{
 			Player target = Main.player[NPC.target];
-			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
-			if (distance < 65 && target.wet && NPC.wet)
+			if (NPC.DistanceSQ(target.Center) < 65 * 65 && target.wet && NPC.wet)
 			{
-				Vector2 vel = NPC.DirectionFrom(target.Center);
-				vel.Normalize();
-				vel *= 4.5f;
+				Vector2 vel = NPC.DirectionFrom(target.Center) * 4.5f;
 				NPC.velocity = vel;
 				NPC.rotation = NPC.velocity.X * .06f;
 				if (target.position.X > NPC.position.X)
@@ -71,11 +67,10 @@ namespace SpiritMod.NPCs.Critters
 			}
 		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
@@ -89,9 +84,10 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (NPC.life <= 0) {
-
-				for (int num621 = 0; num621 < 20; num621++) {
+			if (NPC.life <= 0)
+			{
+				for (int num621 = 0; num621 < 20; num621++)
+				{
 					int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood);
 					Main.dust[dust].noGravity = false;
 					Main.dust[dust].velocity *= 0.5f * hitDirection;

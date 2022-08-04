@@ -70,5 +70,9 @@
 				HateNPC: "{NPCName} doesn't understand the power of runes...it's all 'Ice Rod this' and 'Crystal Ball' that..."
 			}
 		}
+
+		MapObject: {
+			SpiritPylon: Spirit Pylon
+		}
 	}
 }

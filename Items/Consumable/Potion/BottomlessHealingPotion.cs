@@ -16,6 +16,8 @@ namespace SpiritMod.Items.Consumable.Potion
 		{
 			DisplayName.SetDefault("Bottomless Healing Potion");
 			Tooltip.SetDefault("Non-consumable");
+
+			ItemID.Sets.ItemNoGravity[Item.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -28,7 +30,6 @@ namespace SpiritMod.Items.Consumable.Potion
 			Item.useTime = Item.useAnimation = 20;
 			Item.consumable = false;
 			Item.autoReuse = false;
-			ItemID.Sets.ItemNoGravity[Item.type] = true;
 			Item.potion = true;
 			Item.healLife = 120;
 			Item.UseSound = SoundID.Item3;
