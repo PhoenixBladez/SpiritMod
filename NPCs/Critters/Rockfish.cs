@@ -45,35 +45,32 @@ namespace SpiritMod.NPCs.Critters
 		}
 
 		public override void AI()
-        {
-            Player player = Main.player[NPC.target]; {
-                Player target = Main.player[NPC.target];
-                int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
-                if (distance < 65 && target.wet && NPC.wet)
-                {
-                    Vector2 vel = NPC.DirectionFrom(target.Center);
-                    vel.Normalize();
-                    vel *= 4.5f;
-                    NPC.velocity = vel;
-                    NPC.rotation = NPC.velocity.X * .06f;
-                    if (target.position.X > NPC.position.X) {
-                        NPC.spriteDirection = -1;
-                        NPC.direction = -1;
-                        NPC.netUpdate = true;
-                    }
-                    else if (target.position.X < NPC.position.X) {
-                        NPC.spriteDirection = 1;
-                        NPC.direction = 1;
-                        NPC.netUpdate = true;
-                    }
-                }
-            }
-        }
+		{
+			Player target = Main.player[NPC.target];
+			if (NPC.DistanceSQ(target.Center) < 65 * 65 && target.wet && NPC.wet)
+			{
+				Vector2 vel = NPC.DirectionFrom(target.Center) * 4.5f;
+				NPC.velocity = vel;
+				NPC.rotation = NPC.velocity.X * .06f;
+				if (target.position.X > NPC.position.X)
+				{
+					NPC.spriteDirection = -1;
+					NPC.direction = -1;
+					NPC.netUpdate = true;
+				}
+				else if (target.position.X < NPC.position.X)
+				{
+					NPC.spriteDirection = 1;
+					NPC.direction = 1;
+					NPC.netUpdate = true;
+				}
+			}
+		}
+
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
@@ -89,7 +86,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			SoundEngine.PlaySound(SoundID.DD2_WitherBeastHurt, NPC.Center);
 			if (NPC.life <= 0)
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/RockfishGore").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("RockfishGore").Type, 1f);
 			for (int k = 0; k < 11; k++)
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Stone, NPC.direction, -1f, 1, Color.Black, .61f);
 		}
@@ -100,9 +97,6 @@ namespace SpiritMod.NPCs.Critters
 			npcLoot.AddCommon(ItemID.Rockfish, 2);
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.Player.ZoneRockLayerHeight && spawnInfo.Water ? 0.009f : 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneRockLayerHeight && spawnInfo.Water ? 0.009f : 0f;
 	}
 }

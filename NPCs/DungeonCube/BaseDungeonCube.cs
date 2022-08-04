@@ -32,10 +32,8 @@ namespace SpiritMod.NPCs.DungeonCube
 			NPC.buffImmune[BuffID.Venom] = true;
 			NPC.HitSound = SoundID.NPCHit7;
 			NPC.DeathSound = SoundID.NPCDeath44;
-
 			NPC.knockBackResist = 0f;
 			NPC.value = 500f;
-
 			NPC.netAlways = true;
 			NPC.chaseable = true;
 			NPC.lavaImmune = true;

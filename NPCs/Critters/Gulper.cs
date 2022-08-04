@@ -56,8 +56,8 @@ namespace SpiritMod.NPCs.Critters
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gulper/Gulper1").Type);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gulper/Gulper2").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gulper1").Type);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Gulper2").Type);
 			}
 		}
 
@@ -71,13 +71,12 @@ namespace SpiritMod.NPCs.Critters
 				NPC.velocity.Y *= 10.0f;
 				NPC.velocity.X *= 4.0f;
 			}
+
 			if (Counter >= 200)
-			{
 				Counter = 0;
-			}
+
 			Player target = Main.player[NPC.target];
-			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
-			if (distance < 65 && target.wet && NPC.wet)
+			if (NPC.DistanceSQ(target.Center) < 65 * 65 && target.wet && NPC.wet)
 			{
 				Vector2 vel = NPC.DirectionFrom(target.Center) * 4.5f;
 				NPC.velocity = vel;

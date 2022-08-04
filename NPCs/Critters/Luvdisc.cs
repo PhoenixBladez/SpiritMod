@@ -59,12 +59,9 @@ namespace SpiritMod.NPCs.Critters
 		{
 			NPC.spriteDirection = -NPC.direction;
 			Player target = Main.player[NPC.target];
-			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
-			if (distance < 65 && target.wet && NPC.wet)
+			if (NPC.DistanceSQ(target.Center) < 65 * 65 && target.wet && NPC.wet)
 			{
-				Vector2 vel = NPC.DirectionFrom(target.Center);
-				vel.Normalize();
-				vel *= 4.5f;
+				Vector2 vel = NPC.DirectionFrom(target.Center) * 4.5f;
 				NPC.velocity = vel;
 				NPC.rotation = NPC.velocity.X * .06f;
 				if (target.position.X > NPC.position.X)

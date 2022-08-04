@@ -16,6 +16,7 @@ namespace SpiritMod.NPCs.Critters
 		{
 			DisplayName.SetDefault("Neon Tetra");
 			Main.npcFrameCount[NPC.type] = 4;
+			Main.npcCatchable[NPC.type] = true;
 		}
 
 		public override void SetDefaults()
@@ -25,7 +26,6 @@ namespace SpiritMod.NPCs.Critters
 			NPC.damage = 0;
 			NPC.defense = 0;
 			NPC.lifeMax = 5;
-			Main.npcCatchable[NPC.type] = true;
 			NPC.catchItem = (short)ItemID.NeonTetra;
 			NPC.HitSound = SoundID.NPCHit1;
 			NPC.DeathSound = SoundID.NPCDeath1;
@@ -49,8 +49,7 @@ namespace SpiritMod.NPCs.Critters
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
@@ -69,17 +68,15 @@ namespace SpiritMod.NPCs.Critters
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("NeonTetra2").Type, 1f);
 			}
 		}
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .0235f / 2, .76f / 2, .76f / 2);
 			NPC.spriteDirection = -NPC.direction;
 			Player target = Main.player[NPC.target];
-			int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
-			if (distance < 65 && target.wet && NPC.wet)
+			if (NPC.DistanceSQ(target.Center) < 65 * 65 && target.wet && NPC.wet)
 			{
-				Vector2 vel = NPC.DirectionFrom(target.Center);
-				vel.Normalize();
-				vel *= 4.5f;
+				Vector2 vel = NPC.DirectionFrom(target.Center) * 4.5f;
 				NPC.velocity = vel;
 				NPC.rotation = NPC.velocity.X * .06f;
 				if (target.position.X > NPC.position.X)
@@ -98,7 +95,6 @@ namespace SpiritMod.NPCs.Critters
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<RawFish>(2);
-
 		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneJungle && spawnInfo.Water ? 0.15f : 0f;
 	}
 }

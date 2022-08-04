@@ -322,9 +322,9 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 				{
 					Color color3 = NPC.GetAlpha(color2) * (1f - num8) * 1.2f;
 					Vector2 position2 = new Vector2(NPC.Center.X, NPC.Center.Y - 2) + ((float)(index2 / (double)num7 * 6.28318548202515) + NPC.rotation + num10).ToRotationVector2() * (float)(2.0 * (double)num8 + 2.0) - Main.screenPosition - new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f + vector2_3 * NPC.scale + new Vector2(0f, -10 + NPC.gfxOffY);
-					Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, position2, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color3, NPC.rotation, vector2_3, NPC.scale * 1.1f, spriteEffects, 0.0f);
+					Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, position2, NPC.frame, color3, NPC.rotation, vector2_3, NPC.scale * 1.1f, spriteEffects, 0.0f);
 				}
-				Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, position1, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color2, NPC.rotation, vector2_3, NPC.scale * 1.1f, spriteEffects, 0.0f);
+				Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, position1, NPC.frame, color2, NPC.rotation, vector2_3, NPC.scale * 1.1f, spriteEffects, 0.0f);
 			}
 			return true;
 		}
@@ -335,13 +335,13 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 			if (NPC.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			Vector2 vector2_3 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
-			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Mangrove_Defender/Mangrove_Defender_Glow").Value, new Vector2((float)((double)NPC.position.X - (double)Main.screenPosition.X + (double)(NPC.width / 2) - (double)TextureAssets.Npc[NPC.type].Value.Width * (double)NPC.scale / 2.0 + (double)vector2_3.X * (double)NPC.scale), (float)((double)NPC.position.Y - (double)Main.screenPosition.Y + (double)NPC.height - (double)TextureAssets.Npc[NPC.type].Value.Height * (double)NPC.scale / (double)Main.npcFrameCount[NPC.type] + 4.0 + (double)vector2_3.Y * (double)NPC.scale) + addHeight), new Microsoft.Xna.Framework.Rectangle?(NPC.frame), Microsoft.Xna.Framework.Color.White, NPC.rotation, vector2_3, NPC.scale, spriteEffects, 0.0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Mangrove_Defender/Mangrove_Defender_Glow").Value, new Vector2((float)((double)NPC.position.X - (double)Main.screenPosition.X + (double)(NPC.width / 2) - (double)TextureAssets.Npc[NPC.type].Value.Width * (double)NPC.scale / 2.0 + (double)vector2_3.X * (double)NPC.scale), (float)((double)NPC.position.Y - (double)Main.screenPosition.Y + (double)NPC.height - (double)TextureAssets.Npc[NPC.type].Value.Height * (double)NPC.scale / (double)Main.npcFrameCount[NPC.type] + 4.0 + (double)vector2_3.Y * (double)NPC.scale) + addHeight), NPC.frame, Microsoft.Xna.Framework.Color.White, NPC.rotation, vector2_3, NPC.scale, spriteEffects, 0.0f);
 			if (NPC.velocity.Y != 0f)
 			{
 				for (int index = 1; index < 20; ++index)
 				{
 					Microsoft.Xna.Framework.Color color2 = new Microsoft.Xna.Framework.Color(255 - index * 10, 110 - index * 10, 110 - index * 10, 110 - index * 10);
-					Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Mangrove_Defender/Mangrove_Defender_Glow").Value, new Vector2((float)((double)NPC.position.X - (double)Main.screenPosition.X + (double)(NPC.width / 2) - (double)TextureAssets.Npc[NPC.type].Value.Width * (double)NPC.scale / 2.0 + (double)vector2_3.X * (double)NPC.scale), (float)((double)NPC.position.Y - (double)Main.screenPosition.Y + (double)NPC.height - (double)TextureAssets.Npc[NPC.type].Value.Height * (double)NPC.scale / (double)Main.npcFrameCount[NPC.type] + 4.0 + (double)vector2_3.Y * (double)NPC.scale) + addHeight) - NPC.velocity * (float)index * 0.5f, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color2, NPC.rotation, vector2_3, NPC.scale, spriteEffects, 0.0f);
+					Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Mangrove_Defender/Mangrove_Defender_Glow").Value, new Vector2((float)((double)NPC.position.X - (double)Main.screenPosition.X + (double)(NPC.width / 2) - (double)TextureAssets.Npc[NPC.type].Value.Width * (double)NPC.scale / 2.0 + (double)vector2_3.X * (double)NPC.scale), (float)((double)NPC.position.Y - (double)Main.screenPosition.Y + (double)NPC.height - (double)TextureAssets.Npc[NPC.type].Value.Height * (double)NPC.scale / (double)Main.npcFrameCount[NPC.type] + 4.0 + (double)vector2_3.Y * (double)NPC.scale) + addHeight) - NPC.velocity * (float)index * 0.5f, NPC.frame, color2, NPC.rotation, vector2_3, NPC.scale, spriteEffects, 0.0f);
 				}
 			}
 
@@ -363,9 +363,9 @@ namespace SpiritMod.NPCs.Mangrove_Defender
 					{
 						Color color3 = NPC.GetAlpha(color2) * (1f - num8);
 						Vector2 position2 = new Vector2(NPC.Center.X + 2 * NPC.spriteDirection, NPC.Center.Y) + ((float)(index2 / 4 * 6.28318548202515) + NPC.rotation + num10).ToRotationVector2() * (float)(4.0 * (double)num8 + 2.0) - Main.screenPosition - new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f + vector2_3 * NPC.scale + new Vector2(0.0f, addY + -10 + NPC.gfxOffY);
-						Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Mangrove_Defender/Mangrove_Defender_Glow").Value, position2, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color3, NPC.rotation, vector2_3, NPC.scale * 1.15f, spriteEffects, 0.0f);
+						Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Mangrove_Defender/Mangrove_Defender_Glow").Value, position2, NPC.frame, color3, NPC.rotation, vector2_3, NPC.scale * 1.15f, spriteEffects, 0.0f);
 					}
-					Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Mangrove_Defender/Mangrove_Defender_Glow").Value, position1, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color2, NPC.rotation, vector2_3, NPC.scale * 1.15f, spriteEffects, 0.0f);
+					Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Mangrove_Defender/Mangrove_Defender_Glow").Value, position1, NPC.frame, color2, NPC.rotation, vector2_3, NPC.scale * 1.15f, spriteEffects, 0.0f);
 				}
 			}
 		}

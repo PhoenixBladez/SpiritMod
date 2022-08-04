@@ -66,17 +66,15 @@ namespace SpiritMod.NPCs.Critters
 			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), .10f * 1.5f, .064f* 1.5f, .289f* 1.5f);
 			NPC.spriteDirection = -NPC.direction;
         }
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/Critters/Toxikarp_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, screenPos);
-		}
+
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, ModContent.Request<Texture2D>("SpiritMod/NPCs/Critters/Toxikarp_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, screenPos);
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
@@ -84,10 +82,6 @@ namespace SpiritMod.NPCs.Critters
 			npcLoot.AddCommon<RawFish>(2);
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.Player.ZoneCorrupt && spawnInfo.Water && Main.hardMode ? 0.005f : 0f;
-		}
-
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneCorrupt && spawnInfo.Water && Main.hardMode ? 0.005f : 0f;
 	}
 }

@@ -49,14 +49,12 @@ namespace SpiritMod.NPCs.Critters
 			NPC.frame.Y = frame * frameHeight;
 		}
 
-		public override void AI()
-		{
-			NPC.spriteDirection = NPC.direction;
-		}
+		public override void AI() => NPC.spriteDirection = NPC.direction;
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0)
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SpiritMod/Gores/SawtoothSharkGore").Type, 1f);
+				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SawtoothSharkGore").Type, 1f);
 			for (int k = 0; k < 11; k++)
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, NPC.direction, -1f, 1, default, .91f);
 		}
@@ -74,9 +72,6 @@ namespace SpiritMod.NPCs.Critters
 			npcLoot.AddCommon(ItemID.SawtoothShark, 2);
 		}
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.Player.ZoneBeach && spawnInfo.Water ? 0.0035f : 0f;
-		}
+		public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.ZoneBeach && spawnInfo.Water ? 0.0035f : 0f;
 	}
 }

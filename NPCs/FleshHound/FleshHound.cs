@@ -74,14 +74,17 @@ namespace SpiritMod.NPCs.FleshHound
 				for (int k = 0; k < NPC.oldPos.Length; k++)
 				{
 					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-					Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
-					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
+					Color color = NPC.GetAlpha(drawColor) * (float)(((NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
+					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
 		}
 
 		public override void FindFrame(int frameHeight)
 		{
+			if (NPC.IsABestiaryIconDummy)
+				num34616 = .25f;
+
 			NPC.frameCounter += num34616;
 			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
 			int frame = (int)NPC.frameCounter;
@@ -106,12 +109,8 @@ namespace SpiritMod.NPCs.FleshHound
 			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				num34616 = .55f;
-				Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
-				direction.Normalize();
-				direction.X = direction.X * Main.rand.Next(7, 9);
-				direction.Y = direction.Y * Main.rand.Next(2, 4);
-				NPC.velocity.X = direction.X;
-				NPC.velocity.Y = direction.Y;
+				Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * new Vector2(Main.rand.Next(7, 9), Main.rand.Next(2, 4));
+				NPC.velocity = direction;
 				NPC.velocity.Y *= 0.98f;
 				NPC.velocity.X *= 0.995f;
 				NPC.netUpdate = true;

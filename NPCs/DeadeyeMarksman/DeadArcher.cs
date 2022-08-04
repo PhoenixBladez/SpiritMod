@@ -15,6 +15,9 @@ namespace SpiritMod.NPCs.DeadeyeMarksman
 		{
 			DisplayName.SetDefault("Deadeye Marksman");
 			Main.npcFrameCount[NPC.type] = Main.npcFrameCount[NPCID.GoblinArcher];
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Velocity = 1f };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -82,7 +85,7 @@ namespace SpiritMod.NPCs.DeadeyeMarksman
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
@@ -90,7 +93,7 @@ namespace SpiritMod.NPCs.DeadeyeMarksman
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 				target.AddBuff(BuffID.Darkness, 180);
 		}
 	}

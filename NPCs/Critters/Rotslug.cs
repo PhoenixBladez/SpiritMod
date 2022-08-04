@@ -57,7 +57,7 @@ namespace SpiritMod.NPCs.Critters
 
 		public override void FindFrame(int frameHeight)
         {
-            if (NPC.velocity != Vector2.Zero)
+            if (NPC.velocity != Vector2.Zero || NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter += 0.12f;
                 NPC.frameCounter %= Main.npcFrameCount[NPC.type];

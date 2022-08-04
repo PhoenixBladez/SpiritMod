@@ -111,9 +111,9 @@ namespace SpiritMod.NPCs.StarjinxEvent.Enemies
 				{
 					Color GlowColor = NPC.GetAlpha(AfterimageColor) * (1f - num99);
 					Vector2 GlowPosition2 = new Vector2(NPC.Center.X - 24, NPC.Center.Y - 42) + ((index2 / 4f * MathHelper.TwoPi) + NPC.rotation).ToRotationVector2() * (float)(8.0 * num99 + 2.0) - Main.screenPosition - new Vector2((float)texture.Width / 3, texture.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f + NPC.frame.Size() / 2 * NPC.scale + new Vector2(0.0f, NPC.gfxOffY);
-					Main.spriteBatch.Draw(texture, GlowPosition2, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), GlowColor, NPC.rotation, new Vector2(33, 0), NPC.scale, spriteEffects, 0.0f);
+					Main.spriteBatch.Draw(texture, GlowPosition2, NPC.frame, GlowColor, NPC.rotation, new Vector2(33, 0), NPC.scale, spriteEffects, 0.0f);
 				}
-				Main.spriteBatch.Draw(texture, GlowPosition, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), AfterimageColor, NPC.rotation, new Vector2(33, 0), NPC.scale, spriteEffects, 0.0f);
+				Main.spriteBatch.Draw(texture, GlowPosition, NPC.frame, AfterimageColor, NPC.rotation, new Vector2(33, 0), NPC.scale, spriteEffects, 0.0f);
 			}
 			Main.spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.position + new Vector2(33, 0) - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, new Vector2(33, 0), NPC.scale, SpriteEffects.None, 0f);
 			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/StarjinxEvent/Enemies/Pulsar_Glow").Value, NPC.position + new Vector2(33, 0) - Main.screenPosition, NPC.frame, Color.White, NPC.rotation, new Vector2(33, 0), NPC.scale, SpriteEffects.None, 0f);

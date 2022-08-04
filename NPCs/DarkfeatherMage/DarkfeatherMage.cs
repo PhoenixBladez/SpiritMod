@@ -386,12 +386,10 @@ namespace SpiritMod.NPCs.DarkfeatherMage
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             var effects = NPC.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
-            Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
-            drawOrigin.Y += 13f;
-            Vector2 position1 = NPC.Bottom - Main.screenPosition;
+            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+            Vector2 position1 = NPC.Bottom - screenPos;
             Texture2D texture2D2 = TextureAssets.GlowMask[239].Value;
-            float num11 = (float)((double)Main.GlobalTimeWrappedHourly % 1.0 / 1.0);
+            float num11 = (float)(Main.GlobalTimeWrappedHourly % 1.0);
             float num12 = num11;
             if ((double)num12 > 0.5)
                 num12 = 1f - num11;
@@ -404,14 +402,14 @@ namespace SpiritMod.NPCs.DarkfeatherMage
             if ((double)num14 < 0.0)
                 num14 = 0.0f;
             Rectangle r2 = texture2D2.Frame(1, 1, 0, 0);
-            drawOrigin = r2.Size() / 2f;
+            Vector2 drawOrigin = r2.Size() / 2f;
             Vector2 position3 = position1 + new Vector2(22.0f * NPC.spriteDirection, -1f);
             Color color3 = new Color(137, 209, 61) * 1.6f;
-            Main.spriteBatch.Draw(texture2D2, position3, new Rectangle?(r2), color3, NPC.rotation, drawOrigin, NPC.scale * 0.275f, SpriteEffects.FlipHorizontally, 0.0f);
+            Main.spriteBatch.Draw(texture2D2, position3, r2, color3, NPC.rotation, drawOrigin, NPC.scale * 0.275f, SpriteEffects.FlipHorizontally, 0.0f);
             float num15 = 1f + num11 * 0.75f;
-            Main.spriteBatch.Draw(texture2D2, position3, new Rectangle?(r2), color3 * num12, NPC.rotation, drawOrigin, NPC.scale * 0.275f * num15, SpriteEffects.FlipHorizontally, 0.0f);
+            Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num12, NPC.rotation, drawOrigin, NPC.scale * 0.275f * num15, SpriteEffects.FlipHorizontally, 0.0f);
             float num16 = 1f + num13 * 0.75f;
-            Main.spriteBatch.Draw(texture2D2, position3, new Rectangle?(r2), color3 * num14, NPC.rotation, drawOrigin, NPC.scale * 0.275f * num16, SpriteEffects.FlipHorizontally, 0.0f);
+            Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num14, NPC.rotation, drawOrigin, NPC.scale * 0.275f * num16, SpriteEffects.FlipHorizontally, 0.0f);
             return false;
         }
 

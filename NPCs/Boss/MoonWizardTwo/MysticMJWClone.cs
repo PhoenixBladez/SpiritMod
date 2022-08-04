@@ -81,9 +81,9 @@ namespace SpiritMod.NPCs.Boss.MoonWizardTwo
 			{
 				Microsoft.Xna.Framework.Color GlowColor = NPC.GetAlpha(AfterimageColor) * (1f - num99);
 				Vector2 GlowPosition2 = new Vector2(NPC.Center.X, NPC.Center.Y - 18) + ((float)((double)index2 / (double)4 * 6.28318548202515) + NPC.rotation).ToRotationVector2() * (float)(8.0 * (double)num99 + 2.0) - Main.screenPosition - new Vector2((float)texture.Width / 3, (float)(texture.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f + NPC.frame.Size() / 2 * NPC.scale + new Vector2(0.0f, NPC.gfxOffY);
-				Main.spriteBatch.Draw(texture, GlowPosition2, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), GlowColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0.0f);
+				Main.spriteBatch.Draw(texture, GlowPosition2, NPC.frame, GlowColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0.0f);
 			}
-			Main.spriteBatch.Draw(texture, GlowPosition, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), AfterimageColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0.0f);
+			Main.spriteBatch.Draw(texture, GlowPosition, NPC.frame, AfterimageColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, spriteEffects, 0.0f);
 		}
 		public void DrawSpecialGlow(SpriteBatch spriteBatch, Color drawColor)
 		{

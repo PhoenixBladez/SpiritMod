@@ -120,7 +120,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 					{
 						WorldGen.PlaceObject(CheckTile.X, CheckTile.Y, ModContent.TileType<CursedArmor>(), direction: NPC.spriteDirection);
 						if (Main.netMode != NetmodeID.SinglePlayer)
-							NetMessage.SendData(MessageID.TileChange, -1, -1, null, ModContent.TileType<CursedArmor>(), CheckTile.X, CheckTile.Y);
+							NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, ModContent.TileType<CursedArmor>(), CheckTile.X, CheckTile.Y);
 
 						for (int i = 0; i < 6; i++)
 							Gore.NewGore(NPC.GetSource_Death(), CheckTile.ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
@@ -130,7 +130,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 					{
 						WorldGen.PlaceObject(TileX, TileY, ModContent.TileType<CursedArmor>(), direction: NPC.spriteDirection);
 						if (Main.netMode != NetmodeID.SinglePlayer)
-							NetMessage.SendData(MessageID.TileChange, -1, -1, null, ModContent.TileType<CursedArmor>(), TileX, TileY);
+							NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, ModContent.TileType<CursedArmor>(), TileX, TileY);
 
 						for (int i = 0; i < 6; i++)
 							Gore.NewGore(NPC.GetSource_Death(), new Point(TileX, TileY).ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);
@@ -428,14 +428,14 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, new Vector2(NPC.Center.X, NPC.Center.Y - 8) - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, new Vector2(NPC.Center.X, NPC.Center.Y - 8) - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame,
 							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 
-			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Enchanted_Armor/Enchanted_Armor_Glow").Value, new Vector2(NPC.Center.X, NPC.Center.Y - 8) - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Enchanted_Armor/Enchanted_Armor_Glow").Value, new Vector2(NPC.Center.X, NPC.Center.Y - 8) - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame,
 							 Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 
 			float maskopacity = (FlashTimer / 30) * 0.5f;
-			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Enchanted_Armor/Enchanted_Armor_Mask").Value, new Vector2(NPC.Center.X, NPC.Center.Y - 8) - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Enchanted_Armor/Enchanted_Armor_Mask").Value, new Vector2(NPC.Center.X, NPC.Center.Y - 8) - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame,
 							 Color.White * maskopacity, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 		}
 
@@ -446,35 +446,33 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 			NPC.frame.Width = 90;
 			if ((double)Vector2.Distance(player.Center, NPC.Center) > 60f || !player.active || player.dead)
 			{
+				if (NPC.frameCounter < 6)
 				{
-					if (NPC.frameCounter < 6)
-					{
-						NPC.frame.Y = 0 * frameHeight;
-						NPC.frame.X = 0;
-					}
-					else if (NPC.frameCounter < 12)
-					{
-						NPC.frame.Y = 1 * frameHeight;
-						NPC.frame.X = 0;
-					}
-					else if (NPC.frameCounter < 18)
-					{
-						NPC.frame.Y = 2 * frameHeight;
-						NPC.frame.X = 0;
-					}
-					else if (NPC.frameCounter < 24)
-					{
-						NPC.frame.Y = 3 * frameHeight;
-						NPC.frame.X = 0;
-					}
-					else if (NPC.frameCounter < 30)
-					{
-						NPC.frame.Y = 4 * frameHeight;
-						NPC.frame.X = 0;
-					}
-					else
-						NPC.frameCounter = 0;
+					NPC.frame.Y = 0 * frameHeight;
+					NPC.frame.X = 0;
 				}
+				else if (NPC.frameCounter < 12)
+				{
+					NPC.frame.Y = 1 * frameHeight;
+					NPC.frame.X = 0;
+				}
+				else if (NPC.frameCounter < 18)
+				{
+					NPC.frame.Y = 2 * frameHeight;
+					NPC.frame.X = 0;
+				}
+				else if (NPC.frameCounter < 24)
+				{
+					NPC.frame.Y = 3 * frameHeight;
+					NPC.frame.X = 0;
+				}
+				else if (NPC.frameCounter < 30)
+				{
+					NPC.frame.Y = 4 * frameHeight;
+					NPC.frame.X = 0;
+				}
+				else
+					NPC.frameCounter = 0;
 			}
 			else
 			{

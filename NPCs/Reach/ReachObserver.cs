@@ -87,7 +87,7 @@ namespace SpiritMod.NPCs.Reach
 			if (NPC.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			Vector2 vector2_3 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
-			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Reach/ReachObserver_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, new Vector2((float)(NPC.position.X - Main.screenPosition.X + (NPC.width / 2) - TextureAssets.Npc[NPC.type].Value.Width * NPC.scale / 2.0 + vector2_3.X * NPC.scale), (float)(NPC.position.Y - Main.screenPosition.Y + NPC.height - TextureAssets.Npc[NPC.type].Value.Height * NPC.scale / Main.npcFrameCount[NPC.type] + 4.0 + vector2_3.Y * NPC.scale)), new Microsoft.Xna.Framework.Rectangle?(NPC.frame), Microsoft.Xna.Framework.Color.White * .485f, NPC.rotation, vector2_3, NPC.scale, spriteEffects, 0.0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Reach/ReachObserver_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, new Vector2((float)(NPC.position.X - Main.screenPosition.X + (NPC.width / 2) - TextureAssets.Npc[NPC.type].Value.Width * NPC.scale / 2.0 + vector2_3.X * NPC.scale), (float)(NPC.position.Y - Main.screenPosition.Y + NPC.height - TextureAssets.Npc[NPC.type].Value.Height * NPC.scale / Main.npcFrameCount[NPC.type] + 4.0 + vector2_3.Y * NPC.scale)), NPC.frame, Microsoft.Xna.Framework.Color.White * .485f, NPC.rotation, vector2_3, NPC.scale, spriteEffects, 0.0f);
 		}
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)

@@ -95,10 +95,10 @@ namespace SpiritMod.NPCs.DiseasedSlime
 		{
 			Vector2 extraOffset = new Vector2(-26, -17);
 			Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height * 0.5f));
-			Vector2 drawPos = NPC.Center - Main.screenPosition + drawOrigin + extraOffset;
-			Color color = NPC.GetAlpha(drawColor);
+			Vector2 drawPos = NPC.Center - screenPos + drawOrigin + extraOffset;
+			Color color = NPC.IsABestiaryIconDummy ? Color.White : NPC.GetAlpha(drawColor);
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 			return false;
 		}
 
@@ -112,7 +112,7 @@ namespace SpiritMod.NPCs.DiseasedSlime
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 				target.AddBuff(ModContent.BuffType<FesteringWounds>(), 240);
 		}
 

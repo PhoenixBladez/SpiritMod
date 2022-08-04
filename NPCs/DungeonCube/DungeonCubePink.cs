@@ -26,7 +26,7 @@ namespace SpiritMod.NPCs.DungeonCube
 			return 0f;
 		}
 
-		protected override int TileDrop => TileID.PinkDungeonBrick;
+		protected override int TileDrop => ItemID.PinkBrick;
 		protected override string CubeColor => "Pink";
 	}
 }

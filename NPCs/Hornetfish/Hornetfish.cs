@@ -174,7 +174,7 @@ namespace SpiritMod.NPCs.Hornetfish
 				{
 					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
 					Color color = NPC.GetAlpha(drawColor) * (((float)(NPC.oldPos.Length - k) / NPC.oldPos.Length) / 2);
-					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
+					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
 			}
 			return false;
