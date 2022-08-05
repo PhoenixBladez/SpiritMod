@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Weapon.Summon.ElectricGun
 			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.noMelee = true;
 			Item.knockBack = 2;
-			Item.value = Terraria.Item.sellPrice(0, 0, 80, 0);
+			Item.value = Item.sellPrice(0, 0, 80, 0);
 			Item.rare = ItemRarityID.Green;
 			Item.UseSound = SoundID.Item12;
 			Item.autoReuse = true;

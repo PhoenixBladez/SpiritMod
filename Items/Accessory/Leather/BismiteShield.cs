@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Accessory.Leather
 			Item.rare = ItemRarityID.Green;
 			Item.defense = 2;
 			Item.DamageType = DamageClass.Melee;
-            Item.value = Terraria.Item.sellPrice(0, 0, 60, 0);
+            Item.value = Item.sellPrice(0, 0, 60, 0);
             Item.accessory = true;
 		}
 

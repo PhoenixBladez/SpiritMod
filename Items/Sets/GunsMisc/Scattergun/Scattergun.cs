@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Scattergun
 			Item.noMelee = true;
 			Item.knockBack = 4;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			Item.value = Item.sellPrice(0, 2, 0, 0);
 			Item.rare = ItemRarityID.Orange;
 			Item.UseSound = SoundID.Item36;
 			Item.autoReuse = false;

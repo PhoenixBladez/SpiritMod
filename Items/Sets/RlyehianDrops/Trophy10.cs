@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Sets.RlyehianDrops
 			Item.useTime = 10;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.consumable = true;
-						Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
 			Item.rare = ItemRarityID.Blue;
 			Item.createTile = Mod.Find<ModTile>("Trophy10Tile").Type;
 			Item.placeStyle = 0;

@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.ZephyrBreath
 			Item.staff[Item.type] = true;
 			Item.noMelee = true;
 			Item.knockBack = 5;
-			Item.value = Terraria.Item.sellPrice(0, 0, 40, 0);
+			Item.value = Item.sellPrice(0, 0, 40, 0);
 			Item.rare = ItemRarityID.Blue;
 			Item.shoot = ModContent.ProjectileType<Zephyr>();
 			Item.autoReuse = true;

@@ -12,8 +12,6 @@ namespace SpiritMod.Items.Weapon.Yoyo
 			Tooltip.SetDefault("Shoots a cluster of Ancient Ice");
 		}
 
-
-
 		public override void SetDefaults()
 		{
 			Item.CloneDefaults(ItemID.WoodYoyo);

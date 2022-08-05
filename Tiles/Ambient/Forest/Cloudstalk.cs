@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Armor.BotanistSet;
 using SpiritMod.Items.ByBiome.Forest.Placeable.Decorative;
 using Terraria;
 using Terraria.DataStructures;
@@ -10,13 +11,6 @@ using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Ambient.Forest
 {
-	public enum PlantStage : byte
-	{
-		Planted,
-		Growing,
-		Grown
-	}
-
 	public class Cloudstalk : ModTile
 	{
 		private const int FrameWidth = 18; // A constant for readability and to kick out those magic numbers
@@ -115,6 +109,12 @@ namespace SpiritMod.Tiles.Ambient.Forest
 				(herbItemStack, seedItemStack) = (1, Main.rand.Next(1, 4));
 			else if (stage == PlantStage.Growing)
 				herbItemStack = 1;
+
+			if (nearestPlayer.GetModPlayer<BotanistPlayer>().active && stage != PlantStage.Planted)
+			{
+				seedItemStack += 2;
+				herbItemStack++;
+			}
 
 			var source = new EntitySource_TileBreak(i, j);
 

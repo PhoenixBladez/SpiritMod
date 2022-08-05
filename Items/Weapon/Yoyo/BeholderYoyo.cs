@@ -12,8 +12,6 @@ namespace SpiritMod.Items.Weapon.Yoyo
 			Tooltip.SetDefault("Consumes 15 mana per second\nInflicts magic damage");
 		}
 
-
-
 		public override void SetDefaults()
 		{
 			Item.CloneDefaults(ItemID.WoodYoyo);

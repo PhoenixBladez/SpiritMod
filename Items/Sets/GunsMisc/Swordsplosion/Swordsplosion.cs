@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Swordsplosion
 			Item.noMelee = true;
 			Item.knockBack = 6;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
+			Item.value = Item.sellPrice(0, 5, 0, 0);
 			Item.rare = ItemRarityID.Yellow;
 			Item.UseSound = SoundID.Item36;
 			Item.autoReuse = true;

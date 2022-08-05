@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.HolySword
 			Item.height = 64;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.knockBack = 9;
-			Item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
+			Item.value = Item.sellPrice(0, 5, 0, 0);
 			Item.rare = ItemRarityID.Yellow;
 			Item.UseSound = SoundID.Item70;
 			Item.autoReuse = true;

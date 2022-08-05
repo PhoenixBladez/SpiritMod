@@ -44,10 +44,12 @@ namespace SpiritMod.World
 				if (attempts > 20)
 					break;
 
-				progress.Message = "Spirit Mod: Adding Microstructures...";
+				progress.Message = "Spirit Mod: Microstructures: Campsite";
 
 				if (WorldGen.genRand.NextBool(4))
 					GenerateCampsite();
+
+				progress.Message = "Spirit Mod: Microstructures: Hideouts";
 
 				if (ModContent.GetInstance<SpiritClientConfig>().DoubleHideoutGeneration)
 				{
@@ -58,7 +60,7 @@ namespace SpiritMod.World
 				}
 				else
 				{
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						new BanditHideout().Generate();
 						MyWorld.gennedBandits = true;
@@ -69,6 +71,8 @@ namespace SpiritMod.World
 						MyWorld.gennedTower = true;
 					}
 				}
+
+				progress.Message = "Spirit Mod: Microstructures: Stashes, Caverns and Dungeons";
 
 				int siz = (int)((Main.maxTilesX / 4200f) * 7);
 				int repeats = WorldGen.genRand.Next(siz, siz + 4);
@@ -82,15 +86,20 @@ namespace SpiritMod.World
 				for (int k = 0; k < (repeats + 2); k++)
 					GenerateBismiteCavern();
 
-				if (WorldGen.genRand.Next(2) == 0)
+				if (WorldGen.genRand.NextBool(2))
 					for (int k = 0; k < (repeats / 4); k++)
 						GenerateStoneDungeon();
 
 				for (int k = 0; k < Main.rand.Next(5, 7); k++)
 					GenerateGemStash();
 
+				progress.Message = "Spirit Mod: Microstructures: Avian Islands";
+
+				List<int> takenIslands = new List<int>();
 				for (int i = 0; i < Main.maxTilesX / 4200f * 2f; i++)
-					GenerateBoneIsland((int)(Main.maxTilesX / 2100f), i); //2 islands in a small world
+					GenerateBoneIsland(takenIslands); //2 islands in a small world
+
+				progress.Message = "Spirit Mod: Microstructures: Pagoda and Ziggurat";
 
 				GeneratePagoda();
 				GenerateZiggurat();
@@ -326,9 +335,9 @@ namespace SpiritMod.World
 				if (!tile.HasTile || tile.TileType != TileID.Stone)
 					continue;
 
-				//if (WorldGen.genRand.Next(2) == 0) //STRUCTURES
+				//if (WorldGen.genRand.NextBool(2)) //STRUCTURES
 				//	StructureLoader.GetStructure("BismiteCavern1").PlaceForce(hideoutX, hideoutY, out containers);
-				//else if (WorldGen.genRand.Next(2) == 0)
+				//else if (WorldGen.genRand.NextBool(2))
 				//	StructureLoader.GetStructure("BismiteCavern2").PlaceForce(hideoutX, hideoutY, out containers);
 				//else
 				//	StructureLoader.GetStructure("BismiteCavern3").PlaceForce(hideoutX, hideoutY, out containers);
@@ -482,12 +491,12 @@ namespace SpiritMod.World
 				return;
 
 			// place the hideout
-			if (WorldGen.genRand.Next(2) == 0)
+			if (WorldGen.genRand.NextBool(2))
 				PlaceGemStash(center.X, center.Y, StashRoomMain, StashMainWalls, StashMainLoot);
 			else
 				PlaceGemStash(center.X, center.Y, StashRoomMain1, StashMainWalls, StashMainLoot1);
 
-			if (WorldGen.genRand.Next(2) == 0)
+			if (WorldGen.genRand.NextBool(2))
 				PlaceGemStash(center.X + (Main.rand.Next(-5, 5)), center.Y - 8, StashRoom1, Stash1Walls, Stash1Loot);
 		}
 
@@ -713,28 +722,67 @@ namespace SpiritMod.World
 		#endregion Gem Stash
 
 		#region Bone Island
-		private static void GenerateBoneIsland(int islands, int section)
+		private static void GenerateBoneIsland(List<int> takenIslands)
 		{
-			int attempts = -1;
-
-		retry:
-			attempts++;
-			// Select a place in the first 6th of the world
-			int sectionSize = Main.maxTilesX / 3 * 2 / islands;
-			int islandX = WorldGen.genRand.Next((sectionSize * section) + 50, (sectionSize * (section + 1)) - 50);
-			int islandY = WorldGen.genRand.Next(Main.maxTilesY / 9, Main.maxTilesY / 8);
-
-			for (int i = 0; i < 30; ++i)
+			while (true)
 			{
-				for (int j = 0; j < 20; ++j)
+				// Select a place in the first 6th of the world
+				Point pos = FindBoneIslandPlacement(takenIslands);
+
+				StructureHelper.Generator.GenerateStructure("Structures/BoneIsland", new Point16(pos.X, pos.Y), SpiritMod.Instance);
+				break;
+			}
+		}
+
+		private static Point FindBoneIslandPlacement(List<int> takenIslands)
+		{
+			int totalAttempts = -1;
+
+			while (true)
+			{
+				totalAttempts++;
+
+				if (totalAttempts > 3000)
+					break;
+
+				int houseMax = Array.IndexOf(WorldGen.floatingIslandHouseX, WorldGen.floatingIslandHouseX.First(x => x == 0));
+				int house = WorldGen.genRand.Next(houseMax);
+
+				while (takenIslands.Contains(house))
+					house = WorldGen.genRand.Next(houseMax);
+
+				Point pos = new Point(WorldGen.floatingIslandHouseX[house], WorldGen.floatingIslandHouseY[house]);
+
+				while (true)
 				{
-					Tile tile = Framing.GetTileSafely(islandX + i, islandY + j);
-					if (tile.HasTile)
-						goto retry; //Retry if this space is taken up
+					int xOffset = Main.rand.NextBool() ? WorldGen.genRand.Next(40, 60) : -WorldGen.genRand.Next(60, 80);
+					Point realPos = new Point(pos.X + xOffset, pos.Y + WorldGen.genRand.Next(15, 25));
+					bool failed = false;
+
+					for (int i = 0; i < 30; ++i)
+					{
+						if (failed)
+							break;
+
+						for (int j = 0; j < 20; ++j)
+						{
+							Tile tile = Framing.GetTileSafely(realPos.X + i, realPos.Y + j);
+							if (tile.HasTile)
+							{
+								failed = true; //Retry if this space is taken up
+								break;
+							}
+						}
+					}
+
+					if (failed)
+						continue;
+
+					takenIslands.Add(house);
+					return realPos;
 				}
 			}
-			
-			StructureHelper.Generator.GenerateStructure("Structures/BoneIsland", new Point16(islandX, islandY), SpiritMod.Instance);
+			return new Point(0, 0);
 		}
 		#endregion Bone Island
 
@@ -1119,7 +1167,7 @@ namespace SpiritMod.World
 					if (!WorldGen.InWorld(smoothX, smoothY)) continue;
 
 					Tile tile = Framing.GetTileSafely(smoothX, smoothY);
-					if (tile.HasTile && (tile.TileType == junkType || tile.TileType == asteroidType) && WorldGen.genRand.Next(2) == 0)
+					if (tile.HasTile && (tile.TileType == junkType || tile.TileType == asteroidType) && WorldGen.genRand.NextBool(2))
 					{
 						Tile.SmoothSlope(smoothX, smoothY);
 					}

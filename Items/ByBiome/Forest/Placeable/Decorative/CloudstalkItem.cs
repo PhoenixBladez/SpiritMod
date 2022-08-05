@@ -29,6 +29,7 @@ namespace SpiritMod.Items.ByBiome.Forest.Placeable.Decorative
 				AddIngredient(ItemID.Daybloom).
 				AddIngredient(ItemID.BottledWater).
 				AddIngredient<CloudstalkItem>().
+				AddTile(TileID.Bottles).
 				Register();
 
 			Recipe.Create(ItemID.GravitationPotion, 1).
@@ -37,6 +38,7 @@ namespace SpiritMod.Items.ByBiome.Forest.Placeable.Decorative
 				AddIngredient(ItemID.Deathweed).
 				AddIngredient(ItemID.BottledWater).
 				AddIngredient<CloudstalkItem>().
+				AddTile(TileID.Bottles).
 				Register();
 		}
 	}

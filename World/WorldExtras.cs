@@ -66,7 +66,7 @@ namespace SpiritMod.World
 							if (destroyTile) {
 								WorldGen.KillTile(x, y, false, false, false);
 								if (!Main.tile[x, y].HasTile && Main.netMode != NetmodeID.SinglePlayer) {
-									NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)x, (float)y, 0f, 0, 0, 0);
+									NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, (float)x, (float)y, 0f, 0, 0, 0);
 								}
 							}
 						}
@@ -76,7 +76,7 @@ namespace SpiritMod.World
 									if (Main.tile[wallX, wallY] != null && Main.tile[wallX, wallY].WallType > 0) {
 										WorldGen.KillWall(wallX, wallY, false);
 										if (Main.tile[wallX, wallY].WallType == 0 && Main.netMode != NetmodeID.SinglePlayer) {
-											NetMessage.SendData(MessageID.TileChange, -1, -1, null, 2, (float)wallX, (float)wallY, 0f, 0, 0, 0);
+											NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 2, (float)wallX, (float)wallY, 0f, 0, 0, 0);
 										}
 									}
 								}

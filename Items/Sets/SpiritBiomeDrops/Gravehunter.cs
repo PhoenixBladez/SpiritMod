@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 			Item.useAmmo = AmmoID.Arrow;
 			Item.crit = 12;
 			Item.knockBack = 1;
-			Item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
+			Item.value = Item.sellPrice(0, 5, 0, 0);
 			Item.rare = ItemRarityID.LightPurple;
 			Item.UseSound = SoundID.Item5;
 			Item.autoReuse = true;

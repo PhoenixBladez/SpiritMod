@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 			Item.shoot = ModContent.ProjectileType<ShadowmoorProjectile>();
 			Item.useAmmo = AmmoID.Arrow;
 			Item.knockBack = 3.25f;
-			Item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
+			Item.value = Item.sellPrice(0, 4, 0, 0);
 			Item.rare = ItemRarityID.Pink;
 			Item.UseSound = SoundID.Item5;
 			Item.autoReuse = true;

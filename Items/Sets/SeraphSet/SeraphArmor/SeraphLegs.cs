@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Sets.SeraphSet.SeraphArmor
 		{
 			Item.width = 22;
 			Item.height = 16;
-			Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			Item.value = Item.sellPrice(0, 1, 0, 0);
 			Item.rare = ItemRarityID.LightRed;
 			Item.defense = 12;
 		}

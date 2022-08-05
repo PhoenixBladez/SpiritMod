@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 			Item.mana = 12;
 			Item.width = 40;
 			Item.height = 40;
-			Item.value = Terraria.Item.sellPrice(0, 0, 80, 0);
+			Item.value = Item.sellPrice(0, 0, 80, 0);
 			Item.rare = ItemRarityID.Green;
 			Item.knockBack = 2.5f;
 			Item.UseSound = SoundID.Item25;

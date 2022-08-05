@@ -12,11 +12,12 @@ namespace SpiritMod.Items.Armor.Daybloom
 			DisplayName.SetDefault("Sunflower Garb");
 			Tooltip.SetDefault("Increases magic damage by 1");
 		}
+
 		public override void SetDefaults()
 		{
 			Item.width = 30;
 			Item.height = 20;
-			Item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
+			Item.value = Item.sellPrice(0, 0, 10, 0);
 			Item.rare = ItemRarityID.White;
 			Item.defense = 2;
 		}

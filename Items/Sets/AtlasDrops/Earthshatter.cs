@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 			Item.shoot = ProjectileID.Starfury;
 			Item.useAmmo = AmmoID.Arrow;
 			Item.knockBack = 6;
-			Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			Item.value = Item.sellPrice(0, 1, 0, 0);
 			Item.rare = ItemRarityID.Cyan;
 			Item.UseSound = SoundID.Item5;
 			Item.autoReuse = true;

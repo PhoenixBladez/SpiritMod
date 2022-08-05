@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.HardmodeOreStaves
 			Item.noMelee = true;
 			Item.knockBack = 5;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
+			Item.value = Item.sellPrice(0, 3, 0, 0);
 			Item.rare = ItemRarityID.LightRed;
 			Item.UseSound = SoundID.Item83;
 			Item.autoReuse = true;

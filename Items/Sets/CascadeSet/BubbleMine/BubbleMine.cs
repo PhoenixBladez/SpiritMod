@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.BubbleMine
 			Item.shootSpeed = 11f;
 			Item.damage = 18;
 			Item.knockBack = 1.0f;
-			Item.value = Terraria.Item.sellPrice(0, 0, 0, 5);
+			Item.value = Item.sellPrice(0, 0, 0, 5);
 			Item.crit = 8;
 			Item.rare = ItemRarityID.Blue;
 			Item.DamageType = DamageClass.Ranged;

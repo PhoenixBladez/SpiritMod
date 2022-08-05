@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.EternalSwordTree
 			Item.height = 64;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.knockBack = 9;
-			Item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
+			Item.value = Item.sellPrice(0, 5, 0, 0);
 			Item.rare = ItemRarityID.Yellow;
 			Item.shootSpeed = 12;
 			Item.UseSound = SoundID.Item70;

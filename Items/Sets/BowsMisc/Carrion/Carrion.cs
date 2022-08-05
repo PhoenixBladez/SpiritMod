@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.Carrion
 			Item.useAmmo = AmmoID.Arrow;
 			Item.knockBack = 3;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			Item.value = Item.sellPrice(0, 2, 0, 0);
 			Item.rare = ItemRarityID.LightRed;
 			Item.UseSound = SoundID.Item5;
 			Item.autoReuse = true;

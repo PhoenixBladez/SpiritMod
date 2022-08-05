@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Sets.HuskstalkSet.ElderbarkArmor
 		{
 			Item.width = 28;
 			Item.height = 24;
-			Item.value = Terraria.Item.sellPrice(0, 0, 0, 0);
+			Item.value = Item.sellPrice(0, 0, 0, 0);
 			Item.rare = ItemRarityID.White;
 			Item.defense = 1;
 		}

@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Armor.GeodeArmor
 		{
 			Item.width = 28;
 			Item.height = 22;
-			Item.value = Terraria.Item.sellPrice(0, 0, 75, 0);
+			Item.value = Item.sellPrice(0, 0, 75, 0);
 			Item.rare = ItemRarityID.LightRed;
 
 			Item.vanity = true;

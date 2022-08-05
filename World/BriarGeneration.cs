@@ -1246,7 +1246,7 @@ namespace SpiritMod.World
 				furnitureX++;
 				if (!WithinInterior(furnitureX, maxY - 1)) continue;
 
-				if (WorldGen.genRand.Next(3) == 0)
+				if (WorldGen.genRand.NextBool(3))
 				{
 					int index = WorldGen.genRand.Next(furnituresAndTiles.Count);
 					(ushort, int, int, int, int) data = furnituresAndTiles[index]();
@@ -1901,7 +1901,7 @@ namespace SpiritMod.World
 						{
 							if (tileY < _y + 20)
 							{
-								if (WorldGen.genRand.Next(2) == 0)
+								if (WorldGen.genRand.NextBool(2))
 									GrowTreeCustom(tileX, tileY, 16, 32);
 							}
 							else

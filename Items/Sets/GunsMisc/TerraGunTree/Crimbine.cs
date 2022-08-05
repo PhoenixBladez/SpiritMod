@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 			Item.knockBack = 0;
 			Item.useTurn = false;
 			Item.shoot = ModContent.ProjectileType<CrimbineBone>();
-			Item.value = Terraria.Item.sellPrice(0, 3, 0, 0);
+			Item.value = Item.sellPrice(0, 3, 0, 0);
 			Item.rare = ItemRarityID.LightRed;
 			Item.shootSpeed = 10f;
 			Item.autoReuse = true;

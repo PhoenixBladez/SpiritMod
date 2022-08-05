@@ -5,11 +5,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 {
 	public class Trophy3 : ModItem
 	{
-
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Starplate Voyager Trophy");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Starplate Voyager Trophy");
 
 		public override void SetDefaults()
 		{
@@ -22,7 +18,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			Item.useTime = 10;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.consumable = true;
-						Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
 			Item.rare = ItemRarityID.Blue;
 			Item.createTile = Mod.Find<ModTile>("Trophy3Tile").Type;
 			Item.placeStyle = 0;

@@ -16,7 +16,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 		{
 			Item.width = 30;
 			Item.height = 24;
-            Item.value = Terraria.Item.sellPrice(0, 0, 25, 0);
+            Item.value = Item.sellPrice(0, 0, 25, 0);
             Item.useStyle = ItemUseStyleID.Swing;
 			Item.consumable = true;
 			Item.rare = ItemRarityID.Orange;

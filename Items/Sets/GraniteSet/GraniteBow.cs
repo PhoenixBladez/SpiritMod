@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Sets.GraniteSet
 			Item.shoot = ProjectileID.Shuriken;
 			Item.useAmmo = AmmoID.Arrow;
 			Item.knockBack = 4.5f;
-			Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			Item.value = Item.sellPrice(0, 1, 0, 0);
 			Item.rare = ItemRarityID.Green;
 			Item.UseSound = SoundID.Item5;
 			Item.autoReuse = true;

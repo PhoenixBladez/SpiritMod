@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.SpiritSet
 			Item.noMelee = true;
 			Item.knockBack = 1;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 1, 08, 0);
+			Item.value = Item.sellPrice(0, 1, 08, 0);
 			Item.rare = ItemRarityID.Pink;
 			Item.UseSound = SoundID.Item36;
 			Item.autoReuse = true;

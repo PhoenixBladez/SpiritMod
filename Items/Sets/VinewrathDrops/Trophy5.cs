@@ -5,11 +5,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 {
 	public class Trophy5 : ModItem
 	{
-
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Vinewrath Bane Trophy");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Vinewrath Bane Trophy");
 
 		public override void SetDefaults()
 		{
@@ -22,7 +18,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 			Item.useTime = 10;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.consumable = true;
-						Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
 			Item.rare = ItemRarityID.Blue;
 			Item.createTile = Mod.Find<ModTile>("Trophy5Tile").Type;
 			Item.placeStyle = 0;

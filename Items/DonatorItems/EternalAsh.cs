@@ -22,7 +22,7 @@ namespace SpiritMod.Items.DonatorItems
 			Item.mana = 15;   //somehow I think this might be too much...? -thegamemaster1234
 			Item.width = 40;
 			Item.height = 40;
-			Item.value = Terraria.Item.sellPrice(0, 0, 70, 0);
+			Item.value = Item.sellPrice(0, 0, 70, 0);
 			Item.rare = ItemRarityID.Pink;
 			Item.knockBack = 3.5f;
 			Item.UseSound = SoundID.Item25;

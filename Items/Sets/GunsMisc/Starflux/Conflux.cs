@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.Starflux
 			Item.noMelee = true;
 			Item.knockBack = 4;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			Item.value = Item.sellPrice(0, 2, 0, 0);
 			Item.rare = ItemRarityID.LightRed;
 			Item.UseSound = SoundID.Item12;
 			Item.autoReuse = true;

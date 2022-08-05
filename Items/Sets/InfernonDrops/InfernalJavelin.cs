@@ -1,5 +1,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace SpiritMod.Items.Sets.InfernonDrops
 {
 	public class InfernalJavelin : ModItem
@@ -9,7 +10,6 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 			DisplayName.SetDefault("Infernal Javelin");
 			Tooltip.SetDefault("'A spear forged with fire'\nCombusts hit foes, with additional hits causing the flame to intensify.");
 		}
-
 
 		public override void SetDefaults()
 		{

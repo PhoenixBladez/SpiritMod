@@ -26,7 +26,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 			Item.staff[Item.type] = true;
 			Item.noMelee = true;
 			Item.knockBack = 5;
-			Item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
+			Item.value = Item.sellPrice(0, 4, 0, 0);
 			Item.rare = ItemRarityID.Yellow;
 			Item.UseSound = SoundID.Item92;
 			Item.autoReuse = true;

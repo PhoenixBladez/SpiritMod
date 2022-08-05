@@ -11,7 +11,6 @@ namespace SpiritMod.Items.Weapon.Yoyo
 			Tooltip.SetDefault("Shoots sharks at nearby enemies");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = 30;

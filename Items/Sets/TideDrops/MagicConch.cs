@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.TideDrops
 			Item.noMelee = true;
 			Item.knockBack = 0f;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 0, 50, 0);
+			Item.value = Item.sellPrice(0, 0, 50, 0);
 			Item.rare = ItemRarityID.Orange;
 			Item.UseSound = SoundID.Item21;
 			Item.autoReuse = true;

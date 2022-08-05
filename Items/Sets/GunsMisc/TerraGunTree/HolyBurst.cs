@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 			Item.noMelee = true;
 			Item.knockBack = 0.7f;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			Item.value = Item.sellPrice(0, 2, 0, 0);
 			Item.rare = ItemRarityID.Pink;
 			Item.UseSound = SoundID.Item31;
 			Item.autoReuse = false;

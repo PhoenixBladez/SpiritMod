@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 			Item.height = 24;
 			Item.useTurn = false;
 			Item.autoReuse = true;
-			Item.value = Terraria.Item.sellPrice(0, 1, 60, 0);
+			Item.value = Item.sellPrice(0, 1, 60, 0);
 			Item.value = Item.buyPrice(0, 2, 0, 0);
 			Item.rare = ItemRarityID.Pink;
 			Item.damage = 38;

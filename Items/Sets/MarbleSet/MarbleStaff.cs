@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.MarbleSet
 			Item.noMelee = true;
 			Item.knockBack = 1;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 0, 50, 0);
+			Item.value = Item.sellPrice(0, 0, 50, 0);
 			Item.rare = ItemRarityID.Green;
 			Item.UseSound = SoundID.Item20;
 			Item.autoReuse = true;

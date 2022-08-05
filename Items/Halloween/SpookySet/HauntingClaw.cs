@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Halloween.SpookySet
 			Item.staff[Item.type] = true;
 			Item.noMelee = true;
 			Item.knockBack = 2;
-			Item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			Item.value = Item.sellPrice(0, 2, 0, 0);
 			Item.rare = ItemRarityID.Yellow;
 			Item.UseSound = SoundID.Item20;
 			Item.autoReuse = false;

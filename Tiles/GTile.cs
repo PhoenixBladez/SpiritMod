@@ -38,7 +38,7 @@ namespace SpiritMod.Tiles
 
 				if (type == TileID.Stone || type == 25 || type == 117 || type == 203 || type == 57)
 				{
-					if (Main.rand.NextBool(25)&& modPlayer.gemPickaxe && !fail)
+					if (Main.rand.NextBool(25) && modPlayer.gemPickaxe && !fail)
 					{
 						int tremorItem = Main.rand.Next(new int[] { 11, 12, 13, 14, 699, 700, 701, 702, 999, 182, 178, 179, 177, 180, 181 });
 						if (Main.hardMode)
@@ -54,9 +54,9 @@ namespace SpiritMod.Tiles
 				if (player.GetSpiritPlayer().wayfarerSet && Main.tileSpelunker[type] && Main.tileSolid[type])
 					player.AddBuff(ModContent.BuffType<Buffs.Armor.ExplorerMine>(), 600);
 
-				if (player.cordage && type == ModContent.TileType<Tiles.Ambient.Briar.BriarVines>())
+				if (player.cordage && type == ModContent.TileType<Ambient.Briar.BriarVines>())
 					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ItemID.VineRope);
-				if (Main.rand.NextBool(40) && type == ModContent.TileType<Tiles.Ambient.HangingChimes.HangingChimes>())
+				if (Main.rand.NextBool(40) && type == ModContent.TileType<Ambient.HangingChimes.HangingChimes>())
 					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ItemID.CrystalShard);
 				if (player.inventory[player.selectedItem].type == ItemID.Sickle && (type == ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage>() || type == ModContent.TileType<Tiles.Ambient.Briar.BriarFoliage1>()))
 					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ItemID.Hay);
@@ -77,18 +77,21 @@ namespace SpiritMod.Tiles
 			if (!Main.dedServ)
 			{
 				Player player = Main.LocalPlayer;
-				if (type == TileID.PalmTree && Main.rand.NextBool(3)&& player.ZoneBeach)
+				if (type == TileID.PalmTree && Main.rand.NextBool(3) && player.ZoneBeach)
 				{
 					if (Main.rand.NextBool(2))
 						Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ModContent.ItemType<Coconut>(), Main.rand.Next(5, 8));
 					if (NPC.CountNPCS(ModContent.NPCType<OceanSlime>()) < 1)
-						NPC.NewNPC(new EntitySource_TileBreak(i, j), i * 16, (j - 10) * 16, ModContent.NPCType<OceanSlime>(), 0, 0.0f, -8.5f, 0.0f, 0.0f, (int)byte.MaxValue);
+						NPC.NewNPC(new EntitySource_TileBreak(i, j), i * 16, (j - 10) * 16, ModContent.NPCType<OceanSlime>(), 0, 0.0f, -8.5f, 0.0f, 0.0f, byte.MaxValue);
 				}
 
 				if (type == 72)
 					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ModContent.ItemType<GlowRoot>(), Main.rand.Next(0, 2));
-				if (type == TileID.Trees && Main.rand.NextBool(25)&& player.ZoneSnow && Main.rand.NextBool(4))
+				if (type == TileID.Trees && Main.rand.NextBool(25) && player.ZoneSnow && Main.rand.NextBool(4))
 					Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 48, ModContent.ItemType<IceBerries>(), Main.rand.Next(1, 3));
+
+				if ((type == TileID.MatureHerbs || type == TileID.BloomingHerbs) && player.GetModPlayer<Items.Armor.BotanistSet.BotanistPlayer>().active)
+					HerbBotanistCompat.BotanistDrops(i, j);
 			}
 			return true;
 		}

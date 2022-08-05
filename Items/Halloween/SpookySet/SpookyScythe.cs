@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Halloween.SpookySet
 			Item.useAnimation = 45;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.knockBack = 6;
-			Item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			Item.value = Item.sellPrice(0, 2, 0, 0);
 			Item.rare = ItemRarityID.Yellow;
 			Item.UseSound = SoundID.Item1;
 			//  item.shoot = ModContent.ProjectileType<PestilentSwordProjectile>();

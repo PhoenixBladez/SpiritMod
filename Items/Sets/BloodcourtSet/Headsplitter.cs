@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.BloodcourtSet
 			Item.useAnimation = 26;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.knockBack = 6;
-			Item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
+			Item.value = Item.sellPrice(0, 0, 20, 0);
 			Item.rare = ItemRarityID.Green;
 			Item.UseSound = SoundID.Item1;
 			Item.shoot = ModContent.ProjectileType<FlayedExplosion>();

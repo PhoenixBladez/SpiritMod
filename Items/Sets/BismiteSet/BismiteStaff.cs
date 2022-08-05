@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.BismiteSet
 			Item.staff[Item.type] = true;
 			Item.noMelee = true;
 			Item.knockBack = 0;
-			Item.value = Terraria.Item.sellPrice(0, 0, 20, 0);
+			Item.value = Item.sellPrice(0, 0, 20, 0);
 			Item.rare = ItemRarityID.Blue;
 			Item.UseSound = SoundID.Item20;
 			Item.autoReuse = false;

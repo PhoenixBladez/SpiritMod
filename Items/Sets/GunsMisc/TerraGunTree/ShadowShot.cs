@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 			Item.noMelee = true;
 			Item.knockBack = 2;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
+			Item.value = Item.sellPrice(0, 4, 0, 0);
 			Item.rare = ItemRarityID.LightRed;
 			Item.autoReuse = true;
 			Item.shoot = ModContent.ProjectileType<VileBullet>();

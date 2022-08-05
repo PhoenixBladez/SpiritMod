@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Sets.FrigidSet
 			Item.shoot = ProjectileID.Shuriken;
 			Item.useAmmo = AmmoID.Arrow;
 			Item.knockBack = 1;
-			Item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
+			Item.value = Item.sellPrice(0, 0, 10, 0);
 			Item.rare = ItemRarityID.Blue;
 			Item.UseSound = SoundID.Item5;
 			Item.autoReuse = false;

@@ -5,11 +5,7 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 {
 	public class Trophy8 : ModItem
 	{
-
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Atlas Trophy");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Atlas Trophy");
 
 		public override void SetDefaults()
 		{

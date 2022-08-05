@@ -1,7 +1,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-
 namespace SpiritMod.Items.Armor.AstronautVanity
 {
 	[AutoloadEquip(EquipType.Head)]

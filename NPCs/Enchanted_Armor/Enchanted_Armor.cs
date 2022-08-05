@@ -148,7 +148,7 @@ namespace SpiritMod.NPCs.Enchanted_Armor
 								{
 									WorldGen.PlaceObject(checkFrom.X, checkFrom.Y, ModContent.TileType<CursedArmor>(), direction: NPC.spriteDirection);
 									if (Main.netMode != NetmodeID.SinglePlayer)
-										NetMessage.SendData(MessageID.TileChange, -1, -1, null, ModContent.TileType<CursedArmor>(), checkFrom.X, checkFrom.Y);
+										NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, ModContent.TileType<CursedArmor>(), checkFrom.X, checkFrom.Y);
 
 									for (int i = 0; i < 6; i++)
 										Gore.NewGore(NPC.GetSource_Death(), checkFrom.ToWorldCoordinates(), Main.rand.NextVector2Circular(2, 2), 99);

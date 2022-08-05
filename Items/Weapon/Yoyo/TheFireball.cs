@@ -12,8 +12,6 @@ namespace SpiritMod.Items.Weapon.Yoyo
 			Tooltip.SetDefault("Shoots out bouncing fireballs");
 		}
 
-
-
 		public override void SetDefaults()
 		{
 			Item.CloneDefaults(ItemID.WoodYoyo);

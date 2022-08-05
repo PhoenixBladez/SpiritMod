@@ -1,7 +1,6 @@
 using SpiritMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Material;
 
 namespace SpiritMod.Items.Placeable.Furniture
 {
@@ -17,7 +16,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 		{
 			Item.width = 36;
 			Item.height = 28;
-			Item.value = Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
 			Item.rare = ItemRarityID.White;
 
 			Item.maxStack = 99;

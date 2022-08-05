@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Sets.FloranSet.FloranArmor
 		{
 			Item.width = 34;
 			Item.height = 18;
-			Item.value = Terraria.Item.sellPrice(0, 0, 11, 0);
+			Item.value = Item.sellPrice(0, 0, 11, 0);
 			Item.rare = ItemRarityID.Green;
 			Item.defense = 4;
 		}

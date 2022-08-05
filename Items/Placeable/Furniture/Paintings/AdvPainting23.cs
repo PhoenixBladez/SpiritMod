@@ -15,21 +15,16 @@ namespace SpiritMod.Items.Placeable.Furniture.Paintings
 		{
 			Item.width = 23;
 			Item.height = 32;
-			Item.value = Item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
+			Item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
 			Item.rare = ItemRarityID.White;
-
 			Item.maxStack = 99;
-
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.useTime = 10;
 			Item.useAnimation = 15;
-
 			Item.useTurn = true;
 			Item.autoReuse = true;
 			Item.consumable = true;
-
 			Item.createTile = ModContent.TileType<AdvPainting23Tile>();
 		}
-
 	}
 }

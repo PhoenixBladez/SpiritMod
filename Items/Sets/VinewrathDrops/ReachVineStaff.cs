@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 			Item.staff[Item.type] = true;
 			Item.noMelee = true;
 			Item.knockBack = 4;
-			Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			Item.value = Item.sellPrice(0, 1, 0, 0);
 			Item.rare = ItemRarityID.Green;
 			Item.autoReuse = true;
 			Item.shoot = ModContent.ProjectileType<ReachPetal>();

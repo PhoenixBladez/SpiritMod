@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 			Item.damage = 55;
 			Item.knockBack = 5F;
 			Item.useStyle = ItemUseStyleID.Shoot;
-			Item.value = Terraria.Item.sellPrice(0, 2, 50, 0);
+			Item.value = Item.sellPrice(0, 2, 50, 0);
 			Item.useTime = 24;
 			Item.useAnimation = 24;
 			Item.DamageType = DamageClass.Magic;

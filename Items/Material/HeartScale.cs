@@ -18,7 +18,7 @@ namespace SpiritMod.Items.Material
 			Item.rare = ItemRarityID.Green;
 			Item.maxStack = 99;
 			Item.noUseGraphic = true;
-			Item.value = Terraria.Item.sellPrice(0, 0, 10, 0);
+			Item.value = Item.sellPrice(0, 0, 10, 0);
 			Item.noMelee = true;
 			Item.autoReuse = false;
 		}

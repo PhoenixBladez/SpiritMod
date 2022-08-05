@@ -74,7 +74,7 @@ namespace SpiritMod.Tiles.Ambient.Ocean
 		public override bool RightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
-			if (player.ZoneBeach && player.GetSpiritPlayer().isFullySubmerged)
+			if (player.ZoneBeach && player.GetSpiritPlayer().Submerged(45))
 				HitWire(i, j);
 			return true;
 		}

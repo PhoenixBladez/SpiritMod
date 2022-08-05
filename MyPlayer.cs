@@ -358,8 +358,6 @@ namespace SpiritMod
 		public bool soulPotion;
 		public bool gremlinBuff;
 
-		public bool isFullySubmerged;
-
 		public float WingTimeMaxMultiplier = 1f;
 		public bool StarjinxSet = false;
 		public int starjinxtimer = 0;
@@ -395,7 +393,7 @@ namespace SpiritMod
 			bool region2 = ZoneSpirit && Player.position.Y / 16 >= Main.maxTilesY - 300;
 
 			bool showJellies = ((Player.ZoneOverworldHeight || Player.ZoneSkyHeight) && MyWorld.jellySky) || NPC.AnyNPCs(ModContent.NPCType<MoonWizard>());
-			bool underwater = Player.ZoneBeach && isFullySubmerged;
+			bool underwater = Player.ZoneBeach && Submerged(30);
 
 			bool greenOcean = Player.ZoneBeach && MyWorld.luminousType == 1 && MyWorld.luminousOcean;
 			bool blueOcean = Player.ZoneBeach && MyWorld.luminousType == 2 && MyWorld.luminousOcean;
@@ -1620,14 +1618,19 @@ namespace SpiritMod
 		int bloodTimer;
 		int MinifishTimer = 0;
 
-		/// <summary>Helper method that checks how far underwater the player is, continuously.</summary>
+		/// <summary>Helper method that checks how far underwater the player is, continuously. If a tile above the player is not watered enough but is solid, it will still count as submerged.</summary>
 		/// <param name="tileDepth">Depth in tiles for the player to be under.</param>
 		public bool Submerged(int tileDepth)
 		{
 			Point tPos = Player.Center.ToTileCoordinates();
 			for (int i = 0; i < tileDepth; ++i)
+			{
+				if (WorldGen.SolidTile(tPos.X, tPos.Y - i))
+					return true; //Fully submerged to the point where the player should not be able to breathe
+
 				if (!WorldGen.InWorld(tPos.X, tPos.Y - i) || Framing.GetTileSafely(tPos.X, tPos.Y - i).LiquidAmount < 255)
 					return false;
+			}
 			return true;
 		}
 
@@ -1636,11 +1639,6 @@ namespace SpiritMod
 			int x1 = (int)Player.Center.X / 16;
 			int y1 = (int)Player.Center.Y / 16;
 			var config = ModContent.GetInstance<SpiritClientConfig>();
-
-			if (WorldGen.InWorld(x1, y1 - 15) && Framing.GetTileSafely(x1, y1 - 26).LiquidAmount == 255 && Framing.GetTileSafely(x1, y1).LiquidAmount == 255 && Player.wet)
-				isFullySubmerged = true;
-			else
-				isFullySubmerged = false;
 
 			if (Player.ZoneSnow && Main.rand.NextBool(27))
 			{

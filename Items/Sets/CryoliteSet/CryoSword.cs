@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Sets.CryoliteSet
 			Item.useAnimation = 30;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.knockBack = 5.5f;
-			Item.value = Terraria.Item.sellPrice(0, 0, 70, 0);
+			Item.value = Item.sellPrice(0, 0, 70, 0);
 			Item.rare = ItemRarityID.Orange;
 			Item.UseSound = SoundID.Item1;
 			Item.autoReuse = true;

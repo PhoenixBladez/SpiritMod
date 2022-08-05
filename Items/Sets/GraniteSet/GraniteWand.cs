@@ -33,7 +33,7 @@ namespace SpiritMod.Items.Sets.GraniteSet
 			Item.noMelee = true;
 			Item.knockBack = 4;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 1, 0, 0);
+			Item.value = Item.sellPrice(0, 1, 0, 0);
 			Item.rare = ItemRarityID.Green;
 			Item.crit = 10;
 			Item.UseSound = SoundID.Item109;

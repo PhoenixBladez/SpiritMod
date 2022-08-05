@@ -12,8 +12,6 @@ namespace SpiritMod.Items.Sets.InfernonDrops
 			Tooltip.SetDefault("Hit foes combust, with successful hits increasing the power of the debuff. \nAlso shoots out a spiky ball that inflicts broken armor");
 		}
 
-
-
 		public override void SetDefaults()
 		{
 			Item.CloneDefaults(ItemID.WoodYoyo);

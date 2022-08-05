@@ -24,7 +24,7 @@ namespace SpiritMod.Items.Weapon.Summon
 			Item.mana = 16;   //somehow I think this might be too much...? -thegamemaster1234
 			Item.width = 40;
 			Item.height = 40;
-			Item.value = Terraria.Item.sellPrice(0, 5, 0, 0);
+			Item.value = Item.sellPrice(0, 5, 0, 0);
 			Item.rare = ItemRarityID.Yellow;
 			Item.knockBack = 2.5f;
 			Item.UseSound = SoundID.Item25;

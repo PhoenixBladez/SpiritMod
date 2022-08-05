@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.Heartillery
 			Item.mana = 11;
 			Item.width = 20;
 			Item.height = 30;
-			Item.value = Terraria.Item.sellPrice(0, 0, 60, 0);
+			Item.value = Item.sellPrice(0, 0, 60, 0);
 			Item.rare = ItemRarityID.Green;
 			Item.knockBack = 2.5f;
 			Item.UseSound = SoundID.Item25;

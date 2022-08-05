@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 			Item.noMelee = true;
 			Item.knockBack = 0;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 4, 0, 0);
+			Item.value = Item.sellPrice(0, 4, 0, 0);
 			Item.rare = ItemRarityID.LightPurple;
 			Item.UseSound = SoundID.Item20;
 			Item.autoReuse = true;

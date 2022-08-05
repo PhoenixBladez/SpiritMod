@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Sets.BowsMisc.GemBows.Diamond_Bow
 			Item.knockBack = 0.5f;
 			Item.rare = ItemRarityID.Green;
 			Item.noMelee = true;
-            Item.value = Terraria.Item.sellPrice(0, 1, 80, 0);
+            Item.value = Item.sellPrice(0, 1, 80, 0);
             Item.DamageType = DamageClass.Ranged;
 			Item.autoReuse = true;
 		}

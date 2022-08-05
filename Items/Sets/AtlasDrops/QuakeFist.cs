@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 			Item.noMelee = true; //so the item's animation doesn't do damage
 			Item.knockBack = 6;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 7, 0, 0);
+			Item.value = Item.sellPrice(0, 7, 0, 0);
 			Item.rare = ItemRarityID.Cyan;
 			Item.UseSound = SoundID.Item8;
 			Item.autoReuse = true;

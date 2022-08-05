@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Sets.TideDrops
 			Item.noMelee = true;
 			Item.knockBack = 3;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 1, 42, 0);
+			Item.value = Item.sellPrice(0, 1, 42, 0);
 			Item.rare = ItemRarityID.Orange;
 			Item.autoReuse = true;
 			Item.shoot = ModContent.ProjectileType<BubblePumpProj>();

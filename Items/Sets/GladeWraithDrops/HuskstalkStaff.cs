@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Sets.GladeWraithDrops
 			Item.noMelee = true;
 			Item.knockBack = 6;
 			Item.useTurn = false;
-			Item.value = Terraria.Item.sellPrice(0, 0, 15, 0);
+			Item.value = Item.sellPrice(0, 0, 15, 0);
 			Item.rare = ItemRarityID.Blue;
 			Item.UseSound = SoundID.Item20;
 			Item.autoReuse = false;

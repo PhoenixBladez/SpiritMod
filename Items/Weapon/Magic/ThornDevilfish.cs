@@ -31,7 +31,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			Item.useAnimation = 27;
 			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.knockBack = 3;
-			Item.value = Terraria.Item.sellPrice(0, 0, 15, 0);
+			Item.value = Item.sellPrice(0, 0, 15, 0);
 			Item.rare = ItemRarityID.Green;
 			Item.autoReuse = false;
 			Item.shootSpeed = 7;

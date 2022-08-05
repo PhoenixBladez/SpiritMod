@@ -27,7 +27,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 			Item.useAnimation = 39;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.knockBack = 6;
-			Item.value = Terraria.Item.sellPrice(0, 2, 0, 0);
+			Item.value = Item.sellPrice(0, 2, 0, 0);
 			Item.shoot = ModContent.ProjectileType<BloodWave>();
 			Item.rare = ItemRarityID.Green;
 			Item.shootSpeed = 8f;

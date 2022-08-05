@@ -19,7 +19,7 @@ namespace SpiritMod.Items.Armor
 		{
 			Item.width = 22;
 			Item.height = 20;
-			Item.value = Terraria.Item.sellPrice(0, 0, 15, 0);
+			Item.value = Item.sellPrice(0, 0, 15, 0);
 			Item.vanity = true;
 			Item.rare = ItemRarityID.Green;
 		}
