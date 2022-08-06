@@ -93,7 +93,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], num819, amount);
 			Vector2 vector72 = Projectile.Center + Projectile.velocity * (Projectile.localAI[1] - 14f);
 			for (int num826 = 0; num826 < 2; num826++) {
-				float num827 = Projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * 1.57079637f;
+				float num827 = Projectile.velocity.ToRotation() + ((Main.rand.NextBool(2)) ? -1f : 1f) * 1.57079637f;
 				float num828 = (float)Main.rand.NextDouble() * 2f + 2f;
 				Vector2 vector73 = new Vector2((float)Math.Cos((double)num827) * num828, (float)Math.Sin((double)num827) * num828);
 				int num829 = Dust.NewDust(vector72, 0, 0, DustID.UnusedWhiteBluePurple, vector73.X, vector73.Y, 0, default, 1f);

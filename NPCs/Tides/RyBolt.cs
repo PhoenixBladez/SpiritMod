@@ -66,7 +66,7 @@ namespace SpiritMod.NPCs.Tides
 					Main.dust[num8].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[num8].position) * 7f;
 				}
 			}
-			if (Main.rand.Next(3) == 1) {
+			if (Main.rand.NextBool(3)) {
 				Dust dust = Dust.NewDustPerfect(Projectile.Center, 173);
 				dust.velocity = Vector2.Zero;
 				dust.noGravity = true;

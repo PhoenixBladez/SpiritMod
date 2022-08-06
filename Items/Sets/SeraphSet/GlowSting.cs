@@ -110,7 +110,7 @@ namespace SpiritMod.Items.Sets.SeraphSet
 			if (player.altFunctionUse == 2)
 			{
 				Vector2 origVect = velocity;
-				if (Main.rand.Next(2) == 1)
+				if (Main.rand.NextBool(2))
 					velocity = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(82, 1800) / 10));
 				else
 					velocity = origVect.RotatedBy(-System.Math.PI / (Main.rand.Next(82, 1800) / 10));

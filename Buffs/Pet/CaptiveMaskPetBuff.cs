@@ -1,30 +1,12 @@
-using Microsoft.Xna.Framework;
 using SpiritMod.GlobalClasses.Players;
 using SpiritMod.Projectiles.Pet;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Pet
 {
-	public class CaptiveMaskPetBuff : ModBuff
+	public class CaptiveMaskPetBuff : BasePetBuff<CaptiveMaskPet>
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Unbound Mask");
-			Description.SetDefault("'Once more unto the breach!'");
-			Main.buffNoTimeDisplay[Type] = true;
-			Main.vanityPet[Type] = true;
-		}
-
-		public override void Update(Player player, ref int buffIndex)
-		{
-			player.buffTime[buffIndex] = 18000;
-			player.GetModPlayer<PetPlayer>().maskPet = true;
-
-			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<CaptiveMaskPet>()] <= 0;
-			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {
-				Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Center, Vector2.Zero, ModContent.ProjectileType<CaptiveMaskPet>(), 0, 0f, player.whoAmI);
-			}
-		}
+		protected override (string, string) BuffInfo => ("Unbound Mask", "'Once more unto the breach!'");
+		public override void SetPetFlag(Player player, PetPlayer petPlayer) => petPlayer.maskPet = true;
 	}
 }

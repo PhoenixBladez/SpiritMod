@@ -1,30 +1,12 @@
-using Microsoft.Xna.Framework;
 using SpiritMod.GlobalClasses.Players;
 using SpiritMod.Projectiles.Pet;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Pet
 {
-	public class CaltfistPetBuff : ModBuff
+	public class CaltfistPetBuff : BasePetBuff<Caltfist>
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cultfish");
-			Description.SetDefault("This little bugger lights the way!");
-			Main.buffNoTimeDisplay[Type] = true;
-			Main.lightPet[Type] = true;
-		}
-
-		public override void Update(Player player, ref int buffIndex)
-		{
-			player.buffTime[buffIndex] = 18000;
-			player.GetModPlayer<PetPlayer>().cultFishPet = true;
-
-			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<Caltfist>()] <= 0;
-			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {
-				Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Center, Vector2.Zero, ModContent.ProjectileType<Caltfist>(), 0, 0f, player.whoAmI);
-			}
-		}
+		protected override (string, string) BuffInfo => ("Cultfish", "This little bugger lights the way!");
+		public override void SetPetFlag(Player player, PetPlayer petPlayer) => petPlayer.cultFishPet = true;
 	}
 }

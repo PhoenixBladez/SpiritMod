@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Armor.FreemanSet
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Freeman's Hazard Leggings");
+			DisplayName.SetDefault("The Hunted's Hazard Leggings");
 		}
 		public override void SetDefaults()
 		{
@@ -18,7 +18,6 @@ namespace SpiritMod.Items.Armor.FreemanSet
 			Item.value = Item.buyPrice(0, 1, 0, 0);
 			Item.rare = ItemRarityID.Green;
 
-			Item.vanity = true;
 		}
     }
 }

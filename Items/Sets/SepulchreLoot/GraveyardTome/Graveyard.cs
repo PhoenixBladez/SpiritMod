@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.SepulchreLoot.GraveyardTome
 			Item.autoReuse = true;
 			Item.rare = ItemRarityID.LightRed;
 			Item.UseSound = SoundID.Item104;
-			Item.value = Item.buyPrice(0, 1, 40, 0);
+			Item.value = Item.buyPrice(0, 5, 0, 0);
 			Item.mana = 6;
 			Item.noUseGraphic = true;
 			Item.channel = true;

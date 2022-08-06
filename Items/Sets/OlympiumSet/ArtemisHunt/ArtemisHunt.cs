@@ -326,7 +326,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 
 		public override bool PreAI()
 		{
-			if (Main.rand.Next(3) == 1)
+			if (Main.rand.NextBool(3))
 			{
 				StarParticle particle = new StarParticle(
 				Projectile.Center + Main.rand.NextVector2Circular(5, 5),

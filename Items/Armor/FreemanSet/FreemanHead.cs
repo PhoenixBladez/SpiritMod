@@ -9,7 +9,7 @@ namespace SpiritMod.Items.Armor.FreemanSet
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Freeman's Goggles");
+			DisplayName.SetDefault("The Hunted's Goggles");
 			ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
 		}
 
@@ -19,7 +19,6 @@ namespace SpiritMod.Items.Armor.FreemanSet
 			Item.height = 30;
 			Item.value = Item.buyPrice(0, 1, 0, 0);
 			Item.rare = ItemRarityID.Green;
-
 			Item.vanity = true;
 		}
     }

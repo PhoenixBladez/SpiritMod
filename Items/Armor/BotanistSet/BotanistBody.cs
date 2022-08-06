@@ -7,10 +7,7 @@ namespace SpiritMod.Items.Armor.BotanistSet
 	[AutoloadEquip(EquipType.Body, EquipType.Waist)]
 	public class BotanistBody : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Botanist Cloak");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Botanist Apron");
 
 		public override void SetDefaults()
 		{

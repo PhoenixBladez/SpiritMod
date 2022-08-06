@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Halloween.SpookySet
 			Vector2 origVect = velocity;
 			Vector2 newVect;
 
-			if (Main.rand.Next(2) == 1) {
+			if (Main.rand.NextBool(2)) {
 				newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(150, 1800) / 10));
 			}
 			else {

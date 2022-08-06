@@ -1,29 +1,12 @@
-using Microsoft.Xna.Framework;
+using SpiritMod.GlobalClasses.Players;
 using SpiritMod.Projectiles.Pet;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace SpiritMod.Buffs.Pet
 {
-	public class ThrallBuff : ModBuff
+	public class ThrallBuff : BasePetBuff<ThrallPet>
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Lil' Leonard");
-			Description.SetDefault("'Grrr...'");
-			Main.buffNoTimeDisplay[Type] = true;
-			Main.vanityPet[Type] = true;
-		}
-
-		public override void Update(Player player, ref int buffIndex)
-		{
-			player.buffTime[buffIndex] = 18000;
-			player.GetModPlayer<GlobalClasses.Players.PetPlayer>().thrallPet = true;
-
-			bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<ThrallPet>()] <= 0;
-			if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer) {
-				Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Center, Vector2.Zero, ModContent.ProjectileType<ThrallPet>(), 0, 0f, player.whoAmI);
-			}
-		}
+		protected override (string, string) BuffInfo => ("Lil' Leonard", "'Grrr...'");
+		public override void SetPetFlag(Player player, PetPlayer petPlayer) => petPlayer.thrallPet = true;
 	}
 }

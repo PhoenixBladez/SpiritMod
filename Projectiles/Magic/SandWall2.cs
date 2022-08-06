@@ -44,7 +44,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void AI()
 		{
 
-			if (Main.rand.Next(3) == 1) {
+			if (Main.rand.NextBool(3)) {
 				Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.GoldCoin);
 				dust.velocity = Vector2.Zero;
 				dust.noGravity = true;

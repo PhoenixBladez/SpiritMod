@@ -34,28 +34,28 @@ namespace SpiritMod.Items.Placeable.Tiles
 
 		public override void ExtractinatorUse(ref int resultType, ref int resultStack)
 		{
-			if (Main.rand.NextBool(6)) {
-				string[] lootTable = { "ScarpItem2", "ScrapItem3", "ScrapItem5" };
+			if (Main.rand.NextBool(6))
+			{
+				string[] lootTable = { "ScrapItem2", "ScrapItem3", "ScrapItem5" };
 				int loot = Main.rand.Next(lootTable.Length);
 				resultType = Mod.Find<ModItem>(lootTable[loot]).Type;
 				resultStack = Main.rand.Next(1, 4);
 			}
-			else if (Main.rand.NextBool(10)) {
+			else if (Main.rand.NextBool(10))
+			{
 				string[] lootTable1 = { "ScrapItem1", "ScrapItem4", "ScrapItem6" };
 				int loot2 = Main.rand.Next(lootTable1.Length);
 				resultType = Mod.Find<ModItem>(lootTable1[loot2]).Type;
 				resultStack = 1;
 			}
-			else if (Main.rand.NextBool(9)) {
+			else if (Main.rand.NextBool(9))
+			{
 				resultType = Main.rand.Next(new int[] { 2337, 2339 });
 				resultStack = 1;
 			}
-			else if (Main.rand.NextBool(40)) {
-				//resultType = ModContent.ItemType<ScrapGunHarold>();
-				//resultStack = 1;
-			}
-			else {
-				resultType = Main.rand.Next(new int[] { 12, 699, 11, 700, 13, 173, 702, 701 });
+			else
+			{
+				resultType = Main.rand.Next(new int[] { ItemID.CopperOre, ItemID.TinOre, ItemID.IronOre, ItemID.LeadOre, ItemID.GoldOre, ItemID.Obsidian, ItemID.PlatinumOre, ItemID.SilverOre, ItemID.TungstenOre });
 				resultStack = Main.rand.Next(2, 4);
 			}
 		}

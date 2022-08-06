@@ -52,11 +52,11 @@ namespace SpiritMod.NPCs.Hemophora
 		}
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(2) == 1)
+			if (Main.rand.NextBool(2))
 				target.AddBuff(BuffID.Poisoned, 300);
-            if (Main.rand.Next(2) == 1)
+            if (Main.rand.NextBool(2))
                 target.AddBuff(BuffID.Darkness, 420);
-            if (Main.rand.Next(2) == 1)
+            if (Main.rand.NextBool(2))
                 target.AddBuff(BuffID.Confused, 120);
         }
         public override void Kill(int timeLeft)

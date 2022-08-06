@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 		}
 		public override void AI()
         {
-            if (Main.rand.Next(3) == 1)
+            if (Main.rand.NextBool(3))
             {
                 Dust dust = Dust.NewDustPerfect(Projectile.Center, 226);
                 dust.velocity = Vector2.Zero;

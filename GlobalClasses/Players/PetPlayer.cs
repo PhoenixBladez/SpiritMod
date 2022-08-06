@@ -2,7 +2,7 @@
 
 namespace SpiritMod.GlobalClasses.Players
 {
-	internal class PetPlayer : ModPlayer
+	public class PetPlayer : ModPlayer
 	{
 		public bool starPet = false;
 		public bool saucerPet = false;
@@ -21,6 +21,7 @@ namespace SpiritMod.GlobalClasses.Players
 		public bool scarabPet = false;
 		public bool vinewrathPet = false;
 		public bool mjwPet = false;
+		public bool starplatePet = false;
 
 		public override void ResetEffects()
 		{
@@ -38,6 +39,7 @@ namespace SpiritMod.GlobalClasses.Players
 			harpyPet = false;
 			scarabPet = false;
 			mjwPet = false;
+			starplatePet = false;
 		}
 	}
 }

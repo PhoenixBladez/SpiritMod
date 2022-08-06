@@ -56,18 +56,16 @@ namespace SpiritMod.Items.DonatorItems
 			if (type == ProjectileID.WoodenArrowFriendly)
 			{
 				var p = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
-				if (Main.rand.Next(3) == 1)
+				if (Main.rand.NextBool(3))
 					p.GetGlobalProjectile<SpiritGlobalProjectile>().effects.Add(new HeroBowFireEffect());
-				else if (Main.rand.Next(2) == 1)
+				else if (Main.rand.NextBool(2))
 					p.GetGlobalProjectile<SpiritGlobalProjectile>().effects.Add(new HeroBowIceEffect());
 				else
 					p.GetGlobalProjectile<SpiritGlobalProjectile>().effects.Add(new HeroBowLightEffect());
 				return false;
 			}
 			else
-			{
 				return true;
-			}
 		}
 
 		public override void AddRecipes()

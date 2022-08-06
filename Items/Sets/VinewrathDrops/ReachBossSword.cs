@@ -65,7 +65,7 @@ namespace SpiritMod.Items.Sets.VinewrathDrops
 			SoundEngine.PlaySound(SoundID.Item20, position);
 			if (Main.rand.Next(4) == 1 && player.statLife >= player.statLifeMax2 / 2)
 				Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, 0, player.whoAmI);
-			else if (Main.rand.Next(2) == 1)
+			else if (Main.rand.NextBool(2))
 				Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, 0, player.whoAmI);
 			return false;
 		}

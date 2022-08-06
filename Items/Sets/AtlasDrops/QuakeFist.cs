@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 			newProj.hostile = false;
 			Vector2 origVect = velocity;
 			for (int X = 0; X <= 2; X++) {
-				if (Main.rand.Next(2) == 1) {
+				if (Main.rand.NextBool(2)) {
 					newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(82, 1800) / 10));
 				}
 				else {

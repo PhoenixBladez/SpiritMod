@@ -41,7 +41,7 @@ namespace SpiritMod.Items.Sets.SpiritBiomeDrops
 			Vector2 origVect = velocity;
 			Vector2 newVect = Vector2.Zero;
 
-			if (Main.rand.Next(2) == 1) {
+			if (Main.rand.NextBool(2)) {
 				newVect = origVect.RotatedBy(System.Math.PI / (Main.rand.Next(140, 1800) / 10));
 			}
 			else {

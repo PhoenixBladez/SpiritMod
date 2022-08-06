@@ -125,7 +125,7 @@ namespace SpiritMod.NPCs.Swamp
 		}
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(3) == 1) {
+			if (Main.rand.NextBool(3)) {
 				int Bark = Main.rand.Next(2) + 1;
 				for (int J = 0; J <= Bark; J++) {
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBark>());

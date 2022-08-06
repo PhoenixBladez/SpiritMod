@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabPet
 {
-	internal class ScarabPetProjectile : ModProjectile
+	public class ScarabPetProjectile : ModProjectile
 	{
 		const float GROUND_MOVE_SPEED = 6f;
 

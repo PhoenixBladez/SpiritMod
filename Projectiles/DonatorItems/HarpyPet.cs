@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Projectiles.DonatorItems
 {
-	class HarpyPet : ModProjectile
+	public class HarpyPet : ModProjectile
 	{
 		private const float FOV = (float)System.Math.PI / 2;
 		private const float Max_Range = 16 * 50;

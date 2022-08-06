@@ -11,7 +11,7 @@ namespace SpiritMod.Items.Placeable
 
 		public override void SetDefaults()
 		{
-			Item.autoReuse = false;
+			Item.autoReuse = true;
 			Item.useTurn = true;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.useAnimation = 15;

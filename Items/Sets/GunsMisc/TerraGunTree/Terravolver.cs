@@ -50,7 +50,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.TerraGunTree
 				player.itemAnimation = 29;
 				Vector2 origVect = velocity;
 				for (int X = 0; X <= 3; X++) {
-					if (Main.rand.Next(2) == 1) {
+					if (Main.rand.NextBool(2)) {
 						newVect = origVect.RotatedBy(Math.PI / (Main.rand.Next(82, 1800) / 10));
 					}
 					else {

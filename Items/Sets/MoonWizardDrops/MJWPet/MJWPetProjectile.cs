@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Sets.MoonWizardDrops.MJWPet
 {
-	internal class MJWPetProjectile : ModProjectile
+	public class MJWPetProjectile : ModProjectile
 	{
 		private Player Owner => Main.player[Projectile.owner];
 		private ref float State => ref Projectile.ai[0];

@@ -65,7 +65,7 @@ namespace SpiritMod.Items.Consumable
 				}
 
 			}
-			if (Main.rand.Next(2) == 1) {
+			if (Main.rand.NextBool(2)) {
 				int Gems = Main.rand.Next(15, 30);
 				for (int I = 0; I < Gems; I++) {
 					int[] lootTable3 = {

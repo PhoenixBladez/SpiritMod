@@ -14,7 +14,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.LadyLuck
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lady Luck");
-			Tooltip.SetDefault("Right click to throw out a lucky coin\nShoot this coin to richochet the bullet towards nearby enemies\n'Luck favors the rich'");
+			Tooltip.SetDefault("Right click to throw out a lucky coin\nShoot this coin to ricochet the bullet towards nearby enemies\n'Luck favors the rich'");
 		}
 
 		public override void SetDefaults()
