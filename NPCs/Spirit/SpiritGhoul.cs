@@ -17,6 +17,9 @@ namespace SpiritMod.NPCs.Spirit
 		{
 			DisplayName.SetDefault("Shadow Ghoul");
 			Main.npcFrameCount[NPC.type] = Main.npcFrameCount[NPCID.DesertGhoul];
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Velocity = 1f };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -46,8 +49,7 @@ namespace SpiritMod.NPCs.Spirit
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -87,7 +89,7 @@ namespace SpiritMod.NPCs.Spirit
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(12) == 1) {
+			if (Main.rand.NextBool(12)) {
 				target.AddBuff(BuffID.Cursed, 150);
 			}
 		}

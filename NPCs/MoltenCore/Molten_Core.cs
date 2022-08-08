@@ -52,7 +52,6 @@ namespace SpiritMod.NPCs.MoltenCore
 
 		public override void AI()
 		{
-			Player player = Main.player[NPC.target];
 			NPC.spriteDirection = NPC.direction;
 			Movement();
 			CheckPlatform();
@@ -99,52 +98,42 @@ namespace SpiritMod.NPCs.MoltenCore
 				if (NPC.collideX)
 				{
 					NPC.velocity.X = NPC.oldVelocity.X * -0.5f;
-					if (NPC.direction == -1 && (double)NPC.velocity.X > 0.0 && (double)NPC.velocity.X < 2.0)
-					{
+					if (NPC.direction == -1 && NPC.velocity.X > 0.0 && NPC.velocity.X < 2.0)
 						NPC.velocity.X = 2f;
-					}
 
-					if (NPC.direction == 1 && (double)NPC.velocity.X < 0.0 && (double)NPC.velocity.X > -2.0)
-					{
+					if (NPC.direction == 1 && NPC.velocity.X < 0.0 && NPC.velocity.X > -2.0)
 						NPC.velocity.X = -2f;
-					}
 				}
 				if (NPC.collideY)
 				{
 					NPC.velocity.Y = NPC.oldVelocity.Y * -0.5f;
-					if ((double)NPC.velocity.Y > 0.0 && (double)NPC.velocity.Y < 1.0)
-					{
+					if (NPC.velocity.Y > 0.0 && NPC.velocity.Y < 1.0)
 						NPC.velocity.Y = 1f;
-					}
 
-					if ((double)NPC.velocity.Y < 0.0 && (double)NPC.velocity.Y > -1.0)
-					{
+					if (NPC.velocity.Y < 0.0 && NPC.velocity.Y > -1.0)
 						NPC.velocity.Y = -1f;
-					}
 				}
 			}
 			NPC.TargetClosest(true);
 			if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
 			{
-				if ((double)NPC.ai[1] > 0.0 && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
+				if (NPC.ai[1] > 0.0 && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
 				{
 					NPC.ai[1] = 0.0f;
 					NPC.ai[0] = 0.0f;
 					NPC.netUpdate = true;
 				}
 			}
-			else if ((double)NPC.ai[1] == 0.0)
-			{
+			else if (NPC.ai[1] == 0.0)
 				++NPC.ai[0];
-			}
 
-			if ((double)NPC.ai[0] >= 300.0)
+			if (NPC.ai[0] >= 300.0)
 			{
 				NPC.ai[1] = 1f;
 				NPC.ai[0] = 0.0f;
 				NPC.netUpdate = true;
 			}
-			if ((double)NPC.ai[1] == 0.0)
+			if (NPC.ai[1] == 0.0)
 			{
 				NPC.alpha = 0;
 				NPC.noTileCollide = false;
@@ -156,73 +145,49 @@ namespace SpiritMod.NPCs.MoltenCore
 				NPC.noTileCollide = true;
 			}
 			NPC.TargetClosest(true);
-			if (NPC.direction == -1 && (double)NPC.velocity.X > -1.5 && (double)NPC.position.X > (double)Main.player[NPC.target].position.X + (double)Main.player[NPC.target].width)
+			if (NPC.direction == -1 && NPC.velocity.X > -1.5 && NPC.position.X > Main.player[NPC.target].position.X + Main.player[NPC.target].width)
 			{
 				NPC.velocity.X -= 0.08f;
-				if ((double)NPC.velocity.X > 1.5)
-				{
+				if (NPC.velocity.X > 1.5)
 					NPC.velocity.X -= 0.04f;
-				}
-				else if ((double)NPC.velocity.X > 0.0)
-				{
+				else if (NPC.velocity.X > 0.0)
 					NPC.velocity.X -= 0.2f;
-				}
 
-				if ((double)NPC.velocity.X < -1.5)
-				{
+				if (NPC.velocity.X < -1.5)
 					NPC.velocity.X = -1.5f;
-				}
 			}
-			else if (NPC.direction == 1 && (double)NPC.velocity.X < 1.5 && (double)NPC.position.X + (double)NPC.width < (double)Main.player[NPC.target].position.X)
+			else if (NPC.direction == 1 && NPC.velocity.X < 1.5 && NPC.position.X + NPC.width < Main.player[NPC.target].position.X)
 			{
 				NPC.velocity.X += 0.08f;
-				if ((double)NPC.velocity.X < -1.5)
-				{
+				if (NPC.velocity.X < -1.5)
 					NPC.velocity.X += 0.04f;
-				}
-				else if ((double)NPC.velocity.X < 0.0)
-				{
+				else if (NPC.velocity.X < 0.0)
 					NPC.velocity.X += 0.2f;
-				}
 
-				if ((double)NPC.velocity.X > 1.5)
-				{
+				if (NPC.velocity.X > 1.5)
 					NPC.velocity.X = 1.5f;
-				}
 			}
-			if (NPC.directionY == -1 && (double)NPC.velocity.Y > -1.5 && (double)NPC.position.Y > (double)Main.player[NPC.target].position.Y + (double)Main.player[NPC.target].height)
+			if (NPC.directionY == -1 && NPC.velocity.Y > -1.5 && NPC.position.Y > Main.player[NPC.target].position.Y + Main.player[NPC.target].height)
 			{
 				NPC.velocity.Y -= 0.1f;
-				if ((double)NPC.velocity.Y > 1.5)
-				{
+				if (NPC.velocity.Y > 1.5)
 					NPC.velocity.Y -= 0.05f;
-				}
-				else if ((double)NPC.velocity.Y > 0.0)
-				{
+				else if (NPC.velocity.Y > 0.0)
 					NPC.velocity.Y -= 0.15f;
-				}
 
-				if ((double)NPC.velocity.Y < -1.5)
-				{
+				if (NPC.velocity.Y < -1.5)
 					NPC.velocity.Y = -1.5f;
-				}
 			}
-			else if (NPC.directionY == 1 && (double)NPC.velocity.Y < 1.5 && (double)NPC.position.Y + (double)NPC.height < (double)Main.player[NPC.target].position.Y)
+			else if (NPC.directionY == 1 && NPC.velocity.Y < 1.5 && NPC.position.Y + NPC.height < Main.player[NPC.target].position.Y)
 			{
 				NPC.velocity.Y += 0.1f;
-				if ((double)NPC.velocity.Y < -1.5)
-				{
+				if (NPC.velocity.Y < -1.5)
 					NPC.velocity.Y += 0.05f;
-				}
-				else if ((double)NPC.velocity.Y < 0.0)
-				{
+				else if (NPC.velocity.Y < 0.0)
 					NPC.velocity.Y += 0.15f;
-				}
 
-				if ((double)NPC.velocity.Y > 1.5)
-				{
+				if (NPC.velocity.Y > 1.5)
 					NPC.velocity.Y = 1.5f;
-				}
 			}
 		}
 
@@ -259,7 +224,7 @@ namespace SpiritMod.NPCs.MoltenCore
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 

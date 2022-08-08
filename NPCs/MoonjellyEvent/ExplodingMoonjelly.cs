@@ -71,8 +71,10 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 			int frame = (int)NPC.frameCounter;
 			NPC.frame.Y = frame * frameHeight;
 		}
+
         bool aggro = false;
 		float alphaCounter;
+
 		public override void AI()
         {
             alphaCounter += .04f;
@@ -98,8 +100,8 @@ namespace SpiritMod.NPCs.MoonjellyEvent
                 float length = (float)Math.Sqrt(xDir * xDir + yDir * yDir);
 
                 float num10 = speed / length;
-                xDir = xDir * num10;
-                yDir = yDir * num10;
+                xDir *= num10;
+                yDir *= num10;
                 if (NPC.velocity.X < xDir)
                 {
                     NPC.velocity.X = NPC.velocity.X + acceleration;
@@ -139,9 +141,9 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             }
             Lighting.AddLight(new Vector2(NPC.Center.X, NPC.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);
         }
+
         public override bool CheckDead()
         {
-            Vector2 center = NPC.Center;
             for (int k = 0; k < 30; k++)
             {
                 Dust d = Dust.NewDustPerfect(NPC.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(7), 0, default, 0.75f);
@@ -160,15 +162,14 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-                             drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
             return false;
         }
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
 			Main.spriteBatch.Draw(
             Mod.Assets.Request<Texture2D>("NPCs/MoonjellyEvent/ExplodingMoonjelly_Glow").Value,
-            NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY),
+            NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY),
             NPC.frame,
             Color.White,
             NPC.rotation,

@@ -12,8 +12,9 @@ namespace SpiritMod.Biomes
 		public override int Music => MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ReachUnderground");
 
 		public override string BestiaryIcon => base.BestiaryIcon;
-		public override string BackgroundPath => base.BackgroundPath;
 		public override Color? BackgroundColor => base.BackgroundColor;
+		public override string BackgroundPath => MapBackground;
+		public override string MapBackground => "SpiritMod/Backgrounds/BriarMapBG";
 
 		public override bool IsBiomeActive(Player player) => (player.ZoneRockLayerHeight || player.ZoneDirtLayerHeight) && ModContent.GetInstance<BiomeTileCounts>().spiritCount >= 80;
 		public override void OnEnter(Player player) => player.GetSpiritPlayer().ZoneReach = true;

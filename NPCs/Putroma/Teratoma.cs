@@ -1,13 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Items.Consumable.Food;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Consumable.Food;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Putroma
 {
@@ -40,22 +40,22 @@ namespace SpiritMod.NPCs.Putroma
 			});
 		}
 
-		public override void AI()
-		{
-			NPC.rotation += .06f * NPC.velocity.X;
-		}
+		public override void AI() => NPC.rotation += .06f * NPC.velocity.X;
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame,
 				drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Putroma/Teratoma_Eyes").Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+			spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Putroma/Teratoma_Eyes").Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame,
 				drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 30; k++) {
@@ -63,7 +63,7 @@ namespace SpiritMod.NPCs.Putroma
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ScourgeOfTheCorruptor, 2.5f * hitDirection, -2.5f, 0, Color.White, .34f);
 			}
 
-			if (Main.rand.Next(2) == 0) {
+			if (Main.rand.NextBool(2)) {
 				SoundEngine.PlaySound(SoundID.NPCHit19, NPC.Center);
 				int tomaProj;
 				tomaProj = Main.rand.Next(new int[] { ModContent.ProjectileType<Teratoma1>(), ModContent.ProjectileType<Teratoma2>(), ModContent.ProjectileType<Teratoma3>() });

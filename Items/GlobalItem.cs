@@ -376,13 +376,13 @@ namespace SpiritMod.Items
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
-			if (modPlayer.cultistScarf && item.IsMagic() && Main.rand.Next(8) == 0)
+			if (modPlayer.cultistScarf && item.IsMagic() && Main.rand.NextBool(8))
 			{
 				int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<WildMagic>(), 66, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
-			if (modPlayer.timScroll && item.IsMagic() && Main.rand.Next(12) == 0)
+			if (modPlayer.timScroll && item.IsMagic() && Main.rand.NextBool(12))
 			{
 				int p = Main.rand.Next(9, 23);
 				if (p != 11 && p != 13 && p != 18 && p != 17 && p != 21)
@@ -392,7 +392,7 @@ namespace SpiritMod.Items
 					Main.projectile[proj].hostile = false;
 				}
 			}
-			if (modPlayer.crystal && item.IsRanged() && Main.rand.Next(8) == 0)
+			if (modPlayer.crystal && item.IsRanged() && Main.rand.NextBool(8))
 			{
 				int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X * (float)(Main.rand.Next(100, 165) / 100), velocity.Y * (float)(Main.rand.Next(100, 165) / 100), type, damage, knockback, player.whoAmI, 0f, 0f);
 				Main.projectile[proj].friendly = true;

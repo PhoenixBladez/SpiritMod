@@ -1404,7 +1404,7 @@ namespace SpiritMod
 			AddToVanillaChest(PagodaPool, dynastyChests);
 
 			List<ChestInfo> AsteroidPool = new List<ChestInfo> {
-				new ChestInfo(new int[]{ ItemType<ZiplineGun>(), ItemType<HighGravityBoots>(), ItemType<MagnetHook>() }),
+				new ChestInfo(new int[]{ ItemType<HighGravityBoots>(), ItemType<MagnetHook>() }), //ItemType<ZiplineGun>()
 				new ChestInfo(new int[]{ItemType<JumpPadItem>(), ItemID.SuspiciousLookingEye }, 1, 0.5f),
 				new ChestInfo(ItemType<TargetCan>(), WorldGen.genRand.Next(10, 15), 0.5f),
 				new ChestInfo(ItemType<SpaceJunkItem>(), WorldGen.genRand.Next(30, 55), 0.5f),
@@ -1545,7 +1545,7 @@ namespace SpiritMod
 				else
 					BlueMoon = false;
 
-				if (!Main.dayTime && Main.rand.Next(6) == 0)
+				if (!Main.dayTime && Main.rand.NextBool(6))
 				{
 					auroraTypeFixed = Main.rand.Next(new int[] { 1, 2, 3, 5 });
 					aurora = true;
@@ -1558,7 +1558,7 @@ namespace SpiritMod
 				else
 					rareStarfallEvent = false;
 
-				if (!Main.dayTime && Main.rand.Next(6) == 0)
+				if (!Main.dayTime && Main.rand.NextBool(6))
 				{
 					luminousType = Main.rand.Next(new int[] { 1, 2, 3 });
 					luminousOcean = true;

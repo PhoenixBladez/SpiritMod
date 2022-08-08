@@ -19,6 +19,9 @@ namespace SpiritMod.NPCs.SkeletonBrute
 		{
 			DisplayName.SetDefault("Skeleton Brute");
 			Main.npcFrameCount[NPC.type] = 10;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Velocity = 1f };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -105,7 +108,7 @@ namespace SpiritMod.NPCs.SkeletonBrute
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			Vector2 drawPos = new Vector2(NPC.Center.X + 20 * NPC.spriteDirection, NPC.Center.Y - 22);
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 		}
 
         public override void FindFrame(int frameHeight)

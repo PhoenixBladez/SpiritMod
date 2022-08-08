@@ -13,6 +13,7 @@ using SpiritMod.Items.Weapon.Magic.LuminanceSeacone;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Sea_Mandrake
 {
@@ -50,6 +51,14 @@ namespace SpiritMod.NPCs.Sea_Mandrake
 			NPC.DeathSound = SoundID.NPCDeath28;
 
 			AIType = NPCID.Goldfish;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("An odd bioluminescent creature that dwells in the ocean. Not only does it glow, but the colors it takes on are vibrant and exotic."),
+			});
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

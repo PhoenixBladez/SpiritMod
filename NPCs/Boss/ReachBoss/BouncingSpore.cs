@@ -55,7 +55,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(6) == 1)
+			if (Main.rand.NextBool(6))
 				target.AddBuff(BuffID.Poisoned, 180);
 		}
 

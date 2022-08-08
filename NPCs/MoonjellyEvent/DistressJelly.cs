@@ -59,18 +59,19 @@ namespace SpiritMod.NPCs.MoonjellyEvent
                 Dust d = Dust.NewDustPerfect(NPC.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, default, 0.65f);
                 d.noGravity = true;
             }
-            if (NPC.life <= 0)
-            {
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DistressJelly1").Type);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DistressJelly2").Type);
-            }
+            //if (NPC.life <= 0)
+            //{
+            //    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DistressJelly1").Type);
+            //    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DistressJelly2").Type);
+            //}
 		}
+
 		public override void AI()
         {
             NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X) + 1.57f;
             Lighting.AddLight(new Vector2(NPC.Center.X, NPC.Center.Y), 0.075f * 2, 0.231f * 2, 0.255f * 2);
-
         }
+
         public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter += 0.15f;
@@ -83,15 +84,15 @@ namespace SpiritMod.NPCs.MoonjellyEvent
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-                             drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Main.spriteBatch.Draw(
                 Mod.Assets.Request<Texture2D>("NPCs/MoonjellyEvent/DistressJelly_Glow").Value,
-				NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY),
+				NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY),
 				NPC.frame,
 				Color.White,
 				NPC.rotation,

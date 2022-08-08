@@ -129,10 +129,10 @@ namespace SpiritMod.Projectiles.DonatorItems
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(8) == 0)
+			if (Main.rand.NextBool(8))
 				target.AddBuff(ModContent.BuffType<ElectrifiedV2>(), 180);
 
-			if (Main.rand.Next(8) == 0)
+			if (Main.rand.NextBool(8))
 				target.AddBuff(ModContent.BuffType<HolyLight>(), 180);
 		}
 

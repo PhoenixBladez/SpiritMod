@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.FrigidSet.FrigidArmor
 			player.setBonus = $"Double tap {tapDir} to create an icy wall at the cursor position\n8 second cooldown";
 			player.GetSpiritPlayer().frigidSet = true;
 
-			if (Main.rand.Next(6) == 0)
+			if (Main.rand.NextBool(6))
 			{
 				int dust = Dust.NewDust(player.position, player.width, player.height, DustID.Flare_Blue);
 				Main.dust[dust].noGravity = true;

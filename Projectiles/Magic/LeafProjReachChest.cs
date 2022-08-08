@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Magic
 			}
 			Lighting.AddLight(Projectile.Center, ((255 - Projectile.alpha) * 0.025f) / 255f, ((255 - Projectile.alpha) * 0.25f) / 255f, ((255 - Projectile.alpha) * 0.05f) / 255f);
 			Projectile.velocity.Y += Projectile.ai[0];
-			if (Main.rand.Next(8) == 0) {
+			if (Main.rand.NextBool(8)) {
 				int d = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.GrassBlades, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 				Main.dust[d].scale *= .5f;
 			}

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Armor.BotanistSet;
 using SpiritMod.Items.ByBiome.Forest.Placeable.Decorative;
+using SpiritMod.Tiles.Block;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Metadata;
@@ -14,7 +15,7 @@ namespace SpiritMod.Tiles.Ambient.Forest
 	public class Cloudstalk : ModTile
 	{
 		private const int FrameWidth = 18; // A constant for readability and to kick out those magic numbers
-		private const float BloomWindSpeed = 14; //Constant for bloom speed, in arbitrary unit
+		private const float BloomWindSpeed = 14; //Constant for bloom speed, in mph
 
 		public override void SetStaticDefaults()
 		{
@@ -33,7 +34,7 @@ namespace SpiritMod.Tiles.Ambient.Forest
 			AddMapEntry(new Color(128, 128, 128), name);
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.StyleAlch);
-			TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Grass, TileID.HallowedGrass };
+			TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Grass, TileID.HallowedGrass, TileID.JungleGrass, ModContent.TileType<BriarGrass>() };
 			TileObjectData.newTile.AnchorAlternateTiles = new int[] { TileID.ClayPot, TileID.PlanterBox };
 			TileObjectData.addTile(Type);
 

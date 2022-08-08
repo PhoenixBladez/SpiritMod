@@ -275,7 +275,7 @@ namespace SpiritMod.World.Sepulchre
 				},
 				delegate (int x, int y) //chandeliers
 				{
-					if ((Main.tile[x, y - 1].TileType == Tile || Main.tile[x, y - 1].TileType == TileTwo) && Main.rand.Next(12) == 1 && Main.tile[x, y].WallType == Wall)
+					if ((Main.tile[x, y - 1].TileType == Tile || Main.tile[x, y - 1].TileType == TileTwo) && Main.rand.NextBool(12) && Main.tile[x, y].WallType == Wall)
 						WorldGen.PlaceObject(x, y, ModContent.TileType<SepulchreChandelier>());
 				},
 				delegate (int x, int y) //Windows

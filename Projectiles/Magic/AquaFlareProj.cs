@@ -48,12 +48,12 @@ namespace SpiritMod.Projectiles.Magic
 				Projectile.netUpdate = true;
 			}
 			Lighting.AddLight(Projectile.Center, ((255 - Projectile.alpha) * 0.25f) / 255f, ((255 - Projectile.alpha) * 0.15f) / 255f, ((255 - Projectile.alpha) * 0.05f) / 255f);
-			if (Main.rand.Next(8) == 0) {
+			if (Main.rand.NextBool(8)) {
 				int d = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 				Main.dust[d].scale *= 1.85f;
 				Main.dust[d].noGravity = true;
 			}
-			if (Main.rand.Next(8) == 0) {
+			if (Main.rand.NextBool(8)) {
 				int d = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.DungeonWater, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 				Main.dust[d].scale *= 1.85f;
 				Main.dust[d].noGravity = true;

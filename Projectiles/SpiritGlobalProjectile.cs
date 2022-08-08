@@ -23,19 +23,9 @@ namespace SpiritMod.Projectiles
 		public float xspeed;
 		public float yspeed;
 		public bool WitherLeaf = false;
-		public bool shotFromStellarCrosbow = false;
-		public bool shotFromBloodshot = false;
 		public bool shotFromBismiteBow = false;
-		public bool shotFromThornBow = false;
-		public bool shotFromNightSky = false;
-		public bool shotFromPalmSword = false;
-		public bool shotFromGeodeBow = false;
-		public bool shotFromSpazLung = false;
-		public bool shotFromCoralBow = false;
 		public bool shotFromHolyBurst = false;
 		public bool shotFromTrueHolyBurst = false;
-		public bool shotFromNightbane = false;
-		public bool shotFromMarbleBow;
 		public float counter = -1440;
 
 		public bool throwerGloveBoost = false;
@@ -131,14 +121,6 @@ namespace SpiritMod.Projectiles
 
 		private bool BowEffects(Projectile projectile)
 		{
-			if (shotFromStellarCrosbow)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				if (Main.rand.Next(2) == 0)
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Firework_Yellow);
-				return false;
-			}
-
 			if (shotFromHolyBurst || shotFromTrueHolyBurst)
 			{
 				counter++;
@@ -154,43 +136,9 @@ namespace SpiritMod.Projectiles
 				}
 				return false;
 			}
-			else if (shotFromBloodshot)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-				if (Main.rand.Next(2) == 0)
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood);
-				return false;
-			}
-			else if (shotFromGeodeBow)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Torch, Scale: 1.2f);
-				int dust1 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.IceTorch, Scale: 1.2f);
-				int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch, Scale: 1.2f);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust].velocity *= 0f;
-				Main.dust[dust1].noGravity = true;
-				Main.dust[dust1].velocity *= 0f;
-				Main.dust[dust2].noGravity = true;
-				Main.dust[dust2].velocity *= 0f;
-				return false;
-			}
-			else if (shotFromMarbleBow)
-			{
-				projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
-				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, DustID.GoldCoin, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				int dust2 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height - 10, DustID.Marble, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				Main.dust[dust].noGravity = true;
-				Main.dust[dust2].noGravity = true;
-				Main.dust[dust].velocity *= 0f;
-				Main.dust[dust2].velocity *= 0f;
-				Main.dust[dust].scale = 2f;
-				Main.dust[dust2].scale = .5f;
-				return false;
-			}
 			else if (shotFromBismiteBow)
 			{
-				if (Main.rand.Next(20) == 0)
+				if (Main.rand.NextBool(20))
 					DustHelper.DrawTriangle(projectile.Center, 167, 1, .8f, 1.1f);
 			}
 			return true;
@@ -257,7 +205,7 @@ namespace SpiritMod.Projectiles
 
 			if (shotFromMaliwanFreezeCommon)
 			{
-				if (Main.rand.Next(6) == 0)
+				if (Main.rand.NextBool(6))
 				{
 					target.AddBuff(ModContent.BuffType<MageFreeze>(), 120);
 					SpamDust(target, DustID.DungeonSpirit);
@@ -266,7 +214,7 @@ namespace SpiritMod.Projectiles
 
 			if (shotFromMaliwanFireCommon)
 			{
-				if (Main.rand.Next(6) == 0)
+				if (Main.rand.NextBool(6))
 				{
 					target.AddBuff(BuffID.OnFire, Main.rand.Next(120, 180));
 					SpamDust(target, DustID.Torch);
@@ -275,7 +223,7 @@ namespace SpiritMod.Projectiles
 
 			if (shotFromMaliwanAcidCommon)
 			{
-				if (Main.rand.Next(6) == 0)
+				if (Main.rand.NextBool(6))
 				{
 					target.AddBuff(BuffID.Poisoned, Main.rand.Next(120, 180));
 					SpamDust(target, DustID.PoisonStaff);
@@ -284,39 +232,18 @@ namespace SpiritMod.Projectiles
 
 			if (shotFromMaliwanShockCommon)
 			{
-				if (Main.rand.Next(12) == 0 || player.GetSpiritPlayer().starSet && Main.rand.Next(8) == 0)
+				if (Main.rand.NextBool(12) || player.GetSpiritPlayer().starSet && Main.rand.NextBool(8))
 				{
 					target.AddBuff(ModContent.BuffType<ElectrifiedV2>(), Main.rand.Next(60, 120));
 					SpamDust(target, DustID.Electric);
 				}
 			}
 
-			if (shotFromCoralBow && Main.rand.NextBool())
-			{
-				target.StrikeNPC(projectile.damage / 4, 0f, 0, crit);
-				for (int k = 0; k < 20; k++)
-				{
-					Dust.NewDust(target.position, target.width, target.height, DustID.Coralstone, 2.5f * projectile.direction, -2.5f, 0, Color.White, 0.7f);
-					Dust.NewDust(target.position, target.width, target.height, DustID.Coralstone, 2.5f * projectile.direction, -2.5f, 0, default, 0.34f);
-				}
-			}
-
-			if (shotFromStellarCrosbow)
-				target.AddBuff(ModContent.BuffType<StarFracture>(), 300);
-
 			if (shotFromHolyBurst)
 				target.AddBuff(ModContent.BuffType<AngelLight>(), 60);
 
 			if (shotFromTrueHolyBurst)
 				target.AddBuff(ModContent.BuffType<AngelWrath>(), 60);
-			else if (shotFromPalmSword)
-				target.AddBuff(BuffID.Poisoned, 300);
-			else if (shotFromSpazLung)
-				target.AddBuff(BuffID.CursedInferno, 120);
-			else if (shotFromBloodshot)
-				target.AddBuff(ModContent.BuffType<BloodCorrupt>(), 120);
-			else if (shotFromNightSky && Main.rand.NextBool(8))
-				target.AddBuff(ModContent.BuffType<StarFlame>(), 179);
 
 			if (WitherLeaf)
 				target.AddBuff(ModContent.BuffType<WitheringLeaf>(), 180);

@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Sets.AtlasDrops
 				int proj2 = Projectile.NewProjectile(source, position.X, position.Y, newVect.X, newVect.Y, type, damage, knockback, player.whoAmI);
 			}
 			for (int i = 0; i < 3; ++i) {
-				if (Main.rand.Next(6) == 0) {
+				if (Main.rand.NextBool(6)) {
 					if (Main.myPlayer == player.whoAmI) {
 						Vector2 mouse = Main.MouseWorld;
 						Projectile.NewProjectile(source, mouse.X + Main.rand.Next(-80, 80), player.Center.Y - 1000 + Main.rand.Next(-50, 50), 0, Main.rand.Next(18, 28), ModContent.ProjectileType<AtlasBolt>(), 50, knockback, player.whoAmI);

@@ -86,7 +86,30 @@ namespace SpiritMod.NPCs.Tides
 			if (attack)
 			{
 				NPC.velocity.X = .008f * NPC.direction;
-				timer++;
+
+				if (target.position.X > NPC.position.X)
+					NPC.direction = 1;
+				else
+					NPC.direction = -1;
+			}
+			else
+			{
+				NPC.aiStyle = 26;
+				AIType = NPCID.Unicorn;
+			}
+		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			if (attack)
+				target.AddBuff(BuffID.Bleeding, 600);
+		}
+
+		public override void FindFrame(int frameHeight)
+		{
+			timer++;
+			if (attack || NPC.IsABestiaryIconDummy)
+			{
 				if (timer >= 5)
 				{
 					frame++;
@@ -98,19 +121,9 @@ namespace SpiritMod.NPCs.Tides
 
 				if (frame < 7)
 					frame = 7;
-
-				if (target.position.X > NPC.position.X)
-					NPC.direction = 1;
-				else
-					NPC.direction = -1;
 			}
 			else
 			{
-				NPC.aiStyle = 26;
-				AIType = NPCID.Unicorn;
-
-				timer++;
-
 				if (timer >= 4)
 				{
 					frame++;
@@ -120,14 +133,8 @@ namespace SpiritMod.NPCs.Tides
 				if (frame > 6)
 					frame = 0;
 			}
-		}
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			if (attack)
-				target.AddBuff(BuffID.Bleeding, 600);
+			NPC.frame.Y = frameHeight * frame;
 		}
-
-		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
 	}
 }

@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Glyphs
 				return;
 
 			if (target.FindBuffIndex(SpiritMod.Instance.Find<ModBuff>("SanguineBleed").Type) > -1
-				&& Main.rand.Next(8) == 0) {
+				&& Main.rand.NextBool(8)) {
 				Leech(player);
 			}
 
@@ -64,7 +64,7 @@ namespace SpiritMod.Items.Glyphs
 		public static void BloodCorruption(Player player, Player target, int damage)
 		{
 			if (target.FindBuffIndex(SpiritMod.Instance.Find<ModBuff>("SanguineBleed").Type) > -1
-				&& Main.rand.Next(8) == 0) {
+				&& Main.rand.NextBool(8)) {
 				Leech(player);
 			}
 

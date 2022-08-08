@@ -71,7 +71,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 					player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable2[loot2]);
 			}
 
-			if (Main.rand.Next(6) == 1)
+			if (Main.rand.NextBool(6))
 			{
 				int Gems = Main.rand.Next(5, 7);
 				for (int I = 0; I < Gems; I++)

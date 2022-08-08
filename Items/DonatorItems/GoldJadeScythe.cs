@@ -62,7 +62,7 @@ namespace SpiritMod.Items.DonatorItems
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(8) == 1) {
+			if (Main.rand.NextBool(8)) {
 				Vector2 velocity = new Vector2(player.direction, 0) * 4f;
 				int proj = Projectile.NewProjectile(Item.GetSource_ItemUse(Item), player.Center.X, player.position.Y + player.height + -35, velocity.X, velocity.Y, ModContent.ProjectileType<JadeScarab>(), Item.damage / 2, Item.playerIndexTheItemIsReservedFor, 0, 0f);
 				Main.projectile[proj].friendly = true;

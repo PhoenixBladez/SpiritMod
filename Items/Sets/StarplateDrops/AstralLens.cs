@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops
 			for (int i = 0; i < 2; i++)
 			{
 				Projectile.NewProjectile(source, position.X - 8, position.Y + 8, velocity.X + ((float)Main.rand.Next(-300, 300) / 30), velocity.Y + ((float)Main.rand.Next(-300, 300) / 30), type, damage, knockback, player.whoAmI, 0f, 0f);
-				if (Main.rand.Next(6) == 0)
+				if (Main.rand.NextBool(6))
 					Projectile.NewProjectile(source, position.X - 8, position.Y + 8, velocity.X + ((float)Main.rand.Next(-300, 300) / 30), velocity.Y + ((float)Main.rand.Next(-300, 300) / 30), type, damage, knockback, player.whoAmI, 0f, 0f);
 			}
 			return false;

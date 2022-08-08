@@ -62,7 +62,7 @@ namespace SpiritMod.NPCs.Spirit
 			NPC.frameCounter += 0.15f;
 			NPC.frameCounter %= Main.npcFrameCount[NPC.type];
 			int frame = (int)NPC.frameCounter;
-			NPC.frame.Y = frame * frameHeight;
+			NPC.frame.Y = frame * (frameHeight - 1);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
@@ -80,7 +80,7 @@ namespace SpiritMod.NPCs.Spirit
 				for (int num621 = 0; num621 < 20; num621++) {
 					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Asphalt, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0) {
+					if (Main.rand.NextBool(2)) {
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
@@ -101,11 +101,8 @@ namespace SpiritMod.NPCs.Spirit
 		public override void AI()
 		{
 			NPC.spriteDirection = NPC.direction;
-			if (Main.rand.Next(150) == 1) {
-				Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
-				direction.Normalize();
-				direction.X *= 5f;
-				direction.Y *= 5f;
+			if (Main.rand.NextBool(150)) {
+				Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * 5f;
 
 				int amountOfProjectiles = Main.rand.Next(1, 1);
 				for (int i = 0; i < amountOfProjectiles; ++i) {

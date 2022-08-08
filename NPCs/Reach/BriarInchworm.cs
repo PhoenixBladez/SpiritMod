@@ -58,9 +58,9 @@ namespace SpiritMod.NPCs.Reach
                 NPC.defense = 0;
         }
 
-        public override void FindFrame(int frameHeight)
-        {
-            if (NPC.velocity != Vector2.Zero)
+		public override void FindFrame(int frameHeight)
+		{
+			if (NPC.velocity != Vector2.Zero || NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter += 0.12f;
                 NPC.frameCounter %= Main.npcFrameCount[NPC.type];

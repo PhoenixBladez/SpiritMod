@@ -82,7 +82,7 @@ namespace SpiritMod.NPCs.Reach
 			if (trailbehind) {
 				Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
 				for (int k = 0; k < NPC.oldPos.Length; k++) {
-					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+					Vector2 drawPos = NPC.oldPos[k] - screenPos + drawOrigin + new Vector2(0f, NPC.gfxOffY);
 					Color color = NPC.GetAlpha(drawColor) * (float)(((float)(NPC.oldPos.Length - k) / (float)NPC.oldPos.Length) / 2);
 					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}
@@ -100,7 +100,10 @@ namespace SpiritMod.NPCs.Reach
 
 		public override void FindFrame(int frameHeight)
 		{
-			NPC.frameCounter += num34616;
+			if (NPC.IsABestiaryIconDummy)
+				frameSpeed = .15f;
+
+			NPC.frameCounter += frameSpeed;
 			NPC.frameCounter %= 6;
 			int frame = (int)NPC.frameCounter;
 			NPC.frame.Y = (frame + 1) * frameHeight;
@@ -108,7 +111,7 @@ namespace SpiritMod.NPCs.Reach
 
 		int timer;
 		bool trailbehind = false;
-		float num34616;
+		float frameSpeed;
 
 		public override void AI()
 		{
@@ -120,7 +123,7 @@ namespace SpiritMod.NPCs.Reach
 				NPC.netUpdate = true;
 			}
 			if (timer == 400 && Main.netMode != NetmodeID.MultiplayerClient) {
-				num34616 = .35f;
+				frameSpeed = .35f;
 				Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
 				direction.Normalize();
 				direction.X *= Main.rand.Next(8, 12);
@@ -133,7 +136,7 @@ namespace SpiritMod.NPCs.Reach
 				NPC.knockBackResist = 0f;
 			}
 			else
-				num34616 = .15f;
+				frameSpeed = .15f;
 
 			if (timer >= 551) {
 				timer = 0;

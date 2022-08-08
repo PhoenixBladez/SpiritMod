@@ -72,7 +72,7 @@ namespace SpiritMod.NPCs.Mimic
 		public override void FindFrame(int frameHeight)
 		{
 			Player target = Main.player[NPC.target];
-			if (NPC.DistanceSQ(target.Center) < 720 * 720)
+			if (NPC.DistanceSQ(target.Center) < 720 * 720 || NPC.IsABestiaryIconDummy)
 			{
 				NPC.frameCounter++;
 				if (NPC.frameCounter == 5)

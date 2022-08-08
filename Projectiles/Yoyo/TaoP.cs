@@ -28,7 +28,7 @@ namespace SpiritMod.Projectiles.Yoyo
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(6) == 0)
+			if (Main.rand.NextBool(6))
 				target.AddBuff(BuffID.Confused, 240, true);
 		}
 		public override bool PreDraw(ref Color lightColor)

@@ -329,7 +329,7 @@ namespace SpiritMod.NPCs.GraniTech
 				DrawLaser(spriteBatch);
 
 			Texture2D npcGlow = ModContent.Request<Texture2D>(Texture + "_glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-			Vector2 realPos = NPC.position - Main.screenPosition;
+			Vector2 realPos = NPC.position - screenPos;
 			Vector2 offset;
 			Rectangle baseRect = new Rectangle(0, 32, 44, 18);
 			float baseRotation;

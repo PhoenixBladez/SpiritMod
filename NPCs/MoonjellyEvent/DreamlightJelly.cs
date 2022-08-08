@@ -83,20 +83,20 @@ namespace SpiritMod.NPCs.MoonjellyEvent
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            int xpos = (int)((NPC.Center.X) - Main.screenPosition.X + 16) - (int)(TextureAssets.Npc[NPC.type].Value.Width / 2);
-            int ypos = (int)((NPC.Center.Y) - Main.screenPosition.Y + 10) - (int)(TextureAssets.Npc[NPC.type].Value.Width / 2);
+            int xpos = (int)((NPC.Center.X) - screenPos.X + 16) - (int)(TextureAssets.Npc[NPC.type].Value.Width / 2);
+            int ypos = (int)((NPC.Center.Y) - screenPos.Y + 10) - (int)(TextureAssets.Npc[NPC.type].Value.Width / 2);
             Texture2D ripple = Mod.Assets.Request<Texture2D>("Effects/Masks/Extra_49").Value;
-            Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), new Microsoft.Xna.Framework.Rectangle?(), new Color((int)(18f * sineAdd), (int)(25f * sineAdd), (int)(20f * sineAdd), 0), NPC.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);
+            Main.spriteBatch.Draw(ripple, new Vector2(xpos, ypos), null, new Color((int)(18f * sineAdd), (int)(25f * sineAdd), (int)(20f * sineAdd), 0), NPC.rotation, ripple.Size() / 2f, .5f, spriteEffects, 0);
 
-            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-                             drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Main.spriteBatch.Draw(
                 Mod.Assets.Request<Texture2D>("NPCs/MoonjellyEvent/DreamlightJelly_Glow").Value,
-				NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY),
+				NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY),
 				NPC.frame,
 				Color.White,
 				NPC.rotation,

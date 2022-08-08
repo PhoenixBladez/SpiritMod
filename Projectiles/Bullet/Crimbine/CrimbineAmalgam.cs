@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
 						perturbedSpeed.Y *= Main.rand.NextFloat(8.5f, 10.5f);
 
 						int projType = ModContent.ProjectileType<CrimbineSpine>();
-						if (Main.rand.Next(8) == 0)
+						if (Main.rand.NextBool(8))
 							projType = ModContent.ProjectileType<CrimbineHeart>();
 						else if (Main.rand.Next(4) == 0)
 							projType = ModContent.ProjectileType<CrimbineBlob>();

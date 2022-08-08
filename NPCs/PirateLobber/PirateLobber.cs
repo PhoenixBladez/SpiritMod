@@ -90,7 +90,7 @@ namespace SpiritMod.NPCs.PirateLobber
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				var vel = new Vector2(NPC.direction * 5, 0);
-				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - vel, vel, ModContent.ProjectileType<PirateLobberBarrel>(), NPCUtils.ToActualDamage(60, 1.3f), 5);
+				Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - vel, vel, ModContent.ProjectileType<PirateLobberBarrel>(), NPCUtils.ToActualDamage(60, 1.3f), 5, Main.myPlayer);
 			}
 			SoundEngine.PlaySound(SoundID.Item1, NPC.Center);
 		}
@@ -98,7 +98,7 @@ namespace SpiritMod.NPCs.PirateLobber
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 

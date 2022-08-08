@@ -16,6 +16,9 @@ namespace SpiritMod.NPCs.Midknight
 		{
 			DisplayName.SetDefault("Mid-Knight");
 			Main.npcFrameCount[NPC.type] = 15;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Velocity = 1f };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -42,27 +45,25 @@ namespace SpiritMod.NPCs.Midknight
 			});
 		}
 
-		/*public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			return spawnInfo.spawnTileY < Main.rockLayer && (!Main.dayTime) && spawnInfo.player.ZoneOverworldHeight && Main.hardMode ? 0.01f : 0f;
-		}*/
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			{
+			if (NPC.IsABestiaryIconDummy)
+				NPC.localAI[1] += 0.03f;
 
-				Texture2D ring = Mod.Assets.Request<Texture2D>("Effects/Glowmasks/Dusking_Circle").Value;
-				Vector2 origin = new Vector2(ring.Width * 0.5F, ring.Height * 0.5F);
-				spriteBatch.Draw(ring, (NPC.Center) - Main.screenPosition, null, new Color(255, 255, 255, 100), NPC.localAI[1], origin, .25f, SpriteEffects.None, 0);
-			}
+			Texture2D ring = Mod.Assets.Request<Texture2D>("Effects/Glowmasks/Dusking_Circle").Value;
+			Vector2 origin = new Vector2(ring.Width * 0.5F, ring.Height * 0.5F);
+			spriteBatch.Draw(ring, (NPC.Center) - screenPos, null, new Color(255, 255, 255, 100), NPC.localAI[1], origin, .25f, SpriteEffects.None, 0);
+
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
+
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Midknight/Midknight_Glow").Value, screenPos);
+		
 		public override void AI()
 		{
-			NPC.localAI[1] += 0.03F;
+			NPC.localAI[1] += 0.03f;
 			Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.17f, .08f, 0.3f);
 			NPC.spriteDirection = NPC.direction;
 			Player target = Main.player[NPC.target];
@@ -70,7 +71,7 @@ namespace SpiritMod.NPCs.Midknight
 			if (distance < 64) {
 				target.AddBuff(BuffID.Darkness, 65);
 			}
-			if (distance > 640 && Main.rand.Next(6) == 1) {
+			if (distance > 640 && Main.rand.NextBool(6)) {
 				if (Main.netMode != NetmodeID.MultiplayerClient) {
 					SoundEngine.PlaySound(SoundID.Zombie53, NPC.Center);
 					NPC.position.X = target.position.X + Main.rand.Next(50, 100) * -target.direction;
@@ -93,10 +94,7 @@ namespace SpiritMod.NPCs.Midknight
 			}
 		}
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(BuffID.Darkness, 120, true);
-		}
+		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.Darkness, 120, true);
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

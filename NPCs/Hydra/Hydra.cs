@@ -13,6 +13,7 @@ using SpiritMod.Mechanics.Trails;
 using SpiritMod.Items.Armor.Masks;
 using SpiritMod.Mechanics.BoonSystem;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Hydra
 {
@@ -32,7 +33,10 @@ namespace SpiritMod.NPCs.Hydra
 		private int attackIndex = 0;
 		private int attackCounter = 0;
 
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Lernean Hydra");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Lernean Hydra");
+		}
 
 		public override void SetDefaults()
 		{
@@ -167,6 +171,14 @@ namespace SpiritMod.NPCs.Hydra
 			NPC.knockBackResist = 0;
 			NPC.noGravity = true;
 			NPC.noTileCollide = true;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Marble,
+				new FlavorTextBestiaryInfoElement("A legendary creature, born of monster and god. Killing a head does nothing but worsen the fight."),
+			});
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
@@ -463,7 +475,7 @@ namespace SpiritMod.NPCs.Hydra
 				Vector2 scale = new Vector2(1, yScale); // Stretch/Squash chain segment
 				Color chainLightColor = Lighting.GetColor((int)position.X / 16, (int)position.Y / 16); //Lighting of the position of the chain segment
 				Vector2 origin = new Vector2(neckTex.Width / 2, neckTex.Height); //Draw from center bottom of texture
-				spriteBatch.Draw(neckTex, position - Main.screenPosition, null, chainLightColor, rotation, origin, scale, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+				spriteBatch.Draw(neckTex, position - screenPos, null, chainLightColor, rotation, origin, scale, NPC.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 			}
 
 			int frameHeight = headTex.Height / NumFrames();
@@ -493,17 +505,13 @@ namespace SpiritMod.NPCs.Hydra
 
 		private string GetColor()
 		{
-			switch ((int)headColor)
+			return (int)headColor switch
 			{
-				case 0:
-					return "_Red";
-				case 1:
-					return "_Green";
-				case 2:
-					return "_Purple";
-				default:
-					return "_Red";
-			}
+				0 => "_Red",
+				1 => "_Green",
+				2 => "_Purple",
+				_ => "_Red",
+			};
 		}
 
 		private int NumFrames()
@@ -512,17 +520,11 @@ namespace SpiritMod.NPCs.Hydra
 				return 3;
 			else
 			{
-				switch (GetColor())
+				return GetColor() switch
 				{
-					case "_Red":
-						return 13;
-					case "_Green":
-						return 13;
-					case "_Purple":
-						return 23;
-					default:
-						return 13;
-				}
+					"_Purple" => 23,
+					_ => 13,
+				};
 			}
 		}
 	}

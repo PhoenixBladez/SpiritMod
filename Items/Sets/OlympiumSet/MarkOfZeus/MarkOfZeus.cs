@@ -101,7 +101,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 				if (Main.rand.Next(4) == 0)
 					Dust.NewDustDirect(Projectile.Center + ((Projectile.rotation + 1.57f).ToRotationVector2() * Main.rand.Next(-30, 30)), 2, 2, DustID.Firework_Yellow).noGravity = true;
 
-				if (Main.rand.Next(8) == 0)
+				if (Main.rand.NextBool(8))
 				{
 					int timeLeft = Main.rand.Next(20, 50);
 					var particle = new StarParticle(Projectile.Center + ((Projectile.rotation + 1.57f).ToRotationVector2() * Main.rand.Next(-30, 30)), Main.rand.NextVector2Circular(1.5f, 1.5f),

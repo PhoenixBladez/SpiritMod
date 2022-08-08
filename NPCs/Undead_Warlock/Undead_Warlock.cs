@@ -187,7 +187,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 		public static void DrawDustBeetweenThisAndThat(Vector2 vector3, Vector2 vector1)
 		{
 			Vector2 range = vector3 - vector1;
-			if (Main.rand.Next(12) == 0)
+			if (Main.rand.NextBool(12))
 			{
 				for (int i = 0; i < 8; i++)
 				{

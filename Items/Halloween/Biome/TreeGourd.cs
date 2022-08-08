@@ -2,16 +2,20 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace SpiritMod.Items.ByBiome.Briar.Consumables
+namespace SpiritMod.Items.Halloween.Biome
 {
-	public class Durian : ModItem
+	public class TreeGourd : ModItem
 	{
-		public override void SetStaticDefaults() => Tooltip.SetDefault("Minor improvements to all stats\n'What an awful smell!'");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Birdhouse Gourd");
+			Tooltip.SetDefault("Minor improvements to all stats");
+		}
 
 		public override void SetDefaults()
 		{
-			Item.width = 26;
-			Item.height = 30;
+			Item.width = 30;
+			Item.height = 42;
 			Item.rare = ItemRarityID.Blue;
 			Item.maxStack = 99;
 			Item.value = Item.sellPrice(0, 0, 0, 50);
@@ -22,14 +26,8 @@ namespace SpiritMod.Items.ByBiome.Briar.Consumables
 			Item.consumable = true;
 			Item.autoReuse = false;
 			Item.UseSound = SoundID.Item2;
-			Item.buffTime = 5 * 60 * 60;
+			Item.buffTime = 4 * 60 * 60;
 			Item.buffType = BuffID.WellFed;
-		}
-
-		public override bool? UseItem(Player player)
-		{
-			player.AddBuff(BuffID.Stinky, 5 * 60 * 60);
-			return true;
 		}
 	}
 }

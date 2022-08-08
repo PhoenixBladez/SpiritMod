@@ -23,7 +23,10 @@ namespace SpiritMod.NPCs.Snaptrapper
 			Main.npcFrameCount[NPC.type] = 11;
             NPCID.Sets.TrailCacheLength[NPC.type] = 5;
             NPCID.Sets.TrailingMode[NPC.type] = 0;
-        }
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { PortraitPositionXOverride = -10 };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
+		}
 
 		public override void SetDefaults()
 		{
@@ -91,7 +94,35 @@ namespace SpiritMod.NPCs.Snaptrapper
 
         int frame;
 
-		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight)
+		{
+			float distance = NPC.DistanceSQ(Main.player[NPC.target].Center);
+
+			if (!chargePhase && distance > 62 * 62)
+			{
+				if (++frameTimer >= 8)
+				{
+					frameTimer = 0;
+					frame++;
+				}
+
+				if (frame > 10 || frame < 7)
+					frame = 7;
+			}
+			else if (!chargePhase)
+			{
+				if (++frameTimer >= 6)
+				{
+					frameTimer = 0;
+					frame++;
+				}
+
+				if (frame >= 7)
+					frame = 0;
+			}
+
+			NPC.frame.Y = frameHeight * frame;
+		}
 
         bool chargePhase;
         int frameTimer;
@@ -100,63 +131,26 @@ namespace SpiritMod.NPCs.Snaptrapper
 		{
             NPC.spriteDirection = NPC.direction;
             Player target = Main.player[NPC.target];
-            Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
-            direction.Normalize();
-            direction.X *= 3.75f;
-            direction.Y *= 8f;
-            int distance = (int)Math.Sqrt((NPC.Center.X - target.Center.X) * (NPC.Center.X - target.Center.X) + (NPC.Center.Y - target.Center.Y) * (NPC.Center.Y - target.Center.Y));
-            if (!chargePhase && distance < 62)
+            Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * new Vector2(3.75f, 8f);
+			float distance = NPC.DistanceSQ(target.Center);
+
+            if (!chargePhase && distance < 62 * 62)
             {
                 NPC.velocity.X = 0;
                 NPC.noGravity = false;
-                if (target.position.X < NPC.position.X)
-                {
-                    NPC.spriteDirection = -1;
-                }
-                else
-                {
-                    NPC.spriteDirection = 1;
-                }
-                frameTimer++;
-                if (frameTimer >= 8)
-                {
-                    frameTimer = 0;
-                    frame++;
-                }
-                if (frame > 10 || frame < 7)
-                {
-                    frame = 7;
-                }
-            }
-            else if (!chargePhase)
-            {
-                frameTimer++;
-                if (frameTimer >= 6)
-                {
-                    frameTimer = 0;
-                    frame++;
-                }
-                if (frame >= 7)
-                {
-                    frame = 0;
-                }
-            }
-            NPC.localAI[1]++;
+                NPC.spriteDirection = target.position.X < NPC.position.X ? -1 : 1;
+			}
+
+			NPC.localAI[1]++;
             if (NPC.life >= NPC.lifeMax * .4f)
             {
                 if (NPC.localAI[1] >= 340 && NPC.localAI[1] < 400)
                 {
                     NPC.velocity.X = 0f;
                     NPC.noGravity = false;
-                    if (target.position.X < NPC.position.X)
-                    {
-                        NPC.spriteDirection = -1;
-                    }
-                    else
-                    {
-                        NPC.spriteDirection = 1;
-                    }
-                    if (Main.rand.Next(3) == 0)
+					NPC.spriteDirection = target.position.X < NPC.position.X ? -1 : 1;
+
+					if (Main.rand.NextBool(3))
                     {
                         Dust dust = Main.dust[Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y + 2f), NPC.width, NPC.height, ModContent.DustType<Dusts.PoisonGas>(), NPC.velocity.X * 0.2f, NPC.velocity.Y * 0.2f, 100, new Color(), 7f)];
                         dust.noGravity = true;
@@ -164,6 +158,7 @@ namespace SpiritMod.NPCs.Snaptrapper
                         dust.velocity.Y = (dust.velocity.Y * 0.2f) - 1;
                     }
                 }
+
                 if (NPC.localAI[1] == 360)
                 {
                     SoundEngine.PlaySound(SoundID.Grass, NPC.Center);
@@ -180,10 +175,10 @@ namespace SpiritMod.NPCs.Snaptrapper
                         }
                     }
                 }
+
                 if (NPC.localAI[1] == 400)
-                {
                     SoundEngine.PlaySound(SoundID.NPCDeath5, NPC.Center);
-                }
+
                 if (NPC.localAI[1] >= 400 && NPC.localAI[1] <= 530)
                 {
                     NPC.netUpdate = true;
@@ -208,10 +203,9 @@ namespace SpiritMod.NPCs.Snaptrapper
                     NPC.aiStyle = 3;
                     AIType = NPCID.SnowFlinx;
                 }
+
                 if (NPC.localAI[1] >= 800)
-                {
                     NPC.localAI[1] = 0;
-                }
             }
 			else
             {
@@ -219,15 +213,9 @@ namespace SpiritMod.NPCs.Snaptrapper
                 {
                     NPC.velocity.X = 0f;
                     NPC.noGravity = false;
-                    if (target.position.X < NPC.position.X)
-                    {
-                        NPC.spriteDirection = -1;
-                    }
-                    else
-                    {
-                        NPC.spriteDirection = 1;
-                    }
-                    if (Main.rand.Next(2) == 0)
+					NPC.spriteDirection = target.position.X < NPC.position.X ? -1 : 1;
+
+					if (Main.rand.NextBool(2))
                     {
                         Dust dust = Main.dust[Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y + 2f), NPC.width, NPC.height, ModContent.DustType<Dusts.PoisonGas>(), NPC.velocity.X * 0.2f, NPC.velocity.Y * 0.2f, 100, new Color(), 7f)];
                         dust.noGravity = true;
@@ -236,6 +224,7 @@ namespace SpiritMod.NPCs.Snaptrapper
 
                     }
                 }
+
                 if (NPC.localAI[1] == 260)
                 {
                     SoundEngine.PlaySound(SoundID.Grass, NPC.Center);
@@ -252,13 +241,13 @@ namespace SpiritMod.NPCs.Snaptrapper
                         }
                     }
                 }
+
 				if (NPC.localAI[1] == 300)
-                {
                     SoundEngine.PlaySound(SoundID.NPCDeath5, NPC.Center);
-                }
+
                 if (NPC.localAI[1] >= 300 && NPC.localAI[1] <= 510)
                 {
-                    if (NPC.collideY && Main.rand.Next(6) == 0)
+                    if (NPC.collideY && Main.rand.NextBool(6))
                     {
                         int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, Main.rand.Next(-2, 2), Main.rand.Next(-3, -1), ModContent.ProjectileType<SnaptrapperGas>(), 12, 1, Main.myPlayer, 0, 0);
                         Main.projectile[p].hostile = true;
@@ -285,18 +274,19 @@ namespace SpiritMod.NPCs.Snaptrapper
                     NPC.aiStyle = 3;
                     AIType = NPCID.SnowFlinx;
                 }
+
                 if (NPC.localAI[1] >= 540)
-                {
                     NPC.localAI[1] = 0;
-                }
             }
         }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
 			if (MyWorld.downedSnaptrapper)
                 return spawnInfo.Player.ZoneJungle && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Snaptrapper>()) && spawnInfo.Player.ZoneOverworldHeight ? 0.008125f : 0f;
             return spawnInfo.Player.ZoneJungle && NPC.downedBoss2 && !NPC.AnyNPCs(ModContent.NPCType<Snaptrapper>()) && spawnInfo.Player.ZoneOverworldHeight ? 0.036f : 0f;
         }
+
         public void ChargeFrames()
         {
             frameTimer++;
@@ -305,11 +295,11 @@ namespace SpiritMod.NPCs.Snaptrapper
                 frameTimer = 0;
                 frame++;
             }
+
             if (frame > 10 || frame < 8)
-            {
                 frame = 8;
-            }
         }
+
 		public void Charging()
         {
             NPC.aiStyle = -1;
@@ -369,64 +359,48 @@ namespace SpiritMod.NPCs.Snaptrapper
                 float num2718 = 400f / num2719;
                 num2718 = ((NPC.type != NPCID.Derpling) ? (num2718 * 10f) : (num2718 * 5f));
                 if (num2718 > 30f)
-                {
                     num2718 = 30f;
-                }
                 NPC.ai[0] += (float)(int)num2718;
-                if (NPC.ai[0] >= 0f)
-                {
-                    NPC.netUpdate = true;
-                    if (NPC.ai[2] == 1f)
-                    {
-                        NPC.TargetClosest(true);
-                    }
-                    float velXnum = ((NPC.life < NPC.lifeMax * .3f) ? (4.75f) : (2.525f));
-                    float velYnum = ((NPC.life < NPC.lifeMax * .3f) ? (10.75f) : (8.5f));
-                    {
-                        NPC.velocity.Y = -velYnum;
-                        NPC.velocity.X = NPC.velocity.X + (float)(velXnum * NPC.direction);
-                        if (num2719 < 350f && num2719 > 200f)
-                        {
-                            NPC.velocity.X = NPC.velocity.X + (float)NPC.direction;
-                        }
-                        NPC.ai[0] = -120f;
-                        NPC.ai[1] += 1f;
-                    }
-                }
-                else if (NPC.ai[0] >= -30f)
-                {
-                    NPC.aiAction = 1;
-                }
+				if (NPC.ai[0] >= 0f)
+				{
+					NPC.netUpdate = true;
+					if (NPC.ai[2] == 1f)
+						NPC.TargetClosest(true);
+
+					float velXnum = ((NPC.life < NPC.lifeMax * .3f) ? (4.75f) : (2.525f));
+					float velYnum = ((NPC.life < NPC.lifeMax * .3f) ? (10.75f) : (8.5f));
+
+					NPC.velocity.Y = -velYnum;
+					NPC.velocity.X = NPC.velocity.X + (float)(velXnum * NPC.direction);
+					if (num2719 < 350f && num2719 > 200f)
+						NPC.velocity.X = NPC.velocity.X + (float)NPC.direction;
+					NPC.ai[0] = -120f;
+					NPC.ai[1] += 1f;
+				}
+				else if (NPC.ai[0] >= -30f)
+					NPC.aiAction = 1;
+
                 NPC.spriteDirection = NPC.direction;
             }
             else if (NPC.target < 255)
             {
                 if (NPC.direction != 1 || !(NPC.velocity.X < 3f))
                 {
-                    if (NPC.direction != -1)
-                    {
+                    if (NPC.direction != -1 || NPC.velocity.X <= -3f)
                         return;
-                    }
-                    if (!(NPC.velocity.X > -3f))
-                    {
-                        return;
-                    }
                 }
-                if (NPC.direction == -1 && (double)NPC.velocity.X < 0.1)
-                {
-                    NPC.velocity.X = NPC.velocity.X + 0.2f * (float)NPC.direction;
-                }
-                if (NPC.direction == 1 && (double)NPC.velocity.X > -0.1)
-                {
-                    NPC.velocity.X = NPC.velocity.X + 0.2f * (float)NPC.direction;
-                }
+
+                if (NPC.direction == -1 && NPC.velocity.X < 0.1)
+                    NPC.velocity.X = NPC.velocity.X + 0.2f * NPC.direction;
+
+                if (NPC.direction == 1 && NPC.velocity.X > -0.1)
+                    NPC.velocity.X = NPC.velocity.X + 0.2f * NPC.direction;
                 NPC.velocity.X = NPC.velocity.X * 0.93f;
             }
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            target.velocity.X = 11f * -target.direction;
-        }
+
+        public override void OnHitPlayer(Player target, int damage, bool crit) => target.velocity.X = 11f * -target.direction;
+
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

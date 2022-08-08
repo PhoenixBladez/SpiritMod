@@ -109,16 +109,6 @@ namespace SpiritMod.NPCs.PlagueDoctor
 					}
 					timer++;
 				}
-				timer++;
-
-				if (timer >= 12)
-				{
-					frame++;
-					timer = 0;
-				}
-
-				if (frame >= 5)
-					frame = 0;
 
 				if (target.position.X > NPC.position.X)
 					NPC.direction = 1;
@@ -129,18 +119,6 @@ namespace SpiritMod.NPCs.PlagueDoctor
 			{
 				NPC.aiStyle = 3;
 				AIType = NPCID.Skeleton;
-				timer++;
-				if (timer >= 4)
-				{
-					frame++;
-					timer = 0;
-				}
-
-				if (frame >= 11)
-					frame = 5;
-
-				if (frame < 5)
-					frame = 5;
 			}
 		}
 
@@ -154,12 +132,43 @@ namespace SpiritMod.NPCs.PlagueDoctor
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/PlagueDoctor/PlagueDoctor_Glow").Value, screenPos);
-		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
+
+		public override void FindFrame(int frameHeight)
+		{
+			timer++;
+
+			if (attack)
+			{
+				if (timer >= 12)
+				{
+					frame++;
+					timer = 0;
+				}
+
+				if (frame >= 5)
+					frame = 0;
+			}
+			else
+			{
+				if (timer >= 4)
+				{
+					frame++;
+					timer = 0;
+				}
+
+				if (frame >= 11)
+					frame = 5;
+
+				if (frame < 5)
+					frame = 5;
+			}
+
+			NPC.frame.Y = frameHeight * frame;
+		}
 	}
 }

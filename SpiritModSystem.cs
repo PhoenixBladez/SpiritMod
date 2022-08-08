@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.GlobalClasses.Projectiles;
+using SpiritMod.GlobalClasses.Tiles;
 using SpiritMod.Items.Pins;
 using SpiritMod.Mechanics.AutoSell;
 using SpiritMod.Mechanics.QuestSystem;
@@ -9,6 +11,8 @@ using SpiritMod.NPCs.StarjinxEvent;
 using SpiritMod.NPCs.Tides.Tide;
 using SpiritMod.Particles;
 using SpiritMod.Utilities;
+using SpiritMod.Utilities.Journey;
+using SpiritMod.Utilities.PhaseIndicatorCompat;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -23,6 +27,17 @@ namespace SpiritMod
 {
 	internal class SpiritModSystem : ModSystem
 	{
+		public override void PostAddRecipes()
+		{
+			ExplosivesCache.Initialize(Mod);
+			ModContent.GetInstance<IndestructibleGlobalTile>().Load(Mod);
+			SacrificeAutoloader.Load(Mod);
+
+			ModLoader.TryGetMod("PhaseIndicator", out Mod phaseIndicator);
+			if (phaseIndicator != null && !Main.dedServ)
+				PhaseIndicatorLoader.Load(Mod, phaseIndicator);
+		}
+
 		public override void ModifyLightingBrightness(ref float scale)
 		{
 			if (Main.LocalPlayer.GetSpiritPlayer().ZoneReach && !Main.dayTime)

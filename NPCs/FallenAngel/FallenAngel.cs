@@ -139,7 +139,7 @@ namespace SpiritMod.NPCs.FallenAngel
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(6) == 0)
+			if (Main.rand.NextBool(6))
 				target.AddBuff(BuffID.Cursed, 300);
 		}
 	}

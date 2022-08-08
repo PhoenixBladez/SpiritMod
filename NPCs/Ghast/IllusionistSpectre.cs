@@ -43,7 +43,7 @@ namespace SpiritMod.NPCs.Ghast
 			});
 		}
 
-		int frame = 5;
+		int frame = 0;
 		int moveSpeed = 0;
 		int moveSpeedY = 0;
 		float HomeY = 100f;

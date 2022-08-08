@@ -107,22 +107,12 @@ namespace SpiritMod.NPCs.HauntedTome
 			if (AiTimer == 180)
 				NPC.velocity = -NPC.DirectionTo(player.Center) * 6;
 
-			if (AiTimer > 180) {
+			if (AiTimer > 180)
+			{ 	
 				AttackDict[Pattern[(int)AttackType]].Invoke(Main.player[NPC.target], NPC);
 
 				if (AiTimer % 30 == 0 && Main.netMode != NetmodeID.Server)
 					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/PageFlip") with { PitchVariance = 0.2f }, NPC.Center);
-
-				if (frame < 9)
-					UpdateFrame(12, 0, 9);
-				else
-					UpdateFrame(15, 9, 13);
-			}
-			else {
-				if (frame > 4 && frame < 18)
-					UpdateFrame(12, 4, 18);
-				else
-					UpdateFrame(10, 0, 4);
 			}
 
 			NPC.localAI[0] = Math.Max(NPC.localAI[0] - 0.05f, 0);
@@ -221,12 +211,27 @@ namespace SpiritMod.NPCs.HauntedTome
 				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/DownedMiniboss"), NPC.Center);
 		}
 
-		public override void ModifyNPCLoot(NPCLoot npcLoot)
-		{
-			npcLoot.AddCommon<Items.Sets.SepulchreLoot.ScreamingTome.ScreamingTome>();
-		}
+		public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddCommon<Items.Sets.SepulchreLoot.ScreamingTome.ScreamingTome>();
 
-		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight)
+		{
+			if (AiTimer > 180 || NPC.IsABestiaryIconDummy)
+			{
+				if (frame < 9)
+					UpdateFrame(12, 0, 9);
+				else
+					UpdateFrame(15, 9, 13);
+			}
+			else
+			{
+				if (frame > 4 && frame < 18)
+					UpdateFrame(12, 4, 18);
+				else
+					UpdateFrame(10, 0, 4);
+			}
+
+			NPC.frame.Y = frameHeight * frame;
+		}
 
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{

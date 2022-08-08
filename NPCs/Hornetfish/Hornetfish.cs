@@ -105,15 +105,6 @@ namespace SpiritMod.NPCs.Hornetfish
 				if (NPC.ai[3] >= 240 && !NPC.collideY)
 				{
 					trailing = true;
-					if (timer >= 4)
-					{
-						frame++;
-						timer = 0;
-					}
-
-					if (frame >= 4)
-						frame = 1;
-
 					float num17 = Main.player[NPC.target].Center.Y - NPC.Center.Y;
 
 					if (num17 > 0)
@@ -146,7 +137,24 @@ namespace SpiritMod.NPCs.Hornetfish
 			}
 		}
 
-		public override void FindFrame(int frameHeight) => NPC.frame.Y = frameHeight * frame;
+		public override void FindFrame(int frameHeight)
+		{
+			if (NPC.IsABestiaryIconDummy)
+				timer++;
+
+			if ((NPC.ai[3] >= 240 && !NPC.collideY) || NPC.IsABestiaryIconDummy)
+			{
+				if (timer >= 4)
+				{
+					frame++;
+					timer = 0;
+				}
+
+				if (frame >= 4)
+					frame = 1;
+			}
+			NPC.frame.Y = frameHeight * frame;
+		}
 
 		public override void OnKill()
 		{
@@ -165,14 +173,14 @@ namespace SpiritMod.NPCs.Hornetfish
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 
 			if (trailing)
 			{
 				Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
 				for (int k = 0; k < NPC.oldPos.Length; k++)
 				{
-					Vector2 drawPos = NPC.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
+					Vector2 drawPos = NPC.oldPos[k] - screenPos + drawOrigin + new Vector2(0f, NPC.gfxOffY);
 					Color color = NPC.GetAlpha(drawColor) * (((float)(NPC.oldPos.Length - k) / NPC.oldPos.Length) / 2);
 					spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, drawPos, NPC.frame, color, NPC.rotation, drawOrigin, NPC.scale, effects, 0f);
 				}

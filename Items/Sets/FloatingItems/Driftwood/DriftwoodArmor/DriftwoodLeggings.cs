@@ -22,7 +22,7 @@ namespace SpiritMod.Items.Sets.FloatingItems.Driftwood.DriftwoodArmor
 		{
 			var recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<DriftwoodTileItem>(), 12);
-			recipe.AddTile(TileID.Anvils);
+			recipe.AddTile(TileID.WorkBenches);
 			recipe.Register();
 		}
 	}

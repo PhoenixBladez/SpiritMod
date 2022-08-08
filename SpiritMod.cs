@@ -61,6 +61,7 @@ using SpiritMod.Items.Sets.DyesMisc.HairDye;
 using SpiritMod.GlobalClasses.Projectiles;
 using SpiritMod.GlobalClasses.Tiles;
 using SpiritMod.Utilities.PhaseIndicatorCompat;
+using SpiritMod.Utilities.Journey;
 
 namespace SpiritMod
 {
@@ -764,18 +765,6 @@ namespace SpiritMod
 		}
 
 		private void LoadMusicBox(string name, string path) => MusicLoader.AddMusicBox(this, MusicLoader.GetMusicSlot(this, path), Find<ModItem>(name).Type, Find<ModTile>(name).Type);
-
-		public override void PostAddRecipes()
-		{
-			ExplosivesCache.Initialize(this);
-			ModContent.GetInstance<IndestructibleGlobalTile>().Load(this);
-
-			ModLoader.TryGetMod("PhaseIndicator", out Mod phaseIndicator);
-			if (phaseIndicator != null && !Main.dedServ)
-				PhaseIndicatorLoader.Load(this, phaseIndicator);
-
-			//WikiWriter.WriteWiki();
-		}
 
 		public void CheckScreenSize()
 		{

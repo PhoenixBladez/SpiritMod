@@ -286,19 +286,17 @@ namespace SpiritMod.NPCs.Horned_Crustacean
 		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			Vector2 vector2_3 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2f, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2f);
-
 			float addHeight = 10f;
-
-			Color color1 = Lighting.GetColor((int)(NPC.position.X + NPC.width * 0.5) / 16, (int)((NPC.position.Y + NPC.height * 0.5) / 16.0));
+			Color color1 = Lighting.GetColor((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16.0));
 
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 
-			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Horned_Crustacean/Horned_Crustacean_Glow").Value, NPC.Bottom - Main.screenPosition + new Vector2((float)(-TextureAssets.Npc[NPC.type].Value.Width * NPC.scale / 2.0 + vector2_3.X * NPC.scale), (float)(-TextureAssets.Npc[NPC.type].Value.Height * NPC.scale / Main.npcFrameCount[NPC.type] + 4.0 + vector2_3.Y * NPC.scale) + addHeight + NPC.gfxOffY), NPC.frame, new Microsoft.Xna.Framework.Color((int)r - NPC.alpha, (int)byte.MaxValue - NPC.alpha, (int)g - NPC.alpha, (int)b - NPC.alpha), NPC.rotation, vector2_3, NPC.scale, effects, 0.0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Horned_Crustacean/Horned_Crustacean_Glow").Value, NPC.Bottom - screenPos + new Vector2((float)(-TextureAssets.Npc[NPC.type].Value.Width * NPC.scale / 2.0 + vector2_3.X * NPC.scale), (float)(-TextureAssets.Npc[NPC.type].Value.Height * NPC.scale / Main.npcFrameCount[NPC.type] + 4.0 + vector2_3.Y * NPC.scale) + addHeight + NPC.gfxOffY), NPC.frame, new Color(r - NPC.alpha, byte.MaxValue - NPC.alpha, g - NPC.alpha, b - NPC.alpha), NPC.rotation, vector2_3, NPC.scale, effects, 0.0f);
 
 			float num = 0.25f + (NPC.GetAlpha(color1).ToVector3() - new Vector3(4f)).Length() * 0.25f;
 			for (int index = 0; index < 4; ++index)
-				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Horned_Crustacean/Horned_Crustacean_Glow").Value, NPC.Bottom - Main.screenPosition + new Vector2((float)(-TextureAssets.Npc[NPC.type].Value.Width * NPC.scale / 2.0 + vector2_3.X * NPC.scale), (float)(-TextureAssets.Npc[NPC.type].Value.Height * NPC.scale / Main.npcFrameCount[NPC.type] + 4.0 + vector2_3.Y * NPC.scale) + addHeight + NPC.gfxOffY) + NPC.velocity.RotatedBy(index * 47079637050629, new Vector2()) * num, NPC.frame, new Color(r, g, b, 0), NPC.rotation, vector2_3, NPC.scale, effects, 0.0f);
+				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Horned_Crustacean/Horned_Crustacean_Glow").Value, NPC.Bottom - screenPos + new Vector2((float)(-TextureAssets.Npc[NPC.type].Value.Width * NPC.scale / 2.0 + vector2_3.X * NPC.scale), (float)(-TextureAssets.Npc[NPC.type].Value.Height * NPC.scale / Main.npcFrameCount[NPC.type] + 4.0 + vector2_3.Y * NPC.scale) + addHeight + NPC.gfxOffY) + NPC.velocity.RotatedBy(index * 47079637050629, new Vector2()) * num, NPC.frame, new Color(r, g, b, 0), NPC.rotation, vector2_3, NPC.scale, effects, 0.0f);
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -306,12 +304,12 @@ namespace SpiritMod.NPCs.Horned_Crustacean
 			Player player = Main.player[NPC.target];
 
 			NPC.frameCounter++;
+			if (NPC.IsABestiaryIconDummy)
+				NPC.frameCounter -= 0.2f;
 
 			bool nearby = Vector2.Distance(player.Center, NPC.Center) <= 45f && NPC.velocity.X == 0f;
-			if (NPC.IsABestiaryIconDummy)
-				nearby = true;
 
-			if (nearby)
+			if (nearby || NPC.IsABestiaryIconDummy)
 			{
 				if (!NPC.IsABestiaryIconDummy && NPC.frameCounter == 24 && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0))
 				{

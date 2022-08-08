@@ -43,7 +43,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(8) == 0)
+			if (Main.rand.NextBool(8))
 				target.AddBuff(BuffID.Frostburn, 300, true);
 		}
 	}

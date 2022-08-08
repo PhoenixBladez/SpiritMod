@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Returning
 				player.GetModPlayer<MyPlayer>().Shake += 8;
 				SoundEngine.PlaySound(SoundID.Item88, Projectile.Center);
 			}
-			if (Main.rand.Next(6) == 0)
+			if (Main.rand.NextBool(6))
 				target.AddBuff(BuffID.OnFire, 120, true);
 			{
 				int n = 4;

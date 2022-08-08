@@ -49,7 +49,7 @@ namespace SpiritMod.NPCs.Ghast
 			});
 		}
 
-		int frame = 5;
+		int frame = 0;
 		bool aggroed = false;
 		int moveSpeed = 0;
 		int moveSpeedY = 0;

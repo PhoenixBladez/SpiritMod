@@ -52,7 +52,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			NPC.rotation = direction.ToRotation();
 			timer++;
 			if (timer > 60) {
-				if (Main.rand.Next(8) == 0) {
+				if (Main.rand.NextBool(8)) {
 					for (int num621 = 0; num621 < 5; num621++) {
 						int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Electric, 0f, 0f, 100, default, 2f);
 					}

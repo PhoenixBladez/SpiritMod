@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -31,6 +32,14 @@ namespace SpiritMod.NPCs.Tides
 			NPC.DeathSound = SoundID.NPCDeath1;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.KakamoraBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("An esteemed rider of a Crocomount. Despite their small stature, this creature rides with the ferocity of a war general."),
+			});
 		}
 
 		// localai0 : 0 when spawned, 1 when otherNPC spawned. 

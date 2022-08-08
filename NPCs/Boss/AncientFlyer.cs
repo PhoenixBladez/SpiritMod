@@ -171,7 +171,7 @@ namespace SpiritMod.NPCs.Boss
 
 				if (NPC.life >= 1000)
 				{
-					if (Main.rand.Next(8) == 0 && Main.netMode != NetmodeID.MultiplayerClient)
+					if (Main.rand.NextBool(8) && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int offsetX = Main.rand.Next(-200, 200) * 6;
 						int damage = Main.expertMode ? 18 : 22;

@@ -12,8 +12,9 @@ namespace SpiritMod.Biomes
 		public override int Music => GetMusicFromDepth();
 
 		public override string BestiaryIcon => base.BestiaryIcon;
-		public override string BackgroundPath => base.BackgroundPath;
+		public override string BackgroundPath => MapBackground;
 		public override Color? BackgroundColor => base.BackgroundColor;
+		public override string MapBackground => "SpiritMod/Backgrounds/SpiritMapBackground";
 
 		private int GetMusicFromDepth()
 		{

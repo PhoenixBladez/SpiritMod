@@ -61,7 +61,7 @@ namespace SpiritMod.Items.Consumable
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<Items.Books.Book_SpiritArt>());
             }
-            if (Main.rand.Next(6) == 0) {
+            if (Main.rand.NextBool(6)) {
 				int[] lootTable2 = {
 					ModContent.ItemType<StarCutter>(),
 					ModContent.ItemType<GhostJellyBomb>()

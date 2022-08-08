@@ -1,4 +1,3 @@
-using SpiritMod.Items.Material;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -15,6 +14,9 @@ namespace SpiritMod.NPCs.ScreechOwl
 		{
 			DisplayName.SetDefault("Screech Owl");
 			Main.npcFrameCount[NPC.type] = 8;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { PortraitPositionYOverride = 10 };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()

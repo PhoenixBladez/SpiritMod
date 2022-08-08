@@ -30,7 +30,7 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 		}
 		public override void AI()
 		{
-			if (Main.rand.Next(8) == 0) {
+			if (Main.rand.NextBool(8)) {
 				int d = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 				Main.dust[d].scale *= 1.85f;
 				Main.dust[d].noGravity = true;

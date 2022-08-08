@@ -21,7 +21,7 @@ namespace SpiritMod.Projectiles.Held
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(8) == 1) {
+			if (Main.rand.NextBool(8)) {
 				int n = Main.rand.Next(1, 3);
 				int deviation = Main.rand.Next(0, 300);
 				for (int i = 0; i < n; i++) {
