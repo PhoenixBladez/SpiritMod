@@ -131,7 +131,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 						}
 						spawnedProjectiles++;
 						SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
-						int chosenDust = Main.rand.Next(2) == 0 ? 173 : 157;
+						int chosenDust = Main.rand.NextBool(2) ? 173 : 157;
 						int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + 2, NPC.Center.Y - 88, 0f, 0f, chosenProjectile, 20, 3f, 0);
 						Main.projectile[p].ai[1] = NPC.whoAmI;
 						int num = 10;
@@ -162,11 +162,11 @@ namespace SpiritMod.NPCs.Undead_Warlock
 						DrawDustBeetweenThisAndThat(Main.projectile[crystal1].Center, Main.projectile[crystal2].Center);
 						DrawDustBeetweenThisAndThat(Main.projectile[crystal2].Center, Main.projectile[crystal3].Center);
 						DrawDustBeetweenThisAndThat(Main.projectile[crystal3].Center, Main.projectile[crystal1].Center);
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							for (int i = 0; i < 7; i++)
 							{
-								int chosenDust = Main.rand.Next(2) == 0 ? 173 : 157;
+								int chosenDust = Main.rand.NextBool(2) ? 173 : 157;
 								Vector2 offset = new Vector2();
 								double angle = Main.rand.NextDouble() * 2d * Math.PI;
 								offset.X += (float)(Math.Sin(angle) * 17f);
@@ -191,7 +191,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 			{
 				for (int i = 0; i < 8; i++)
 				{
-					int chosenDust = Main.rand.Next(2) == 0 ? 173 : 157;
+					int chosenDust = Main.rand.NextBool(2) ? 173 : 157;
 					Dust dust = Main.dust[Dust.NewDust(vector1 + range * Main.rand.NextFloat() + Vector2.Zero, 0, 0, chosenDust)];
 					dust.noGravity = true;
 					dust.noLight = false;

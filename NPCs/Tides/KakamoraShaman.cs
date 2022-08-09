@@ -16,6 +16,9 @@ namespace SpiritMod.NPCs.Tides
 		{
 			DisplayName.SetDefault("Kakamora Shaman");
 			Main.npcFrameCount[NPC.type] = 7;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Velocity = 1f };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -55,15 +58,12 @@ namespace SpiritMod.NPCs.Tides
 			{
 				NPC.noGravity = true;
 				if (NPC.velocity.Y > -7)
-				{
 					NPC.velocity.Y -= .085f;
-				}
 				return;
 			}
 			else
-			{
 				NPC.noGravity = false;
-			}
+
 			blockTimer++;
 			if (blockTimer == 200)
 			{
@@ -72,28 +72,25 @@ namespace SpiritMod.NPCs.Tides
 				healed = false;
 				NPC.velocity.X = 0;
 			}
+
 			if (blockTimer > 200)
-			{
 				blocking = true;
-			}
+
 			if (blockTimer > 350)
 			{
 				blocking = false;
 				blockTimer = 0;
 				NPC.frameCounter = 0;
 			}
+
 			if (blocking)
 			{
 				NPC.aiStyle = 0;
 				NPC.noGravity = false;
 				if (player.position.X > NPC.position.X)
-				{
 					NPC.spriteDirection = 1;
-				}
 				else
-				{
 					NPC.spriteDirection = -1;
-				}
 			}
 			else
 			{
@@ -122,17 +119,17 @@ namespace SpiritMod.NPCs.Tides
 
 		public override void FindFrame(int frameHeight)
 		{
-			if ((NPC.collideY || NPC.wet) && !blocking)
+			if (((NPC.collideY || NPC.wet) && !blocking) || NPC.IsABestiaryIconDummy)
 			{
 				NPC.frameCounter += 0.2f;
 				NPC.frameCounter %= 4;
 				int frame = (int)NPC.frameCounter;
 				NPC.frame.Y = frame * frameHeight;
 			}
+
 			if (NPC.wet)
-			{
 				return;
-			}
+
 			if (blocking)
 			{
 				NPC.frameCounter += 0.05f;

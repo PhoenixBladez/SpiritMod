@@ -53,11 +53,11 @@ namespace SpiritMod.Projectiles.Thrown
 				}
 			}
 			MyPlayer mp = Main.player[Projectile.owner].GetSpiritPlayer();
-			if (mp.sacredVine && Main.rand.Next(2) == 0)
+			if (mp.sacredVine && Main.rand.NextBool(2))
 				target.AddBuff(ModContent.BuffType<PollinationPoison>(), 200, true);
 
 			else
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 				target.AddBuff(BuffID.Poisoned, 200, true);
 		}
 

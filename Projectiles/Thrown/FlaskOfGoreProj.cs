@@ -35,7 +35,7 @@ namespace SpiritMod.Projectiles.Thrown
             SoundEngine.PlaySound(SoundID.Item107);
             for (int j = 0; j < 4; j++)
 				Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, new Vector2(), Main.rand.Next(134, 137), 1);
-			if (Main.rand.Next(4) == 0 && !player.HasBuff(ModContent.BuffType<CrimsonSkullBuff>()) && Projectile.friendly)
+			if (Main.rand.NextBool(4) && !player.HasBuff(ModContent.BuffType<CrimsonSkullBuff>()) && Projectile.friendly)
 				Item.NewItem(Projectile.GetSource_Death(), (int)Projectile.position.X, (int)Projectile.position.Y - 20, Projectile.width, Projectile.height, ModContent.ItemType<CrimsonSkull>());
 		}
 	}

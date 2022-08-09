@@ -76,7 +76,7 @@ namespace SpiritMod.Items.Sets.CoilSet
 				if (player.active && !player.dead)
 				{
 					float speed = player.velocity.Length();
-					if (speed < 8f && Main.rand.Next(7) == 0)
+					if (speed < 8f && Main.rand.NextBool(7))
 						DoDustEffect(player.MountedCenter, 46f - speed * 4.5f, 1.08f - speed * 0.13f, 2.08f - speed * 0.24f, player);
 					player.AddBuff(ModContent.BuffType<OverDrive>(), 60);
 				}

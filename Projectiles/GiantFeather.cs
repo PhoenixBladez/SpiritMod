@@ -68,7 +68,7 @@ namespace SpiritMod.Projectiles
 				}
 				else {
 					//Stops the projectiles from spazzing out
-					Projectile.velocity.X += Main.rand.Next(2) == 0 ? 0.1f : -0.1f;
+					Projectile.velocity.X += Main.rand.NextBool(2) ? 0.1f : -0.1f;
 				}
 			}
 

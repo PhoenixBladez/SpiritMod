@@ -32,7 +32,7 @@ namespace SpiritMod.Items.Sets.BriarDrops
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(2) == 0) {
+			if (Main.rand.NextBool(2)) {
 				target.AddBuff(ModContent.BuffType<WitheringLeaf>(), 180);
 			}
 		}

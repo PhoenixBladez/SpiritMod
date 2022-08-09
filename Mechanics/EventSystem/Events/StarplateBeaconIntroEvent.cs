@@ -43,8 +43,8 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			_center = center;
 
 			// set up the screen shaders
-			_ripContrastData = new BeaconShaderData(new Ref<Effect>(ModContent.Request<Effect>("Effects/EventShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "BeaconStartScreen");
-			_burstData = new BeaconShaderData(new Ref<Effect>(ModContent.Request<Effect>("Effects/EventShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "BeaconBurstScreen");
+			_ripContrastData = new BeaconShaderData(new Ref<Effect>(ModContent.Request<Effect>("SpiritMod/Effects/EventShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "BeaconStartScreen");
+			_burstData = new BeaconShaderData(new Ref<Effect>(ModContent.Request<Effect>("SpiritMod/Effects/EventShaders", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "BeaconBurstScreen");
 			Filters.Scene["SpiritMod:Event-BeaconDistortion"] = new Filter(_ripContrastData, (EffectPriority)20);
 			Filters.Scene["SpiritMod:Event-BeaconBurst"] = new Filter(_burstData, (EffectPriority)35);
 
@@ -161,12 +161,12 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 
 			// update shader parameters
 			_ripContrastData.Shader.Parameters["Time"].SetValue(_currentTime);
-			_ripContrastData.Shader.Parameters["NoiseTexture"].SetValue(ModContent.Request<Texture2D>("Textures/Events/BigNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			_ripContrastData.Shader.Parameters["NoiseTexture"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/Events/BigNoise", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			_ripContrastData.Shader.Parameters["FieldCenter"].SetValue(_center);
 			_ripContrastData.Shader.Parameters["ScreenRipStrength"].SetValue(_screenRipStrength.Ease(_currentTime));
 			_ripContrastData.Shader.Parameters["ContrastBubbleStrength"].SetValue(_contrastBubbleStrength.Ease(_currentTime));
 			_ripContrastData.Shader.Parameters["ScreenRipOffsetMultiplier"].SetValue((_currentTime < BUILDUP_LENGTH + PAUSE_TIME * 0.5f) ? 1f : -1f);
-			_burstData.Shader.Parameters["FieldTexture"].SetValue(ModContent.Request<Texture2D>("Textures/Events/BeaconBurstTexture", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+			_burstData.Shader.Parameters["FieldTexture"].SetValue(ModContent.Request<Texture2D>("SpiritMod/Textures/Events/BeaconBurstTexture", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			_burstData.Shader.Parameters["BurstRadius"].SetValue(_burstRadius.Ease(_currentTime));
 			_burstData.Shader.Parameters["BurstStrength"].SetValue(_burstStrength.Ease(_currentTime));
 
@@ -226,9 +226,10 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 			// draw beacon overlay and particles
 			if (layer == RenderLayers.TilesAndNPCs)
 			{
-				if (beginSB) spriteBatch.Begin();
+				if (beginSB) 
+					spriteBatch.Begin();
 
-				spriteBatch.Draw(ModContent.Request<Texture2D>("Textures/Events/BeaconOverlay", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, _center - new Vector2(16f, 10f) - Main.screenPosition, Color.White * _overlayOpacity.Ease(_currentTime));
+				spriteBatch.Draw(ModContent.Request<Texture2D>("SpiritMod/Textures/Events/BeaconOverlay", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value, _center - new Vector2(16f, 10f) - Main.screenPosition, Color.White * _overlayOpacity.Ease(_currentTime));
 
 				float overlayOpacity = 1.0f - _overlayOpacity.Ease(_currentTime);
 				if (_currentTime < BUILDUP_LENGTH + PAUSE_TIME * 0.5f)
@@ -240,17 +241,20 @@ namespace SpiritMod.Mechanics.EventSystem.Events
 					}
 				}
 
-				if (beginSB) spriteBatch.End();
+				if (beginSB) 
+					spriteBatch.End();
 			}
 
 			// draw screen flash
 			if (layer == RenderLayers.All)
 			{
-				if (beginSB) spriteBatch.Begin();
+				if (beginSB) 
+					spriteBatch.Begin();
 
 				spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), null, Color.White * _flashOpacity.Ease(_currentTime));
 
-				if (beginSB) spriteBatch.End();
+				if (beginSB) 
+					spriteBatch.End();
 			}
 		}
 

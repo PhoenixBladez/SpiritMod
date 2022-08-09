@@ -139,7 +139,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 						DustHelper.DrawDustImage(new Vector2(NPC.Center.X, NPC.Center.Y - 40), ModContent.DustType<WinterbornDust>(), 0.25f, "SpiritMod/Effects/Snowflakes/Flake" + flakenum, 1.33f);
 						for (int i = 0; i < amountOfProjectiles; ++i)
 						{
-							if (Main.rand.Next(2) == 0)
+							if (Main.rand.NextBool(2))
 							{
 								int somedamage = expertMode ? 15 : 30;
 								int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.player[NPC.target].Center.X, Main.player[NPC.target].Center.Y - 300, 0, 0, ModContent.ProjectileType<IceCloudHostile>(), somedamage, 1, Main.myPlayer, 0, 0);
@@ -149,10 +149,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 							}
 							else
 							{
-								Vector2 direction = Main.player[NPC.target].Center - (NPC.Center - new Vector2(0, 30));
-								direction.Normalize();
-								direction.X *= 4.9f;
-								direction.Y *= 4.9f;
+								Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - (NPC.Center - new Vector2(0, 30))) * 4.9f;
 								int somedamage = expertMode ? 17 : 34;
 								int p = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y - 30, direction.X, direction.Y, ProjectileID.IceBolt, somedamage, 1, Main.myPlayer, 0, 0);
 								Main.projectile[p].hostile = true;
@@ -164,7 +161,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 				}
 			}
 
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 				return false;
 			Dust dust = Main.dust[Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y + 2f), NPC.width, NPC.height, DustID.Flare_Blue, NPC.velocity.X * 0.2f, NPC.velocity.Y * 0.2f, 100, new Color(), 0.9f)];
 			dust.noGravity = true;
@@ -173,17 +170,15 @@ namespace SpiritMod.NPCs.WinterbornHerald
 
 			return false;
 		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
-							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
-		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-		{
-			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/WinterbornHerald/WinterbornMagic_Glow").Value, screenPos);
-		}
+
+		public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/WinterbornHerald/WinterbornMagic_Glow").Value, screenPos);
 
 		public void Teleport()
 		{
@@ -269,7 +264,7 @@ namespace SpiritMod.NPCs.WinterbornHerald
 				for (int num621 = 0; num621 < 20; num621++)
 				{
 					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Flare_Blue, 0f, 0f, 100, default, .8f);
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 						Main.dust[num622].scale = 0.35f;
 				}
 				for (int num623 = 0; num623 < 40; num623++)

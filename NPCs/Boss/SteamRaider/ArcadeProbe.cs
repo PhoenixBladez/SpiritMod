@@ -51,7 +51,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			Player player = Main.player[NPC.target];
 			if (lifeSpan % 250 == 0) {
 				distAbove = 375;
-				if (Main.rand.Next(2) == 0) {
+				if (Main.rand.NextBool(2)) {
 					NPC.position.X = player.Center.X - Main.rand.Next(300, 500);
 					NPC.position.Y = player.Center.Y - distAbove;
 					NPC.velocity.X = 3f;

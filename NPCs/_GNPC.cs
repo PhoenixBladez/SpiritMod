@@ -1192,10 +1192,10 @@ namespace SpiritMod.NPCs
 		}
 		public override void DrawEffects(NPC npc, ref Color drawColor)
 		{
-			if (sFracture && Main.rand.Next(2) == 0)
+			if (sFracture && Main.rand.NextBool(2))
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Firework_Yellow, (Main.rand.Next(8) - 4), (Main.rand.Next(8) - 4), 133);
 
-			if (felBrand && Main.rand.Next(2) == 0)
+			if (felBrand && Main.rand.NextBool(2))
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.CursedTorch, (Main.rand.Next(8) - 4), (Main.rand.Next(8) - 4), 75);
 
 			if (vineTrap)

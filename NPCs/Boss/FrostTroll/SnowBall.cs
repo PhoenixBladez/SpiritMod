@@ -39,14 +39,14 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 			Projectile.rotation += 0.3f;
 
 			for (int i = 1; i <= 3; i++) {
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 					Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Snow);
 			}
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 				target.AddBuff(BuffID.Frostburn, 180, true);
 		}
 	}

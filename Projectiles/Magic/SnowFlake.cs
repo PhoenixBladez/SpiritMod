@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Magic
 			Projectile.rotation += 0.3f;
 
 			for (int i = 1; i <= 3; i++) {
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 					Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.BlueCrystalShard);
 			}
 		}

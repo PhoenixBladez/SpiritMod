@@ -36,7 +36,7 @@ namespace SpiritMod.Projectiles.Magic
 				for (int num621 = 0; num621 < 40; num621++) {
 					int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Shadowflame, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0) {
+					if (Main.rand.NextBool(2)) {
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 					}
@@ -46,7 +46,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 				target.AddBuff(BuffID.ShadowFlame, 180);
 		}
 
@@ -132,7 +132,7 @@ namespace SpiritMod.Projectiles.Magic
 				}
 			}
 
-			if (Main.rand.Next(4) == 0) {
+			if (Main.rand.NextBool(4)) {
 				for (int k = 0; k < 1; k++) {
 					Vector2 value = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, 0.19634954631328583), (double)Utils.ToRotation(Projectile.velocity), default);
 					int num9 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Shadowflame, 0f, 0f, 100, default, 1f);
@@ -142,26 +142,26 @@ namespace SpiritMod.Projectiles.Magic
 				}
 			}
 
-			if (Main.rand.Next(32) == 0) {
+			if (Main.rand.NextBool(32)) {
 				for (int l = 0; l < 1; l++) {
 					Vector2 value2 = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, 0.39269909262657166), (double)Utils.ToRotation(Projectile.velocity), default);
 					int num10 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Shadowflame, 0f, 0f, 155, default, 0.8f);
 					Main.dust[num10].velocity *= 0.3f;
 					Main.dust[num10].position = Projectile.Center + value2 * (float)Projectile.width / 2f;
-					if (Main.rand.Next(2) == 0) {
+					if (Main.rand.NextBool(2)) {
 						Main.dust[num10].fadeIn = 1.4f;
 					}
 				}
 			}
 
-			if (Main.rand.Next(2) == 0) {
+			if (Main.rand.NextBool(2)) {
 				for (int m = 0; m < 2; m++) {
 					Vector2 value3 = -Utils.RotatedBy(Utils.RotatedByRandom(Vector2.UnitX, 0.78539818525314331), (double)Utils.ToRotation(Projectile.velocity), default);
 					int num11 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Shadowflame, 0f, 0f, 0, default, 1.2f);
 					Main.dust[num11].velocity *= 0.3f;
 					Main.dust[num11].noGravity = true;
 					Main.dust[num11].position = Projectile.Center + value3 * (float)Projectile.width / 2f;
-					if (Main.rand.Next(2) == 0) {
+					if (Main.rand.NextBool(2)) {
 						Main.dust[num11].fadeIn = 1.4f;
 					}
 				}

@@ -15,6 +15,9 @@ namespace SpiritMod.NPCs.Tides
 		{
 			DisplayName.SetDefault("Kakamora");
 			Main.npcFrameCount[NPC.type] = 4;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Velocity = 1f };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -94,7 +97,7 @@ namespace SpiritMod.NPCs.Tides
 
 		public override void FindFrame(int frameHeight)
 		{
-			if (NPC.collideY || NPC.wet)
+			if (NPC.collideY || NPC.wet || NPC.IsABestiaryIconDummy)
 			{
 				NPC.frameCounter += 0.2f;
 				NPC.frameCounter %= Main.npcFrameCount[NPC.type];

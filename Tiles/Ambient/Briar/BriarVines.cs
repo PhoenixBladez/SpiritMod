@@ -106,7 +106,6 @@ namespace SpiritMod.Tiles.Ambient.Briar
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
-			return;
 			Tile tile = Framing.GetTileSafely(i, j);
 
 			Color colour = new Color (246, 194, 255) * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));

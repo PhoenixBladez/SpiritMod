@@ -9,6 +9,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Vulture_Matriarch
 {
@@ -46,6 +47,14 @@ namespace SpiritMod.NPCs.Vulture_Matriarch
 			NPC.HitSound = SoundID.NPCHit28;
 			NPC.DeathSound = SoundID.NPCDeath31;
 			NPC.friendly = false;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+				new FlavorTextBestiaryInfoElement("The powerful elder of the vulture tribe, the Matriarch has a hold of ancient magics and abilities in order to destroy its prey."),
+			});
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

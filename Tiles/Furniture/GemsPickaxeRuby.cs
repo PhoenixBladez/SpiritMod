@@ -47,7 +47,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			if (Main.rand.Next(2) == 0) {
+			if (Main.rand.NextBool(2)) {
 				Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 32, ModContent.ItemType<GemPickaxe>());
 			}
 			for (int k = 0; k < 3; k++) {

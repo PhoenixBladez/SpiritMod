@@ -254,7 +254,7 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 
 				if (grow)
 				{
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						Dust dust = Dust.NewDustDirect(Projectile.Center - new Vector2(Projectile.width / 4, Projectile.height / 4), Projectile.width / 2, Projectile.height / 2, DustID.Torch, ((float)radians + 3.14f).ToRotationVector2().X * growCounter / 6f, ((float)radians + 3.14f).ToRotationVector2().Y * growCounter / 6f);
 						dust.scale = 1.5f;

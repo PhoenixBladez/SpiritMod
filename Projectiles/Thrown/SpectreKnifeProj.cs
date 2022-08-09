@@ -42,7 +42,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override void AI()
 		{
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 				Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Flare_Blue, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 		}
 

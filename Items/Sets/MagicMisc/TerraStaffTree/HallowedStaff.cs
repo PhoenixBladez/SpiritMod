@@ -44,7 +44,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 
 				for (int i = 0; i < 1; ++i) {
 					int p = Projectile.NewProjectile(source, mouse.X + Main.rand.Next(-80, 80), mouse.Y - 50 + Main.rand.Next(-10, 10), 0, Main.rand.Next(3, 6), type, damage, knockback, player.whoAmI);
-					if (Main.rand.Next(2) == 0) {
+					if (Main.rand.NextBool(2)) {
 						int p1 = Projectile.NewProjectile(source, mouse.X + Main.rand.Next(-80, 80), mouse.Y - 50 + Main.rand.Next(-10, 10), 0, Main.rand.Next(3, 6), type, damage, knockback, player.whoAmI);
 					}
 				}

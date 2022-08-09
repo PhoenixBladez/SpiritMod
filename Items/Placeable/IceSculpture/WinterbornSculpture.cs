@@ -14,23 +14,18 @@ namespace SpiritMod.Items.Placeable.IceSculpture
 			DisplayName.SetDefault("Winterborn Sculpture");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = 30;
 			Item.height = 40;
 			Item.value = Item.sellPrice(0, 0, 15, 0);
-
 			Item.maxStack = 99;
-
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.useTime = 10;
 			Item.useAnimation = 15;
-
 			Item.useTurn = true;
 			Item.autoReuse = true;
 			Item.consumable = true;
-
 			Item.createTile = ModContent.TileType<WinterbornDecor>();
 		}
 

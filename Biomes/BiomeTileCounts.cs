@@ -1,4 +1,5 @@
-﻿using SpiritMod.Tiles.Block;
+﻿using SpiritMod.Items.Sets.StarplateDrops;
+using SpiritMod.Tiles.Block;
 using SpiritMod.Tiles.Furniture;
 using System;
 using Terraria.ModLoader;
@@ -19,7 +20,7 @@ namespace SpiritMod.Biomes
 		{
 			briarCount = tileCounts[ModContent.TileType<BriarGrass>()];
 			spiritCount = tileCounts[ModContent.TileType<Spiritsand>()] + tileCounts[ModContent.TileType<SpiritStone>()] + tileCounts[ModContent.TileType<SpiritDirt>()] + tileCounts[ModContent.TileType<SpiritGrass>()] + tileCounts[ModContent.TileType<SpiritIce>()];
-			asteroidCount = tileCounts[ModContent.TileType<Asteroid>()];
+			asteroidCount = tileCounts[ModContent.TileType<Asteroid>()] + tileCounts[ModContent.TileType<BigAsteroid>()] + tileCounts[ModContent.TileType<SpaceJunkTile>()] + tileCounts[ModContent.TileType<Glowstone>()];
 			inSynthwave = tileCounts[ModContent.TileType<SynthwaveHeadActive>()] > 0;
 		}
 	}

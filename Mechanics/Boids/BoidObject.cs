@@ -215,7 +215,7 @@ namespace SpiritMod.Mechanics.Boids
 			Acceleration += AvoidTiles(100) * 5f;
 			ApplyForces();
 
-			if (Main.rand.Next(7) == 0)
+			if (Main.rand.NextBool(7))
 				Frame++;
 		}
 	}

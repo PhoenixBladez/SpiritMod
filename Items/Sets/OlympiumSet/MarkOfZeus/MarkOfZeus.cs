@@ -98,7 +98,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 			if (player.channel && !firing)
 			{
 				Projectile.position = player.position + holdOffset;
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 					Dust.NewDustDirect(Projectile.Center + ((Projectile.rotation + 1.57f).ToRotationVector2() * Main.rand.Next(-30, 30)), 2, 2, DustID.Firework_Yellow).noGravity = true;
 
 				if (Main.rand.NextBool(8))

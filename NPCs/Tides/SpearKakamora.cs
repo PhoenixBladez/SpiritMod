@@ -6,6 +6,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Sets.TideDrops;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Tides
 {
@@ -15,6 +16,9 @@ namespace SpiritMod.NPCs.Tides
 		{
 			DisplayName.SetDefault("Kakamora Lobber");
 			Main.npcFrameCount[NPC.type] = 7;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Velocity = 1f };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -33,6 +37,14 @@ namespace SpiritMod.NPCs.Tides
 			NPC.DeathSound = SoundID.NPCDeath1;
 			Banner = NPC.type;
 			BannerItem = ModContent.ItemType<Items.Banners.KakamoraThrowerBanner>();
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+				new FlavorTextBestiaryInfoElement("These Kakamora specialize in throwing spears for long...ish...distance battles."),
+			});
 		}
 
 		int timer = 0;
@@ -168,9 +180,9 @@ namespace SpiritMod.NPCs.Tides
 
 		public override void FindFrame(int frameHeight)
 		{
-			if (!throwing)
+			if (!throwing || NPC.IsABestiaryIconDummy)
 			{
-				if (NPC.collideY)
+				if (NPC.collideY || NPC.IsABestiaryIconDummy)
 				{
 					if (charging)
 						NPC.frameCounter += 0.1f;

@@ -68,7 +68,7 @@ namespace SpiritMod.Tiles.Block
 						break;
 				}
 			}
-			if (!Framing.GetTileSafely(i - 1, j).HasTile && Main.rand.Next(4) == 0) {
+			if (!Framing.GetTileSafely(i - 1, j).HasTile && Main.rand.NextBool(4)) {
 				switch (Main.rand.Next(3)) {
 					case 0:
 						ReachGrassTile.PlaceObject(i - 1, j, Mod.Find<ModTile>("GlowShard1").Type);
@@ -88,7 +88,7 @@ namespace SpiritMod.Tiles.Block
 						break;
 				}
 			}
-			if (!Framing.GetTileSafely(i + 1, j).HasTile && Main.rand.Next(4) == 0) {
+			if (!Framing.GetTileSafely(i + 1, j).HasTile && Main.rand.NextBool(4)) {
 				switch (Main.rand.Next(3)) {
 					case 0:
 						ReachGrassTile.PlaceObject(i + 1, j, Mod.Find<ModTile>("GlowShard1").Type);

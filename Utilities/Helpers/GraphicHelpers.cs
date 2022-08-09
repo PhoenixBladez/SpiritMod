@@ -10,7 +10,7 @@ namespace SpiritMod
 {
     partial class Helpers
     {
-        public static Texture2D RadialMask => ModContent.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+        public static Texture2D RadialMask => ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public static void DrawAdditive(Texture2D tex, Vector2 position, Color colour, float scale)
         {

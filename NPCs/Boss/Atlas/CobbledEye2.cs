@@ -52,7 +52,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 			timer++;
 			if (timer > 60)
 			{
-				if (Main.rand.Next(7) == 0)
+				if (Main.rand.NextBool(7))
 				{
 					for (int num621 = 0; num621 < 5; num621++)
 						Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Electric, 0f, 0f, 100, default, 2f);
@@ -93,7 +93,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 				{
 					int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

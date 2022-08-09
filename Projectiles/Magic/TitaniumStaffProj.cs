@@ -236,7 +236,7 @@ namespace SpiritMod.Projectiles.Magic
 			if (Main.rand.Next(3) == 0)
 			{
 				int randX = target.position.X > Main.player[Projectile.owner].position.X ? 1 : -1;
-				int randY = Main.rand.Next(2) == 0 ? -1 : 1;
+				int randY = Main.rand.NextBool(2) ? -1 : 1;
 
 				Vector2 randPos = target.Center + new Vector2(randX * Main.rand.Next(100, 151), randY * 400);
 				Vector2 dir = target.Center - randPos;

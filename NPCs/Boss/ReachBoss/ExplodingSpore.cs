@@ -86,7 +86,7 @@ namespace SpiritMod.NPCs.Boss.ReachBoss
 			Vector2 spinningpoint2 = spinningpoint1;
 			float dagada = (float)(Main.rand.Next(3, 6) * 2);
 			int num2 = 10;
-			float num3 = Main.rand.Next(2) == 0 ? 1f : -1f;
+			float num3 = Main.rand.NextBool(2) ? 1f : -1f;
 			bool flag = true;
 			for (int index1 = 0; (double)index1 < (double)num2 * (double)dagada; ++index1)
 			{

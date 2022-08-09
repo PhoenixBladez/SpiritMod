@@ -161,7 +161,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch.Tome_of_the_Great_Scavenger
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(4) == 0 && !target.SpawnedFromStatue) 
+			if (Main.rand.NextBool(4) && !target.SpawnedFromStatue) 
 				target.AddBuff(BuffID.Midas, 180);
 		}
 	}

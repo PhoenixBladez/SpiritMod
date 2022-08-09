@@ -62,7 +62,7 @@ namespace SpiritMod.NPCs.Boss.Scarabeus
 				Projectile.hide = false;
 				Projectile.alpha = (activetime - Projectile.timeLeft) * (255 / activetime);
 				Projectile.rotation += 0.1f + Projectile.direction;
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 					Gore.NewGorePerfect(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.Pi / 14) / 2, Mod.Find<ModGore>("SandBall").Type, Main.rand.NextFloat(0.6f, 0.8f));
 
 				for (int i = 0; i < 3; i++) {

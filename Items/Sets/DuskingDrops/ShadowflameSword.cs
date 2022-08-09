@@ -72,7 +72,7 @@ namespace SpiritMod.Items.Sets.DuskingDrops
 					Main.dust[newDust].velocity *= 3f;
 				}
 			}
-			if (Main.rand.Next(4) == 0) {
+			if (Main.rand.NextBool(4)) {
 				target.AddBuff(BuffID.ShadowFlame, 300, true);
 			}
 		}

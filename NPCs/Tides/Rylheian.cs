@@ -69,7 +69,7 @@ namespace SpiritMod.NPCs.Tides
 			NPC.TargetClosest();
 			Player player = Main.player[NPC.target];
 			NPC.ai[0]++;
-			int dust = Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ShadowbeamStaff);
+			Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.ShadowbeamStaff);
 			NPC.spriteDirection = NPC.direction;
 			if (NPC.ai[0] % 400 == 100 && Main.netMode != NetmodeID.MultiplayerClient) {
 				int distance = 500;
@@ -220,8 +220,8 @@ namespace SpiritMod.NPCs.Tides
         public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.life <= 0) {
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Tentacle").Type, 1f);
-				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("TentacleHead").Type, 1f);
+				//Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Tentacle").Type, 1f);
+				//Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("TentacleHead").Type, 1f);
 			}
 		}
 	}

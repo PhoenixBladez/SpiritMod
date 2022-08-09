@@ -40,12 +40,11 @@ using SpiritMod.Items.Sets.SepulchreLoot.AccursedBlade;
 using SpiritMod.Items.Sets.SepulchreLoot.OldCross;
 using SpiritMod.Mechanics.BackgroundSystem;
 using SpiritMod.Items.Sets.SummonsMisc.Toucane;
-using static Terraria.ModLoader.ModContent;
-using static SpiritMod.Utilities.ChestPoolUtils;
 using SpiritMod.Effects.SurfaceWaterModifications;
 using SpiritMod.Mechanics.QuestSystem;
 using Terraria.WorldBuilding;
 using Terraria.IO;
+using static SpiritMod.Utilities.ChestPoolUtils;
 
 namespace SpiritMod
 {
@@ -76,12 +75,6 @@ namespace SpiritMod
 		public static bool jellySky = false;
 		public static bool rareStarfallEvent = false;
 
-		public static int SpiritTiles = 0;
-		public static int AsteroidTiles = 0;
-		public static int MarbleTiles = 0;
-		public static int GraniteTiles = 0;
-		public static int ReachTiles = 0;
-		public static int HiveTiles = 0;
 		public static int CorruptHazards = 0;
 		public static int CrimHazards = 0;
 
@@ -125,16 +118,9 @@ namespace SpiritMod
 
 		public override void TileCountsAvailable(ReadOnlySpan<int> tileCounts)
 		{
-			SpiritTiles = tileCounts[TileType<SpiritDirt>()] + tileCounts[TileType<SpiritStone>()]
-			+ tileCounts[TileType<Spiritsand>()] + tileCounts[TileType<SpiritIce>()] + tileCounts[TileType<SpiritGrass>()];
 			//now you don't gotta have 6 separate things for tilecount
-			ReachTiles = tileCounts[TileType<BriarGrass>()];
-			AsteroidTiles = tileCounts[TileType<Asteroid>()] + tileCounts[TileType<BigAsteroid>()] + tileCounts[TileType<SpaceJunkTile>()] + tileCounts[TileType<Glowstone>()];
-			CorruptHazards = tileCounts[TileType<Corpsebloom>()] + tileCounts[TileType<Corpsebloom1>()] + tileCounts[TileType<Corpsebloom2>()];
-			CrimHazards = tileCounts[TileType<CrimsonPustuleTile>()];
-			MarbleTiles = tileCounts[TileID.Marble];
-			GraniteTiles = tileCounts[TileID.Granite];
-			HiveTiles = tileCounts[TileID.Hive];
+			CorruptHazards = tileCounts[ModContent.TileType<Corpsebloom>()] + tileCounts[ModContent.TileType<Corpsebloom1>()] + tileCounts[ModContent.TileType<Corpsebloom2>()];
+			CrimHazards = tileCounts[ModContent.TileType<CrimsonPustuleTile>()];
 		}
 
 		public override void SaveWorldData(TagCompound tag)
@@ -251,7 +237,7 @@ namespace SpiritMod
 			superSunFlowerPositions = new HashSet<Point16>(tag.GetList<Point16>("superSunFlowerPositions"));
 			// verify that there are super sunflowers at the loaded positions
 			foreach (Point16 point in superSunFlowerPositions.ToList())
-				if (Framing.GetTileSafely(point).TileType != TileType<SuperSunFlower>())
+				if (Framing.GetTileSafely(point).TileType != ModContent.TileType<SuperSunFlower>())
 					superSunFlowerPositions.Remove(point);
 
 			var bgItems = tag.GetList<TagCompound>("backgroundItems");
@@ -563,10 +549,10 @@ namespace SpiritMod
 								tile.HasTile = true;
 								break;
 							case 2:
-								WorldGen.PlaceObject(k, l, TileType<GoblinStatueTile>(), mute: true);
+								WorldGen.PlaceObject(k, l, ModContent.TileType<GoblinStatueTile>(), mute: true);
 								break;
 							case 4:
-								WorldGen.PlaceObject(k, l - 1, TileType<ShadowflameStone>(), mute: true);
+								WorldGen.PlaceObject(k, l - 1, ModContent.TileType<ShadowflameStone>(), mute: true);
 								break;
 							case 5:
 								WorldGen.PlaceObject(k, l, TileID.Books, mute: true, style: Main.rand.Next(5)); // Book
@@ -575,13 +561,13 @@ namespace SpiritMod
 								WorldGen.PlaceObject(k, l, TileID.FishingCrate, mute: true); // Crate
 								break;
 							case 7:
-								WorldGen.PlaceChest(k, l, (ushort)TileType<GoblinChest>(), false, 0); // Gold Chest
+								WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<GoblinChest>(), false, 0); // Gold Chest
 								break;
 							case 8:
 								WorldGen.PlaceObject(k, l, TileID.Bottles, mute: true); // Crate
 								break;
 							case 9:
-								WorldGen.PlaceObject(k, l - 1, TileType<GoblinStandardTile>(), mute: true); // Crate
+								WorldGen.PlaceObject(k, l - 1, ModContent.TileType<GoblinStandardTile>(), mute: true); // Crate
 								break;
 						}
 					}
@@ -863,7 +849,7 @@ namespace SpiritMod
 					}
 				}
 				// place the Rogue
-				int num = NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (towerX + 12) * 16, (towerY - 24) * 16, NPCType<BoundGambler>(), 0, 0f, 0f, 0f, 0f, 255);
+				int num = NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (towerX + 12) * 16, (towerY - 24) * 16, ModContent.NPCType<BoundGambler>(), 0, 0f, 0f, 0f, 0f, 255);
 				Main.npc[num].homeTileX = -1;
 				Main.npc[num].homeTileY = -1;
 				Main.npc[num].direction = 1;
@@ -1116,7 +1102,7 @@ namespace SpiritMod
 								break;
 							case 9:
 								// TODO: Add this chest tile so this is valid
-								//WorldGen.PlaceChest(k, l, (ushort)TileType<BanditChest>(), false, 0); // Gold Chest
+								//WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<BanditChest>(), false, 0); // Gold Chest
 								break;
 							case 10:
 								WorldGen.PlaceObject(k, l, 42, true, 6);
@@ -1303,7 +1289,7 @@ namespace SpiritMod
 			int TrapsIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Traps"));
 			tasks.Insert(TrapsIndex + 2, new PassLegacy("Asteroids", SpiritGenPasses.AsteroidsPass));
 
-			if (GetInstance<SpiritClientConfig>().OceanShape != OceanGeneration.OceanShape.Default)
+			if (ModContent.GetInstance<SpiritClientConfig>().OceanShape != OceanGeneration.OceanShape.Default)
 			{
 				int beachIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Beaches")); //Replace beach gen
 				if (beachIndex != -1)
@@ -1328,7 +1314,7 @@ namespace SpiritMod
 			int[] potionscrim = new int[] { ItemID.RagePotion, ItemID.HeartreachPotion };
 			int[] other1 = new int[] { ItemID.HerbBag, ItemID.Grenade };
 			int[] other2 = new int[] { ItemID.Bottle, ItemID.Torch };
-			int[] moddedMaterials = new int[] { ItemType<Items.Sets.BismiteSet.BismiteCrystal>(), ItemType<OldLeather>() };
+			int[] moddedMaterials = new int[] { ModContent.ItemType<Items.Sets.BismiteSet.BismiteCrystal>(), ModContent.ItemType<OldLeather>() };
 
 			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY) * 15E-05); k++)
 			{
@@ -1336,7 +1322,7 @@ namespace SpiritMod
 				int y = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
 				Tile t = Framing.GetTileSafely(x, y);
 				if (t.HasTile && t.TileType == TileID.IceBlock || t.TileType == TileID.CorruptIce || t.TileType == TileID.HallowedIce || t.TileType == TileID.FleshIce)
-					WorldGen.OreRunner(x, y, WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)TileType<Items.Sets.CryoliteSet.CryoliteOreTile>());
+					WorldGen.OreRunner(x, y, WorldGen.genRand.Next(5, 6), WorldGen.genRand.Next(5, 6), (ushort)ModContent.TileType<Items.Sets.CryoliteSet.CryoliteOreTile>());
 			}
 			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 5.5f) * 15E-05); k++)
 			{
@@ -1344,54 +1330,54 @@ namespace SpiritMod
 				int y = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 300);
 				Tile t = Framing.GetTileSafely(x, y);
 				if (t.HasTile && t.TileType == TileID.IceBlock || t.TileType == TileID.CorruptIce || t.TileType == TileID.HallowedIce || t.TileType == TileID.FleshIce)
-					WorldGen.OreRunner(x, y, WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)TileType<CreepingIceTile>());
+					WorldGen.OreRunner(x, y, WorldGen.genRand.Next(6, 7), WorldGen.genRand.Next(6, 7), (ushort)ModContent.TileType<CreepingIceTile>());
 			}
 
-			AddToVanillaChest(new ChestInfo(ItemType<ChaosPearl>(), Main.rand.Next(20, 30)), skyChests, 4);
+			AddToVanillaChest(new ChestInfo(ModContent.ItemType<ChaosPearl>(), Main.rand.Next(20, 30)), skyChests, 4);
 			AddToVanillaChest(new ChestInfo(new int[] {
-				ItemType<CimmerianScepter>() },
+				ModContent.ItemType<CimmerianScepter>() },
 				1, 0.33f), lockedgoldChests, 1);
 			AddToVanillaChest(new ChestInfo(new int[] {
-				ItemType<Items.Sets.SummonsMisc.FairyWhistle.FairyWhistleItem>(), ItemType<TwigStaff>() },
+				ModContent.ItemType<Items.Sets.SummonsMisc.FairyWhistle.FairyWhistleItem>(), ModContent.ItemType<TwigStaff>() },
 				1, 0.2f), woodChests, 1);
-			AddToVanillaChest(new ChestInfo(new int[] { ItemType<MetalBand>(), ItemType<ShortFuse>(), ItemType<LongFuse>() }, 1, 0.1f), goldChests, 1);
-			AddToVanillaChest(new ChestInfo(ItemType<HollowNail>()), spiderChests, 1);
+			AddToVanillaChest(new ChestInfo(new int[] { ModContent.ItemType<MetalBand>(), ModContent.ItemType<ShortFuse>(), ModContent.ItemType<LongFuse>() }, 1, 0.1f), goldChests, 1);
+			AddToVanillaChest(new ChestInfo(ModContent.ItemType<HollowNail>()), spiderChests, 1);
 			AddToVanillaChest(new ChestInfo(new int[] {
-				ItemType<Book_AccessoryGuide>(),
-				ItemType<Book_Alchemist1>(),
-				ItemType<Book_ArmorGuide>(),
-				ItemType<Book_FoodGuide>(),
-				ItemType<Book_WeaponGuide>(),
-				ItemType<BismitePage>() },
+				ModContent.ItemType<Book_AccessoryGuide>(),
+				ModContent.ItemType<Book_Alchemist1>(),
+				ModContent.ItemType<Book_ArmorGuide>(),
+				ModContent.ItemType<Book_FoodGuide>(),
+				ModContent.ItemType<Book_WeaponGuide>(),
+				ModContent.ItemType<BismitePage>() },
 				1, 0.5f), woodChests, 1);
 			AddToVanillaChest(new ChestInfo(new int[] {
-				ItemType<Book_Lumoth>(),
-				ItemType<GranitePage>(),
-				ItemType<MarblePage>(),
-				ItemType<EnchantedLeafPage>(),
-				ItemType<HeartScalePage>(),
-				ItemType<FrigidFragmentPage>(),
-				ItemType<BismitePage>(),
-				ItemType<GlowrootPage>(),
-				ItemType<Book_Soulbloom>(),
-				ItemType<Book_Blossmoon>(),
-				ItemType<FrigidFragmentPage>(),
-				ItemType<Book_Amea>(),
-				ItemType<Book_Slime>(),
-				ItemType<Book_Lava>(),
-				ItemType<Book_MJW>(),
-				ItemType<Book_Yeremy>(),
-				ItemType<Book_Mushroom>(),
-				ItemType<Book_Jellyfish>(),
-				ItemType<Book_Gunslinger>()},
+				ModContent.ItemType<Book_Lumoth>(),
+				ModContent.ItemType<GranitePage>(),
+				ModContent.ItemType<MarblePage>(),
+				ModContent.ItemType<EnchantedLeafPage>(),
+				ModContent.ItemType<HeartScalePage>(),
+				ModContent.ItemType<FrigidFragmentPage>(),
+				ModContent.ItemType<BismitePage>(),
+				ModContent.ItemType<GlowrootPage>(),
+				ModContent.ItemType<Book_Soulbloom>(),
+				ModContent.ItemType<Book_Blossmoon>(),
+				ModContent.ItemType<FrigidFragmentPage>(),
+				ModContent.ItemType<Book_Amea>(),
+				ModContent.ItemType<Book_Slime>(),
+				ModContent.ItemType<Book_Lava>(),
+				ModContent.ItemType<Book_MJW>(),
+				ModContent.ItemType<Book_Yeremy>(),
+				ModContent.ItemType<Book_Mushroom>(),
+				ModContent.ItemType<Book_Jellyfish>(),
+				ModContent.ItemType<Book_Gunslinger>()},
 				1, 0.33f), goldChests, 2);
-			AddToVanillaChest(new ChestInfo(ItemType<Book_LuminousArt>(), 1, 0.33f), waterChests, 2);
-			AddToVanillaChest(new ChestInfo(new int[] { ItemType<UnfellerOfEvergreens>(), ItemType<ToucaneItem>(), ItemType<CreepingVine>() }, 1, 0.4f), ivyChests, 1);
+			AddToVanillaChest(new ChestInfo(ModContent.ItemType<Book_LuminousArt>(), 1, 0.33f), waterChests, 2);
+			AddToVanillaChest(new ChestInfo(new int[] { ModContent.ItemType<UnfellerOfEvergreens>(), ModContent.ItemType<ToucaneItem>(), ModContent.ItemType<CreepingVine>() }, 1, 0.4f), ivyChests, 1);
 
 			List<ChestInfo> PagodaPool = new List<ChestInfo> {
-				new ChestInfo(ItemType<JadeStaff>()),
-				new ChestInfo(new int[]{ ItemType<DynastyFan>(), ItemType<Items.Weapon.Swung.AnimeSword.AnimeSword>() }),
-				new ChestInfo(ItemType<FestivalLanternItem>()),
+				new ChestInfo(ModContent.ItemType<JadeStaff>()),
+				new ChestInfo(new int[]{ ModContent.ItemType<DynastyFan>(), ModContent.ItemType<Items.Weapon.Swung.AnimeSword.AnimeSword>() }),
+				new ChestInfo(ModContent.ItemType<FestivalLanternItem>()),
 				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 3)),
@@ -1404,10 +1390,10 @@ namespace SpiritMod
 			AddToVanillaChest(PagodaPool, dynastyChests);
 
 			List<ChestInfo> AsteroidPool = new List<ChestInfo> {
-				new ChestInfo(new int[]{ ItemType<HighGravityBoots>(), ItemType<MagnetHook>() }), //ItemType<ZiplineGun>()
-				new ChestInfo(new int[]{ItemType<JumpPadItem>(), ItemID.SuspiciousLookingEye }, 1, 0.5f),
-				new ChestInfo(ItemType<TargetCan>(), WorldGen.genRand.Next(10, 15), 0.5f),
-				new ChestInfo(ItemType<SpaceJunkItem>(), WorldGen.genRand.Next(30, 55), 0.5f),
+				new ChestInfo(new int[]{ ModContent.ItemType<HighGravityBoots>(), ModContent.ItemType<MagnetHook>() }), //ItemType<ZiplineGun>()
+				new ChestInfo(new int[]{ ModContent.ItemType<JumpPadItem>(), ItemID.SuspiciousLookingEye }, 1, 0.5f),
+				new ChestInfo(ModContent.ItemType<TargetCan>(), WorldGen.genRand.Next(10, 15), 0.5f),
+				new ChestInfo(ModContent.ItemType<SpaceJunkItem>(), WorldGen.genRand.Next(30, 55), 0.5f),
 				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),
@@ -1417,13 +1403,13 @@ namespace SpiritMod
 				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
 				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(12, 30))
 			};
-			AddToModdedChestWithOverlapCheck(AsteroidPool, TileType<AsteroidChest>());
+			AddToModdedChestWithOverlapCheck(AsteroidPool, ModContent.TileType<AsteroidChest>());
 
 			List<ChestInfo> sepulchreLootPool = new List<ChestInfo>
 			{
-				new ChestInfo(new int[] { ItemType<AccursedBlade>(), ItemType<OldCross>() }),
+				new ChestInfo(new int[] { ModContent.ItemType<AccursedBlade>(), ModContent.ItemType<OldCross>() }),
 				new ChestInfo(ItemID.SuspiciousLookingEye, 1, 0.5f),
-				new ChestInfo(ItemType<SepulchreArrow>(), WorldGen.genRand.Next(20, 50), 0.5f),
+				new ChestInfo(ModContent.ItemType<SepulchreArrow>(), WorldGen.genRand.Next(20, 50), 0.5f),
 				new ChestInfo(ItemID.Book, WorldGen.genRand.Next(1, 4)),
 				new ChestInfo(new int[]{ItemID.SilverBar, ItemID.GoldBar, ItemID.TungstenBar, ItemID.PlatinumBar }, WorldGen.genRand.Next(5, 12), 0.5f),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 4), 0.66f),
@@ -1433,10 +1419,10 @@ namespace SpiritMod
 				new ChestInfo(ItemID.GoldCoin, WorldGen.genRand.Next(1, 3)),
 				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(100)),
 			};
-			AddToModdedChest(sepulchreLootPool, TileType<SepulchreChestTile>());
+			AddToModdedChest(sepulchreLootPool, ModContent.TileType<SepulchreChestTile>());
 
 			List<ChestInfo> scarabChestPool = new List<ChestInfo> {
-				new ChestInfo(ItemType<CleftHorn>()),
+				new ChestInfo(ModContent.ItemType<CleftHorn>()),
 				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),
@@ -1446,10 +1432,10 @@ namespace SpiritMod
 				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
 				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(12, 30))
 			};
-			AddToModdedChest(scarabChestPool, TileType<GoldScarabChest>());
+			AddToModdedChest(scarabChestPool, ModContent.TileType<GoldScarabChest>());
 
 			List<ChestInfo> goblinPool = new List<ChestInfo> {
-				new ChestInfo(new int[] { ItemType<Glyph>(), ItemID.MagicMirror, ItemID.WandofSparking }),
+				new ChestInfo(new int[] { ModContent.ItemType<Glyph>(), ItemID.MagicMirror, ItemID.WandofSparking }),
 				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),
@@ -1459,11 +1445,11 @@ namespace SpiritMod
 				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
 				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(12, 30))
 			};
-			AddToModdedChest(goblinPool, TileType<GoblinChest>());
+			AddToModdedChest(goblinPool, ModContent.TileType<GoblinChest>());
 
 			List<ChestInfo> briarPool = new List<ChestInfo> {
-				new ChestInfo(new int[] { ItemType<ReachChestMagic>(), ItemType<ThornHook>(), ItemType<ReachBoomerang>(), ItemType<ReachBrooch>() }),
-				new ChestInfo(new int[]{ ItemType<Book_Briar>(), ItemType<Book_BriarArt>(), ItemType<GladeWreath>(), ItemType<LivingElderbarkWand>() }, 1, 0.25f),
+				new ChestInfo(new int[] { ModContent.ItemType<ReachChestMagic>(), ModContent.ItemType<ThornHook>(), ModContent.ItemType<ReachBoomerang>(), ModContent.ItemType<ReachBrooch>() }),
+				new ChestInfo(new int[]{ ModContent.ItemType<Book_Briar>(), ModContent.ItemType<Book_BriarArt>(), ModContent.ItemType<GladeWreath>(), ModContent.ItemType<LivingElderbarkWand>() }, 1, 0.25f),
 				new ChestInfo(commonItems1, WorldGen.genRand.Next(3, 10)),
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),
@@ -1473,7 +1459,7 @@ namespace SpiritMod
 				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
 				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(12, 30)),
 			};
-			AddToModdedChest(briarPool, TileType<ReachChest>());
+			AddToModdedChest(briarPool, ModContent.TileType<ReachChest>());
 		}
 
 		public override void PostUpdateWorld()
@@ -1518,24 +1504,24 @@ namespace SpiritMod
 
 			if (dayTimeSwitched)
 			{
-				if (Main.rand.Next(2) == 0 && !spaceJunkWeather)
+				if (Main.rand.NextBool(2) && !spaceJunkWeather)
 					stardustWeather = true;
 				else
 					stardustWeather = false;
 
-				if (Main.rand.Next(2) == 0 && !stardustWeather)
+				if (Main.rand.NextBool(2) && !stardustWeather)
 					spaceJunkWeather = true;
 				else
 					spaceJunkWeather = false;
 
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 					meteorShowerWeather = true;
 				else
 					meteorShowerWeather = false;
 
 				if (!Main.dayTime && Main.hardMode)
 				{
-					if (!Main.fastForwardTime && !Main.bloodMoon && WorldGen.spawnHardBoss == 0 && ((Main.rand.Next(20) == 1 && !downedBlueMoon) || (Main.rand.Next(40) == 1 && !downedBlueMoon)))
+					if (!Main.fastForwardTime && !Main.bloodMoon && WorldGen.spawnHardBoss == 0 && ((Main.rand.NextBool(20) && !downedBlueMoon) || (Main.rand.NextBool(40) && !downedBlueMoon)))
 					{
 						Main.NewText("A Mystic Moon is rising...", 61, 255, 142);
 						BlueMoon = true;
@@ -1553,7 +1539,7 @@ namespace SpiritMod
 				else
 					aurora = false;
 
-				if (!Main.dayTime && Main.rand.Next(32) == 0)
+				if (!Main.dayTime && Main.rand.NextBool(32))
 					rareStarfallEvent = true;
 				else
 					rareStarfallEvent = false;
@@ -1566,7 +1552,7 @@ namespace SpiritMod
 				else
 					luminousOcean = false;
 
-				if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 6) && !Main.bloodMoon && Main.rand.Next(2) == 0)
+				if (!Main.dayTime && (Main.moonPhase == 2 || Main.moonPhase == 6) && !Main.bloodMoon && Main.rand.NextBool(2))
 					calmNight = true;
 				else
 					calmNight = false;
@@ -1576,7 +1562,7 @@ namespace SpiritMod
 				else
 					ashRain = false;
 
-				if (!Main.dayTime && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || downedScarabeus || downedReachBoss || downedRaider || downedAncientFlier) && (!downedMoonWizard && Main.rand.Next(7) == 0 || downedMoonWizard && Main.rand.Next(36) == 0))
+				if (!Main.dayTime && (NPC.downedBoss1 || NPC.downedBoss2 || NPC.downedBoss3 || downedScarabeus || downedReachBoss || downedRaider || downedAncientFlier) && (!downedMoonWizard && Main.rand.NextBool(7) || downedMoonWizard && Main.rand.NextBool(36)))
 				{
 					Main.NewText("Strange jellyfish are raining from the skies!", 61, 255, 142);
 					jellySky = true;
@@ -1606,9 +1592,9 @@ namespace SpiritMod
 				{
 					spawnedPagodaEnemies = true;
 					for (int i = 0; i < Main.rand.Next(8, 10); i++)
-						NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, NPCType<NPCs.Yurei.PagodaGhostPassive>());
+						NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<NPCs.Yurei.PagodaGhostPassive>());
 					for (int i = 0; i < 3; i++)
-						NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, NPCType<NPCs.SamuraiGhost.SamuraiPassive>());
+						NPC.NewNPC(NPC.GetSource_NaturalSpawn(), (pagodaX + Main.rand.Next(0, 126)) * 16, (pagodaY + Main.rand.Next(-10, 50)) * 16, ModContent.NPCType<NPCs.SamuraiGhost.SamuraiPassive>());
 				}
 			}
 
@@ -1621,8 +1607,8 @@ namespace SpiritMod
 					int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					if (Main.tile[X, Y].TileType == TileID.Stone)
 					{
-						WorldGen.PlaceObject(X, Y, TileType<GreenShardBig>());
-						NetMessage.SendObjectPlacment(-1, X, Y, TileType<GreenShardBig>(), 0, 0, -1, -1);
+						WorldGen.PlaceObject(X, Y, ModContent.TileType<GreenShardBig>());
+						NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<GreenShardBig>(), 0, 0, -1, -1);
 					}
 				}
 				for (int C = 0; C < Main.maxTilesX * 9; C++)
@@ -1631,8 +1617,8 @@ namespace SpiritMod
 					int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 					if (Main.tile[X, Y].TileType == TileID.Stone)
 					{
-						WorldGen.PlaceObject(X, Y, TileType<PurpleShardBig>());
-						NetMessage.SendObjectPlacment(-1, X, Y, TileType<PurpleShardBig>(), 0, 0, -1, -1);
+						WorldGen.PlaceObject(X, Y, ModContent.TileType<PurpleShardBig>());
+						NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<PurpleShardBig>(), 0, 0, -1, -1);
 					}
 				}
 			}

@@ -53,7 +53,7 @@ namespace SpiritMod.Projectiles.Pet
 					int num3;
 					for (int num174 = num172 - num171; num174 <= num172 + num171; num174 = num3 + 1) {
 						for (int num175 = num173 - num171; num175 <= num173 + num171; num175 = num3 + 1) {
-							if (Main.rand.Next(4) == 0) {
+							if (Main.rand.NextBool(4)) {
 								Vector2 vector16 = new Vector2((float)(num172 - num174), (float)(num173 - num175));
 								if (vector16.Length() < (float)num171 && num174 > 0 && num174 < Main.maxTilesX - 1 && num175 > 0 && num175 < Main.maxTilesY - 1 && Main.tile[num174, num175] != null && Main.tile[num174, num175].HasTile) {
 									bool flag3 = false;

@@ -8,6 +8,7 @@ namespace SpiritMod.Buffs.Pet
 	public abstract class BasePetBuff<T> : ModBuff where T : ModProjectile
 	{
 		protected abstract (string, string) BuffInfo { get; }
+		protected virtual bool IsLightPet => false;
 
 		public sealed override void SetStaticDefaults()
 		{
@@ -16,6 +17,7 @@ namespace SpiritMod.Buffs.Pet
 
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.vanityPet[Type] = true;
+			Main.lightPet[Type] = IsLightPet; 
 		}
 
 		public sealed override void Update(Player player, ref int buffIndex)

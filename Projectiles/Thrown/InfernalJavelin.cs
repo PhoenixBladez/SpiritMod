@@ -26,7 +26,7 @@ namespace SpiritMod.Projectiles.Thrown
 
 		public override bool PreAI()
 		{
-			if (Main.rand.Next(2) == 0) {
+			if (Main.rand.NextBool(2)) {
 				int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Torch, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 				Main.dust[dust].scale *= 1.5f;
 				Main.dust[dust].noGravity = true;

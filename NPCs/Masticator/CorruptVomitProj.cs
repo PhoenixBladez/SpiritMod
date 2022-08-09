@@ -37,7 +37,7 @@ namespace SpiritMod.NPCs.Masticator
 
 			}
 			Vector2 currentSpeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y);
-			if (Main.rand.Next(2) == 0) {
+			if (Main.rand.NextBool(2)) {
 				Projectile.velocity = currentSpeed.RotatedBy(Main.rand.Next(-1, 2) * (Math.PI / 40));
 			}
 			else {

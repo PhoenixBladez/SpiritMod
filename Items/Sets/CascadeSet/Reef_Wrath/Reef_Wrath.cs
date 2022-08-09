@@ -4,7 +4,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Sets.FloatingItems;
 using Terraria.DataStructures;
-using Terraria.DataStructures;
 
 namespace SpiritMod.Items.Sets.CascadeSet.Reef_Wrath
 {

@@ -54,7 +54,7 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
 		{
-			if (active && proj.type != ModContent.ProjectileType<ElectricGuitarProj>() && proj.type != ModContent.ProjectileType<ElectricGuitarProjPlayer>() && Main.rand.Next(4) == 0 && overcharge < 30)
+			if (active && proj.type != ModContent.ProjectileType<ElectricGuitarProj>() && proj.type != ModContent.ProjectileType<ElectricGuitarProjPlayer>() && Main.rand.NextBool(4) && overcharge < 30)
 			{
 				SoundEngine.PlaySound(SoundID.Item47 with { PitchVariance = .8f, Volume = 0.7f }, Player.Center);
 				SoundEngine.PlaySound(SoundID.Item12 with { Volume = 0.6f }, Player.Center);
@@ -65,7 +65,7 @@ namespace SpiritMod.Items.Accessory.ElectricGuitar
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
-			if (active && Main.rand.Next(4) == 0 && overcharge < 30)
+			if (active && Main.rand.NextBool(4) && overcharge < 30)
 			{
 				SoundEngine.PlaySound(SoundID.Item47 with { PitchVariance = .8f, Volume = 0.7f }, Player.Center);
 				SoundEngine.PlaySound(SoundID.Item12 with { Volume = 0.6f }, Player.Center);

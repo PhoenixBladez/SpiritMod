@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Accessory
 		}
 		private void DoDust(Vector2 position, int width, int height)
 		{
-			if (Main.rand.Next(4) == 0) {
+			if (Main.rand.NextBool(4)) {
 				int d = Dust.NewDust(position, width, height, DustID.DungeonWater);
 				Main.dust[d].scale *= .9f;
 				Main.dust[d].velocity *= -.9f;

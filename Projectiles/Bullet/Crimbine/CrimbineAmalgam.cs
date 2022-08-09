@@ -54,7 +54,7 @@ namespace SpiritMod.Projectiles.Bullet.Crimbine
 						int projType = ModContent.ProjectileType<CrimbineSpine>();
 						if (Main.rand.NextBool(8))
 							projType = ModContent.ProjectileType<CrimbineHeart>();
-						else if (Main.rand.Next(4) == 0)
+						else if (Main.rand.NextBool(4))
 							projType = ModContent.ProjectileType<CrimbineBlob>();
 
 						int newProj = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, projType, Projectile.damage / 5 * 6, 2, Projectile.owner);

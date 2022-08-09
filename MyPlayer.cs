@@ -1061,7 +1061,7 @@ namespace SpiritMod
 
 			if (shadowFang)
 			{
-				if (target.life <= target.lifeMax / 2 && Main.rand.Next(7) == 0)
+				if (target.life <= target.lifeMax / 2 && Main.rand.NextBool(7))
 				{
 					Projectile.NewProjectile(item.GetSource_OnHit(target), target.position, Vector2.Zero, ModContent.ProjectileType<ShadowSingeProj>(), item.damage / 3 * 2, 4, Main.myPlayer);
 					SoundEngine.PlaySound(SoundID.NPCDeath6);
@@ -1162,7 +1162,7 @@ namespace SpiritMod
 
 			if (shadowFang)
 			{
-				if (target.life <= target.lifeMax / 2 && Main.rand.Next(7) == 0)
+				if (target.life <= target.lifeMax / 2 && Main.rand.NextBool(7))
 				{
 					Projectile.NewProjectile(proj.GetSource_OnHit(target), target.position, Vector2.Zero, ModContent.ProjectileType<ShadowSingeProj>(), proj.damage / 3 * 2, 4, Main.myPlayer);
 					Player.statLife -= 3;
@@ -1650,9 +1650,9 @@ namespace SpiritMod
 			if (Player.ZoneDesert && Player.ZoneOverworldHeight && Main.rand.Next(33) == 0)
 			{
 				int index = Dust.NewDust(Player.position, Player.width + 4, Player.height + 2, DustID.Wet, 0.0f, 0.0f, 50, default, 0.8f);
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 					Main.dust[index].alpha += 50;
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 					Main.dust[index].alpha += 50;
 				Main.dust[index].noLight = true;
 				Main.dust[index].velocity *= .12f;
@@ -1889,7 +1889,7 @@ namespace SpiritMod
 
 				if (ZoneAsteroid && MyWorld.spaceJunkWeather && Main.rand.Next(59) == 0)
 				{
-					if (Main.rand.Next(7) == 0)
+					if (Main.rand.NextBool(7))
 						Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center.X + Main.rand.Next(-1000, 1000), Player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, Mod.Find<ModProjectile>(Main.rand.Next(bigDebris)).Type, 16, 3, Main.myPlayer, 0.0f, 1);
 					else
 						Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center.X + Main.rand.Next(-1000, 1000), Player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, Mod.Find<ModProjectile>(Main.rand.Next(smallDebris)).Type, 7, 3, Main.myPlayer, 0.0f, 1);
@@ -2942,7 +2942,7 @@ namespace SpiritMod
 									npc.StrikeNPC((int)damage, knockback, hitDirection, crit, false, false);
 
 									if (Main.netMode != NetmodeID.SinglePlayer)
-										NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, i, damage, knockback, hitDirection);
+										NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, i, damage, knockback, hitDirection);
 								}
 
 								infernalDash = 10;
@@ -3126,7 +3126,7 @@ namespace SpiritMod
 									npc.StrikeNPC((int)damage, knockback, hitDirection, crit, false, false);
 
 									if (Main.netMode != NetmodeID.SinglePlayer)
-										NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, i, damage, knockback, hitDirection, 0, 0, 0);
+										NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, i, damage, knockback, hitDirection, 0, 0, 0);
 								}
 
 								infernalDash = 10;
@@ -3835,7 +3835,7 @@ namespace SpiritMod
 								int y = (int)center.Y / 16;
 
 								bool flag = false;
-								if (Main.rand.Next(4) == 0 && Main.tile[x, y] != null && Main.tile[x, y].WallType > 0)
+								if (Main.rand.NextBool(4) && Main.tile[x, y] != null && Main.tile[x, y].WallType > 0)
 									flag = true;
 								else
 								{
@@ -3906,7 +3906,7 @@ namespace SpiritMod
 								int y = (int)center.Y / 16;
 
 								bool flag = false;
-								if (Main.rand.Next(4) == 0 && Main.tile[x, y] != null && Main.tile[x, y].WallType > 0)
+								if (Main.rand.NextBool(4) && Main.tile[x, y] != null && Main.tile[x, y].WallType > 0)
 									flag = true;
 								else
 								{
@@ -4070,7 +4070,7 @@ namespace SpiritMod
 
 			if (HellGaze)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					int dust = Dust.NewDust(Player.position, Player.width + 26, 30, DustID.Torch, Player.velocity.X, Player.velocity.Y, 100, default, 1f);
 					drawInfo.DustCache.Add(dust);

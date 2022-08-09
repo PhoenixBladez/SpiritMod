@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(2) == 0) {
+			if (Main.rand.NextBool(2)) {
 				target.StrikeNPC(Projectile.damage / 2, 0f, 0, false);
 			}
 		}
@@ -85,7 +85,7 @@ namespace SpiritMod.Projectiles.Magic
 				}
 				else {
 					//Stops the projectiles from spazzing out
-					Projectile.velocity.X += Main.rand.Next(2) == 0 ? 0.1f : -0.1f;
+					Projectile.velocity.X += Main.rand.NextBool(2) ? 0.1f : -0.1f;
 				}
 			}
 

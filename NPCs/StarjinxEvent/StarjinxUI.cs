@@ -142,7 +142,7 @@ namespace SpiritMod.NPCs.StarjinxEvent
 			spriteBatch.Draw(TextureAssets.ColorBar.Value, waveProgressBar.Location.ToVector2() + offset, null, Color.White * Alpha, 0f, new Vector2(0f), Scale, SpriteEffects.None, 0f);
 
 			//Bloom underneath shader bar
-			Texture2D bloom = ModContent.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+			Texture2D bloom = ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 			float sineCounter = (float)(Math.Sin(Main.GlobalTimeWrappedHourly * 4) * 0.05f) + 1f;
 
 			Color bloomColor = Color.Lerp(SpiritMod.StarjinxColor(Main.GlobalTimeWrappedHourly * 0.75f), Color.White, 0.33f) * BarProgress * sineCounter;

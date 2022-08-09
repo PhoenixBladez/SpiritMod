@@ -181,7 +181,7 @@ namespace SpiritMod.Skies.Starjinx
 	public class StarjinxBGStar
 	{
 		private readonly Texture2D Texture = ModContent.Request<Texture2D>("Effects/Masks/Star", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-		private readonly Texture2D BloomTexture = ModContent.Request<Texture2D>("Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+		private readonly Texture2D BloomTexture = ModContent.Request<Texture2D>("SpiritMod/Effects/Masks/CircleGradient", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 		public Vector2 Position;
 		public Vector2 Velocity;
 		public float Scale = 0;

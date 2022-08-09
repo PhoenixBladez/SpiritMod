@@ -61,7 +61,7 @@ namespace SpiritMod.NPCs.ChestZombie
 					Main.item[p].stack = Main.rand.Next(3, 6);
 				}
 
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					int num3 = Main.rand.Next(2);
 					int num4 = Main.rand.Next(8) + 3;
@@ -71,7 +71,7 @@ namespace SpiritMod.NPCs.ChestZombie
 						Item.NewItem(player.GetSource_Loot("Pickup"), (int)player.position.X, (int)player.position.Y, player.width, player.height, WorldGen.ironBar, num4);
 				}
 
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					int num3 = Main.rand.Next(50, 101);
 					Item.NewItem(player.GetSource_Loot("Pickup"), (int)player.position.X, (int)player.position.Y, player.width, player.height, 965, num3);
@@ -87,7 +87,7 @@ namespace SpiritMod.NPCs.ChestZombie
 						Item.NewItem(player.GetSource_Loot("Pickup"), (int)player.position.X, (int)player.position.Y, player.width, player.height, 42, num4);
 				}
 
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					int num3 = Main.rand.Next(1);
 					int num4 = Main.rand.Next(3) + 3;
@@ -119,7 +119,7 @@ namespace SpiritMod.NPCs.ChestZombie
 						Item.NewItem(player.GetSource_Loot("Pickup"), (int)player.position.X, (int)player.position.Y, player.width, player.height, 2325, num4);
 				}
 
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					int num3 = Main.rand.Next(2);
 					int num4 = Main.rand.Next(11) + 10;
@@ -129,7 +129,7 @@ namespace SpiritMod.NPCs.ChestZombie
 						Item.NewItem(player.GetSource_Loot("Pickup"), (int)player.position.X, (int)player.position.Y, player.width, player.height, 31, num4);
 				}
 
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 					Item.NewItem(player.GetSource_Loot("Pickup"), (int)player.position.X, (int)player.position.Y, player.width, player.height, 72, Main.rand.Next(10, 30));
 			}
 			return false;

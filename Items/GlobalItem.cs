@@ -399,13 +399,13 @@ namespace SpiritMod.Items
 				Main.projectile[proj].hostile = false;
 			}
 
-			if (modPlayer.fireMaw && item.IsMagic() && Main.rand.Next(4) == 0)
+			if (modPlayer.fireMaw && item.IsMagic() && Main.rand.NextBool(4))
 			{
 				int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<FireMaw>(), 30, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;
 				Main.projectile[proj].friendly = true;
 			}
-			if (modPlayer.manaWings && item.IsMagic() && Main.rand.Next(7) == 0)
+			if (modPlayer.manaWings && item.IsMagic() && Main.rand.NextBool(7))
 			{
 				float d1 = 20 + ((player.statManaMax2 - player.statMana) / 3);
 				int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ManaSpark>(), (int)d1, 2f, player.whoAmI);

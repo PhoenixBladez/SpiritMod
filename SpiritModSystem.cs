@@ -46,9 +46,9 @@ namespace SpiritMod
 
 		public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
 		{
-			if (MyWorld.SpiritTiles > 0)
+			if (ModContent.GetInstance<Biomes.BiomeTileCounts>().spiritCount > 0)
 			{
-				float strength = MyWorld.SpiritTiles / 160f;
+				float strength = ModContent.GetInstance<Biomes.BiomeTileCounts>().spiritCount / 160f;
 				if (strength > MyWorld.spiritLight)
 					MyWorld.spiritLight += 0.01f;
 				if (strength < MyWorld.spiritLight)
@@ -81,9 +81,9 @@ namespace SpiritMod
 				backgroundColor.B = (byte)b;
 			}
 
-			if (MyWorld.AsteroidTiles > 0)
+			if (ModContent.GetInstance<Biomes.BiomeTileCounts>().asteroidCount > 0)
 			{
-				float strength = MyWorld.AsteroidTiles / 160f;
+				float strength = ModContent.GetInstance<Biomes.BiomeTileCounts>().asteroidCount / 160f;
 				if (strength > MyWorld.asteroidLight)
 					MyWorld.asteroidLight += 0.01f;
 				if (strength < MyWorld.asteroidLight)

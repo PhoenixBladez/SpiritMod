@@ -28,7 +28,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch
 				if (Main.rand.Next(5) == 0)
 					player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<HourglassItem>(), 1);
 
-				if (Main.rand.Next(7) == 0)
+				if (Main.rand.NextBool(7))
 					player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<Vulture_Matriarch_Mask>(), 1);
 
 				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), Main.rand.Next(new int[] { ModContent.ItemType<Tome_of_the_Great_Scavenger.Tome_of_the_Great_Scavenger>(), ModContent.ItemType<Sovereign_Talon.Sovereign_Talon>() }), 1);

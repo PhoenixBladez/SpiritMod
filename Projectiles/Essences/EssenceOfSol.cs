@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.Essences
 			{
 				int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.CopperCoin, 0f, 0f, 100, default, 2f);
 				Main.dust[dust].velocity *= 3f;
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					Main.dust[dust].scale = 0.5f;
 					Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;

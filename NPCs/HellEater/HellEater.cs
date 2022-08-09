@@ -119,7 +119,7 @@ namespace SpiritMod.NPCs.HellEater
 				target.AddBuff(BuffID.OnFire, 180);
 			}
 			target.AddBuff(BuffID.Bleeding, 180);
-			if (Main.rand.Next(4) == 0) {
+			if (Main.rand.NextBool(4)) {
 				if (NPC.life <= NPC.lifeMax - 10) {
 					NPC.life += 10;
 					NPC.HealEffect(10, true);

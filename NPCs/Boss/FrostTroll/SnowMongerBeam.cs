@@ -32,7 +32,7 @@ namespace SpiritMod.NPCs.Boss.FrostTroll
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (Main.rand.Next(4) == 0)
+            if (Main.rand.NextBool(4))
 				target.AddBuff(BuffID.Frostburn, 180, true);
 		}
 		public override void AI()

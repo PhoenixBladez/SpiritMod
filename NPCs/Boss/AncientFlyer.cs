@@ -155,7 +155,7 @@ namespace SpiritMod.NPCs.Boss
 			if (timer == 500 || timer == 700)
 				HomeY = -35f;
 			else if (timer == 900)
-				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/AvianScreen"), player.position);
+				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/AvianScreech"), player.position);
 			else if ((timer >= 900 && timer <= 1400)) //Rains red comets
 			{
 				NPC.defense = 26;

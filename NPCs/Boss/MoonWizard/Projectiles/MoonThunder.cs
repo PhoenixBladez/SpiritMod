@@ -103,14 +103,14 @@ namespace SpiritMod.NPCs.Boss.MoonWizard.Projectiles
             int sincePrev = 0;
             for (int k = 0; k < lines[0].Count - 6; k++)
             {
-                if (sincePrev <= 0 && Main.rand.Next(7) == 0)
+                if (sincePrev <= 0 && Main.rand.NextBool(7))
                 {
                     lines.Add(new List<Line>());
                     int index = lines.Count - 1;
 
                     Vector2 strandStart = lines[0][k].start;
                     Vector2 strandEnd = strandStart + new Vector2(
-                        Main.rand.Next(2) == 0 ? Main.rand.NextFloat(-300f, -40f) : Main.rand.NextFloat(40f, 300f),
+                        Main.rand.NextBool(2) ? Main.rand.NextFloat(-300f, -40f) : Main.rand.NextFloat(40f, 300f),
                         Main.rand.NextFloat(50f, 300f));
                     Line strand = new Line(strandStart, strandEnd);
                     lines[index].Add(strand);

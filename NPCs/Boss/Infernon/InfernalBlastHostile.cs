@@ -140,7 +140,7 @@ namespace SpiritMod.NPCs.Boss.Infernon
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 				target.AddBuff(BuffID.OnFire, 180, true);
 
 			Projectile.Kill();

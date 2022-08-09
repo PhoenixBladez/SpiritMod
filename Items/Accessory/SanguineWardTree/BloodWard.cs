@@ -160,6 +160,6 @@ namespace SpiritMod.Items.Accessory.SanguineWardTree
 			Projectile.NewProjectileDirect(source, position, Player.DirectionTo(position).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(2, 3), ModContent.ProjectileType<RuneHeart>(), healAmount, 0f, Player.whoAmI).netUpdate = true;
 		}
 
-		public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit) => _combatTime = 300;
+		public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter) => _combatTime = 300;
 	}
 }

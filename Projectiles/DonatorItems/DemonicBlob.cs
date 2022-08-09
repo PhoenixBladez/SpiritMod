@@ -38,7 +38,7 @@ namespace SpiritMod.Projectiles.DonatorItems
 			if (++animationCounter >= 6) {
 				animationCounter = 0;
 				if (++frame >= Main.projFrames[Projectile.type]) {
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 						frame = 0;
 					else
 						frame = 9;

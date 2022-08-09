@@ -14,6 +14,9 @@ namespace SpiritMod.NPCs.Tides
 		{
 			DisplayName.SetDefault("Kakamoran Rider");
 			Main.npcFrameCount[NPC.type] = 1;
+
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Velocity = 1f };
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, drawModifiers);
 		}
 
 		public override void SetDefaults()
@@ -53,7 +56,6 @@ namespace SpiritMod.NPCs.Tides
 			Vector2 offsetFromOtherNPC = new Vector2(-15, -18);
 			if (NPC.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient && !checkSpawn)
 			{
-
 				NPC.localAI[0] = 1f;
 				int newNPC = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Crocomount>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
 				NPC.ai[0] = (float)newNPC;

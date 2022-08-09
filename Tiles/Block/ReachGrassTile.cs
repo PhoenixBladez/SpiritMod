@@ -38,7 +38,7 @@ namespace SpiritMod.Tiles.Block
 
 		/*public override void RandomUpdate(int i, int j)
 		{
-			if (!Framing.GetTileSafely(i, j - 1).active() && Main.rand.Next(4) == 0) {
+			if (!Framing.GetTileSafely(i, j - 1).active() && Main.rand.NextBool(4)) {
 				switch (Main.rand.Next(7)) {
 					case 0:
 						PlaceObject(i, j - 1, ModContent.TileType<ReachGrassA1>());
@@ -73,7 +73,7 @@ namespace SpiritMod.Tiles.Block
 
 			}
 			{
-				if (!Framing.GetTileSafely(i, j + 1).active() && Main.rand.Next(4) == 0) {
+				if (!Framing.GetTileSafely(i, j + 1).active() && Main.rand.NextBool(4)) {
 					PlaceObject(i, j + 1, ModContent.TileType<Vine1>());
 					NetMessage.SendObjectPlacment(-1, i, j + 1, ModContent.TileType<Vine1>(), 0, 0, -1, -1);
 				}

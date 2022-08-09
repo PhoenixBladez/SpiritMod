@@ -75,7 +75,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 
 			if (charge > 0)
 			{
-				int chosenDust = Main.rand.Next(2) == 0 ? 6 : 62;
+				int chosenDust = Main.rand.NextBool(2) ? 6 : 62;
 				Vector2 vector2_1 = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
 				if (player.direction != 1)
 					vector2_1.X = (float)player.bodyFrame.Width - vector2_1.X;
@@ -91,11 +91,11 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 					dust.fadeIn = 1f;
 					dust.velocity += player.velocity;
 					dust.scale *= charge;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						dust.position += Utils.RandomVector2(Main.rand, -4f, 4f);
 						dust.scale += Main.rand.NextFloat();
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 							dust.customData = (object)player;
 					}
 				}
@@ -115,7 +115,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplateGlove
 				Vector2 speed = velocity.RotatedBy(stray);
 				//speed *= Main.rand.NextFloat(0.9f, 1.1f);
 				position += speed * 8;
-				type = Main.rand.Next(2) == 0 ? ModContent.ProjectileType<StargloveChargeOrange>() : ModContent.ProjectileType<StargloveChargePurple>();
+				type = Main.rand.NextBool(2) ? ModContent.ProjectileType<StargloveChargeOrange>() : ModContent.ProjectileType<StargloveChargePurple>();
 				int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
 
 				if (type == ModContent.ProjectileType<StargloveChargePurple>())

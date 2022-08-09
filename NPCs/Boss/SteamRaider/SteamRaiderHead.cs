@@ -644,7 +644,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 					if (atkCounter % 250 == 0)
 					{
 						distAbove = 425;
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							NPC.position.X = Main.player[NPC.target].Center.X - 500;
 							NPC.position.Y = Main.player[NPC.target].Center.Y - distAbove;

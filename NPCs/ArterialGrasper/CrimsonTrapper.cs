@@ -36,7 +36,6 @@ namespace SpiritMod.NPCs.ArterialGrasper
 			NPC.height = 34;
 			NPC.damage = 35;
 			NPC.defense = 8;
-			NPC.buffImmune[BuffID.Poisoned] = true;
 			NPC.lifeMax = 150;
 			NPC.noGravity = true;
 			NPC.HitSound = SoundID.NPCHit19;

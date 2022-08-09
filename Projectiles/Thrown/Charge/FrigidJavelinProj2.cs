@@ -30,14 +30,14 @@ namespace SpiritMod.Projectiles.Thrown.Charge
 		}
 		public override void AI()
 		{
-			if (Main.rand.Next(7) == 0) {
+			if (Main.rand.NextBool(7)) {
 				int d = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.BlueCrystalShard, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 				Main.dust[d].noGravity = true;
 			}
 		}
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.rand.Next(4) == 0)
+            if (Main.rand.NextBool(4))
             {
                 target.AddBuff(BuffID.Frostburn, 180, true);
             }

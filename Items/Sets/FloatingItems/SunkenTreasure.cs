@@ -56,7 +56,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable[loot]);
 			}
 
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 			{
 				int[] lootTable2 = {
 					ItemID.GoldBar,
@@ -90,7 +90,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 				}
 			}
 
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 			{
 				int Coins = Main.rand.Next(1, 3);
 				for (int K = 0; K < Coins; K++)

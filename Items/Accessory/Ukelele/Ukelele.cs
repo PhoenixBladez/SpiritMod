@@ -47,7 +47,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 
 		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
 		{
-			if (active && proj.type != ModContent.ProjectileType<UkeleleProj>() && Main.rand.Next(4) == 0 && overcharge < 30)
+			if (active && proj.type != ModContent.ProjectileType<UkeleleProj>() && Main.rand.NextBool(4) && overcharge < 30)
 			{
 				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Ukulele") with { PitchVariance = 0.8f, Volume = 0.7f }, Player.Center);
 				SoundEngine.PlaySound(SoundID.Item12 with { Volume = 0.6f }, target.Center);
@@ -58,7 +58,7 @@ namespace SpiritMod.Items.Accessory.Ukelele
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
-			if (active && Main.rand.Next(4) == 0 && overcharge < 30)
+			if (active && Main.rand.NextBool(4) && overcharge < 30)
 			{
 				SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/Ukulele") with { PitchVariance = 0.8f, Volume = 0.7f }, Player.Center);
 				SoundEngine.PlaySound(SoundID.Item12 with { Volume = 0.6f }, target.Center);

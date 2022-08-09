@@ -1424,7 +1424,7 @@ namespace SpiritMod.World
 						WorldGen.PlaceObject(X, Y, types[2]);
 						NetMessage.SendObjectPlacment(-1, X, Y, types[2], 0, 0, -1, -1);
 					}
-					else if (Main.rand.Next(2) == 0)
+					else if (Main.rand.NextBool(2))
 					{
 						WorldGen.PlaceObject(X, Y, types[1]);
 						NetMessage.SendObjectPlacment(-1, X, Y, types[1], 0, 0, -1, -1);

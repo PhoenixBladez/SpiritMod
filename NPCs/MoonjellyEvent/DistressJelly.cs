@@ -7,7 +7,6 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Bestiary;
-using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.MoonjellyEvent
 {

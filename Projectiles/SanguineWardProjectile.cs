@@ -40,7 +40,7 @@ namespace SpiritMod.Projectiles
 			{
 				npc.AddBuff(ModContent.BuffType<BloodCorrupt>(), 20);
 
-				if (_npcAliveLast[npc.whoAmI] && npc.life <= 0 && Main.rand.Next(4) == 0) //if the npc was alive last frame and is now dead
+				if (_npcAliveLast[npc.whoAmI] && npc.life <= 0 && Main.rand.NextBool(4)) //if the npc was alive last frame and is now dead
 				{
 					int healNumber = Main.rand.Next(4, 7);
 					player.HealEffect(healNumber);
