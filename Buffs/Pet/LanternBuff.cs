@@ -8,5 +8,6 @@ namespace SpiritMod.Buffs.Pet
 	{
 		protected override (string, string) BuffInfo => ("Lantern Power Battery", "'It illuminates the way!'");
 		public override void SetPetFlag(Player player, PetPlayer petPlayer) => petPlayer.lanternPet = true;
+		protected override bool IsLightPet => true;
 	}
 }

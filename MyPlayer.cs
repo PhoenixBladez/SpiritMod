@@ -2742,11 +2742,11 @@ namespace SpiritMod
 					Player.lifeRegen = 0;
 
 				Player.lifeRegen--;
-				if (Player.lifeRegen < 0)
-					Player.lifeRegen = 0;
+				//if (Player.lifeRegen < 0)
+				//	Player.lifeRegen = 0;
 
-				Player.lifeRegenTime = 0;
-				Player.lifeRegenCount = 0;
+				//Player.lifeRegenTime = 0;
+				//Player.lifeRegenCount = 0;
 
 				bloodfireShieldStacks = 0;
 

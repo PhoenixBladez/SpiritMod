@@ -6,6 +6,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Undead_Warlock
 {
@@ -26,6 +27,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 			DisplayName.SetDefault("Undead Warlock");
 			Main.npcFrameCount[NPC.type] = 5;
 		}
+
 		public override void SetDefaults()
 		{
 			NPC.aiStyle = 3;
@@ -40,6 +42,15 @@ namespace SpiritMod.NPCs.Undead_Warlock
 			NPC.lavaImmune = false;
 			NPC.HitSound = SoundID.NPCHit1;
 		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				new FlavorTextBestiaryInfoElement("Unlike the Undead Scientist, the Warlock practices more typical, but more powerful, magic and necromancy."),
+			});
+		}
+
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(spawningCrystals);
@@ -49,6 +60,7 @@ namespace SpiritMod.NPCs.Undead_Warlock
 			writer.Write(resetTimer);
 			writer.Write(spawnedProjectiles);
 		}
+
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			spawningCrystals = reader.ReadBoolean();
@@ -58,10 +70,11 @@ namespace SpiritMod.NPCs.Undead_Warlock
 			resetTimer = reader.ReadInt32();
 			spawnedProjectiles = reader.ReadInt32();
 		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			NPC.frameCounter++;
-			if (NPC.velocity.X != 0f && NPC.velocity.Y == 0f)
+			if ((NPC.velocity.X != 0f && NPC.velocity.Y == 0f) || NPC.IsABestiaryIconDummy)
 			{
 				if (NPC.frameCounter >= 7)
 				{
@@ -72,9 +85,9 @@ namespace SpiritMod.NPCs.Undead_Warlock
 			else
 				NPC.frame.Y = 2 * frameHeight;
 		}
+
 		public override void AI()
 		{
-			Player player = Main.player[NPC.target];
 			NPC.TargetClosest(true);
 			NPC.spriteDirection = NPC.direction;
 

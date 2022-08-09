@@ -41,8 +41,8 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 		{
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
-			DisplayName.SetDefault("Pillbug friend");
-			Description.SetDefault("Rock and Roll");
+			DisplayName.SetDefault("Pillbug Friend");
+			Description.SetDefault("'Rock and roll!'");
 		}
 
 		public override void Update(Player player, ref int buffIndex)
@@ -84,20 +84,19 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 		public override void UpdateEffects(Player player)
 		{
 			ScarabMountPlayer modplayer = player.GetModPlayer<ScarabMountPlayer>();
-			modplayer.scarabrotation += player.velocity.X / 25;
-			modplayer.scarabtimer++;
+			modplayer.scarabRotation += player.velocity.X / 25;
+			modplayer.scarabTimer++;
 			player.buffImmune[BuffID.WindPushed] = true;
 
-			for (int i = (modplayer.scaraboldposition.Length - 1); i > 0; i--)
-			{
-				modplayer.scaraboldposition[i] = modplayer.scaraboldposition[i - 1];
-			}
-			modplayer.scaraboldposition[0] = player.Center;
+			for (int i = (modplayer.scarabOldPosition.Length - 1); i > 0; i--)
+				modplayer.scarabOldPosition[i] = modplayer.scarabOldPosition[i - 1];
+
+			modplayer.scarabOldPosition[0] = player.Center;
 
 			if (Math.Abs(player.velocity.X) > 3 && player.velocity.Y == 0)
 			{
-				if (modplayer.scarabtimer % 20 <= 1)
-					SoundEngine.PlaySound(SoundID.Dig, player.Center);
+				if (modplayer.scarabTimer % 20 == 0)
+					SoundEngine.PlaySound(SoundID.Dig with { Volume = 0.6f, PitchVariance = 0.5f }, player.Center);
 
 				for (int j = 0; j < Math.Abs(player.velocity.X) / 3; j++)
 				{
@@ -109,8 +108,8 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 
 			if (Math.Abs(player.velocity.X) > 6)
 			{
-				modplayer.scarabtimer++;
-				var enemies = Main.npc.Where(x => x.Hitbox.Intersects(player.Hitbox) && x.CanBeChasedBy(this) && x.immune[player.whoAmI] == 0);
+				modplayer.scarabTimer++;
+				var enemies = Main.npc.SkipLast(1).Where(x => x.Hitbox.Intersects(player.Hitbox) && x.CanBeChasedBy(this) && x.immune[player.whoAmI] == 0);
 				foreach (NPC npc in enemies)
 				{
 					npc.StrikeNPC((int)(player.GetDamage(DamageClass.Melee).ApplyTo(25 * Main.rand.NextFloat(0.9f, 1.2f))), 1, player.direction, Main.rand.NextBool(10));
@@ -122,30 +121,30 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 		public override void SetMount(Player player, ref bool skipDust)
 		{
 			ScarabMountPlayer modplayer = player.GetModPlayer<ScarabMountPlayer>();
-			modplayer.scarabrotation = 0;
-			modplayer.scarabtimer = 0;
-			for (int i = 0; i < modplayer.scaraboldposition.Length; i++)
+			modplayer.scarabRotation = 0;
+			modplayer.scarabTimer = 0;
+			for (int i = 0; i < modplayer.scarabOldPosition.Length; i++)
 			{
-				modplayer.scaraboldposition[i] = player.Center;
+				modplayer.scarabOldPosition[i] = player.Center;
 			}
 		}
 
 		public override bool Draw(List<DrawData> playerDrawData, int drawType, Player drawPlayer, ref Texture2D texture, ref Texture2D glowTexture, ref Vector2 drawPosition, ref Rectangle frame, ref Color drawColor, ref Color glowColor, ref float rotation, ref SpriteEffects spriteEffects, ref Vector2 drawOrigin, ref float drawScale, float shadow)
 		{
 			ScarabMountPlayer modplayer = drawPlayer.GetModPlayer<ScarabMountPlayer>();
-			rotation = modplayer.scarabrotation;
+			rotation = modplayer.scarabRotation;
 			glowTexture = Mod.Assets.Request<Texture2D>("Items/Sets/ScarabeusDrops/ScarabExpertDrop/ScarabMount_Glow").Value;
 			Vector2 heightoffset = new Vector2(0, MountData.heightBoost - 16);
 			drawPosition += heightoffset;
 			if (Math.Abs(drawPlayer.velocity.X) > 6)
 			{
-				for (int i = 0; i < modplayer.scaraboldposition.Length; i++)
+				for (int i = 0; i < modplayer.scarabOldPosition.Length; i++)
 				{
-					float opacity = (modplayer.scaraboldposition.Length - i) / (float)modplayer.scaraboldposition.Length;
-					DrawData drawdata = new DrawData(texture, modplayer.scaraboldposition[i] - Main.screenPosition + heightoffset, null, drawColor * 0.2f * opacity, rotation, texture.Size() / 2, 1, SpriteEffects.None, 0);
+					float opacity = (modplayer.scarabOldPosition.Length - i) / (float)modplayer.scarabOldPosition.Length;
+					DrawData drawdata = new DrawData(texture, modplayer.scarabOldPosition[i] - Main.screenPosition + heightoffset, null, drawColor * 0.2f * opacity, rotation, texture.Size() / 2, 1, SpriteEffects.None, 0);
 					playerDrawData.Add(drawdata);
 
-					DrawData drawdataglow = new DrawData(glowTexture, modplayer.scaraboldposition[i] - Main.screenPosition + heightoffset, null, Color.White * 0.2f * opacity, rotation, texture.Size() / 2, 1, SpriteEffects.None, 0);
+					DrawData drawdataglow = new DrawData(glowTexture, modplayer.scarabOldPosition[i] - Main.screenPosition + heightoffset, null, Color.White * 0.2f * opacity, rotation, texture.Size() / 2, 1, SpriteEffects.None, 0);
 					playerDrawData.Add(drawdataglow);
 				}
 			}
@@ -155,14 +154,14 @@ namespace SpiritMod.Items.Sets.ScarabeusDrops.ScarabExpertDrop
 
 	internal class ScarabMountPlayer : ModPlayer
 	{
-		public float scarabrotation;
-		public int scarabtimer;
-		public Vector2[] scaraboldposition = new Vector2[5];
+		public float scarabRotation;
+		public int scarabTimer;
+		public Vector2[] scarabOldPosition = new Vector2[5];
 		public override void Initialize()
 		{
-			scarabrotation = 0;
-			scarabtimer = 0;
-			scaraboldposition = new Vector2[5];
+			scarabRotation = 0;
+			scarabTimer = 0;
+			scarabOldPosition = new Vector2[5];
 		}
 
 		public override bool CanBeHitByNPC(NPC npc, ref int cooldownSlot)

@@ -47,6 +47,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 
 		public static void Unload()
 		{
+			transparencyTarget = null;
 			transparencyEffect = null;
 			rippleTex = null;
 		}
@@ -68,7 +69,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			}
 
 			c.Emit(OpCodes.Ldloc_2);
-			c.EmitDelegate<Action<Vector2>>(DoWaves);
+			c.EmitDelegate(DoWaves);
 		}
 
 		private static void DoWaves(Vector2 offset)
@@ -167,7 +168,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			c.TryGotoPrev(MoveType.Before, n => n.MatchLdfld<Main>("backWaterTarget"));
 			c.Index++;
 
-			c.EmitDelegate<Func<bool>>(IsWaterTransparent);
+			c.EmitDelegate(IsWaterTransparent);
 			c.Emit(OpCodes.Brfalse, exitLabel);
 			c.Emit(OpCodes.Nop);
 
@@ -175,7 +176,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			c.Emit(OpCodes.Pop);
 			c.Emit(OpCodes.Pop);
 			c.Emit(OpCodes.Ldc_I4_0); //Push 0 because this is the back
-			c.EmitDelegate<Action<bool>>(NewDraw);
+			int v = c.EmitDelegate(NewDraw);
 			c.Emit(OpCodes.Br, postDrawLabel);
 
 			//FRONT TARGET
@@ -193,7 +194,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			c.TryGotoPrev(n => n.MatchLdsfld<Main>("waterTarget"));
 			c.Index++;
 
-			c.EmitDelegate<Func<bool>>(IsWaterTransparent);
+			c.EmitDelegate(IsWaterTransparent);
 			c.Emit(OpCodes.Brfalse, exitLabelFront);
 			c.Emit(OpCodes.Nop);
 
@@ -201,7 +202,7 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			c.Emit(OpCodes.Pop);
 			c.Emit(OpCodes.Pop);
 			c.Emit(OpCodes.Ldc_I4_1); //Push 1 since this is the front
-			c.EmitDelegate<Action<bool>>(NewDraw);
+			c.EmitDelegate(NewDraw);
 			c.Emit(OpCodes.Br, label2);
 
 			//ILHelper.CompleteLog(c);

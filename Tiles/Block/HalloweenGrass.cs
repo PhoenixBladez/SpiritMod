@@ -11,8 +11,7 @@ namespace SpiritMod.Tiles.Block
 		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			Main.tileMerge[Type][ModContent.TileType<HalloweenGrass>()] = true;
-			Main.tileMergeDirt[Type] = true;
+			Main.tileMerge[Type][Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileMerge[TileID.Dirt][Type] = true;
 
@@ -39,7 +38,7 @@ namespace SpiritMod.Tiles.Block
 
 		public override void RandomUpdate(int i, int j)
 		{
-			if (!Framing.GetTileSafely(i, j - 1).HasTile && Main.rand.Next(20) == 0) {
+			if (!Framing.GetTileSafely(i, j - 1).HasTile && Main.rand.NextBool(20)) {
 				int style = Main.rand.Next(23);
 				if (PlaceObject(i, j - 1, ModContent.TileType<SpookyFoliage>(), false, style))
 					NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<SpookyFoliage>(), style, 0, -1, -1);

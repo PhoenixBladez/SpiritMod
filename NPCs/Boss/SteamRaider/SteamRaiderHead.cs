@@ -743,12 +743,11 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				Vector2 drawOrigin = new Vector2(TextureAssets.Npc[NPC.type].Value.Width * 0.5f, (NPC.height / Main.npcFrameCount[NPC.type]) * 0.5f);
 				{
 					float sineAdd = (float)Math.Sin(alphaCounter * 2) + 3;
-					Vector2 drawPos1 = NPC.Center - Main.screenPosition + drawOrigin + new Vector2(0f, NPC.gfxOffY);
-					Main.spriteBatch.Draw(TextureAssets.Extra[49].Value, (NPC.Center - Main.screenPosition), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .65f), SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(TextureAssets.Extra[49].Value, (NPC.Center - screenPos), null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + .65f), SpriteEffects.None, 0f);
 				}
 			}
 			var effects = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, NPC.gfxOffY), NPC.frame,
+			spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame,
 							 drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, effects, 0);
 			return false;
 		}
@@ -769,7 +768,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				drawOrigin.Y += 30f;
 				drawOrigin.Y += 8f;
 				--drawOrigin.X;
-				Vector2 position1 = NPC.Bottom - Main.screenPosition;
+				Vector2 position1 = NPC.Bottom - screenPos;
 				Texture2D texture2D2 = TextureAssets.GlowMask[239].Value;
 				float num11 = (float)((double)Main.GlobalTimeWrappedHourly % 1.0 / 1.0);
 				float num12 = num11;
@@ -794,8 +793,8 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				Main.spriteBatch.Draw(texture2D2, position3, r2, color3 * num14, NPC.rotation, drawOrigin, NPC.scale * 0.5f * num16, SpriteEffects.FlipHorizontally, 0.0f);
 			}
 			GlowmaskUtils.DrawNPCGlowMask(spriteBatch, NPC, Mod.Assets.Request<Texture2D>("NPCs/Boss/SteamRaider/SteamRaiderHead_Glow").Value, screenPos);
-
 		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

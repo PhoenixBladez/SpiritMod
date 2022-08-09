@@ -5,6 +5,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.GameContent.Bestiary;
 
 namespace SpiritMod.NPCs.Dead_Scientist
 {
@@ -13,24 +14,34 @@ namespace SpiritMod.NPCs.Dead_Scientist
 		public bool isPuking = false;
 		public int pukeTimer = 0;
 		public int delayTimer = 0;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Undead Scientist");
 			Main.npcFrameCount[NPC.type] = 11;
 		}
+
 		public override void SetDefaults()
 		{
 			NPC.aiStyle = 3;
 			NPC.lifeMax = 50;
 			NPC.defense = 6;
 			NPC.value = 100f;
-			AIType = 3;
 			NPC.knockBackResist = 0.5f;
 			NPC.width = 24;
 			NPC.height = 36;
 			NPC.damage = 28;
 			NPC.lavaImmune = false;
 			NPC.HitSound = SoundID.NPCHit1;
+			AIType = 3;
+		}
+
+		public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+		{
+			bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+				new FlavorTextBestiaryInfoElement("An unholy practitioner of a necro-alchemy, combining typical alchemy with a form of minor necromancy in order to keep its sick experiments going."),
+			});
 		}
 
 		public override void AI()
@@ -40,7 +51,7 @@ namespace SpiritMod.NPCs.Dead_Scientist
 			NPC.spriteDirection = NPC.direction;
 			pukeTimer++;
 			
-			if (Main.rand.Next(300)==0)
+			if (Main.rand.NextBool(300))
 				SoundEngine.PlaySound(SoundID.Item9, NPC.Center);
 			
 			if (Vector2.Distance(player.Center, NPC.Center) < 300f && !isPuking && player.position.Y > NPC.position.Y - 100 && Collision.CanHitLine(NPC.Center, 0, 0, Main.player[NPC.target].Center, 0, 0) && delayTimer < 180) 

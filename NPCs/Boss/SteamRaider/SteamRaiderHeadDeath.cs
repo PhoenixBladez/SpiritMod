@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Items.Sets.StarplateDrops;
+using SpiritMod.Items.Sets.StarplateDrops.StarplatePet;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,8 +35,10 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			NPC.noGravity = true;
 			NPC.dontCountMe = true;
 		}
+
 		int timeLeft = 200;
 		float alphaCounter;
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			float sineAdd = alphaCounter + 2;
@@ -49,12 +53,17 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			if (timeLeft == 200) {
 				NPC.rotation = 3.14f;
 			}
+
 			NPC.rotation += Main.rand.Next(-20, 20) / 100f;
+
 			Dust.NewDustPerfect(NPC.Center, 226, new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)));
+
 			if (timeLeft < 50) {
 				Dust.NewDustPerfect(NPC.Center, 226, new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)));
 			}
+
 			timeLeft--;
+
 			if (timeLeft <= 0) {
 				if (!Main.expertMode) {
 					NPC.DropItem(ModContent.ItemType<CosmiliteShard>(), 6, 10, NPC.GetSource_FromAI());
@@ -75,10 +84,7 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				NPC.height = 30;
 				NPC.position.X = NPC.position.X - (NPC.width / 2);
 				NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-				Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
-				direction.Normalize();
-				direction.X *= 4f;
-				direction.Y *= -4f;
+				Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * new Vector2(4, -4);
 
 				NPC.life = 0;
                 NPC.active = false;
@@ -87,9 +93,16 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
+			npcLoot.AddMasterModeDropOnAllPlayers<StarplatePetItem>();
 			npcLoot.AddBossBag<SteamRaiderBag>();
-			npcLoot.AddCommon(ItemID.Heart, 1, 7);
-			npcLoot.AddCommon(ItemID.LesserHealingPotion, 1, 10, 12);
+
+			LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+			notExpertRule.AddCommon<StarMap>();
+			notExpertRule.AddCommon<StarplateMask>(7);
+			notExpertRule.AddCommon<Trophy3>(10);
+			notExpertRule.AddCommon<CosmiliteShard>(1, 6, 10);
+
+			npcLoot.Add(notExpertRule);
 		}
 	}
 }

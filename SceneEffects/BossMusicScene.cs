@@ -8,6 +8,6 @@ namespace SpiritMod.SceneEffects
 	{
 		public override int Music => MusicLoader.GetMusicSlot(Mod, "Sounds/Music/SkeletronPrime");
 		public override SceneEffectPriority Priority => SceneEffectPriority.BossLow;
-		public override bool IsSceneEffectActive(Player player) => NPC.AnyNPCs(NPCID.SkeletronPrime);
+		public override bool IsSceneEffectActive(Player player) => NPC.AnyNPCs(NPCID.SkeletronPrime) && false; //get destroyed nerd
 	}
 }

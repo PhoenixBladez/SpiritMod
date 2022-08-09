@@ -106,9 +106,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplatePet
 		{
 			float maxSpeed = 12;
 
-			spinner += 0.02f;
-			if (spinner >= MathHelper.TwoPi)
-				spinner = 0;
+			spinner += 0.02f * Owner.direction;
 
 			Vector2 targetPosition = Owner.Center;
 			CheckForOre(ref targetPosition);
@@ -117,7 +115,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplatePet
 
 			if (projDist <= 200 * 200 && ownerDist < 900 * 900)
 			{
-				targetPosition += new Vector2(120, 0).RotatedBy(spinner);
+				targetPosition += new Vector2(120, 0).RotatedBy(spinner % MathHelper.TwoPi);
 				maxSpeed = Projectile.Distance(targetPosition) - 10;
 				if (maxSpeed > 12)
 					maxSpeed = 12;

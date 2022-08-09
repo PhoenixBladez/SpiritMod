@@ -16,8 +16,11 @@ namespace SpiritMod.Buffs.Pet
 			Description.SetDefault(BuffInfo.Item2);
 
 			Main.buffNoTimeDisplay[Type] = true;
-			Main.vanityPet[Type] = true;
-			Main.lightPet[Type] = IsLightPet; 
+
+			if (IsLightPet)
+				Main.lightPet[Type] = true;
+			else
+				Main.vanityPet[Type] = true;
 		}
 
 		public sealed override void Update(Player player, ref int buffIndex)

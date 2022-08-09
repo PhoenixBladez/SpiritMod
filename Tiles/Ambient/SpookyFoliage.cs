@@ -20,6 +20,9 @@ namespace SpiritMod.Tiles.Ambient
 			DustType = DustID.Blood;
 			HitSound = SoundID.Grass;
 
+			Terraria.GameContent.Metadata.TileMaterials.SetForTileId(Type, Terraria.GameContent.Metadata.TileMaterials._materialsByName["Plant"]);
+			TileID.Sets.SwaysInWindBasic[Type] = true;
+
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.newTile.LavaDeath = true;
 			TileObjectData.newTile.WaterDeath = false;

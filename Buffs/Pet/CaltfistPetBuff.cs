@@ -8,5 +8,6 @@ namespace SpiritMod.Buffs.Pet
 	{
 		protected override (string, string) BuffInfo => ("Cultfish", "This little bugger lights the way!");
 		public override void SetPetFlag(Player player, PetPlayer petPlayer) => petPlayer.cultFishPet = true;
+		protected override bool IsLightPet => true;
 	}
 }

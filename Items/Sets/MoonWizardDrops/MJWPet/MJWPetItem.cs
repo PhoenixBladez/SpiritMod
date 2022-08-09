@@ -30,10 +30,5 @@ namespace SpiritMod.Items.Sets.MoonWizardDrops.MJWPet
 		}
 
 		public override bool CanUseItem(Player player) => player.miscEquips[1].IsAir;
-
-		public override void OnCreate(ItemCreationContext context)
-		{
-
-		}
 	}
 }

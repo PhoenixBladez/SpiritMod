@@ -7,8 +7,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using SpiritMod.Items.Consumable.Food;
 using SpiritMod.Items.Sets.EvilBiomeDrops.Heartillery;
-using SpiritMod.Mechanics.QuestSystem;
-using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria.ModLoader.Utilities;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
