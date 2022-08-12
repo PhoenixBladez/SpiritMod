@@ -7,21 +7,18 @@ namespace SpiritMod.Items.Armor.SilkArmor
 	[AutoloadEquip(EquipType.Legs)]
 	public class SilkLegs : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Manasilk Leggings");
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Manasilk Leggings");
 
-		}
 		public override void SetDefaults()
 		{
 			Item.width = 26;
 			Item.height = 18;
 			Item.value = 10000;
 			Item.rare = ItemRarityID.Blue;
-			Item.defense = 1;
+			Item.vanity = true;
 		}
 
-		public override void AddRecipes()  //How to craft this item
+		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Silk, 5);

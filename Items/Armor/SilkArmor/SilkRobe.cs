@@ -10,7 +10,6 @@ namespace SpiritMod.Items.Armor.SilkArmor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Manasilk Robe");
-			Tooltip.SetDefault("Increases minion damage by 1");
 
 			ArmorIDs.Body.Sets.NeedsToDrawArm[Item.bodySlot] = true;
 		}
@@ -22,6 +21,7 @@ namespace SpiritMod.Items.Armor.SilkArmor
 			Item.value = 12500;
 			Item.rare = ItemRarityID.Blue;
 			Item.defense = 2;
+			Item.vanity = true;
 		}
 
 		public override void AddRecipes()

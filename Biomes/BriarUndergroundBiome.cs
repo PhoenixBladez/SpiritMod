@@ -16,7 +16,7 @@ namespace SpiritMod.Biomes
 		public override string BackgroundPath => MapBackground;
 		public override string MapBackground => "SpiritMod/Backgrounds/BriarMapBG";
 
-		public override bool IsBiomeActive(Player player) => (player.ZoneRockLayerHeight || player.ZoneDirtLayerHeight) && ModContent.GetInstance<BiomeTileCounts>().spiritCount >= 80;
+		public override bool IsBiomeActive(Player player) => (player.ZoneRockLayerHeight || player.ZoneDirtLayerHeight) && BiomeTileCounts.InBriar;
 		public override void OnEnter(Player player) => player.GetSpiritPlayer().ZoneReach = true;
 		public override void OnLeave(Player player) => player.GetSpiritPlayer().ZoneReach = false;
 	}

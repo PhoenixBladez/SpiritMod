@@ -1,12 +1,11 @@
-﻿using Terraria;
+﻿using SpiritMod.Items.ByBiome.Spirit.Placeables.Furniture;
+using Terraria;
 using Terraria.GameContent;
-using Terraria.ID;
 
 namespace SpiritMod.Tiles.Furniture.Pylons
 {
-	internal class SpiritPylonTile : SimplePylonTile
+	internal class SpiritPylonTile : SimplePylonTile<SpiritPylonItem>
 	{
-		internal override int ItemType => ItemID.DirtBlock;
 		internal override string MapKeyName => "Mods.SpiritMod.MapObject.SpiritPylon";
 
 		public override bool ValidTeleportCheck_BiomeRequirements(TeleportPylonInfo pylonInfo, SceneMetrics sceneData) => Biomes.BiomeTileCounts.InSpirit;

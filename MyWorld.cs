@@ -113,12 +113,10 @@ namespace SpiritMod
 
 		public static HashSet<Point16> superSunFlowerPositions = new HashSet<Point16>();
 
-		//bool night = false;
 		public bool txt = false;
 
 		public override void TileCountsAvailable(ReadOnlySpan<int> tileCounts)
 		{
-			//now you don't gotta have 6 separate things for tilecount
 			CorruptHazards = tileCounts[ModContent.TileType<Corpsebloom>()] + tileCounts[ModContent.TileType<Corpsebloom1>()] + tileCounts[ModContent.TileType<Corpsebloom2>()];
 			CrimHazards = tileCounts[ModContent.TileType<CrimsonPustuleTile>()];
 		}
@@ -897,6 +895,7 @@ namespace SpiritMod
 					}
 				}
 			}
+
 			for (int y = 0; y < LootArray.GetLength(0); y++)
 			{
 				for (int x = 0; x < LootArray.GetLength(1); x++)
@@ -905,60 +904,25 @@ namespace SpiritMod
 					int l = j - 6 + y;
 					if (WorldGen.InWorld(k, l, 30))
 					{
-						Tile tile = Framing.GetTileSafely(k, l);
 						switch (LootArray[y, x])
 						{
 							case 4:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
 							case 5:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
 							case 6:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
 							case 7:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
 							case 8:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
-
-								break;
 							case 9:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
 							case 10:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
 							case 11:
+							case 13:
+							case 14:
+							case 15:
+							case 16:
 								WorldGen.KillWall(k, l);
 								Framing.GetTileSafely(k, l).ClearTile();
 								break;
 							case 12:
 								WorldGen.PlaceObject(k, l, 15);
-								break;
-							case 13:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 14:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 15:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
-								break;
-							case 16:
-								WorldGen.KillWall(k, l);
-								Framing.GetTileSafely(k, l).ClearTile();
 								break;
 						}
 					}

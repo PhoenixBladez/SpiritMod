@@ -19,9 +19,8 @@ namespace SpiritMod.Biomes
 
 		public override bool IsBiomeActive(Player player)
 		{
-			bool enoughTiles = ModContent.GetInstance<BiomeTileCounts>().asteroidCount >= 40;
 			bool surface = player.ZoneSkyHeight || player.ZoneOverworldHeight;
-			return enoughTiles && surface;
+			return BiomeTileCounts.InAsteroids && surface;
 		}
 
 		public override void OnEnter(Player player) => player.GetSpiritPlayer().ZoneAsteroid = true;

@@ -30,7 +30,7 @@ namespace SpiritMod.Biomes
 			return music;
 		}
 
-		public override bool IsBiomeActive(Player player) => (player.ZoneRockLayerHeight || player.ZoneDirtLayerHeight) && ModContent.GetInstance<BiomeTileCounts>().spiritCount >= 80;
+		public override bool IsBiomeActive(Player player) => (player.ZoneRockLayerHeight || player.ZoneDirtLayerHeight) && BiomeTileCounts.InSpirit;
 
 		public override void OnEnter(Player player) => player.GetSpiritPlayer().ZoneSpirit = true;
 		public override void OnLeave(Player player) => player.GetSpiritPlayer().ZoneSpirit = false;

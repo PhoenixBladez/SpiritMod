@@ -21,9 +21,8 @@ namespace SpiritMod.Biomes
 
 		public override bool IsBiomeActive(Player player)
 		{
-			bool enoughTiles = ModContent.GetInstance<BiomeTileCounts>().briarCount >= 80;
 			bool surface = player.ZoneSkyHeight || player.ZoneOverworldHeight;
-			return enoughTiles && surface;
+			return BiomeTileCounts.InBriar && surface;
 		}
 
 		public override void OnEnter(Player player) => player.GetSpiritPlayer().ZoneReach = true;

@@ -12,8 +12,8 @@ namespace SpiritMod.Items.Sets.TideDrops.StreamSurfer
 		{
 			DisplayName.SetDefault("Stream Surfer Chestplate");
 			Tooltip.SetDefault("9% increased magic damage\nIncreases maximum mana by 60");
-
 		}
+
 		public override void SetDefaults()
 		{
 			Item.width = 30;

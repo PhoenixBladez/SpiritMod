@@ -7,11 +7,7 @@ namespace SpiritMod.Items.Armor.SilkArmor
 	[AutoloadEquip(EquipType.Head)]
 	public class SilkHood : ModItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Manasilk Hood");
-			Tooltip.SetDefault("Increases your max number of minions");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Manasilk Hood");
 
 		public override void SetDefaults()
 		{
@@ -19,6 +15,7 @@ namespace SpiritMod.Items.Armor.SilkArmor
 			Item.height = 22;
 			Item.value = 7500;
 			Item.rare = ItemRarityID.Blue;
+			Item.vanity = true;
 		}
 
 		public override void AddRecipes()

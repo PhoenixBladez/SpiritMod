@@ -12,7 +12,7 @@ using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Furniture.Pylons
 {
-	internal abstract class SimplePylonTile : ModPylon
+	internal abstract class SimplePylonTile<T> : ModPylon where T : ModItem
 	{
 		public const int CrystalHorizontalFrameCount = 2;
 		public const int CrystalVerticalFrameCount = 8;
@@ -21,7 +21,6 @@ namespace SpiritMod.Tiles.Furniture.Pylons
 		public Asset<Texture2D> crystalTexture;
 		public Asset<Texture2D> mapIcon;
 
-		internal abstract int ItemType { get; }
 		internal abstract string MapKeyName { get; }
 
 		public override void Load()
@@ -56,18 +55,18 @@ namespace SpiritMod.Tiles.Furniture.Pylons
 		}
 
 		public virtual bool IsSold(int npcType, Player player, bool npcHappyEnough) => true;
-		public override int? IsPylonForSale(int npcType, Player player, bool isNPCHappyEnough) => IsSold(npcType, player, isNPCHappyEnough) ? ItemType : null;
+		public override int? IsPylonForSale(int npcType, Player player, bool isNPCHappyEnough) => IsSold(npcType, player, isNPCHappyEnough) ? ModContent.ItemType<T>() : null;
 
 		public override void MouseOver(int i, int j)
 		{
 			Main.LocalPlayer.cursorItemIconEnabled = true;
-			Main.LocalPlayer.cursorItemIconID = ItemType;
+			Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<T>();
 		}
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			ModContent.GetInstance<SimplePylonEntity>().Kill(i, j); //Kill pylon tile entity
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 2, 3, ItemType);
+			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 2, 3, ModContent.ItemType<T>());
 		}
 
 		public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch) => DefaultDrawPylonCrystal(spriteBatch, i, j, crystalTexture, Color.White, CrystalFrameHeight, CrystalHorizontalFrameCount, CrystalVerticalFrameCount);
