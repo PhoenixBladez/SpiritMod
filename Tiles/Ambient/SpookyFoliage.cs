@@ -14,7 +14,6 @@ namespace SpiritMod.Tiles.Ambient
 			Main.tileCut[Type] = true;
 			Main.tileSolid[Type] = false;
 			Main.tileMergeDirt[Type] = true;
-			//Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = false;
 
 			DustType = DustID.Blood;
@@ -26,13 +25,9 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.newTile.LavaDeath = true;
 			TileObjectData.newTile.WaterDeath = false;
-
 			TileObjectData.newTile.CoordinatePadding = 2;
 			TileObjectData.newTile.CoordinateWidth = 16;
-			TileObjectData.newTile.CoordinateHeights = new int[]
-			{
-				20
-			};
+			TileObjectData.newTile.CoordinateHeights = new int[] { 20 };
 			TileObjectData.newTile.DrawYOffset = -2;
 			TileObjectData.newTile.Style = 0;
 			TileObjectData.newTile.StyleHorizontal = true;
@@ -46,12 +41,6 @@ namespace SpiritMod.Tiles.Ambient
 			TileObjectData.addTile(Type);
 		}
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = 2;
-		}
-
-
-
+		public override void NumDust(int i, int j, bool fail, ref int num) => num = 2;
 	}
 }

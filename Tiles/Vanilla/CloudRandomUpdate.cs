@@ -1,7 +1,9 @@
 ﻿using SpiritMod.Tiles.Ambient.Forest;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Vanilla
 {
@@ -24,7 +26,8 @@ namespace SpiritMod.Tiles.Vanilla
 				y++;
 
 			Tile ground = Main.tile[i, y];
-			if (Main.rand.NextFloat() < chance && (ground.TileType == TileID.Grass || ground.TileType == TileID.HallowedGrass) && !ground.TopSlope)
+			bool validTiles = TileObjectData.GetTileData(ModContent.TileType<Cloudstalk>(), 0).AnchorValidTiles.Contains(type);
+			if (Main.rand.NextFloat() < chance && validTiles && !ground.TopSlope)
 			{
 				WorldGen.PlaceTile(i, y - 1, ModContent.TileType<Cloudstalk>(), true, false);
 				NetMessage.SendObjectPlacment(-1, i, y - 1, ModContent.TileType<Cloudstalk>(), 0, 0, -1, -1);

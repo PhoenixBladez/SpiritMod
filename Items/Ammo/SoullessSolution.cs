@@ -8,7 +8,7 @@ namespace SpiritMod.Items.Ammo
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Grey Solution");
+			DisplayName.SetDefault("Gray Solution");
 			Tooltip.SetDefault("Used by the Clentaminator\nPurifies The Spirit and The Briar");
 		}
 

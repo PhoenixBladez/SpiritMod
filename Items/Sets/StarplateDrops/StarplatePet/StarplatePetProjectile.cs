@@ -178,7 +178,7 @@ namespace SpiritMod.Items.Sets.StarplateDrops.StarplatePet
 			Rectangle rect = new Rectangle(0, 6 + offset, FRAME_WIDTH, FRAME_HEIGHT);
 
 			if (State >= BODY_VAR1 && State != TAIL)
-				rect = new Rectangle(State == BODY_VAR1 ? 26 : 48, 6 + offset, FRAME_WIDTH, FRAME_HEIGHT);
+				rect = new Rectangle(State == BODY_VAR1 ? 26 : 48, 6 + offset, FRAME_WIDTH - 4, FRAME_HEIGHT);
 			else if (State == TAIL)
 				rect = new Rectangle(70, 6 + offset, FRAME_WIDTH - 8, FRAME_HEIGHT);
 

@@ -18,17 +18,13 @@ namespace SpiritMod.Items.Placeable.Walls
 		{
 			Item.width = 12;
 			Item.height = 12;
-
 			Item.maxStack = 999;
-
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.useTime = 7;
 			Item.useAnimation = 15;
-
 			Item.useTurn = true;
 			Item.autoReuse = true;
 			Item.consumable = true;
-
 			Item.createWall = ModContent.WallType<SpiritWall>();
 		}
 

@@ -23,7 +23,7 @@ namespace SpiritMod.Items.Equipment
             Item.rare = ItemRarityID.Pink;
 			Item.UseSound = SoundID.Item106;
             Item.noMelee = true;
-            Item.mountType = Mod.Find<ModMount>("Obolos_Mount").Type;
+            Item.mountType = ModContent.MountType<Mounts.Obolos_Mount>();
         }  
     }
 }

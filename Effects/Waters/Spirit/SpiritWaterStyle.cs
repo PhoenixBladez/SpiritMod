@@ -24,6 +24,6 @@ namespace SpiritMod.Effects.Waters.Spirit
 
 		public override Color BiomeHairColor() => Color.Blue;
 		public override byte GetRainVariant() => (byte)Main.rand.Next(3);
-		public override Asset<Texture2D> GetRainTexture() => ModContent.Request<Texture2D>("SpiritMod/Effects/Water/Spirit/SpiritRain");
+		public override Asset<Texture2D> GetRainTexture() => ModContent.Request<Texture2D>("SpiritMod/Effects/Waters/Spirit/SpiritRain");
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpiritMod.Buffs.Mount;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +14,7 @@ namespace SpiritMod.Mounts
         public override void SetStaticDefaults()
         {
             MountData.spawnDust = 160;
-            MountData.buff = Mod.Find<ModBuff>("Obolos_Buff").Type;
+            MountData.buff = ModContent.BuffType<Obolos_Buff>();
             MountData.heightBoost = 10;         
             MountData.fallDamage = 0f;
             MountData.runSpeed = 8f;
@@ -26,12 +27,13 @@ namespace SpiritMod.Mounts
             MountData.blockExtraJumps = true;
             MountData.totalFrames = 14;           
 			MountData.usesHover = true;
+
             int[] array = new int[MountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
-            {
                 array[l] = 16;
-            }
+
 			MountData.playerYOffsets = array;
+
             MountData.xOffset = -26;                    
             MountData.yOffset = -4;          
             MountData.bodyFrame = 0;          
@@ -43,7 +45,6 @@ namespace SpiritMod.Mounts
             }
         }
 
-        //float num6;
         public override void UpdateEffects(Player player) //this is like mostly just decompiled vanilla flying mount code because using the default flying mount code did not work for custom animation style iirc
 		{
             Lighting.AddLight(player.position, 0f, 0.5f, 1f); 
@@ -82,35 +83,16 @@ namespace SpiritMod.Mounts
                 else
 					player.velocity.Y -= acc * num1;
 			}
-
-			/*if (Math.Abs(player.velocity.X) > 5) {
-				bool flip = player.velocity.X < 0 && player.direction > 0;
-				for (int i = 0; i < 3; i++) {
-					int offset = (flip) ? -1 : 1;
-					Dust dust = Dust.NewDustDirect(new Vector2(player.position.X - (46 * offset), player.position.Y + 40) - player.velocity * (i / 3), 
-						player.width, 8, 20, 0.0f, 0.0f, 100, new Color(), 1.4f);
-					dust.noGravity = true;
-					dust.velocity *= 0.1f;
-					dust.velocity += player.velocity * 0.1f;
-					dust.scale = 1.1f;
-					dust.fadeIn = 1.3f;
-				}
-			} */
-
-			//player.velocity.Y = num6;
         }
 
         public override bool UpdateFrame(Player mountedPlayer, int state, Vector2 velocity)
         {
             mountedPlayer.mount._frameCounter += 0.2f;
+
             if (Math.Abs(mountedPlayer.velocity.X) > 5)
-            {
                 mountedPlayer.mount._frame = (int)(mountedPlayer.mount._frameCounter %= 8) + 6;
-            }
             else
-            {
                 mountedPlayer.mount._frame = (int)(mountedPlayer.mount._frameCounter %= 6);
-            }
             return false;
         }
 
@@ -128,7 +110,6 @@ namespace SpiritMod.Mounts
                 spriteEffects = 0;
                 drawOrigin.X += 52;
             }
-
             return true;
         }
     }

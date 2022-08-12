@@ -138,6 +138,7 @@ namespace SpiritMod.Items.Equipment.AuroraSaddle
 		}
 
 		public static Color AuroraColor => Color.Lerp(new Color(85, 255, 229), new Color(28, 155, 255), Main.rand.NextFloat());
+
 		public static void MakeStar(float scale, Vector2 center)
 		{
 			Color color = AuroraColor;
