@@ -331,7 +331,7 @@ namespace SpiritMod
 			{
 				var pos = pins.Get<Vector2>(pair.Key);
 				// No, I don't know why it draws one tile to the right, but that's how it is
-				DrawMirrorOnFullscreenMap((int)pos.X - 1, (int)pos.Y, true, ModContent.Request<Texture2D>($"Items/Pins/Textures/Pin{pair.Key}Map", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+				DrawMirrorOnFullscreenMap((int)pos.X - 1, (int)pos.Y, true, ModContent.Request<Texture2D>($"SpiritMod/Items/Pins/Textures/Pin{pair.Key}Map", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
 			}
 		}
 
@@ -372,12 +372,12 @@ namespace SpiritMod
 		/// <param name="worldArea"></param>
 		/// <returns>A tuple indicating the screen-relative position and whether the point is within the screen
 		/// boundaries.</returns>
-		public static Tuple<int, int> GetScreenSize()
+		public static (int Width, int Height) GetScreenSize()
 		{
 			int screenWid = (int)(Main.screenWidth / Main.GameZoomTarget);
 			int screenHei = (int)(Main.screenHeight / Main.GameZoomTarget);
 
-			return Tuple.Create(screenWid, screenHei);
+			return (screenWid, screenHei);
 		}
 
 		public static (Vector2 ScreenPosition, bool IsOnScreen) GetFullMapPositionAsScreenPosition(Rectangle worldArea)

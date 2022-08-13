@@ -24,6 +24,7 @@ using SpiritMod.Items.Sets.FloranSet;
 using Terraria.WorldBuilding;
 using Terraria.IO;
 using Terraria.DataStructures;
+using SpiritMod.World.Micropasses;
 
 namespace SpiritMod.World
 {
@@ -36,76 +37,68 @@ namespace SpiritMod.World
 		#region GENPASS: SPIRIT MICROS
 		public static void MicrosPass(GenerationProgress progress, GameConfiguration config)
 		{
-			int attempts = 0;
+			progress.Message = "Spirit Mod: Microstructures: Boulders";
+			BoulderMicropass.Run(progress, config);
 
-			while (true)
+			progress.Message = "Spirit Mod: Microstructures: Campsite";
+
+			if (WorldGen.genRand.NextBool(4))
+				GenerateCampsite();
+
+			progress.Message = "Spirit Mod: Microstructures: Hideouts";
+
+			if (ModContent.GetInstance<SpiritClientConfig>().DoubleHideoutGeneration)
 			{
-				attempts++;
-				if (attempts > 20)
-					break;
-
-				progress.Message = "Spirit Mod: Microstructures: Campsite";
-
-				if (WorldGen.genRand.NextBool(4))
-					GenerateCampsite();
-
-				progress.Message = "Spirit Mod: Microstructures: Hideouts";
-
-				if (ModContent.GetInstance<SpiritClientConfig>().DoubleHideoutGeneration)
+				new BanditHideout().Generate();
+				new GoblinTower().Generate();
+				MyWorld.gennedBandits = true;
+				MyWorld.gennedTower = true;
+			}
+			else
+			{
+				if (Main.rand.NextBool(2))
 				{
 					new BanditHideout().Generate();
-					new GoblinTower().Generate();
 					MyWorld.gennedBandits = true;
-					MyWorld.gennedTower = true;
 				}
 				else
 				{
-					if (Main.rand.NextBool(2))
-					{
-						new BanditHideout().Generate();
-						MyWorld.gennedBandits = true;
-					}
-					else
-					{
-						new GoblinTower().Generate();
-						MyWorld.gennedTower = true;
-					}
+					new GoblinTower().Generate();
+					MyWorld.gennedTower = true;
 				}
-
-				progress.Message = "Spirit Mod: Microstructures: Stashes, Caverns and Dungeons";
-
-				int siz = (int)((Main.maxTilesX / 4200f) * 7);
-				int repeats = WorldGen.genRand.Next(siz, siz + 4);
-
-				for (int k = 0; k < repeats - 2; k++)
-					GenerateCrateStash();
-
-				for (int k = 0; k < (repeats / 2 + 1); k++)
-					GenerateCrateStashJungle();
-
-				for (int k = 0; k < (repeats + 2); k++)
-					GenerateBismiteCavern();
-
-				if (WorldGen.genRand.NextBool(2))
-					for (int k = 0; k < (repeats / 4); k++)
-						GenerateStoneDungeon();
-
-				for (int k = 0; k < Main.rand.Next(5, 7); k++)
-					GenerateGemStash();
-
-				progress.Message = "Spirit Mod: Microstructures: Avian Islands";
-
-				List<int> takenIslands = new List<int>();
-				for (int i = 0; i < Main.maxTilesX / 4200f * 2f; i++)
-					GenerateBoneIsland(takenIslands); //2 islands in a small world
-
-				progress.Message = "Spirit Mod: Microstructures: Pagoda and Ziggurat";
-
-				GeneratePagoda();
-				GenerateZiggurat();
-
-				break;
 			}
+
+			progress.Message = "Spirit Mod: Microstructures: Stashes, Caverns and Dungeons";
+
+			int siz = (int)((Main.maxTilesX / 4200f) * 7);
+			int repeats = WorldGen.genRand.Next(siz, siz + 4);
+
+			for (int k = 0; k < repeats - 2; k++)
+				GenerateCrateStash();
+
+			for (int k = 0; k < (repeats / 2 + 1); k++)
+				GenerateCrateStashJungle();
+
+			for (int k = 0; k < (repeats + 2); k++)
+				GenerateBismiteCavern();
+
+			if (WorldGen.genRand.NextBool(2))
+				for (int k = 0; k < (repeats / 4); k++)
+					GenerateStoneDungeon();
+
+			for (int k = 0; k < Main.rand.Next(5, 7); k++)
+				GenerateGemStash();
+
+			progress.Message = "Spirit Mod: Microstructures: Avian Islands";
+
+			List<int> takenIslands = new List<int>();
+			for (int i = 0; i < Main.maxTilesX / 4200f * 2f; i++)
+				GenerateBoneIsland(takenIslands); //2 islands in a small world
+
+			progress.Message = "Spirit Mod: Microstructures: Pagoda and Ziggurat";
+
+			GeneratePagoda();
+			GenerateZiggurat();
 		}
 		#endregion Spirit Micros
 

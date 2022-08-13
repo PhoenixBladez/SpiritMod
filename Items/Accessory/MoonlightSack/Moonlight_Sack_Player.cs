@@ -3,7 +3,7 @@ using SpiritMod.Items.Accessory.MoonlightSack;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace WhirlingWorlds.Items.Accessory.Moonlight_Sack
+namespace SpiritMod.Items.Accessory.MoonlightSack
 {
 	public class Moonlight_Sack_Player : ModPlayer
 	{

@@ -15,8 +15,8 @@ namespace SpiritMod.Particles
 
 			Color = Color.White * (float)Math.Sin(MathHelper.TwoPi * ((MaxTime - TimeActive) / (float)MaxTime)) * 0.33f;
 
-			if (Position.Y < Main.worldSurface * 16)
-				Velocity.X = MathHelper.Lerp(Velocity.X, Main.windSpeedCurrent * 15, 0.1f);
+			if (Main.LocalPlayer.ZoneOverworldHeight)
+				Velocity.X = MathHelper.Lerp(Velocity.X, Main.windSpeedCurrent * 15 * Scale, 0.1f);
 		}
 
 		public override bool ActiveCondition => Main.LocalPlayer.GetModPlayer<MyPlayer>().ZoneSpirit;
