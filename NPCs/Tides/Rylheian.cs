@@ -199,10 +199,8 @@ namespace SpiritMod.NPCs.Tides
 				NPC.frame.Y = frame * frameHeight;
 			}
 		}
-		public override void BossLoot(ref string name, ref int potionType)
-		{
-			potionType = ItemID.HealingPotion;
-		}
+
+		public override void BossLoot(ref string name, ref int potionType) => potionType = ItemID.HealingPotion;
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
@@ -219,10 +217,9 @@ namespace SpiritMod.NPCs.Tides
 
         public override void HitEffect(int hitDirection, double damage)
 		{
-			if (NPC.life <= 0) {
-				//Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Tentacle").Type, 1f);
-				//Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("TentacleHead").Type, 1f);
-			}
+			if (NPC.life <= 0)
+				for (int i = 0; i < 6; ++i)
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>(nameof(Rylheian) + i).Type, 1f);
 		}
 	}
 }

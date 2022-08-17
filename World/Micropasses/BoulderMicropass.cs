@@ -30,7 +30,7 @@ namespace SpiritMod.World.Micropasses
 		public static void Run(GenerationProgress progress, GameConfiguration config)
 		{
 			float worldSize = Main.maxTilesX / 4200f;
-			for (int i = 0; i < 12 * worldSize; i++)
+			for (int i = 0; i < 8 * worldSize; i++)
 			{
 				int x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
 				int y = (int)(Main.worldSurface * 0.35f);

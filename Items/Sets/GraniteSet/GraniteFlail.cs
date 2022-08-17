@@ -17,14 +17,13 @@ namespace SpiritMod.Items.Sets.GraniteSet
 			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Sets/GraniteSet/GraniteFlail_Glow");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = 30;
 			Item.height = 30;
 			Item.value = Item.sellPrice(0, 0, 80, 0);
 			Item.rare = ItemRarityID.Green;
-			Item.damage = 28;
+			Item.damage = 38;
 			Item.knockBack = 7;
 			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.useTime = Item.useAnimation = 41;
@@ -36,6 +35,7 @@ namespace SpiritMod.Items.Sets.GraniteSet
 			Item.shootSpeed = 11.5f;
 			Item.UseSound = SoundID.Item1;
 		}
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Lighting.AddLight(Item.position, 0.08f, .12f, .52f);

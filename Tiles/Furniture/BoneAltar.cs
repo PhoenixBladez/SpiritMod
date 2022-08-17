@@ -65,7 +65,7 @@ namespace SpiritMod.Tiles.Furniture
 		{
 			if (closer)
 			{
-				if (Main.rand.Next(20) == 0)
+				if (Main.rand.NextBool(20))
 					Dust.NewDust(new Vector2(i * 16, j * 16 - 10), 0, 16, DustID.Torch, 0.0f, -1, 0, new Color(), 0.5f);//Leave this line how it is, it uses int division
 			}
 		}

@@ -1,34 +1,13 @@
-
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Consumable.Food
 {
-	public class AcornCake : ModItem
+	public class AcornCake : FoodItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Acorn Cake");
-			Tooltip.SetDefault("'If you're really hungry, go for it'");
-		}
-
-
-		public override void SetDefaults()
-		{
-			Item.width = Item.height = 22;
-			Item.rare = ItemRarityID.Blue;
-			Item.maxStack = 99;
-			Item.noUseGraphic = true;
-			Item.useStyle = ItemUseStyleID.EatFood;
-			Item.useTime = Item.useAnimation = 30;
-			Item.buffType = BuffID.WellFed;
-			Item.buffTime = 14800;
-			Item.noMelee = true;
-			Item.consumable = true;
-			Item.UseSound = SoundID.Item2;
-			Item.autoReuse = false;
-		}
+		internal override Point Size => new(22, 22);
+		public override void StaticDefaults() => Tooltip.SetDefault("'If you're really hungry, go for it'");
 
 		public override bool CanUseItem(Player player)
 		{

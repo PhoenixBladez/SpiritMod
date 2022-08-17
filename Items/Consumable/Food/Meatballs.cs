@@ -1,33 +1,14 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Consumable.Food
 {
-	public class Meatballs : ModItem
+	public class Meatballs : FoodItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Meatballs");
-			Tooltip.SetDefault("Medium improvements to all stats\nIncreases life regeneration\n'Can't go wrong with the classics!'");
-		}
+		internal override Point Size => new(34, 28);
+		public override void StaticDefaults() => Tooltip.SetDefault("Medium improvements to all stats\nIncreases life regeneration\n'Can't go wrong with the classics!'");
 
-		public override void SetDefaults()
-		{
-			Item.width = Item.height = 22;
-			Item.rare = ItemRarityID.Blue;
-			Item.maxStack = 99;
-			Item.noUseGraphic = true;
-			Item.useStyle = ItemUseStyleID.EatFood;
-			Item.useTime = Item.useAnimation = 30;
-			Item.buffType = BuffID.WellFed2;
-			Item.buffTime = 72000;
-			Item.noMelee = true;
-			Item.consumable = true;
-			Item.UseSound = SoundID.Item2;
-			Item.autoReuse = false;
-
-		}
 		public override bool CanUseItem(Player player)
 		{
 			player.AddBuff(BuffID.Regeneration, 1800);

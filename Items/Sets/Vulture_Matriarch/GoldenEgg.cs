@@ -40,7 +40,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch
 
 		public override void Update(ref float gravity, ref float maxFallSpeed)
 		{
-			if (Main.rand.Next(20) == 0)
+			if (Main.rand.NextBool(20))
 			{
 				int index3 = Dust.NewDust(new Vector2(Item.position.X, Item.position.Y), Item.width, Item.height, DustID.GoldFlame, 0.0f, 0.0f, 150, default, 0.3f);
 				Dust dust = Main.dust[index3];

@@ -65,7 +65,7 @@ namespace SpiritMod.NPCs.Spirit
 			++Projectile.ai[1];
 			double num5 = (double)Projectile.ai[1] / 180.0;
 			for (float num6 = 0.0f; (double)num6 < 3.0; ++num6) {
-				if (Main.rand.Next(3) != 0)
+				if (!Main.rand.NextBool(3))
 					return;
 				Dust dust = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, DustID.Flare_Blue, 0.0f, -2f)];
 				dust.position = Projectile.Center + Vector2.UnitY.RotatedBy((double)num6 * (Math.PI / 1.5) + (double)Projectile.ai[1]) * 10f;

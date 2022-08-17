@@ -77,7 +77,7 @@ namespace SpiritMod.NPCs.ChestZombie
 					Item.NewItem(player.GetSource_Loot("Pickup"), (int)player.position.X, (int)player.position.Y, player.width, player.height, 965, num3);
 				}
 
-				if (Main.rand.Next(3) != 0)
+				if (!Main.rand.NextBool(3))
 				{
 					int num3 = Main.rand.Next(2);
 					int num4 = Main.rand.Next(26) + 25;
@@ -95,7 +95,7 @@ namespace SpiritMod.NPCs.ChestZombie
 						Item.NewItem(player.GetSource_Loot("Pickup"), (int)player.position.X, (int)player.position.Y, player.width, player.height, 28, num4);
 				}
 
-				if (Main.rand.Next(3) != 0)
+				if (!Main.rand.NextBool(3))
 				{
 					int p = Item.NewItem(player.GetSource_Loot("Pickup"), (int)player.position.X, (int)player.position.Y, player.width, player.height, 2350);
 					Main.item[p].stack = Main.rand.Next(2, 5);

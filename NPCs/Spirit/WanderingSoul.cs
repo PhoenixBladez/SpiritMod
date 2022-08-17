@@ -63,15 +63,14 @@ namespace SpiritMod.NPCs.Spirit
 		private static int[] SpawnTiles = { };
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-            if (!spawnInfo.Player.GetSpiritPlayer().ZoneSpirit)
-            {
+            if (!spawnInfo.Player.GetSpiritPlayer().ZoneSpirit || spawnInfo.Player.ZoneRockLayerHeight)
                 return 0f;
-            }
+
             if (SpawnTiles.Length == 0) {
 				int[] Tiles = { ModContent.TileType<SpiritDirt>(), ModContent.TileType<SpiritStone>(), ModContent.TileType<SpiritGrass>(), ModContent.TileType<SpiritIce>() };
 				SpawnTiles = Tiles;
 			}
-			return SpawnTiles.Contains(Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY].TileType) && !spawnInfo.PlayerSafe && !spawnInfo.Invasion && NPC.downedMechBossAny ? 1.59f : 0f;
+			return SpawnTiles.Contains(spawnInfo.SpawnTileType) && !spawnInfo.PlayerSafe && !spawnInfo.Invasion && NPC.downedMechBossAny ? 1.59f : 0f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

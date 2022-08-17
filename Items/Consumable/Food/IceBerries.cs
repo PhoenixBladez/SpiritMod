@@ -3,29 +3,18 @@ using Terraria.ModLoader;
 using SpiritMod.Buffs;
 using Terraria;
 using SpiritMod.NPCs.AuroraStag;
+using Microsoft.Xna.Framework;
 
 namespace SpiritMod.Items.Consumable.Food
 {
-	public class IceBerries : ModItem
+	public class IceBerries : FoodItem
 	{
-		public override void SetStaticDefaults()
+		internal override Point Size => new(30, 42);
+
+		public override void StaticDefaults()
 		{
 			DisplayName.SetDefault("Ice Berry");
 			Tooltip.SetDefault("Grants immunity to being on fire\nPerhaps some mystical creature would like this?");
-		}
-
-		public override void SetDefaults()
-		{
-			Item.width = Item.height = 22;
-			Item.rare = ItemRarityID.Green;
-			Item.maxStack = 99;
-			Item.noUseGraphic = true;
-			Item.useStyle = ItemUseStyleID.EatFood;
-			Item.useTime = Item.useAnimation = 30;
-			Item.noMelee = true;
-			Item.consumable = true;
-			Item.UseSound = SoundID.Item2;
-			Item.autoReuse = false;
 		}
 
 		public override bool? UseItem(Player player)

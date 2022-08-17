@@ -833,7 +833,7 @@ namespace SpiritMod
 					marbleJustJumped = false;
 					if (Player.HasBuff(ModContent.BuffType<MarbleDivineWinds>()))
 					{
-						if (Main.rand.Next(20) == 0)
+						if (Main.rand.NextBool(20))
 						{
 							SoundEngine.PlaySound(SoundID.Item24, Player.Center);
 						}
@@ -926,7 +926,7 @@ namespace SpiritMod
 
 			if (config.EnemyFishing && (attempt.common || attempt.uncommon))
 			{
-				if (Main.bloodMoon && Main.rand.Next(20) == 0)
+				if (Main.bloodMoon && Main.rand.NextBool(20))
 				{
 					itemDrop = 0;
 					attempt.rolledEnemySpawn = ModContent.NPCType<NPCs.BottomFeeder.BottomFeeder>();

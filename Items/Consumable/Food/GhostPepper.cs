@@ -1,33 +1,13 @@
-
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Consumable.Food
 {
-	public class GhostPepper : ModItem
+	public class GhostPepper : FoodItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ghost Pepper");
-			Tooltip.SetDefault("Minor improvements to all stats\n'Will you take the risk?'");
-		}
-
-		public override void SetDefaults()
-		{
-			Item.width = Item.height = 22;
-			Item.rare = ItemRarityID.Blue;
-			Item.maxStack = 99;
-			Item.noUseGraphic = true;
-			Item.useStyle = ItemUseStyleID.EatFood;
-			Item.useTime = Item.useAnimation = 30;
-			Item.buffType = BuffID.WellFed;
-			Item.buffTime = 18000;
-			Item.noMelee = true;
-			Item.consumable = true;
-			Item.UseSound = SoundID.Item3;
-			Item.autoReuse = false;
-		}
+		internal override Point Size => new(26, 34);
+		public override void StaticDefaults() => Tooltip.SetDefault("Minor improvements to all stats\n'Will you take the risk?'");
 
 		public override bool CanUseItem(Player player)
 		{

@@ -74,6 +74,7 @@
 		MapObject: {
 			SpiritPylon: Spirit Pylon
 			AsteroidPylon: Asteroid Pylon
+			BriarPylon: Briar Pylon
 		}
 	}
 }

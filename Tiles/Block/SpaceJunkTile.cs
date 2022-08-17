@@ -25,14 +25,13 @@ namespace SpiritMod.Tiles.Block
 			makeDust = true;
 		}
 
-		public override void FloorVisuals(Player player) => player.AddBuff(BuffID.Bleeding, 300);
 		public override bool HasWalkDust() => true;
 
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
-			if (closer && Main.rand.Next(20) == 0)
+			if (closer && Main.rand.NextBool(20))
 			{
-				int d = Dust.NewDust(new Vector2(i * 16, j * 16 - 10), Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), DustID.Wraith, 0.0f, -1, 0, new Color(), 0.5f);//Leave this line how it is, it uses int division
+				int d = Dust.NewDust(new Vector2(i * 16, j * 16 - 10), Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), DustID.Wraith, 0.0f, -1, 0, new Color(), 0.5f);
 				Main.dust[d].velocity *= .8f;
 				Main.dust[d].noGravity = true;
 			}

@@ -61,7 +61,7 @@ namespace SpiritMod.Tiles.Block
 						}
 					}
 				}
-				if (Main.rand.Next(20) == 0) {
+				if (Main.rand.NextBool(20)) {
 					int d = Dust.NewDust(new Vector2(i * 16, j * 16 - 10), Main.rand.Next(-2, 2), Main.rand.Next(-2, 2), DustID.SnowBlock, 0.0f, -1, 0, new Color(), 0.95f);//Leave this line how it is, it uses int division
 
 					Main.dust[d].velocity *= .8f;

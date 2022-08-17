@@ -58,11 +58,10 @@ namespace SpiritMod.NPCs.MoonjellyEvent
                 Dust d = Dust.NewDustPerfect(NPC.Center, 226, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, default, 0.65f);
                 d.noGravity = true;
             }
-            //if (NPC.life <= 0)
-            //{
-            //    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DistressJelly1").Type);
-            //    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DistressJelly2").Type);
-            //}
+
+			if (NPC.life <= 0)
+				for (int i = 0; i < 5; ++i)
+					Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DistressJelly" + i).Type);
 		}
 
 		public override void AI()

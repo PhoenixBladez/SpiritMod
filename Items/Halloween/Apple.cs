@@ -1,14 +1,16 @@
+using Terraria.ModLoader;
+
 namespace SpiritMod.Items.Halloween
 {
 	public class Apple : CandyBase
 	{
+		public override bool IsLoadingEnabled(Mod mod) => false;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Apple");
 			Tooltip.SetDefault("'Who the hell gives these out?'");
 		}
-
 
 		public override void SetDefaults()
 		{

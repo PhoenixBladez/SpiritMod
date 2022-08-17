@@ -170,7 +170,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GamblerChestNPCs
 				{
 					NPC.DropItem(Mod.Find<ModItem>(donatorLootTable[donatorloot]).Type, source);
 				}
-				if (Main.rand.Next(20) == 0)
+				if (Main.rand.NextBool(20))
 				{
 					NPC.DropItem(Mod.Find<ModItem>(lootTable[loot]).Type, source);
 					for (int value = 0; value < 32; value++)

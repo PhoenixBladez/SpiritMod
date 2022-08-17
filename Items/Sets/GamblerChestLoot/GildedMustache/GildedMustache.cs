@@ -29,7 +29,7 @@ namespace SpiritMod.Items.Sets.GamblerChestLoot.GildedMustache
 		
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			if (Main.rand.Next(20) == 0)
+			if (Main.rand.NextBool(20))
 			{
 				int index3 = Dust.NewDust(new Vector2(Item.position.X, Item.position.Y), Item.width, Item.height, DustID.GoldFlame, 0.0f, 0.0f, 150, new Color(), 0.3f);
 				Main.dust[index3].fadeIn = 0.75f;

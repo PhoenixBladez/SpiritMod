@@ -62,7 +62,7 @@ namespace SpiritMod.Items.Armor.StarjinxSet
 				if (Projectile.alpha > 230)
 					Projectile.Kill();
 			}
-			if(Main.rand.Next(20) == 0)
+			if(Main.rand.NextBool(20))
 			{
 				Vector2 spawnpos = Projectile.position + Main.rand.NextVector2Circular(70, 70);
 				Vector2 gorevel = (Projectile.position - spawnpos)/45;
