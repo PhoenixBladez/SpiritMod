@@ -9,8 +9,8 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Sets.MoonWizardDrops;
-using SpiritMod.Items.Sets.MoonWizardDrops.JellynautHelmet;
+using SpiritMod.Items.BossLoot.MoonWizardDrops;
+using SpiritMod.Items.BossLoot.MoonWizardDrops.JellynautHelmet;
 using System.IO;
 using SpiritMod.NPCs.MoonjellyEvent;
 using SpiritMod.Items.Consumable;
@@ -21,7 +21,7 @@ using SpiritMod.Items.Equipment;
 using SpiritMod.Items.Consumable.Potion;
 using SpiritMod.Buffs.DoT;
 using Terraria.GameContent.Bestiary;
-using SpiritMod.Items.Sets.MoonWizardDrops.MJWPet;
+using SpiritMod.Items.BossLoot.MoonWizardDrops.MJWPet;
 using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Boss.MoonWizard

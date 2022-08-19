@@ -1,11 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
-using SpiritMod.Items.Sets.AtlasDrops;
-using SpiritMod.Items.Accessory;
-using SpiritMod.Items.Armor.Masks;
+using SpiritMod.Items.BossLoot.AtlasDrops;
 using SpiritMod.Items.Consumable;
-using SpiritMod.Items.Material;
 using SpiritMod.Items.Placeable.MusicBox;
 using SpiritMod.Utilities;
 using System;

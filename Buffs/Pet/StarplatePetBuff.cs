@@ -1,5 +1,5 @@
 using SpiritMod.GlobalClasses.Players;
-using SpiritMod.Items.Sets.StarplateDrops.StarplatePet;
+using SpiritMod.Items.BossLoot.StarplateDrops.StarplatePet;
 using Terraria;
 
 namespace SpiritMod.Buffs.Pet

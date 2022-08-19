@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Sets.StarplateDrops;
-using SpiritMod.Items.Sets.StarplateDrops.StarplatePet;
+using SpiritMod.Items.BossLoot.StarplateDrops;
+using SpiritMod.Items.BossLoot.StarplateDrops.StarplatePet;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;

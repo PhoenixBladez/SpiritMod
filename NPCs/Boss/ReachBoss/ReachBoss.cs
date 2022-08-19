@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Sets.VinewrathDrops;
+using SpiritMod.Items.BossLoot.VinewrathDrops;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Items.Placeable.MusicBox;
 using SpiritMod.Utilities;

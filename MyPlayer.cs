@@ -203,7 +203,6 @@ namespace SpiritMod
 		public int frigidGloveStacks;
 		public int weaponAnimationCounter;
 		public bool gemPickaxe = false;
-		public int hexBowAnimationFrame;
 		public bool carnivorousPlantMinion = false;
 		public bool skeletalonMinion = false;
 		public bool bowSummon = false;

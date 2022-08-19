@@ -53,11 +53,11 @@ namespace SpiritMod.Items.Sets.GunsMisc.HeavenFleet
 		public override void AddRecipes()
 		{
 			var recipe = CreateRecipe(1);
-			recipe.AddIngredient(ModContent.ItemType<Items.Sets.GunsMisc.Blaster.Blaster>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<Blaster.Blaster>(), 1);
 			recipe.AddIngredient(ItemID.IllegalGunParts, 1);
-			recipe.AddIngredient(ModContent.ItemType<Items.Sets.StarplateDrops.CosmiliteShard>(), 8);
+			recipe.AddIngredient(ModContent.ItemType<BossLoot.StarplateDrops.CosmiliteShard>(), 8);
 			recipe.AddIngredient(ItemID.SoulofFlight, 10);
-			recipe.AddIngredient(ModContent.ItemType<Items.Placeable.Tiles.ScrapItem>(), 25);
+			recipe.AddIngredient(ModContent.ItemType<Placeable.Tiles.ScrapItem>(), 25);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.Register();
 		}

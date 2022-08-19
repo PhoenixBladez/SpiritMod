@@ -1,4 +1,4 @@
-﻿using SpiritMod.Items.Sets.StarplateDrops;
+﻿using SpiritMod.Items.BossLoot.StarplateDrops;
 using SpiritMod.Tiles.Block;
 using SpiritMod.Tiles.Furniture;
 using System;

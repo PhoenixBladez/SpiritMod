@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
-using SpiritMod.Items.Sets.AvianDrops.ApostleArmor;
-using SpiritMod.Items.Sets.AvianDrops;
+using SpiritMod.Items.BossLoot.AvianDrops.ApostleArmor;
+using SpiritMod.Items.BossLoot.AvianDrops;
 using SpiritMod.Utilities;
 using Terraria;
 using Terraria.Audio;

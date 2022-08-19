@@ -2,7 +2,7 @@ using SpiritMod.Tiles.Furniture;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Sets.DuskingDrops;
+using SpiritMod.Items.BossLoot.DuskingDrops;
 using SpiritMod.Items.Material;
 
 namespace SpiritMod.Items.Placeable.Furniture

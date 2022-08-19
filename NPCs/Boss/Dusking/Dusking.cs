@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Buffs;
-using SpiritMod.Items.Sets.DuskingDrops;
+using SpiritMod.Items.BossLoot.DuskingDrops;
 using SpiritMod.Items.Consumable;
 using SpiritMod.Utilities;
 using System;

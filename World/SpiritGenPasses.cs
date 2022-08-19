@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SpiritMod.Utilities;
-using SpiritMod.Items.Sets.StarplateDrops;
+using SpiritMod.Items.BossLoot.StarplateDrops;
 using SpiritMod.Items.Sets.GraniteSet;
 using SpiritMod.Items.Sets.MarbleSet;
 using SpiritMod.Tiles.Ambient;
@@ -38,7 +38,10 @@ namespace SpiritMod.World
 		public static void MicrosPass(GenerationProgress progress, GameConfiguration config)
 		{
 			progress.Message = "Spirit Mod: Microstructures: Boulders";
-			BoulderMicropass.Run(progress, config);
+			BoulderMicropass.Run();
+
+			progress.Message = "Spirit Mod: Microstructures: Waterfalls";
+			WaterfallMicropass.Run();
 
 			progress.Message = "Spirit Mod: Microstructures: Campsite";
 

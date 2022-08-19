@@ -1,10 +1,10 @@
-﻿using SpiritMod.Items.ByBiome.Asteroids.Placeables.Furniture;
+﻿using SpiritMod.Items.ByBiome.Briar.Placeable.Furniture;
 using Terraria;
 using Terraria.GameContent;
 
 namespace SpiritMod.Tiles.Furniture.Pylons
 {
-	internal class BriarPylonTile : SimplePylonTile<AsteroidPylonItem>
+	internal class BriarPylonTile : SimplePylonTile<BriarPylonItem>
 	{
 		internal override string MapKeyName => "Mods.SpiritMod.MapObject.BriarPylon";
 

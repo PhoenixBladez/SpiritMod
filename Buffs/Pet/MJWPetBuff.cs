@@ -1,5 +1,5 @@
 using SpiritMod.GlobalClasses.Players;
-using SpiritMod.Items.Sets.MoonWizardDrops.MJWPet;
+using SpiritMod.Items.BossLoot.MoonWizardDrops.MJWPet;
 using Terraria;
 
 namespace SpiritMod.Buffs.Pet

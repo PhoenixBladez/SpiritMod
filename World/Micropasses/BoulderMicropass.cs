@@ -23,16 +23,24 @@ namespace SpiritMod.World.Micropasses
 				types.Add(TileID.Emerald, 0.002f);
 				types.Add(TileID.Ruby, 0.002f);
 				types.Add(TileID.Diamond, 0.001f);
+				types.Add(TileID.BlueMoss, 0);
+				types.Add(TileID.BrownMoss, 0);
+				types.Add(TileID.GreenMoss, 0);
+				types.Add(TileID.PurpleMoss, 0);
+				types.Add(TileID.RedMoss, 0);
 				return types;
 			}
 		}
 
-		public static void Run(GenerationProgress progress, GameConfiguration config)
+		static int MossType = -1;
+		static Vector2 EndPoint = Vector2.Zero;
+
+		public static void Run()
 		{
 			float worldSize = Main.maxTilesX / 4200f;
-			for (int i = 0; i < 8 * worldSize; i++)
+			for (int i = 0; i < 6 * worldSize; i++)
 			{
-				int x = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
+				int x = WorldGen.genRand.NextBool(2) ? WorldGen.genRand.Next(100, Main.maxTilesX  / 3) : WorldGen.genRand.Next((int)(Main.maxTilesX / 1.5f), Main.maxTilesX - 100);
 				int y = (int)(Main.worldSurface * 0.35f);
 				bool fail = false;
 
@@ -53,10 +61,7 @@ namespace SpiritMod.World.Micropasses
 					continue;
 				}
 
-				if (WorldGen.genRand.NextBool(4))
-					PlaceSingleBoulder(x, y);
-				else
-					PlaceSingleBoulderFlatFaced(x, y);
+				PlaceSingleBoulderFlatFaced(x, y);
 			}
 		}
 
@@ -81,15 +86,15 @@ namespace SpiritMod.World.Micropasses
 			for (int i = 0; i < sections.Count; ++i)
 			{
 				if (i == 0)
-					sectSizes.Add(WorldGen.genRand.Next(4, 11));
+					sectSizes.Add(WorldGen.genRand.Next(2, 5));
 				else
 				{
-					int newSize = sectSizes[i - 1] + WorldGen.genRand.Next(-2, 3);
+					int newSize = sectSizes[i - 1] + (WorldGen.genRand.NextBool(2) ? WorldGen.genRand.Next(1, 3) : -WorldGen.genRand.Next(1, 3));
 
-					if (newSize < 2)
-						newSize = 2;
-					else if (newSize > 12)
-						newSize = 12;
+					if (newSize < 3)
+						newSize = 3;
+					else if (newSize > 5)
+						newSize = 5;
 
 					sectSizes.Add(newSize);
 				}
@@ -98,10 +103,16 @@ namespace SpiritMod.World.Micropasses
 			float curLength = sectSizes[0];
 			float nextLength = sectSizes[1];
 
-			for (float radians = 0; radians < MathHelper.TwoPi; radians += MathHelper.TwoPi * 0.005f)
+			MossType = -1;
+			if (WorldGen.genRand.NextBool(3))
+				MossType = Main.rand.Next(new int[] { TileID.GreenMoss, TileID.BrownMoss, TileID.BlueMoss, TileID.RedMoss, TileID.PurpleMoss });
+
+			for (float radians = 0; radians < MathHelper.TwoPi; radians += MathHelper.TwoPi * 0.01f)
 			{
 				float length = MathHelper.Lerp(curLength, nextLength, (radians - currentSect) / nextLength);
-				Utils.PlotTileLine(origin.ToWorldCoordinates(), (origin + new Vector2(length, 0).RotatedBy(radians)).ToWorldCoordinates(), 2f, PlaceTilesInLine);
+
+				EndPoint = origin + new Vector2(length, 0).RotatedBy(radians);
+				Utils.PlotTileLine(origin.ToWorldCoordinates(), EndPoint.ToWorldCoordinates(), 2f, PlaceTilesInLine);
 			}
 		}
 
@@ -110,18 +121,27 @@ namespace SpiritMod.World.Micropasses
 			ushort type = (ushort)StoneType;
 			Tile tile = Main.tile[x, y];
 
+			if (tile.HasTile && StoneType.elements.Any(x => x.Item1 == tile.TileType))
+				return true;
+
 			if (tile.HasTile)
 				WorldGen.ReplaceTile(x, y, type, 0);
 			else
 				WorldGen.PlaceTile(x, y, type, true, true);
+
 			tile.Slope = SlopeType.Solid;
 			tile.IsHalfBlock = false;
+
+			if (MossType != -1 && Vector2.DistanceSquared(new Vector2(x, y), EndPoint) < 1.5f * 1.5f && tile.TileType == TileID.Stone && WorldMethods.AdjacentOpening(x, y))
+				tile.TileType = (ushort)MossType;
+
+			Tile.SmoothSlope(x, y);
 			return true;
 		}
 
 		private static void PlaceSingleBoulder(int x, int y, bool doRepeat = true, int sizeOverride = -1)
 		{
-			int radius = WorldGen.genRand.Next(3, 6);
+			int radius = WorldGen.genRand.Next(3, 5);
 			int checkRadius = radius;
 
 			if (sizeOverride > -1)
@@ -148,7 +168,7 @@ namespace SpiritMod.World.Micropasses
 				}
 			}
 
-			PlaceSingleBoulder(x - WorldGen.genRand.Next(-4, 5), y - WorldGen.genRand.Next(-4, 5), false, radius - WorldGen.genRand.Next(2));
+			PlaceSingleBoulder(x - WorldGen.genRand.Next(-4, 5), y - WorldGen.genRand.Next(-1, 5), false, radius - WorldGen.genRand.Next(2));
 		}
 	}
 }

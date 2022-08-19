@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using SpiritMod.Items.Accessory.MeleeCharmTree;
-using SpiritMod.Items.Sets.DuskingDrops;
+using SpiritMod.Items.BossLoot.DuskingDrops;
 using SpiritMod.Projectiles.Summon.CimmerianStaff;
 using SpiritMod.Items.Accessory.MageTree;
 using SpiritMod.Items.Sets.CascadeSet.Armor;

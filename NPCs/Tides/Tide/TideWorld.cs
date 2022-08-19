@@ -52,7 +52,7 @@ namespace SpiritMod.NPCs.Tides.Tide
 				SendInfoPacket(); // Forward packet to rest of clients
 		}
 
-		public static void TideWaveIncrease()
+		public static void TideWaveIncrease(bool downed = true)
 		{
 			TideWave++;
 
@@ -76,7 +76,7 @@ namespace SpiritMod.NPCs.Tides.Tide
 					Main.soundVolume = temp;
 				}
 
-				if (!MyWorld.downedTide)
+				if (!MyWorld.downedTide && downed)
 				{
 					MyWorld.downedTide = true;
 					if (Main.netMode == NetmodeID.Server)

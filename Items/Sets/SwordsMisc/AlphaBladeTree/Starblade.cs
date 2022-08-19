@@ -1,12 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Items.Sets.StarplateDrops;
+using SpiritMod.Items.BossLoot.StarplateDrops;
 using SpiritMod.Projectiles;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 {
 	public class Starblade : ModItem
@@ -83,7 +84,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.AlphaBladeTree
 		{
 			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ItemID.Starfury, 1);
-			recipe.AddIngredient(ModContent.ItemType<Items.Sets.AvianDrops.TalonBlade>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<Items.BossLoot.AvianDrops.TalonBlade>(), 1);
 			recipe.AddIngredient(ItemID.FallenStar, 5);
 			recipe.AddIngredient(ModContent.ItemType<CosmiliteShard>(), 6);
 			recipe.AddTile(TileID.Anvils);

@@ -19,7 +19,7 @@ using SpiritMod.Items.Sets.SwordsMisc.BladeOfTheDragon;
 using SpiritMod.Items.Weapon.Magic;
 using SpiritMod.Items.Weapon.Summon;
 using SpiritMod.Items.Weapon.Yoyo;
-using SpiritMod.Items.Sets.MoonWizardDrops;
+using SpiritMod.Items.BossLoot.MoonWizardDrops;
 using SpiritMod.NPCs.Boss;
 using SpiritMod.NPCs.Boss.Atlas;
 using SpiritMod.NPCs.Boss.Dusking;

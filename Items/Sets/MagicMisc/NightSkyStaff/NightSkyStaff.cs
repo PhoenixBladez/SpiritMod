@@ -54,10 +54,10 @@ namespace SpiritMod.Items.Sets.MagicMisc.NightSkyStaff
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe();
-			recipe.AddIngredient(ModContent.ItemType<Items.Sets.MagicMisc.ZephyrBreath.BreathOfTheZephyr>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<Items.Sets.FrigidSet.HowlingScepter>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<Items.Sets.GraniteSet.GraniteWand>(), 1);
-			recipe.AddIngredient(ModContent.ItemType<Items.Sets.StarplateDrops.CosmiliteShard>(), 7);
+			recipe.AddIngredient(ModContent.ItemType<ZephyrBreath.BreathOfTheZephyr>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<FrigidSet.HowlingScepter>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<GraniteSet.GraniteWand>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<BossLoot.StarplateDrops.CosmiliteShard>(), 7);
 			recipe.AddTile(TileID.Anvils);
 			recipe.Register();
 		}

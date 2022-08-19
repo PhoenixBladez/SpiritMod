@@ -1,4 +1,4 @@
-﻿using SpiritMod.Items.Sets.VinewrathDrops;
+﻿using SpiritMod.Items.BossLoot.VinewrathDrops;
 using Terraria;
 using Terraria.Audio;
 using System;

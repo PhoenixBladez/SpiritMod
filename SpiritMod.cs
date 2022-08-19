@@ -235,39 +235,120 @@ namespace SpiritMod
 
 			try
 			{
-				if (context == CallContext.Downed)
+				if (context == CallContext.Downed) //Gets if a boss has been downed
 					return BossDowned(args);
-				if (context == CallContext.GlyphGet)
+				else if (context == CallContext.GlyphGet) //Gets an item's glyph
 					return GetGlyph(args);
-				if (context == CallContext.GlyphSet)
+				else if (context == CallContext.GlyphSet) //Sets an item's glyph
 				{
 					SetGlyph(args);
 					return null;
 				}
-				if (context == CallContext.AddQuest)
+				else if (context == CallContext.AddQuest) //Adds a quest
 					return QuestManager.ModCallAddQuest(args);
-				if (context == CallContext.UnlockQuest)
+				else if (context == CallContext.UnlockQuest) //Unlocks a quest
 				{
 					QuestManager.ModCallUnlockQuest(args);
 					return null;
 				}
-				if (context == CallContext.GetQuestIsUnlocked)
+				else if (context == CallContext.GetQuestIsUnlocked) //Self explanatory until...
 					return QuestManager.ModCallGetQuestValueFromContext(args, 0);
-				if (context == CallContext.GetQuestIsCompleted)
+				else if (context == CallContext.GetQuestIsCompleted)
 					return QuestManager.ModCallGetQuestValueFromContext(args, 2);
-				if (context == CallContext.GetQuestIsActive)
+				else if (context == CallContext.GetQuestIsActive)
 					return QuestManager.ModCallGetQuestValueFromContext(args, 1);
-				if (context == CallContext.GetQuestRewardsGiven)
+				else if (context == CallContext.GetQuestRewardsGiven) //...here
 					return QuestManager.ModCallGetQuestValueFromContext(args, 3);
-				if (context == CallContext.Portrait)
+				else if (context == CallContext.Portrait) //Adds a new portrait from another mod
 				{
 					PortraitManager.ModCallAddPortrait(args);
 					return null;
 				}
+				else if (context == CallContext.Events) //Gets or sets event bools
+					return EventCall(args);
 			}
 			catch (Exception e)
 			{
 				Logger.Error("Call Error: " + e.Message + "\n" + e.StackTrace);
+			}
+			return null;
+		}
+
+		private object EventCall(object[] args)
+		{
+			if (args[1] is not bool get)
+			{
+				var stack = new System.Diagnostics.StackTrace(true);
+				Logger.Error("Call Error: Invalid argument for Event call:\n" + stack.ToString());
+				return null;
+			}
+
+			if (get)
+				return GetEventFromCall(args[2]);
+			else
+				return SetEventFromCall(args[2], args[3], args.Length > 4 ? args[4] : null);
+		}
+
+		private static bool? GetEventFromCall(object nameVal)
+		{
+			if (nameVal is not string name)
+				return null;
+
+			return name.ToUpper() switch
+			{
+				"THETIDE" => TideWorld.TheTide,
+				"TIDE" => TideWorld.TheTide,
+				"CALMNIGHT" => MyWorld.calmNight,
+				"BLUEMOON" => MyWorld.BlueMoon,
+				_ => null,
+			};
+		}
+
+		private static bool? SetEventFromCall(object nameVal, object valueVal, object optionalVal)
+		{
+			if (nameVal is not string name)
+				return null;
+
+			if (valueVal is not bool value)
+				return null;
+
+			name = name.ToUpper();
+
+			if (name == "THETIDE" || name == "TIDE")
+			{
+				if (optionalVal is not bool additional)
+					additional = false;
+
+				if (!value && TideWorld.TheTide)
+				{
+					TideWorld.TideWave = 5;
+					TideWorld.TideWaveIncrease(additional);
+					return true;
+				}
+				else if (value && !TideWorld.TheTide)
+				{
+					if (Main.netMode == NetmodeID.MultiplayerClient)
+						WriteToPacket(Instance.GetPacket(), (byte)MessageType.StartTide).Send();
+					else
+					{
+						TideWorld.TheTide = true;
+						TideWorld.TideWaveIncrease();
+					}
+					return true;
+				}
+				return false;
+			}
+			else if (name == "CALMNIGHT")
+			{
+				bool oldCalmNight = MyWorld.calmNight;
+				MyWorld.calmNight = value;
+				return oldCalmNight != value;
+			}
+			else if (name == "BLUEMOON")
+			{
+				bool oldBlueMoon = MyWorld.BlueMoon;
+				MyWorld.BlueMoon = value;
+				return oldBlueMoon != value;
 			}
 			return null;
 		}
@@ -306,19 +387,21 @@ namespace SpiritMod
 		{
 			if (args.Length < 2)
 				throw new ArgumentException("No boss name specified");
+
 			string name = args[1] as string;
-			switch (name)
+
+			return name switch
 			{
-				case "Scarabeus": return MyWorld.downedScarabeus;
-				case "Moon Jelly Wizard": return MyWorld.downedMoonWizard;
-				case "Vinewrath Bane": return MyWorld.downedReachBoss;
-				case "Ancient Avian": return MyWorld.downedAncientFlier;
-				case "Starplate Raider": return MyWorld.downedRaider;
-				case "Infernon": return MyWorld.downedInfernon;
-				case "Dusking": return MyWorld.downedDusking;
-				case "Atlas": return MyWorld.downedAtlas;
-			}
-			throw new ArgumentException("Invalid boss name:" + name);
+				"Scarabeus" => MyWorld.downedScarabeus,
+				"Moon Jelly Wizard" => MyWorld.downedMoonWizard,
+				"Vinewrath Bane" => MyWorld.downedReachBoss,
+				"Ancient Avian" => MyWorld.downedAncientFlier,
+				"Starplate Raider" => MyWorld.downedRaider,
+				"Infernon" => MyWorld.downedInfernon,
+				"Dusking" => MyWorld.downedDusking,
+				"Atlas" => MyWorld.downedAtlas,
+				_ => throw new ArgumentException("Invalid boss name:" + name),
+			};
 		}
 
 		private static void SetGlyph(object[] args)
@@ -562,7 +645,7 @@ namespace SpiritMod
 			if (Main.netMode != NetmodeID.Server)
 			{
 				TrailManager = new TrailManager(this);
-				EquipLoader.AddEquipTexture(this, "SpiritMod/Items/Sets/AvianDrops/ApostleArmor/TalonGarb_Legs", EquipType.Legs, null, "TalonGarb_Legs");
+				EquipLoader.AddEquipTexture(this, "SpiritMod/Items/BossLoot/AvianDrops/ApostleArmor/TalonGarb_Legs", EquipType.Legs, null, "TalonGarb_Legs");
 				EmptyTexture = ModContent.Request<Texture2D>("SpiritMod/Empty", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value; 
 				auroraEffect = ModContent.Request<Effect>("SpiritMod/Effects/aurora", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
@@ -1215,6 +1298,7 @@ namespace SpiritMod
 		GetQuestIsCompleted,
 		GetQuestRewardsGiven,
 		Portrait,
+		Events,
 		Limit
 	}
 }

@@ -1,4 +1,4 @@
-using SpiritMod.Items.Sets.StarplateDrops;
+using SpiritMod.Items.BossLoot.StarplateDrops;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;

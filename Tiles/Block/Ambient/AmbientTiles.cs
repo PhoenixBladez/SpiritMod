@@ -1,32 +1,14 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Tiles.Block.Ambient
 {
-    public class MagmastoneItem : AmbientStoneItem
+    public class MagmastoneItem : AmbientStoneItem<Magmastone_Tile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Magmastone");
-
-		public override void SetDefaults()
-		{		
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<Magmastone_Tile>();
-        }
 
 		public override void AddRecipes()
 		{
@@ -42,6 +24,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe1.Register();
 		}
     }
+
     public class Magmastone_Tile : ModTile
     {
         public override void SetStaticDefaults()
@@ -49,15 +32,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlendAll[Type] = true;
-			HitSound = SoundID.Tink;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
-            AddMapEntry(new Color(79, 55, 59));
 			ItemDrop = ModContent.ItemType<MagmastoneItem>();
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Magmastone");
 			DustType = DustID.Torch;
-        }
+            AddMapEntry(new Color(79, 55, 59));
+		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
@@ -78,26 +58,11 @@ namespace SpiritMod.Tiles.Block.Ambient
 				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Block/Ambient/Magmastone_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
     }
-    public class SmolderingRockItem : AmbientStoneItem
+
+    public class SmolderingRockItem : AmbientStoneItem<SmolderingRock_Tile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Smoldering Rock");
 
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<SmolderingRock_Tile>();
-        }
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(50);
@@ -112,6 +77,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe1.Register();
 		}
     }
+
     public class SmolderingRock_Tile : ModTile
     {
         public override void SetStaticDefaults()
@@ -148,26 +114,11 @@ namespace SpiritMod.Tiles.Block.Ambient
 				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Block/Ambient/SmolderingRock_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
     }
-    public class CinderstoneItem : AmbientStoneItem
+
+    public class CinderstoneItem : AmbientStoneItem<CinderstoneTile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Cinderstone");
 
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<CinderstoneTile>();
-        }
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(50);
@@ -218,26 +169,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 				Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Block/Ambient/Cinderstone_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y + 2) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), new Color(100, 100, 100, 100), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
     }
-    public class MottledStoneItem : AmbientStoneItem
+
+    public class MottledStoneItem : AmbientStoneItem<MottledStone_Tile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Mottled Stone");
-
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<MottledStone_Tile>();
-        }
     }
 
     public class MottledStone_Tile : ModTile
@@ -257,26 +192,9 @@ namespace SpiritMod.Tiles.Block.Ambient
         }
     }
 
-    public class AzureGemBlockItem : AzureGemItem
+    public class AzureGemBlockItem : AzureGemItem<AzureBlock_Tile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Azure Block");
-
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<AzureBlock_Tile>();
-        }
     }
 
     public class AzureBlock_Tile : ModTile
@@ -316,26 +234,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
     }
 
-    public class ObsidianBlockItem : AmbientStoneItem
+    public class ObsidianBlockItem : AmbientStoneItem<ObsidianBlockTile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Obsidian Stone");
 
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<ObsidianBlockTile>();
-        }
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(50);
@@ -366,27 +268,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.Wraith;
         }
     }
-    public class OldStoneItem : AmbientStoneItem
+
+    public class OldStoneItem : AmbientStoneItem<OldStone_Tile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Old Stone");
-
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<OldStone_Tile>();
-        }
     }
+
     public class OldStone_Tile : ModTile
     {
         public override void SetStaticDefaults()
@@ -403,27 +290,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.Iron;
         }
     }
- 	public class OutlandStoneItem : AmbientStoneItem
+
+ 	public class OutlandStoneItem : AmbientStoneItem<OutlandStoneTile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Outland Stone");
-
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<OutlandStoneTile>();
-        }
     }
+
     public class OutlandStoneTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -441,26 +313,9 @@ namespace SpiritMod.Tiles.Block.Ambient
         }
     }
 
-    public class RuinstoneItem : AmbientStoneItem
+    public class RuinstoneItem : AmbientStoneItem<Ruinstone_Tile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Ruinstone");
-
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<Ruinstone_Tile>();
-        }
     }
 
     public class Ruinstone_Tile : ModTile
@@ -480,26 +335,9 @@ namespace SpiritMod.Tiles.Block.Ambient
         }
     }
 
-    public class VinestoneItem : AmbientStoneItem
+    public class VinestoneItem : AmbientStoneItem<Vinestone_Tile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Vinestone");
-
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<Vinestone_Tile>();
-        }
     }
 
     public class Vinestone_Tile : ModTile
@@ -519,26 +357,9 @@ namespace SpiritMod.Tiles.Block.Ambient
         }
     }
 
-    public class WornStoneItem : AmbientStoneItem
+    public class WornStoneItem : AmbientStoneItem<WornStone_Tile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Worn Stone");
-
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<WornStone_Tile>();
-        }
     }
 
     public class WornStone_Tile : ModTile
@@ -558,27 +379,11 @@ namespace SpiritMod.Tiles.Block.Ambient
         }
     }    
 
-	public class IvyStoneItem : AmbientStoneItem
+	public class IvyStoneItem : AmbientStoneItem<IvyStoneTile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Ivy Stone");
-
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<IvyStoneTile>();
-        }
     }
+
     public class IvyStoneTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -596,26 +401,9 @@ namespace SpiritMod.Tiles.Block.Ambient
         }
     }    
 
-	public class CorruptPustuleItem : AmbientCorruptItem
+	public class CorruptPustuleItem : AmbientCorruptItem<CorruptPustule_Tile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Corrupt Pustule");
-
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<CorruptPustule_Tile>();
-        }
     }
 
     public class CorruptPustule_Tile : ModTile
@@ -652,29 +440,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			}
 		}
     }
-	public class DarkFoliageItem : AmbientCorruptItem
+
+	public class DarkFoliageItem : AmbientCorruptItem<DarkFoliageTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Dark Foliage");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<DarkFoliageTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Dark Foliage");
     }
+
     public class DarkFoliageTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -691,29 +462,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.CorruptPlants;
         }
     }
-	public class CorruptOvergrowthItem : AmbientCorruptItem
+
+	public class CorruptOvergrowthItem : AmbientCorruptItem<CorruptOvergrowthTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Corrupt Overgrowth");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<CorruptOvergrowthTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Corrupt Overgrowth");
     }
+
     public class CorruptOvergrowthTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -729,26 +483,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.CorruptPlants;
         }
     }
-	public class CorruptTendrilItem : AmbientCorruptItem
+
+	public class CorruptTendrilItem : AmbientCorruptItem<CorruptTendrilTile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Corrupt Tendril");
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<CorruptTendrilTile>();
-        }
     }
+
     public class CorruptTendrilTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -764,29 +504,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.CorruptPlants;
         }
     }
-	public class CorruptMassItem : AmbientCorruptItem
+
+	public class CorruptMassItem : AmbientCorruptItem<CorruptMassTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Corrupt Mass");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<CorruptMassTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Corrupt Mass");
     }
+
     public class CorruptMassTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -802,29 +525,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.CorruptPlants;
         }
     }
-    public class StalactiteStoneItem : AmbientStoneItem
+
+    public class StalactiteStoneItem : AmbientStoneItem<StalactiteStone_Tile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Stalactite Stone");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<StalactiteStone_Tile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Stalactite Stone");
     }
+
     public class StalactiteStone_Tile : ModTile
     {
         public override void SetStaticDefaults()
@@ -841,29 +547,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.Stone;
         }
     }
-	public class CragstoneItem : AmbientStoneItem
+
+	public class CragstoneItem : AmbientStoneItem<CragstoneTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cragstone");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<CragstoneTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Cragstone");
     }
+
     public class CragstoneTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -880,29 +569,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.Stone;
         }
     }
-	public class FracturedStoneItem : AmbientStoneItem
+
+	public class FracturedStoneItem : AmbientStoneItem<FracturedStoneTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Fractured Stone");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<FracturedStoneTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Fractured Stone");
     }
+
     public class FracturedStoneTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -919,29 +591,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.Stone;
         }
     }
-	public class LeafyDirtItem : AmbientLeafItem
+
+	public class LeafyDirtItem : AmbientLeafItem<LeafyDirtTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Leafy Dirt");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<LeafyDirtTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Leafy Dirt");
     }
+
     public class LeafyDirtTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -957,29 +612,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.Dirt;
         }
     }
-	public class ForestFoliageItem : AmbientLeafItem
+
+	public class ForestFoliageItem : AmbientLeafItem<ForestFoliageTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Forest Foliage");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<ForestFoliageTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Forest Foliage");
     }
+
     public class ForestFoliageTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -995,29 +633,11 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.Grass;
         }
     }
-	public class FloweryFoliageItem : AmbientLeafItem
+	public class FloweryFoliageItem : AmbientLeafItem<FloweryFoliageTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Flowery Foliage");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<FloweryFoliageTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Flowery Foliage");
     }
+
     public class FloweryFoliageTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -1033,29 +653,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.Grass;
         }
     }
-	public class JungleFoliageItem : AmbientLeafItem
+
+	public class JungleFoliageItem : AmbientLeafItem<JungleFoliageTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Jungle Foliage");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<JungleFoliageTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Jungle Foliage");
     }
+
     public class JungleFoliageTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -1071,29 +674,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.CorruptGibs;
         }
     }
-	public class CrumblingDirtItem : AmbientDirtItem
+
+	public class CrumblingDirtItem : AmbientDirtItem<CrumblingDirtTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Crumbling Dirt");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<CrumblingDirtTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Crumbling Dirt");
     }
+
     public class CrumblingDirtTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -1110,29 +696,11 @@ namespace SpiritMod.Tiles.Block.Ambient
         }
     }
 
-	public class CrackedDirtItem : AmbientDirtItem
+	public class CrackedDirtItem : AmbientDirtItem<CrackedDirtTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cracked Dirt");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<CrackedDirtTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Cracked Dirt");
     }
+
     public class CrackedDirtTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -1148,29 +716,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.Dirt;
         }
     }
-	public class RoughDirtItem : AmbientDirtItem
+
+	public class RoughDirtItem : AmbientDirtItem<RoughDirtTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Rough Dirt");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<RoughDirtTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Rough Dirt");
     }
+
     public class RoughDirtTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -1186,29 +737,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.Dirt;
         }
     }
-	public class RockyDirtItem : AmbientDirtItem
+
+	public class RockyDirtItem : AmbientDirtItem<RockyDirtTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Rocky Dirt");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<RockyDirtTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Rocky Dirt");
     }
+
     public class RockyDirtTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -1224,29 +758,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.Dirt;
         }
     }
-	public class LayeredDirtItem : AmbientDirtItem
+
+	public class LayeredDirtItem : AmbientDirtItem<LayeredDirtTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Layered Dirt");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<LayeredDirtTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Layered Dirt");
     }
+
     public class LayeredDirtTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -1262,29 +779,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.Dirt;
         }
     }
-	public class CaveDirtItem : AmbientDirtItem
+
+	public class CaveDirtItem : AmbientDirtItem<CaveDirtTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cave Dirt");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<CaveDirtTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Cave Dirt");
     }
+
     public class CaveDirtTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -1300,29 +800,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.Dirt;
         }
     }
-	public class WavyDirtItem : AmbientDirtItem
+
+	public class WavyDirtItem : AmbientDirtItem<WavyDirtTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Wavy Dirt");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<WavyDirtTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Wavy Dirt");
     }
+
     public class WavyDirtTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -1339,26 +822,9 @@ namespace SpiritMod.Tiles.Block.Ambient
         }
     }
 
-	public class CrimsonPustuleItem : AmbientCrimsonItem
+	public class CrimsonPustuleItem : AmbientCrimsonItem<CrimsonPustuleBlockTile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Crimson Pustule");
-
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<CrimsonPustuleBlockTile>();
-        }
     }
 
     public class CrimsonPustuleBlockTile : ModTile
@@ -1377,28 +843,9 @@ namespace SpiritMod.Tiles.Block.Ambient
         }
     }
 
-	public class CrimsonScabItem : AmbientCrimsonItem
+	public class CrimsonScabItem : AmbientCrimsonItem<CrimsonScabTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Crimson Scab");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<CrimsonScabTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Crimson Scab");
     }
 
     public class CrimsonScabTile : ModTile
@@ -1417,26 +864,9 @@ namespace SpiritMod.Tiles.Block.Ambient
         }
     }
 
-	public class BloodyFoliageItem : AmbientLeafItem
+	public class BloodyFoliageItem : AmbientLeafItem<BloodyFoliageTile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Bloody Foliage");
-
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<BloodyFoliageTile>();
-        }
     }
 
     public class BloodyFoliageTile : ModTile
@@ -1456,25 +886,9 @@ namespace SpiritMod.Tiles.Block.Ambient
         }
     }
 
-	public class CrimsonBlisterItem : AmbientCrimsonItem
+	public class CrimsonBlisterItem : AmbientCrimsonItem<CrimsonBlisterTile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Crimson Blister");
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<CrimsonBlisterTile>();
-        }
     }
 
     public class CrimsonBlisterTile : ModTile
@@ -1513,29 +927,11 @@ namespace SpiritMod.Tiles.Block.Ambient
 		}
     }
 
-	public class HallowPrismstoneItem : AmbientHallowItem
+	public class HallowPrismstoneItem : AmbientHallowItem<HallowPrismstoneTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Hallowed Prismstone");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<HallowPrismstoneTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Hallowed Prismstone");
     }
+
     public class HallowPrismstoneTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -1558,29 +954,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			b = .168f * 1.5f;
 		}
 	}
-	public class HallowCavernstoneItem : AmbientHallowItem
+
+	public class HallowCavernstoneItem : AmbientHallowItem<HallowCavernstoneTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Hallowed Cavernstone");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<HallowCavernstoneTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Hallowed Cavernstone");
     }
+
     public class HallowCavernstoneTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -1596,29 +975,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.SnowBlock;
         }
 	}
-	public class HallowFoliageItem : AmbientLeafItem
+
+	public class HallowFoliageItem : AmbientLeafItem<HallowFoliageTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Hallowed Foliage");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<HallowFoliageTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Hallowed Foliage");
     }
+
     public class HallowFoliageTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -1635,29 +997,12 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.GreenMoss;
         }
 	}
-	public class HallowShardstoneItem : AmbientHallowItem
+
+	public class HallowShardstoneItem : AmbientHallowItem<HallowShardstoneTile>
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Hallowed Shardstone");
-		}
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<HallowShardstoneTile>();
-        }
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Hallowed Shardstone");
     }
+
     public class HallowShardstoneTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -1673,26 +1018,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = DustID.PinkCrystalShard;
         }
 	}
-	public class HallowCrystallineItem : AmbientHallowItem
+
+	public class HallowCrystallineItem : AmbientHallowItem<HallowCrystallineTile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Hallowed Crystalline Stone");
-
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<HallowCrystallineTile>();
-        }
     }
 
     public class HallowCrystallineTile : ModTile
@@ -1711,26 +1040,10 @@ namespace SpiritMod.Tiles.Block.Ambient
         }
 	}
 
-	public class HiveBlockAltItem : ModItem
+	public class HiveBlockAltItem : AmbientBlockItem<HiveBlockAltTile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Hive Hexblock");
 
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<HiveBlockAltTile>();
-        }
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);
@@ -1744,6 +1057,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe1.Register();
 		}
     }
+
     public class HiveBlockAltTile : ModTile
     {
         public override void SetStaticDefaults()
@@ -1759,26 +1073,10 @@ namespace SpiritMod.Tiles.Block.Ambient
 			DustType = 7;
         }
 	}
-	public class RuneBlockItem : ModItem
+
+	public class RuneBlockItem : AmbientBlockItem<RuneBlockTile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Arcane Rune Block");
-
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<RuneBlockTile>();
-        }
 
 		public override void AddRecipes()
 		{
@@ -1810,26 +1108,10 @@ namespace SpiritMod.Tiles.Block.Ambient
         }
 	}
 
-	public class KrampusHornBlockItem : ModItem
+	public class KrampusHornBlockItem : AmbientBlockItem<KrampusHornBlockTile>
     {
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Krampus Horn Block");
 
-		public override void SetDefaults()
-		{
-			Item.width = 16;
-			Item.height = 14;
-
-			Item.maxStack = 999;
-
-			Item.useStyle = ItemUseStyleID.Swing;
-			Item.useTime = 10;
-			Item.useAnimation = 15;
-
-			Item.useTurn = true;
-			Item.autoReuse = true;
-			Item.consumable = true;
-            Item.createTile = ModContent.TileType<KrampusHornBlockTile>();
-        }
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);

@@ -33,6 +33,12 @@ namespace SpiritMod.Buffs.Pet
 				Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Center, Vector2.Zero, ModContent.ProjectileType<T>(), 0, 0f, player.whoAmI);
 		}
 
-		public abstract void SetPetFlag(Player player, PetPlayer petPlayer);
+		public virtual void SetPetFlag(Player player, PetPlayer petPlayer)
+		{
+			if (!petPlayer.pets.ContainsKey(ModContent.ProjectileType<T>()))
+				petPlayer.pets.Add(ModContent.ProjectileType<T>(), true);
+
+			petPlayer.pets[ModContent.ProjectileType<T>()] = true;
+		}
 	}
 }

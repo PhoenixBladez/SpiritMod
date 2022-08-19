@@ -1,15 +1,28 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using SpiritMod.Items.Sets.HuskstalkSet;
 using SpiritMod.Items.Sets.BriarDrops;
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace SpiritMod.Tiles.Block.Ambient
 {
-   public abstract class AmbientStoneItem : ModItem
+	public abstract class AmbientBlockItem<T> : ModItem where T : ModTile
+	{
+		public override void SetDefaults()
+		{
+			Item.width = 16;
+			Item.height = 14;
+			Item.maxStack = 999;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = 10;
+			Item.useAnimation = 15;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.consumable = true;
+			Item.createTile = ModContent.TileType<T>();
+		}
+	}
+
+	public abstract class AmbientStoneItem<T> : AmbientBlockItem<T> where T : ModTile
 	{
 		public override void AddRecipes()
 		{
@@ -24,7 +37,8 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe1.Register();
 		}
 	}
-	public abstract class AmbientDirtItem : ModItem
+
+	public abstract class AmbientDirtItem<T> : AmbientBlockItem<T> where T : ModTile
 	{
 		public override void AddRecipes()
 		{
@@ -39,7 +53,8 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe1.Register();
 		}
 	}
-	public abstract class AmbientCorruptItem : ModItem
+
+	public abstract class AmbientCorruptItem<T> : AmbientBlockItem<T> where T : ModTile
 	{
 		public override void AddRecipes()
 		{
@@ -55,7 +70,8 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe1.Register();
 		}
 	}
-	public abstract class AmbientCrimsonItem : ModItem
+
+	public abstract class AmbientCrimsonItem<T> : AmbientBlockItem<T> where T : ModTile
 	{
 		public override void AddRecipes()
 		{
@@ -71,7 +87,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe1.Register();
 		}
 	}
-	public abstract class AmbientHallowItem : ModItem
+	public abstract class AmbientHallowItem<T> : AmbientBlockItem<T> where T : ModTile
 	{
 		public override void AddRecipes()
 		{
@@ -87,7 +103,8 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe1.Register();
 		}
 	}
-	public abstract class AmbientLeafItem : ModItem
+
+	public abstract class AmbientLeafItem<T> : AmbientBlockItem<T> where T : ModTile
 	{
 		public override void AddRecipes()
 		{
@@ -103,7 +120,8 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe1.Register();
 		}
 	}
-	public abstract class AzureGemItem : ModItem
+
+	public abstract class AzureGemItem<T> : AmbientBlockItem<T> where T : ModTile
 	{
 		public override void AddRecipes()
 		{
@@ -113,7 +131,7 @@ namespace SpiritMod.Tiles.Block.Ambient
 			recipe.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe.Register();
 
-			Recipe recipe1 = Recipe.Create(ModContent.ItemType<Items.Sets.SeraphSet.MoonStone>(),1);
+			Recipe recipe1 = Recipe.Create(ModContent.ItemType<Items.Sets.SeraphSet.MoonStone>(), 1);
 			recipe1.AddIngredient(this, 50);
 			recipe1.AddTile(ModContent.TileType<Tiles.Furniture.ForagerTableTile>());
 			recipe1.Register();

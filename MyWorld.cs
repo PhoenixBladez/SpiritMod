@@ -7,7 +7,7 @@ using SpiritMod.Items.Glyphs;
 using SpiritMod.Items.Material;
 using SpiritMod.Items.Placeable;
 using SpiritMod.Items.Placeable.Tiles;
-using SpiritMod.Items.Sets.StarplateDrops;
+using SpiritMod.Items.BossLoot.StarplateDrops;
 using SpiritMod.Items.Sets.BriarChestLoot;
 using SpiritMod.Items.Sets.ToolsMisc.Evergreen;
 using SpiritMod.Items.Weapon.Summon;

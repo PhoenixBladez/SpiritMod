@@ -2,8 +2,6 @@
 using SpiritMod.Items.Sets.BloodcourtSet;
 using System;
 using System.Collections.Generic;
-using SpiritMod.Items.Weapon.Summon.SacrificialDagger;
-using SpiritMod.Items.Weapon.Yoyo;
 using SpiritMod.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -15,6 +13,7 @@ using SpiritMod.Items.Placeable.Relics;
 using SpiritMod.Mechanics.QuestSystem;
 using SpiritMod.Mechanics.QuestSystem.Quests;
 using Terraria.GameContent.Bestiary;
+using SpiritMod.Items.BossLoot.OccultistDrops;
 
 namespace SpiritMod.NPCs.Boss.Occultist
 {

@@ -1,5 +1,5 @@
 using SpiritMod.GlobalClasses.Players;
-using SpiritMod.Items.Sets.ScarabeusDrops.ScarabPet;
+using SpiritMod.Items.BossLoot.ScarabeusDrops.ScarabPet;
 using Terraria;
 
 namespace SpiritMod.Buffs.Pet

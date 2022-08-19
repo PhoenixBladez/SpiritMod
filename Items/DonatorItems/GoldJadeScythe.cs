@@ -85,7 +85,7 @@ namespace SpiritMod.Items.DonatorItems
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);
-			recipe.AddIngredient(ModContent.ItemType<Sets.ScarabeusDrops.Chitin>(), 12);
+			recipe.AddIngredient(ModContent.ItemType<BossLoot.ScarabeusDrops.Chitin>(), 12);
 			recipe.AddIngredient(ItemID.Emerald, 4);
 			recipe.AddRecipeGroup("SpiritMod:GoldBars", 5);
 			recipe.AddIngredient(ItemID.SoulofLight, 5);

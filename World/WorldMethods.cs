@@ -403,5 +403,14 @@ namespace SpiritMod.World
 		}
 
 		public static bool AreaClear(int i, int j, int width, int height) => AreaCount(i, j, width, height) == 0;
+
+		public static bool AdjacentOpening(int x, int y)
+		{
+			for (int i = x - 1; i < x + 2; ++i)
+				for (int j = y - 1; j < y + 2; ++j)
+					if (!WorldGen.SolidTile(i, j) && (i != x || j != y))
+						return true;
+			return false;
+		}
 	}
 }

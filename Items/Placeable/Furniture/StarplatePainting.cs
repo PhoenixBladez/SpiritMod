@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Placeable.Furniture
 		{
 			Recipe recipe = CreateRecipe();
 			recipe.AddIngredient(ModContent.ItemType<Canvas>());
-			recipe.AddIngredient(ModContent.ItemType<Items.Sets.StarplateDrops.CosmiliteShard>());
+			recipe.AddIngredient(ModContent.ItemType<Items.BossLoot.StarplateDrops.CosmiliteShard>());
 			recipe.AddTile(TileID.WorkBenches);
 			recipe.Register();
 		}
