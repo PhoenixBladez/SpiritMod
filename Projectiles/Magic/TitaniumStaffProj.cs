@@ -233,7 +233,7 @@ namespace SpiritMod.Projectiles.Magic
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.immune[Projectile.owner] = 7;
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				int randX = target.position.X > Main.player[Projectile.owner].position.X ? 1 : -1;
 				int randY = Main.rand.NextBool(2) ? -1 : 1;

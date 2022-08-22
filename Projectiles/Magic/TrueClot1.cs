@@ -153,7 +153,7 @@ namespace SpiritMod.Projectiles.Magic
 			if (Main.rand.Next(10) <= 1)
 				Projectile.NewProjectile(Projectile.GetSource_OnHit(target), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, Projectile.owner, Projectile.owner, Main.rand.Next(1, 2));
 
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 				target.AddBuff(BuffID.Ichor, 300, true);
 		}
 

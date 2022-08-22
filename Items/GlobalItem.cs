@@ -17,6 +17,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using System.Linq;
 using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.Items
 {
@@ -240,11 +241,12 @@ namespace SpiritMod.Items
 
 		public override void PostReforge(Item item) => AdjustStats(item);
 
-		public override void OpenVanillaBag(string context, Player player, int arg)
+		public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
 		{
-			if (context == "goodieBag")
+			if (item.type == ItemID.GoodieBag)
 			{
-				ItemUtils.DropCandy(player, player.GetSource_OpenItem(arg));
+				itemLoot.Add(ItemDropRule.OneFromOptions(1, ItemUtils.DropCandyTable()));
+
 				if (Main.rand.NextBool(3))
 				{
 					int[] lootTable = {
@@ -259,18 +261,11 @@ namespace SpiritMod.Items
 						ModContent.ItemType<MaskYuyutsu>(),
 						ModContent.ItemType<MaskLeemyy>()
 					};
-					int loot = Main.rand.Next(lootTable.Length);
-					player.QuickSpawnItem(player.GetSource_OpenItem(arg), lootTable[loot]);
+					itemLoot.Add(ItemDropRule.OneFromOptions(3, lootTable));
 				}
 			}
-			else if (context == "crate")
-			{
-				if (arg == ItemID.WoodenCrate || arg == ItemID.WoodenCrateHard)
-				{
-					if (Main.rand.NextBool(45))
-						player.QuickSpawnItem(player.GetSource_OpenItem(arg), ModContent.ItemType<Sets.BriarChestLoot.TwigStaff>());
-				}
-			}
+			else if (item.type == ItemID.WoodenCrate || item.type == ItemID.WoodenCrateHard)
+				itemLoot.Add(ItemDropRule.Common(45, ModContent.ItemType<Sets.BriarChestLoot.TwigStaff>()));
 		}
 
 		public override float UseTimeMultiplier(Item item, Player player)
@@ -370,7 +365,7 @@ namespace SpiritMod.Items
 		public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			MyPlayer modPlayer = player.GetSpiritPlayer();
-			if (modPlayer.talonSet && (item.IsRanged() || item.IsMagic()) && Main.rand.Next(10) == 0)
+			if (modPlayer.talonSet && (item.IsRanged() || item.IsMagic()) && Main.rand.NextBool(10))
 			{
 				int proj = Projectile.NewProjectile(source, position, new Vector2(velocity.X, velocity.Y + 2), ProjectileID.HarpyFeather, 10, 2f, player.whoAmI);
 				Main.projectile[proj].hostile = false;

@@ -76,7 +76,7 @@ namespace SpiritMod.Mounts
 
 		public override void UpdateEffects(Player player)
 		{
-			if (Main.rand.Next(10) == 0) {
+			if (Main.rand.NextBool(10)) {
 				Vector2 vector2 = player.Center + new Vector2((float)(-0f * player.direction), 3f * player.gravDir);
 				if (player.direction == -1) {
 					vector2.X -= 0f;

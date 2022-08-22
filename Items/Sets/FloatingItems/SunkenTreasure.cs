@@ -39,7 +39,7 @@ namespace SpiritMod.Items.Sets.FloatingItems
 
 		public override void RightClick(Player player)
 		{
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				int[] lootTable = {
 					ItemID.FishHook,

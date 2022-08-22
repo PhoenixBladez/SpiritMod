@@ -67,7 +67,7 @@ namespace SpiritMod.Items.Weapon.Thrown.PiecesOfEight
 		int bounces = 2;
 		public override void AI()
 		{
-			if (Main.rand.Next(10) == 0)
+			if (Main.rand.NextBool(10))
 				Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.CopperCoin, 0, 0).velocity = Vector2.Zero;
 			Projectile.frameCounter++;
 			if (Projectile.frameCounter > 6)

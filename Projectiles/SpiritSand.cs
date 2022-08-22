@@ -32,7 +32,7 @@ namespace SpiritMod.Projectiles
         public override void AI()
         {
             //Change the 5 to determine how much dust will spawn. lower for more, higher for less
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.NextBool(5))
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
                 Main.dust[dust].velocity.X *= 0.4f;

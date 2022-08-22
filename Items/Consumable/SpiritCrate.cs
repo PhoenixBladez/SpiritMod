@@ -3,7 +3,6 @@ using SpiritMod.Items.Sets.SpiritSet;
 using SpiritMod.Items.Sets.SeraphSet;
 using SpiritMod.Items.Sets.RunicSet;
 using SpiritMod.Items.Sets.SpiritBiomeDrops;
-using SpiritMod.Items.Weapon.Thrown;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -46,7 +45,7 @@ namespace SpiritMod.Items.Consumable
 			int loot = Main.rand.Next(lootTable.Length);
 
 			player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable[loot], Main.rand.Next(3, 5));
-			if (Main.rand.Next(4) == 1) {
+			if (Main.rand.NextBool(4)) {
 				int[] lootTable3 = {
 					ModContent.ItemType<SpiritOre>(),
 					ModContent.ItemType<Rune>(),
@@ -57,7 +56,7 @@ namespace SpiritMod.Items.Consumable
 
 				player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), lootTable3[loot3], Main.rand.Next(3, 5));
 			}
-            if (Main.rand.Next(10) == 0)
+            if (Main.rand.NextBool(10))
             {
                 player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<Items.Books.Book_SpiritArt>());
             }

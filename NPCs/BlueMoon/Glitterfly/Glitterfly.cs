@@ -173,7 +173,7 @@ namespace SpiritMod.NPCs.BlueMoon.Glitterfly
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 				target.AddBuff(ModContent.BuffType<StarFlame>(), 200);
 		}
 

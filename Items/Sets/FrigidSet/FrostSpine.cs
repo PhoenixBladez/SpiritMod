@@ -45,7 +45,7 @@ namespace SpiritMod.Items.Sets.FrigidSet
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			if (Main.rand.Next(5) == 1) {
+			if (Main.rand.NextBool(5)) {
 				SoundEngine.PlaySound(SoundID.Item8);
 				Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.FrostSpine>(), damage, knockback, player.whoAmI, 0f, 0f);
 			}

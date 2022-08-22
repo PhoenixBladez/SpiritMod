@@ -9,7 +9,7 @@ namespace SpiritMod
 {
 	public static class ItemUtils
 	{
-		public static bool IsWeapon(this Item item) => item.type != ItemID.None && item.stack > 0 && item.useStyle > 0 && (item.damage > 0 || item.useAmmo > 0 && item.useAmmo != AmmoID.Solution);
+		public static bool IsWeapon(this Item item) => item.type != ItemID.None && item.stack > 0 && item.useStyle > ItemUseStyleID.None && (item.damage > 0 || item.useAmmo > 0 && item.useAmmo != AmmoID.Solution);
 
 		public static void DropItem(this Entity ent, int type, IEntitySource source, int stack = 1)
 		{
@@ -49,28 +49,11 @@ namespace SpiritMod
 			return NewItemWithSync(source, owner, x, y, width, height, type, stack, noBroadcast, prefix, noGrabDelay, reverseLookup);
 		}
 
-		public static void DropCandy(Player player, IEntitySource source)
+		public static int[] DropCandyTable()
 		{
-			int effect = Main.rand.Next(100);
-			
-			if (effect < 9)
-				player.QuickSpawnItem(source, ModContent.ItemType<Taffy>());
-			else if (effect < 29)
-				player.QuickSpawnItem(source, ModContent.ItemType<Candy>());
-			else if (effect < 49)
-				player.QuickSpawnItem(source, ModContent.ItemType<ChocolateBar>());
-			else if (effect < 59)
-				player.QuickSpawnItem(source, ModContent.ItemType<HealthCandy>());
-			else if (effect < 69)
-				player.QuickSpawnItem(source, ModContent.ItemType<ManaCandy>());
-			else if (effect < 79)
-				player.QuickSpawnItem(source, ModContent.ItemType<Lollipop>());
-			else if (effect < 83)
-				player.QuickSpawnItem(source, ModContent.ItemType<Apple>());
-			else if (effect < 95)
-				player.QuickSpawnItem(source, ModContent.ItemType<MysteryCandy>());
-			else
-				player.QuickSpawnItem(source, ModContent.ItemType<GoldCandy>());
+			int[] types = new[] { ModContent.ItemType<Taffy>(), ModContent.ItemType<Candy>(), ModContent.ItemType<ChocolateBar>(), ModContent.ItemType<HealthCandy>(), ModContent.ItemType<ManaCandy>(),
+				ModContent.ItemType<Lollipop>(), ModContent.ItemType<Apple>(), ModContent.ItemType<MysteryCandy>(), ModContent.ItemType<GoldCandy>() };
+			return types;
 		}
 
 		public static Color RarityColor(this Item item, float alpha = 1)

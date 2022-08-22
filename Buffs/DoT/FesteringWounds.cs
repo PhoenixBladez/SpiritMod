@@ -29,7 +29,7 @@ namespace SpiritMod.Buffs.DoT
 				else
 					npc.lifeRegen -= 3;
 
-				if (Main.rand.Next(3) == 0)
+				if (Main.rand.NextBool(3))
 				{
 					int d = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Plantera_Green);
 					Main.dust[d].velocity.X *= 0f;
@@ -48,7 +48,7 @@ namespace SpiritMod.Buffs.DoT
 			else
 				player.lifeRegen -= 3;
 
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				int d = Dust.NewDust(player.position, player.width, player.height, DustID.Plantera_Green);
 				Main.dust[d].velocity.X *= 0f;

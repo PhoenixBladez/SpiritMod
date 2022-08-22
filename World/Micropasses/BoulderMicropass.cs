@@ -1,11 +1,12 @@
 ﻿using Terraria;
-using Terraria.IO;
 using Terraria.ID;
-using Terraria.WorldBuilding;
+using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using SpiritMod.Tiles.Block.Ambient;
+using SpiritMod.Tiles.Block.Ambient.WeatheredMoss;
 
 namespace SpiritMod.World.Micropasses
 {
@@ -16,18 +17,12 @@ namespace SpiritMod.World.Micropasses
 			get
 			{
 				WeightedRandom<int> types = new WeightedRandom<int>(WorldGen.genRand);
-				types.Add(TileID.Stone, 1f);
-				types.Add(TileID.Amethyst, 0.001f);
-				types.Add(TileID.Topaz, 0.0008f);
-				types.Add(TileID.Sapphire, 0.0006f);
-				types.Add(TileID.Emerald, 0.002f);
-				types.Add(TileID.Ruby, 0.002f);
-				types.Add(TileID.Diamond, 0.001f);
-				types.Add(TileID.BlueMoss, 0);
-				types.Add(TileID.BrownMoss, 0);
-				types.Add(TileID.GreenMoss, 0);
-				types.Add(TileID.PurpleMoss, 0);
-				types.Add(TileID.RedMoss, 0);
+				types.Add(ModContent.TileType<WeatheredStoneTile>(), 1f);
+				types.Add(ModContent.TileType<WeatheredBlueMoss>(), 0);
+				types.Add(ModContent.TileType<WeatheredYellowMoss>(), 0);
+				types.Add(ModContent.TileType<WeatheredGreenMoss>(), 0);
+				types.Add(ModContent.TileType<WeatheredPurpleMoss>(), 0);
+				types.Add(ModContent.TileType<WeatheredRedMoss>(), 0);
 				return types;
 			}
 		}
@@ -105,7 +100,8 @@ namespace SpiritMod.World.Micropasses
 
 			MossType = -1;
 			if (WorldGen.genRand.NextBool(3))
-				MossType = Main.rand.Next(new int[] { TileID.GreenMoss, TileID.BrownMoss, TileID.BlueMoss, TileID.RedMoss, TileID.PurpleMoss });
+				MossType = Main.rand.Next(new int[] { ModContent.TileType<WeatheredBlueMoss>(), ModContent.TileType<WeatheredGreenMoss>(), ModContent.TileType<WeatheredPurpleMoss>(), 
+					ModContent.TileType<WeatheredRedMoss>(), ModContent.TileType<WeatheredYellowMoss>() });
 
 			for (float radians = 0; radians < MathHelper.TwoPi; radians += MathHelper.TwoPi * 0.01f)
 			{
@@ -132,7 +128,7 @@ namespace SpiritMod.World.Micropasses
 			tile.Slope = SlopeType.Solid;
 			tile.IsHalfBlock = false;
 
-			if (MossType != -1 && Vector2.DistanceSquared(new Vector2(x, y), EndPoint) < 1.5f * 1.5f && tile.TileType == TileID.Stone && WorldMethods.AdjacentOpening(x, y))
+			if (MossType != -1 && Vector2.DistanceSquared(new Vector2(x, y), EndPoint) < 1.5f * 1.5f && tile.TileType == ModContent.TileType<WeatheredStoneTile>() && WorldMethods.AdjacentOpening(x, y))
 				tile.TileType = (ushort)MossType;
 
 			Tile.SmoothSlope(x, y);

@@ -117,7 +117,7 @@ namespace SpiritMod.NPCs.MoltenCore
 				Projectile.aiStyle = 1;
 				Projectile.tileCollide = true;
 				Projectile.hostile = true;
-				if (Main.rand.Next(3) == 0 && !Projectile.wet)
+				if (Main.rand.NextBool(3) && !Projectile.wet)
 				{
 					int index = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Torch, 0.0f, 0.0f, 100, new Color(), 3f);
 					Main.dust[index].noGravity = true;
@@ -129,7 +129,7 @@ namespace SpiritMod.NPCs.MoltenCore
 			else
 			{
 				
-				if (Main.rand.Next(30) == 0 && !Projectile.wet)
+				if (Main.rand.NextBool(30) && !Projectile.wet)
 				{
 					int index = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Torch, 0.0f, 0.0f, 100, new Color(), 1f);
 					Main.dust[index].noGravity = false;

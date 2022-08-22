@@ -56,7 +56,7 @@ namespace SpiritMod.Items.BossLoot.DuskingDrops
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(5) == 0) {
+			if (Main.rand.NextBool(5)) {
 				int dist = 80;
 				Vector2 targetExplosionPos = target.Center;
 				for (int i = 0; i < 200; ++i) {

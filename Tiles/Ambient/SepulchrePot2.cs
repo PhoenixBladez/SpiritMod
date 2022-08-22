@@ -59,7 +59,7 @@ namespace SpiritMod.Tiles.Ambient
 				Gore.NewGore(new Terraria.DataStructures.EntitySource_TileBreak(i, j), new Vector2((int)i * 16 + Main.rand.Next(-10, 10), (int)j * 16 + Main.rand.Next(-10, 10)), new Vector2(-1, 1), Mod.Find<ModGore>("Pot1").Type, 1f);
 			}
 			int potionitem = Main.rand.Next(new int[] { 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305 });
-			if (Main.rand.Next(10) == 0) {
+			if (Main.rand.NextBool(10)) {
 				Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, potionitem, Main.rand.Next(1, 3));
 			}
 			int torchItem = Main.rand.Next(new int[] { 282, ItemID.CursedTorch });

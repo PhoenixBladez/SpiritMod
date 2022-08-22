@@ -915,7 +915,7 @@ namespace SpiritMod
 		{
 			var config = ModContent.GetInstance<SpiritClientConfig>();
 
-			if (KoiTotem && Main.rand.Next(10) == 0)
+			if (KoiTotem && Main.rand.NextBool(10))
 			{
 				if (attempt.playerFishingConditions.Bait.stack < attempt.playerFishingConditions.Bait.maxStack)
 					attempt.playerFishingConditions.Bait.stack++;
@@ -1298,7 +1298,7 @@ namespace SpiritMod
 			if (meleeshadowSet && Main.rand.NextBool(10) && proj.IsMelee())
 				Projectile.NewProjectile(proj.GetSource_OnHit(target), Player.position.X + 20, Player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
 
-			if (rangedshadowSet && Main.rand.Next(10) == 2 && proj.IsRanged())
+			if (rangedshadowSet && Main.rand.NextBool(10) && proj.IsRanged())
 				Projectile.NewProjectile(proj.GetSource_OnHit(target), Player.position.X + 20, Player.position.Y + 30, 0, 12, ModContent.ProjectileType<SpiritShardFriendly>(), 60, 0, Main.myPlayer);
 
 			if (ToxicExtract && Main.rand.NextBool(5) && proj.IsMagic())
@@ -1329,7 +1329,7 @@ namespace SpiritMod
 			}
 		}
 
-		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource, ref int cooldownCounter)
 		{
 			if (bubbleTimer > 0)
 				return false;
@@ -1374,7 +1374,7 @@ namespace SpiritMod
 			if (Shake > 0) { Shake--; }
 		}
 
-		public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+		public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)
 		{
 			foreach (var effect in effects)
 				effect.PlayerHurt(Player, pvp, quiet, damage, hitDirection, crit);
@@ -1402,7 +1402,7 @@ namespace SpiritMod
 				SoundEngine.PlaySound(SoundID.Item50, Player.position);
 			}
 
-			if (ChaosCrystal && Main.rand.Next(4) == 1)
+			if (ChaosCrystal && Main.rand.NextBool(4))
 			{
 				bool canSpawn = false;
 				int teleportStartX = (int)(Main.player[Main.myPlayer].position.X / 16) - 35;
@@ -1514,7 +1514,7 @@ namespace SpiritMod
 			}
 		}
 
-		public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+		public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)
 		{
 			if (soulPotion && Main.rand.NextBool(5))
 				Projectile.NewProjectile(Player.GetSource_OnHurt(null), Player.Center, Vector2.Zero, ModContent.ProjectileType<SoulPotionWard>(), 0, 0f, Main.myPlayer);
@@ -1646,7 +1646,7 @@ namespace SpiritMod
 				Main.dust[d].velocity.Y *= 0f;
 			}
 
-			if (Player.ZoneDesert && Player.ZoneOverworldHeight && Main.rand.Next(33) == 0)
+			if (Player.ZoneDesert && Player.ZoneOverworldHeight && Main.rand.NextBool(33))
 			{
 				int index = Dust.NewDust(Player.position, Player.width + 4, Player.height + 2, DustID.Wet, 0.0f, 0.0f, 50, default, 0.8f);
 				if (Main.rand.NextBool(2))
@@ -1784,7 +1784,7 @@ namespace SpiritMod
 				}
 			}
 
-			if (MyWorld.meteorShowerWeather && Main.rand.Next(270) == 0 && ZoneAsteroid)
+			if (MyWorld.meteorShowerWeather && Main.rand.NextBool(270)&& ZoneAsteroid)
 			{
 				float num12 = Main.rand.Next(-30, 30);
 				float num14 = (float)Math.Sqrt(num12 * num12 + 100 * 100);
@@ -1835,15 +1835,15 @@ namespace SpiritMod
 			{
 				int d = Main.rand.Next(new int[] { 180, 226, 206 });
 
-				if (Main.rand.Next(10) == 0)
+				if (Main.rand.NextBool(10))
 				{
 					int num3 = Main.rand.Next(Main.screenWidth + 1000) - 500;
 					int num4 = (int)Main.screenPosition.Y - Main.rand.Next(50);
 					if (Main.LocalPlayer.velocity.Y > 0.0)
 						num4 -= (int)Main.player[Main.myPlayer].velocity.Y;
-					if (Main.rand.Next(5) == 0)
+					if (Main.rand.NextBool(5))
 						num3 = Main.rand.Next(500) - 500;
-					else if (Main.rand.Next(5) == 0)
+					else if (Main.rand.NextBool(5))
 						num3 = Main.rand.Next(500) + Main.screenWidth;
 					if (num3 < 0 || num3 > Main.screenWidth)
 						num4 += Main.rand.Next((int)(Main.screenHeight * 0.8)) + (int)(Main.screenHeight * 0.1);
@@ -1886,7 +1886,7 @@ namespace SpiritMod
 				string[] bigDebris = { "SpaceDebris3", "SpaceDebris4", "MeteorShard5", "MeteorShard6" };
 				string[] smallDebris = { "SpaceDebris1", "SpaceDebris2" };
 
-				if (ZoneAsteroid && MyWorld.spaceJunkWeather && Main.rand.Next(59) == 0)
+				if (ZoneAsteroid && MyWorld.spaceJunkWeather && Main.rand.NextBool(59))
 				{
 					if (Main.rand.NextBool(7))
 						Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center.X + Main.rand.Next(-1000, 1000), Player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, Mod.Find<ModProjectile>(Main.rand.Next(bigDebris)).Type, 16, 3, Main.myPlayer, 0.0f, 1);
@@ -1894,7 +1894,7 @@ namespace SpiritMod
 						Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center.X + Main.rand.Next(-1000, 1000), Player.Center.Y + Main.rand.Next(-1200, -900), SpeedX, SpeedY, Mod.Find<ModProjectile>(Main.rand.Next(smallDebris)).Type, 7, 3, Main.myPlayer, 0.0f, 1);
 				}
 
-				if (MyWorld.rareStarfallEvent && Main.rand.Next(65) == 0)
+				if (MyWorld.rareStarfallEvent && Main.rand.NextBool(65))
 				{
 					if (ZoneAsteroid)
 						Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center.X + Main.rand.Next(-800, 800), Player.Center.Y + Main.rand.Next(-1000, -900), Main.rand.Next(26, 33) * Main.windSpeedCurrent, 4, ModContent.ProjectileType<Comet>(), 0, 3, Main.myPlayer, 0.0f, 1);
@@ -2053,7 +2053,7 @@ namespace SpiritMod
 					Main.gore[a].rotation = 0f;
 					Main.gore[a].velocity = new Vector2(Main.windSpeedCurrent * 40f, Main.rand.NextFloat(0.2f, 2f));
 				}
-				if (Main.rand.Next(9) == 0 && (ZoneReach || MyWorld.calmNight) && Player.ZoneOverworldHeight && !Player.ZoneBeach && !Player.ZoneCorrupt && !Player.ZoneCrimson && !Player.ZoneJungle && !Player.ZoneHallow && !Player.ZoneSnow)
+				if (Main.rand.NextBool(9)&& (ZoneReach || MyWorld.calmNight) && Player.ZoneOverworldHeight && !Player.ZoneBeach && !Player.ZoneCorrupt && !Player.ZoneCrimson && !Player.ZoneJungle && !Player.ZoneHallow && !Player.ZoneSnow)
 				{
 					float goreScale = Main.rand.NextFloat(0.5f, 0.9f);
 					int x = (int)(Main.windSpeedCurrent > 0 ? Main.screenPosition.X - 100 : Main.screenPosition.X + Main.screenWidth + 100);
@@ -3331,7 +3331,7 @@ namespace SpiritMod
 					}
 				}
 
-				if (Main.rand.Next(10) == 0)
+				if (Main.rand.NextBool(10))
 				{
 					Vector2 vector2 = Player.Center + new Vector2(-48 * Player.direction, -6f * Player.gravDir);
 					if (Player.direction == -1)
@@ -3803,7 +3803,7 @@ namespace SpiritMod
 
 		private void SpawnRunicRunes()
 		{
-			if (Main.rand.Next(15) == 0)
+			if (Main.rand.NextBool(15))
 			{
 				int runeAmount = 0;
 				for (int i = 0; i < Main.maxProjectiles; i++)
@@ -3874,7 +3874,7 @@ namespace SpiritMod
 
 		private void SpawnDarkfeatherBombs()
 		{
-			if (Main.rand.Next(80) == 0)
+			if (Main.rand.NextBool(80))
 			{
 				int bombAmt = 0;
 				for (int i = 0; i < Main.maxProjectiles; i++)

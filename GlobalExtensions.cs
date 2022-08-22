@@ -7,7 +7,7 @@ namespace SpiritMod
 {
 	public static class GlobalExtensions
 	{
-		public static IEntitySource Source_ShootWithAmmo(this Item item, Player player, string? context = null)
+		public static IEntitySource Source_ShootWithAmmo(this Item item, Player player, string context = null)
 		{
 			player.PickAmmo(item, out int _, out float _, out int _, out float _, out int ammo, true);
 			return item.GetSource_ItemUse_WithPotentialAmmo(item, ammo, context);

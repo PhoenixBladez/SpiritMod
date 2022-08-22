@@ -122,7 +122,7 @@ namespace SpiritMod.Mounts
 					player.mount._abilityCooldown = 0;
 				}
 			}
-			if (Main.rand.Next(10) == 0) {
+			if (Main.rand.NextBool(10)) {
 				Vector2 vector2 = player.Center + new Vector2((-48 * player.direction), -6f * player.gravDir);
 				if (player.direction == -1) {
 					vector2.X -= 20f;

@@ -137,7 +137,7 @@ namespace SpiritMod.Projectiles.Magic
 						dust.scale += Main.rand.NextFloat();
 						dust.customData = bitSide;
 
-						if (side == -1 && Main.rand.Next(4) != 0)
+						if (side == -1 && !Main.rand.NextBool(4))
 							dust.velocity.Y -= 0.2f;
 					}
 				}
@@ -155,13 +155,13 @@ namespace SpiritMod.Projectiles.Magic
 			dust81.scale += Main.rand.NextFloat();
 			dust81.position = new Vector2(Projectile.Center.X, Projectile.Center.Y + Projectile.height * 0.5f * (0f - side));
 
-			if (side == -1 && Main.rand.Next(4) != 0)
+			if (side == -1 && !Main.rand.NextBool(4))
 				dust81.velocity.Y -= 0.2f;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 				target.AddBuff(BuffID.OnFire, 120, true);
 		}
 	}

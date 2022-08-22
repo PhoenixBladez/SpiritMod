@@ -27,7 +27,7 @@ namespace SpiritMod.Projectiles.Held
 		{
 			timer--;
 
-			if (timer == 0 & Main.rand.Next(4) == 1) {
+			if (timer == 0 & Main.rand.NextBool(4)) {
 				SoundEngine.PlaySound(SoundID.Item8, Projectile.position);
 				Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<DuskApparition>(), Projectile.damage / 3 * 2, Projectile.knockBack, Projectile.owner, 0f, 0f);
 				timer = 20;
@@ -56,7 +56,7 @@ namespace SpiritMod.Projectiles.Held
 				dust4.noGravity = true;
 			}
 			for (int j = 0; j < 1; j++) {
-				if (Main.rand.Next(3) == 0) {
+				if (Main.rand.NextBool(3)) {
 					Dust dust5 = Dust.NewDustDirect(Projectile.Center, 20, 20, DustID.ShadowbeamStaff, 0f, 0f, 110, default, 1f);
 					dust5.velocity = player.DirectionTo(dust5.position) * 2f;
 					dust5.position = Projectile.Center + value2 * -110f;

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace SpiritMod.Mechanics.QuestSystem.Quests
 {
-	[System.Obsolete("Modded hair dyes do not work and I don't know a solution, removed until further notice")]
+	[System.Obsolete("Modded hair dyes do not work and I don't know a solution, removed until further notice", false)]
     public class StylistQuestCorrupt : Quest
     {
         public override string QuestName => "Dye Pursuit: Putrefaction";

@@ -254,7 +254,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.MarkOfZeus
 
 			trail?.AddPoints();
 
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				int timeLeft = Main.rand.Next(40, 100);
 				StarParticle particle = new StarParticle(

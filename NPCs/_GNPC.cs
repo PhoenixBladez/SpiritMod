@@ -173,7 +173,7 @@ namespace SpiritMod.NPCs
 			Vector2 dist = npc.position - player.position;
 			if (Main.netMode != NetmodeID.Server)
 			{
-				if (player.GetModPlayer<MyPlayer>().HellGaze == true && Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y)) < 160 && Main.rand.Next(80) == 1 && !npc.friendly)
+				if (player.GetModPlayer<MyPlayer>().HellGaze == true && Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y)) < 160 && Main.rand.NextBool(80) && !npc.friendly)
 					npc.AddBuff(24, 130, false);
 				dist = npc.Center - new Vector2(modPlayer.clockX, modPlayer.clockY);
 				if (player.GetModPlayer<MyPlayer>().clockActive == true && Math.Sqrt((dist.X * dist.X) + (dist.Y * dist.Y)) < 175 && !npc.friendly)
@@ -197,7 +197,7 @@ namespace SpiritMod.NPCs
 
 		public override void HitEffect(NPC npc, int hitDirection, double damage)
 		{
-			if ((npc.type == NPCID.GraniteFlyer || npc.type == NPCID.GraniteGolem) && NPC.downedBoss2 && Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.Next(3) == 0)
+			if ((npc.type == NPCID.GraniteFlyer || npc.type == NPCID.GraniteGolem) && NPC.downedBoss2 && Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0 && Main.rand.NextBool(3))
 			{
 				SoundEngine.PlaySound(SoundID.Item109);
 				for (int i = 0; i < 20; i++)
@@ -439,7 +439,7 @@ namespace SpiritMod.NPCs
 				else
 				{
 					chat = TrickOrTreat(modPlayer, npc);
-					ItemUtils.DropCandy(player, npc.GetSource_GiftOrReward());
+					npc.DropItem(Main.rand.Next(ItemUtils.DropCandyTable()), npc.GetSource_GiftOrReward());
 				}
 			}
 		}

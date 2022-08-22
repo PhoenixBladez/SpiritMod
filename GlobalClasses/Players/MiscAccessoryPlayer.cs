@@ -119,14 +119,14 @@ namespace SpiritMod.GlobalClasses.Players
 		public void OnHitNPCWithAnything(Entity weapon, NPC target, int damage, float knockback, bool crit)
 		{
 			// Hell Charm
-			if (Player.HasAccessory<HCharm>() && Main.rand.Next(11) == 0)
+			if (Player.HasAccessory<HCharm>() && Main.rand.NextBool(11))
 			{
 				if ((weapon is Item i && i.IsMelee()) || weapon is Projectile)
 					target.AddBuff(BuffID.OnFire, 120);
 			}
 
 			// Amazon Charm
-			if (Player.HasAccessory<YoyoCharm2>() && Main.rand.Next(11) == 0)
+			if (Player.HasAccessory<YoyoCharm2>() && Main.rand.NextBool(11))
 			{
 				if ((weapon is Item i && i.IsMelee()) || weapon is Projectile)
 					target.AddBuff(BuffID.Poisoned, 120);
@@ -157,7 +157,7 @@ namespace SpiritMod.GlobalClasses.Players
 				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Shadowflame);
 		}
 
-		public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+		public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)
 		{
 			// Spectre Ring
 			if (Player.HasAccessory<SpectreRing>())
@@ -186,7 +186,7 @@ namespace SpiritMod.GlobalClasses.Players
 			}
 		}
 
-		public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+		public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)
 		{
 			// Spectre Ring
 			if (Player.HasAccessory<SpectreRing>())

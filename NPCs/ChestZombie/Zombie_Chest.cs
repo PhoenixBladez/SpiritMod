@@ -49,13 +49,13 @@ namespace SpiritMod.NPCs.ChestZombie
 				if (Main.rand.NextBool(6))
 				{
 					int p = Item.NewItem(player.GetSource_Loot("Pickup"), (int)player.position.X, (int)player.position.Y, player.width, player.height, 3093);
-					if (Main.rand.Next(5) == 0)
+					if (Main.rand.NextBool(5))
 						Main.item[p].stack += Main.rand.Next(2);
-					if (Main.rand.Next(10) == 0)
+					if (Main.rand.NextBool(10))
 						Main.item[p].stack += Main.rand.Next(2);
 				}
 
-				if (Main.rand.Next(3) == 0)
+				if (Main.rand.NextBool(3))
 				{
 					int p = Item.NewItem(player.GetSource_Loot("Pickup"), (int)player.position.X, (int)player.position.Y, player.width, player.height, 168);
 					Main.item[p].stack = Main.rand.Next(3, 6);

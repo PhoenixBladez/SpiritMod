@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using SpiritMod.Buffs;
 using SpiritMod.Buffs.DoT;
 using Terraria;
 using Terraria.Audio;
@@ -10,10 +9,8 @@ namespace SpiritMod.Projectiles.Magic
 {
 	public class BismiteShot : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bismite Shot");
-		}
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Bismite Shot");
+
 		public override void SetDefaults()
 		{
 			Projectile.width = 12;
@@ -69,7 +66,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 				target.AddBuff(ModContent.BuffType<FesteringWounds>(), 180);
 		}
 

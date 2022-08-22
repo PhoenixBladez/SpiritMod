@@ -71,7 +71,7 @@ namespace SpiritMod.NPCs.GraniteSlime
 			if (!NPC.collideY)
 				jump = true;
 
-			if (NPC.collideY && jump && Main.rand.Next(3) == 0)
+			if (NPC.collideY && jump && Main.rand.NextBool(3))
 			{
 				for (int i = 0; i < 20; i++)
 				{
@@ -124,7 +124,7 @@ namespace SpiritMod.NPCs.GraniteSlime
 				}
 			}
 
-			if (Main.netMode != NetmodeID.MultiplayerClient && NPC.life <= 0 && Main.rand.Next(3) == 0)
+			if (Main.netMode != NetmodeID.MultiplayerClient && NPC.life <= 0 && Main.rand.NextBool(3))
 			{
 				SoundEngine.PlaySound(SoundID.Item109);
 				for (int i = 0; i < 20; i++)

@@ -25,7 +25,7 @@ namespace SpiritMod.Items.Sets.Vulture_Matriarch
 		{
 			for (int i = 0; i < Item.stack; i++)
 			{
-				if (Main.rand.Next(5) == 0)
+				if (Main.rand.NextBool(5))
 					player.QuickSpawnItem(player.GetSource_OpenItem(Item.type, "RightClick"), ModContent.ItemType<HourglassItem>(), 1);
 
 				if (Main.rand.NextBool(7))

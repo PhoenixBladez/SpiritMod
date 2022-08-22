@@ -29,6 +29,25 @@ namespace SpiritMod.GlobalClasses.Players
 
 		public override void ResetEffects()
 		{
+			starPet = false;
+			saucerPet = false;
+			bookPet = false;
+			swordPet = false;
+			shadowPet = false;
+			starachnidPet = false;
+			thrallPet = false;
+			jellyfishPet = false;
+			phantomPet = false;
+			lanternPet = false;
+			maskPet = false;
+			harpyPet = false;
+			cultFishPet = false;
+			briarSlimePet = false;
+			scarabPet = false;
+			vinewrathPet = false;
+			mjwPet = false;
+			starplatePet = false;
+
 			foreach (int item in pets.Keys)
 				pets[item] = false;
 		}

@@ -97,7 +97,7 @@ namespace SpiritMod.Projectiles.Magic
 				Main.dust[num829].scale = 1.7f;
 			}
 
-			if (Main.rand.Next(5) == 0) {
+			if (Main.rand.NextBool(5)) {
 				Vector2 value40 = Projectile.velocity.RotatedBy(Math.PI / 2, default) * ((float)Main.rand.NextDouble() - 0.5f) * Projectile.width;
 				int num830 = Dust.NewDust(vector72 + value40 - Vector2.One * 4f, 8, 8, DustID.Smoke, 0f, 0f, 100, default, 1.5f);
 				Main.dust[num830].velocity *= 0.5f;

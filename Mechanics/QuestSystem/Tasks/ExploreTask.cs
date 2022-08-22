@@ -16,7 +16,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Tasks
 		private Func<Player, bool> _exploreFunc;
 		private float _requiredDistance;
 		private float _distancedTravelled;
-		private float _storedDistance;
+		//private float _storedDistance;
 		private string _areaName;
 
 		public ExploreTask() { }
@@ -79,7 +79,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Tasks
 			base.ResetProgress();
 
 			_distancedTravelled = 0f;
-			_storedDistance = 0f;
+			//_storedDistance = 0f;
 		}
 
 		public override bool CheckCompletion()
@@ -105,7 +105,7 @@ namespace SpiritMod.Mechanics.QuestSystem.Tasks
 		public override void OnMPSyncTick()
 		{
 			// TODO: send the server our stored distance, then reset to 0
-			_storedDistance = 0;
+			//_storedDistance = 0;
 		}
 
 		public override void ReadData(BinaryReader reader) => _distancedTravelled = reader.ReadSingle();

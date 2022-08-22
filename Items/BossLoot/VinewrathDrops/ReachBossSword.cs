@@ -63,7 +63,7 @@ namespace SpiritMod.Items.BossLoot.VinewrathDrops
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			SoundEngine.PlaySound(SoundID.Item20, position);
-			if (Main.rand.Next(4) == 1 && player.statLife >= player.statLifeMax2 / 2)
+			if (Main.rand.NextBool(4) && player.statLife >= player.statLifeMax2 / 2)
 				Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, 0, player.whoAmI);
 			else if (Main.rand.NextBool(2))
 				Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, 0, player.whoAmI);

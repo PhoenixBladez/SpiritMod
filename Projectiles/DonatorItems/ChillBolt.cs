@@ -37,14 +37,14 @@ namespace SpiritMod.Projectiles.DonatorItems
 		}
 		public override bool PreAI()
 		{
-			if (Main.rand.Next(4) == 1)
+			if (Main.rand.NextBool(4))
 				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Flare_Blue, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 
 			return true;
 		}
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 				target.AddBuff(BuffID.Frostburn, 200, true);
 
 			for (int i = 0; i < 3; ++i) {

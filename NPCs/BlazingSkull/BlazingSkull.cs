@@ -144,7 +144,7 @@ namespace SpiritMod.NPCs.BlazingSkull
 		}
 		private void IdleMovement()
 		{
-			if (Main.rand.Next(10) == 0)
+			if (Main.rand.NextBool(10))
 			{
 				NPC.velocity = Main.rand.NextVector2Circular(0.75f, 0.75f);
 

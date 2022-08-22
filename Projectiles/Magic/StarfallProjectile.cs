@@ -31,7 +31,7 @@ namespace SpiritMod.Projectiles.Magic
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 				target.AddBuff(ModContent.BuffType<StarFracture>(), 280);
 		}
 

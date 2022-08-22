@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Sets.CascadeSet.Armor
 		public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit) => TryPopBubble(ref damage);
 		public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit) => TryPopBubble(ref damage);
 
-		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource, ref int cooldownCounter)
 		{
 			if ((damageSource.SourceOtherIndex == 2 || damageSource.SourceOtherIndex == 3))
 				TryPopBubble(ref damage);

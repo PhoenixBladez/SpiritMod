@@ -63,7 +63,7 @@ namespace SpiritMod.Projectiles
 			Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 			vector.Normalize();
 			Vector2 vector2 = vector * ((float)Main.rand.Next(10, 41) * 0.1f);
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 				vector2 *= 2f;
 
 			Vector2 vector3 = velocity * 0.25f + vector2;
@@ -87,7 +87,7 @@ namespace SpiritMod.Projectiles
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(10) == 2)
+			if (Main.rand.NextBool(10))
 				target.AddBuff(BuffID.OnFire, 180);
 		}
 	}

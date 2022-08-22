@@ -42,9 +42,9 @@ namespace SpiritMod.Projectiles.Summon.Zipline
 				player.GetSpiritPlayer().ziplineY = Projectile.ai[1];
 				//player.velocity.X = projectile.ai[0];
 				//player.velocity.Y = projectile.ai[1];
-				if (Main.rand.Next(4) == 1)
+				if (Main.rand.NextBool(4))
 					player.position.Y--;
-				if (Main.rand.Next(10) == 0) {
+				if (Main.rand.NextBool(10)) {
 					SoundEngine.PlaySound(SoundID.Item55, player.position);
 				}
                 player.AddBuff(ModContent.BuffType<Buffs.RailBuff>(), 20);

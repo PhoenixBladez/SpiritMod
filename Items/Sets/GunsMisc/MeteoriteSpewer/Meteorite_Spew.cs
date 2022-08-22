@@ -38,7 +38,7 @@ namespace SpiritMod.Items.Sets.GunsMisc.MeteoriteSpewer
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			Projectile.velocity.X = 0f;
-			if (Main.rand.Next(3) == 0 && !Projectile.wet)
+			if (Main.rand.NextBool(3) && !Projectile.wet)
 			{
 				int index = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Torch, 0.0f, 0.0f, 100, new Color(), 3f);
 				Main.dust[index].noGravity = true;

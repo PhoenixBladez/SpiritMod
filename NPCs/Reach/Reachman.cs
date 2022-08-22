@@ -181,7 +181,7 @@ namespace SpiritMod.NPCs.Reach
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(10) == 0 && Main.expertMode)
+			if (Main.rand.NextBool(10) && Main.expertMode)
 				target.AddBuff(148, 2000);
 		}
 
@@ -198,7 +198,7 @@ namespace SpiritMod.NPCs.Reach
 		{
 			for (int k = 0; k < 30; k++) {
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GrassBlades, 2.5f * hitDirection, -2.5f, 0, Color.White, 0.7f);
-				Dust.NewDust(NPC.position, NPC.width, NPC.height, 7, 2.5f * hitDirection, -2.5f, 0, default, .34f);
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.WoodFurniture, 2.5f * hitDirection, -2.5f, 0, default, .34f);
 			}
 
 			if (NPC.life <= 0) {

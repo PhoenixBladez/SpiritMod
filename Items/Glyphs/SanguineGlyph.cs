@@ -57,7 +57,7 @@ namespace SpiritMod.Items.Glyphs
 				Leech(player);
 			}
 
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 				target.AddBuff(SpiritMod.Instance.Find<ModBuff>("SanguineBleed").Type, 600);
 		}
 
@@ -68,7 +68,7 @@ namespace SpiritMod.Items.Glyphs
 				Leech(player);
 			}
 
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 				target.AddBuff(SpiritMod.Instance.Find<ModBuff>("SanguineBleed").Type, 600, false);
 		}
 

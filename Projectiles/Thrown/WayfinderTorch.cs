@@ -52,7 +52,7 @@ namespace SpiritMod.Projectiles.Thrown
 				Main.dust[dust].noGravity = true;
 			}
 			SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
-			if (Main.rand.Next(3) == 0) {
+			if (Main.rand.NextBool(3)) {
 				SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
 				int n = 2;
 				int deviation = Main.rand.Next(0, 300);

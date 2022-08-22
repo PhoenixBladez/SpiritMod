@@ -1415,7 +1415,7 @@ namespace SpiritMod.World
 
 				if (Main.tile[X, Y].TileType == TileID.SnowBlock || Main.tile[X, Y].TileType == TileID.IceBlock)
 				{
-					if (Main.rand.Next(3) == 0)
+					if (Main.rand.NextBool(3))
 					{
 						WorldGen.PlaceObject(X, Y, types[2]);
 						NetMessage.SendObjectPlacment(-1, X, Y, types[2], 0, 0, -1, -1);

@@ -70,7 +70,7 @@ namespace SpiritMod.NPCs.Reach
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 				target.AddBuff(BuffID.Poisoned, 180);
 		}
 

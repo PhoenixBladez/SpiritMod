@@ -109,7 +109,7 @@ namespace SpiritMod.Items.Sets.OlympiumSet.ArtemisHunt
 				noiseRotation = Main.rand.NextFloat(6.28f);
 			noiseRotation += 0.02f;
 
-			if (Main.rand.Next(5) == 1)
+			if (Main.rand.NextBool(5))
 			{
 				StarParticle particle = new StarParticle(
 				Projectile.Center + Main.rand.NextVector2Circular(5, 5),
