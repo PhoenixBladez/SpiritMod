@@ -33,6 +33,25 @@ namespace SpiritMod.World
 			}
 		}
 
+		internal static int FindNearestBelow(int x, int y)
+		{
+			while (!WorldGen.SolidTile(x, y))
+				y++;
+			return y - 1;
+		}
+
+		internal static int FindNearestAbove(int x, int y)
+		{
+			while (!WorldGen.SolidTile(x, y))
+			{
+				y--;
+
+				if (y < 10)
+					return 10;
+			}
+			return y;
+		}
+
 		public static void CragSpike(int X, int Y, int length, int height, ushort type2, float slope, float sloperight)
 		{
 			float trueslope = 1 / slope;

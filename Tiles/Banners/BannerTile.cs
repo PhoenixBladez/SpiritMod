@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -39,310 +40,115 @@ namespace SpiritMod.Tiles.Banners
 			Tile tile = Main.tile[i, j];
 			Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 			int height = tile.TileFrameY == 36 ? 18 : 16;
-			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Banners/BannerTile_Glow").Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White * .8f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Banners/BannerTile_Glow").Value, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, height), Color.White * .8f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 		}
 
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
+		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, Mod.Find<ModItem>(GetBannerItem(frameX)).Type);
+
+		private static string GetBannerItem(int frameX)
 		{
 			int style = frameX / 18;
-			string item;
-			switch (style)
+			return style switch
 			{
-				case 0:
-					item = "OccultistBanner";
-					break;
-				case 1:
-					item = "BeholderBanner";
-					break;
-				case 2:
-					item = "BottomFeederBanner";
-					break;
-				case 3:
-					item = "ValkyrieBanner";
-					break;
-				case 4:
-					item = "YureiBanner";
-					break;
-				case 5:
-					item = "SporeWheezerBanner";
-					break;
-				case 6:
-					item = "WheezerBanner";
-					break;
-				case 7:
-					item = "AstralAmalgamBanner";
-					break;
-				case 8:
-					item = "ShockhopperBanner";
-					break;
-				case 9:
-					item = "AncientApostleBanner";
-					break;
-				case 10:
-					item = "LostMimeBanner";
-					break;
-				case 11:
-					item = "StardancerBanner";
-					break;
-				case 12:
-					item = "CavernCrawlerBanner";
-					break;
-				case 13:
-					item = "OrbititeBanner";
-					break;
-				case 14:
-					item = "GladiatorSpiritBanner";
-					break;
-				case 15:
-					item = "AntlionAssassinBanner";
-					break;
-				case 16:
-					item = "CrystalDrifterBanner";
-					break;
-				case 17:
-					item = "GoldCrateMimicBanner";
-					break;
-				case 18:
-					item = "IronCrateMimicBanner";
-					break;
-				case 19:
-					item = "WoodCrateMimicBanner";
-					break;
-				case 20:
-					item = "GraniteSlimeBanner";
-					break;
-				case 21:
-					item = "BlazingRattlerBanner";
-					break;
-				case 22:
-					item = "GhastBanner";
-					break;
-				case 23:
-					item = "SpectralSkullBanner";
-					break;
-				case 24:
-					item = "GreenDungeonCubeBanner";
-					break;
-				case 25:
-					item = "PinkDungeonCubeBanner";
-					break;
-				case 26:
-					item = "BlueDungeonCubeBanner";
-					break;
-				case 27:
-					item = "WinterbornBanner";
-					break;
-				case 28:
-					item = "WinterbornHeraldBanner";
-					break;
-				case 29:
-					item = "DiseasedSlimeBanner";
-					break;
-				case 30:
-					item = "DiseasedBatBanner";
-					break;
-				case 31:
-					item = "CoconutSlimeBanner";
-					break;
-				case 32:
-					item = "BloaterBanner";
-					break;
-				case 33:
-					item = "ArterialGrasperBanner";
-					break;
-				case 34:
-					item = "FesterflyBanner";
-					break;
-				case 35:
-					item = "PutromaBanner";
-					break;
-				case 36:
-					item = "MasticatorBanner";
-					break;
-				case 37:
-					item = "BubbleBruteBanner";
-					break;
-				case 38:
-					item = "GluttonousDevourerBanner";
-					break;
-				case 39:
-					item = "ElectricEelBanner";
-					break;
-				case 40:
-					item = "BlossomHoundBanner";
-					break;
-				case 41:
-					item = "RlyehianBanner";
-					break;
-				case 42:
-					item = "MangoWarBanner";
-					break;
-				case 43:
-					item = "CrocosaurBanner";
-					break;
-				case 44:
-					item = "KakamoraGliderBanner";
-					break;
-				case 45:
-					item = "KakamoraThrowerBanner";
-					break;
-				case 46:
-					item = "KakamoraBruteBanner";
-					break;
-				case 47:
-					item = "KakamoraShielderBanner";
-					break;
-				case 48:
-					item = "KakamoraShielderBanner1";
-					break;
-				case 49:
-					item = "KakamoraShamanBanner";
-					break;
-				case 50:
-					item = "BriarthornSlimeBanner";
-					break;
-				case 51:
-					item = "DroseranTrapperBanner";
-					break;
-				case 52:
-					item = "GladeWraithBanner";
-					break;
-				case 53:
-					item = "CaptiveMaskBanner";
-					break;
-				case 54:
-					item = "DarkAlchemistBanner";
-					break;
-				case 55:
-					item = "BloatfishBanner";
-					break;
-				case 56:
-					item = "MechromancerBanner";
-					break;
-				case 57:
-					item = "KakamoraBanner";
-					break;
-				case 58:
-					item = "GloopBanner";
-					break;
-				case 59:
-					item = "ThornStalkerBanner";
-					break;
-				case 60:
-					item = "ForgottenOneBanner";
-					break;
-				case 61:
-					item = "DeadeyeMarksmanBanner";
-					break;
-				case 62:
-					item = "PhantomSamuraiBanner";
-					break;
-				case 63:
-					item = "FleshHoundBanner";
-					break;
-				case 64:
-					item = "CracklingCoreBanner";
-					break;
-				case 65:
-					item = "CavernBanditBanner";
-					break;
-				case 66:
-					item = "ReachmanBanner";
-					break;
-				case 67:
-					item = "HemaphoraBanner";
-					break;
-				case 68:
-					item = "MyceliumBotanistBanner";
-					break;
-				case 69:
-					item = "MoonlightPreserverBanner";
-					break;
-				case 70:
-					item = "MoonlightRupturerBanner";
-					break;
-				case 71:
-					item = "GiantJellyBanner";
-					break;
-				case 72:
-					item = "BloomshroomBanner";
-					break;
-				case 73:
-					item = "GlitterflyBanner";
-					break;
-				case 74:
-					item = "GlowToadBanner";
-					break;
-				case 75:
-					item = "LumantisBanner";
-					break;
-				case 76:
-					item = "LunarSlimeBanner";
-					break;
-				case 77:
-					item = "BlizzardBanditBanner";
-					break;
-				case 78:
-					item = "CrystalDrifterBanner";
-					break;
-				case 79:
-					item = "BloodGazerBanner";
-					break;
-				case 80:
-					item = "CystalBanner";
-					break;
-				case 81:
-					item = "WildwoodWatcherBanner";
-					break;
-				case 82:
-					item = "MoltenCoreBanner";
-					break;
-				case 83:
-					item = "PokeyBanner";
-					break;
-				case 84:
-					item = "ScreechOwlBanner";
-					break;
-				case 85:
-					item = "ArachmatonBanner";
-					break;
-				case 86:
-					item = "AstralAdventurerBanner";
-					break;
-				case 87:
-					item = "TrochmatonBanner";
-					break;
-				case 88:
-					item = "ChestZombie";
-					break;
-				case 89:
-					item = "BoulderBehemothBanner";
-					break;
-				case 90:
-					item = "FallingAsteroidBanner";
-					break;
-				case 91:
-					item = "GoblinGrenadierBanner";
-					break;
-				case 92:
-					item = "BlazingSkullBanner";
-					break;
-				case 93:
-					item = "StymphalianBatBanner";
-					break;
-				case 94:
-					item = "SkeletonBruteBanner";
-					break;
-				case 95:
-					item = "DraugrBanner";
-					break;
-				case 96:
-					item = "PirateLobberBanner";
-					break;
-				default:
-					return;
-			}
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, Mod.Find<ModItem>(item).Type);
+				0 => "OccultistBanner",
+				1 => "BeholderBanner",
+				2 => "BottomFeederBanner",
+				3 => "ValkyrieBanner",
+				4 => "YureiBanner",
+				5 => "SporeWheezerBanner",
+				6 => "WheezerBanner",
+				7 => "AstralAmalgamBanner",
+				8 => "ShockhopperBanner",
+				9 => "AncientApostleBanner",
+				10 => "LostMimeBanner",
+				11 => "StardancerBanner",
+				12 => "CavernCrawlerBanner",
+				13 => "OrbititeBanner",
+				14 => "GladiatorSpiritBanner",
+				15 => "AntlionAssassinBanner",
+				16 => "CrystalDrifterBanner",
+				17 => "GoldCrateMimicBanner",
+				18 => "IronCrateMimicBanner",
+				19 => "WoodCrateMimicBanner",
+				20 => "GraniteSlimeBanner",
+				21 => "BlazingRattlerBanner",
+				22 => "GhastBanner",
+				23 => "SpectralSkullBanner",
+				24 => "GreenDungeonCubeBanner",
+				25 => "PinkDungeonCubeBanner",
+				26 => "BlueDungeonCubeBanner",
+				27 => "WinterbornBanner",
+				28 => "WinterbornHeraldBanner",
+				29 => "DiseasedSlimeBanner",
+				30 => "DiseasedBatBanner",
+				31 => "CoconutSlimeBanner",
+				32 => "BloaterBanner",
+				33 => "ArterialGrasperBanner",
+				34 => "FesterflyBanner",
+				35 => "PutromaBanner",
+				36 => "MasticatorBanner",
+				37 => "BubbleBruteBanner",
+				38 => "GluttonousDevourerBanner",
+				39 => "ElectricEelBanner",
+				40 => "BlossomHoundBanner",
+				41 => "RlyehianBanner",
+				42 => "MangoWarBanner",
+				43 => "CrocosaurBanner",
+				44 => "KakamoraGliderBanner",
+				45 => "KakamoraThrowerBanner",
+				46 => "KakamoraBruteBanner",
+				47 => "KakamoraShielderBanner",
+				48 => "KakamoraShielderBanner1",
+				49 => "KakamoraShamanBanner",
+				50 => "BriarthornSlimeBanner",
+				51 => "DroseranTrapperBanner",
+				52 => "GladeWraithBanner",
+				53 => "CaptiveMaskBanner",
+				54 => "DarkAlchemistBanner",
+				55 => "BloatfishBanner",
+				56 => "MechromancerBanner",
+				57 => "KakamoraBanner",
+				58 => "GloopBanner",
+				59 => "ThornStalkerBanner",
+				60 => "ForgottenOneBanner",
+				61 => "DeadeyeMarksmanBanner",
+				62 => "PhantomSamuraiBanner",
+				63 => "FleshHoundBanner",
+				64 => "CracklingCoreBanner",
+				65 => "CavernBanditBanner",
+				66 => "ReachmanBanner",
+				67 => "HemaphoraBanner",
+				68 => "MyceliumBotanistBanner",
+				69 => "MoonlightPreserverBanner",
+				70 => "MoonlightRupturerBanner",
+				71 => "GiantJellyBanner",
+				72 => "BloomshroomBanner",
+				73 => "GlitterflyBanner",
+				74 => "GlowToadBanner",
+				75 => "LumantisBanner",
+				76 => "LunarSlimeBanner",
+				77 => "BlizzardBanditBanner",
+				78 => "CrystalDrifterBanner",
+				79 => "BloodGazerBanner",
+				80 => "CystalBanner",
+				81 => "WildwoodWatcherBanner",
+				82 => "MoltenCoreBanner",
+				83 => "PokeyBanner",
+				84 => "ScreechOwlBanner",
+				85 => "ArachmatonBanner",
+				86 => "AstralAdventurerBanner",
+				87 => "TrochmatonBanner",
+				88 => "ChestZombie",
+				89 => "BoulderBehemothBanner",
+				90 => "FallingAsteroidBanner",
+				91 => "GoblinGrenadierBanner",
+				92 => "BlazingSkullBanner",
+				93 => "StymphalianBatBanner",
+				94 => "SkeletonBruteBanner",
+				95 => "DraugrBanner",
+				96 => "PirateLobberBanner",
+				_ => "",
+			};
 		}
 
 		public override void NearbyEffects(int i, int j, bool closer)

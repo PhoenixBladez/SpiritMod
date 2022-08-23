@@ -56,7 +56,7 @@ namespace SpiritMod.Tiles.Furniture
 			if (modPlayer.candyInBowl <= 0)
 				return false;
 
-			ItemUtils.DropCandy(player, new EntitySource_TileInteraction(Main.LocalPlayer, i, j));
+			player.QuickSpawnItem(player.GetSource_TileInteraction(i, j), Main.rand.Next(ItemUtils.DropCandyTable()));
 			modPlayer.candyInBowl--;
 			return true;
 		}

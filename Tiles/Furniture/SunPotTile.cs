@@ -18,6 +18,8 @@ namespace SpiritMod.Tiles.Furniture
             Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = true;
+            Main.tileLighted[Type] = true;
+
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.Width = 2;
@@ -30,6 +32,7 @@ namespace SpiritMod.Tiles.Furniture
 			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight; //allows me to place example chairs facing the same way as the player
 			TileObjectData.addAlternate(1); //facing right will use the second texture style
 			TileObjectData.addTile(Type);
+
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Sun in a Pot");
 			AddMapEntry(new Color(28, 138, 72), name);
@@ -38,6 +41,7 @@ namespace SpiritMod.Tiles.Furniture
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Terraria.DataStructures.EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, ModContent.ItemType<SunPot>());
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
+		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b) => (r, g, b) = (0.6f, 0.6f, 0.2f);
 
 		public override void NearbyEffects(int i, int j, bool closer)
         {

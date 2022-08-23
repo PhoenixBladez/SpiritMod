@@ -16,7 +16,6 @@ namespace SpiritMod.Items.Accessory
 
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = 28;
@@ -25,10 +24,9 @@ namespace SpiritMod.Items.Accessory
 			Item.rare = ItemRarityID.Orange;
 			Item.accessory = true;
 		}
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			player.GetSpiritPlayer().forbiddenTome = true;
-		}
+
+		public override void UpdateAccessory(Player player, bool hideVisual) => player.GetSpiritPlayer().forbiddenTome = true;
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;

@@ -19,7 +19,10 @@ namespace SpiritMod.Tiles.Block
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
+
+			TileID.Sets.Grass[Type] = true;
 			TileID.Sets.Conversion.Grass[Type] = true;
+
 			AddMapEntry(new Color(0, 191, 255));
 			DustType = DustID.Flare_Blue;
 			ItemDrop = ModContent.ItemType<SpiritDirtItem>();
@@ -37,50 +40,23 @@ namespace SpiritMod.Tiles.Block
 
 		public override void RandomUpdate(int i, int j)
 		{
-			if (!Framing.GetTileSafely(i, j - 1).HasTile && Main.rand.Next(40) == 0)
+			if (!Framing.GetTileSafely(i, j - 1).HasTile && Main.rand.NextBool(40))
 			{
-				switch (Main.rand.Next(5))
-				{
-					case 0:
-						PlaceObject(i, j - 1, Mod.Find<ModTile>("SpiritGrassA1").Type);
-						NetMessage.SendObjectPlacment(-1, i, j - 1, Mod.Find<ModTile>("SpiritGrassA1").Type, 0, 0, -1, -1);
-						break;
-					case 1:
-						PlaceObject(i, j - 1, Mod.Find<ModTile>("SpiritGrassA2").Type);
-						NetMessage.SendObjectPlacment(-1, i, j - 1, Mod.Find<ModTile>("SpiritGrassA2").Type, 0, 0, -1, -1);
-						break;
-					case 2:
-						PlaceObject(i, j - 1, Mod.Find<ModTile>("SpiritGrassA3").Type);
-						NetMessage.SendObjectPlacment(-1, i, j - 1, Mod.Find<ModTile>("SpiritGrassA3").Type, 0, 0, -1, -1);
-						break;
-					case 3:
-						PlaceObject(i, j - 1, Mod.Find<ModTile>("SpiritGrassA4").Type);
-						NetMessage.SendObjectPlacment(-1, i, j - 1, Mod.Find<ModTile>("SpiritGrassA4").Type, 0, 0, -1, -1);
-						break;
-
-					default:
-						PlaceObject(i, j - 1, Mod.Find<ModTile>("SpiritGrassA5").Type);
-						NetMessage.SendObjectPlacment(-1, i, j - 1, Mod.Find<ModTile>("SpiritGrassA5").Type, 0, 0, -1, -1);
-						break;
-				}
+				int rand = Main.rand.Next(1, 6);
+				PlaceObject(i, j - 1, Mod.Find<ModTile>("SpiritGrassA" + rand).Type);
+				NetMessage.SendObjectPlacment(-1, i, j - 1, Mod.Find<ModTile>("SpiritGrassA" + rand).Type, 0, 0, -1, -1);
 			}
 		}
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
-			Tile tile = Framing.GetTileSafely(i, j);
 			Tile tile2 = Framing.GetTileSafely(i, j - 1);
-			if (tile.Slope == 0 && !tile.IsHalfBlock)
+			if (!Main.tileSolid[tile2.TileType] || !tile2.HasTile)
 			{
-				if (!Main.tileSolid[tile2.TileType] || !tile2.HasTile)
-				{
-					Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
+				Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
+				Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Block/SpiritGrass_Glow", ReLogic.Content.AssetRequestMode.AsyncLoad).Value;
 
-					Texture2D glow = ModContent.Request<Texture2D>("SpiritMod/Tiles/Block/SpiritGrass_Glow", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-					Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
-
-					spriteBatch.Draw(glow, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), colour);
-				}
+				GTile.DrawSlopedGlowMask(i, j, glow, colour, Vector2.Zero);
 			}
 		}
 

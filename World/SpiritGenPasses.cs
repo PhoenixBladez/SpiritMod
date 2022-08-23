@@ -44,12 +44,13 @@ namespace SpiritMod.World
 			WaterfallMicropass.Run();
 
 			progress.Message = "Spirit Mod: Microstructures: Campsite";
-
 			if (WorldGen.genRand.NextBool(4))
 				GenerateCampsite();
 
-			progress.Message = "Spirit Mod: Microstructures: Hideouts";
+			progress.Message = "Spirit Mod: Microstructures: Waterfalls";
+			SunkenSurfaceMicropass.Run();
 
+			progress.Message = "Spirit Mod: Microstructures: Hideouts";
 			if (ModContent.GetInstance<SpiritClientConfig>().DoubleHideoutGeneration)
 			{
 				new BanditHideout().Generate();
