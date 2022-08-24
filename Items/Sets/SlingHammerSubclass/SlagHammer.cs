@@ -13,7 +13,7 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slag Breaker");
-			Tooltip.SetDefault("Hold down and release to throw the Hammer like a boomerang");
+			Tooltip.SetDefault("Hold down and release to throw the Hammer like a boomerang\nCan be wound up to deal increased damage");
 		}
 
 		public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace SpiritMod.Items.Sets.SlingHammerSubclass
 			Item.useTime = 30;
 			Item.shootSpeed = 8f;
 			Item.knockBack = 5f;
-			Item.damage = 29;
+			Item.damage = 40;
 			Item.value = Item.sellPrice(0, 0, 60, 0);
 			Item.rare = ItemRarityID.Orange;
 			Item.useStyle = ItemUseStyleID.Shoot;

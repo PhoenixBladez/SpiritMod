@@ -12,14 +12,13 @@ namespace SpiritMod.Items.Sets.FlailsMisc.ClatterMace
 			Tooltip.SetDefault("Has a chance to lower enemy defense on hit");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = 30;
 			Item.height = 10;
 			Item.value = Item.sellPrice(0, 0, 60, 0);
 			Item.rare = ItemRarityID.Green;
-			Item.damage = 16;
+			Item.damage = 19;
 			Item.knockBack = 5.4f;
 			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.useTime = Item.useAnimation = 30;

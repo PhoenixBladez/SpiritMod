@@ -17,8 +17,8 @@ namespace SpiritMod.Items.Weapon.Magic
 			DisplayName.SetDefault("Shadowbreak Wand");
 			Tooltip.SetDefault("Shoots out erratic shadowflame wisps");
 			SpiritGlowmask.AddGlowMask(Item.type, "SpiritMod/Items/Weapon/Magic/ShadowflameStoneStaff_Glow");
+			Item.staff[Item.type] = true;
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -29,8 +29,7 @@ namespace SpiritMod.Items.Weapon.Magic
 			Item.damage = 12;
 			Item.knockBack = 4;
 			Item.useStyle = ItemUseStyleID.Shoot;
-			Item.staff[Item.type] = true;
-			Item.useTime = 12;
+			Item.useTime = 24;
 			Item.useAnimation = 24;
 			Item.mana = 10;
 			Item.DamageType = DamageClass.Magic;
@@ -41,9 +40,10 @@ namespace SpiritMod.Items.Weapon.Magic
 			Item.shoot = ModContent.ProjectileType<ShadowflameStoneBolt>();
 			Item.shootSpeed = 10f;
 		}
+
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) 
 		{
-			for (int I = 0; I < Main.rand.Next(1, 3); I++) {
+			for (int i = 0; i < Main.rand.Next(1, 3); i++) {
 				float angle = Main.rand.NextFloat(MathHelper.PiOver4, -MathHelper.Pi - MathHelper.PiOver4);
 				Vector2 spawnPlace = Vector2.Normalize(new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle))) * 20f;
 				if (Collision.CanHit(position, 0, 0, position + spawnPlace, 0, 0)) {

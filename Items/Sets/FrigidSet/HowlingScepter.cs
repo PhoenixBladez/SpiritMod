@@ -9,19 +9,22 @@ namespace SpiritMod.Items.Sets.FrigidSet
 {
 	public class HowlingScepter : ModItem
 	{
-		public override void SetStaticDefaults() => DisplayName.SetDefault("Frigid Scepter");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Frigid Scepter");
+			Item.staff[Item.type] = true;
+		}
 
 		public override void SetDefaults()
 		{
 			Item.damage = 9;
-			Item.staff[Item.type] = true;
 			Item.noMelee = true;
 			Item.DamageType = DamageClass.Magic;
 			Item.width = 64;
 			Item.height = 64;
-			Item.useTime = 25;
+			Item.useTime = 30;
 			Item.mana = 9;
-			Item.useAnimation = 25;
+			Item.useAnimation = 30;
 			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.knockBack = 4;
 			Item.value = Item.sellPrice(0, 0, 5, 0);

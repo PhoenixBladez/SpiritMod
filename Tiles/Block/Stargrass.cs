@@ -2,9 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Tiles.Ambient;
 using System;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Block
 {
@@ -13,19 +15,14 @@ namespace SpiritMod.Tiles.Block
 		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			Main.tileMerge[Type][ModContent.TileType<SpiritDirt>()] = true;
-			Main.tileBlendAll[Type] = true;
-			Main.tileMergeDirt[Type] = true;
+			Main.tileMerge[Type][Type] = true;
 			Main.tileBlockLight[Type] = true;
-			Main.tileLighted[Type] = true;
-
-			Main.tileMerge[Type][TileID.Dirt] = true;
 			Main.tileMerge[TileID.Dirt][Type] = true;
 
 			TileID.Sets.Grass[Type] = true;
 			TileID.Sets.Conversion.Grass[Type] = true;
 
-			AddMapEntry(new Color(0, 191, 255));
+			AddMapEntry(new Color(28, 216, 151));
 			DustType = DustID.Flare_Blue;
 			ItemDrop = ItemID.DirtBlock;
 		}
@@ -53,7 +50,7 @@ namespace SpiritMod.Tiles.Block
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
 			var tex = ModContent.Request<Texture2D>(Texture + "_Glow", ReLogic.Content.AssetRequestMode.AsyncLoad).Value;
-			Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
+			Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((Math.Sin(SpiritMod.GlobalNoise.Noise(i * 1.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
 			GTile.DrawSlopedGlowMask(i, j, tex, colour, Vector2.Zero, false);
 		}
 

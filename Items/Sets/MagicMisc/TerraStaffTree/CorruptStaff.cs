@@ -12,8 +12,8 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 		{
 			DisplayName.SetDefault("Vile Wand");
 			Tooltip.SetDefault("Shoots clumps of diseased spit\nKilling enemies with diseased spit releases homing eaters");
+			Item.staff[Item.type] = true;
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -22,16 +22,15 @@ namespace SpiritMod.Items.Sets.MagicMisc.TerraStaffTree
 			Item.mana = 9;
 			Item.width = 38;
 			Item.height = 38;
-			Item.useTime = 24;
-			Item.useAnimation = 38;
+			Item.useTime = 18;
+			Item.useAnimation = 18;
 			Item.useStyle = ItemUseStyleID.Shoot;
-			Item.staff[Item.type] = true;
 			Item.noMelee = true;
 			Item.knockBack = 4;
 			Item.value = Item.sellPrice(0, 0, 8, 0);
 			Item.rare = ItemRarityID.Blue;
 			Item.UseSound = SoundID.Item20;
-			Item.autoReuse = false;
+			Item.autoReuse = true;
 			Item.shoot = ModContent.ProjectileType<Spit>();
 			Item.shootSpeed = 12f;
 		}

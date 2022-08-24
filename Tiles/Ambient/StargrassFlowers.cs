@@ -4,7 +4,6 @@ using SpiritMod.Systems;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
-using Terraria.GameContent.Drawing;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -18,14 +17,10 @@ namespace SpiritMod.Tiles.Ambient
 			Main.tileFrameImportant[Type] = true;
 			Main.tileCut[Type] = true;
 			Main.tileSolid[Type] = false;
-			Main.tileMergeDirt[Type] = true;
-			Main.tileLighted[Type] = false;
+			Main.tileLighted[Type] = true;
 
 			DustType = DustID.Grass;
 			HitSound = SoundID.Grass;
-
-			//Terraria.GameContent.Metadata.TileMaterials.SetForTileId(Type, Terraria.GameContent.Metadata.TileMaterials._materialsByName["Plant"]);
-			//TileID.Sets.SwaysInWindBasic[Type] = true;
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
 			TileObjectData.newTile.LavaDeath = true;
@@ -65,7 +60,7 @@ namespace SpiritMod.Tiles.Ambient
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
-			Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((System.Math.Sin(SpiritMod.GlobalNoise.Noise(i * 0.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
+			Color colour = Color.White * MathHelper.Lerp(0.2f, 1f, (float)((System.Math.Sin(SpiritMod.GlobalNoise.Noise(i * 1.2f, j * 0.2f) * 3f + Main.GlobalTimeWrappedHourly * 1.3f) + 1f) * 0.5f));
 			TileSwaySystem.DrawGrassSway(spriteBatch, Texture + "_Glow", i, j, colour);
 		}
 	}

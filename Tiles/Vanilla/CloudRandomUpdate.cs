@@ -26,7 +26,7 @@ namespace SpiritMod.Tiles.Vanilla
 				y++;
 
 			Tile ground = Main.tile[i, y];
-			bool validTiles = TileObjectData.GetTileData(ModContent.TileType<Cloudstalk>(), 0).AnchorValidTiles.Contains(type);
+			bool validTiles = TileObjectData.GetTileData(ModContent.TileType<Cloudstalk>(), 0).AnchorValidTiles.Contains(Main.tile[i, y].TileType);
 			if (Main.rand.NextFloat() < chance && validTiles && !ground.TopSlope)
 			{
 				WorldGen.PlaceTile(i, y - 1, ModContent.TileType<Cloudstalk>(), true, false);

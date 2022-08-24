@@ -20,6 +20,9 @@ namespace SpiritMod.Tiles.Block
 			Main.tileBlockLight[Type] = true;
 			Main.tileLighted[Type] = true;
 
+			Main.tileMerge[Type][TileID.Grass] = true;
+			Main.tileMerge[TileID.Grass][Type] = true;
+
 			TileID.Sets.Grass[Type] = true;
 			TileID.Sets.Conversion.Grass[Type] = true;
 

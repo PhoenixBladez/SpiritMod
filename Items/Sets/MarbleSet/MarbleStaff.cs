@@ -17,7 +17,7 @@ namespace SpiritMod.Items.Sets.MarbleSet
 
 		public override void SetDefaults()
 		{
-			Item.damage = 21;
+			Item.damage = 28;
 			Item.DamageType = DamageClass.Magic;
 			Item.mana = 8;
 			Item.width = 50;

@@ -18,20 +18,20 @@ namespace SpiritMod.Items.Sets.ClubSubclass.ClubSandwich
 			DisplayName.SetDefault("Club Meal");
 			Tooltip.SetDefault("You shouldn't see this");
 		}
+
 		public override void SetDefaults()
 		{
 			Item.width = 16;
 			Item.height = 16;
 			Item.maxStack = 1;
 		}
-		public override bool ItemSpace(Player player)
-		{
-			return true;
-		}
+
+		public override bool ItemSpace(Player player) => true;
+
 		public override bool OnPickup(Player player)
 		{
 			SoundEngine.PlaySound(SoundID.Item2);
-			player.AddBuff(BuffID.WellFed, 240);
+			player.AddBuff(BuffID.WellFed3, 240);
 			return false;
 		}
 	}

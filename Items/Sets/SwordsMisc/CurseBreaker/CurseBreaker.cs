@@ -37,7 +37,7 @@ namespace SpiritMod.Items.Sets.SwordsMisc.CurseBreaker
 			Item.height = 44;
 			Item.useTime = 12;
 			Item.useAnimation = 12;
-			Item.reuseDelay = 20;
+			Item.reuseDelay = 10;
 			Item.channel = true;
 			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.knockBack = 10f;

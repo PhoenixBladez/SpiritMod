@@ -30,11 +30,11 @@ namespace SpiritMod.Tiles.Ambient.Forest
 			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
 
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Example Herb");
-			AddMapEntry(new Color(128, 128, 128), name);
+			name.SetDefault("Cloudstalk");
+			AddMapEntry(new Color(178, 234, 234), name);
 
 			TileObjectData.newTile.CopyFrom(TileObjectData.StyleAlch);
-			TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Grass, TileID.HallowedGrass, TileID.JungleGrass, ModContent.TileType<BriarGrass>() };
+			TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Grass, TileID.HallowedGrass, TileID.JungleGrass, ModContent.TileType<BriarGrass>(), ModContent.TileType<Stargrass>(), TileID.Cloud, TileID.RainCloud, TileID.SnowCloud };
 			TileObjectData.newTile.AnchorAlternateTiles = new int[] { TileID.ClayPot, TileID.PlanterBox };
 			TileObjectData.addTile(Type);
 
