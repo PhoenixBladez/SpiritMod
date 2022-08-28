@@ -20,7 +20,6 @@ namespace SpiritMod.Items.Armor.SilkArmor
 			Item.height = 30;
 			Item.value = 12500;
 			Item.rare = ItemRarityID.Blue;
-			Item.defense = 2;
 			Item.vanity = true;
 		}
 

@@ -47,8 +47,11 @@ namespace SpiritMod.World
 			if (WorldGen.genRand.NextBool(4))
 				GenerateCampsite();
 
-			progress.Message = "Spirit Mod: Microstructures: Waterfalls";
+			progress.Message = "Spirit Mod: Microstructures: Sunken Surfaces";
 			SunkenSurfaceMicropass.Run();
+
+			progress.Message = "Spirit Mod: Microstructures: Stargrass";
+			StargrassMicropass.Run();
 
 			progress.Message = "Spirit Mod: Microstructures: Hideouts";
 			if (ModContent.GetInstance<SpiritClientConfig>().DoubleHideoutGeneration)

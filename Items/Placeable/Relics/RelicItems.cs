@@ -1,29 +1,34 @@
 ﻿using SpiritMod.Tiles.Relics;
-using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Placeable.Relics
 {
-	internal class MJWRelicItem : BaseRelicItem
+	public class MJWRelicItem : BaseRelicItem<MJWRelic>
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Moon Jelly Relic");
-		internal override int TileType => ModContent.TileType<MJWRelic>();
 	}
 
-	internal class VinewrathRelicItem : BaseRelicItem
+	public class VinewrathRelicItem : BaseRelicItem<VinewrathRelic>
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Vinewrath Bane Relic");
-		internal override int TileType => ModContent.TileType<VinewrathRelic>();
 	}
 
-	internal class OccultistRelicItem : BaseRelicItem
+	public class OccultistRelicItem : BaseRelicItem<OccultistRelic>
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Occultist Relic");
-		internal override int TileType => ModContent.TileType<OccultistRelic>();
 	}
 
-	internal class ScarabeusRelicItem : BaseRelicItem
+	public class ScarabeusRelicItem : BaseRelicItem<ScarabeusRelic>
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Scarabeus Relic");
-		internal override int TileType => ModContent.TileType<ScarabeusRelic>();
+	}
+
+	public class DuskingRelicItem : BaseRelicItem<DuskingRelic>
+	{
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Dusking Relic");
+	}
+
+	public class FrostSaucerRelicItem : BaseRelicItem<FrostSaucerRelic>
+	{
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Snow Monger Relic");
 	}
 }

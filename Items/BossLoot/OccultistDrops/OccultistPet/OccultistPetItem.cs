@@ -30,8 +30,6 @@ namespace SpiritMod.Items.BossLoot.OccultistDrops.OccultistPet
 				player.AddBuff(Item.buffType, 3600, true);
 		}
 
-		public override bool? UseItem(Player player) => base.UseItem(player);
-
 		public override bool CanUseItem(Player player) => player.miscEquips[0].IsAir;
 	}
 }

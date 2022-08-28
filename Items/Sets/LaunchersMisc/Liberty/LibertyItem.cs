@@ -42,6 +42,7 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Liberty
 			return false;
 		}
 
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] == 0;
 		public override bool CanConsumeAmmo(Item item, Player player) => player.ownedProjectileCounts[Item.shoot] > 0;
 	}
 }

@@ -1,14 +1,11 @@
-using SpiritMod.Tiles.Relics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Placeable.Relics
 {
-	public abstract class BaseRelicItem : ModItem
+	public abstract class BaseRelicItem<T> : ModItem where T : ModTile
 	{
-		internal abstract int TileType { get; }
-
 		public override void SetDefaults()
 		{
 			Item.autoReuse = false;
@@ -23,7 +20,7 @@ namespace SpiritMod.Items.Placeable.Relics
 			Item.width = 30;
 			Item.height = 44;
 			Item.value = Item.buyPrice(0, 1, 0, 0);
-			Item.createTile = TileType;
+			Item.createTile = ModContent.TileType<T>();
 		}
 	}
 }

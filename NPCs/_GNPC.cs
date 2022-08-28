@@ -967,7 +967,7 @@ namespace SpiritMod.NPCs
 			globalLoot.Add(floranSet);
 
 			LeadingConditionRule vitaStoneEquipped = new LeadingConditionRule(new DropRuleConditions.PlayerConditional("Wearing the Vitality Stone (or an upgrade)", (player) => player.GetSpiritPlayer().vitaStone));
-			vitaStoneEquipped.OnSuccess(ItemDropRule.Common(ItemID.Heart));
+			vitaStoneEquipped.OnSuccess(ItemDropRule.Common(ItemID.Heart, 9));
 			globalLoot.Add(vitaStoneEquipped);
 		}
 

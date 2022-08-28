@@ -98,7 +98,8 @@ namespace SpiritMod.NPCs.HauntedTome
 			NPC.TargetClosest(true);
 			NPC.spriteDirection = NPC.direction;
 
-			if (++AiTimer < 180) {
+			if (++AiTimer < 180)
+			{
 				Vector2 homeCenter = player.Center;
 				homeCenter.Y -= 100;
 
@@ -108,7 +109,7 @@ namespace SpiritMod.NPCs.HauntedTome
 				NPC.velocity = -NPC.DirectionTo(player.Center) * 6;
 
 			if (AiTimer > 180)
-			{ 	
+			{
 				AttackDict[Pattern[(int)AttackType]].Invoke(Main.player[NPC.target], NPC);
 
 				if (AiTimer % 30 == 0 && Main.netMode != NetmodeID.Server)
@@ -122,7 +123,8 @@ namespace SpiritMod.NPCs.HauntedTome
 		{
 			AttackType++;
 			AiTimer = 0;
-			if (AttackType >= Pattern.Count) {
+			if (AttackType >= Pattern.Count)
+			{
 				AttackType = 0;
 				Pattern.Randomize();
 			}
@@ -138,12 +140,17 @@ namespace SpiritMod.NPCs.HauntedTome
 			HauntedTome modnpc = npc.ModNPC as HauntedTome;
 			npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
 
-			if(modnpc.AiTimer % 20 == 0) {
+			if (modnpc.AiTimer % 20 == 0)
+			{
 				if (Main.netMode != NetmodeID.Server)
 					SoundEngine.PlaySound(SoundID.Item104 with { PitchVariance = 0.2f }, npc.Center);
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
-					Projectile.NewProjectileDirect(npc.GetSource_FromAI(), npc.Center, -Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 2) * 3, ModContent.ProjectileType<HauntedSkull>(), NPCUtils.ToActualDamage(30, 1.5f), 1, Main.myPlayer, npc.whoAmI, npc.target).netUpdate = true;
+				{
+					Vector2 vel = -Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 2) * 3;
+					int type = ModContent.ProjectileType<HauntedSkull>();
+					Projectile.NewProjectileDirect(npc.GetSource_FromAI(), npc.Center, vel, type, NPCUtils.ToActualDamage(30, 1.5f), 1, Main.myPlayer, npc.whoAmI, npc.target).netUpdate = true;
+				}
 			}
 
 			if (modnpc.AiTimer == 340)
@@ -158,18 +165,16 @@ namespace SpiritMod.NPCs.HauntedTome
 			HauntedTome modnpc = npc.ModNPC as HauntedTome;
 			npc.velocity = Vector2.Lerp(npc.velocity, Vector2.Zero, 0.1f);
 
-				if (modnpc.AiTimer % 45 == 0) {
+			if (modnpc.AiTimer % 45 == 0)
+			{
 				if (Main.netMode != NetmodeID.Server)
-					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/PageRip"), npc.Center);
+					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/PaperRip"), npc.Center);
 				if (Main.netMode != NetmodeID.MultiplayerClient)
-					Projectile.NewProjectileDirect(npc.GetSource_FromAI(), npc.Center,
-									-Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 4) * 3,
-									ModContent.ProjectileType<HauntedPaperPlane>(),
-									NPCUtils.ToActualDamage(24, 1.25f),
-									1,
-									Main.myPlayer,
-									npc.whoAmI,
-									npc.target).netUpdate = true;
+				{
+					Vector2 vel = -Vector2.UnitY.RotatedByRandom(MathHelper.Pi / 4) * 3;
+					int type = ModContent.ProjectileType<HauntedPaperPlane>();
+					Projectile.NewProjectileDirect(npc.GetSource_FromAI(), npc.Center, vel, type, NPCUtils.ToActualDamage(24, 1.25f), 1, Main.myPlayer, npc.whoAmI, npc.target).netUpdate = true;
+				}
 			}
 
 			if (modnpc.AiTimer > 360)
@@ -179,17 +184,19 @@ namespace SpiritMod.NPCs.HauntedTome
 		private void UpdateFrame(int framespersecond, int minframe, int maxframe)
 		{
 			NPC.frameCounter++;
-			if (NPC.frameCounter >= (60 / framespersecond)) {
+			if (NPC.frameCounter >= (60 / framespersecond))
+			{
 				frame++;
 				NPC.frameCounter = 0;
 			}
 			if (frame > maxframe || frame < minframe)
 				frame = minframe;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (NPC.life <= 0) {
+			if (NPC.life <= 0)
+			{
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("HauntedTomeGore3").Type, 1f);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("HauntedTomeGore2").Type, 1f);
 				Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("HauntedTomeGore1").Type, 1f);
@@ -286,12 +293,14 @@ namespace SpiritMod.NPCs.HauntedTome
 			Projectile.alpha = (int)MathHelper.Max(Projectile.alpha - 10, 0);
 			NPC npc = Main.npc[(int)Projectile.ai[0]];
 			Player player = Main.player[(int)Projectile.ai[1]];
-			if(!npc.active || npc.type != ModContent.NPCType<HauntedTome>() || !player.active || player.dead) {
+			if (!npc.active || npc.type != ModContent.NPCType<HauntedTome>() || !player.active || player.dead)
+			{
 				Projectile.Kill();
 				return;
 			}
 
-			if (npc.ai[0] < 180 && Projectile.localAI[0] == 0) {
+			if (npc.ai[0] < 180 && Projectile.localAI[0] == 0)
+			{
 				Projectile.velocity = Projectile.DirectionTo(player.Center) * 14;
 				Projectile.localAI[0]++;
 				Projectile.timeLeft = 180;
@@ -299,31 +308,38 @@ namespace SpiritMod.NPCs.HauntedTome
 					SoundEngine.PlaySound(new SoundStyle("SpiritMod/Sounds/skullscrem") with { PitchVariance = 0.2f, Volume = 0.33f }, Projectile.Center);
 			}
 
-			if(Projectile.localAI[1] == 0 && Main.netMode != NetmodeID.Server) {
+			if (Projectile.localAI[1] == 0 && Main.netMode != NetmodeID.Server)
+			{
 				SpiritMod.primitives.CreateTrail(new SkullPrimTrail(Projectile, Color.DarkGreen, (int)(30 * Projectile.scale), (int)(20 * Projectile.scale)));
 				Projectile.localAI[1]++;
 			}
 
 			Projectile.frameCounter++;
 			//projectile.rotation = projectile.velocity.ToRotation() - ((projectile.spriteDirection > 0) ? MathHelper.Pi : 0);
-			switch (Projectile.localAI[0]) {
-				case 0: Vector2 homepos = npc.Center;
+			switch (Projectile.localAI[0])
+			{
+				case 0:
+					Vector2 homepos = npc.Center;
 					homepos.Y -= 90;
 
 					Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(homepos) * 3, 0.02f);
-					if (Projectile.frameCounter % 16 == 0) {
-						if ((npc.Center.X > Projectile.Center.X && Projectile.spriteDirection == 1) || (npc.Center.X <= Projectile.Center.X && Projectile.spriteDirection == -1)) {
+					if (Projectile.frameCounter % 16 == 0)
+					{
+						if ((npc.Center.X > Projectile.Center.X && Projectile.spriteDirection == 1) || (npc.Center.X <= Projectile.Center.X && Projectile.spriteDirection == -1))
+						{
 							Projectile.frame++;
 						}
 					}
-					if (Projectile.frame >= 4) {
+					if (Projectile.frame >= 4)
+					{
 						Projectile.spriteDirection = 0 - Math.Sign(Projectile.spriteDirection);
 						Projectile.frame = 0;
 					}
 					break;
 
 				case 1:
-					if (Projectile.frameCounter % 8 == 0 && Projectile.frame < 5) {
+					if (Projectile.frameCounter % 8 == 0 && Projectile.frame < 5)
+					{
 						Projectile.frame++;
 					}
 
@@ -355,9 +371,10 @@ namespace SpiritMod.NPCs.HauntedTome
 
 		public override void Kill(int timeLeft)
 		{
-			SoundEngine.PlaySound(SoundID.NPCDeath3, Projectile.Center); 
+			SoundEngine.PlaySound(SoundID.NPCDeath3, Projectile.Center);
 
-			for (int i = 0; i <= 3; i++) {
+			for (int i = 0; i <= 3; i++)
+			{
 				Gore gore = Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.position + new Vector2(Main.rand.Next(Projectile.width), Main.rand.Next(Projectile.height)),
 					Main.rand.NextVector2Circular(-1, 1),
 					Mod.Find<ModGore>("bonger" + Main.rand.Next(1, 5)).Type,
@@ -397,15 +414,19 @@ namespace SpiritMod.NPCs.HauntedTome
 		{
 			NPC npc = Main.npc[(int)Projectile.ai[0]];
 			Player player = Main.player[(int)Projectile.ai[1]];
-			if (!npc.active || npc.type != ModContent.NPCType<HauntedTome>() || !player.active || player.dead) {
+			if (!npc.active || npc.type != ModContent.NPCType<HauntedTome>() || !player.active || player.dead)
+			{
 				Projectile.Kill();
 				return;
 			}
 
-			switch (Projectile.localAI[0]) {
-				case 0: Projectile.alpha = Math.Min(Projectile.alpha + 16, 255); //fade out after emerging from tome
+			switch (Projectile.localAI[0])
+			{
+				case 0:
+					Projectile.alpha = Math.Min(Projectile.alpha + 16, 255); //fade out after emerging from tome
 					Projectile.velocity *= 0.98f;
-					if(Projectile.alpha >= 255) {//teleport to player's sides
+					if (Projectile.alpha >= 255)
+					{//teleport to player's sides
 						Projectile.localAI[0]++;
 						Projectile.velocity = Vector2.Zero;
 						float X = 250 * Main.rand.NextFloat(0.9f, 1.2f);
@@ -415,15 +436,19 @@ namespace SpiritMod.NPCs.HauntedTome
 						Projectile.localAI[1] = 1;
 					}
 					break;
-				case 1: Projectile.alpha = Math.Max(Projectile.alpha - 18, 0); //fade in and animate
+				case 1:
+					Projectile.alpha = Math.Max(Projectile.alpha - 18, 0); //fade in and animate
 					Projectile.localAI[1] = Math.Max(Projectile.localAI[1] - 0.03f, 0);
 					Projectile.spriteDirection = Math.Sign(-Projectile.DirectionTo(player.Center).X);
 					Projectile.rotation = Utils.AngleLerp(Projectile.rotation, Projectile.AngleTo(player.Center), 0.08f);
-					if (Projectile.alpha <= 0) {
+					if (Projectile.alpha <= 0)
+					{
 						Projectile.frameCounter++;
-						if(Projectile.frameCounter % 6 == 0) {
+						if (Projectile.frameCounter % 6 == 0)
+						{
 							Projectile.frame++;
-							if(Projectile.frame >= Main.projFrames[Projectile.type]) { //swoop in on the player
+							if (Projectile.frame >= Main.projFrames[Projectile.type])
+							{ //swoop in on the player
 								Projectile.frame = Main.projFrames[Projectile.type] - 1;
 								Projectile.localAI[0]++;
 								Projectile.velocity = Projectile.DirectionTo(player.Center) * 12;

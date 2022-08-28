@@ -2,11 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using SpiritMod.Tiles.Ambient;
 using System;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace SpiritMod.Tiles.Block
 {
@@ -18,6 +16,7 @@ namespace SpiritMod.Tiles.Block
 			Main.tileMerge[Type][Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileMerge[TileID.Dirt][Type] = true;
+			Main.tileLighted[Type] = true;
 
 			TileID.Sets.Grass[Type] = true;
 			TileID.Sets.Conversion.Grass[Type] = true;
@@ -55,5 +54,14 @@ namespace SpiritMod.Tiles.Block
 		}
 
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b) => (r, g, b) = (0.05f, 0.2f, 0.5f);
+
+		public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
+		{
+			if (!fail)
+			{
+				fail = true;
+				Framing.GetTileSafely(i, j).TileType = TileID.Dirt;
+			}
+		}
 	}
 }

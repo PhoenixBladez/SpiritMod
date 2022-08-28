@@ -43,7 +43,7 @@ namespace SpiritMod.Items.BossLoot.VinewrathDrops
 
 	public class ThornArrow : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.WoodenArrowFriendly;
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.WoodenArrowFriendly;
 
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Thorn Arrow");
 

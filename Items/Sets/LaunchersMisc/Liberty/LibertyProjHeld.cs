@@ -21,7 +21,7 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Liberty
 			Projectile.tileCollide = false;
 		}
 
-		public override bool? CanDamage()/* tModPorter Suggestion: Return null instead of false */ => false;
+		public override bool? CanDamage() => false;
 
 		private ref float AiState => ref Projectile.ai[0];
 
@@ -56,18 +56,7 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Liberty
 					int damage = 0;
 					float kb = 0;
 					float knockback = 0;
-					bool canShoot = Owner.PickAmmo(Owner.HeldItem, out shoot, out speed, out damage, out kb, out int ammo); //first pickammo to find stats and actually consume the ammo
-
-					void FixDumbVanillaRocketIDS() => shoot += 134; //required, as for god knows what reason vanilla rockets shoot the wrong projectile(but not modded rockets!!!)
-					if (shoot <= 0) //rocket 1
-						FixDumbVanillaRocketIDS();
-					else 
-					{
-						Projectile dummy = new Projectile(); //create an instance of a projectile from the shoot id, and check if it's vanilla
-						dummy.SetDefaults(shoot);
-						if (dummy.ModProjectile == null)
-							FixDumbVanillaRocketIDS();
-					}
+					bool canShoot = Owner.PickAmmo(ContentSamples.ItemsByType[ItemID.RocketLauncher], out shoot, out speed, out damage, out kb, out int ammo); //first pickammo to find stats and actually consume the ammo
 
 					if (!Main.dedServ) //smoke burst before recoil
 					{
@@ -90,12 +79,14 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Liberty
 						SoundEngine.PlaySound(SoundID.Item14 with { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);
 
 						for (int i = 0; i < 5; i++)
+						{
 							ParticleHandler.SpawnParticle(new FireParticle(shootPos, Projectile.velocity.RotatedByRandom(MathHelper.Pi / 5) * Main.rand.NextFloat(6),
-										new Color(246, 255, 0), new Color(232, 37, 2), Main.rand.NextFloat(0.35f, 0.5f), 20, delegate (Particle particle)
-										{
-											if (particle.Velocity.Y < 16)
-												particle.Velocity.Y += 0.12f;
-										}));
+								new Color(246, 255, 0), new Color(232, 37, 2), Main.rand.NextFloat(0.35f, 0.5f), 20, delegate (Particle particle)
+								{
+									if (particle.Velocity.Y < 16)
+										particle.Velocity.Y += 0.12f;
+								}));
+						}
 					}
 
 					SetAIState(STATE_COOLDOWN);

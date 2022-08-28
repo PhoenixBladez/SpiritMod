@@ -12,7 +12,7 @@ using Terraria.Localization;
 
 namespace SpiritMod.Tiles.Relics
 {
-	public abstract class BaseRelic : ModTile
+	public abstract class BaseRelic<T> : ModTile where T : ModItem
 	{
 		public const int FrameWidth = 18 * 3;
 		public const int FrameHeight = 18 * 4;
@@ -55,6 +55,7 @@ namespace SpiritMod.Tiles.Relics
 		}
 
 		public override bool CreateDust(int i, int j, ref int type) => false;
+		public sealed override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ModContent.ItemType<T>());
 
 		public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
 		{
