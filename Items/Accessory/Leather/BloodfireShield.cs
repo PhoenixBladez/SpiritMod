@@ -1,4 +1,3 @@
-
 using SpiritMod.Items.Sets.BloodcourtSet;
 using Terraria;
 using Terraria.ID;
@@ -28,9 +27,9 @@ namespace SpiritMod.Items.Accessory.Leather
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.GetSpiritPlayer().bloodfireShield = true;
-
-			player.endurance += .05f * player.GetSpiritPlayer().bloodfireShieldStacks;
+			player.endurance += .04f * player.GetSpiritPlayer().bloodfireShieldStacks;
 		}
+
 		public override void AddRecipes()
 		{
 			Recipe recipe = CreateRecipe(1);

@@ -17,8 +17,8 @@ namespace SpiritMod.Items.Equipment
 		{
 			Item.width = 44;
 			Item.height = 48;
-			Item.useTime = 60;
-			Item.useAnimation = 60;
+			Item.useTime = 30;
+			Item.useAnimation = 30;
 			Item.useStyle = ItemUseStyleID.HoldUp;
 			Item.noMelee = true;
 			Item.value = Item.sellPrice(gold: 1);
@@ -32,20 +32,19 @@ namespace SpiritMod.Items.Equipment
 
 		public override bool? UseItem(Player player)
 		{
-			if(Sandstorm.Happening) {
+			if (Sandstorm.Happening)
 				Sandstorm.Happening = false;
-			}
-			else {
+			else
+			{
 				Sandstorm.Happening = true;
-				Sandstorm.TimeLeft = 6000;
+				Sandstorm.TimeLeft = 60000;
 				Sandstorm.Severity = 1;
 				Sandstorm.IntendedSeverity = 1;
 			}
 
 			if (Main.netMode != NetmodeID.SinglePlayer)
 				NetMessage.SendData(MessageID.WorldData);
-
-			return null;
+			return true;
 		}
 	}
 }

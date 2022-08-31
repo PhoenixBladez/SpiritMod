@@ -65,11 +65,13 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			timeLeft--;
 
 			if (timeLeft <= 0) {
-				if (!Main.expertMode) {
+				if (!Main.expertMode)
+				{
 					NPC.DropItem(ModContent.ItemType<CosmiliteShard>(), 6, 10, NPC.GetSource_FromAI());
 					NPC.DropItem(ModContent.ItemType<StarplateMask>(), 1f / 7, NPC.GetSource_FromAI());
 					NPC.DropItem(ModContent.ItemType<Trophy3>(), 1f / 10, NPC.GetSource_FromAI());
 				}
+
 				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Starplate1").Type, 1f);
 				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Starplate2").Type, 1f);
 				Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Starplate3").Type, 1f);
@@ -78,31 +80,31 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 				for (int i = 0; i < 90; i++) {
 					Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, Main.rand.Next(-25, 25), Main.rand.Next(-13, 13));
 				}
+
 				NPC.position.X = NPC.position.X + (NPC.width / 2);
 				NPC.position.Y = NPC.position.Y + (NPC.height / 2);
 				NPC.width = 30;
 				NPC.height = 30;
 				NPC.position.X = NPC.position.X - (NPC.width / 2);
 				NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-				Vector2 direction = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * new Vector2(4, -4);
 
 				NPC.life = 0;
                 NPC.active = false;
 			}
 		}
 
-		public override void ModifyNPCLoot(NPCLoot npcLoot)
-		{
-			npcLoot.AddMasterModeDropOnAllPlayers<StarplatePetItem>();
-			npcLoot.AddBossBag<SteamRaiderBag>();
+		//public override void ModifyNPCLoot(NPCLoot npcLoot)
+		//{
+		//	npcLoot.AddMasterModeDropOnAllPlayers<StarplatePetItem>();
+		//	npcLoot.AddBossBag<SteamRaiderBag>();
 
-			LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
-			notExpertRule.AddCommon<StarMap>();
-			notExpertRule.AddCommon<StarplateMask>(7);
-			notExpertRule.AddCommon<Trophy3>(10);
-			notExpertRule.AddCommon<CosmiliteShard>(1, 6, 10);
+		//	LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+		//	notExpertRule.AddCommon<StarMap>();
+		//	notExpertRule.AddCommon<StarplateMask>(7);
+		//	notExpertRule.AddCommon<Trophy3>(10);
+		//	notExpertRule.AddCommon<CosmiliteShard>(1, 6, 10);
 
-			npcLoot.Add(notExpertRule);
-		}
+		//	npcLoot.Add(notExpertRule);
+		//}
 	}
 }

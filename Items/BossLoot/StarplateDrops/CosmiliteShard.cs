@@ -1,11 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpiritMod.Tiles.Block;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 
 namespace SpiritMod.Items.BossLoot.StarplateDrops
 {
@@ -19,7 +17,6 @@ namespace SpiritMod.Items.BossLoot.StarplateDrops
 
 		public override void SetDefaults()
 		{
-
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.useTime = 10;
 			Item.useAnimation = 15;
@@ -32,6 +29,7 @@ namespace SpiritMod.Items.BossLoot.StarplateDrops
 			Item.autoReuse = true;
 			Item.createTile = ModContent.TileType<Glowstone>();
 		}
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture;

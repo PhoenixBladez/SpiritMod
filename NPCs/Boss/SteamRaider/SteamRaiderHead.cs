@@ -16,6 +16,8 @@ using SpiritMod.Buffs;
 using SpiritMod.Projectiles;
 using Terraria.GameContent.Bestiary;
 using SpiritMod.Utilities.PhaseIndicatorCompat;
+using Terraria.GameContent.ItemDropRules;
+using SpiritMod.Items.BossLoot.StarplateDrops.StarplatePet;
 
 namespace SpiritMod.NPCs.Boss.SteamRaider
 {
@@ -813,6 +815,20 @@ namespace SpiritMod.NPCs.Boss.SteamRaider
 			NPC.PlayDeathSound("StarplateDeathSound");
 			NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.position.X + NPC.width - 20, (int)NPC.position.Y + NPC.height, ModContent.NPCType<SteamRaiderHeadDeath>(), NPC.whoAmI);
 			return true;
+		}
+
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+			npcLoot.AddMasterModeDropOnAllPlayers<StarplatePetItem>();
+			npcLoot.AddBossBag<SteamRaiderBag>();
+
+			LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+			notExpertRule.AddCommon<StarMap>();
+			notExpertRule.AddCommon<StarplateMask>(7);
+			notExpertRule.AddCommon<Trophy3>(10);
+			notExpertRule.AddCommon<CosmiliteShard>(1, 6, 10);
+
+			npcLoot.Add(notExpertRule);
 		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => NPC.lifeMax = (int)(NPC.lifeMax * 0.6f * bossLifeScale);

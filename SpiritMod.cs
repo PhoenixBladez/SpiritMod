@@ -357,30 +357,21 @@ namespace SpiritMod
 		{
 			if (context == null)
 				return CallContext.Invalid;
-			switch (context)
+
+			return context switch
 			{
-				case "downed":
-					return CallContext.Downed;
-				case "getGlyph":
-					return CallContext.GlyphGet;
-				case "setGlyph":
-					return CallContext.GlyphSet;
-				case "AddQuest":
-					return CallContext.AddQuest;
-				case "UnlockQuest":
-					return CallContext.UnlockQuest;
-				case "IsQuestUnlocked":
-					return CallContext.GetQuestIsUnlocked;
-				case "IsQuestActive":
-					return CallContext.GetQuestIsActive;
-				case "IsQuestCompleted":
-					return CallContext.GetQuestIsCompleted;
-				case "QuestRewardsGiven":
-					return CallContext.GetQuestRewardsGiven;
-				case "Portrait":
-					return CallContext.Portrait;
-			}
-			return CallContext.Invalid;
+				"downed" => CallContext.Downed,
+				"getGlyph" => CallContext.GlyphGet,
+				"setGlyph" => CallContext.GlyphSet,
+				"AddQuest" => CallContext.AddQuest,
+				"UnlockQuest" => CallContext.UnlockQuest,
+				"IsQuestUnlocked" => CallContext.GetQuestIsUnlocked,
+				"IsQuestActive" => CallContext.GetQuestIsActive,
+				"IsQuestCompleted" => CallContext.GetQuestIsCompleted,
+				"QuestRewardsGiven" => CallContext.GetQuestRewardsGiven,
+				"Portrait" => CallContext.Portrait,
+				_ => CallContext.Invalid,
+			};
 		}
 
 		private static bool BossDowned(object[] args)
@@ -410,7 +401,7 @@ namespace SpiritMod
 				throw new ArgumentException("Missing argument: Item");
 			else if (args.Length < 3)
 				throw new ArgumentException("Missing argument: Glyph");
-			if (!(args[1] is Item item))
+			if (args[1] is not Item item)
 				throw new ArgumentException("First argument must be of type Item");
 			int? glyphID = args[2] as int?;
 			if (!glyphID.HasValue)
@@ -426,7 +417,7 @@ namespace SpiritMod
 		{
 			if (args.Length < 2)
 				throw new ArgumentException("Missing argument: Item");
-			if (!(args[1] is Item item))
+			if (args[1] is not Item item)
 				throw new ArgumentException("First argument must be of type Item");
 			return (int)item.GetGlobalItem<Items.GItem>().Glyph;
 		}
@@ -900,7 +891,7 @@ namespace SpiritMod
 				if (_texField == null || !_texField.IsStatic || _texField.FieldType != typeof(Texture2D[]))
 					continue;
 
-				string path = type.FullName.Substring(10).Replace('.', '/'); //Substring(10) removes "SpiritMod."
+				string path = type.FullName[10..].Replace('.', '/'); //Substring(10) removes "SpiritMod."
 				int texCount = 0;
 
 				while (ModContent.FileExists(path + "_" + (texCount + 1)))
@@ -1002,7 +993,7 @@ namespace SpiritMod
 
 			// remove any custom chat tag handlers
 			var handlerDict = (ConcurrentDictionary<string, ITagHandler>)typeof(ChatManager).GetField("_handlers", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
-			handlerDict.TryRemove("spiritQuest", out var ignore);
+			handlerDict.TryRemove("spiritQuest", out var _);
 		}
 
 		private void DrawStarGoopTarget(GameTime obj)

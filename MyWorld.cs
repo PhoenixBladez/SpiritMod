@@ -1274,10 +1274,10 @@ namespace SpiritMod
 			int[] commonItems1 = new int[] { ItemID.CopperBar, ItemID.IronBar, ItemID.TinBar, ItemID.LeadBar };
 			int[] ammo1 = new int[] { ItemID.WoodenArrow, ItemID.Shuriken };
 			int[] potions = new int[] { ItemID.SwiftnessPotion, ItemID.IronskinPotion, ItemID.ShinePotion, ItemID.NightOwlPotion, ItemID.ArcheryPotion, ItemID.HunterPotion };
-			int[] potionscorrupt = new int[] { ItemID.WrathPotion };
+			int[] wrathPot = new int[] { ItemID.WrathPotion };
 			int[] potionscrim = new int[] { ItemID.RagePotion, ItemID.HeartreachPotion };
-			int[] other1 = new int[] { ItemID.HerbBag, ItemID.Grenade };
-			int[] other2 = new int[] { ItemID.Bottle, ItemID.Torch };
+			int[] bagAndGrenade = new int[] { ItemID.HerbBag, ItemID.Grenade };
+			int[] bottleAndTorch = new int[] { ItemID.Bottle, ItemID.Torch };
 			int[] moddedMaterials = new int[] { ModContent.ItemType<Items.Sets.BismiteSet.BismiteCrystal>(), ModContent.ItemType<OldLeather>() };
 
 			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY) * 15E-05); k++)
@@ -1346,8 +1346,8 @@ namespace SpiritMod
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 3)),
 				new ChestInfo(ItemID.RecallPotion, WorldGen.genRand.Next(2, 3)),
-				new ChestInfo(other1, WorldGen.genRand.Next(1, 4)),
-				new ChestInfo(other2, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(bagAndGrenade, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(bottleAndTorch, WorldGen.genRand.Next(1, 4)),
 				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
 				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(12, 30))
 			};
@@ -1362,8 +1362,8 @@ namespace SpiritMod
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),
 				new ChestInfo(ItemID.RecallPotion, WorldGen.genRand.Next(1, 3)),
-				new ChestInfo(other1, WorldGen.genRand.Next(1, 4)),
-				new ChestInfo(other2, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(bagAndGrenade, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(bottleAndTorch, WorldGen.genRand.Next(1, 4)),
 				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
 				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(12, 30))
 			};
@@ -1377,7 +1377,7 @@ namespace SpiritMod
 				new ChestInfo(ItemID.Book, WorldGen.genRand.Next(1, 4)),
 				new ChestInfo(new int[]{ItemID.SilverBar, ItemID.GoldBar, ItemID.TungstenBar, ItemID.PlatinumBar }, WorldGen.genRand.Next(5, 12), 0.5f),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 4), 0.66f),
-				new ChestInfo((WorldGen.crimson) ? potionscorrupt : potionscrim, WorldGen.genRand.Next(2, 4), 0.66f),
+				new ChestInfo((WorldGen.crimson) ? wrathPot : potionscrim, WorldGen.genRand.Next(2, 4), 0.66f),
 				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6), 0.5f),
 				new ChestInfo(ItemID.CursedTorch, WorldGen.genRand.Next(15, 31), 0.75f),
 				new ChestInfo(ItemID.GoldCoin, WorldGen.genRand.Next(1, 3)),
@@ -1391,8 +1391,8 @@ namespace SpiritMod
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),
 				new ChestInfo(ItemID.RecallPotion, WorldGen.genRand.Next(1, 3)),
-				new ChestInfo(other1, WorldGen.genRand.Next(1, 4)),
-				new ChestInfo(other2, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(bagAndGrenade, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(bottleAndTorch, WorldGen.genRand.Next(1, 4)),
 				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
 				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(12, 30))
 			};
@@ -1404,8 +1404,8 @@ namespace SpiritMod
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),
 				new ChestInfo(ItemID.RecallPotion, WorldGen.genRand.Next(1, 3)),
-				new ChestInfo(other1, WorldGen.genRand.Next(1, 4)),
-				new ChestInfo(other2, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(bagAndGrenade, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(bottleAndTorch, WorldGen.genRand.Next(1, 4)),
 				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
 				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(12, 30))
 			};
@@ -1418,8 +1418,8 @@ namespace SpiritMod
 				new ChestInfo(ammo1, WorldGen.genRand.Next(20, 50)),
 				new ChestInfo(potions, WorldGen.genRand.Next(2, 4)),
 				new ChestInfo(ItemID.RecallPotion, WorldGen.genRand.Next(1, 3)),
-				new ChestInfo(other1, WorldGen.genRand.Next(1, 4)),
-				new ChestInfo(other2, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(bagAndGrenade, WorldGen.genRand.Next(1, 4)),
+				new ChestInfo(bottleAndTorch, WorldGen.genRand.Next(1, 4)),
 				new ChestInfo(moddedMaterials, WorldGen.genRand.Next(2, 6)),
 				new ChestInfo(ItemID.SilverCoin, WorldGen.genRand.Next(12, 30)),
 			};

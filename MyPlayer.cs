@@ -1621,6 +1621,9 @@ namespace SpiritMod
 		/// <param name="tileDepth">Depth in tiles for the player to be under.</param>
 		public bool Submerged(int tileDepth)
 		{
+			if (!Collision.WetCollision(Player.position, Player.width, 8))
+				return false;
+
 			Point tPos = Player.Center.ToTileCoordinates();
 			for (int i = 0; i < tileDepth; ++i)
 			{

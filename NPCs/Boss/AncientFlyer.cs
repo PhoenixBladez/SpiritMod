@@ -335,11 +335,16 @@ namespace SpiritMod.NPCs.Boss
 				ModContent.ItemType<TalonGarb>()
 			};
 
-			npcLoot.Add(ItemDropRule.OneFromOptions(1, weapons));
-			npcLoot.Add(ItemDropRule.OneFromOptions(1, gear));
-			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<FlierMask>(), 7));
-			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Trophy2>(), 10));
-			npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<FlyerBag>()));
+			npcLoot.AddMasterModeRelicAndPet<Items.Placeable.Relics.DuskingRelicItem, Items.BossLoot.ScarabeusDrops.ScarabPet.ScarabPetItem>();
+			npcLoot.AddBossBag<FlyerBag>();
+
+			LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+			notExpertRule.AddCommon<FlierMask>(7);
+			notExpertRule.AddCommon<Trophy2>(10);
+			notExpertRule.AddOneFromOptions(1, weapons);
+			notExpertRule.AddOneFromOptions(1, gear);
+
+			npcLoot.Add(notExpertRule);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

@@ -15,6 +15,7 @@ using Terraria.ModLoader;
 using SpiritMod.Buffs.DoT;
 using SpiritMod.Items.Armor.JackSet;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 
 namespace SpiritMod.NPCs.Boss.Atlas
 {
@@ -352,12 +353,17 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
+			npcLoot.AddMasterModeRelicAndPet<Items.Placeable.Relics.DuskingRelicItem, Items.BossLoot.ScarabeusDrops.ScarabPet.ScarabPetItem>();
 			npcLoot.AddBossBag<AtlasBag>();
-			npcLoot.AddCommon<AtlasMask>(7);
-			npcLoot.AddCommon<Trophy8>(10);
-			npcLoot.AddCommon<ArcaneGeyser>(1, 32, 43);
-			npcLoot.AddOneFromOptions(1, ModContent.ItemType<Mountain>(), ModContent.ItemType<TitanboundBulwark>(), ModContent.ItemType<CragboundStaff>(), ModContent.ItemType<QuakeFist>(), ModContent.ItemType<Earthshatter>());
-			npcLoot.AddOneFromOptions(30, ModContent.ItemType<JackHead>(), ModContent.ItemType<JackBody>(), ModContent.ItemType<JackLegs>());
+
+			LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+			notExpertRule.AddCommon<AtlasMask>(7);
+			notExpertRule.AddCommon<Trophy8>(10);
+			notExpertRule.AddCommon<ArcaneGeyser>(1, 32, 43);
+			notExpertRule.AddOneFromOptions<Mountain, TitanboundBulwark, CragboundStaff, QuakeFist, Earthshatter>();
+			notExpertRule.AddOneFromOptions<JackHead, JackBody, JackLegs>(30);
+
+			npcLoot.Add(notExpertRule);
 		}
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)

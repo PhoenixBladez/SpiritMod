@@ -12,6 +12,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Bestiary;
 using SpiritMod.Utilities.PhaseIndicatorCompat;
+using Terraria.GameContent.ItemDropRules;
+using SpiritMod.Items.Placeable.Relics;
 
 namespace SpiritMod.NPCs.Boss.Dusking
 {
@@ -470,11 +472,16 @@ namespace SpiritMod.NPCs.Boss.Dusking
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
+			npcLoot.AddMasterModeRelicAndPet<DuskingRelicItem, Items.BossLoot.ScarabeusDrops.ScarabPet.ScarabPetItem>();
 			npcLoot.AddBossBag<DuskingBag>();
-			npcLoot.AddCommon<DuskStone>(1, 25, 35);
-			npcLoot.AddCommon<DuskingMask>(7);
-			npcLoot.AddCommon<Trophy6>(10);
-			npcLoot.AddOneFromOptions<ShadowflameSword, UmbraStaff, ShadowSphere, Shadowmoor>();
+
+			LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+			notExpertRule.AddCommon<DuskingMask>(7);
+			notExpertRule.AddCommon<Trophy6>(10);
+			notExpertRule.AddCommon<DuskStone>(1, 25, 35);
+			notExpertRule.AddOneFromOptions<ShadowflameSword, UmbraStaff, ShadowSphere, Shadowmoor>();
+
+			npcLoot.Add(notExpertRule);
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
