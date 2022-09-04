@@ -41,6 +41,12 @@ namespace SpiritMod.World.Micropasses
 
 		public static bool TryPlaceWaterfall(int i, int j)
 		{
+			int[] types = new int[] { TileID.LihzahrdBrick, TileID.BlueDungeonBrick, TileID.CrackedBlueDungeonBrick, TileID.CrackedGreenDungeonBrick, TileID.CrackedPinkDungeonBrick, TileID.GreenDungeonBrick, TileID.PinkDungeonBrick };
+			for (int y = j; y < j + 80; ++y)
+				for (int x = i - 10; x < i + 10; ++x)
+					if (types.Contains(Main.tile[x, y].TileType))
+						return false;
+
 			if (ValidTypes.Contains(Main.tile[i, j].TileType))
 			{
 				PlaceWaterfall(i, j);

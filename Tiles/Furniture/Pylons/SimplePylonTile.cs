@@ -19,6 +19,7 @@ namespace SpiritMod.Tiles.Furniture.Pylons
 		public const int CrystalFrameHeight = 64;
 
 		public Asset<Texture2D> crystalTexture;
+		public Asset<Texture2D> highlightTexture;
 		public Asset<Texture2D> mapIcon;
 
 		internal abstract string MapKeyName { get; }
@@ -26,6 +27,7 @@ namespace SpiritMod.Tiles.Furniture.Pylons
 		public override void Load()
 		{
 			crystalTexture = ModContent.Request<Texture2D>(Texture + "_Crystal");
+			highlightTexture = ModContent.Request<Texture2D>("SpiritMod/Tiles/Furniture/Pylons/PylonHighlight");
 			mapIcon = ModContent.Request<Texture2D>(Texture + "_MapIcon");
 		}
 
@@ -69,7 +71,7 @@ namespace SpiritMod.Tiles.Furniture.Pylons
 			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 2, 3, ModContent.ItemType<T>());
 		}
 
-		public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch) => DefaultDrawPylonCrystal(spriteBatch, i, j, crystalTexture, Color.White, CrystalFrameHeight, CrystalHorizontalFrameCount, CrystalVerticalFrameCount);
+		public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch) => DefaultDrawPylonCrystal(spriteBatch, i, j, crystalTexture, highlightTexture, new Vector2(0f, -12f), Color.White * 0.1f, Color.White, 4, CrystalVerticalFrameCount);
 
 		public override void DrawMapIcon(ref MapOverlayDrawContext context, ref string mouseOverText, TeleportPylonInfo pylonInfo, bool isNearPylon, Color drawColor, float deselectedScale, float selectedScale)
 		{

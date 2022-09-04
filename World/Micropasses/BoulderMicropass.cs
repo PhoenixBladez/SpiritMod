@@ -17,12 +17,12 @@ namespace SpiritMod.World.Micropasses
 			get
 			{
 				WeightedRandom<int> types = new WeightedRandom<int>(WorldGen.genRand);
-				types.Add(ModContent.TileType<WeatheredStoneTile>(), 1f);
-				types.Add(ModContent.TileType<WeatheredBlueMoss>(), 0);
-				types.Add(ModContent.TileType<WeatheredYellowMoss>(), 0);
-				types.Add(ModContent.TileType<WeatheredGreenMoss>(), 0);
-				types.Add(ModContent.TileType<WeatheredPurpleMoss>(), 0);
-				types.Add(ModContent.TileType<WeatheredRedMoss>(), 0);
+				types.Add(TileID.Stone, 1f);
+				types.Add(TileID.BlueMoss, 0);
+				types.Add(TileID.BrownMoss, 0);
+				types.Add(TileID.RedMoss, 0);
+				types.Add(TileID.PurpleMoss, 0);
+				types.Add(TileID.GreenMoss, 0);
 				return types;
 			}
 		}
@@ -100,8 +100,7 @@ namespace SpiritMod.World.Micropasses
 
 			MossType = -1;
 			if (WorldGen.genRand.NextBool(3))
-				MossType = Main.rand.Next(new int[] { ModContent.TileType<WeatheredBlueMoss>(), ModContent.TileType<WeatheredGreenMoss>(), ModContent.TileType<WeatheredPurpleMoss>(), 
-					ModContent.TileType<WeatheredRedMoss>(), ModContent.TileType<WeatheredYellowMoss>() });
+				MossType = Main.rand.Next(new int[] { TileID.BlueMoss, TileID.BrownMoss, TileID.PurpleMoss, TileID.RedMoss, TileID.GreenMoss, TileID.BrownMoss });
 
 			for (float radians = 0; radians < MathHelper.TwoPi; radians += MathHelper.TwoPi * 0.01f)
 			{
@@ -128,7 +127,7 @@ namespace SpiritMod.World.Micropasses
 			tile.Slope = SlopeType.Solid;
 			tile.IsHalfBlock = false;
 
-			if (MossType != -1 && Vector2.DistanceSquared(new Vector2(x, y), EndPoint) < 1.5f * 1.5f && tile.TileType == ModContent.TileType<WeatheredStoneTile>() && WorldMethods.AdjacentOpening(x, y))
+			if (MossType != -1 && Vector2.DistanceSquared(new Vector2(x, y), EndPoint) < 1.5f * 1.5f && tile.TileType == TileID.Stone && WorldMethods.AdjacentOpening(x, y))
 				tile.TileType = (ushort)MossType;
 
 			Tile.SmoothSlope(x, y);
