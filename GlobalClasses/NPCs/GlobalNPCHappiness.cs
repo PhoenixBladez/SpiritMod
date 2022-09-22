@@ -31,7 +31,6 @@ namespace SpiritMod.GlobalClasses.NPCs
 				.SetNPCAffection<Rogue>(AffectionLevel.Like);
 			NPCHappiness.Get(NPCID.DD2Bartender).SetNPCAffection<Adventurer>(AffectionLevel.Like);
 			NPCHappiness.Get(NPCID.BestiaryGirl).SetNPCAffection<Adventurer>(AffectionLevel.Like);
-
 		}
 
 		public override void GetChat(NPC npc, ref string chat)

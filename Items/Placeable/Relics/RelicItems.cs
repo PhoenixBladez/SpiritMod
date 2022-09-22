@@ -31,4 +31,9 @@ namespace SpiritMod.Items.Placeable.Relics
 	{
 		public override void SetStaticDefaults() => DisplayName.SetDefault("Snow Monger Relic");
 	}
+
+	public class AvianRelicItem : BaseRelicItem<AvianRelic>
+	{
+		public override void SetStaticDefaults() => DisplayName.SetDefault("Avian Relic");
+	}
 }

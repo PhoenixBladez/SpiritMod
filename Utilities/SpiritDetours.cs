@@ -50,7 +50,6 @@ namespace SpiritMod.Utilities
 			On.Terraria.WorldGen.SpreadGrass += WorldGen_SpreadGrass;
 			On.Terraria.Main.DrawBackgroundBlackFill += Main_DrawBackgroundBlackFill; //BackgroundItemManager.Draw()
 			On.Terraria.Main.Update += Main_Update; //BackgroundItemManager.Update()
-			On.Terraria.Main.DrawMap += Main_DrawMap1;
 
 			Main.OnPreDraw += Main_OnPreDraw;
 			HookEndpointManager.Add<hook_NPCAI>(NPCAIMethod, (hook_NPCAI)NPCAIMod);
@@ -62,14 +61,6 @@ namespace SpiritMod.Utilities
 				var inst = (ILEdit)Activator.CreateInstance(item);
 				inst.Load(SpiritMod.Instance);
 			}
-		}
-
-		private static void Main_DrawMap1(On.Terraria.Main.orig_DrawMap orig, Main self, GameTime gameTime)
-		{
-			orig(self, gameTime);
-
-			if (Main.mapEnabled && !Main.mapFullscreen) //Draw only on the minimap
-				DrawPinsOnMiniMap(); //Main.mapStyle == 0, fullscreen; == 1, minimap; == 2, overlay
 		}
 
 		private static int Projectile_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float(On.Terraria.Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float orig, IEntitySource spawnSource, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
@@ -129,69 +120,6 @@ namespace SpiritMod.Utilities
 
 			if (removeWet)
 				target.wet = false;
-		}
-
-		private static void DrawPinsOnMiniMap()
-		{
-			var pins = ModContent.GetInstance<Items.Pins.PinWorld>().pins;
-
-			foreach (var pair in pins)
-			{
-				float scale = Main.mapMinimapScale;
-
-				Vector2 realPos = GetMiniMapPosition(pins.Get<Vector2>(pair.Key), scale);
-
-				if (scale > 1f)
-					scale = 1f;
-				scale *= Main.UIScale;
-
-				float drawScale = (scale * 0.5f + 1f) / 3f;
-				if (drawScale > 1f)
-					drawScale = 1f;
-
-				if (PointOnMinimap(realPos))
-					DrawOnMinimap((int)realPos.X, (int)realPos.Y, drawScale, ModContent.Request<Texture2D>($"SpiritMod/Items/Pins/Textures/Pin{pair.Key}Map", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-			}
-		}
-
-		public static bool PointOnMinimap(Vector2 pos, float fluff = 4) => pos.X > (Main.miniMapX + fluff) && pos.X < (Main.miniMapX + Main.miniMapWidth - fluff) && pos.Y > (Main.miniMapY + fluff) && pos.Y < (Main.miniMapY + Main.miniMapHeight - fluff);
-
-		/// <summary>Gets the position of something on the minimap given the tile coordinates.</summary>
-		/// <param name="scale"></param>
-		/// <param name="tilePos"></param>
-		/// <returns></returns>
-		private static Vector2 GetMiniMapPosition(Vector2 tilePos, float scale = 1f)
-		{
-			float screenHalfWidthInTiles = (Main.screenPosition.X + (PlayerInput.RealScreenWidth / 2f)) / 16f;
-			float screenHalfHeightInTiles = (Main.screenPosition.Y + (PlayerInput.RealScreenHeight / 2f)) / 16f;
-			float offsetX = screenHalfWidthInTiles - (Main.miniMapWidth / scale) / 2f;
-			float offsetY = screenHalfHeightInTiles - (Main.miniMapHeight / scale) / 2f;
-
-			float drawPosX = (tilePos.X - offsetX) * scale;
-			float drawPosY = (tilePos.Y - offsetY) * scale;
-
-			Vector2 miniMapSize = new Vector2(Main.miniMapX, Main.miniMapY);
-			drawPosX += miniMapSize.X;
-			drawPosY += miniMapSize.Y;
-			drawPosY -= 2f * scale / 5f;
-
-			return new Vector2(drawPosX, drawPosY);
-		}
-
-		public static void DrawOnMinimap(int posX, int posY, float scale, Texture2D tex)
-		{
-			Vector2 scrPos = new Vector2(posX, posY);
-			Main.spriteBatch.Draw(
-				texture: tex,
-				position: scrPos,
-				sourceRectangle: null,
-				color: Color.White,
-				rotation: 0f,
-				origin: new Vector2(tex.Width / 2, tex.Height / 2),
-				scale: scale,
-				effects: SpriteEffects.None,
-				layerDepth: 1f
-			);
 		}
 
 		private static void Main_Update(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)

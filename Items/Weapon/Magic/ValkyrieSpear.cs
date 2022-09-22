@@ -14,8 +14,8 @@ namespace SpiritMod.Items.Weapon.Magic
 		{
 			DisplayName.SetDefault("Valkyrie Spirit Spear");
 			Tooltip.SetDefault("Deals both magic and melee damage");
+			Item.staff[Item.type] = true;
 		}
-
 
 		public override void SetDefaults()
 		{
@@ -27,7 +27,6 @@ namespace SpiritMod.Items.Weapon.Magic
 			Item.useTime = 30;
 			Item.useAnimation = 30;
 			Item.useStyle = ItemUseStyleID.Shoot;
-			Item.staff[Item.type] = true;
 			Item.noMelee = true;
 			Item.knockBack = 2;
 			Item.useTurn = false;
@@ -50,6 +49,9 @@ namespace SpiritMod.Items.Weapon.Magic
 
 				velocity = Vector2.Normalize(Main.MouseWorld - position) * Item.shootSpeed;
 				int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, 0, 0.0f, 0.0f);
+				if (Main.netMode != NetmodeID.SinglePlayer)
+					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, p);
+
 				for (float num2 = 0.0f; (double)num2 < 10; ++num2) {
 					int dustIndex = Dust.NewDust(position, 2, 2, DustID.PortalBolt, 0f, 0f, 0, default, 1f);
 					Main.dust[dustIndex].noGravity = true;

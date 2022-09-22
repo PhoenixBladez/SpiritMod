@@ -25,6 +25,7 @@ using Terraria.WorldBuilding;
 using Terraria.IO;
 using Terraria.DataStructures;
 using SpiritMod.World.Micropasses;
+using SpiritMod.Tiles.Ambient.Underground;
 
 namespace SpiritMod.World
 {
@@ -113,17 +114,14 @@ namespace SpiritMod.World
 		{
 			int tries = 0;
 			failed = false;
-			int[] TileBlacklist = new int[]
-			{
-				ModContent.TileType<BriarGrass>(),
-				ModContent.TileType<FloranOreTile>(),
-				ModContent.TileType<BlastStone>()
-			};
+
+			int[] TileBlacklist = GlobalExtensions.TileSet<BriarGrass, FloranOreTile, BlastStone>();
 			int[] WallBlacklist = new int[]
 			{
 				ModContent.WallType<ReachWallNatural>(),
 				ModContent.WallType<ReachStoneWall>()
 			};
+
 			do
 			{
 				tileCheckPos.X = Main.rand.Next(randomizationRange.X, randomizationRange.X + randomizationRange.Width);
@@ -1164,13 +1162,12 @@ namespace SpiritMod.World
 			{
 				for (int smoothY = j - height; smoothY < j + height; smoothY++)
 				{
-					if (!WorldGen.InWorld(smoothX, smoothY)) continue;
+					if (!WorldGen.InWorld(smoothX, smoothY)) 
+						continue;
 
 					Tile tile = Framing.GetTileSafely(smoothX, smoothY);
 					if (tile.HasTile && (tile.TileType == junkType || tile.TileType == asteroidType) && WorldGen.genRand.NextBool(2))
-					{
 						Tile.SmoothSlope(smoothX, smoothY);
-					}
 				}
 			}
 		}
@@ -1235,120 +1232,44 @@ namespace SpiritMod.World
 		{
 			progress.Message = "Spirit Mod: Adding Ambient Objects...";
 
-			if (WorldGen.SavedOreTiers.Copper == TileID.Copper)
+			//Copper/tin piles
+			for (int i = 0; i < Main.maxTilesX * 22.5; i++)
 			{
-				for (int i = 0; i < Main.maxTilesX * 22.5; i++)
-				{
-					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-					int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
-					Tile tile = Main.tile[num3, num4];
-					if (tile.TileType == TileID.Stone && tile.HasTile)
-					{
-						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<CopperPile>());
-						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<CopperPile>(), 0, 0, -1, -1);
-					}
-				}
-			}
-			else if (WorldGen.SavedOreTiers.Copper == TileID.Tin)
-			{
-				for (int i = 0; i < Main.maxTilesX * 22.5; i++)
-				{
-					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-					int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
-					Tile tile = Main.tile[num3, num4];
-					if (tile.TileType == TileID.Stone && tile.HasTile)
-					{
-						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<TinPile>());
-						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<TinPile>(), 0, 0, -1, -1);
-					}
-				}
+				int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+				int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
+				Tile tile = Main.tile[num3, num4];
+				if (tile.TileType == TileID.Stone && tile.HasTile)
+					WorldGen.PlaceObject(num3, num4 - 1, WorldGen.SavedOreTiers.Copper == TileID.Copper ? ModContent.TileType<CopperPile>() : ModContent.TileType<TinPile>());
 			}
 
-			if (WorldGen.SavedOreTiers.Iron == TileID.Iron)
+			//Iron/lead piles
+			for (int i = 0; i < Main.maxTilesX * 15; i++)
 			{
-				for (int i = 0; i < Main.maxTilesX * 15; i++)
-				{
-					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-					Tile tile = Main.tile[num3, num4];
-					if (tile.TileType == TileID.Stone && tile.HasTile)
-					{
-						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<IronPile>());
-						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<IronPile>(), 0, 0, -1, -1);
-					}
-				}
-			}
-			else if (WorldGen.SavedOreTiers.Iron == TileID.Lead)
-			{
-				for (int i = 0; i < Main.maxTilesX * 15; i++)
-				{
-					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-					Tile tile = Main.tile[num3, num4];
-					if (tile.TileType == TileID.Stone && tile.HasTile)
-					{
-						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<LeadPile>());
-						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<LeadPile>(), 0, 0, -1, -1);
-					}
-				}
+				int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+				int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+				Tile tile = Main.tile[num3, num4];
+				if (tile.TileType == TileID.Stone && tile.HasTile)
+					WorldGen.PlaceObject(num3, num4 - 1, WorldGen.SavedOreTiers.Iron == TileID.Iron ? ModContent.TileType<IronPile>() : ModContent.TileType<LeadPile>());
 			}
 
-			if (WorldGen.SavedOreTiers.Silver == TileID.Silver)
+			//Silver/tungsten piles
+			for (int i = 0; i < Main.maxTilesX * 11.75f; i++)
 			{
-				for (int i = 0; i < Main.maxTilesX * 11.75f; i++)
-				{
-					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-					Tile tile = Main.tile[num3, num4];
-					if (tile.TileType == TileID.Stone && tile.HasTile)
-					{
-						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<SilverPile>());
-						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<SilverPile>(), 0, 0, -1, -1);
-					}
-				}
-			}
-			else if (WorldGen.SavedOreTiers.Silver == TileID.Tungsten)
-			{
-				for (int i = 0; i < Main.maxTilesX * 11.75f; i++)
-				{
-					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-					Tile tile = Main.tile[num3, num4];
-					if (tile.TileType == TileID.Stone && tile.HasTile)
-					{
-						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<TungstenPile>());
-						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<TungstenPile>(), 0, 0, -1, -1);
-					}
-				}
+				int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+				int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+				Tile tile = Main.tile[num3, num4];
+				if (tile.TileType == TileID.Stone && tile.HasTile)
+					WorldGen.PlaceObject(num3, num4 - 1, WorldGen.SavedOreTiers.Silver == TileID.Silver ? ModContent.TileType<SilverPile>() : ModContent.TileType<TungstenPile>());
 			}
 
-			if (WorldGen.SavedOreTiers.Gold == TileID.Gold)
+			//Gold/platinum piles
+			for (int i = 0; i < Main.maxTilesX * 7.5f; i++)
 			{
-				for (int i = 0; i < Main.maxTilesX * 7.5f; i++)
-				{
-					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-					Tile tile = Main.tile[num3, num4];
-					if (tile.TileType == TileID.Stone && tile.HasTile)
-					{
-						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<GoldPile>());
-						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<GoldPile>(), 0, 0, -1, -1);
-					}
-				}
-			}
-			else if (WorldGen.SavedOreTiers.Gold == TileID.Platinum)
-			{
-				for (int i = 0; i < Main.maxTilesX * 7.5f; i++)
-				{
-					int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-					int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-					Tile tile = Main.tile[num3, num4];
-					if (tile.TileType == TileID.Stone && tile.HasTile)
-					{
-						WorldGen.PlaceObject(num3, num4 - 1, ModContent.TileType<PlatinumPile>());
-						NetMessage.SendObjectPlacment(-1, num3, num4 - 1, ModContent.TileType<PlatinumPile>(), 0, 0, -1, -1);
-					}
-				}
+				int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+				int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+				Tile tile = Main.tile[num3, num4];
+				if (tile.TileType == TileID.Stone && tile.HasTile)
+					WorldGen.PlaceObject(num3, num4 - 1, WorldGen.SavedOreTiers.Gold == TileID.Gold ? ModContent.TileType<GoldPile>() : ModContent.TileType<PlatinumPile>());
 			}
 
 			for (int C = 0; C < Main.maxTilesX * 10; C++)
@@ -1356,54 +1277,40 @@ namespace SpiritMod.World
 				int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
 				int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY - 200);
 				if (Main.tile[X, Y].TileType == TileID.Stone)
-				{
 					WorldGen.PlaceObject(X, Y, ModContent.TileType<ExplosiveBarrelTile>());
-					NetMessage.SendObjectPlacment(-1, X, Y, ModContent.TileType<ExplosiveBarrelTile>(), 0, 0, -1, -1);
-				}
 			}
 
 			for (int C = 0; C < Main.maxTilesX * 45; C++)
 			{
-				int[] sculptures = new int[] { ModContent.TileType<IceWheezerPassive>(), ModContent.TileType<IceFlinxPassive>(), ModContent.TileType<IceBatPassive>(), ModContent.TileType<IceVikingPassive>(), ModContent.TileType<IceWheezerHostile>(), ModContent.TileType<IceFlinxHostile>(), ModContent.TileType<IceBatHostile>(), ModContent.TileType<IceVikingHostile>() };
+				int[] sculptures = GlobalExtensions.TileSet<IceWheezerPassive, IceFlinxPassive, IceBatPassive, IceVikingPassive, IceWheezerHostile, IceFlinxHostile, IceBatHostile, IceVikingHostile>();
 				int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
 				int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 				if ((Main.tile[X, Y].TileType == TileID.IceBlock || Main.tile[X, Y].TileType == TileID.SnowBlock) && Main.tile[X, Y + 1].TileType != 162)
-				{
-					WorldGen.PlaceObject(X, Y, (ushort)sculptures[Main.rand.Next(8)]);
-					NetMessage.SendObjectPlacment(-1, X, Y, (ushort)sculptures[Main.rand.Next(4)], 0, 0, -1, -1);
-				}
+					WorldGen.PlaceObject(X, Y, (ushort)WorldGen.genRand.Next(sculptures));
 			}
 
-			for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 78) * 15E-05); k++)
+			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 78) * 15E-05); k++)
 			{
-				int EEXX = WorldGen.genRand.Next(0, Main.maxTilesX);
-				int WHHYY = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
-				if (Main.tile[EEXX, WHHYY] != null)
+				int x = WorldGen.genRand.Next(0, Main.maxTilesX);
+				int y = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 130);
+				if (Main.tile[x, y] != null && Main.tile[x, y].HasTile)
 				{
-					if (Main.tile[EEXX, WHHYY].HasTile)
-					{
-						if (Main.tile[EEXX, WHHYY].TileType == 368)
-						{
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(4, 8), (ushort)ModContent.TileType<GraniteOre>());
-						}
-						if (Main.tile[EEXX, WHHYY].TileType == 367)
-						{
-							WorldGen.OreRunner(EEXX, WHHYY, (double)WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(4, 9), (ushort)ModContent.TileType<MarbleOre>());
-						}
-					}
+					if (Main.tile[x, y].TileType == TileID.Granite)
+						WorldGen.OreRunner(x, y, WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(4, 8), (ushort)ModContent.TileType<GraniteOre>());
+
+					if (Main.tile[x, y].TileType == TileID.Marble)
+						WorldGen.OreRunner(x, y, WorldGen.genRand.Next(5, 8), WorldGen.genRand.Next(4, 9), (ushort)ModContent.TileType<MarbleOre>());
 				}
 			}
 
 			for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY * 16.2f) * 6E-03); k++)
 			{
+				int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
+				int Y = WorldGen.genRand.Next(0, Main.maxTilesY);
+				if ((Main.tile[X, Y].TileType == ModContent.TileType<Asteroid>() || Main.tile[X, Y].TileType == ModContent.TileType<BigAsteroid>()))
 				{
-					int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-					int Y = WorldGen.genRand.Next(0, Main.maxTilesY);
-					if ((Main.tile[X, Y].TileType == ModContent.TileType<Asteroid>() || Main.tile[X, Y].TileType == ModContent.TileType<BigAsteroid>()))
-					{
-						WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<BlueShardBig>());
-						NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<BlueShardBig>(), 0, 0, -1, -1);
-					}
+					WorldGen.PlaceObject(X, Y, (ushort)ModContent.TileType<BlueShardBig>());
+					NetMessage.SendObjectPlacment(-1, X, Y, (ushort)ModContent.TileType<BlueShardBig>(), 0, 0, -1, -1);
 				}
 			}
 
@@ -1413,28 +1320,21 @@ namespace SpiritMod.World
 				int Y = WorldGen.genRand.Next((int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
 
 				bool ice = WorldGen.genRand.NextBool(2);
-				ushort[] types = new ushort[] { (ushort)ModContent.TileType<SnowBush1>(), (ushort)ModContent.TileType<SnowBush2>(), (ushort)ModContent.TileType<SnowBush3>() };
+				int[] types = GlobalExtensions.TileSet<SnowBush1, SnowBush2, SnowBush3, TundraBerries1x2, TundraBerries2x2>();
 				if (ice)
-					types = new ushort[] { (ushort)ModContent.TileType<IceCube1>(), (ushort)ModContent.TileType<IceCube2>(), (ushort)ModContent.TileType<IceCube3>() };
+					types = GlobalExtensions.TileSet<IceCube1, IceCube2, IceCube3>();
 
 				if (Main.tile[X, Y].TileType == TileID.SnowBlock || Main.tile[X, Y].TileType == TileID.IceBlock)
 				{
-					if (Main.rand.NextBool(3))
-					{
-						WorldGen.PlaceObject(X, Y, types[2]);
-						NetMessage.SendObjectPlacment(-1, X, Y, types[2], 0, 0, -1, -1);
-					}
-					else if (Main.rand.NextBool(2))
-					{
-						WorldGen.PlaceObject(X, Y, types[1]);
-						NetMessage.SendObjectPlacment(-1, X, Y, types[1], 0, 0, -1, -1);
-					}
-					else
-					{
-						WorldGen.PlaceObject(X, Y, types[0]);
-						NetMessage.SendObjectPlacment(-1, X, Y, types[0], 0, 0, -1, -1);
-					}
+					int type = WorldGen.genRand.Next(types);
+					WorldGen.PlaceObject(X, Y, type);
+					NetMessage.SendObjectPlacment(-1, X, Y, type, 0, 0, -1, -1);
 				}
+			}
+
+			for (int i = 0; i < 400 * GlobalExtensions.WorldSize; ++i)
+			{
+				int[] types = GlobalExtensions.TileSet<WhiteMushroom2x2, WhiteMushroom2x3, RedMushroom1x1, RedMushroom2x2, RedMushroom3x2>();
 			}
 		}
 		#endregion GENPASS: Piles/Ambient

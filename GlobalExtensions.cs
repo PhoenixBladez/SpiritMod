@@ -7,6 +7,8 @@ namespace SpiritMod
 {
 	public static class GlobalExtensions
 	{
+		public static float WorldSize => Main.maxTilesX / 4200f;
+
 		public static IEntitySource Source_ShootWithAmmo(this Item item, Player player, string context = null)
 		{
 			player.PickAmmo(item, out int _, out float _, out int _, out float _, out int ammo, true);
@@ -41,5 +43,17 @@ namespace SpiritMod
 			var offset = new Vector2(Main.rand.NextFloat(-halfSize.X, halfSize.X), -Main.rand.NextFloat(size.Y * 0.1f, size.Y * 0.8f));
 			return offset;
 		}
+
+		public static int[] TileSet<T1, T2, T3>() where T1 : ModTile where T2 : ModTile where T3 : ModTile => new int[] { ModContent.TileType<T1>(), ModContent.TileType<T2>(), ModContent.TileType<T3>() };
+		public static int[] TileSet<T1, T2, T3, T4>() where T1 : ModTile where T2 : ModTile where T3 : ModTile where T4 : ModTile =>
+			new int[] { ModContent.TileType<T1>(), ModContent.TileType<T2>(), ModContent.TileType<T3>(), ModContent.TileType<T4>() };
+		public static int[] TileSet<T1, T2, T3, T4, T5>() where T1 : ModTile where T2 : ModTile where T3 : ModTile where T4 : ModTile where T5 : ModTile =>
+			new int[] { ModContent.TileType<T1>(), ModContent.TileType<T2>(), ModContent.TileType<T3>(), ModContent.TileType<T4>(), ModContent.TileType<T5>() };
+		public static int[] TileSet<T1, T2, T3, T4, T5, T6>() where T1 : ModTile where T2 : ModTile where T3 : ModTile where T4 : ModTile where T5 : ModTile where T6 : ModTile =>
+			new int[] { ModContent.TileType<T1>(), ModContent.TileType<T2>(), ModContent.TileType<T3>(), ModContent.TileType<T4>(), ModContent.TileType<T5>(), ModContent.TileType<T6>() };
+		public static int[] TileSet<T1, T2, T3, T4, T5, T6, T7>() where T1 : ModTile where T2 : ModTile where T3 : ModTile where T4 : ModTile where T5 : ModTile where T6 : ModTile where T7 : ModTile =>
+			new int[] { ModContent.TileType<T1>(), ModContent.TileType<T2>(), ModContent.TileType<T3>(), ModContent.TileType<T4>(), ModContent.TileType<T5>(), ModContent.TileType<T6>(), ModContent.TileType<T7>() };
+		public static int[] TileSet<T1, T2, T3, T4, T5, T6, T7, T8>() where T1 : ModTile where T2 : ModTile where T3 : ModTile where T4 : ModTile where T5 : ModTile where T6 : ModTile where T7 : ModTile where T8 : ModTile =>
+			new int[] { ModContent.TileType<T1>(), ModContent.TileType<T2>(), ModContent.TileType<T3>(), ModContent.TileType<T4>(), ModContent.TileType<T5>(), ModContent.TileType<T6>(), ModContent.TileType<T7>(), ModContent.TileType<T8>() };
 	}
 }

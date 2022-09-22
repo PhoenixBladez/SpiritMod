@@ -41,6 +41,8 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 
 		public override void AI()
 		{
+			const int HoldOutLength = 22;
+
 			Player p = Main.player[Projectile.owner];
 			p.heldProj = Projectile.whoAmI;
 
@@ -48,10 +50,11 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 			{
 				p.itemTime = p.HeldItem.useTime;
 				p.itemAnimation = p.HeldItem.useAnimation;
-				Projectile.Center = p.Center - (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27) + new Vector2(21, 12);
+				Projectile.Center = p.Center - (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * HoldOutLength) + new Vector2(21, 12);
 			}
 			else
-				Projectile.Center = p.Center - (new Vector2(1, 0).RotatedBy(_finalRotation) * 27) + new Vector2(21, 12);
+				Projectile.Center = p.Center - (new Vector2(1, 0).RotatedBy(_finalRotation) * HoldOutLength) + new Vector2(21, 12);
+			Projectile.Center += p.gfxOffY * Vector2.UnitY;
 
 			if (p.whoAmI != Main.myPlayer)
 				return; //mp check (hopefully)
@@ -59,7 +62,7 @@ namespace SpiritMod.Items.Sets.EvilBiomeDrops.GastricGusher
 			if (!p.channel && _endCharge == -1) //Fire (if possible)
 			{
 				_endCharge = _charge;
-				_finalRotation = (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * 27).ToRotation();
+				_finalRotation = (Vector2.Normalize(p.MountedCenter - Main.MouseWorld) * HoldOutLength).ToRotation();
 				if (_endCharge >= MinimumCharge)
 					Fire(p);
 			}
