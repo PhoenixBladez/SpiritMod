@@ -12,7 +12,6 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using System.Linq;
 using SpiritMod.Tiles;
-using static Terraria.ModLoader.ModContent;
 
 namespace SpiritMod.Mechanics.Fathomless_Chest
 {
@@ -72,7 +71,7 @@ namespace SpiritMod.Mechanics.Fathomless_Chest
 		public override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
-			player.cursorItemIconID = ItemType<Fathomless_Chest_Item>();
+			player.cursorItemIconID = ModContent.ItemType<Fathomless_Chest_Item>();
 			player.cursorItemIconText = "";
 			player.noThrow = 2;
 			player.cursorItemIconEnabled = true;

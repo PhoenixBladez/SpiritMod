@@ -20,7 +20,7 @@ namespace SpiritMod.Items.Armor.WayfarerSet
 
 		public override void SetDefaults()
 		{
-			Item.width = 22;
+			Item.width = 30;
 			Item.height = 20;
 			Item.value = Item.sellPrice(0, 0, 40, 0);
 			Item.rare = ItemRarityID.Blue;

@@ -1,4 +1,3 @@
-  
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -7,7 +6,6 @@ using Terraria.ModLoader;
 using System;
 using SpiritMod.Utilities;
 using SpiritMod.Buffs.Pet;
-using SpiritMod.Items.DonatorItems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -15,9 +13,8 @@ namespace SpiritMod.Projectiles.DonatorItems
 {
 	public class HarpyPet : ModProjectile
 	{
-		private const float FOV = (float)System.Math.PI / 2;
+		private const float FOV = (float)Math.PI / 2;
 		private const float Max_Range = 16 * 50;
-		private const float Spread = (float)System.Math.PI / 9;
 		private const int Damage = 15;
 
 		public override void SetStaticDefaults()
@@ -104,13 +101,11 @@ namespace SpiritMod.Projectiles.DonatorItems
 		private void ShootFeathersAt(Vector2 target)
 		{
 			var origin = Projectile.Center;
-			var direction = target - origin;
-			direction = direction.SafeNormalize(Vector2.UnitX);
-			direction *= 6f;
+			var direction = Projectile.DirectionTo(target) * 18;
 			Projectile.NewProjectile(Projectile.GetSource_FromAI(), origin, direction, ModContent.ProjectileType<HarpyBolt>(), Damage * 2, 0, Projectile.owner);
-
 		}
 	}
+
 	public class HarpyBolt : ModProjectile, IDrawAdditive
 	{
 		public override void SetStaticDefaults()

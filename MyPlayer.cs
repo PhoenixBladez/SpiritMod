@@ -1886,7 +1886,7 @@ namespace SpiritMod
 				float SpeedX = num16 + Main.rand.Next(-40, 41) * Main.windSpeedCurrent + (.01f * Main.windSpeedCurrent);
 				float SpeedY = num17 + Main.rand.Next(-40, 41) * 0.02f;
 
-				string[] bigDebris = { "SpaceDebris3", "SpaceDebris4", "MeteorShard5", "MeteorShard6" };
+				string[] bigDebris = { "SpaceDebris3", "SpaceDebris4", "MeteorShard6" };
 				string[] smallDebris = { "SpaceDebris1", "SpaceDebris2" };
 
 				if (ZoneAsteroid && MyWorld.spaceJunkWeather && Main.rand.NextBool(59))

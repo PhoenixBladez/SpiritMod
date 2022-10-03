@@ -24,6 +24,7 @@ namespace SpiritMod.Items.BossLoot.AvianDrops.ApostleArmor
 			Item.rare = ItemRarityID.Orange;
 			Item.defense = 5;
 		}
+
 		public override void SetMatch(bool male, ref int equipSlot, ref bool robes)
 		{
 			robes = true;

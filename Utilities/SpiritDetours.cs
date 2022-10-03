@@ -37,7 +37,7 @@ namespace SpiritMod.Utilities
 			On.Terraria.Main.DrawCachedProjs += Main_DrawCachedProjs;
 			On.Terraria.Main.DrawNPCs += Main_DrawNPCs;
 			On.Terraria.Main.DrawPlayers_AfterProjectiles += Main_DrawPlayers_AfterProjectiles;
-			On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float; ;
+			On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float += TrailCheck;
 			On.Terraria.Player.KeyDoubleTap += Player_KeyDoubleTap;
 			On.Terraria.Main.DrawDust += AdditiveCalls;
 			On.Terraria.Player.ToggleInv += Player_ToggleInv;
@@ -63,7 +63,7 @@ namespace SpiritMod.Utilities
 			}
 		}
 
-		private static int Projectile_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float(On.Terraria.Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float orig, IEntitySource spawnSource, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
+		private static int TrailCheck(On.Terraria.Projectile.orig_NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float orig, IEntitySource spawnSource, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
 		{
 			int index = orig(spawnSource, X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
 			Projectile projectile = Main.projectile[index];

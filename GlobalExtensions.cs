@@ -44,6 +44,7 @@ namespace SpiritMod
 			return offset;
 		}
 
+		public static int[] TileSet<T1, T2>() where T1 : ModTile where T2 : ModTile => new int[] { ModContent.TileType<T1>(), ModContent.TileType<T2>() };
 		public static int[] TileSet<T1, T2, T3>() where T1 : ModTile where T2 : ModTile where T3 : ModTile => new int[] { ModContent.TileType<T1>(), ModContent.TileType<T2>(), ModContent.TileType<T3>() };
 		public static int[] TileSet<T1, T2, T3, T4>() where T1 : ModTile where T2 : ModTile where T3 : ModTile where T4 : ModTile =>
 			new int[] { ModContent.TileType<T1>(), ModContent.TileType<T2>(), ModContent.TileType<T3>(), ModContent.TileType<T4>() };

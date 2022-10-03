@@ -79,7 +79,6 @@ namespace SpiritMod.GlobalClasses.NPCs
 				chat = Main.rand.Next(dialogue);
 		}
 
-
 		public void AddDialogueAboutNPC<T>(List<string> dialogue, string text, float increase, NPC npc, ref float replaceChance) where T : ModNPC => AddDialogueAboutNPC(dialogue, ModContent.NPCType<T>(), text, increase, npc, ref replaceChance);
 		public void AddDialogueAboutNPC(List<string> dialogue, int npcID, string text, float increase, NPC self, ref float replaceChance)
 		{

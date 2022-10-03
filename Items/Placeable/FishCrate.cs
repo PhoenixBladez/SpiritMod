@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-using BrownMushrooms = SpiritMod.Tiles.Ambient.SurfaceIce.TundraRock;
+using BrownMushrooms = SpiritMod.Tiles.Ambient.Underground.OreDeposits;
 
 namespace SpiritMod.Items.Placeable
 {

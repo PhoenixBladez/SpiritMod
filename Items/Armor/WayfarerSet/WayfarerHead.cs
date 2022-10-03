@@ -1,8 +1,5 @@
-using SpiritMod.Items.Material;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace SpiritMod.Items.Armor.WayfarerSet
@@ -20,8 +17,8 @@ namespace SpiritMod.Items.Armor.WayfarerSet
 
 		public override void SetDefaults()
 		{
-			Item.width = 22;
-			Item.height = 20;
+			Item.width = 32;
+			Item.height = 24;
 			Item.value = Item.sellPrice(0, 0, 60, 0);
 			Item.rare = ItemRarityID.Blue;
 			Item.defense = 1;
