@@ -1236,54 +1236,6 @@ namespace SpiritMod.World
 		{
 			progress.Message = "Spirit Mod: Adding Ambient Objects...";
 
-			//Copper/tin piles
-			for (int i = 0; i < Main.maxTilesX * 22.5; i++)
-			{
-				int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-				int num4 = WorldGen.genRand.Next((int)Main.worldSurface, Main.maxTilesY);
-				Tile tile = Main.tile[num3, num4];
-				if (tile.TileType == TileID.Stone && tile.HasTile)
-					WorldGen.PlaceObject(num3, num4 - 1, WorldGen.SavedOreTiers.Copper == TileID.Copper ? ModContent.TileType<CopperPile>() : ModContent.TileType<TinPile>());
-			}
-
-			//Iron/lead piles
-			for (int i = 0; i < Main.maxTilesX * 15; i++)
-			{
-				int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-				int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-				Tile tile = Main.tile[num3, num4];
-				if (tile.TileType == TileID.Stone && tile.HasTile)
-					WorldGen.PlaceObject(num3, num4 - 1, WorldGen.SavedOreTiers.Iron == TileID.Iron ? ModContent.TileType<IronPile>() : ModContent.TileType<LeadPile>());
-			}
-
-			//Silver/tungsten piles
-			for (int i = 0; i < Main.maxTilesX * 11.75f; i++)
-			{
-				int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-				int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-				Tile tile = Main.tile[num3, num4];
-				if (tile.TileType == TileID.Stone && tile.HasTile)
-					WorldGen.PlaceObject(num3, num4 - 1, WorldGen.SavedOreTiers.Silver == TileID.Silver ? ModContent.TileType<SilverPile>() : ModContent.TileType<TungstenPile>());
-			}
-
-			//Gold/platinum piles
-			for (int i = 0; i < Main.maxTilesX * 7.5f; i++)
-			{
-				int num3 = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-				int num4 = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-				Tile tile = Main.tile[num3, num4];
-				if (tile.TileType == TileID.Stone && tile.HasTile)
-					WorldGen.PlaceObject(num3, num4 - 1, WorldGen.SavedOreTiers.Gold == TileID.Gold ? ModContent.TileType<GoldPile>() : ModContent.TileType<PlatinumPile>());
-			}
-
-			for (int C = 0; C < Main.maxTilesX * 10; C++)
-			{
-				int X = WorldGen.genRand.Next(300, Main.maxTilesX - 300);
-				int Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY - 200);
-				if (Main.tile[X, Y].TileType == TileID.Stone)
-					WorldGen.PlaceObject(X, Y, ModContent.TileType<ExplosiveBarrelTile>());
-			}
-
 			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 78) * 15E-05); k++)
 			{
 				int x = WorldGen.genRand.Next(0, Main.maxTilesX);
@@ -1298,37 +1250,37 @@ namespace SpiritMod.World
 				}
 			}
 
-			for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY * 7.2f) * 6E-03); k++)
-			{
-				int X = WorldGen.genRand.Next(100, Main.maxTilesX - 20);
-				int Y = WorldGen.genRand.Next((int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
-
-				bool ice = WorldGen.genRand.NextBool(2);
-				int[] types = GlobalExtensions.TileSet<SnowBush1, SnowBush2, SnowBush3, TundraBerries1x2, TundraBerries2x2>();
-				if (ice)
-					types = GlobalExtensions.TileSet<IceCube1, IceCube2, IceCube3>();
-
-				if (Main.tile[X, Y].TileType == TileID.SnowBlock || Main.tile[X, Y].TileType == TileID.IceBlock)
-				{
-					int type = WorldGen.genRand.Next(types);
-					WorldGen.PlaceObject(X, Y, type);
-					NetMessage.SendObjectPlacment(-1, X, Y, type, 0, 0, -1, -1);
-				}
-			}
-
 			int[] mushSet = GlobalExtensions.TileSet<WhiteMushroom2x2, WhiteMushroom2x3, RedMushroom1x1, RedMushroom2x2, RedMushroom3x2, BrownMushrooms, BrownMushroomLarge>();
-			AddDecorSpam("Mushrooms", mushSet, TileObjectData.GetTileData(ModContent.TileType<WhiteMushroom2x2>(), 0).AnchorValidTiles, 700, ((int)Main.worldSurface, Main.maxTilesY - 200));
-			AddDecorSpam("OreDeposits", new int[] { ModContent.TileType<OreDeposits>() }, TileSets.Mosses.With(TileID.Stone), 150, ((int)Main.worldSurface, Main.maxTilesY - 200));
-			AddDecorSpam("BlueShards", new[] { ModContent.TileType<BlueShardBig>() }, GlobalExtensions.TileSet<Asteroid, BigAsteroid>(), 14, (42, (int)Main.worldSurface));
+			AddDecorSpam("Mushrooms", mushSet, TileObjectData.GetTileData(ModContent.TileType<WhiteMushroom2x2>(), 0).AnchorValidTiles, 700, (int)Main.worldSurface, Main.maxTilesY - 200);
+			AddDecorSpam("OreDeposits", new int[] { ModContent.TileType<OreDeposits>() }, TileSets.Mosses.With(TileID.Stone), 150, (int)Main.worldSurface, Main.maxTilesY - 200);
+			AddDecorSpam("LargeRock", new int[] { ModContent.TileType<LargeRock>() }, TileSets.Mosses.With(TileID.Stone), 60, (int)Main.worldSurface, Main.maxTilesY - 200);
+			AddDecorSpam("BlueShards", new[] { ModContent.TileType<BlueShardBig>() }, GlobalExtensions.TileSet<Asteroid, BigAsteroid>(), 14, 42, (int)Main.worldSurface);
 			int[] sculptures = GlobalExtensions.TileSet<IceWheezerPassive, IceFlinxPassive, IceBatPassive, IceVikingPassive, IceWheezerHostile, IceFlinxHostile, IceBatHostile, IceVikingHostile>();
-			AddDecorSpam("IceStatues", sculptures, new int[] { TileID.IceBlock, TileID.SnowBlock }, 120, ((int)WorldGen.rockLayer, Main.maxTilesY));
+			AddDecorSpam("IceStatues", sculptures, new int[] { TileID.IceBlock, TileID.SnowBlock }, 120, (int)WorldGen.rockLayer, Main.maxTilesY);
+			AddPileSpam(); //All ore pile decorspam info in a method for clarity
+			AddDecorSpam("ExplosiveBarrels", new int[] { ModContent.TileType<ExplosiveBarrelTile>() }, new int[] { TileID.Stone }, 75, (int)WorldGen.rockLayer, Main.maxTilesY - 200);
+			int[] snowFoliage = GlobalExtensions.TileSet<SnowBush1, SnowBush2, SnowBush3, TundraBerries1x2, TundraBerries2x2>();
+			AddDecorSpam("SnowFoliage", snowFoliage, new int[] { TileID.SnowBlock, TileID.IceBlock }, 180, (int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
+			AddDecorSpam("IceCubes", GlobalExtensions.TileSet<IceCube1, IceCube2, IceCube3>(), new int[] { TileID.SnowBlock, TileID.IceBlock }, 180, (int)Main.worldSurface - 100, (int)Main.worldSurface + 30);
 
 			PopulateSpam();
 		}
 
-		private static void AddDecorSpam(string name, int[] types, int[] ground, int baseReps, (int high, int low) rangeY, bool forced = true)
+		private static void AddPileSpam()
 		{
-			DecorSpamData data = new DecorSpamData(name, types, ground, baseReps, rangeY, forced);
+			int type = WorldGen.SavedOreTiers.Copper == TileID.Copper ? ModContent.TileType<CopperPile>() : ModContent.TileType<TinPile>();
+			AddDecorSpam("CopperPiles", new int[1] { type }, new int[] { TileID.Stone }, 125, (int)WorldGen.rockLayer, Main.maxTilesY - 200);
+			type = WorldGen.SavedOreTiers.Iron == TileID.Iron ? ModContent.TileType<IronPile>() : ModContent.TileType<LeadPile>();
+			AddDecorSpam("IronPiles", new int[1] { type }, new int[] { TileID.Stone }, 90, (int)WorldGen.rockLayer, Main.maxTilesY - 200);
+			type = WorldGen.SavedOreTiers.Silver == TileID.Silver ? ModContent.TileType<SilverPile>() : ModContent.TileType<TungstenPile>();
+			AddDecorSpam("SilverPiles", new int[1] { type }, new int[] { TileID.Stone }, 90, (int)WorldGen.rockLayer, Main.maxTilesY - 200);
+			type = WorldGen.SavedOreTiers.Gold == TileID.Gold ? ModContent.TileType<GoldPile>() : ModContent.TileType<PlatinumPile>();
+			AddDecorSpam("GoldPiles", new int[1] { type }, new int[] { TileID.Stone }, 90, (int)WorldGen.rockLayer, Main.maxTilesY - 200);
+		}
+
+		private static void AddDecorSpam(string name, int[] types, int[] ground, int baseReps, int high, int low, bool forced = true)
+		{
+			DecorSpamData data = new DecorSpamData(name, types, ground, baseReps, (high, low), forced);
 			decorSpam.Add(data);
 		}
 

@@ -21,9 +21,9 @@ namespace SpiritMod.Tiles.Ambient.Underground
 			TileObjectData.newTile.RandomStyleRange = 4;
 			TileObjectData.addTile(Type);
 
-			DustType = DustID.BrownMoss;
+			DustType = DustID.Stone;
 
-			AddMapEntry(Color.Pink);
+			AddMapEntry(new Color(165, 165, 165));
 		}
 
 		public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY) => offsetY = 2;
