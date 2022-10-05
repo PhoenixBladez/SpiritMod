@@ -1333,7 +1333,7 @@ namespace SpiritMod
 		{
 			if (bubbleTimer > 0)
 				return false;
-
+			
 			if (AnimeSword)
 				return false;
 

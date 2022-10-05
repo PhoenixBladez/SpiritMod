@@ -353,7 +353,7 @@ namespace SpiritMod.NPCs.Boss.Atlas
 
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			npcLoot.AddMasterModeRelicAndPet<Items.Placeable.Relics.DuskingRelicItem, Items.BossLoot.ScarabeusDrops.ScarabPet.ScarabPetItem>();
+			npcLoot.AddMasterModeRelicAndPet<Items.Placeable.Relics.DuskingRelicItem, Items.BossLoot.AtlasDrops.AtlasPet.AtlasPetItem>();
 			npcLoot.AddBossBag<AtlasBag>();
 
 			LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());

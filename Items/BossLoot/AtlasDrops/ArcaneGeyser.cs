@@ -12,7 +12,6 @@ namespace SpiritMod.Items.BossLoot.AtlasDrops
 			Tooltip.SetDefault("'The rock overflows with energy'");
 		}
 
-
 		public override void SetDefaults()
 		{
 			Item.width = Item.height = 16;

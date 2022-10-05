@@ -53,7 +53,7 @@ namespace SpiritMod.Items.Sets.MagicMisc.Lightspire
         {
             for (int I = 0; I < Main.rand.Next(1, 3); I++)
             {
-                int p = Projectile.NewProjectile(Item.GetSource_ItemUse(Item), position.X, position.Y, velocity.X + ((float)Main.rand.Next(-120, 120) / 100), velocity.Y + ((float)Main.rand.Next(-120, 120) / 100), type, damage, knockback, player.whoAmI, 0f, 0f);
+                int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X + ((float)Main.rand.Next(-120, 120) / 100), velocity.Y + ((float)Main.rand.Next(-120, 120) / 100), type, damage, knockback, player.whoAmI, 0f, 0f);
                 Main.projectile[p].DamageType = DamageClass.Magic;
                 Main.projectile[p].hostile = false;
                 Main.projectile[p].friendly = true;
@@ -61,16 +61,12 @@ namespace SpiritMod.Items.Sets.MagicMisc.Lightspire
                 for (int k = 0; k < 10; k++)
                 {
                     Vector2 mouse = Main.MouseWorld;
-                    Vector2 offset = mouse - player.position;
-                    offset.Normalize();
-                    offset *= 23f;
+                    Vector2 offset = Vector2.Normalize(mouse - player.position) * 23f;
                     int dust = Dust.NewDust(projectile.Center + offset, projectile.width, projectile.height, DustID.ChlorophyteWeapon, 0f, 0f, 0, default, 1f);
                     Main.dust[dust].shader = GameShaders.Armor.GetSecondaryShader(69, Main.LocalPlayer);
                     Main.dust[dust].velocity *= -1f;
                     Main.dust[dust].noGravity = true;
-                    //        Main.dust[dust].scale *= 2f;
-                    Vector2 vector2_1 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    vector2_1.Normalize();
+                    Vector2 vector2_1 = Vector2.Normalize(new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101)));
                     Vector2 vector2_2 = vector2_1 * ((float)Main.rand.Next(50, 100) * 0.04f);
                     Main.dust[dust].velocity = vector2_2;
                     vector2_2.Normalize();

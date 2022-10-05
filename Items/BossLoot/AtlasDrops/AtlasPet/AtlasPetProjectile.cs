@@ -46,13 +46,7 @@ namespace SpiritMod.Items.BossLoot.AtlasDrops.AtlasPet
 
 		public override void AI()
 		{
-			var modPlayer = Main.player[Projectile.owner].GetModPlayer<GlobalClasses.Players.PetPlayer>();
-
-			if (Main.player[Projectile.owner].dead)
-				modPlayer.scarabPet = false;
-
-			if (modPlayer.scarabPet)
-				Projectile.timeLeft = 2;
+			Owner.GetModPlayer<GlobalClasses.Players.PetPlayer>().PetFlag(Projectile);
 
 			if (State == 0)
 				Initialize();
@@ -89,8 +83,8 @@ namespace SpiritMod.Items.BossLoot.AtlasDrops.AtlasPet
 				return;
 			}
 
-			if (TargetNPC != Owner.lastCreatureHit && Owner.lastCreatureHit >= 0 && Main.npc[Owner.lastCreatureHit].CanBeChasedBy())
-				TargetNPC = Owner.lastCreatureHit;
+			//if (TargetNPC != Owner.lastCreatureHit && Owner.lastCreatureHit >= 0 && Main.npc[Owner.lastCreatureHit].CanBeChasedBy())
+			//	TargetNPC = Owner.lastCreatureHit;
 
 			_handFactor += 0.01f;
 
@@ -100,11 +94,11 @@ namespace SpiritMod.Items.BossLoot.AtlasDrops.AtlasPet
 
 		private void FindTargetIfAny()
 		{
-			if (Owner.lastCreatureHit >= 0 && Main.npc[Owner.lastCreatureHit].CanBeChasedBy())
-			{
-				TargetNPC = Owner.lastCreatureHit;
-				return;
-			}
+			//if (Owner.lastCreatureHit >= 0 && Main.npc[Owner.last].CanBeChasedBy())
+			//{
+			//	TargetNPC = Owner.lastCreatureHit;
+			//	return;
+			//}
 
 			for (int i = 0; i < Main.maxNPCs; ++i)
 			{

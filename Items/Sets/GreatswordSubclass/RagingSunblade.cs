@@ -275,7 +275,6 @@ namespace SpiritMod.Items.Sets.GreatswordSubclass
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            Player player = Main.player[Projectile.owner];
 			float collisionPoint = 0f;
 			for (float i = 0; i < 6.28f; i++)
 			{

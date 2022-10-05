@@ -9,8 +9,8 @@ namespace SpiritMod.Items.BossLoot.AtlasDrops.AtlasPet
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Curious Rock");
-			Tooltip.SetDefault("Summons a Atlas companion\n'Maybe it's a crystal?'");
+			DisplayName.SetDefault("Primordial Pebble");
+			Tooltip.SetDefault("Summons Atlas Jr.");
 		}
 
 		public override void SetDefaults()
