@@ -283,7 +283,7 @@ namespace SpiritMod.Projectiles
 		public override void Kill(Projectile projectile, int timeLeft)
 		{
 			if (Main.netMode != NetmodeID.Server)
-				SpiritMod.TrailManager.TryTrailKill(projectile);
+				Mechanics.Trails.TrailManager.TryTrailKill(projectile);
 		}
 	}
 }

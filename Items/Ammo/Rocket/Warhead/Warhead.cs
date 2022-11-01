@@ -32,20 +32,13 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 
 		public override void PickAmmo(Item weapon, Player player, ref int type, ref float speed, ref StatModifier damage, ref float knockback)
 		{
-			switch (weapon.type) {
-				case ItemID.ProximityMineLauncher:
-					type = ModContent.ProjectileType<Warhead_proximity>();
-					break;
-				case ItemID.GrenadeLauncher:
-					type = ModContent.ProjectileType<Warhead_grenade>();
-					break;
-				case ItemID.SnowmanCannon:
-					type = ModContent.ProjectileType<Warhead_snowman>();
-					break;
-				default:
-					type = Item.shoot;
-					break;
-			}
+			type = weapon.type switch
+			{
+				ItemID.ProximityMineLauncher => ModContent.ProjectileType<Warhead_proximity>(),
+				ItemID.GrenadeLauncher => ModContent.ProjectileType<Warhead_grenade>(),
+				ItemID.SnowmanCannon => ModContent.ProjectileType<Warhead_snowman>(),
+				_ => Item.shoot,
+			};
 		}
 	}
 
@@ -110,6 +103,7 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 
 		private const int maxTimeLeft = 240;
 		private int AiTimer => maxTimeLeft - Projectile.timeLeft;
+
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
@@ -169,6 +163,7 @@ namespace SpiritMod.Items.Ammo.Rocket.Warhead
 	public class Warhead_snowman : BaseWarheadProj
 	{
 		public Warhead_snowman() : base(ProjectileID.RocketSnowmanI, true) { }
+
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			Projectile.Kill();

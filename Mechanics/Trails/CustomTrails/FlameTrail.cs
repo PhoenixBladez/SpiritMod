@@ -52,7 +52,7 @@ namespace SpiritMod.Mechanics.Trails.CustomTrails
 				_points.RemoveAt(_points.Count - 1);
 		}
 
-		public override void Draw(Effect effect, BasicEffect effect2, GraphicsDevice device)
+		public override void Draw(Effect effect, GraphicsDevice device)
 		{
 			if (Dead || _points.Count <= 1) return;
 
@@ -66,14 +66,14 @@ namespace SpiritMod.Mechanics.Trails.CustomTrails
 			flametrailEffect.Parameters["MidColor"].SetValue(_midColor.ToVector4());
 			flametrailEffect.Parameters["EndColor"].SetValue(_endColor.ToVector4());
 
+			static float GetWidthMod(float progress = 0) => ((float)Math.Sin((Main.GlobalTimeWrappedHourly - progress) * MathHelper.TwoPi * 1.5f) * 0.33f + 1.33f) / (float)Math.Pow(1 - progress, 0.1f);
 
-			float getWidthMod(float progress = 0) => ((float)Math.Sin((Main.GlobalTimeWrappedHourly - progress) * MathHelper.TwoPi * 1.5f) * 0.33f + 1.33f) / (float)Math.Pow(1 - progress, 0.1f);
 			IPrimitiveShape[] shapesToDraw = new IPrimitiveShape[]
 			{
 				new CirclePrimitive
 				{
 					Color = Color.White * _deathProgress,
-					Radius = _width * _deathProgress * getWidthMod(),
+					Radius = _width * _deathProgress * GetWidthMod(),
 					Position = _points[0] - Main.screenPosition,
 					MaxRadians = MathHelper.TwoPi
 				},
@@ -83,7 +83,7 @@ namespace SpiritMod.Mechanics.Trails.CustomTrails
 					Width = _width * _deathProgress,
 					PositionArray = _points.ToArray(),
 					TaperingType = StripTaperType.TaperEnd,
-					WidthDelegate = delegate (float progress) { return getWidthMod(progress); }
+					WidthDelegate = delegate (float progress) { return GetWidthMod(progress); }
 				}
 			};
 

@@ -299,6 +299,7 @@ namespace SpiritMod.Utilities
 
 			orig(self, projCache, startSpriteBatch);
 		}
+
 		private static void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
 		{
 			if (!Main.dedServ)

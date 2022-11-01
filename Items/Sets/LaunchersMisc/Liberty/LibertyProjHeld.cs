@@ -73,7 +73,7 @@ namespace SpiritMod.Items.Sets.LaunchersMisc.Liberty
 					canShoot = Owner.PickAmmo(Owner.HeldItem, out shoot, out speed, out damage, out knockback, out int ammoID, true); //second to determine if another shot can be fired
 					if (!canShoot) //if no ammo left, stop channelling, so weapon use can end when wanted
 						Owner.channel = false;
-
+					
 					if (!Main.dedServ) //fire burst after recoil
 					{
 						SoundEngine.PlaySound(SoundID.Item14 with { PitchVariance = 0.3f, Volume = 0.5f }, Projectile.Center);

@@ -109,9 +109,10 @@ namespace SpiritMod.Mechanics.Trails
 			_points.Add(_points.Last() + between * newPointDistance);
 		}
 
-		public override void Draw(Effect effect, BasicEffect effect2, GraphicsDevice device)
+		public override void Draw(Effect effect, GraphicsDevice device)
 		{
-			if (Dead || _points.Count <= 1) return;
+			if (Dead || _points.Count <= 1) 
+				return;
 
 			//calculate trail's length
 			float trailLength = 0f;

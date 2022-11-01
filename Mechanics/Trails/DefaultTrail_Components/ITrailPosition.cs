@@ -9,12 +9,10 @@ namespace SpiritMod.Mechanics.Trails
 	{
 		Vector2 GetNextTrailPosition(Projectile projectile);
 	}
+
 	public class DefaultTrailPosition : ITrailPosition
 	{
-		public Vector2 GetNextTrailPosition(Projectile projectile)
-		{
-			return projectile.Center;
-		}
+		public Vector2 GetNextTrailPosition(Projectile projectile) => projectile.Center;
 	}
 
 	public class SleepingStarTrailPosition : ITrailPosition
@@ -25,6 +23,7 @@ namespace SpiritMod.Mechanics.Trails
 			return projectile.position + drawOrigin + Vector2.UnitY * projectile.gfxOffY;
 		}
 	}
+
 	public class ArrowGlowPosition : ITrailPosition
 	{
 		public Vector2 GetNextTrailPosition(Projectile projectile) => projectile.Center + projectile.velocity + Vector2.UnitY * projectile.gfxOffY;

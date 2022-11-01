@@ -44,7 +44,7 @@ namespace SpiritMod.Mechanics.Trails.CustomTrails
 
 		public override void Update() => _endPoint = MyProjectile.Center;
 
-		public override void Draw(Effect effect, BasicEffect effect2, GraphicsDevice device)
+		public override void Draw(Effect effect, GraphicsDevice device)
 		{
 			if (Dead) return;
 			

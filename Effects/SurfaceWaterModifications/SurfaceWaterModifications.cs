@@ -38,8 +38,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 				IL.Terraria.Main.DoDraw += AddWaterShader; //Transparency shader
 														   //IL.Terraria.Main.DrawTiles += Main_DrawTiles; //Liquid slope fix (tentative)
 														   //IL.Terraria.Main.DrawBlack += Main_DrawBlack; //^^
-				On.Terraria.Main.DrawBlack += Main_DrawBlack;
-				On.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += TileDrawing_DrawPartialLiquid;
+				//On.Terraria.Main.DrawBlack += Main_DrawBlack;
+				//On.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += TileDrawing_DrawPartialLiquid;
 			}
 
 			IL.Terraria.GameContent.Shaders.WaterShaderData.QueueRipple_Vector2_Color_Vector2_RippleShape_float += IncreaseRippleSize; //Makes ripple bigger
@@ -177,7 +177,6 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 					vertices.BottomRightColor = aColor * Main.liquidAlpha[Main.waterStyle] * (bottomRight.A / 255f);
 					vertices.TopLeftColor = aColor * Main.liquidAlpha[Main.waterStyle] * (topLeft.A / 255f);
 					vertices.TopRightColor = aColor * Main.liquidAlpha[Main.waterStyle] * (topRight.A / 255f);
-
 					//vertices.BottomLeftColor.A = 255;
 				}
 				else
@@ -203,11 +202,8 @@ namespace SpiritMod.Effects.SurfaceWaterModifications
 			liquidSize.X += 18 * (slope - 1);
 
 			if (tileCache.Slope == (SlopeType)1 || tileCache.Slope == (SlopeType)2 || tileCache.Slope == (SlopeType)3 || tileCache.Slope == (SlopeType)4)
-			{
 				Main.spriteBatch.Draw(TextureAssets.LiquidSlope[liquidType].Value, archivePos, liquidSize, aColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-			}
 		}
-
 
 		public static void Unload()
 		{

@@ -28,10 +28,7 @@ namespace SpiritMod.Utilities
 		public static readonly EaseFunction EaseCircularOut = new PolynomialEase((float x) => { return (float)Math.Sqrt(1.0 - Math.Pow(x - 1.0, 2)); });
 		public static readonly EaseFunction EaseCircularInOut = new PolynomialEase((float x) => { return (x < 0.5f) ? (1f - (float)Math.Sqrt(1.0 - Math.Pow(x * 2, 2))) * 0.5f : (float)((Math.Sqrt(1.0 - Math.Pow(-2 * x + 2, 2)) + 1) * 0.5); });
 
-		public virtual float Ease(float time)
-		{
-			throw new NotImplementedException();
-		}
+		public abstract float Ease(float time);
 	}
 
 	public class PolynomialEase : EaseFunction

@@ -41,21 +41,17 @@ namespace SpiritMod.Mechanics.Trails
 			});
 		}
 
-		public void TryTrailKill(Projectile projectile)
+		public static void TryTrailKill(Projectile projectile)
 		{
 			//todo: refactor this to be based on the itrailprojectile interface? wanted to have a dissolve speed parameter with a default value so it doesnt need to be specified but not possible in this version of C#
 			if (projectile.type == ModContent.ProjectileType<SleepingStar>() || projectile.type == ModContent.ProjectileType<LeafProjReachChest>() || projectile.type == ModContent.ProjectileType<HallowedStaffProj>() || projectile.type == ModContent.ProjectileType<TrueHallowedStaffProj>() || projectile.type == ModContent.ProjectileType<PositiveArrow>() || projectile.type == ModContent.ProjectileType<NegativeArrow>() || projectile.type == ModContent.ProjectileType<PartyStarterBullet>() || projectile.type == ModContent.ProjectileType<SandWall>() || projectile.type == ModContent.ProjectileType<SandWall2>())
-			{
 				SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(15f, projectile.velocity.Length() * 3f));
-			}
+
 			if (projectile.type == ModContent.ProjectileType<OrichHoming>() || projectile.type == ModContent.ProjectileType<DarkAnima>())
-			{
 				SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(2f, projectile.velocity.Length() * 1f));
-			}
+
 			if (projectile.type == ModContent.ProjectileType<Starshock1>())
-			{
 				SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(1f, projectile.velocity.Length() * .6f));
-			}
 
 			if (projectile.type == ModContent.ProjectileType<SagittariusConstellationArrow>())
 				SpiritMod.TrailManager.TryEndTrail(projectile, Math.Max(1f, projectile.velocity.Length() * 6));
@@ -121,7 +117,7 @@ namespace SpiritMod.Mechanics.Trails
 			foreach (BaseTrail trail in _trails)
 			{
 				if (trail.Layer == layer)
-					trail.Draw(_effect, _basicEffect, spriteBatch.GraphicsDevice);
+					trail.Draw(_effect, spriteBatch.GraphicsDevice);
 			}
 		}
 
@@ -207,10 +203,6 @@ namespace SpiritMod.Mechanics.Trails
 		/// <param name="effect"></param>
 		/// <param name="effect2"></param>
 		/// <param name="device"></param>
-		public virtual void Draw(Effect effect, BasicEffect effect2, GraphicsDevice device)
-		{
-
-		}
+		public virtual void Draw(Effect effect, GraphicsDevice device) { }
 	}
-
 }
